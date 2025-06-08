@@ -247,19 +247,24 @@ CreateSpectralDistanceMatrixFromPD <- function(
 #' @param grid Sequence of tau values. Default seq(0, 1, length.out = 100).
 #' @return List with dim0 and dim1 landscapes, or NULL on error.
 #' @noRd # Mark as internal helper
-ComputePersistenceLandscapes <- function(pd, grid = seq(0, 1, length.out = 100)) {
-  if (!requireNamespace("TDA", quietly = TRUE)) stop("TDA package required.")
+ComputePersistenceLandscapes <- function(pd) {
+  # The 'grid' argument is removed
+  library("TDA")
+
   res <- tryCatch({
-    # Ensure PD is matrix and filter valid intervals
-    if (!is.matrix(pd) || ncol(pd) != 3) stop("Invalid PD format")
-    pd_valid <- pd[pd[, 2] < pd[, 3],, drop = FALSE]
-    landscape0 <- TDA::landscape(Diag = pd_valid, dimension = 0, tseq = grid)
-    landscape1 <- TDA::landscape(Diag = pd_valid, dimension = 1, tseq = grid)
-    # Pad with zeros if empty for a dimension
-    if (is.null(landscape0) || nrow(landscape0) == 0) landscape0 <- matrix(0, nrow = 1, ncol = length(grid))
-    if (is.null(landscape1) || nrow(landscape1) == 0) landscape1 <- matrix(0, nrow = 1, ncol = length(grid))
+    # Let TDA choose the optimal grid by NOT providing the tseq argument.
+    # We now compute the first 5 landscape functions by setting KK = 1:5.
+    # The output will be a 5-row matrix.
+    landscape0 <- TDA::landscape(Diag = pd, dimension = 0, KK = 1:5)
+    landscape1 <- TDA::landscape(Diag = pd, dimension = 1, KK = 1:5)
+
     list(dim0 = landscape0, dim1 = landscape1)
-  }, error = function(e) { log_message(paste("ERROR computing landscape:", e$message), type = "ERROR"); return(NULL) })
+  },
+    error = function(e) {
+      log_message(paste("Error computing persistence landscape for a PD:", e$message))
+      return(NULL)
+    }
+  )
   return(res)
 }
 
