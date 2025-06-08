@@ -607,14 +607,28 @@ process_datasets_PH <- function(
         if (!file.exists(pd_list_path_final)) pd_list_path_final <- file.path(output_dir, paste0("PD_list_dim", ph_dim, "_th", ph_threshold, "_", data_label, ".rds")) # Fallback
 
         if (file.exists(pd_list_path_final)) {
-          compute_and_save_landscape_matrices(
-                         pd_list_path = pd_list_path_final, # Use path to final PD list
-                         landscape_list_path = landscape_list_path,
-                         landscape_distance_matrix_path = landscape_matrix_path,
-                         log_message = log_message,
-                         num_cores = num_cores
-                    )
-        } else { log_message(paste("WARN: Final PD list not found for landscape calculation:", basename(pd_list_path_final)), type = "WARN") }
+          pd_list_final <- tryCatch(readRDS(pd_list_path_final),
+                                    error = function(e) {
+                                      log_message(paste("ERROR reading PD list:", e$message),
+                                                  type = "ERROR");
+                                      NULL
+                                    })
+          if (!is.null(pd_list_final) && length(pd_list_final) > 0) {
+            compute_and_save_landscape_matrices(
+              pd_list = pd_list_final,
+              landscape_list_path = landscape_list_path,
+              landscape_distance_matrix_path = landscape_matrix_path,
+              log_message = log_message,
+              num_cores = num_cores
+            )
+          } else {
+            log_message(paste("WARN: Failed to load PD list for landscapes:",
+                              basename(pd_list_path_final)), type = "WARN")
+          }
+        } else {
+          log_message(paste("WARN: Final PD list not found for landscape calculation:",
+                           basename(pd_list_path_final)), type = "WARN")
+        }
 
       } else if (compute_matrices) {
         log_message(paste("Skipping matrix computation for", data_label, "- PD list invalid or empty."), type = "WARN")
