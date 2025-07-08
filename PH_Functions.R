@@ -1,672 +1,1557 @@
-# --- 0. Setup: Load Libraries and Source External Functions ---
+# PH Functions Script
+# This script is intended to be sourced and used in the PH pipeline. It includes functions for processing
+# persistence homology calculations, managing memory, handling parallel processing, and dynamically adjusting thresholds.
 
-# Recommended: Use pacman for easier package management
-# if (!require("pacman")) install.packages("pacman")
-# pacman::p_load(tidyverse, Matrix, ripserr, TDA, foreach, doParallel, parallel,
-#                Seurat, SeuratObject, SeuratDisk, stringr, pheatmap, mclust, aricode,
-#                clusterSim, Rtsne, batchelor, BiocSingular, scCustomize, kernlab,
-#                igraph, progressr, plyr)
+# Load necessary libraries
+require(tidyverse)
+require(ripserr)
+require(TDA)
+require(foreach)
+require(doParallel)
+require(parallel)
+require(umap)
+require(ps)
+require(processx)
 
-packages <- c(
-  "tidyverse", "Matrix", "ripserr", "TDA", "foreach", "doParallel", "parallel",
-  "Seurat", "SeuratObject", "SeuratDisk", "stringr", "pheatmap", "mclust", "aricode",
-  "clusterSim", "Rtsne", "batchelor", "BiocSingular", "scCustomize", "kernlab",
-  "igraph", "progressr", "plyr" # Added plyr for rbind.fill
-)
+#----------------------------------------------
+# General Utility Functions
+#----------------------------------------------
 
-# Check and load required packages
-for (pkg in packages) {
-  if (!requireNamespace(pkg, quietly = TRUE)) {
-    # Optionally install missing packages
-    # install.packages(pkg)
-    # BiocManager::install(pkg) # For Bioconductor packages if needed
-    stop(paste("Package", pkg, "is required but not installed."))
-  }
-  library(pkg, character.only = TRUE)
+# Function to load an RData file
+# Input: fileName (string) - Path to the RData file
+# Output: The loaded data from the RData file
+loadRData <- function(fileName) {
+  load(fileName)
+  get(ls()[ls() != "fileName"]) # Return the loaded data, excluding the fileName variable itself
 }
 
-# Source helper functions defined elsewhere
-# Ensure these files exist and contain the necessary functions:
-# - PH_Functions.R: Defines log_message, loadRData,
-#                   process_expression_list_with_monitoring, retry_pd_calculation
-# - Integration_flexible.R: Defines perform_integration (now Seurat-only)
-source("PH_Functions.R")
-source("Integration_flexible.R") # Source the updated Seurat-only version
-
-# Built-in Seurat cell cycle genes (Human) - Define alternatives if needed
-# s.genes <- cc.genes.updated.2019$s.genes
-# g2m.genes <- cc.genes.updated.2019$g2m.genes
-
-
-# --- Helper Function Definitions ---
-
-#' Setup Environment and Logging
-#' @param output_dir Directory for output.
-#' @param log_file_base Base name for the log file.
-#' @return Path to the log file.
-#' @noRd
-setup_environment <- function(output_dir, log_file_base = "PH_Pipeline_Log") {
-  if (!dir.exists(output_dir)) {
-    dir.create(output_dir, recursive = TRUE)
-    message(paste("Created output directory:", output_dir))
-  } else {
-    message(paste("Using existing output directory:", output_dir))
-  }
-  log_file <- file.path(output_dir, paste0(log_file_base, "_", Sys.Date(), ".txt"))
-  # Ensure log_message is defined globally or sourced from PH_Functions.R
-  # sink() will direct message() output to the log file as well if log_message uses message()
-  sink(log_file, append = TRUE, split = TRUE) # split=TRUE shows output on console too
-  # Define log_message or ensure it's sourced before first use
-  if (!exists("log_message", mode = "function")) {
-    stop("log_message function not found. Please define it or source PH_Functions.R")
-  }
-  log_message(paste("Logging started:", Sys.time()))
-  log_message(paste("Output directory:", output_dir))
-  log_message(paste("Log file:", log_file))
-  return(log_file)
+# Function to log messages to the console with flushing
+log_message <- function(message) {
+  cat(message, "\n")
+  flush.console()
 }
 
-#' Load Metadata
-#' @param metadata_path Path to the metadata CSV.
-#' @return A data frame or tibble, or NULL on error.
-#' @noRd
-load_metadata <- function(metadata_path) {
-  log_message(paste("Loading metadata from:", metadata_path))
+# Function to update the progress log file
+# Now includes the best threshold used for the dataset
+# Input: log_file - Path to the log file
+#        job_id - The ID of the job being processed
+#        status - Status of the job (e.g., "completed", "deferred", "error")
+#        threshold - The best threshold used for the dataset
+# Modified update_progress_log function to create log file if it does not exist
+update_progress_log <- function(log_file, job_id, status, threshold = NA) {
+  log_entry <- data.frame(
+    job_id = job_id,
+    status = status,
+    best_threshold = threshold,
+    timestamp = Sys.time(),
+    stringsAsFactors = FALSE
+  )
+
   tryCatch({
-    if (!file.exists(metadata_path)) {
-      stop(paste("Metadata file not found at:", metadata_path))
+    write.table(log_entry, file = log_file, sep = ",", append = TRUE, col.names = !file.exists(log_file), row.names = FALSE)
+    log_message(paste("Logged progress for job", job_id, "with threshold:", threshold, "Status:", status))
+  },
+    error = function(e) {
+      log_message(paste("Failed to log progress for job", job_id, ":", e$message))
     }
-    metadata <- read_csv(metadata_path, show_col_types = FALSE)
-    # Basic validation - Adjust required columns as needed
-    required_cols <- c('File Path', 'Sample Name', 'SRA Number', 'Tissue') # Add 'Approach' if strictly required
-    missing_cols <- setdiff(required_cols, names(metadata))
-    if (length(missing_cols) > 0) {
-      stop(paste("Metadata CSV is missing required column(s):", paste(missing_cols, collapse = ", ")))
-    }
-    log_message("Metadata loaded successfully.")
-    return(metadata)
-  }, error = function(e) {
-    log_message(paste("Error loading metadata:", e$message), type = "ERROR")
-    return(NULL)
-  })
+  )
 }
 
-#' Load Data and Create Seurat Objects
-#' @param metadata Metadata dataframe containing 'File Path' and 'Sample Name'.
-#' @param num_cores Number of cores.
-#' @return A list of Seurat objects, or NULL on error.
-#' @noRd
-load_and_create_seurat <- function(metadata, num_cores) {
-  log_message("Loading sparse matrices and creating Seurat objects...")
-  file_paths <- metadata$'File Path'
-  sample_names <- metadata$'Sample Name' # Use the dedicated sample name column
+# Function to get available memory using ps package
+get_available_memory <- function() {
+  mem_info <- ps::ps_system_memory()
+  # Available memory in bytes
+  memfree_bytes <- mem_info$free
+  return(memfree_bytes)
+}
 
-  if (length(file_paths) == 0) {
-    log_message("No file paths found in metadata.", type = "WARN")
-    return(list()) # Return empty list
-  }
-  if (length(file_paths) != length(sample_names)) {
-    log_message("Mismatch between number of file paths and sample names in metadata.", type = "ERROR")
-    return(NULL)
-  }
-
-  # Ensure loadRData is defined (e.g., in PH_Functions.R)
-  if (!exists("loadRData", mode = "function")) stop("loadRData function not found.")
-
-  sparse_matrices <- tryCatch({
-    log_message(paste("Loading", length(file_paths), ".RData files..."))
-    mclapply(file_paths, function(fpath) {
-      if (!file.exists(fpath)) {
-        log_message(paste("File not found:", fpath), type = "WARN")
-        return(NULL)
-      }
-      loadRData(fpath)
-    }, mc.cores = num_cores)
-  }, error = function(e) {
-    log_message(paste("Error loading .RData files:", e$message), type = "ERROR")
-    return(NULL)
-  })
-
-  if (is.null(sparse_matrices)) return(NULL)
-
-  # Assign sample names from metadata
-  names(sparse_matrices) <- sample_names
-
-  seurat_list <- tryCatch({
-    log_message("Creating Seurat objects...")
-    lapply(seq_along(sparse_matrices), function(i) {
-      spm <- sparse_matrices[[i]]
-      name <- names(sparse_matrices)[i]
-      if (is.null(spm)) {
-        log_message(paste("Warning: No matrix loaded for sample:", name, "- Skipping."), type = "WARN")
-        return(NULL) # Return NULL for this element
-      }
-      if (!inherits(spm, "dgCMatrix")) {
-        log_message(paste("Warning: Loaded object for sample", name, "is not a dgCMatrix. Attempting conversion."), type = "WARN")
-        spm <- tryCatch(as(spm, "dgCMatrix"), error = function(e) NULL)
-        if (is.null(spm)) {
-          log_message(paste("Error: Could not convert object for sample", name, "to dgCMatrix. Skipping."), type = "ERROR")
-          return(NULL)
-        }
-      }
-      if (nrow(spm) == 0 || ncol(spm) == 0) {
-        log_message(paste("Warning: Matrix for sample", name, "is empty. Skipping."), type = "WARN")
-        return(NULL)
-      }
-      CreateSeuratObject(counts = spm, project = name)
-    }) # Consider mc.cores=num_cores for large lists
-  }, error = function(e) {
-    log_message(paste("Error creating Seurat objects:", e$message), type = "ERROR")
-    return(NULL)
-  })
-
-  if (is.null(seurat_list)) return(NULL)
-
-  # Filter out NULLs
-  original_count <- length(seurat_list)
-  seurat_list <- seurat_list[!sapply(seurat_list, is.null)]
-  final_count <- length(seurat_list)
-
-  if (final_count > 0) {
-    log_message(paste("Successfully created", final_count, "Seurat objects (out of", original_count, "initial attempts)."))
+# Function to save intermediate results for persistence diagrams
+# Input: results_file - Path to the file where results should be saved
+#        PD_list - List of persistence diagrams
+#        job_id - The ID of the current job
+#        PD - The persistence diagram for the current job
+# Function to save only the best intermediate results for persistence diagrams
+# Function to save intermediate results for persistence diagrams
+# Input: results_file - Path to the file where results should be saved
+#        job_id - The ID of the current job
+#        best_PD - The persistence diagram for the current job
+# Modified save_intermediate_results function with explicit results_file parameter
+save_intermediate_results <- function(results_file, job_id, best_PD) {
+  # Load existing intermediate results
+  if (file.exists(results_file)) {
+    PD_list <- readRDS(results_file)
   } else {
-    log_message("No Seurat objects were successfully created.", type = "ERROR")
-    return(NULL)
+    PD_list <- list()
   }
-  return(seurat_list)
+
+  # Ensure PD_list is a named list
+  if (length(PD_list) > 0 && is.null(names(PD_list))) {
+    names(PD_list) <- as.character(seq_along(PD_list))
+  }
+
+  # Assign the PD to the correct job_id slot
+  PD_list[[as.character(job_id)]] <- best_PD
+
+  # Save the updated list back to the results file
+  saveRDS(PD_list, results_file)
 }
 
 
-#' Add QC Metrics and Metadata to Seurat Objects
-#' @param seurat_list List of Seurat objects.
-#' @param metadata Metadata dataframe.
-#' @param metadata_sample_col Column name in 'metadata' matching Seurat Project names.
-#' @param num_cores Number of cores.
-#' @return Updated list of Seurat objects, or NULL on error.
-#' @noRd
-add_qc_and_metadata <- function(seurat_list, metadata, metadata_sample_col = "Sample Name", num_cores) {
-  log_message("Calculating QC metrics (Mito, Ribo, HB)...")
-  seurat_list_updated <- tryCatch({
-    mclapply(seurat_list, function(obj) {
-      DefaultAssay(obj) <- "RNA"
-      obj <- PercentageFeatureSet(obj, pattern = "^MT-", col.name = "percent_mito", assay = "RNA")
-      obj <- PercentageFeatureSet(obj, pattern = "^RP[SL]", col.name = "percent_ribo", assay = "RNA")
-      obj <- PercentageFeatureSet(obj, pattern = "^HB[^(P)]", col.name = "percent_hb", assay = "RNA")
-      return(obj)
-    }, mc.cores = num_cores)
-  }, error = function(e) {
-    log_message(paste("Error calculating QC metrics:", e$message), type = "ERROR");
-    return(NULL)
-  })
-  if (is.null(seurat_list_updated)) return(NULL)
+# Modified load_intermediate_results_and_identify_unfinished_jobs function
+load_intermediate_results_and_identify_unfinished_jobs <- function(results_file, log_file, expr_list, log_message) {
+  PD_list <- list() # Initialize the PD list
+  job_indices <- seq_along(expr_list) # Get indices for all jobs
 
-  log_message("Adding metadata (SRA, Tissue, Approach)...")
-  if (!metadata_sample_col %in% names(metadata)) {
-    log_message(paste("Error: Metadata matching column '", metadata_sample_col, "' not found."), type = "ERROR");
-    return(NULL)
-  }
-  metadata_lookup <- setNames(as.list(1:nrow(metadata)), metadata[[metadata_sample_col]])
+  log_message("Starting to load intermediate results and identify unfinished jobs.")
 
-  seurat_list_final <- tryCatch({
-    lapply(seq_along(seurat_list_updated), function(i) {
-      seurat_obj <- seurat_list_updated[[i]]
-      obj_project_name <- Project(seurat_obj)
-      metadata_row_idx <- metadata_lookup[[obj_project_name]]
-
-      if (is.null(metadata_row_idx)) {
-        log_message(paste("Warning: No metadata for sample:", obj_project_name), type = "WARN")
-        seurat_obj@meta.data$SRA <- NA_character_;
-        seurat_obj@meta.data$Tissue <- NA_character_;
-        seurat_obj@meta.data$Approach <- NA_character_
-      } else {
-        metadata_row <- metadata[metadata_row_idx,]
-        seurat_obj@meta.data$SRA <- .subset2(metadata_row, 'SRA Number')[1]
-        seurat_obj@meta.data$Tissue <- .subset2(metadata_row, 'Tissue')[1]
-        # Add other relevant columns if they exist
-        for (col_name in c("Series", "Platform", "Instrument")) {
-          # Add others as needed
-          if (col_name %in% names(metadata_row)) {
-            seurat_obj@meta.data[[col_name]] <- .subset2(metadata_row, col_name)[1]
-          }
-        }
-
-        approach_metadata <- if ("Approach" %in% names(metadata_row)) .subset2(metadata_row, 'Approach')[1] else NA_character_
-        if (!is.na(approach_metadata) && nzchar(trimws(approach_metadata))) {
-          seurat_obj@meta.data$Approach <- approach_metadata
-        } else {
-          seurat_obj@meta.data$Approach <- NA_character_
-          log_message(paste("Approach missing/NA for sample:", obj_project_name, ". Using heuristic."), type = "INFO")
-        }
-      }
-
-      if (is.na(seurat_obj@meta.data$Approach) || !nzchar(trimws(seurat_obj@meta.data$Approach))) {
-        median_genes <- median(seurat_obj$nFeature_RNA, na.rm = TRUE)
-        mean_mito <- mean(seurat_obj$percent_mito, na.rm = TRUE)
-        median_umi <- median(seurat_obj$nCount_RNA, na.rm = TRUE)
-        if (any(is.na(c(median_genes, mean_mito, median_umi)))) {
-          log_message(paste("WARN: Cannot run heuristic for", obj_project_name, "missing QC."), type = "WARN")
-          detected_approach <- "Unknown"
-        } else {
-          detected_approach <- ifelse(median_genes < 1000 && mean_mito < 5 && median_umi < 5000, "snRNA-seq", "scRNA-seq")
-          log_message(paste("Heuristic detected:", detected_approach, "for sample:", obj_project_name))
-        }
-        if (is.na(seurat_obj@meta.data$Approach) || !nzchar(trimws(seurat_obj@meta.data$Approach))) {
-          seurat_obj@meta.data$Approach <- detected_approach
-        }
-      }
-      return(seurat_obj)
+  # Step 1: Load the progress log and filter completed jobs
+  if (file.exists(log_file)) {
+    log_message(paste("Loading progress log from:", log_file))
+    log_data <- tryCatch({
+      read.csv(log_file, stringsAsFactors = FALSE)
+    }, error = function(e) {
+      log_message(paste("Error reading log file:", log_file, "-", e$message))
+      data.frame(job_id = integer(0), status = character(0), best_threshold = numeric(0), timestamp = as.POSIXct(character(0)))
     })
-  }, error = function(e) {
-    log_message(paste("Error adding metadata:", e$message), type = "ERROR");
-    return(NULL)
-  })
+  } else {
+    log_message(paste("Progress log file", log_file, "does not exist. Initializing for a fresh run."))
+    log_data <- data.frame(job_id = integer(0), status = character(0), best_threshold = numeric(0), timestamp = as.POSIXct(character(0)))
+    write.csv(log_data, log_file, row.names = FALSE)
+  }
 
-  if (is.null(seurat_list_final)) { log_message("Failed during metadata add step.", type = "ERROR"); return(NULL) }
-  log_message("QC metrics and metadata added.")
-  return(seurat_list_final)
-}
+  # Ensure that completed_jobs is properly initialized
+  if (nrow(log_data) > 0 && "job_id" %in% colnames(log_data) && "status" %in% colnames(log_data)) {
+    log_message(paste(nrow(log_data), "entries found in progress log."))
+    completed_jobs <- log_data$job_id[log_data$status == "completed"] # Filter jobs marked as completed
+    log_message(paste(length(completed_jobs), "jobs are marked as completed in the progress log."))
+  } else {
+    log_message("No valid entries found in the progress log. This is normal for a fresh run or when no previous jobs were completed.")
+    completed_jobs <- integer(0) # Initialize as empty vector if no valid entries found
+  }
 
-#' Save Metadata Summary
-#' @param seurat_list List of Seurat objects.
-#' @param file_path Path to save the CSV summary.
-#' @param before_filtering Boolean indicating if this is before or after filtering.
-#' @return Invisibly returns the summary dataframe, or NULL on error.
-#' @noRd
-save_metadata_summary <- function(seurat_list, file_path, before_filtering = TRUE) {
-  stage <- ifelse(before_filtering, "Before", "After")
-  cell_count_col <- paste0("Number_of_Cells_", stage, "_Filtering")
-  log_message(paste("Creating metadata summary", stage, "filtering..."))
-  if (is.null(seurat_list) || length(seurat_list) == 0) { log_message("List empty.", type = "WARN"); return(invisible(NULL)) }
+  job_indices <- setdiff(job_indices, completed_jobs) # Only keep jobs that are not marked as completed
 
-  get_constant_metadata <- function(obj) {
-    metadata <- obj@meta.data
-    constant_cols <- sapply(names(metadata), function(col_name) {
-      if (col_name %in% c("nCount_RNA", "nFeature_RNA", "percent_mito", "percent_ribo", "percent_hb", "S.Score", "G2M.Score")) return(FALSE)
-      length(unique(na.omit(metadata[[col_name]]))) <= 1
+  # Step 2: Load intermediate results if needed, but only for jobs that are incomplete
+  if (file.exists(results_file)) {
+    log_message(paste("Loading intermediate results from", results_file))
+    PD_list <- tryCatch({
+      readRDS(results_file) # Load intermediate results
+    }, error = function(e) {
+      log_message(paste("Error reading intermediate results file:", results_file, "-", e$message))
+      vector("list", length(expr_list)) # Return an empty list of the same length as expr_list
     })
-    constant_col_names <- names(constant_cols[constant_cols])
-    essential_cols <- c("orig.ident", "SRA", "Tissue", "Approach")
-    cols_to_keep <- unique(c(constant_col_names, intersect(essential_cols, names(metadata))))
-    summary_data <- metadata[1, cols_to_keep, drop = FALSE]
-    summary_data$Sample <- Project(obj)
-    summary_data[[cell_count_col]] <- ncol(obj)
-    return(summary_data)
+  } else {
+    log_message("No intermediate results file found. Initializing an empty list for persistence diagrams.")
+    PD_list <- vector("list", length(expr_list)) # Initialize an empty list if no results file is found
+    saveRDS(PD_list, results_file) # Save the initialized empty list
   }
 
-  summary_table <- tryCatch({
-    plyr::rbind.fill(lapply(seurat_list, get_constant_metadata))
-  }, error = function(e) { log_message(paste("Error creating summary:", e$message), type = "ERROR"); return(NULL) })
+  # Identify jobs with incomplete or invalid PD results
+  incomplete_jobs <- which(sapply(PD_list, is.null) | sapply(PD_list, function(x) is.matrix(x) && nrow(x) == 0))
+  job_indices <- intersect(job_indices, incomplete_jobs) # Focus only on jobs that still need processing
 
-  if (!is.null(summary_table)) {
-    tryCatch({ write.csv(summary_table, file = file_path, row.names = FALSE); log_message(paste("Metadata summary saved:", file_path)) },
-                 error = function(e) { log_message(paste("Error saving summary CSV:", e$message), type = "ERROR") })
-  }
-  invisible(summary_table)
-}
+  log_message(paste(length(job_indices), "jobs need further processing."))
 
-#' Filter Seurat Objects Based on QC Metrics
-#' @param seurat_list List of Seurat objects.
-#' @param params List of filtering parameters.
-#' @param min_cells Minimum cells required per dataset after filtering.
-#' @param num_cores Number of cores.
-#' @return Filtered list of Seurat objects, or NULL on error.
-#' @noRd
-filter_seurat_objects <- function(seurat_list, params, min_cells, num_cores) {
-  log_message("Filtering Seurat objects based on cell and gene metrics...")
-  if (is.null(seurat_list) || length(seurat_list) == 0) return(list())
-
-  seurat_list_filtered <- tryCatch({
-    mclapply(seurat_list, function(obj) {
-      sample_name <- Project(obj)
-      # log_message(paste("Filtering sample:", sample_name)) # Reduce verbosity
-      cells_before <- ncol(obj);
-      genes_before <- nrow(obj)
-      filter_expr <- expression(nFeature_RNA >= params$minGenesPerCell & nFeature_RNA <= params$maxGenesPerCell & percent_mito <= params$maxMitoPercent & percent_ribo >= params$minRiboPercent)
-      qc_cols_present <- c("nFeature_RNA", "percent_mito", "percent_ribo") %in% colnames(obj@meta.data)
-      if (!all(qc_cols_present)) log_message(paste("WARN: Missing QC columns for", sample_name), type = "WARN")
-      cells_to_keep <- WhichCells(obj, expression = filter_expr)
-      if (length(cells_to_keep) == 0) { log_message(paste("WARN: No cells passed cell filtering:", sample_name), type = "WARN"); return(NULL) }
-      obj_filtered_cells <- subset(obj, cells = cells_to_keep)
-      cells_after_cellfilt <- ncol(obj_filtered_cells)
-
-      if (!"RNA" %in% Assays(obj_filtered_cells) || !"counts" %in% slotNames(GetAssay(obj_filtered_cells, "RNA"))) {
-        log_message(paste("WARN: RNA/counts missing for", sample_name, "Cannot filter genes."), type = "WARN");
-        obj_filtered_genes <- obj_filtered_cells
-      } else {
-        counts_matrix <- GetAssayData(obj_filtered_cells, assay = "RNA", slot = "counts")
-        if (nrow(counts_matrix) == 0 || ncol(counts_matrix) == 0) {
-          log_message(paste("WARN: Counts matrix empty for", sample_name), type = "WARN");
-          obj_filtered_genes <- obj_filtered_cells
-        } else {
-          genes_to_keep_logical <- Matrix::rowSums(counts_matrix > 0) >= params$minCellsPerGene
-          genes_to_keep_names <- rownames(counts_matrix)[genes_to_keep_logical]
-          if (length(genes_to_keep_names) == 0) { log_message(paste("WARN: No genes passed filtering:", sample_name), type = "WARN"); return(NULL) }
-          obj_filtered_genes <- subset(obj_filtered_cells, features = genes_to_keep_names)
-        }
-        rm(counts_matrix);
-        gc()
-      }
-      log_message(sprintf("Filtered sample: %s | Cells: %d->%d->%d | Genes: %d->%d", sample_name, cells_before, cells_after_cellfilt, ncol(obj_filtered_genes), genes_before, nrow(obj_filtered_genes)))
-      return(obj_filtered_genes)
-    }, mc.cores = num_cores)
-  }, error = function(e) { log_message(paste("Error parallel filtering:", e$message), type = "ERROR"); return(NULL) })
-
-  if (is.null(seurat_list_filtered)) { log_message("Filtering failed.", type = "ERROR"); return(NULL) }
-  seurat_list_filtered <- seurat_list_filtered[!sapply(seurat_list_filtered, is.null)]
-  if (length(seurat_list_filtered) == 0) { log_message("All datasets removed during QC filtering.", type = "WARN"); return(NULL) }
-  log_message(paste("QC filtering complete.", length(seurat_list_filtered), "datasets remaining."))
-
-  log_message(paste("Removing datasets with <", min_cells, "cells..."))
-  initial_count <- length(seurat_list_filtered)
-  seurat_list_final <- Filter(function(obj) { keep <- ncol(obj) >= min_cells; if (!keep) log_message(paste("Discarding", Project(obj), ":", ncol(obj), "cells."), type = "INFO"); return(keep) }, seurat_list_filtered)
-  final_count <- length(seurat_list_final)
-  log_message(paste("Removed", initial_count - final_count, "datasets.", final_count, "datasets remain."))
-  if (final_count == 0) { log_message("No datasets meet min cell requirement.", type = "WARN"); return(NULL) }
-  return(seurat_list_final)
+  return(list(PD_list = PD_list, job_indices = job_indices))
 }
 
 
-#' Normalize (SCTransform) and Prepare Seurat Data
-#' @param seurat_list Filtered list of Seurat objects.
-#' @param sct_params Parameters for SCTransform.
-#' @param regress_params List controlling regression (mito, ribo, cell_cycle).
-#' @param species Species for cell cycle genes.
-#' @param num_cores Number of cores.
-#' @param output_dir Output directory.
-#' @return List containing 'seurat_list_normalized' and 'merged_seurat_unintegrated', or NULL.
-#' @noRd
-normalize_and_prepare_seurat <- function(seurat_list, sct_params, regress_params, species, num_cores, output_dir) {
-  log_message("Running individual SCTransform normalization...")
-  if (is.null(seurat_list) || length(seurat_list) == 0) return(NULL)
+#----------------------------------------------
+# Persistence Diagram (PD) Functions
+#----------------------------------------------
+# Function to downsample dimension 0 points in a persistence diagram
+# Input: pd - Persistence diagram (data frame)
+#        downsample_fraction - Fraction of points to keep from dimension 0 (default: 0.1)
+# Output: Downsampled persistence diagram
+downsample_PD <- function(pd, downsample_fraction = 0.1) {
+  # Convert pd from a matrix to a data frame
+  pd <- as.data.frame(pd)
 
-  seurat_list_normalized <- tryCatch({
-    mclapply(seurat_list, function(x) {
-      sample_name <- Project(x);
-      log_message(paste("SCTransform:", sample_name))
-      DefaultAssay(x) <- "RNA"
-      if (!"data" %in% slotNames(GetAssay(x, "RNA"))) x <- NormalizeData(x, verbose = FALSE)
-      x <- SCTransform(x, assay = "RNA", new.assay.name = "SCT", variable.features.n = sct_params$variable.features.n, verbose = FALSE) # Verbose FALSE
-      DefaultAssay(x) <- "SCT"
-      return(x)
-    }, mc.cores = num_cores)
-  }, error = function(e) { log_message(paste("Error individual SCT:", e$message), type = "ERROR"); return(NULL) })
-  if (is.null(seurat_list_normalized) || length(seurat_list_normalized) == 0) { log_message("Individual SCT failed.", type = "ERROR"); return(NULL) }
-  log_message("Individual SCTransform complete.")
+  # Ensure column names are correctly assigned
+  colnames(pd) <- c("dimension", "birth", "death")
 
-  merged_unintegrated_path <- file.path(output_dir, "merged_seurat_unintegrated.rds")
-  merged_seurat_unintegrated <- NULL
-  # Add logic to load existing if desired here...
+  # Proceed with the original function
+  dim_0_points <- pd[pd$dimension == 0,]
+  dim_1_points <- pd[pd$dimension == 1,]
 
-  if (is.null(merged_seurat_unintegrated)) {
-    log_message("Creating merged Seurat object with RNA, SCT(regressed), SCT_Ind assays...")
-    project_names <- sapply(seurat_list_normalized, Project)
-    seurat_list_renamed <- lapply(seq_along(seurat_list_normalized), function(i) RenameCells(seurat_list_normalized[[i]], new.names = paste0(project_names[i], "_", colnames(seurat_list_normalized[[i]]))))
-    names(seurat_list_renamed) <- project_names
-    if (length(seurat_list_renamed) == 0) { log_message("No objects for merging.", type = "ERROR"); return(NULL) }
+  # Downsample dimension 0 points
+  num_dim_0_points <- nrow(dim_0_points)
+  num_to_keep <- max(1, floor(num_dim_0_points * downsample_fraction))
+  set.seed(123) # For reproducibility
+  downsampled_dim_0_points <- dim_0_points[sample(num_dim_0_points, num_to_keep),, drop = FALSE]
 
-    if (length(seurat_list_renamed) == 1) {
-      log_message("Single dataset: creating merged structure...")
-      merged_seurat_unintegrated <- seurat_list_renamed[[1]]
-      # Ensure RNA data slot exists
-      if (!"data" %in% slotNames(GetAssay(merged_seurat_unintegrated, "RNA"))) merged_seurat_unintegrated <- NormalizeData(merged_seurat_unintegrated, assay = "RNA", verbose = FALSE)
-      # Cell Cycle (Single)
-      log_message("Cell cycle scoring (single)...")
-      tryCatch({
-        if (tolower(species) == "human") { s.genes <- cc.genes.updated.2019$s.genes; g2m.genes <- cc.genes.updated.2019$g2m.genes } else { stop("Custom species CC genes needed.") }
-        merged_seurat_unintegrated <- CellCycleScoring(merged_seurat_unintegrated, s.features = s.genes, g2m.features = g2m.genes, assay = 'RNA', set.ident = FALSE)
-      }, error = function(e) { log_message(paste("WARN: CC scores failed:", e$message), type = "WARN") })
-      # Assays (Single)
-      merged_seurat_unintegrated[["SCT_Ind"]] <- merged_seurat_unintegrated[["SCT"]]
-      log_message("Running SCT on RNA assay (single)...")
-      vars_sct <- c();
-      if (isTRUE(regress_params$regress_mito) && "percent_mito" %in% colnames(merged_seurat_unintegrated@meta.data)) vars_sct <- c(vars_sct, "percent_mito");
-      # ... add ribo, cc checks ...
-      if (isTRUE(regress_params$regress_ribo) && "percent_ribo" %in% colnames(merged_seurat_unintegrated@meta.data)) vars_sct <- c(vars_sct, "percent_ribo")
-      if (isTRUE(regress_params$regress_cell_cycle) && all(c("S.Score", "G2M.Score") %in% colnames(merged_seurat_unintegrated@meta.data))) vars_sct <- c(vars_sct, "S.Score", "G2M.Score")
-      vars_sct <- unique(vars_sct);
-      if (length(vars_sct) == 0) vars_sct <- NULL else log_message(paste("Regressing:", paste(vars_sct, collapse = ", ")))
-      merged_seurat_unintegrated <- SCTransform(merged_seurat_unintegrated, assay = "RNA", new.assay.name = "SCT_temp", vars.to.regress = vars_sct, verbose = FALSE)
-      merged_seurat_unintegrated[["SCT"]] <- merged_seurat_unintegrated[["SCT_temp"]];
-      merged_seurat_unintegrated[["SCT_temp"]] <- NULL;
-      DefaultAssay(merged_seurat_unintegrated) <- "RNA"
+  # Recombine points and return the downsampled persistence diagram
+  downsampled_pd <- rbind(downsampled_dim_0_points, dim_1_points)
+  return(downsampled_pd)
+}
 
-    } else {
-      # Multiple datasets
-      log_message("Merging multiple objects...")
-      merged_seurat_unintegrated <- tryCatch({ merge(x = seurat_list_renamed[[1]], y = seurat_list_renamed[-1], project = "MergedUnintegrated", merge.data = FALSE) }, error = function(e) { log_message(paste("ERROR merging:", e$message), type = "ERROR"); return(NULL) })
-      if (is.null(merged_seurat_unintegrated)) return(NULL)
+# Estimate the memory usage of a persistence diagram (PD)
+# Input: pd - Persistence diagram (data frame)
+# Output: Memory usage in MB
+estimate_data_size_pd <- function(pd) {
+  object.size(pd) / (1024 ^ 2) # Convert bytes to MB
+}
 
-      # Reconstruct RNA
-      log_message("Reconstructing RNA assay...");
-      all_rna_counts <- list()
-      for (i in seq_along(seurat_list_normalized)) { counts <- GetAssayData(seurat_list_normalized[[i]], "RNA", "counts"); colnames(counts) <- colnames(seurat_list_renamed[[i]]); all_rna_counts[[project_names[i]]] <- counts }
-      combined_counts <- Seurat:::RowMergeSparseMatrices(all_rna_counts);
-      rm(all_rna_counts);
-      gc()
-      if (!all(colnames(combined_counts) %in% colnames(merged_seurat_unintegrated))) combined_counts <- combined_counts[, colnames(merged_seurat_unintegrated)]
-      merged_seurat_unintegrated[["RNA"]] <- CreateAssayObject(counts = combined_counts);
-      merged_seurat_unintegrated <- NormalizeData(merged_seurat_unintegrated, assay = "RNA", verbose = FALSE);
-      rm(combined_counts);
-      gc()
+#----------------------------------------------
+# Batch Size & Core Allocation for Memory Management
+#----------------------------------------------
 
-      # Cell Cycle (Merged)
-      log_message("Cell cycle scoring (merged)...")
-      tryCatch({ DefaultAssay(merged_seurat_unintegrated) <- "RNA"; if (tolower(species) == "human") { s.genes <- cc.genes.updated.2019$s.genes; g2m.genes <- cc.genes.updated.2019$g2m.genes } else { stop("Custom species CC genes needed.") }; merged_seurat_unintegrated <- CellCycleScoring(merged_seurat_unintegrated, s.features = s.genes, g2m.features = g2m.genes, assay = 'RNA', set.ident = FALSE) }, error = function(e) { log_message(paste("WARN: CC scores failed:", e$message), type = "WARN") })
+# Function to calculate batch size and allocate cores based on available memory
+# Input: pd_list - List of persistence diagrams
+#        safety_factor - Fraction of available memory to use (default: 0.8)
+#        max_cores - Maximum number of cores to use (default: 12)
+# Output: A list containing the calculated batch size and the number of cores to use
+calculate_bdm_batch_size_and_cores <- function(pd_list, safety_factor = 0.8, max_cores = 12) {
+  available_memory <- get_available_memory() # Get available memory in MB
+  log_message(paste("Available memory for BDM:", available_memory, "MB"))
 
-      # Create SCT_Ind
-      log_message("Creating SCT_Ind assay...");
-      all_sct_data <- list()
-      for (i in seq_along(seurat_list_renamed)) { sct_assay <- GetAssay(seurat_list_renamed[[i]], "SCT"); all_sct_data[[project_names[i]]] <- GetAssayData(sct_assay, "data") }
-      combined_sct_ind_data <- Seurat:::RowMergeSparseMatrices(all_sct_data);
-      rm(all_sct_data);
-      gc()
-      if (!all(colnames(combined_sct_ind_data) %in% colnames(merged_seurat_unintegrated))) combined_sct_ind_data <- combined_sct_ind_data[, colnames(merged_seurat_unintegrated)]
-      merged_seurat_unintegrated[["SCT_Ind"]] <- CreateAssayObject(data = combined_sct_ind_data);
-      rm(combined_sct_ind_data);
-      gc()
+  # Estimate memory size for each PD and find the largest
+  pd_sizes <- sapply(pd_list, estimate_data_size_pd)
+  max_pd_size <- max(pd_sizes)
 
-      # Run SCT on Merged RNA
-      log_message("Running SCTransform on merged RNA...")
-      DefaultAssay(merged_seurat_unintegrated) <- "RNA"
-      vars_to_regress <- c();
-      if (isTRUE(regress_params$regress_mito) && "percent_mito" %in% colnames(merged_seurat_unintegrated@meta.data)) vars_to_regress <- c(vars_to_regress, "percent_mito");
-      # Add ribo/cc checks...
-      if (isTRUE(regress_params$regress_ribo) && "percent_ribo" %in% colnames(merged_seurat_unintegrated@meta.data)) vars_to_regress <- c(vars_to_regress, "percent_ribo")
-      if (isTRUE(regress_params$regress_cell_cycle) && all(c("S.Score", "G2M.Score") %in% colnames(merged_seurat_unintegrated@meta.data))) vars_to_regress <- c(vars_to_regress, "S.Score", "G2M.Score")
-      vars_to_regress <- unique(vars_to_regress);
-      if (length(vars_to_regress) == 0) vars_to_regress <- NULL else log_message(paste("Regressing:", paste(vars_to_regress, collapse = ", ")))
-      merged_seurat_unintegrated <- SCTransform(merged_seurat_unintegrated, assay = "RNA", new.assay.name = "SCT", vars.to.regress = vars_to_regress, verbose = FALSE) # Verbose FALSE
-      DefaultAssay(merged_seurat_unintegrated) <- "RNA"
+  # Estimate memory required for bottleneck distance calculations
+  total_memory_per_pd <- max_pd_size * 2
+  max_pd_in_memory <- floor((available_memory * safety_factor) / total_memory_per_pd)
+
+  # Set the number of cores and batch size based on memory constraints
+  num_cores <- min(max_pd_in_memory, max_cores)
+  batch_size <- num_cores
+
+  log_message(paste("Max PD size:", max_pd_size, "MB"))
+  log_message(paste("Using", num_cores, "cores and batch size of", batch_size, "for BDM calculations."))
+
+  return(list(batch_size = batch_size, num_cores = num_cores))
+}
+
+#----------------------------------------------
+# Bottleneck Distance Matrix (BDM) Creation in Parallel
+#----------------------------------------------
+
+# Function to create a Bottleneck Distance Matrix (BDM) in parallel with memory-aware batching
+# Input: PD - List of persistence diagrams
+#        DIM - Dimension for bottleneck distance (default: 0)
+#        dataset_name - Name of the dataset to make temporary directories unique
+#        safety_factor - Fraction of available memory to use (default: 0.8)
+#        max_cores - Maximum number of cores to use (default: 12)
+#        total_memory_threshold - Total memory threshold in MB (default: 1.3TB)
+#        log_message - Logging function
+# Output: Symmetric Bottleneck Distance Matrix
+CreateBottleneckDistanceMatrixParallel <- function(
+    PD, DIM = 1, dataset_name, safety_factor = 0.8, max_cores = 12,
+    total_memory_threshold = 1300000, max_time_per_calculation = Inf,
+    log_message, save_progress = TRUE, progress_file = "distanceMatrix_progress.rds") {
+  n <- length(PD) # Number of persistence diagrams
+  log_message(paste0("Creating Output Matrix of Size ", n, "x", n))
+
+  # Initialize or load the distance matrix
+  if (save_progress && file.exists(progress_file)) {
+    # Load existing distance matrix
+    distanceMatrix <- readRDS(progress_file)
+    log_message(paste("Loaded existing distance matrix from", progress_file))
+  } else {
+    # Initialize an empty distance matrix with NA values
+    distanceMatrix <- matrix(NA, nrow = n, ncol = n)
+  }
+
+  # Create a unique temporary directory for storing persistence diagrams (PDs) on disk
+  temp_dir <- file.path("temp_PD_files", dataset_name)
+  if (!dir.exists(temp_dir)) {
+    dir.create(temp_dir, recursive = TRUE)
+    log_message(paste("Created temporary directory for PD files:", temp_dir))
+  }
+
+  # Save each PD to disk as an RDS file (if not already saved)
+  PD_file_paths <- sapply(seq_along(PD), function(i) {
+    file_path <- file.path(temp_dir, paste0("PD_", i, ".rds"))
+    if (!file.exists(file_path)) {
+      saveRDS(PD[[i]], file_path)
     }
-    # End multi-object block
+    file_path
+  })
+  log_message("All persistence diagrams saved to disk for processx access.")
 
-    log_message("Saving merged unintegrated object...")
-    tryCatch({ saveRDS(merged_seurat_unintegrated, file = merged_unintegrated_path) }, error = function(e) { log_message(paste("Error saving merged obj:", e$message), type = "ERROR") })
+  # Dynamically calculate batch size and cores
+  batch_info <- calculate_bdm_batch_size_and_cores(
+    PD,
+    safety_factor = safety_factor, max_cores = max_cores
+  )
+  batch_size <- batch_info$batch_size
+  num_cores <- batch_info$num_cores
+
+  log_message(paste("Using batch size:", batch_size, "and number of cores:", num_cores))
+
+  # Prepare a list of all (i, j) pairs to compute (upper triangle)
+  pair_indices <- which(upper.tri(distanceMatrix), arr.ind = TRUE)
+
+  # Filter out pairs that have already been computed
+  incomplete_pairs <- which(is.na(distanceMatrix[upper.tri(distanceMatrix)]))
+  if (length(incomplete_pairs) == 0) {
+    log_message("All pairs have been computed. Nothing to do.")
+    return(distanceMatrix)
   }
-  # End merged object creation block
 
-  log_message("Normalization and preparation complete.")
-  return(list(seurat_list_normalized = seurat_list_normalized, merged_seurat_unintegrated = merged_seurat_unintegrated))
+  pair_indices <- pair_indices[incomplete_pairs,, drop = FALSE]
+  total_pairs <- nrow(pair_indices)
+
+  # Process pairs in chunks to limit the number of concurrent processes
+  pair_chunks <- split(seq_len(nrow(pair_indices)), ceiling(seq_along(seq_len(nrow(pair_indices))) / num_cores))
+
+  total_chunks <- length(pair_chunks)
+  log_message(paste("Total number of chunks to process:", total_chunks))
+
+  for (chunk_idx in seq_along(pair_chunks)) {
+    chunk <- pair_indices[pair_chunks[[chunk_idx]],, drop = FALSE]
+    log_message(paste("Processing chunk", chunk_idx, "of", total_chunks, "with", nrow(chunk), "pairs..."))
+
+    # Start processes for the current chunk
+    job_list <- list()
+    for (k in seq_len(nrow(chunk))) {
+      i <- chunk[k, 1]
+      j <- chunk[k, 2]
+
+      if (!is.na(distanceMatrix[i, j])) {
+        log_message(paste("Skipping pair (", i, ",", j, ") as it has already been calculated."))
+        next # Skip already calculated pairs
+      }
+
+      # Start the bottleneck distance calculation for each pair using `processx`
+      PD1_path <- PD_file_paths[i]
+      PD2_path <- PD_file_paths[j]
+
+      # Create a temporary result file path
+      result_file <- file.path(temp_dir, paste0("BDM_result_", i, "_", j, ".txt"))
+
+      # Create the Rscript command using the saved PD file paths
+      ph_job <- processx::process$new(
+        "Rscript",
+        c("-e", paste0("\n          library(TDA);\n          PD1 <- readRDS('", PD1_path, "');\n          PD2 <- readRDS('", PD2_path, "');\n          bottleneck_distance <- bottleneck(PD1, PD2, dimension = ", DIM, ");\n          writeLines(as.character(bottleneck_distance), '", result_file, "')\n        ")),
+        stdout = "|", stderr = "|"
+      )
+
+      # Log process ID and store the job
+      log_message(paste("Started bottleneck distance calculation for pair (", i, ",", j, ") with PID:", ph_job$get_pid()))
+      job_list[[k]] <- list(process = ph_job, i = i, j = j, result_file = result_file)
+    }
+
+    # Wait for all processes in the chunk to complete
+    for (job in job_list) {
+      ph_job <- job$process
+      i <- job$i
+      j <- job$j
+      result_file <- job$result_file
+
+      start_time <- Sys.time()
+
+      # Wait for the process to finish
+      ph_job$wait()
+
+      elapsed_time <- as.numeric(difftime(Sys.time(), start_time, units = "secs"))
+      log_message(paste("Process for pair (", i, ",", j, ") with PID:", ph_job$get_pid(), "completed in", round(elapsed_time), "seconds"))
+
+      # Collect the result from the temporary result file
+      if (file.exists(result_file)) {
+        distance <- as.numeric(readLines(result_file))
+        distanceMatrix[i, j] <- distance
+        distanceMatrix[j, i] <- distance # Mirror the result
+        log_message(paste("Collected bottleneck distance for pair (", i, ",", j, "):", distance))
+
+        # Remove the temporary result file
+        file.remove(result_file)
+      } else {
+        log_message(paste("Result file for pair (", i, ",", j, ") not found."))
+      }
+    }
+
+    # Save progress after each chunk
+    if (save_progress) {
+      saveRDS(distanceMatrix, progress_file)
+      log_message(paste("Progress saved to", progress_file))
+    }
+
+    # Trigger garbage collection to free up memory
+    gc()
+  }
+
+  # Clean up temporary PD files
+  sapply(PD_file_paths, file.remove)
+  log_message(paste("Temporary PD files removed from directory:", temp_dir))
+
+  # Optionally remove the temporary directory
+  unlink(temp_dir, recursive = TRUE)
+  log_message(paste("Temporary directory removed:", temp_dir))
+
+  # Final save of the completed distance matrix
+  if (save_progress) {
+    saveRDS(distanceMatrix, progress_file)
+    log_message(paste("Final distance matrix saved to", progress_file))
+  }
+
+  return(distanceMatrix)
+}
+CreateSpectralDistanceMatrixFromPD <- function(
+    pd_list,
+    bdm_matrix,
+    num_eigen = 50,
+    scale_factor = 0.5,
+    log_message = print,
+    dimension = 0,
+    save_progress = TRUE,
+    progress_dir = "spectral_progress",
+    dataset_name = "default",
+    use_normalized = TRUE) {
+  n <- length(pd_list)
+  log_message(paste(
+    "Creating Spectral Distance Matrix for", n,
+    "persistence diagrams for dataset:", dataset_name
+  ))
+
+  # Ensure progress directory exists.
+  if (save_progress && !dir.exists(progress_dir)) {
+    dir.create(progress_dir, recursive = TRUE)
+    log_message(paste("Created progress directory:", progress_dir))
+  }
+
+  # Unique progress file for the dataset.
+  progress_file <- file.path(progress_dir, paste0("spectralMatrix_", dataset_name, "_progress.rds"))
+
+  # Check for existing progress.
+  if (save_progress && file.exists(progress_file)) {
+    spectralMatrix <- readRDS(progress_file)
+    log_message(paste("Loaded existing spectral distance matrix from", progress_file))
+    return(spectralMatrix)
+  } else {
+    spectralMatrix <- matrix(NA, nrow = n, ncol = n)
+  }
+
+  # Validate the Bottleneck Distance Matrix.
+  log_message("Validating Bottleneck Distance Matrix.")
+  if (any(!is.finite(as.numeric(bdm_matrix)))) {
+    log_message("WARNING: Found infinite or missing values in the Bottleneck Distance Matrix.")
+    bdm_matrix[!is.finite(bdm_matrix)] <- max(bdm_matrix[is.finite(bdm_matrix)], na.rm = TRUE) * 1.5
+  }
+
+  # Compute sigma based on the range of the finite BDM values.
+  bdm_finite <- bdm_matrix[is.finite(bdm_matrix)]
+  bdm_range <- max(bdm_finite) - min(bdm_finite)
+  if (bdm_range == 0) {
+    log_message("WARNING: BDM range is zero. Using default sigma value of 1.")
+    sigma <- 1
+  } else {
+    sigma <- bdm_range * scale_factor
+  }
+  log_message(paste(
+    "Using sigma =", sigma,
+    "based on BDM range =", round(bdm_range, 4),
+    "with scale factor", scale_factor
+  ))
+
+  # Convert BDM to a similarity matrix using an RBF (Gaussian) kernel.
+  log_message("Converting Bottleneck Distance Matrix to Similarity Matrix.")
+  similarity_matrix <- exp(-bdm_matrix ^ 2 / (2 * sigma ^ 2))
+  diag(similarity_matrix) <- 1 # Ensure self-similarity is exactly 1.
+
+  # Compute the Laplacian.
+  if (use_normalized) {
+    log_message("Using normalized Laplacian.")
+    # Compute the normalized Laplacian: L_sym = I - D^{-1/2} * W * D^{-1/2}
+    D <- diag(rowSums(similarity_matrix))
+    D_inv_sqrt <- diag(1 / sqrt(diag(D)))
+    L <- diag(n) - D_inv_sqrt %*% similarity_matrix %*% D_inv_sqrt
+  } else {
+    log_message("Using unnormalized Laplacian.")
+    D <- diag(rowSums(similarity_matrix))
+    L <- D - similarity_matrix
+  }
+
+  # Perform spectral decomposition.
+  log_message("Performing spectral decomposition.")
+  eigen_decomp <- tryCatch(
+    eigen(L, symmetric = TRUE),
+    error = function(e) {
+      log_message(paste("ERROR: Spectral decomposition failed:", e$message))
+      return(NULL)
+    }
+  )
+  if (is.null(eigen_decomp)) {
+    return(NULL)
+  }
+
+  # Order eigenvalues (and corresponding eigenvectors) in increasing order.
+  order_index <- order(eigen_decomp$values)
+  eigenvalues <- eigen_decomp$values[order_index]
+  eigenvectors <- eigen_decomp$vectors[, order_index]
+
+  # Skip the trivial eigenvector (typically the constant one corresponding to eigenvalue 0).
+  if (ncol(eigenvectors) < 2) {
+    log_message("Not enough eigenvectors to skip the trivial eigenvector. Using available eigenvectors.")
+    spectral_embedding <- eigenvectors
+  } else {
+    num_eigen_used <- min(num_eigen, ncol(eigenvectors) - 1)
+    spectral_embedding <- eigenvectors[, 2:(num_eigen_used + 1)]
+  }
+
+  # Compute the pairwise Euclidean distances in the spectral embedding space.
+  log_message("Computing Spectral Distance Matrix.")
+  spectralMatrix <- as.matrix(dist(spectral_embedding))
+
+  # Save progress if requested.
+  if (save_progress) {
+    saveRDS(spectralMatrix, progress_file)
+    log_message(paste("Spectral distance matrix saved to", progress_file))
+  }
+
+  return(spectralMatrix)
 }
 
-#' Extract Expression Data Matrices for PH Analysis
-#' @param seurat_list_normalized List of individual SCT objects (for sctInd, raw).
-#' @param merged_seurat_object Merged Seurat object (for sctWhole or integrated).
-#' @param data_types Character vector (e.g., "raw", "sctInd", "sctWhole", "integrated").
-#' @param output_dir Directory to save lists.
-#' @return List named by data_types containing expression lists, or NULL.
-#' @noRd
-extract_expression_data <- function(seurat_list_normalized = NULL, merged_seurat_object = NULL, data_types = c("raw", "sctInd", "sctWhole", "integrated"), output_dir) {
-  log_message(paste("Extracting expression data types:", paste(data_types, collapse = ", ")))
-  results <- list();
-  overall_success <- TRUE
-  extract_and_save <- function(expr_list, label) {
-    # Internal helper
-    success_flag <- FALSE
-    if (!is.null(expr_list) && length(expr_list) > 0 && !all(sapply(expr_list, is.null))) {
-      expr_list <- expr_list[!sapply(expr_list, is.null)]
-      if (length(expr_list) == 0) { log_message(paste("WARN: List empty after NULL removal:", label), type = "WARN"); return(FALSE) }
-      file_path <- file.path(output_dir, paste0("expr_list_", label, ".rds"))
-      tryCatch({
-        log_message(paste("Saving", label, "list (", length(expr_list), "datasets):", basename(file_path)));
-        saveRDS(expr_list, file = file_path);
-        results[[label]] <<- expr_list;
-        success_flag <- TRUE
-      }, error = function(e) { log_message(paste("ERROR saving", label, "list:", e$message), type = "ERROR"); success_flag <- FALSE })
-    } else { log_message(paste("WARN: Skipping empty/NULL list for", label), type = "WARN"); success_flag <- FALSE }
-    return(success_flag)
+
+#----------------------------------------------
+# Processing Datasets with Tiered Thresholds for Complex Datasets
+#----------------------------------------------
+
+# Function to process a list of datasets with tiered thresholds for complex datasets
+# Input: expr_list - List of expression datasets
+#        DIM - Dimension for persistence homology
+#        complex_datasets - List of datasets considered complex
+#        log_message - Logging function
+#        max_cores - Maximum number of cores for parallel processing
+#        total_memory_threshold - Total memory threshold in MB
+#        log_file - File path for logging progress
+#        results_file - File path for saving intermediate results
+#        THRESHOLD - Default threshold to use for non-complex datasets
+# Output: List of persistence diagrams
+# Modified function to process the expression list and track the best threshold for each dataset
+# Function to process a list of datasets with tiered thresholds for complex datasets
+process_expression_list_with_monitoring <- function(expr_list, DIM, log_message, max_cores, memory_threshold,
+                                                    log_file, results_file, batch_size = 64, timeout_datasets = NULL) {
+  # Load intermediate results and identify unfinished jobs initially
+  load_res <- load_intermediate_results_and_identify_unfinished_jobs(results_file, log_file, expr_list, log_message)
+  PD_list <- load_res$PD_list
+  job_indices <- load_res$job_indices
+  threshold_tracker <- list()
+
+  # Ensure PD_list is a named list with job IDs as names
+  if (length(PD_list) > 0 && is.null(names(PD_list))) {
+    names(PD_list) <- as.character(seq_along(PD_list))
   }
 
-  if ("sctInd" %in% data_types) {
-    if (!is.null(seurat_list_normalized)) {
-      log_message("Extracting sctInd...");
-      expr_list <- tryCatch({ lapply(seurat_list_normalized, function(obj) if ("SCT" %in% Assays(obj)) as.matrix(GetAssayData(obj, "SCT", "data")) else NULL) }, error = function(e) { log_message(paste("ERROR extracting sctInd:", e$message), type = "ERROR"); NULL });
-      if (!extract_and_save(expr_list, "sctInd")) overall_success <- FALSE
-    } else { log_message("WARN: Cannot extract 'sctInd': list missing.", type = "WARN"); if ("sctInd" %in% data_types) overall_success <- FALSE }
-  }
-  if ("raw" %in% data_types) {
-    if (!is.null(seurat_list_normalized)) {
-      log_message("Extracting raw...");
-      expr_list <- tryCatch({ lapply(seurat_list_normalized, function(obj) if ("RNA" %in% Assays(obj)) as.matrix(GetAssayData(obj, "RNA", "counts")) else NULL) }, error = function(e) { log_message(paste("ERROR extracting raw:", e$message), type = "ERROR"); NULL });
-      if (!extract_and_save(expr_list, "raw")) overall_success <- FALSE
-    } else { log_message("WARN: Cannot extract 'raw': list missing.", type = "WARN"); if ("raw" %in% data_types) overall_success <- FALSE }
-  }
+  log_message(paste("Processing datasets in batches of", batch_size, "with", max_cores, "cores."))
+  batches <- split(job_indices, ceiling(seq_along(job_indices) / batch_size)) # Split job indices into batches
 
-  split_targets <- intersect(data_types, c("sctWhole", "integrated"))
-  if (length(split_targets) > 0) {
-    if (!is.null(merged_seurat_object)) {
-      split_col <- if ("orig.ident" %in% colnames(merged_seurat_object@meta.data)) "orig.ident" else "Sample";
-      if (!split_col %in% colnames(merged_seurat_object@meta.data)) { log_message(paste("ERROR: Split column", split_col, "missing."), type = "ERROR"); overall_success <- FALSE } else {
-        merged_object_list <- tryCatch({ log_message(paste("Splitting merged object by", split_col, "...")); SplitObject(merged_seurat_object, split.by = split_col) }, error = function(e) { log_message(paste("ERROR splitting:", e$message), type = "ERROR"); NULL })
-        if (!is.null(merged_object_list)) {
-          for (target_type in split_targets) {
-            assay_name <- ifelse(target_type == "integrated", "integrated", "SCT");
-            data_label <- target_type
-            if (!assay_name %in% Assays(merged_seurat_object)) { log_message(paste("WARN: Cannot extract", data_label, "- Assay", assay_name, "missing."), type = "WARN"); overall_success <- FALSE; next }
-            log_message(paste("Extracting", assay_name, "data for", data_label, "..."))
-            expr_list <- tryCatch({ lapply(merged_object_list, function(obj) as.matrix(GetAssayData(obj, assay = assay_name, slot = "data"))) }, error = function(e) { log_message(paste("ERROR extracting split data for", data_label, ":", e$message), type = "ERROR"); NULL })
-            if (!extract_and_save(expr_list, data_label)) overall_success <- FALSE
-          }
-          rm(merged_object_list);
-          gc()
-        } else { overall_success <- FALSE }
+  # Process each batch of datasets
+  for (batch in batches) {
+    log_message(paste("Processing batch:", paste(batch, collapse = ", ")))
+    batch_results <- process_batch_of_datasets(batch, expr_list, DIM, log_message, max_cores, memory_threshold,
+                                               results_file, PD_list, log_file, timeout_datasets
+    )
+
+    # Update PD_list and threshold_tracker based on the results from process_batch_of_datasets
+    for (i in seq_along(batch)) {
+      job_id <- batch[i]
+      if (!is.null(batch_results[[i]]$PD)) {
+        PD_list[[as.character(job_id)]] <- batch_results[[i]]$PD
+        threshold_tracker[[as.character(job_id)]] <- batch_results[[i]]$threshold
       }
-    } else { log_message("WARN: Cannot extract 'sctWhole' or 'integrated': merged object missing.", type = "WARN"); overall_success <- FALSE }
+      # No need to save or log here since it's handled within process_and_monitor
+    }
   }
 
-  if (length(results) == 0 && length(data_types) > 0) { log_message("ERROR: Failed to extract any data.", type = "ERROR"); return(NULL) }
-  if (!overall_success && length(results) > 0) { log_message("WARN: Extraction finished, some types failed.", type = "WARN") } else if (overall_success) { log_message("Expression data extraction finished.") }
+  # Reload intermediate results to capture the final state after processing all batches
+  PD_list <- readRDS(results_file) # Ensure the latest version of PD_list is loaded
+
+  # Extract final thresholds from the progress log file
+  log_message("Extracting thresholds from the progress log file.")
+  threshold_tracker <- extract_thresholds_from_log(log_file)
+
+  return(list(PD_list = PD_list, thresholds = threshold_tracker))
+}
+
+
+# Function to extract thresholds from the progress log
+extract_thresholds_from_log <- function(log_file) {
+  # Check if the log file exists
+  if (!file.exists(log_file)) {
+    log_message(paste("Log file", log_file, "does not exist. Returning an empty threshold tracker."))
+    return(list()) # Return an empty list if the log file is not found
+  }
+
+  # Read the log file into a data frame
+  log_data <- tryCatch({
+    read.csv(log_file, stringsAsFactors = FALSE)
+  },
+    error = function(e) {
+      log_message(paste("Error reading log file:", log_file, "-", e$message))
+      return(data.frame(job_id = integer(0), best_threshold = numeric(0), status = character(0), timestamp = as.POSIXct(character(0))))
+    }
+  )
+
+  # Check if the expected columns are present in the log
+  if (!all(c("job_id", "best_threshold") %in% colnames(log_data))) {
+    stop("Log file does not contain expected columns: 'job_id', 'best_threshold'")
+  }
+
+  # Filter to only completed datasets and extract thresholds
+  completed_entries <- log_data[log_data$status == "completed", c("job_id", "best_threshold")]
+
+  # Create a named list to store thresholds
+  threshold_tracker <- as.list(setNames(completed_entries$best_threshold, completed_entries$job_id))
+  return(threshold_tracker)
+}
+
+# Update the process_batch_of_datasets function to include a check for completed jobs before reprocessing
+process_batch_of_datasets <- function(batch_indices, expr_list, DIM, log_message, max_cores, memory_threshold,
+                                      results_file, PD_list, log_file, timeout_datasets = NULL) {
+
+  log_message(paste("Starting parallel processing for batch with", length(batch_indices), "datasets."))
+
+  # Parallel processing for each dataset in the batch
+  results <- mclapply(seq_along(batch_indices), function(i) {
+    global_job_id <- batch_indices[i] # Get the global job index
+
+    # Check if the job is already completed using the new is_job_completed function
+    if (is_job_completed(global_job_id, PD_list, log_file)) {
+      log_message(paste("Skipping dataset", global_job_id, "as it is already completed."))
+      return(list(PD = PD_list[[as.character(global_job_id)]], threshold = NA)) # Skip and return already completed PD
+    }
+
+    log_message(paste("Processing dataset", global_job_id))
+    # Process the dataset and monitor
+    result <- tryCatch({
+      process_and_monitor(
+          expr_matrix = expr_list[[global_job_id]],
+          i = global_job_id,
+          DIM = DIM,
+          log_message = log_message,
+          memory_threshold = memory_threshold,
+          max_threshold = 2000,
+          max_retries = 10,
+          timeout_datasets = timeout_datasets,
+          results_file = results_file, # Ensure results_file is passed here
+          log_file = log_file
+        )
+    },
+      error = function(e) {
+        log_message(paste("Error in processing dataset", global_job_id, ":", e$message))
+        return(list(PD = NULL, threshold = NULL)) # Return NULL if there is an error
+      }
+    )
+
+    # Return the result from process_and_monitor
+    return(list(PD = result$PD, threshold = result$threshold))
+  }, mc.cores = min(length(batch_indices), max_cores)) # Parallel processing
+
+  # Return the processed results for the current batch
   return(results)
 }
 
-#' Run Persistent Homology Calculation with Monitoring
-#' @param expr_list Named list of expression matrices.
-#' @param data_label Label for dataset (e.g., "raw", "sctInd", "integrated").
-#' @param ph_dim Dimension for PH.
-#' @param ph_threshold Threshold for PH (-1 for auto).
-#' @param num_cores Max cores for PH calculation.
-#' @param output_dir Directory for logs and results.
-#' @param memory_threshold Memory threshold for monitoring.
-#' @param timeout_datasets Datasets to potentially skip initially.
-#' @return List containing PD_list, thresholds, status, log_file, results_file, or NULL.
-#' @noRd
-run_ph_analysis <- function(expr_list, data_label, ph_dim, ph_threshold, num_cores, output_dir, memory_threshold = 0.25, timeout_datasets = NULL) {
-  log_message(paste("Starting PH calculation for:", data_label))
-  if (is.null(expr_list) || length(expr_list) == 0) { log_message("WARN: List empty.", type = "WARN"); return(NULL) }
-  if (!requireNamespace("TDA", quietly = TRUE) || !requireNamespace("ripserr", quietly = TRUE)) { log_message("ERROR: TDA/ripserr missing.", type = "ERROR"); return(NULL) }
-  if (!exists("process_expression_list_with_monitoring", mode = "function")) { log_message("ERROR: process_expression_list_with_monitoring not found.", type = "ERROR"); return(NULL) }
-
-  file_suffix <- paste0("_dim", ph_dim, "_th", ph_threshold, "_", data_label)
-  log_file <- file.path(output_dir, paste0("progress_log", file_suffix, ".csv"))
-  results_file <- file.path(output_dir, paste0("intermediate_results", file_suffix, ".rds"))
-  final_pd_file <- file.path(output_dir, paste0("PD_list", file_suffix, ".rds"))
-  final_thresh_file <- file.path(output_dir, paste0("thresholds", file_suffix, ".rds"))
-
-  if (file.exists(final_pd_file) && file.exists(final_thresh_file)) {
-    log_message(paste("Loading existing PH results:", data_label));
-    pd_list <- readRDS(final_pd_file);
-    thresholds <- readRDS(final_thresh_file)
-    status_log <- NULL;
-    if (file.exists(log_file)) tryCatch({ status_log <- read.csv(log_file) }, error = function(e) { })
-    if (is.null(status_log)) status_log <- data.frame(dataset = names(pd_list), status = "completed (loaded)", stringsAsFactors = FALSE)
-    return(list(PD_list = pd_list, thresholds = thresholds, status = status_log, log_file = log_file, results_file = results_file, data_label = data_label)) # Add data_label here
+# Function to verify if a job is completed based on both the log file and the intermediate results
+# Input: job_id - Unique identifier for the job/dataset
+#        PD_list - List of persistence diagrams loaded from intermediate results
+#        log_file - Path to the progress log file
+# Output: TRUE if the job is completed, FALSE otherwise
+is_job_completed <- function(job_id, PD_list, log_file) {
+  # Check if the job is completed in the PD list
+  if (!is.null(PD_list[[as.character(job_id)]]) && nrow(PD_list[[as.character(job_id)]]) > 0) {
+    return(TRUE)
   }
 
-  log_message(paste("Running PH monitoring function for", data_label))
-  ph_result <- tryCatch({
-    process_expression_list_with_monitoring(expr_list = expr_list, DIM = ph_dim, THRESHOLD = ph_threshold, log_message = log_message, max_cores = num_cores, memory_threshold = memory_threshold, log_file = log_file, results_file = results_file, timeout_datasets = timeout_datasets)
-  }, error = function(e) { log_message(paste("ERROR during PH run:", e$message), type = "ERROR"); progress_log <- NULL; if (file.exists(log_file)) tryCatch(progress_log <- read.csv(log_file), error = function(e2) { }); return(list(PD_list = NULL, thresholds = NULL, status = progress_log, log_file = log_file, results_file = results_file, data_label = data_label)) }) # Add data_label here
+  # Check if the job is completed in the progress log
+  if (file.exists(log_file)) {
+    log_data <- read.csv(log_file, stringsAsFactors = FALSE)
+    completed_jobs <- log_data$job_id[log_data$status == "completed"]
+    if (job_id %in% completed_jobs) {
+      return(TRUE)
+    }
+  }
 
-  pd_list <- ph_result$PD_list;
-  thresholds <- ph_result$thresholds;
-  progress_log <- NULL
-  if (file.exists(log_file)) tryCatch(progress_log <- read.csv(log_file), error = function(e2) { log_message(paste("WARN: Could not read progress log:", log_file), type = "WARN") }) else { log_message(paste("WARN: Log file not found:", log_file), type = "WARN") }
-
-  if (is.null(pd_list) || length(pd_list) == 0) { log_message(paste("WARN: PH did not produce PD list for", data_label), type = "WARN"); return(list(PD_list = NULL, thresholds = NULL, status = progress_log, log_file = log_file, results_file = results_file, data_label = data_label)) }
-  # Add data_label here
-
-  if (is.null(names(pd_list)) || length(names(pd_list)) != length(names(expr_list))) {
-    log_message(paste("WARN: PD list name/length mismatch for", data_label), type = "WARN")
-    if (length(pd_list) == length(names(expr_list))) { names(pd_list) <- names(expr_list); if (!is.null(thresholds) && length(thresholds) == length(names(expr_list))) names(thresholds) <- names(expr_list); log_message("Assigned names based on order.") } else { log_message("ERROR: Cannot assign names.", type = "ERROR") }
-  } else if (!is.null(thresholds) && (is.null(names(thresholds)) || length(names(thresholds)) != length(names(expr_list)))) { if (!is.null(thresholds) && length(thresholds) == length(names(expr_list))) names(thresholds) <- names(expr_list) }
-
-  log_message(paste("Saving final PH results for", data_label))
-  tryCatch({ saveRDS(object = pd_list, file = final_pd_file); saveRDS(object = thresholds, file = final_thresh_file) }, error = function(e) { log_message(paste("ERROR saving PH results:", e$message), type = "ERROR") })
-
-  log_message(paste("PH calculation finished for:", data_label))
-  return(list(PD_list = pd_list, thresholds = thresholds, status = progress_log, log_file = log_file, results_file = results_file, data_label = data_label)) # Add data_label here
+  return(FALSE)
 }
 
-#' Retry Failed PH Calculations and Update Results
-#' @param expr_list Original expression list.
-#' @param initial_ph_result List returned by run_ph_analysis.
-#' @param data_label Label for the dataset.
-#' @param ph_dim Dimension for PH.
-#' @param ph_threshold Original PH Threshold.
-#' @param num_cores Cores for retry.
-#' @param output_dir Output directory.
-#' @param retry_params List with time_limit, doubling_limit.
-#' @param overwrite_original Boolean.
-#' @return Updated PD list or original list on failure.
-#' @noRd
-retry_and_update_ph <- function(expr_list, initial_ph_result, data_label, ph_dim, ph_threshold, num_cores, output_dir, retry_params = list(time_limit = 12 * 3600, doubling_limit = 5), overwrite_original = FALSE) {
-  log_message(paste("Checking retries for:", data_label))
-  if (is.null(initial_ph_result) || is.null(initial_ph_result$log_file) || is.null(initial_ph_result$results_file)) { log_message("ERROR: Initial result invalid.", type = "ERROR"); return(initial_ph_result$PD_list %||% NULL) }
-  progress_log_path <- initial_ph_result$log_file;
-  results_file_path <- initial_ph_result$results_file;
-  original_pd_list <- initial_ph_result$PD_list %||% list()
-  if (!file.exists(progress_log_path)) { log_message(paste("WARN: Log not found:", basename(progress_log_path)), type = "WARN"); return(original_pd_list) }
-  progress_data <- tryCatch(read.csv(progress_log_path), error = function(e) { log_message(paste("ERROR reading log", basename(progress_log_path)), type = "ERROR"); NULL })
-  if (is.null(progress_data)) return(original_pd_list)
-  failed_datasets <- progress_data$dataset[progress_data$status != "completed"]
-  if (length(failed_datasets) == 0) { log_message("No failures found."); return(original_pd_list) }
-  log_message(paste("Retrying", length(failed_datasets), "failed datasets:", paste(failed_datasets, collapse = ", ")))
-  expr_list_failed <- expr_list[names(expr_list) %in% failed_datasets]
-  if (length(expr_list_failed) == 0) { log_message("ERROR: Name mismatch, cannot subset failed list.", type = "ERROR"); return(original_pd_list) }
-  if (!exists("retry_pd_calculation", mode = "function")) { log_message("ERROR: retry_pd_calculation not found.", type = "ERROR"); return(original_pd_list) }
+#----------------------------------------------
+# Dataset Processing Helper Functions
+#----------------------------------------------
 
-  file_suffix <- paste0("_dim", ph_dim, "_th", ph_threshold, "_", data_label)
-  retry_log_file <- file.path(output_dir, paste0("retry_progress_log", file_suffix, ".csv"))
-  retry_results_file <- file.path(output_dir, paste0("retry_results", file_suffix, ".rds"))
-  log_message("Calling retry_pd_calculation...")
-  retry_result <- tryCatch({
-    retry_pd_calculation(progress_log = progress_log_path, results_file = results_file_path, expr_list = expr_list_failed, DIM = ph_dim, doubling_limit = retry_params$doubling_limit, time_limit = retry_params$time_limit, num_cores = num_cores, log_message = log_message, retry_progress_log = retry_log_file, retry_results_file = retry_results_file, overwrite_original = overwrite_original)
-  }, error = function(e) { log_message(paste("ERROR during retry execution:", e$message), type = "ERROR"); return(NULL) })
+#' process_and_monitor
+#'
+#' This function processes a single dataset for Persistent Homology (PH) calculation using the `vietoris_rips` function from the `ripserr` package.
+#' It monitors the process for any failures, timeouts, or invalid results, and retries with updated thresholds when necessary.
+#'
+#' @param expr_matrix A single expression matrix (as a numeric matrix or `dgCMatrix`).
+#' @param i Integer index or identifier of the dataset being processed.
+#' @param DIM Integer specifying the dimension to compute for Persistent Homology.
+#' @param log_message Function for logging messages (e.g., to a file or console).
+#' @param memory_threshold A numeric threshold for memory usage (in gigabytes). Not currently implemented but reserved for future use.
+#' @param max_threshold A numeric value specifying the maximum allowed threshold for PH computation. Default is 2000.
+#' @param max_time_per_iteration A numeric value (in seconds) specifying the maximum time allowed for each PH computation. Default is 12 hours (43200 seconds).
+#' @param max_retries Integer specifying the maximum number of retries before giving up on a dataset. Default is 10.
+#' @param timeout_datasets A vector of dataset indices that have previously timed out, which triggers a specific handling workflow.
+#'
+#' @details
+#'
+#' The function starts by determining the initial threshold for the dataset. If the dataset has previously timed out (is part of the `timeout_datasets`),
+#' the initial threshold is set based on the median of the non-zero values in the expression matrix. Otherwise, the process begins with an infinite threshold (`-1`).
+#'
+#' The function launches a PH calculation process using `vietoris_rips`. The process is monitored for:
+#' - **Unexpected termination:** If the process ends unexpectedly, the function checks if a valid PD (persistence diagram) file has been saved. If the PD is valid, the result is used.
+#' - **Timeouts:** If the process exceeds the maximum allowed time (`max_time_per_iteration`), the process is killed, and the function retries with an increased threshold.
+#' - **Invalid PD results:** If the PD file is found but has fewer than 1000 rows, the threshold is increased, and the process is retried.
+#'
+#' The function will retry a dataset up to `max_retries` times, with increasing thresholds. After reaching the maximum number of retries or exceeding the threshold,
+#' the function will return either the best valid PD found or `NULL` if no valid PD is found.
+#'
+#' ## Data Journey:
+#' - **Initial Setup:** The dataset is passed as `expr_matrix` from the calling function (`process_batch_of_datasets`). If the dataset is not timed out, the function starts with a threshold of `-1`. If it has timed out, the threshold is set based on the median of non-zero values.
+#'
+#' - **First Iteration (Threshold: `-1`):** The PH process begins with an infinite threshold (`-1`). If the process exceeds the time limit (`max_time_per_iteration`), the process is killed, and the function switches to a median-based threshold.
+#'
+#' - **Second Iteration (Threshold: Max-based, No Timeout):** The function retries with the Max-based threshold. In this iteration, **there is no time limit**. If the process finishes successfully but the PD contains too few rows (less than 1000), the threshold is increased, and the process is retried.
+#'
+#' - **Subsequent Iterations (Threshold: Increased):** The process is repeated with incrementally higher thresholds until a valid PD (with more than 1000 rows) is found or the retries are exhausted.
+#'
+#' - **Final Success:** Once a valid PD is found, the process is finalized, and the PD along with the threshold used is returned.
+#'
+#' ## Control Flow:
+#' - **Success:** If a valid PD is found (more than 1000 rows), the process completes, and the PD is returned.
+#' - **Retry with Higher Threshold:** If the PD has fewer than 1000 rows or the process fails unexpectedly without a valid PD, the threshold is increased, and the process is retried.
+#' - **Process Termination:** If the process terminates but a valid PD is found on disk, the result is used without retrying.
+#' - **Timeout:** If the process exceeds the time limit, it is killed, the threshold is increased, and the process is retried. However, the **first median-based iteration has no time limit** after a timeout with threshold `-1`.
+#'
+#' @return A list containing:
+#' - `PD`: The persistence diagram (PD) matrix if successful, or `NULL` if all retries fail.
+#' - `threshold`: The final threshold used for the successful PD or `NULL` if no valid PD is found.
+# Function to process and monitor a single dataset for Persistent Homology (PH) calculation
+process_and_monitor <- function(expr_matrix, i, DIM, log_message, memory_threshold,
+                                max_threshold = 5000,
+                                max_time_per_iteration = 20 * 24 * 3600, # 10*24 hours
+                                max_retries = 20,
+                                timeout_datasets = NULL,
+                                results_file = NULL,
+                                log_file = NULL,
+                                temp_dataset_dir = "temp_datasets_sct_whole") {
+  tryCatch({
+    is_timeout <- i %in% timeout_datasets
+    if (is_timeout) {
+      # log_message(paste("Dataset", i, "is marked as timed out. Setting initial threshold based on maximum of non-zero values."))
+      # max_val <- calculate_max_threshold(expr_matrix)
+      # threshold_increment <- determine_proportional_increment(max_val, proportion = 0.1)
+      # current_threshold <- max_val / 4
+      # log_message(paste("Initial threshold for dataset", i, "set to:", current_threshold))
 
-  if (is.null(retry_result) || is.null(retry_result$PD_list) || length(retry_result$PD_list) == 0) { log_message("Retry failed or returned no results."); final_pd_file_final <- file.path(output_dir, paste0("PD_list", file_suffix, "_final.rds")); if (!file.exists(final_pd_file_final)) tryCatch({ saveRDS(original_pd_list, final_pd_file_final) }, error = function(e) { }); return(original_pd_list) }
+      library(FNN)
 
-  log_message("Merging retry results...");
-  updated_pd_list <- original_pd_list;
-  retried_pd_list <- retry_result$PD_list
-  successful_retries <- 0
-  for (dataset_name in names(retried_pd_list)) { if (!is.null(retried_pd_list[[dataset_name]])) { if (dataset_name %in% failed_datasets) { log_message(paste("Successfully retried:", dataset_name)); updated_pd_list[[dataset_name]] <- retried_pd_list[[dataset_name]]; successful_retries <- successful_retries + 1 } else { log_message(paste("WARN: Retry returned non-failed:", dataset_name), type = "WARN") }} else { log_message(paste("WARN: Retry yielded NULL for", dataset_name), type = "WARN") }}
-  still_failed <- setdiff(failed_datasets, names(updated_pd_list[sapply(updated_pd_list[failed_datasets], function(x)!is.null(x))]))
-  if (length(still_failed) > 0) log_message(paste("WARN:", length(still_failed), "still failed after retry:", paste(still_failed, collapse = ", ")), type = "WARN")
-  log_message(paste("Retries finished.", successful_retries, "updated."))
+      # inside your tryCatch, replacing the simple max‐division logic:
+      # -------------------------------------------------------------
+      # 1. run a quick PCA on expr_matrix
+      pcs <- prcomp(expr_matrix, center = TRUE, scale. = TRUE)$x[, seq_len(DIM)]
 
-  final_pd_file_final <- file.path(output_dir, paste0("PD_list", file_suffix, "_final.rds"))
-  log_message(paste("Saving final updated PD list:", basename(final_pd_file_final)))
-  tryCatch({ saveRDS(object = updated_pd_list, file = final_pd_file_final) }, error = function(e) { log_message(paste("ERROR saving final PD list:", e$message), type = "ERROR") })
-  # Add threshold merging/saving here if needed
-  return(updated_pd_list)
+      # 2. choose k for the kNN (e.g. 10)
+      k_nn <- 100
+
+      # 3. compute the k‐th nearest neighbor distances
+      knn_info <- get.knn(pcs, k = k_nn)
+
+      # 4. extract each point’s distance to its k-th neighbor
+      kth_dists <- knn_info$nn.dist[, k_nn]
+
+      # after getting your k-th neighbor distances
+      kth_dists_nonzero <- kth_dists[kth_dists > 0]
+      if (length(kth_dists_nonzero) == 0) {
+        stop("All k-NN distances are zero—check for duplicates or increase DIM/k.")
+      }
+      # 5. pick your threshold as the median (or another percentile)
+      ideal_thresh <- quantile(kth_dists_nonzero, 0.9)
+
+      log_message(paste("Auto‐selected threshold (k =", k_nn, "90th Percentile):", round(ideal_thresh, 3)))
+
+      # 6. decide on your increment strategy
+      threshold_increment <- ideal_thresh * 0.1 # e.g. 10% of that local scale
+
+      # and feed that into your PH routine:
+      current_threshold <- ideal_thresh
+      # -------------------------------------------------------------
+
+    } else {
+      current_threshold <- -1 # Infinite threshold
+      threshold_increment <- 50
+      log_message(paste("Dataset", i, "has an initial threshold of -1 (infinite)."))
+    }
+
+    best_PD <- NULL
+    max_rows <- -1
+    retry_count <- 0
+
+    log_message(paste("Starting process for dataset", i, "with threshold", current_threshold))
+
+    if (!dir.exists(temp_dataset_dir)) {
+      dir.create(temp_dataset_dir, recursive = TRUE)
+      log_message(paste("Created temporary directory for datasets:", temp_dataset_dir))
+    }
+    dataset_file <- file.path(temp_dataset_dir, paste0("dataset_", i, ".rds"))
+    saveRDS(expr_matrix, dataset_file)
+    log_message(paste("Dataset", i, "saved to", dataset_file))
+
+    repeat {
+      log_message(paste("Current threshold for dataset", i, ":", current_threshold))
+      if (current_threshold > max_threshold || retry_count >= max_retries) {
+        log_message(paste("Exceeded max threshold or max retries for dataset", i, ". Stopping process."))
+        break
+      }
+
+      pd_file <- file.path(temp_dataset_dir, paste0("PD_", i, "_", current_threshold, ".rds"))
+
+      # Start the PH calculation in a separate process.
+      # Note the explicit call to quit() after saving the PD.
+      ph_job <- processx::process$new(
+          "Rscript",
+          c("-e", paste0("
+        tryCatch({
+          library(ripserr)
+          dataset <- readRDS('", dataset_file, "')
+          # Convert to a standard (dense) matrix if necessary:
+          dataset <- as.matrix(dataset)
+          threshold_val <- ", current_threshold, "
+          PD <- vietoris_rips(dataset = dataset, max_dim = ", DIM, ", threshold = threshold_val, return_format = 'mat')
+          saveRDS(PD, '", pd_file, "')
+        }, error = function(e) {
+          cat('Error:', e$message, '\\n')
+        })
+        quit(save = 'no')
+      ")),
+        stdout = "|", stderr = "|"
+        )
+
+      start_time <- Sys.time()
+      result_collected <- FALSE
+      log_message(paste("PH process for dataset", i, "started with PID:", ph_job$get_pid()))
+
+      while (!result_collected) {
+        Sys.sleep(60)
+        elapsed_time <- as.numeric(difftime(Sys.time(), start_time, units = "secs"))
+        log_message(paste("Elapsed time for dataset", i, "PH calculation:", round(elapsed_time),
+                          "seconds (current threshold:", current_threshold, ")"))
+
+        if (elapsed_time > max_time_per_iteration || retry_count >= max_retries) {
+          log_message(paste("Timeout or max retries reached for dataset", i, ". Retrying with updated threshold."))
+          ph_job$kill()
+          current_threshold <- current_threshold + (current_threshold / 2)
+          retry_count <- retry_count + 1
+          log_message(paste("Updated threshold for dataset", i, "to:", current_threshold))
+          break
+        }
+
+        if (!ph_job$is_alive()) {
+          log_message(paste("Process for dataset", i, "terminated. Checking for valid PD file."))
+          if (file.exists(pd_file)) {
+            current_PD <- readRDS(pd_file)
+            if (!is.null(current_PD) && nrow(current_PD) > 0) {
+              log_message(paste("Found valid PD file for dataset", i, "with", nrow(current_PD), "rows."))
+              best_PD <- current_PD
+              max_rows <- nrow(best_PD)
+              save_intermediate_results(results_file = results_file, job_id = i, best_PD = best_PD)
+              result_collected <- TRUE
+              break
+            }
+          }
+        }
+
+        if (file.exists(pd_file)) {
+          current_PD <- readRDS(pd_file)
+          if (!is.null(current_PD) && nrow(current_PD) > 0) {
+            log_message(paste("PD file for dataset", i, "found and loaded. PD size:", nrow(current_PD)))
+            if (nrow(current_PD) < 1000) {
+              log_message(paste("PD has fewer than 1000 rows (", nrow(current_PD), "). Consider reviewing."))
+            }
+            if (nrow(current_PD) > max_rows) {
+              best_PD <- current_PD
+              max_rows <- nrow(best_PD)
+              log_message(paste("Updated best PD with", max_rows, "rows for dataset", i, "at threshold", current_threshold))
+              save_intermediate_results(results_file = results_file, job_id = i, best_PD = best_PD)
+              result_collected <- TRUE
+              if (ph_job$is_alive()) {
+                log_message(paste("Killing lingering process for dataset", i))
+                ph_job$kill()
+              }
+              break
+            }
+          }
+        }
+      }
+
+      if (result_collected) {
+        log_message(paste("Best PD found for dataset", i, "with threshold", current_threshold, ". Finalizing process."))
+        update_progress_log(log_file, i, "completed", current_threshold)
+        break
+      }
+    }
+
+    if (!is.null(best_PD)) {
+      return(list(PD = best_PD, threshold = current_threshold))
+    } else {
+      log_message(paste("No valid PD found for dataset", i, "after all attempts."))
+      update_progress_log(log_file, i, "failed", current_threshold)
+      return(list(PD = NULL, threshold = NULL))
+    }
+
+  }, error = function(e) {
+    log_message(paste("Unexpected error in processing dataset", i, ":", e$message))
+    update_progress_log(log_file, i, "error", threshold = NA)
+    return(list(PD = NULL, threshold = NULL))
+  })
+}
+
+# Helper function to calculate max threshold
+calculate_max_threshold <- function(expr_matrix) {
+  # Return the maximum of the non-zero values in the expression matrix
+  max_val <- max(expr_matrix[expr_matrix > 0], na.rm = TRUE)
+  return(max_val)
+}
+
+# Function to perform a full suite of diagnostic checks on the expression matrices in parallel and save results to files
+diagnose_complex_datasets_parallel <- function(expr_list, complex_datasets, output_dir = "diagnostics", sparsity_threshold = 0.05, num_cores = 4) {
+  # Create the output directory if it doesn't exist
+  if (!dir.exists(output_dir)) {
+    dir.create(output_dir, recursive = TRUE)
+  }
+
+  # Helper function for basic matrix statistics
+  check_matrix_statistics <- function(mat, dataset_name) {
+    num_cells <- ncol(mat) # Number of cells (columns)
+    num_genes <- nrow(mat) # Number of genes (rows)
+    num_non_zero <- sum(mat != 0) # Number of non-zero entries
+    sparsity <- num_non_zero / (num_cells * num_genes) # Sparsity ratio
+
+    # Create a string for the statistics
+    stats_info <- paste0(
+      "Number of genes: ", num_genes, "\n",
+      "Number of cells: ", num_cells, "\n",
+      "Number of non-zero entries: ", num_non_zero, "\n",
+      "Sparsity: ", sparsity
+    )
+
+    # Save statistics to file
+    stats_file <- file.path(output_dir, paste0(dataset_name, "_matrix_stats.txt"))
+    writeLines(stats_info, con = stats_file)
+
+    return(list(
+      num_genes = num_genes,
+      num_cells = num_cells,
+      num_non_zero = num_non_zero,
+      sparsity = sparsity
+    ))
+  }
+
+  # Helper function for gene and cell expression distributions
+  plot_gene_cell_distributions <- function(mat, dataset_name) {
+    gene_expression_means <- rowMeans(mat) # Mean expression per gene
+    cell_expression_means <- colMeans(mat) # Mean expression per cell
+
+    # Plot distribution of mean gene expression
+    pdf(file = file.path(output_dir, paste0(dataset_name, "_gene_expression_distribution.pdf")))
+    hist(gene_expression_means, breaks = 50, main = paste(dataset_name, "Gene Expression Distribution"), xlab = "Mean Expression per Gene")
+    dev.off()
+
+    # Plot distribution of mean cell expression
+    pdf(file = file.path(output_dir, paste0(dataset_name, "_cell_expression_distribution.pdf")))
+    hist(cell_expression_means, breaks = 50, main = paste(dataset_name, "Cell Expression Distribution"), xlab = "Mean Expression per Cell")
+    dev.off()
+  }
+
+  # Helper function to check for highly sparse matrices
+  check_sparsity_threshold <- function(mat, dataset_name) {
+    num_non_zero <- sum(mat != 0)
+    sparsity <- num_non_zero / (ncol(mat) * nrow(mat))
+
+    # Create a string for sparsity check
+    sparsity_info <- paste0(
+      "Sparsity: ", sparsity, "\n",
+      "Sparsity below threshold (", sparsity_threshold, "): ", sparsity < sparsity_threshold
+    )
+
+    # Save sparsity check result
+    sparsity_file <- file.path(output_dir, paste0(dataset_name, "_sparsity_check.txt"))
+    writeLines(sparsity_info, con = sparsity_file)
+
+    return(sparsity < sparsity_threshold) # Return TRUE if sparsity is below the threshold
+  }
+
+  # Helper function to detect outliers in gene or cell expression
+  detect_outliers <- function(mat, dataset_name) {
+    gene_means <- rowMeans(mat)
+    cell_means <- colMeans(mat)
+
+    # Define outlier as anything outside 1.5 * IQR from the median
+    gene_outliers <- which(gene_means > quantile(gene_means, 0.75) + 1.5 * IQR(gene_means) |
+      gene_means < quantile(gene_means, 0.25) - 1.5 * IQR(gene_means))
+
+    cell_outliers <- which(cell_means > quantile(cell_means, 0.75) + 1.5 * IQR(cell_means) |
+      cell_means < quantile(cell_means, 0.25) - 1.5 * IQR(cell_means))
+
+    # Create a string for outliers check
+    outliers_info <- paste0(
+      "Number of gene outliers: ", length(gene_outliers), "\n",
+      "Number of cell outliers: ", length(cell_outliers)
+    )
+
+    # Save outliers to file
+    outliers_file <- file.path(output_dir, paste0(dataset_name, "_outliers.txt"))
+    writeLines(outliers_info, con = outliers_file)
+
+    return(list(gene_outliers = gene_outliers, cell_outliers = cell_outliers))
+  }
+
+  # Helper function to perform PCA on a dataset
+  perform_pca <- function(mat, dataset_name) {
+    pca_res <- prcomp(t(mat), scale = TRUE) # Perform PCA on transposed matrix (cells are rows)
+
+    # Save PCA results (variance explained)
+    pca_file <- file.path(output_dir, paste0(dataset_name, "_PCA_variance_explained.pdf"))
+    pdf(pca_file)
+    var_explained <- pca_res$sdev ^ 2 / sum(pca_res$sdev ^ 2)
+    plot(cumsum(var_explained), type = "b", main = paste(dataset_name, "Cumulative Variance Explained"), ylab = "Cumulative Variance", xlab = "Principal Components")
+    dev.off()
+
+    return(pca_res)
+  }
+
+  # Helper function to run UMAP on a dataset
+  run_umap <- function(mat, dataset_name) {
+    umap_res <- umap::umap(t(mat)) # UMAP on transposed matrix (cells are rows)
+
+    # Save UMAP layout to file
+    umap_file <- file.path(output_dir, paste0(dataset_name, "_UMAP_projection.pdf"))
+    pdf(umap_file)
+    plot(umap_res$layout, main = paste(dataset_name, "UMAP Projection"), xlab = "UMAP 1", ylab = "UMAP 2")
+    dev.off()
+
+    return(umap_res$layout)
+  }
+
+  # Parallel loop through the complex datasets and perform all checks
+  diagnostics <- mclapply(complex_datasets, function(i) {
+    dataset_name <- names(expr_list)[i]
+    mat <- expr_list[[i]]
+
+    # Run diagnostics
+    log_message(paste("Running diagnostics on dataset", dataset_name))
+
+    # 1. Basic matrix statistics
+    stats <- check_matrix_statistics(mat, dataset_name)
+    log_message(paste("Matrix stats for", dataset_name, ": ", stats))
+
+    # 2. Gene and cell expression distributions
+    plot_gene_cell_distributions(mat, dataset_name)
+
+    # 3. Check for high sparsity
+    is_sparse <- check_sparsity_threshold(mat, dataset_name)
+    log_message(paste("Dataset", dataset_name, "is sparse:", is_sparse))
+
+    # 4. Detect outliers in gene and cell expression
+    outliers <- detect_outliers(mat, dataset_name)
+    log_message(paste("Outliers detected in", dataset_name, ": ", outliers))
+
+    # 5. Perform PCA and plot variance explained
+    pca_res <- perform_pca(mat, dataset_name)
+
+    # 6. Run UMAP and visualize
+    umap_layout <- run_umap(mat, dataset_name)
+
+    # Return all diagnostic results in a list for the current dataset
+    return(list(
+      stats = stats,
+      is_sparse = is_sparse,
+      outliers = outliers,
+      pca_res = pca_res,
+      umap_layout = umap_layout
+    ))
+  }, mc.cores = num_cores)
+
+  names(diagnostics) <- names(expr_list)[complex_datasets]
+  return(diagnostics)
+}
+
+# Function to evaluate datasets before integration using Liger, comparing across SRA batches
+pre_integration_evaluation <- function(liger_list,
+                                       corr_threshold_same_tissue = 0.5,
+                                       corr_threshold_diff_tissue = 0.3,
+                                       prune_datasets = TRUE,
+                                       log_message = print,
+                                       num_cores = 4) {
+  log_message("Evaluating datasets for integration based on correlation, sparsity, tissue type, and batch (SRA).")
+
+  evaluation_results <- mclapply(names(liger_list), function(sra_name) {
+    liger_obj <- liger_list[[sra_name]]
+    dataset_names <- names(liger_obj@datasets)
+
+    results <- lapply(dataset_names, function(dataset_name) {
+      log_message(paste("Evaluating dataset:", dataset_name, "from SRA:", sra_name))
+
+      liger_dataset <- liger_obj@datasets[[dataset_name]]
+
+      # Check if scaleData is valid and accessible, and convert it to a base matrix
+      if (!is.null(liger_dataset@scaleData) && length(liger_dataset@scaleData@x) > 0) {
+        # Explicitly convert dgCMatrix to base matrix
+        scale_data <- as.matrix(Matrix::as.matrix(liger_dataset@scaleData))
+      } else {
+        log_message(paste("No valid scaleData found for dataset", dataset_name, "- Skipping"))
+        return(NULL)
+      }
+
+      # Get the tissue and SRA information for the current dataset
+      tissue <- unique(liger_obj@cellMeta$tissue)
+      sra <- unique(liger_obj@cellMeta$SRA)
+
+      # Calculate sparsity
+      sparsity <- sum(scale_data == 0) / length(scale_data)
+
+      correlations_same_tissue <- list()
+      correlations_diff_tissue <- list()
+
+      # Compare this dataset with datasets from other SRAs in the list
+      for (other_sra_name in names(liger_list)) {
+        other_liger_obj <- liger_list[[other_sra_name]]
+        other_dataset_names <- names(other_liger_obj@datasets)
+
+        for (other_name in other_dataset_names) {
+          other_data <- other_liger_obj@datasets[[other_name]]@scaleData
+          other_tissue <- unique(other_liger_obj@cellMeta$tissue)
+
+          if (!is.null(other_data) && length(other_data@x) > 0) {
+            # Explicitly convert other scaleData to base matrix
+            other_data_matrix <- as.matrix(Matrix::as.matrix(other_data))
+            common_genes <- intersect(rownames(scale_data), rownames(other_data_matrix))
+
+            if (length(common_genes) > 0) {
+              scale_data_common <- scale_data[common_genes,, drop = FALSE]
+              other_data_common <- other_data_matrix[common_genes,, drop = FALSE]
+
+              # Check that both matrices are non-empty and compatible
+              if (nrow(scale_data_common) > 0 && ncol(other_data_common) > 0) {
+                # Correlation calculation
+                corr_value <- tryCatch({
+                  avg_corr <- cor(scale_data_common, other_data_common, use = "pairwise.complete.obs")
+                  mean(avg_corr, na.rm = TRUE)
+                },
+                  error = function(e) {
+                    log_message(paste("Error calculating correlation for dataset", other_name, "from SRA", other_sra_name, ":", e$message))
+                    NA
+                  }
+                )
+
+                # Separate correlations by tissue similarity
+                if (tissue == other_tissue) {
+                  correlations_same_tissue[[other_name]] <- corr_value
+                } else {
+                  correlations_diff_tissue[[other_name]] <- corr_value
+                }
+              } else {
+                log_message(paste("Empty matrices after filtering for common genes between", dataset_name, "and", other_name, "- Skipping correlation"))
+                correlations_same_tissue[[other_name]] <- NA
+                correlations_diff_tissue[[other_name]] <- NA
+              }
+            } else {
+              log_message(paste("No common genes found between", dataset_name, "and", other_name, "- Skipping correlation"))
+              correlations_same_tissue[[other_name]] <- NA
+              correlations_diff_tissue[[other_name]] <- NA
+            }
+          } else {
+            log_message(paste("Invalid or empty scaleData for dataset", other_name, "- Skipping correlation"))
+            correlations_same_tissue[[other_name]] <- NA
+            correlations_diff_tissue[[other_name]] <- NA
+          }
+        }
+      }
+
+      # Calculate average correlations for same-tissue and different-tissue datasets
+      avg_corr_same_tissue <- mean(unlist(correlations_same_tissue), na.rm = TRUE)
+      avg_corr_diff_tissue <- mean(unlist(correlations_diff_tissue), na.rm = TRUE)
+
+      # Prune based on correlation threshold and tissue similarity
+      prune_same_tissue <- (avg_corr_same_tissue < corr_threshold_same_tissue)
+      prune_diff_tissue <- (avg_corr_diff_tissue < corr_threshold_diff_tissue)
+
+      log_message(paste(
+        "Dataset:", dataset_name,
+        "Tissue:", tissue,
+        "SRA:", sra,
+        "Sparsity:", round(sparsity, 4),
+        "Avg Correlation (Same Tissue):", round(avg_corr_same_tissue, 4),
+        "Avg Correlation (Different Tissue):", round(avg_corr_diff_tissue, 4),
+        "Pruned (Same Tissue):", prune_same_tissue,
+        "Pruned (Different Tissue):", prune_diff_tissue
+      ))
+
+      return(list(
+        dataset_name = dataset_name,
+        tissue = tissue,
+        sra = sra,
+        sparsity = sparsity,
+        avg_corr_same_tissue = avg_corr_same_tissue,
+        avg_corr_diff_tissue = avg_corr_diff_tissue,
+        pruned_same_tissue = prune_same_tissue,
+        pruned_diff_tissue = prune_diff_tissue
+      ))
+    })
+
+    return(results)
+  }, mc.cores = num_cores)
+
+  return(evaluation_results)
+}
+
+retry_single_job <- function(job_id, expr_list, DIM, retry_progress_data, retry_PD_list,
+                             time_limit_per_retry = 28800, doubling_limit = 5, log_message = print) {
+  # Retrieve the current threshold for this job from the retry progress data
+  current_threshold <- retry_progress_data$best_threshold[retry_progress_data$job_id == job_id]
+
+  # Start with the previous best PD for this job from the retry PD list
+  best_PD <- retry_PD_list[[job_id]]
+  max_rows <- if (!is.null(best_PD)) nrow(best_PD) else 0
+  iteration <- 0
+
+  log_message(paste("Retrying PD calculation for job:", job_id, "starting at threshold:", current_threshold))
+
+  # Create a temporary folder to store dataset RDS files
+  temp_dir <- "temp_datasets"
+  if (!dir.exists(temp_dir)) {
+    dir.create(temp_dir)
+    log_message(paste("Created temporary directory for datasets:", temp_dir))
+  }
+
+  # Save the current dataset to an RDS file before the first process
+  dataset_file <- file.path(temp_dir, paste0("dataset_", job_id, ".rds"))
+  saveRDS(expr_list[[job_id]], dataset_file)
+  log_message(paste("Dataset", job_id, "saved to", dataset_file))
+
+  # Retry loop with threshold doubling
+  while (iteration < doubling_limit) {
+    iteration <- iteration + 1
+    retry_start_time <- Sys.time() # Start time for the retry attempt
+
+    # Log and double the threshold only if this is not the first iteration and a valid PD was found previously
+    if (iteration > 1 && nrow(best_PD) > max_rows) {
+      current_threshold <- current_threshold * 2 # Double the threshold with each iteration if the previous PD was valid
+      log_message(paste("Doubling threshold for job:", job_id, "to:", current_threshold))
+    }
+
+    log_message(paste("Attempting PH calculation for job:", job_id, "with threshold:", current_threshold))
+
+    # Create the Rscript command using the saved dataset file
+    ph_job <- processx::process$new(
+      "Rscript",
+      c("-e", paste0("
+        library(ripserr);
+        dataset <- readRDS('", dataset_file, "');  # Load the dataset from the RDS file
+        PD <- vietoris_rips(dataset = dataset, dim = ", DIM, ", threshold = ", current_threshold, ", return_format = 'mat');
+        saveRDS(PD, 'PD_", job_id, ".rds')  # Save the PD to a temporary RDS file
+      ")),
+      stdout = "|", stderr = "|"
+    )
+
+    # Log the process ID and start time
+    log_message(paste("Started PH process for job:", job_id, "with PID:", ph_job$get_pid(), "at", retry_start_time))
+    result_collected <- FALSE
+
+    while (!result_collected) {
+      Sys.sleep(60) # Sleep for 1 minute between checks
+      elapsed_time <- as.numeric(difftime(Sys.time(), retry_start_time, units = "secs"))
+
+      # Log the elapsed time for this process
+      log_message(paste("Elapsed time for job:", job_id, "with PID:", ph_job$get_pid(), ":", round(elapsed_time), "seconds (current threshold:", current_threshold, ")"))
+
+      if (elapsed_time > time_limit_per_retry) {
+        log_message(paste("Timeout exceeded for job:", job_id, "at threshold:", current_threshold, ". Killing the process with PID:", ph_job$get_pid()))
+        ph_job$kill() # Kill the process after timeout
+
+        if (!ph_job$is_alive()) {
+          log_message(paste("Process for job:", job_id, "with PID:", ph_job$get_pid(), "has been successfully killed."))
+        }
+        break
+      }
+
+      if (!ph_job$is_alive()) {
+        # Read the PD from the temporary RDS file if it exists
+        PD_file <- paste0("PD_", job_id, ".rds")
+        if (file.exists(PD_file)) {
+          PD <- readRDS(PD_file)
+          if (!is.null(PD) && nrow(PD) > max_rows) {
+            # Update the best PD if the new one has more rows
+            best_PD <- PD
+            max_rows <- nrow(PD)
+            log_message(paste("Found valid PD for job:", job_id, "with threshold:", current_threshold, "and", max_rows, "rows. Process ID:", ph_job$get_pid()))
+            result_collected <- TRUE
+          } else {
+            log_message(paste("No improvement in PD for job:", job_id, "with threshold:", current_threshold))
+          }
+        }
+        result_collected <- TRUE
+      }
+    }
+
+    # Stop retrying if a valid PD with more rows has been found or if time exceeded
+    if (nrow(best_PD) > max_rows) {
+      log_message(paste("Best PD found for job:", job_id, "with threshold:", current_threshold, ". Doubling threshold for next iteration."))
+    } else {
+      log_message(paste("No further improvement for job:", job_id, "at threshold:", current_threshold, ". Stopping retries."))
+      break
+    }
+  }
+
+  # Update the retry PD list and retry progress data
+  if (!is.null(best_PD)) {
+    retry_PD_list[[job_id]] <- best_PD
+    retry_progress_data$status[retry_progress_data$job_id == job_id] <- "completed"
+    retry_progress_data$best_threshold[retry_progress_data$job_id == job_id] <- current_threshold
+    log_message(paste("Updated best PD for job:", job_id, "with threshold:", current_threshold, "and", max_rows, "rows. Process ID:", ph_job$get_pid()))
+  } else {
+    log_message(paste("No valid PD found after retries for job:", job_id, ". Retaining the previous best PD, if any. Process ID:", ph_job$get_pid()))
+  }
+
+  # Clean up temporary files
+  if (file.exists(dataset_file)) {
+    file.remove(dataset_file)
+    log_message(paste("Temporary dataset file removed for job:", job_id))
+  }
+  PD_file <- paste0("PD_", job_id, ".rds")
+  if (file.exists(PD_file)) {
+    file.remove(PD_file)
+    log_message(paste("Temporary PD file removed for job:", job_id))
+  }
+
+  return(list(PD_list = retry_PD_list, progress_data = retry_progress_data))
+}
+
+# Modified retry_pd_calculation function
+retry_pd_calculation <- function(progress_log, results_file, expr_list, DIM, doubling_limit, time_limit, num_cores, log_message,
+                                 retry_progress_log = "progress_log_retries.csv", retry_results_file = "intermediate_results_retries.rds", overwrite_original = FALSE) {
+  # Load original progress data and results
+  original_progress_data <- read.csv(progress_log)
+  original_PD_list <- if (file.exists(results_file)) readRDS(results_file) else list()
+
+  # Initialize retry progress data and PD list if not found
+  retry_progress_data <- if (file.exists(retry_progress_log)) read.csv(retry_progress_log) else original_progress_data
+  retry_PD_list <- if (file.exists(retry_results_file)) readRDS(retry_results_file) else original_PD_list
+
+  # Ensure that retry_PD_list and retry_progress_data are named according to expr_list
+  retry_PD_list <- setNames(retry_PD_list, names(expr_list))
+  retry_progress_data$dataset_name <- names(expr_list)[retry_progress_data$job_id]
+
+  # Identify jobs to retry: Only select jobs where the threshold is not -1 or the job failed/incomplete
+  jobs_to_retry <- retry_progress_data$job_id[
+    (retry_progress_data$status %in% c("failed", "incomplete")) |
+      (retry_progress_data$best_threshold != -1)
+  ]
+
+  # Log the jobs that will be retried
+  log_message(paste("Jobs to retry:", paste(jobs_to_retry, collapse = ", ")))
+
+  # Retry logic using parallel processing
+  retry_results <- mclapply(jobs_to_retry, function(job_id) {
+    retry_single_job(
+      job_id = job_id,
+      expr_list = expr_list,
+      DIM = DIM,
+      retry_progress_data = retry_progress_data,
+      retry_PD_list = retry_PD_list,
+      time_limit_per_retry = time_limit,
+      doubling_limit = doubling_limit,
+      log_message = log_message
+    )
+  }, mc.cores = min(num_cores, length(jobs_to_retry)))
+
+  # Update retry PD list and retry progress data based on results
+  for (res in retry_results) {
+    if (!is.null(res)) {
+      # Update the relevant PDs in retry_PD_list using the job_id names from the result
+      for (job_name in names(res$PD_list)) {
+        retry_PD_list[[job_name]] <- res$PD_list[[job_name]]
+      }
+
+      # Update the relevant rows in retry_progress_data based on job_id
+      for (job_id in res$progress_data$job_id) {
+        retry_progress_data[retry_progress_data$job_id == job_id,] <- res$progress_data[res$progress_data$job_id == job_id,]
+      }
+    }
+  }
+
+  # Save retry-specific results and progress log
+  saveRDS(retry_PD_list, retry_results_file)
+  write.csv(retry_progress_data, retry_progress_log, row.names = FALSE)
+  log_message(paste("Retry results saved to", retry_results_file))
+  log_message(paste("Retry progress log saved to", retry_progress_log))
+
+  # Re-load the retry results and progress log to ensure consistency with saved state
+  retry_PD_list <- if (file.exists(retry_results_file)) readRDS(retry_results_file) else retry_PD_list
+  retry_progress_data <- if (file.exists(retry_progress_log)) read.csv(retry_progress_log) else retry_progress_data
+
+  # If required, update the original files with the retry results
+  if (overwrite_original) {
+    saveRDS(retry_PD_list, results_file)
+    write.csv(retry_progress_data, progress_log, row.names = FALSE)
+    log_message(paste("Original results and progress log overwritten with retry outputs."))
+  }
+
+  # Return the updated PD list and progress data using expr_list names
+  retry_PD_list <- setNames(retry_PD_list, names(expr_list))
+  retry_progress_data$dataset_name <- names(expr_list)[retry_progress_data$job_id]
+
+  return(list(PD_list = retry_PD_list, progress_data = retry_progress_data))
+}
+
+calculate_median_threshold <- function(expr_matrix) {
+  # Extract only non-zero values from the matrix
+  non_zero_values <- expr_matrix[expr_matrix > 0]
+
+  # Calculate and return the median of non-zero values
+  if (length(non_zero_values) == 0) {
+    return(100) # Default threshold if no non-zero values found
+  } else {
+    median_val <- median(non_zero_values, na.rm = TRUE)
+    return(round(median_val, digits = 3)) # Round to 2 decimal places
+  }
+}
+
+# Function to determine adaptive threshold increment based on median value
+determine_proportional_increment <- function(median_val, proportion = 1) {
+  increment <- median_val * proportion
+  # Allow increments less than 1 by rounding to two decimal places
+  return(round(increment, digits = 2))
+}
+
+# Function to validate anchor batches
+validate_anchor_batches <- function(anchor_batches, sra_groups, integration_features, log_message) {
+  # Check if any anchor batch is missing or has issues
+  valid_anchor_batches <- list()
+  invalid_groups <- c() # Track groups with invalid anchor batches
+
+  for (group_name in names(anchor_batches)) {
+    log_message(paste("Validating anchor batch for group:", group_name))
+
+    # Check if the anchor batch is a valid IntegrationAnchorSet object
+    anchor_batch <- anchor_batches[[group_name]]
+    if (!inherits(anchor_batch, "IntegrationAnchorSet")) {
+      log_message(paste("Anchor batch for group", group_name, "is not a valid IntegrationAnchorSet object. Marking for recomputation."))
+      invalid_groups <- c(invalid_groups, group_name)
+      next
+    }
+
+    # Check if the features in the anchor batch match the integration features
+    anchor_features <- anchor_batch@anchor.features
+    if (!all(integration_features %in% anchor_features)) {
+      log_message(paste("Anchor batch for group", group_name, "has feature inconsistencies. Marking for recomputation."))
+      invalid_groups <- c(invalid_groups, group_name)
+      next
+    }
+
+    # Check if all Seurat objects in the group are present in the anchor batch
+    group_objects <- sra_groups[[group_name]]
+    anchor_object_names <- names(anchor_batch@anchors)
+    group_object_names <- names(group_objects)
+    if (!all(group_object_names %in% anchor_object_names)) {
+      log_message(paste("Anchor batch for group", group_name, "is missing some Seurat objects. Marking for recomputation."))
+      invalid_groups <- c(invalid_groups, group_name)
+      next
+    }
+
+    # If the anchor batch passed all checks, keep it
+    valid_anchor_batches[[group_name]] <- anchor_batch
+    log_message(paste("Anchor batch for group", group_name, "validated successfully."))
+  }
+
+  # Return the valid anchor batches and the list of invalid groups
+  return(list(valid_batches = valid_anchor_batches, invalid_groups = invalid_groups))
+}
+# Function to split a list of Seurat objects (from one SRA group) into smaller subsets with deterministic cell assignment
+split_sra_group <- function(seurat_objects, num_subsets = 4, seed = 42) {
+  # Set a seed for reproducibility
+  set.seed(seed)
+
+  # Calculate total number of cells across all objects
+  total_cells <- sum(sapply(seurat_objects, ncol))
+
+  # Initialize a list to store cell assignments for each subset
+  subset_cell_assignments <- vector("list", num_subsets)
+
+  # Initialize empty vectors for each subset
+  for (i in 1:num_subsets) {
+    subset_cell_assignments[[i]] <- character()
+  }
+
+  # Iterate over each Seurat object to assign cells proportionally
+  for (obj in seurat_objects) {
+    # Get sorted cell names to ensure consistency across reruns
+    obj_cells <- sort(colnames(obj))
+    obj_total_cells <- length(obj_cells)
+
+    # Calculate the number of cells from this object per subset
+    cells_per_subset <- floor(obj_total_cells / num_subsets)
+    remainder_cells <- obj_total_cells %% num_subsets
+
+    # Shuffle cells to randomize assignment, but with a fixed seed
+    obj_cells_shuffled <- sample(obj_cells, length(obj_cells))
+
+    start_idx <- 1
+    for (i in 1:num_subsets) {
+      # Distribute the remainder cells to the first 'remainder_cells' subsets
+      extra <- ifelse(i <= remainder_cells, 1, 0)
+      end_idx <- start_idx + cells_per_subset + extra - 1
+
+      # Assign cells to the subset
+      subset_cells <- obj_cells_shuffled[start_idx:end_idx]
+      subset_cell_assignments[[i]] <- c(subset_cell_assignments[[i]], subset_cells)
+
+      # Update start index for next subset
+      start_idx <- end_idx + 1
+    }
+  }
+
+  # Create a list of Seurat subsets
+  split_subsets <- lapply(1:num_subsets, function(i) {
+    subset_cells <- subset_cell_assignments[[i]]
+    subset_list <- lapply(seurat_objects, function(obj) {
+      # Subset the Seurat object to include only the cells assigned to this subset
+      subset(obj, cells = subset_cells)
+    })
+    return(subset_list)
+  })
+
+  return(split_subsets)
+}
+
+# Function to integrate a list of Seurat objects
+integrate_seurat_objects <- function(seurat_list, integration_features, dims = 20) {
+  anchors <- FindIntegrationAnchors(
+    object.list = seurat_list,
+    normalization.method = "SCT",
+    anchor.features = integration_features,
+    dims = 1:dims,
+    verbose = FALSE
+  )
+
+  integrated <- IntegrateData(
+    anchorset = anchors,
+    normalization.method = "SCT",
+    dims = 1:dims,
+    verbose = FALSE
+  )
+
+  return(integrated)
+}
+
+# Modified get_anchors function to handle missing anchor files
+get_anchors <- function(seurat_list, integration_features, dims, anchor_file) {
+  if (file.exists(anchor_file)) {
+    log_message(paste("Loading precomputed anchor batch from:", anchor_file))
+    anchors <- readRDS(anchor_file)
+  } else {
+    log_message(paste("Anchor batch file", anchor_file, "does not exist. Initializing a new anchor batch."))
+    anchors <- FindIntegrationAnchors(
+      object.list = seurat_list,
+      normalization.method = "SCT",
+      anchor.features = integration_features,
+      dims = 1:dims,
+      verbose = FALSE
+    )
+    saveRDS(anchors, file = anchor_file)
+    log_message(paste("Saved new anchor batch to:", anchor_file))
+  }
+  return(anchors)
 }
