@@ -24,7 +24,12 @@ run_unified_pipeline <- function(metadata_path,
     try(run_postprocessing_pipeline(ph_results,
                                     results_dir = results_dir,
                                     num_cores = num_cores,
+                                    metadata_path = metadata_path,
+                                    SRA_col = ph_results$SRA_col,
+                                    Tissue_col = ph_results$Tissue_col,
+                                    Approach_col = ph_results$Approach_col,
                                     ...),
         silent = TRUE)
-  }  ph_results
+  }
+  ph_results
 }

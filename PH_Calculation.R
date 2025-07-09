@@ -85,6 +85,20 @@ filtered_cells <- read_csv("filtered_cells.csv")
 # datasets_to_drop <- c(12,15,18) #going to come back to these in a future run
 
 process_datasets_PH <- function(metadata, integration_method = "seurat", num_cores = 16, MIN_CELLS = 250, DIM = 1, THRESHOLD = -1, datasets_to_drop = datasets_to_drop) {
+  # Determine metadata column names and warn if missing
+  sra_col <- intersect(c("SRA", "SRA_Number", "SRA Number"), colnames(metadata))[1]
+  tissue_col <- intersect(c("Tissue", "tissue"), colnames(metadata))[1]
+  approach_col <- intersect(c("Approach", "approach"), colnames(metadata))[1]
+  if (all(is.na(c(sra_col, tissue_col, approach_col)))) {
+    stop("Metadata must contain at least one of 'SRA', 'Tissue', or 'Approach'.")
+  }
+  missing <- c()
+  if (is.na(sra_col)) missing <- c(missing, "SRA")
+  if (is.na(tissue_col)) missing <- c(missing, "Tissue")
+  if (is.na(approach_col)) missing <- c(missing, "Approach")
+  if (length(missing) > 0) {
+    message("Metadata missing columns: ", paste(missing, collapse = ", "))
+  }
   packages <- c(
     "tidyverse",
     "Matrix",
@@ -208,26 +222,27 @@ process_datasets_PH <- function(metadata, integration_method = "seurat", num_cor
     {
       mclapply(seq_along(my_seurat_list), function(i) {
         seurat_obj <- my_seurat_list[[i]]
-        file_path <- file_paths[i]
-        
-        # Add SRA and tissue metadata
-        seurat_obj@meta.data$SRA <- metadata$'SRA Number'[i]
-        seurat_obj@meta.data$Tissue <- metadata$Tissue[i]
-        
-        #seurat_obj@meta.data$Tissue <- metadata$source_name[i]
-        #seurat_obj@meta.data$sample <- metadata$Run[i]
-        #seurat_obj@meta.data$SRA <- metadata$`SRA Study`[i]
 
-        # Detect scRNA-seq or snRNA-seq based on data characteristics
-        median_genes_per_cell <- median(seurat_obj$nFeature_RNA)  # Median number of genes per cell
-        mt_gene_percent <- mean(seurat_obj$percent_mito)  # Percentage of mitochondrial genes (if calculated)
-        median_umi_counts <- median(seurat_obj$nCount_RNA)  # Median UMI counts per cell
-        
-        # Apply multiple heuristics to detect scRNA-seq or snRNA-seq
-        if (median_genes_per_cell < 1000 && mt_gene_percent < 5 && median_umi_counts < 5000) {
-          seurat_obj@meta.data$Approach <- "snRNA-seq"
-        } else {
-          seurat_obj@meta.data$Approach <- "scRNA-seq"
+        if (!is.na(sra_col)) {
+          seurat_obj@meta.data$SRA <- metadata[[sra_col]][i]
+        }
+        if (!is.na(tissue_col)) {
+          seurat_obj@meta.data$Tissue <- metadata[[tissue_col]][i]
+        }
+        if (!is.na(approach_col)) {
+          seurat_obj@meta.data$Approach <- metadata[[approach_col]][i]
+        }
+
+        if (is.na(approach_col) || is.na(seurat_obj@meta.data$Approach)) {
+          median_genes_per_cell <- median(seurat_obj$nFeature_RNA)
+          mt_gene_percent <- mean(seurat_obj$percent_mito)
+          median_umi_counts <- median(seurat_obj$nCount_RNA)
+
+          if (median_genes_per_cell < 1000 && mt_gene_percent < 5 && median_umi_counts < 5000) {
+            seurat_obj@meta.data$Approach <- "snRNA-seq"
+          } else {
+            seurat_obj@meta.data$Approach <- "scRNA-seq"
+          }
         }
         
         return(seurat_obj)
@@ -908,7 +923,12 @@ process_datasets_PH <- function(metadata, integration_method = "seurat", num_cor
 
   # Close the log sink if opened
   try(sink(), silent = TRUE)
-  ph_results <- list(data_iterations = data_iterations)
+  ph_results <- list(
+    data_iterations = data_iterations,
+    SRA_col = sra_col,
+    Tissue_col = tissue_col,
+    Approach_col = approach_col
+  )
   return(ph_results)
 }
 
