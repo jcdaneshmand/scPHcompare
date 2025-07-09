@@ -610,5 +610,4 @@ meta_master_df <- bind_rows(meta_list)
 write.csv(
   meta_master_df,
   file.path(plots_folder, "betti_plots", "ALL_datasets_all_pairwise_statistics_meta_master.csv"),
-  row.names = FALSE
-)
+  row.names = FALSE)

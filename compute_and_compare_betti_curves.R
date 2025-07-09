@@ -885,5 +885,4 @@ compute_and_compare_betti_curves <- function(pd_list, landscape_list, seurat_obj
     pairwise_results = pairwise_results,
     aggregated_landscape_curves = aggregated_landscape_curves_by_group,
     landscape_pairwise_results = landscape_pairwise_results
-  )
-}
+  )}

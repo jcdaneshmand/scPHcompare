@@ -1208,5 +1208,4 @@ compute_and_save_distance_matrices(
   num_cores = num_cores,
   log_message = log_message
 )
-
 log_message("Distance matrix computation completed.")

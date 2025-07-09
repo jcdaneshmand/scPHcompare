@@ -1952,5 +1952,4 @@ compare_all_iterations_with_mapped_methods_random_baseline_including_purity_pval
     raw_comparison = all_results,
     norm_metrics = norm_df
   # Linked cluster comparisons for each unified method are saved separately.
-  )
-}
+  )}

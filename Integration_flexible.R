@@ -775,5 +775,4 @@ perform_integration <- function(
   ##############################
   saveRDS(final_res, output_path)
   log_message(sprintf("Integration complete. Saved => %s", output_path))
-  final_res
-}
+  final_res}
