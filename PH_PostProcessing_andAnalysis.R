@@ -83,6 +83,59 @@ run_modular_analysis <- function(ph_results,
   invisible(results)
 }
 
+#' Full post-processing pipeline
+#'
+#' Wrapper that performs matrix calculations, clustering and all
+#' downstream analyses for the persistent homology results.
+run_postprocessing_pipeline <- function(ph_results,
+                                        results_dir = "results",
+                                        num_cores = parallel::detectCores(),
+                                        ...) {
+  if (!dir.exists(results_dir)) dir.create(results_dir, recursive = TRUE)
+
+  data_iterations <- ph_results$data_iterations
+  if (is.null(data_iterations) || length(data_iterations) == 0) {
+    stop("'ph_results' must contain data_iterations")
+  }
+
+  for (i in seq_along(data_iterations)) {
+    iter <- data_iterations[[i]]
+    log_message(paste("Processing", iter$name))
+
+    # compute matrices if necessary
+    process_iteration_calculate_matrices(iteration = iter,
+                                         num_cores = num_cores,
+                                         log_message = log_message)
+
+    seurat_obj <- iter$seurat_obj
+    assay <- iter$assay
+    variable_features_path <- if ("variable_features" %in% names(iter)) iter$variable_features else NULL
+
+    seurat_obj <- perform_standard_seurat_clustering(seurat_obj, assay, variable_features_path)
+    seurat_obj <- perform_kmeans_clustering(seurat_obj, assay)
+
+    if (file.exists(iter$bdm_matrix)) {
+      bdm <- as.matrix(readRDS(iter$bdm_matrix))
+      hc <- perform_hierarchical_clustering_ph(bdm, k = length(unique(seurat_obj$orig.ident)))
+      seurat_obj <- assign_ph_clusters(seurat_obj, hc$clusters,
+                                       paste0("hierarchical_cluster_bdm_ph_", tolower(iter$name)))
+    }
+
+    data_iterations[[i]]$seurat_obj <- seurat_obj
+  }
+
+  ph_results$data_iterations <- data_iterations
+
+  run_modular_analysis(ph_results,
+                       results_dir = results_dir,
+                       run_cluster = TRUE,
+                       run_betti = TRUE,
+                       run_cross_iteration = TRUE,
+                       ...)
+
+  invisible(ph_results)
+}
+
 # ---------------------------
 # Set Options
 # ---------------------------
