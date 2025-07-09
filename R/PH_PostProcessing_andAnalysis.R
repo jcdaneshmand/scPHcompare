@@ -30,6 +30,7 @@ source("betti_utils.R")
 #' Run post-processing modules
 #'
 #' Wrapper that selectively runs cluster comparison, Betti curve analysis,
+#' @export
 #' and cross-iteration analysis based on provided flags.
 run_modular_analysis <- function(ph_results,
                                  results_dir = "results",
@@ -89,6 +90,7 @@ run_modular_analysis <- function(ph_results,
 #'
 #' Wrapper that performs matrix calculations, clustering and all
 #' downstream analyses for the persistent homology results.
+#' @export
 run_postprocessing_pipeline <- function(ph_results,
                                         results_dir = "results",
                                         num_cores = parallel::detectCores(),

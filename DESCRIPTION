@@ -1,0 +1,54 @@
+Package: scPHcompare
+Type: Package
+Title: Single-cell persistent homology comparison tools
+Version: 0.1.0
+Authors@R: person("Jonah", "Daneshmand", role = c("aut", "cre"), email = "jonah@example.com")
+Description: Tools for computing persistent homology from single-cell data
+    and performing downstream analyses.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Imports:
+    Seurat,
+    SeuratDisk,
+    Matrix,
+    TDA,
+    ripserr,
+    foreach,
+    doParallel,
+    parallel,
+    rliger,
+    stringr,
+    ComplexHeatmap,
+    mclust,
+    aricode,
+    clusterSim,
+    Rtsne,
+    batchelor,
+    BiocSingular,
+    scCustomize,
+    kernlab,
+    igraph,
+    progressr,
+    FNN,
+    ps,
+    processx,
+    umap,
+    RColorBrewer,
+    cowplot,
+    dplyr,
+    ggplot2,
+    ggtext,
+    glue,
+    gridExtra,
+    cluster,
+    digest,
+    transport,
+    readr,
+    reshape2,
+    circlize,
+    viridis,
+    dendextend,
+    pheatmap,
+    tidyr
+RoxygenNote: 7.2.3
