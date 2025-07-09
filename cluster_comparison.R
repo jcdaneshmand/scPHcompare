@@ -1,3 +1,8 @@
+#' Compare clustering results across methods.
+#'
+#' This function assumes clustering has already been performed on the
+#' provided Seurat objects.  It collects the clustering columns and
+#' produces comparative metrics and plots.
 run_cluster_comparison <- function(data_iterations, results_folder,
                                    run_comparative_metrics = TRUE,
                                    include_silhouette = FALSE,

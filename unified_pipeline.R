@@ -11,9 +11,7 @@ run_unified_pipeline <- function(metadata_path,
     stop("Package 'readr' is required")
   }
   source("PH_Calculation.R")
-  if (run_cluster) {
-    source("cluster_comparison.R")
-  }
+  source("PH_PostProcessing_andAnalysis.R")
   if (!dir.exists(results_dir)) {
     dir.create(results_dir, recursive = TRUE)
   }
@@ -22,29 +20,11 @@ run_unified_pipeline <- function(metadata_path,
                                     integration_method = integration_method,
                                     num_cores = num_cores,
                                     ...)
-  if (run_cluster && exists("run_cluster_comparison")) {
-    try(run_cluster_comparison(ph_results$data_iterations,
-                               results_folder = results_dir,
-                               ...),
+  if (run_cluster || run_modular || run_cross_iteration || run_betti) {
+    try(run_postprocessing_pipeline(ph_results,
+                                    results_dir = results_dir,
+                                    num_cores = num_cores,
+                                    ...),
         silent = TRUE)
-  }
-  if (run_modular && exists("run_modular_analysis")) {
-    try(run_modular_analysis(ph_results,
-                             results_dir = results_dir,
-                             run_cluster = run_cluster,
-                             run_betti = run_betti,
-                             run_cross_iteration = run_cross_iteration,
-                             ...),
-        silent = TRUE)
-  }
-  if (run_cross_iteration && !run_modular && exists("run_cross_iteration")) {
-    if (!is.null(ph_results$data_iterations)) {
-      try(run_cross_iteration(ph_results$data_iterations,
-                              results_folder = results_dir,
-                              ...),
-          silent = TRUE)
-    } else {
-      warning("Cross iteration requested but 'data_iterations' not found in results")
-    }
-  }
-  ph_results}
+  }  ph_results
+}
