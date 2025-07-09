@@ -20,13 +20,14 @@ results <- run_unified_pipeline(
   metadata_path = "metadata.csv",
   results_dir = "results",
   num_cores = 8,
-  integration_method = "seurat"
+  integration_method = "seurat",
+  run_cross_iteration = TRUE  # optional
 )
 ```
 
 The wrapper runs the preprocessing and persistent homology analysis first.  If
-functions named `run_modular_analysis()` or `run_cross_iteration()` are
-available in `Modular_Analysis_and_PostProcessing.R` and
-`cross_iteration_analysis.R` respectively, they are executed next.  See the
-individual scripts for the detailed options of each step.
+`run_modular_analysis()` or `run_cross_iteration()` are available they are
+invoked when the corresponding flags (`run_modular` or `run_cross_iteration`)
+are set to `TRUE`.  See the individual scripts for the detailed options of each
+step.
 
