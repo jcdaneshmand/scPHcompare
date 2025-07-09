@@ -837,102 +837,6 @@ mclapply(data_iterations, function(iteration) {
 # Functions for Modular Analysis
 # ---------------------------
 
-# Helper function for computing Betti curves
-compute_betti_curves <- function(pd_subset, dimension, grid_points) {
-  betti_curves <- sapply(pd_subset, function(pd) {
-    Betti(pd, dimension = dimension, grid = seq(0, max(pd[, 2]), length.out = grid_points))
-  })
-  rowMeans(betti_curves, na.rm = TRUE)
-}
-
-# Helper function for plotting Betti curves
-plot_betti_curves <- function(betti_curve_1, betti_curve_2, label_1, label_2, dataset_name) {
-  curve_df <- data.frame(
-    x = seq_along(betti_curve_1),
-    Betti_Curve_1 = betti_curve_1,
-    Betti_Curve_2 = betti_curve_2
-  )
-
-  plot <- ggplot(curve_df, aes(x = x)) +
-    geom_line(aes(y = Betti_Curve_1, color = label_1), size = 1.2) +
-    geom_line(aes(y = Betti_Curve_2, color = label_2), size = 1.2) +
-    labs(
-      title = paste("Betti Curve Comparison:", label_1, "vs", label_2, "-", dataset_name),
-      x = "Filtration Value", y = "Betti Number"
-    ) +
-    theme_minimal() +
-    scale_color_manual(values = c("blue", "red")) +
-    theme(legend.title = element_blank())
-
-  ggsave(file.path(betti_plots_folder, paste0(dataset_name, "_Betti_Curve_", label_1, "_vs_", label_2, ".pdf")), plot)
-}
-
-# Helper function for permutation test
-perform_permutation_test <- function(betti_curves_1, betti_curves_2, num_permutations) {
-  obs_diff <- mean(betti_curves_1 - betti_curves_2)
-  perm_diffs <- replicate(num_permutations, {
-    perm_idx <- sample(length(betti_curves_1))
-    mean(betti_curves_1[perm_idx] - betti_curves_2[perm_idx])
-  })
-  mean(abs(perm_diffs) >= abs(obs_diff))
-}
-
-# Saving ARI, NMI, Purity, and Silhouette scores
-save_metrics <- function(cluster_type, dataset_name_1, dataset_name_2, ari, nmi, purity_1, purity_2, silhouette_1, silhouette_2) {
-  metric_data <- data.frame(
-    Cluster_Type = cluster_type,
-    Dataset_1 = dataset_name_1,
-    Dataset_2 = dataset_name_2,
-    ARI = ari,
-    NMI = nmi,
-    Purity_1 = purity_1,
-    Purity_2 = purity_2,
-    Silhouette_1 = silhouette_1,
-    Silhouette_2 = silhouette_2
-  )
-  write.csv(metric_data, file = file.path(ari_nmi_folder, paste0("Metrics_", dataset_name_1, "_vs_", dataset_name_2, ".csv")), row.names = FALSE)
-}
-
-# Save Chi-Square or Fisher's exact test results
-save_chi_square <- function(cluster_type, dataset_name, test_type, p_value) {
-  chi_data <- data.frame(
-    Cluster_Type = cluster_type,
-    Dataset = dataset_name,
-    Test_Type = test_type,
-    P_Value = p_value
-  )
-  write.csv(chi_data, file = file.path(chi_square_folder, paste0("Chi_Square_", dataset_name, ".csv")), row.names = FALSE, append = TRUE)
-}
-
-# Save Betti Curve statistics: mean and variance
-save_betti_stats <- function(cluster_type, dataset_name, cluster_id, mean_betti, variance_betti) {
-  betti_data <- data.frame(
-    Cluster_Type = cluster_type,
-    Dataset = dataset_name,
-    Cluster_ID = cluster_id,
-    Mean_Betti = mean_betti,
-    Variance_Betti = variance_betti
-  )
-  write.csv(betti_data, file = file.path(betti_stats_folder, paste0("Betti_Statistics_", dataset_name, ".csv")), row.names = FALSE, append = TRUE)
-}
-
-# Plot and save cluster size distribution
-save_cluster_size_plot <- function(cluster_size_data, dataset_name, cluster_type) {
-  cluster_size_plot <- ggplot(data = as.data.frame(cluster_size_data), aes(x = Var1, y = Freq)) +
-    geom_bar(stat = "identity") +
-    ggtitle(paste("Cluster Size Distribution for", cluster_type, "in", dataset_name)) +
-    xlab("Cluster") +
-    ylab("Number of Cells") +
-    theme_minimal()
-
-  ggsave(file.path(plot_folders$cluster_size, paste0("Cluster_Size_Distribution_", dataset_name, "_", cluster_type, ".pdf")), cluster_size_plot)
-}
-
-# Plot and save Betti curves
-save_betti_curve_plot <- function(betti_curve_1, betti_curve_2, label_1, label_2, plot_name_suffix) {
-  plot_betti_curves(betti_curve_1, betti_curve_2, label_1, label_2, plot_name_suffix)
-  ggsave(file.path(plot_folders$betti_curves, paste0("Betti_Curve_", plot_name_suffix, ".pdf")))
-}
 
 # Function: Perform standard Seurat clustering, handling various assays and precomputed variable features
 perform_standard_seurat_clustering <- function(seurat_obj,
@@ -1177,47 +1081,6 @@ assign_ph_clusters <- function(seurat_obj, clusters_ph, new_cluster_col) {
   return(seurat_obj)
 }
 
-# Function: Cluster Similarity Metrics (ARI, NMI)
-compute_cluster_similarity <- function(cluster1, cluster2) {
-  ari <- adjustedRandIndex(cluster1, cluster2)
-  nmi <- NMI(cluster1, cluster2)
-  return(list(ARI = ari, NMI = nmi))
-}
-
-# Function: Purity Score
-compute_purity <- function(seurat_obj, cluster_col, label_col) {
-  contingency_table <- table(seurat_obj[[cluster_col]], seurat_obj[[label_col]])
-  purity <- sum(apply(contingency_table, 1, max)) / sum(contingency_table)
-  return(purity)
-}
-
-# Function: Silhouette Score
-compute_silhouette <- function(seurat_obj, cluster_col, assay, reduction = "pca", dims = 1:10) {
-  embeddings <- Embeddings(seurat_obj, reduction = reduction)[, dims]
-  dist_matrix <- dist(embeddings)
-  clusters <- as.factor(seurat_obj@meta.data[[cluster_col]])
-  sil <- silhouette(as.numeric(clusters), dist_matrix)
-  avg_sil <- mean(sil[, 3])
-  return(avg_sil)
-}
-
-# Function: Chi-Square or Fisher's Exact Test
-perform_statistical_test <- function(seurat_obj, cluster_col, label_col) {
-  contingency_table <- table(seurat_obj[[cluster_col]], seurat_obj[[label_col]])
-
-  # Use Fisher's test if expected counts are low; otherwise, use Chi-Square test
-  expected <- chisq.test(contingency_table)$expected
-  if (any(expected < 5)) {
-    test_result <- fisher.test(contingency_table)
-    test_type <- "Fisher"
-  } else {
-    test_result <- chisq.test(contingency_table)
-    test_type <- "Chi-Square"
-  }
-
-  return(list(Test_Type = test_type, P_Value = test_result$p.value))
-}
-
 
 ensure_directory <- function(path) {
   if (!dir.exists(path)) dir.create(path, recursive = TRUE)
@@ -1273,46 +1136,6 @@ plot_persistence <- function(pd, output_file_base, plot_title) {
           title = paste("Persistence Barcode -", plot_title),
           x = "Time",
           y = "Dimension",
-          color = "Dimension"
-        ) +
-        theme_minimal(base_size = 14) +
-        theme(
-          plot.background = element_rect(fill = "white", color = NA),
-          plot.title = element_text(hjust = 0.5, face = "bold"),
-          legend.position = "top",
-          axis.text = element_text(size = 12),
-          axis.title = element_text(size = 14, face = "bold"),
-          aspect.ratio = 0.5
-        )
-
-    # Save the plots as PNG, SVG, and PDF
-    ggsave(paste0(output_file_base, "_diagram.png"), pd_plot, width = 8, height = 8, dpi = 300)
-    ggsave(paste0(output_file_base, "_diagram.svg"), pd_plot, width = 8, height = 8)
-    ggsave(paste0(output_file_base, "_diagram.pdf"), pd_plot, width = 8, height = 8)
-
-    ggsave(paste0(output_file_base, "_barcode.png"), barcode_plot, width = 8, height = 4, dpi = 300)
-    ggsave(paste0(output_file_base, "_barcode.svg"), barcode_plot, width = 8, height = 4)
-    ggsave(paste0(output_file_base, "_barcode.pdf"), barcode_plot, width = 8, height = 4)
-  },
-    error = function(e) {
-      log_message(paste("Error in plotting persistence data:", e$message))
-    }
-  )
-}
-
-library(ggplot2)
-library(reshape2)
-
-# Function to plot persistence landscapes for both dimensions
-plot_landscape <- function(landscape, output_file_base, plot_title, grid = seq(0, 1, length.out = 100)) {
-  tryCatch({
-    # Check that the landscape object is valid
-    if (!is.list(landscape) || is.null(landscape$dim0) || is.null(landscape$dim1)) {
-      stop("Landscape object is invalid. It must be a list with components 'dim0' and 'dim1'.")
-    }
-
-    # Convert the landscape for dimension 0: assume landscape$dim0 is a matrix (levels x grid points)
-    dim0_df <- as.data.frame(landscape$dim0)
     dim0_df$t <- grid
     df0 <- melt(dim0_df, id.vars = "t", variable.name = "Level", value.name = "Value")
     df0$Dimension <- "0"
