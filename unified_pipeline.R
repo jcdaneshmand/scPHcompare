@@ -5,6 +5,7 @@ run_unified_pipeline <- function(metadata_path,
                                  run_cluster = FALSE,
                                  run_modular = FALSE,
                                  run_cross_iteration = FALSE,
+                                 run_betti = FALSE,
                                  ...) {
   if (!requireNamespace("readr", quietly = TRUE)) {
     stop("Package 'readr' is required")
@@ -28,9 +29,15 @@ run_unified_pipeline <- function(metadata_path,
         silent = TRUE)
   }
   if (run_modular && exists("run_modular_analysis")) {
-    try(run_modular_analysis(ph_results, results_dir = results_dir, ...), silent = TRUE)
+    try(run_modular_analysis(ph_results,
+                             results_dir = results_dir,
+                             run_cluster = run_cluster,
+                             run_betti = run_betti,
+                             run_cross_iteration = run_cross_iteration,
+                             ...),
+        silent = TRUE)
   }
-  if (run_cross_iteration && exists("run_cross_iteration")) {
+  if (run_cross_iteration && !run_modular && exists("run_cross_iteration")) {
     if (!is.null(ph_results$data_iterations)) {
       try(run_cross_iteration(ph_results$data_iterations,
                               results_folder = results_dir,
@@ -40,5 +47,4 @@ run_unified_pipeline <- function(metadata_path,
       warning("Cross iteration requested but 'data_iterations' not found in results")
     }
   }
-  ph_results
-}
+  ph_results}

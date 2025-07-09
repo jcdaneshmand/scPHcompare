@@ -27,6 +27,62 @@ library(transport) # For EMD
 source("PH_Functions.R")
 source("betti_utils.R")
 
+#' Run post-processing modules
+#'
+#' Wrapper that selectively runs cluster comparison, Betti curve analysis,
+#' and cross-iteration analysis based on provided flags.
+run_modular_analysis <- function(ph_results,
+                                 results_dir = "results",
+                                 run_cluster = FALSE,
+                                 run_betti = FALSE,
+                                 run_cross_iteration = FALSE,
+                                 ...) {
+  if (!dir.exists(results_dir)) dir.create(results_dir, recursive = TRUE)
+
+  source("cluster_comparison.R")
+  source("cross_iteration_functions.R")
+
+  results <- list()
+  data_iterations <- ph_results$data_iterations
+
+  if (run_cluster && exists("run_cluster_comparison") && !is.null(data_iterations)) {
+    results$cluster <- try(run_cluster_comparison(data_iterations,
+                                                 results_folder = results_dir,
+                                                 ...),
+                           silent = TRUE)
+  }
+
+  if (run_betti && !is.null(data_iterations)) {
+    betti_results <- list()
+    for (iter in data_iterations) {
+      pd_list <- readRDS(iter$pd_list)
+      landscape_list <- if (!is.null(iter$landscape_list)) readRDS(iter$landscape_list) else NULL
+      betti_results[[iter$name]] <- try(
+        compute_and_compare_betti_curves(
+          pd_list = pd_list,
+          landscape_list = landscape_list,
+          seurat_objects = list(iter$seurat_obj),
+          group_by_col = "Tissue",
+          dataset_name = iter$name,
+          results_folder = results_dir,
+          ...
+        ),
+        silent = TRUE
+      )
+    }
+    results$betti <- betti_results
+  }
+
+  if (run_cross_iteration && exists("run_cross_iteration") && !is.null(data_iterations)) {
+    results$cross_iteration <- try(run_cross_iteration(data_iterations,
+                                                      results_folder = results_dir,
+                                                      ...),
+                                   silent = TRUE)
+  }
+
+  invisible(results)
+}
+
 # ---------------------------
 # Set Options
 # ---------------------------
