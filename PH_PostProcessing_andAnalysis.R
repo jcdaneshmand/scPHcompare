@@ -36,6 +36,7 @@ run_modular_analysis <- function(ph_results,
                                  run_cluster = FALSE,
                                  run_betti = FALSE,
                                  run_cross_iteration = FALSE,
+                                 SRA_col = "SRA",
                                  ...) {
   if (!dir.exists(results_dir)) dir.create(results_dir, recursive = TRUE)
 
@@ -48,6 +49,7 @@ run_modular_analysis <- function(ph_results,
   if (run_cluster && exists("run_cluster_comparison") && !is.null(data_iterations)) {
     results$cluster <- try(run_cluster_comparison(data_iterations,
                                                  results_folder = results_dir,
+                                                 SRA_col = SRA_col,
                                                  ...),
                            silent = TRUE)
   }
@@ -97,6 +99,9 @@ run_postprocessing_pipeline <- function(ph_results,
                                         run_visualizations = TRUE,
                                         run_sample_level_heatmap = TRUE,
                                         metadata_path = "./data/VastlyDifferentTissues/metadata.csv",
+                                        SRA_col = "orig.ident",
+                                        Tissue_col = "Tissue",
+                                        Approach_col = "Approach",
                                         ...) {
   if (!dir.exists(results_dir)) dir.create(results_dir, recursive = TRUE)
 
@@ -147,7 +152,8 @@ run_postprocessing_pipeline <- function(ph_results,
       landscape_matrix = landscape,
       run_kmeans_clustering = run_kmeans_clustering,
       run_hierarchical_ph_clustering = run_hierarchical_ph_clustering,
-      run_spectral_clustering = run_spectral_clustering
+      run_spectral_clustering = run_spectral_clustering,
+      SRA_col = SRA_col
     )
 
     seurat_obj <- generate_visualizations_for_iteration(
@@ -178,6 +184,7 @@ run_postprocessing_pipeline <- function(ph_results,
                        run_cluster = TRUE,
                        run_betti = TRUE,
                        run_cross_iteration = TRUE,
+                       SRA_col = SRA_col,
                        ...)
 
   invisible(ph_results)
