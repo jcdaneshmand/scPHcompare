@@ -251,7 +251,7 @@ generate_heatmaps_for_all_statistics <- function(
   return(all_stats_df)
 }
 
-source("compute_and_compare_betti_curves.R")
+source("betti_utils.R")
 
 # Prepare a list to hold each iteration’s results
 meta_list <- list()
