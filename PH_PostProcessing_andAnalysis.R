@@ -90,6 +90,10 @@ run_modular_analysis <- function(ph_results,
 run_postprocessing_pipeline <- function(ph_results,
                                         results_dir = "results",
                                         num_cores = parallel::detectCores(),
+                                        run_standard_seurat_clustering = TRUE,
+                                        run_kmeans_clustering = TRUE,
+                                        run_hierarchical_ph_clustering = TRUE,
+                                        run_spectral_clustering = TRUE,
                                         ...) {
   if (!dir.exists(results_dir)) dir.create(results_dir, recursive = TRUE)
 
@@ -111,15 +115,28 @@ run_postprocessing_pipeline <- function(ph_results,
     assay <- iter$assay
     variable_features_path <- if ("variable_features" %in% names(iter)) iter$variable_features else NULL
 
-    seurat_obj <- perform_standard_seurat_clustering(seurat_obj, assay, variable_features_path)
-    seurat_obj <- perform_kmeans_clustering(seurat_obj, assay)
-
-    if (file.exists(iter$bdm_matrix)) {
-      bdm <- as.matrix(readRDS(iter$bdm_matrix))
-      hc <- perform_hierarchical_clustering_ph(bdm, k = length(unique(seurat_obj$orig.ident)))
-      seurat_obj <- assign_ph_clusters(seurat_obj, hc$clusters,
-                                       paste0("hierarchical_cluster_bdm_ph_", tolower(iter$name)))
+    if (run_standard_seurat_clustering) {
+      seurat_obj <- perform_standard_seurat_clustering(seurat_obj, assay, variable_features_path)
+      seurat_obj@meta.data[[paste0("seurat_cluster_", tolower(iter$name))]] <- Idents(seurat_obj)
+      Idents(seurat_obj) <- seurat_obj@meta.data[[paste0("seurat_cluster_", tolower(iter$name))]]
+      seurat_obj@meta.data$seurat_clusters <- NULL
     }
+
+    bdm <- if (!is.null(iter$bdm_matrix) && file.exists(iter$bdm_matrix)) as.matrix(readRDS(iter$bdm_matrix)) else NULL
+    sdm <- if (!is.null(iter$sdm_matrix) && file.exists(iter$sdm_matrix)) as.matrix(readRDS(iter$sdm_matrix)) else NULL
+    landscape <- if (!is.null(iter$landscape_l2_distance_matrix) && file.exists(iter$landscape_l2_distance_matrix)) as.matrix(readRDS(iter$landscape_l2_distance_matrix)) else NULL
+
+    seurat_obj <- apply_all_clustering_methods(
+      seurat_obj,
+      dataset_name = iter$name,
+      assay = assay,
+      bdm_matrix = bdm,
+      sdm_matrix = sdm,
+      landscape_matrix = landscape,
+      run_kmeans_clustering = run_kmeans_clustering,
+      run_hierarchical_ph_clustering = run_hierarchical_ph_clustering,
+      run_spectral_clustering = run_spectral_clustering
+    )
 
     data_iterations[[i]]$seurat_obj <- seurat_obj
   }
@@ -1138,6 +1155,174 @@ assign_ph_clusters <- function(seurat_obj, clusters_ph, new_cluster_col) {
 ensure_directory <- function(path) {
   if (!dir.exists(path)) dir.create(path, recursive = TRUE)
 }
+
+# ---------------------------
+# Additional Clustering Helpers
+# ---------------------------
+
+#' Perform spectral clustering on a distance matrix
+perform_spectral_clustering <- function(distance_matrix, k) {
+  library(kernlab)
+  epsilon <- 1e-8
+  similarity_matrix <- exp(-distance_matrix^2 / (2 * (mean(distance_matrix) + epsilon)^2))
+  res <- specc(as.kernelMatrix(similarity_matrix), centers = k)
+  clusters <- res@.Data
+  names(clusters) <- rownames(distance_matrix)
+  clusters
+}
+
+#' Apply all clustering approaches to a Seurat object
+apply_all_clustering_methods <- function(seurat_obj, dataset_name, assay,
+                                         bdm_matrix = NULL, sdm_matrix = NULL,
+                                         landscape_matrix = NULL,
+                                         run_kmeans_clustering = TRUE,
+                                         run_hierarchical_ph_clustering = TRUE,
+                                         run_spectral_clustering = TRUE,
+                                         SRA_col = "orig.ident") {
+
+  prefix <- tolower(dataset_name)
+
+  k_tissue <- if ("Tissue" %in% colnames(seurat_obj@meta.data))
+    length(unique(seurat_obj$Tissue)) else NULL
+  k_sra <- if (SRA_col %in% colnames(seurat_obj@meta.data))
+    length(unique(seurat_obj@meta.data[[SRA_col]])) else NULL
+  k_approach <- if ("Approach" %in% colnames(seurat_obj@meta.data))
+    length(unique(seurat_obj$Approach)) else NULL
+
+  ## ---- K-means ---------------------------------------------------------
+  if (run_kmeans_clustering) {
+    if (!is.null(k_tissue)) {
+      seurat_obj <- perform_kmeans_clustering(seurat_obj, assay, k = k_tissue)
+      seurat_obj@meta.data[[paste0("kmeans_cluster_", prefix, "_tissue")]] <- seurat_obj$kmeans_cluster
+    }
+    if (!is.null(k_sra)) {
+      seurat_obj <- perform_kmeans_clustering(seurat_obj, assay, k = k_sra)
+      seurat_obj@meta.data[[paste0("kmeans_cluster_", prefix, "_sra")]] <- seurat_obj$kmeans_cluster
+    }
+    if (!is.null(k_approach)) {
+      seurat_obj <- perform_kmeans_clustering(seurat_obj, assay, k = k_approach)
+      seurat_obj@meta.data[[paste0("kmeans_cluster_", prefix, "_approach")]] <- seurat_obj$kmeans_cluster
+    }
+    seurat_obj$kmeans_cluster <- NULL
+  }
+
+  ## ---- Hierarchical Clustering ---------------------------------------
+  if (run_hierarchical_ph_clustering) {
+    if (!is.null(bdm_matrix)) {
+      if (!is.null(k_tissue)) {
+        res <- perform_hierarchical_clustering_ph(bdm_matrix, k_tissue)
+        seurat_obj <- assign_ph_clusters(seurat_obj, res$clusters,
+          paste0("hierarchical_cluster_bdm_ph_", prefix, "_tissue"))
+      }
+      if (!is.null(k_sra)) {
+        res <- perform_hierarchical_clustering_ph(bdm_matrix, k_sra)
+        seurat_obj <- assign_ph_clusters(seurat_obj, res$clusters,
+          paste0("hierarchical_cluster_bdm_ph_", prefix, "_sra"))
+      }
+      if (!is.null(k_approach)) {
+        res <- perform_hierarchical_clustering_ph(bdm_matrix, k_approach)
+        seurat_obj <- assign_ph_clusters(seurat_obj, res$clusters,
+          paste0("hierarchical_cluster_bdm_ph_", prefix, "_approach"))
+      }
+    }
+
+    if (!is.null(sdm_matrix)) {
+      if (!is.null(k_tissue)) {
+        res <- perform_hierarchical_clustering_ph(sdm_matrix, k_tissue)
+        seurat_obj <- assign_ph_clusters(seurat_obj, res$clusters,
+          paste0("hierarchical_cluster_sdm_ph_", prefix, "_tissue"))
+      }
+      if (!is.null(k_sra)) {
+        res <- perform_hierarchical_clustering_ph(sdm_matrix, k_sra)
+        seurat_obj <- assign_ph_clusters(seurat_obj, res$clusters,
+          paste0("hierarchical_cluster_sdm_ph_", prefix, "_sra"))
+      }
+      if (!is.null(k_approach)) {
+        res <- perform_hierarchical_clustering_ph(sdm_matrix, k_approach)
+        seurat_obj <- assign_ph_clusters(seurat_obj, res$clusters,
+          paste0("hierarchical_cluster_sdm_ph_", prefix, "_approach"))
+      }
+    }
+
+    if (!is.null(landscape_matrix)) {
+      if (!is.null(k_tissue)) {
+        res <- perform_hierarchical_clustering_ph(landscape_matrix, k_tissue)
+        seurat_obj <- assign_ph_clusters(seurat_obj, res$clusters,
+          paste0("hierarchical_cluster_landscape_ph_", prefix, "_tissue"))
+      }
+      if (!is.null(k_sra)) {
+        res <- perform_hierarchical_clustering_ph(landscape_matrix, k_sra)
+        seurat_obj <- assign_ph_clusters(seurat_obj, res$clusters,
+          paste0("hierarchical_cluster_landscape_ph_", prefix, "_sra"))
+      }
+      if (!is.null(k_approach)) {
+        res <- perform_hierarchical_clustering_ph(landscape_matrix, k_approach)
+        seurat_obj <- assign_ph_clusters(seurat_obj, res$clusters,
+          paste0("hierarchical_cluster_landscape_ph_", prefix, "_approach"))
+      }
+    }
+  }
+
+  ## ---- Spectral Clustering -------------------------------------------
+  if (run_spectral_clustering) {
+    if (!is.null(bdm_matrix)) {
+      if (!is.null(k_tissue)) {
+        cl <- perform_spectral_clustering(bdm_matrix, k_tissue)
+        seurat_obj <- assign_ph_clusters(seurat_obj, cl,
+          paste0("spectral_cluster_bdm_", prefix, "_tissue"))
+      }
+      if (!is.null(k_sra)) {
+        cl <- perform_spectral_clustering(bdm_matrix, k_sra)
+        seurat_obj <- assign_ph_clusters(seurat_obj, cl,
+          paste0("spectral_cluster_bdm_", prefix, "_sra"))
+      }
+      if (!is.null(k_approach)) {
+        cl <- perform_spectral_clustering(bdm_matrix, k_approach)
+        seurat_obj <- assign_ph_clusters(seurat_obj, cl,
+          paste0("spectral_cluster_bdm_", prefix, "_approach"))
+      }
+    }
+
+    if (!is.null(sdm_matrix)) {
+      if (!is.null(k_tissue)) {
+        cl <- perform_spectral_clustering(sdm_matrix, k_tissue)
+        seurat_obj <- assign_ph_clusters(seurat_obj, cl,
+          paste0("spectral_cluster_sdm_", prefix, "_tissue"))
+      }
+      if (!is.null(k_sra)) {
+        cl <- perform_spectral_clustering(sdm_matrix, k_sra)
+        seurat_obj <- assign_ph_clusters(seurat_obj, cl,
+          paste0("spectral_cluster_sdm_", prefix, "_sra"))
+      }
+      if (!is.null(k_approach)) {
+        cl <- perform_spectral_clustering(sdm_matrix, k_approach)
+        seurat_obj <- assign_ph_clusters(seurat_obj, cl,
+          paste0("spectral_cluster_sdm_", prefix, "_approach"))
+      }
+    }
+
+    if (!is.null(landscape_matrix)) {
+      if (!is.null(k_tissue)) {
+        cl <- perform_spectral_clustering(landscape_matrix, k_tissue)
+        seurat_obj <- assign_ph_clusters(seurat_obj, cl,
+          paste0("spectral_cluster_landscape_", prefix, "_tissue"))
+      }
+      if (!is.null(k_sra)) {
+        cl <- perform_spectral_clustering(landscape_matrix, k_sra)
+        seurat_obj <- assign_ph_clusters(seurat_obj, cl,
+          paste0("spectral_cluster_landscape_", prefix, "_sra"))
+      }
+      if (!is.null(k_approach)) {
+        cl <- perform_spectral_clustering(landscape_matrix, k_approach)
+        seurat_obj <- assign_ph_clusters(seurat_obj, cl,
+          paste0("spectral_cluster_landscape_", prefix, "_approach"))
+      }
+    }
+  }
+
+  seurat_obj
+}
+
 
 
 
