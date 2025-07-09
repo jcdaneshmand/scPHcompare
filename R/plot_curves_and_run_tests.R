@@ -251,7 +251,7 @@ generate_heatmaps_for_all_statistics <- function(
   return(all_stats_df)
 }
 
-source("betti_utils.R")
+# Functions are available once the package is loaded
 
 # Prepare a list to hold each iteration’s results
 meta_list <- list()

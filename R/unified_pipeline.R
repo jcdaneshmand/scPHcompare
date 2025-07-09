@@ -10,8 +10,7 @@ run_unified_pipeline <- function(metadata_path,
   if (!requireNamespace("readr", quietly = TRUE)) {
     stop("Package 'readr' is required")
   }
-  source("PH_Calculation.R")
-  source("PH_PostProcessing_andAnalysis.R")
+  # Functions are available once the package is loaded
   if (!dir.exists(results_dir)) {
     dir.create(results_dir, recursive = TRUE)
   }

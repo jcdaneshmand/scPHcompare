@@ -4,7 +4,16 @@ This repository contains a set of R scripts for performing persistent homology
 analysis and downstream comparison of single cell datasets.  The code base was
 originally organised as several stand‐alone scripts.  A small wrapper
 `unified_pipeline.R` is now provided to run the whole workflow from a single
-entry point.
+entry point and forms the basis of the `scPHcompare` package.
+
+## Installation
+
+Install the package with `devtools` and then load it with `library()`:
+
+```r
+devtools::install("path/to/scPHcompare")
+library(scPHcompare)
+```
 
 ## Running the pipeline
 
@@ -17,7 +26,7 @@ entry point.
    directory.  Additional arguments are forwarded to `process_datasets_PH`.
 
 ```r
-source("unified_pipeline.R")
+library(scPHcompare)
 results <- run_unified_pipeline(
   metadata_path = "metadata.csv",
   results_dir = "results",

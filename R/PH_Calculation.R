@@ -131,8 +131,7 @@ process_datasets_PH <- function(metadata, integration_method = "seurat", num_cor
   log_file <- paste0("PH_Pipeline_Log_", Sys.Date(), ".txt")
   sink(log_file, append = TRUE)
   
-  # Load helper functions required for processing
-  source("PH_Functions.R")
+  # Helper functions are available once the package is loaded
   
   log_message("Processing series with CSV input")
   
@@ -788,8 +787,7 @@ process_datasets_PH <- function(metadata, integration_method = "seurat", num_cor
     )
   }
   
-  #load integration function
-  source("Integration_flexible.R")
+  # Integration routines are available in the package
 
     # Call the integration function
     result <- perform_integration(

@@ -16,7 +16,7 @@ run_cluster_comparison <- function(data_iterations, results_folder,
   library(ggtext)
   library(glue)
 
-  source("cluster_comparison_FUNCTION.R")
+  # Helper functions included in the package
 
   log_message <- function(msg) {
     if (verbose) cat(sprintf("[%s] %s\n", Sys.time(), msg))
