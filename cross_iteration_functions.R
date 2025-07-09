@@ -1274,6 +1274,24 @@ cross_iteration_comparison_with_betti <- function(data_iterations,
   log_message(paste("Wrote all curve-comparison stats to:", csv_out))
   log_message("All group-specific comparisons completed.")
                                                   }
+
+#' Run cross-iteration analysis
+#'
+#' Wrapper that simply forwards arguments to
+#' `cross_iteration_comparison_with_betti()` while ensuring the
+#' results directory exists.  This keeps sourcing the file side
+#' effect free.
+run_cross_iteration <- function(data_iterations,
+                                results_folder = "results",
+                                ...) {
+  ensure_directory(results_folder)
+  cross_iteration_comparison_with_betti(
+    data_iterations = data_iterations,
+    output_folder = file.path(results_folder,
+                              "cross_iteration_comparisons"),
+    ...
+  )
+}
                                                   
                                                   
 compare_all_iterations_with_mapped_methods_random_baseline_including_purity_pvals <- function(
