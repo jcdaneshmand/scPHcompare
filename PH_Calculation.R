@@ -652,7 +652,7 @@ process_datasets_PH <- function(metadata, integration_method = "seurat", num_cor
   # expr_list_integrated <- readRDS("expr_list_integrated.Rds")
 
   
-  # timeout_datasets <- c(62, 68, 69, 72, 67, 64) 
+  timeout_datasets <- NULL
   
   # Step 1: Process unintegrated data with the new batching, memory checking, and preschedule approach
   PD_result_unintegrated <- tryCatch(
@@ -666,7 +666,7 @@ process_datasets_PH <- function(metadata, integration_method = "seurat", num_cor
         memory_threshold = 0.25,  # Example: 25% memory threshold
         log_file = "progress_log_bonemarrow.csv", 
         results_file = "intermediate_results_bonemarrow.rds",
-        timeout_datasets = NULL  # Pass the timeout_datasets here
+        timeout_datasets = NULL
       )    
     },
     error = function(e) {
@@ -686,7 +686,7 @@ process_datasets_PH <- function(metadata, integration_method = "seurat", num_cor
         memory_threshold = 0.25,  # Example: 25% memory threshold
         log_file = "progress_log_RAW_bonemarrow.csv", 
         results_file = "intermediate_results_RAW_bonemarrow.rds",
-        timeout_datasets = NULL  # Pass the timeout_datasets here
+        timeout_datasets = NULL
       )    
     },
     error = function(e) {
@@ -706,7 +706,7 @@ process_datasets_PH <- function(metadata, integration_method = "seurat", num_cor
         memory_threshold = 0.25, # Example: 25% memory threshold
         log_file = "progress_log_sctWhole.csv",
         results_file = "intermediate_results_sctWhole.rds",
-        timeout_datasets = 1:124 # Pass the timeout_datasets here
+        timeout_datasets = NULL
       )
     },
     error = function(e) {
@@ -861,249 +861,8 @@ process_datasets_PH <- function(metadata, integration_method = "seurat", num_cor
         log_message(paste("Error in saving persistence diagrams for integrated data:", e$message))
       }
     )
+    
   }
-  
-  # Retry for Unintegrated Data
-  PD_list_after_retries_unintegrated_sctInd <- tryCatch(
-    {
-      retry_pd_calculation(
-        progress_log = "progress_log_unintegrated_sctInd.csv",  # Original progress log for unintegrated data
-        results_file = "intermediate_results_unintegrated_sctInd.rds",  # Original results file for unintegrated data
-        expr_list = expr_list_sctInd,  # Expression list for unintegrated data
-        DIM = 1,  # Dimension for PH calculation
-        doubling_limit = 5,  # Retry limit for threshold doubling
-        time_limit = 16 * 3600,  # 12 hours for each retry
-        num_cores = 6,  # Number of cores for parallel processing
-        log_message = log_message,  # Logging function
-        retry_progress_log = "retry_progress_log_unintegrated_sctInd.csv",  # Separate retry progress log
-        retry_results_file = "retry_results_unintegrated_sctInd.rds",  # Separate retry results file
-        overwrite_original = FALSE  # Avoid overwriting original logs and results
-      )
-    },
-    error = function(e) {
-      log_message(paste("Error during retry of failed persistence diagrams for unintegrated data:", e$message))
-      NULL
-    }
-  )
-
-    # Retry for Unintegrated Data
-  PD_list_after_retries_unintegrated_sctWhole <- tryCatch(
-    {
-      retry_pd_calculation(
-        progress_log = "progress_log_unintegrated_sctWhole.csv",  # Original progress log for unintegrated data
-        results_file = "intermediate_results_unintegrated_sctWhole.rds",  # Original results file for unintegrated data
-        expr_list = expr_list_sctWhole,  # Expression list for unintegrated data
-        DIM = 1,  # Dimension for PH calculation
-        doubling_limit = 5,  # Retry limit for threshold doubling
-        time_limit = 16 * 3600,  # 12 hours for each retry
-        num_cores = 6,  # Number of cores for parallel processing
-        log_message = log_message,  # Logging function
-        retry_progress_log = "retry_progress_log_unintegrated_sctWhole.csv",  # Separate retry progress log
-        retry_results_file = "retry_results_unintegrated_sctWhole.rds",  # Separate retry results file
-        overwrite_original = FALSE  # Avoid overwriting original logs and results
-      )
-    },
-    error = function(e) {
-      log_message(paste("Error during retry of failed persistence diagrams for unintegrated data:", e$message))
-      NULL
-    }
-  )
-  
-  # Retry for Unintegrated Data
-  PD_list_after_retries_unintegrated_Raw <- tryCatch(
-    {
-      retry_pd_calculation(
-        progress_log = "progress_log_RAW.csv",  # Original progress log for unintegrated data
-        results_file = "intermediate_results_RAW.rds",  # Original results file for unintegrated data
-        expr_list = expr_list_raw,  # Expression list for unintegrated data
-        DIM = 1,  # Dimension for PH calculation
-        doubling_limit = 5,  # Retry limit for threshold doubling
-        time_limit = 16 * 3600,  # 12 hours for each retry
-        num_cores = 6,  # Number of cores for parallel processing
-        log_message = log_message,  # Logging function
-        retry_progress_log = "retry_progress_log_unintegrated_RAW.csv",  # Separate retry progress log
-        retry_results_file = "retry_results_unintegrated_RAW.rds",  # Separate retry results file
-        overwrite_original = FALSE  # Avoid overwriting original logs and results
-      )
-    },
-    error = function(e) {
-      log_message(paste("Error during retry of failed persistence diagrams for unintegrated data:", e$message))
-      NULL
-    }
-  )
-  
-  # Retry for Integrated Data
-  PD_list_after_retries_integrated <- tryCatch(
-    {
-      retry_pd_calculation(
-        progress_log = "progress_log_integrated.csv",  # Original progress log for integrated data
-        results_file = "intermediate_results_integrated.rds",  # Original results file for integrated data
-        expr_list = expr_list_integrated,  # Expression list for integrated data
-        DIM = 1,  # Dimension for PH calculation
-        doubling_limit = 5,  # Retry limit for threshold doubling
-        time_limit = 12 * 3600,  # 12 hours for each retry
-        num_cores = 32,  # Number of cores for parallel processing
-        log_message = log_message,  # Logging function
-        retry_progress_log = "retry_progress_log_integrated.csv",  # Separate retry progress log
-        retry_results_file = "retry_results_integrated.rds",  # Separate retry results file
-        overwrite_original = FALSE  # Avoid overwriting original logs and results
-      )
-    },
-    error = function(e) {
-      log_message(paste("Error during retry of failed persistence diagrams for integrated data:", e$message))
-      NULL
-    }
-  )
-  
-    # Helper function to update names in PD list
-  update_pd_list_names <- function(PD_list, expr_list_names, log_message) {
-    tryCatch({
-      if (length(PD_list) != length(expr_list_names)) {
-        stop("Length of PD list does not match length of expression list names.")
-      }
-      names(PD_list) <- expr_list_names
-      log_message("PD list names successfully updated.")
-      return(PD_list)
-    }, error = function(e) {
-      log_message(paste("Error in updating PD list names:", e$message))
-      return(PD_list)
-    })
-  }
-
-  # Save results after retries for unintegrated SCT Individual
-  if (!is.null(PD_list_after_retries_unintegrated_sctInd)) {
-    tryCatch(
-      {
-        expr_list_names <- names(expr_list_sctInd) # Replace with the correct expression list
-        PD_list_after_retries_unintegrated_sctInd <- update_pd_list_names(
-          PD_list_after_retries_unintegrated_sctInd$PD_list,
-          expr_list_names,
-          log_message
-        )
-        saveRDS(object = PD_list_after_retries_unintegrated_sctInd, file = "PD_list_after_retries_unintegrated_sctInd.rds")
-        log_message("Final PD list for unintegrated SCT Individual saved successfully.")
-      },
-      error = function(e) {
-        log_message(paste("Error in saving final PD list for unintegrated SCT Individual:", e$message))
-      }
-    )
-  }
-
-  # Save results after retries for unintegrated SCT Whole
-  if (!is.null(PD_list_after_retries_unintegrated_sctWhole)) {
-    tryCatch(
-      {
-        expr_list_names <- names(expr_list_sctWhole) # Replace with the correct expression list
-        PD_list_after_retries_unintegrated_sctWhole <- update_pd_list_names(
-          PD_list_after_retries_unintegrated_sctWhole$PD_list,
-          expr_list_names,
-          log_message
-        )
-        saveRDS(object = PD_list_after_retries_unintegrated_sctWhole, file = "PD_list_after_retries_unintegrated_sctWhole.rds")
-        log_message("Final PD list for unintegrated SCT Whole saved successfully.")
-      },
-      error = function(e) {
-        log_message(paste("Error in saving final PD list for unintegrated SCT Whole:", e$message))
-      }
-    )
-  }
-
-  # Save results after retries for unintegrated Raw
-  if (!is.null(PD_list_after_retries_unintegrated_Raw)) {
-    tryCatch(
-      {
-        expr_list_names <- names(expr_list_raw) # Replace with the correct expression list
-        PD_list_after_retries_unintegrated_Raw <- update_pd_list_names(
-          PD_list_after_retries_unintegrated_Raw$PD_list,
-          expr_list_names,
-          log_message
-        )
-        saveRDS(object = PD_list_after_retries_unintegrated_Raw, file = "PD_list_after_retries_unintegrated_Raw.rds")
-        log_message("Final PD list for unintegrated Raw saved successfully.")
-      },
-      error = function(e) {
-        log_message(paste("Error in saving final PD list for unintegrated Raw:", e$message))
-      }
-    )
-  }
-
-  # Save results after retries for integrated
-  if (!is.null(PD_list_after_retries_integrated)) {
-    tryCatch(
-      {
-        expr_list_names <- names(expr_list_integrated) # Replace with the correct expression list
-        PD_list_after_retries_integrated <- update_pd_list_names(
-          PD_list_after_retries_integrated$PD_list,
-          expr_list_names,
-          log_message
-        )
-        saveRDS(object = PD_list_after_retries_integrated, file = "PD_list_after_retries_integrated.rds")
-        log_message("Final PD list for integrated data saved successfully.")
-      },
-      error = function(e) {
-        log_message(paste("Error in saving final PD list for integrated data:", e$message))
-      }
-    )
-  }
-
-
-  #   # Save results after retries for integrated
-  # if (!is.null(PD_list_integrated)) {
-  #   tryCatch(
-  #     {
-  #       expr_list_names <- names(expr_list_integrated) # Replace with the correct expression list
-  #       PD_list_integrated <- update_pd_list_names(
-  #         PD_list_integrated,
-  #         expr_list_names,
-  #         log_message
-  #       )
-  #       saveRDS(object = PD_list_integrated, file = "PD_list_dim1_th-1_integrated_bonemarrow.Rds")
-  #       log_message("Final PD list for integrated data saved successfully.")
-  #     },
-  #     error = function(e) {
-  #       log_message(paste("Error in saving final PD list for integrated data:", e$message))
-  #     }
-  #   )
-  # }
-
-#   # Load required libraries
-# library(purrr)
-
-# # Function to add missing names to PD list
-# ensure_pd_list_names <- function(pd_list, expr_list_names, log_message) {
-#   if (is.null(names(pd_list)) || length(names(pd_list)) != length(pd_list)) {
-#     log_message("Names missing or mismatched in PD list. Updating names.")
-#     names(pd_list) <- expr_list_names
-#   } else {
-#     log_message("PD list names are already correct.")
-#   }
-#   return(pd_list)
-# }
-
-# # Load PD_list_after_retries_integrated
-# tryCatch(
-#   {
-#     PD_list_after_retries_integrated <- readRDS("PD_list_after_retries_integrated.rds")
-#     log_message("Loaded PD list successfully.")
-
-#     # Get the correct names from the expression list
-#     expr_list_names <- names(expr_list_integrated) # Replace this with your actual expression list names source
-
-#     # Ensure the PD list has the correct names
-#     PD_list_after_retries_integrated <- ensure_pd_list_names(
-#       PD_list_after_retries_integrated,
-#       expr_list_names,
-#       log_message
-#     )
-
-#     # Save the updated PD list
-#     saveRDS(PD_list_after_retries_integrated, "PD_list_after_retries_integrated.rds")
-#     log_message("Updated and saved PD list with correct names.")
-#   },
-#   error = function(e) {
-#     log_message(paste("Error in loading or updating PD list:", e$message))
-#   }
-# )
 
   ##
   ## Assemble output structure for post processing
@@ -1152,3 +911,4 @@ process_datasets_PH <- function(metadata, integration_method = "seurat", num_cor
   ph_results <- list(data_iterations = data_iterations)
   return(ph_results)
 }
+
