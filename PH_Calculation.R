@@ -9,8 +9,9 @@
 #' 
 #' It supports batch integration methods including LIGER, Seurat, and MNN (Mutual Nearest Neighbors),
 #' allowing for batch effect correction in multi-sample or multi-dataset workflows. 
-#' The final output includes persistence diagrams, bottleneck distance matrices (BDMs), 
-#' UMAP embeddings, and clustering visualizations with statistical tests.
+#' The final output includes persistence diagrams. Distance matrices
+#' (BDM/SDM/LDM) are produced later during post-processing along with UMAP
+#' embeddings and clustering visualizations.
 #'
 #' @section Workflow Overview:
 #' \enumerate{
@@ -29,10 +30,13 @@
 #'       \item Integrates datasets using methods such as Seurat, LIGER, or MNN, and recalculates persistence diagrams for integrated data.
 #'     }
 #'   
-#'   \item \strong{Bottleneck Distance Matrix (BDM) Calculation:}
+#'   \item \strong{Distance Matrix Generation (Post-Processing):}
 #'     \itemize{
-#'       \item Computes bottleneck distances between persistence diagrams for both unintegrated and integrated data.
-#'       \item Downsamples persistence diagrams to optimize memory usage and speed up calculations.
+#'       \item Persistence diagrams created in this step are used by
+#'         `process_iteration_calculate_matrices()` in
+#'         `PH_PostProcessing_andAnalysis.R` to compute BDM, SDM and LDM once.
+#'       \item Downsampling of persistence diagrams may be performed to optimise
+#'         memory usage during these calculations.
 #'     }
 #'   
 #'   \item \strong{Clustering & Visualization:}
