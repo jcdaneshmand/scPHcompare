@@ -22,13 +22,15 @@ results <- run_unified_pipeline(
   num_cores = 8,
   integration_method = "seurat",
   run_cluster = FALSE,        # optional
-  run_cross_iteration = TRUE  # optional
+  run_cross_iteration = TRUE, # optional
+  run_betti = FALSE           # optional
 )
 ```
 
 The wrapper runs the preprocessing and persistent homology analysis first.  If
-`run_modular_analysis()` or `run_cross_iteration()` are available they are
-invoked when the corresponding flags (`run_modular` or `run_cross_iteration`)
-are set to `TRUE`.  See the individual scripts for the detailed options of each
-step.
+`run_modular_analysis()` is available it can perform cluster comparison, Betti
+curve tests, and cross-iteration analysis based on the flags forwarded from
+`run_unified_pipeline()`.  Cross-iteration can still be executed separately when
+`run_modular = FALSE` and `run_cross_iteration = TRUE`.  See the individual
+scripts for the detailed options of each step.
 
