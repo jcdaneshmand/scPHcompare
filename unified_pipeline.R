@@ -2,6 +2,7 @@ run_unified_pipeline <- function(metadata_path,
                                  results_dir = "results",
                                  num_cores = 8,
                                  integration_method = "seurat",
+                                 run_cluster = FALSE,
                                  run_modular = FALSE,
                                  run_cross_iteration = FALSE,
                                  ...) {
@@ -9,6 +10,9 @@ run_unified_pipeline <- function(metadata_path,
     stop("Package 'readr' is required")
   }
   source("PH_Calculation.R")
+  if (run_cluster) {
+    source("cluster_comparison.R")
+  }
   if (!dir.exists(results_dir)) {
     dir.create(results_dir, recursive = TRUE)
   }
@@ -17,6 +21,12 @@ run_unified_pipeline <- function(metadata_path,
                                     integration_method = integration_method,
                                     num_cores = num_cores,
                                     ...)
+  if (run_cluster && exists("run_cluster_comparison")) {
+    try(run_cluster_comparison(ph_results$data_iterations,
+                               results_folder = results_dir,
+                               ...),
+        silent = TRUE)
+  }
   if (run_modular && exists("run_modular_analysis")) {
     try(run_modular_analysis(ph_results, results_dir = results_dir, ...), silent = TRUE)
   }

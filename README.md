@@ -21,6 +21,7 @@ results <- run_unified_pipeline(
   results_dir = "results",
   num_cores = 8,
   integration_method = "seurat",
+  run_cluster = FALSE,        # optional
   run_cross_iteration = TRUE  # optional
 )
 ```
