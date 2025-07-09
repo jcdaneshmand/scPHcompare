@@ -24,8 +24,7 @@ library(viridis)
 library(dendextend) # For coloring dendrogram branches
 library(digest)
 library(transport) # For EMD
-source("PH_Functions.R")
-source("betti_utils.R")
+
 
 #' Run post-processing modules
 #'
@@ -40,8 +39,7 @@ run_modular_analysis <- function(ph_results,
                                  ...) {
   if (!dir.exists(results_dir)) dir.create(results_dir, recursive = TRUE)
 
-  source("cluster_comparison.R")
-  source("cross_iteration_functions.R")
+  # Required modules are loaded with the package
 
   results <- list()
   data_iterations <- ph_results$data_iterations
