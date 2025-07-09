@@ -431,13 +431,14 @@ process_datasets_PH <- function(metadata, integration_method = "seurat", num_cor
     if (exists("my_seurat_list_filtered") && !exists("merged_seurat_unintegrated")) {
       
     ### 1. Rename cells in each original object so that cell names are unique
-    names <- list()
+    names <- vapply(
+      my_seurat_list_filtered,
+      function(seurat_obj) seurat_obj@meta.data$orig.ident[1],
+      FUN.VALUE = character(1)
+    )
     my_seurat_list_filtered <- lapply(my_seurat_list_filtered, function(seurat_obj) {
       # Remove any existing prefixes
-      seurat_obj <- RenameCells(seurat_obj, add.cell.id = NULL)
-      # Save the sample identifier (from orig.ident) for later use
-      names <<- append(x = names, values = seurat_obj@meta.data$orig.ident[1])
-      return(seurat_obj)
+      RenameCells(seurat_obj, add.cell.id = NULL)
     })
 
     ### 2. Merge the objects (merge.data = TRUE keeps all per-sample data)
