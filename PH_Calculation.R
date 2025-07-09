@@ -1105,6 +1105,50 @@ process_datasets_PH <- function(metadata, integration_method = "seurat", num_cor
 #   }
 # )
 
+  ##
+  ## Assemble output structure for post processing
+  ## -------------------------------------------------------
+  data_iterations <- list(
+    list(
+      name = "Raw",
+      seurat_obj = merged_seurat_unintegrated,
+      assay = "RNA",
+      bdm_matrix = "BDM_unintegrated_Raw.rds",
+      sdm_matrix = "SDM_unintegrated_Raw.rds",
+      pd_list = "PD_list_after_retries_unintegrated_Raw.rds",
+      expr_list = expr_list_raw
+    ),
+    list(
+      name = "SCT_Individual",
+      seurat_obj = merged_seurat_unintegrated,
+      assay = "SCT_Ind",
+      bdm_matrix = "BDM_unintegrated_sctInd.rds",
+      sdm_matrix = "SDM_unintegrated_sctInd.rds",
+      pd_list = "PD_list_after_retries_unintegrated_sctInd.rds",
+      expr_list = expr_list_sctInd
+    ),
+    list(
+      name = "SCT_Whole",
+      seurat_obj = merged_seurat_unintegrated,
+      assay = "SCT",
+      bdm_matrix = "BDM_unintegrated_sctWhole.rds",
+      sdm_matrix = "SDM_unintegrated_sctWhole.rds",
+      pd_list = "PD_list_after_retries_unintegrated_sctWhole.rds",
+      expr_list = expr_list_sctWhole
+    ),
+    list(
+      name = "Integrated",
+      seurat_obj = result,
+      assay = "integrated",
+      bdm_matrix = "BDM_integrated.rds",
+      sdm_matrix = "SDM_integrated.rds",
+      pd_list = "PD_list_after_retries_integrated.rds",
+      expr_list = expr_list_integrated
+    )
+  )
 
-
-  
+  # Close the log sink if opened
+  try(sink(), silent = TRUE)
+  ph_results <- list(data_iterations = data_iterations)
+  return(ph_results)
+}
