@@ -34,3 +34,9 @@ curve tests, and cross-iteration analysis based on the flags forwarded from
 `run_modular = FALSE` and `run_cross_iteration = TRUE`.  See the individual
 scripts for the detailed options of each step.
 
+Distance matrices (BDM, SDM and LDM) are generated during the post-processing
+phase.  Use `process_iteration_calculate_matrices()` from
+`PH_PostProcessing_andAnalysis.R` to compute these for each data iteration.  The
+matrix routines were removed from `PH_Calculation.R` so that file only performs
+persistence diagram generation.
+

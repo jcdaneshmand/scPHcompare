@@ -9,8 +9,9 @@
 #' 
 #' It supports batch integration methods including LIGER, Seurat, and MNN (Mutual Nearest Neighbors),
 #' allowing for batch effect correction in multi-sample or multi-dataset workflows. 
-#' The final output includes persistence diagrams, bottleneck distance matrices (BDMs), 
-#' UMAP embeddings, and clustering visualizations with statistical tests.
+#' The final output includes persistence diagrams. Distance matrices
+#' (BDM/SDM/LDM) are produced later during post-processing along with UMAP
+#' embeddings and clustering visualizations.
 #'
 #' @section Workflow Overview:
 #' \enumerate{
@@ -29,10 +30,13 @@
 #'       \item Integrates datasets using methods such as Seurat, LIGER, or MNN, and recalculates persistence diagrams for integrated data.
 #'     }
 #'   
-#'   \item \strong{Bottleneck Distance Matrix (BDM) Calculation:}
+#'   \item \strong{Distance Matrix Generation (Post-Processing):}
 #'     \itemize{
-#'       \item Computes bottleneck distances between persistence diagrams for both unintegrated and integrated data.
-#'       \item Downsamples persistence diagrams to optimize memory usage and speed up calculations.
+#'       \item Persistence diagrams created in this step are used by
+#'         `process_iteration_calculate_matrices()` in
+#'         `PH_PostProcessing_andAnalysis.R` to compute BDM, SDM and LDM once.
+#'       \item Downsampling of persistence diagrams may be performed to optimise
+#'         memory usage during these calculations.
 #'     }
 #'   
 #'   \item \strong{Clustering & Visualization:}
@@ -1104,109 +1108,3 @@ process_datasets_PH <- function(metadata, integration_method = "seurat", num_cor
 
 
   
-  #### BDM CALCULATIONS ####
-  ## Function to compute and save distance matrices (BDM and SDM)
-
-compute_and_save_distance_matrices <- function(
-    pd_list, expr_list_names, dataset_name, num_cores, log_message, 
-    dimension = 0, save_sdm = TRUE, save_bdm = TRUE) {
-  
-  # Create Bottleneck Distance Matrix
-  if (save_bdm) {
-    log_message(paste("Creating Bottleneck Distance Matrix for", dataset_name))
-    BDM <- tryCatch(
-      {
-        CreateBottleneckDistanceMatrixParallel(pd_list, max_cores = num_cores, log_message = log_message, dimension = dimension)
-      },
-      error = function(e) {
-        log_message(paste("Error in creating BDM for", dataset_name, ":", e$message))
-        NULL
-      }
-    )
-    
-    if (!is.null(BDM)) {
-      tryCatch(
-        {
-          BDM_df <- as.data.frame(BDM)
-          rownames(BDM_df) <- expr_list_names
-          colnames(BDM_df) <- expr_list_names
-          
-          saveRDS(BDM_df, file = paste0("BDM_", dataset_name, ".Rds"))
-          write.csv(BDM_df, file = paste0("BDM_", dataset_name, ".csv"))
-          log_message(paste("BDM for", dataset_name, "saved successfully."))
-        },
-        error = function(e) {
-          log_message(paste("Error in saving BDM for", dataset_name, ":", e$message))
-        }
-      )
-    }
-  }
-  
-  # Create Spectral Distance Matrix
-  if (save_sdm) {
-    log_message(paste("Creating Spectral Distance Matrix for", dataset_name))
-    SDM <- tryCatch(
-      {
-        CreateSpectralDistanceMatrixFromPD(pd_list, num_eigen = 50, log_message = log_message, dimension = dimension)
-      },
-      error = function(e) {
-        log_message(paste("Error in creating SDM for", dataset_name, ":", e$message))
-        NULL
-      }
-    )
-    
-    if (!is.null(SDM)) {
-      tryCatch(
-        {
-          SDM_df <- as.data.frame(SDM)
-          rownames(SDM_df) <- expr_list_names
-          colnames(SDM_df) <- expr_list_names
-          
-          saveRDS(SDM_df, file = paste0("SDM_", dataset_name, ".Rds"))
-          write.csv(SDM_df, file = paste0("SDM_", dataset_name, ".csv"))
-          log_message(paste("SDM for", dataset_name, "saved successfully."))
-        },
-        error = function(e) {
-          log_message(paste("Error in saving SDM for", dataset_name, ":", e$message))
-        }
-      )
-    }
-  }
-}
-
-# Apply to different datasets
-log_message("Starting distance matrix computation...")
-
-compute_and_save_distance_matrices(
-  pd_list = PD_list_after_retries_unintegrated_scTransformed,
-  expr_list_names = names(expr_list),
-  dataset_name = "unintegrated_sctInd",
-  num_cores = num_cores,
-  log_message = log_message
-)
-
-compute_and_save_distance_matrices(
-  pd_list = PD_list_unintegrated_sctWhole,
-  expr_list_names = names(expr_list_sctWhole),
-  dataset_name = "unintegrated_scTransformed_whole",
-  num_cores = num_cores,
-  log_message = log_message
-)
-
-compute_and_save_distance_matrices(
-  pd_list = PD_list_unintegrated_RAW,
-  expr_list_names = names(expr_list_raw),
-  dataset_name = "unintegrated_Raw",
-  num_cores = num_cores,
-  log_message = log_message
-)
-
-compute_and_save_distance_matrices(
-  pd_list = PD_list_integrated,
-  expr_list_names = names(expr_list_integrated),
-  dataset_name = "integrated",
-  num_cores = num_cores,
-  log_message = log_message
-)
-
-log_message("Distance matrix computation completed.")
