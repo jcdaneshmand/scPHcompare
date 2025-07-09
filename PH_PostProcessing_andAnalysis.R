@@ -124,6 +124,9 @@ run_postprocessing_pipeline <- function(ph_results,
     assay <- iter$assay
     variable_features_path <- if ("variable_features" %in% names(iter)) iter$variable_features else NULL
 
+    # Assign balanced random groups for permutation-based analyses
+    seurat_obj <- assignRandomGroup(seurat_obj, k = 5, new_col_name = "Random_Group")
+
     if (run_standard_seurat_clustering) {
       seurat_obj <- perform_standard_seurat_clustering(seurat_obj, assay, variable_features_path)
       seurat_obj@meta.data[[paste0("seurat_cluster_", tolower(iter$name))]] <- Idents(seurat_obj)
