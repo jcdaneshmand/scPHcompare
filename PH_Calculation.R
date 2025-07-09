@@ -76,15 +76,11 @@
 #' @section License:
 #' [Specify the license under which the script is distributed, e.g., GPL-3]
 
-source("PH_Functions.R")
-metadata <- read_csv("./data/VastlyDifferentTissues/metadata.csv")
-metadata <- read_csv("./data/GSE120221/metadata.csv")
 
-filtered_cells <- read_csv("filtered_cells.csv")
 
 # datasets_to_drop <- c(12,15,18) #going to come back to these in a future run
 
-process_datasets_PH <- function(metadata, integration_method = "seurat", num_cores = 16, MIN_CELLS = 250, DIM = 1, THRESHOLD = -1, datasets_to_drop = datasets_to_drop) {
+process_datasets_PH <- function(metadata, integration_method = "seurat", num_cores = 16, MIN_CELLS = 250, DIM = 1, THRESHOLD = -1, datasets_to_drop = NULL) {
   # Determine metadata column names and warn if missing
   sra_col <- intersect(c("SRA", "SRA_Number", "SRA Number"), colnames(metadata))[1]
   tissue_col <- intersect(c("Tissue", "tissue"), colnames(metadata))[1]
@@ -135,6 +131,7 @@ process_datasets_PH <- function(metadata, integration_method = "seurat", num_cor
   log_file <- paste0("PH_Pipeline_Log_", Sys.Date(), ".txt")
   sink(log_file, append = TRUE)
   
+  # Load helper functions required for processing
   source("PH_Functions.R")
   
   log_message("Processing series with CSV input")
