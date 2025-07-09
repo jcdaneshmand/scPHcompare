@@ -304,12 +304,6 @@ perform_integration <- function(
   ##############################
   ## 10) SINGLE GROUP INTEGRATION
   ##############################
-  split_group_in_half <- function(objs) {
-    n <- length(objs)
-    if (n < 2) stop("Cannot split a group with <2 objects.")
-    half <- as.integer(n / 2)
-    list(objs[1:half], objs[(half + 1):n])
-  }
 
   integrate_single_group <- function(obj_list, group_id, dims_use, integration_feats_n,
                                       global_feats = NULL, min_feats = 500) {
