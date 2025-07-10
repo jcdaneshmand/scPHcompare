@@ -1,2 +1,5 @@
 export(run_unified_pipeline)
 export(run_postprocessing_pipeline)
+export(process_datasets_PH)
+export(run_modular_analysis)
+export(run_cross_iteration)

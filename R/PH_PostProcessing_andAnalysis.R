@@ -30,6 +30,7 @@ library(transport) # For EMD
 #'
 #' Wrapper that selectively runs cluster comparison, Betti curve analysis,
 #' and cross-iteration analysis based on provided flags.
+#' @export
 run_modular_analysis <- function(ph_results,
                                  results_dir = "results",
                                  run_cluster = FALSE,
