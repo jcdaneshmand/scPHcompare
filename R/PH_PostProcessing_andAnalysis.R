@@ -36,6 +36,8 @@ run_modular_analysis <- function(ph_results,
                                  run_betti = FALSE,
                                  run_cross_iteration = FALSE,
                                  SRA_col = "SRA",
+                                 Tissue_col = "Tissue",
+                                 Approach_col = "Approach",
                                  ...) {
   if (!dir.exists(results_dir)) dir.create(results_dir, recursive = TRUE)
 
@@ -62,7 +64,7 @@ run_modular_analysis <- function(ph_results,
           pd_list = pd_list,
           landscape_list = landscape_list,
           seurat_objects = list(iter$seurat_obj),
-          group_by_col = "Tissue",
+          group_by_col = Tissue_col,
           dataset_name = iter$name,
           results_folder = results_dir,
           ...
@@ -151,7 +153,9 @@ run_postprocessing_pipeline <- function(ph_results,
       run_kmeans_clustering = run_kmeans_clustering,
       run_hierarchical_ph_clustering = run_hierarchical_ph_clustering,
       run_spectral_clustering = run_spectral_clustering,
-      SRA_col = SRA_col
+      SRA_col = SRA_col,
+      Tissue_col = Tissue_col,
+      Approach_col = Approach_col
     )
 
     seurat_obj <- generate_visualizations_for_iteration(
@@ -164,7 +168,10 @@ run_postprocessing_pipeline <- function(ph_results,
       metadata = metadata,
       plots_folder = file.path(results_dir, "plots"),
       run_visualizations = run_visualizations,
-      run_sample_level_heatmap = run_sample_level_heatmap
+      run_sample_level_heatmap = run_sample_level_heatmap,
+      SRA_col = SRA_col,
+      Tissue_col = Tissue_col,
+      Approach_col = Approach_col
     )
 
     save_path <- file.path(results_dir, "seurat_objects",
@@ -183,6 +190,8 @@ run_postprocessing_pipeline <- function(ph_results,
                        run_betti = TRUE,
                        run_cross_iteration = TRUE,
                        SRA_col = SRA_col,
+                       Tissue_col = Tissue_col,
+                       Approach_col = Approach_col,
                        ...)
 
   invisible(ph_results)
@@ -789,7 +798,8 @@ perform_hierarchical_clustering_ph <- function(bdm_matrix, k) {
 }
 
 # Function: Assign PH Clusters to Seurat Object
-assign_ph_clusters <- function(seurat_obj, clusters_ph, new_cluster_col) {
+assign_ph_clusters <- function(seurat_obj, clusters_ph, new_cluster_col,
+                               SRA_col = "orig.ident") {
   log_message <- function(message) {
     cat(Sys.time(), "-", message, "\n")
   }
@@ -807,8 +817,8 @@ assign_ph_clusters <- function(seurat_obj, clusters_ph, new_cluster_col) {
   #     stop("SRA column exists but contains a single unique value and neither orig.ident nor rownames are informative.")
   #   }
   # } else
-  if ("orig.ident" %in% colnames(seurat_obj@meta.data)) {
-    seurat_sample_ids <- seurat_obj@meta.data$orig.ident
+  if (SRA_col %in% colnames(seurat_obj@meta.data)) {
+    seurat_sample_ids <- seurat_obj@meta.data[[SRA_col]]
   } else if (any(grepl("__", rownames(seurat_obj@meta.data)))) {
     seurat_sample_ids <- sapply(strsplit(rownames(seurat_obj@meta.data), "__"), `[`, 1)
   } else {
@@ -883,16 +893,18 @@ apply_all_clustering_methods <- function(seurat_obj, dataset_name, assay,
                                          run_kmeans_clustering = TRUE,
                                          run_hierarchical_ph_clustering = TRUE,
                                          run_spectral_clustering = TRUE,
-                                         SRA_col = "orig.ident") {
+                                         SRA_col = "orig.ident",
+                                         Tissue_col = "Tissue",
+                                         Approach_col = "Approach") {
 
   prefix <- tolower(dataset_name)
 
-  k_tissue <- if ("Tissue" %in% colnames(seurat_obj@meta.data))
-    length(unique(seurat_obj$Tissue)) else NULL
+  k_tissue <- if (Tissue_col %in% colnames(seurat_obj@meta.data))
+    length(unique(seurat_obj@meta.data[[Tissue_col]])) else NULL
   k_sra <- if (SRA_col %in% colnames(seurat_obj@meta.data))
     length(unique(seurat_obj@meta.data[[SRA_col]])) else NULL
-  k_approach <- if ("Approach" %in% colnames(seurat_obj@meta.data))
-    length(unique(seurat_obj$Approach)) else NULL
+  k_approach <- if (Approach_col %in% colnames(seurat_obj@meta.data))
+    length(unique(seurat_obj@meta.data[[Approach_col]])) else NULL
 
   ## ---- K-means ---------------------------------------------------------
   if (run_kmeans_clustering) {
@@ -917,17 +929,20 @@ apply_all_clustering_methods <- function(seurat_obj, dataset_name, assay,
       if (!is.null(k_tissue)) {
         res <- perform_hierarchical_clustering_ph(bdm_matrix, k_tissue)
         seurat_obj <- assign_ph_clusters(seurat_obj, res$clusters,
-          paste0("hierarchical_cluster_bdm_ph_", prefix, "_tissue"))
+          paste0("hierarchical_cluster_bdm_ph_", prefix, "_tissue"),
+          SRA_col = SRA_col)
       }
       if (!is.null(k_sra)) {
         res <- perform_hierarchical_clustering_ph(bdm_matrix, k_sra)
         seurat_obj <- assign_ph_clusters(seurat_obj, res$clusters,
-          paste0("hierarchical_cluster_bdm_ph_", prefix, "_sra"))
+          paste0("hierarchical_cluster_bdm_ph_", prefix, "_sra"),
+          SRA_col = SRA_col)
       }
       if (!is.null(k_approach)) {
         res <- perform_hierarchical_clustering_ph(bdm_matrix, k_approach)
         seurat_obj <- assign_ph_clusters(seurat_obj, res$clusters,
-          paste0("hierarchical_cluster_bdm_ph_", prefix, "_approach"))
+          paste0("hierarchical_cluster_bdm_ph_", prefix, "_approach"),
+          SRA_col = SRA_col)
       }
     }
 
@@ -935,17 +950,20 @@ apply_all_clustering_methods <- function(seurat_obj, dataset_name, assay,
       if (!is.null(k_tissue)) {
         res <- perform_hierarchical_clustering_ph(sdm_matrix, k_tissue)
         seurat_obj <- assign_ph_clusters(seurat_obj, res$clusters,
-          paste0("hierarchical_cluster_sdm_ph_", prefix, "_tissue"))
+          paste0("hierarchical_cluster_sdm_ph_", prefix, "_tissue"),
+          SRA_col = SRA_col)
       }
       if (!is.null(k_sra)) {
         res <- perform_hierarchical_clustering_ph(sdm_matrix, k_sra)
         seurat_obj <- assign_ph_clusters(seurat_obj, res$clusters,
-          paste0("hierarchical_cluster_sdm_ph_", prefix, "_sra"))
+          paste0("hierarchical_cluster_sdm_ph_", prefix, "_sra"),
+          SRA_col = SRA_col)
       }
       if (!is.null(k_approach)) {
         res <- perform_hierarchical_clustering_ph(sdm_matrix, k_approach)
         seurat_obj <- assign_ph_clusters(seurat_obj, res$clusters,
-          paste0("hierarchical_cluster_sdm_ph_", prefix, "_approach"))
+          paste0("hierarchical_cluster_sdm_ph_", prefix, "_approach"),
+          SRA_col = SRA_col)
       }
     }
 
@@ -953,17 +971,20 @@ apply_all_clustering_methods <- function(seurat_obj, dataset_name, assay,
       if (!is.null(k_tissue)) {
         res <- perform_hierarchical_clustering_ph(landscape_matrix, k_tissue)
         seurat_obj <- assign_ph_clusters(seurat_obj, res$clusters,
-          paste0("hierarchical_cluster_landscape_ph_", prefix, "_tissue"))
+          paste0("hierarchical_cluster_landscape_ph_", prefix, "_tissue"),
+          SRA_col = SRA_col)
       }
       if (!is.null(k_sra)) {
         res <- perform_hierarchical_clustering_ph(landscape_matrix, k_sra)
         seurat_obj <- assign_ph_clusters(seurat_obj, res$clusters,
-          paste0("hierarchical_cluster_landscape_ph_", prefix, "_sra"))
+          paste0("hierarchical_cluster_landscape_ph_", prefix, "_sra"),
+          SRA_col = SRA_col)
       }
       if (!is.null(k_approach)) {
         res <- perform_hierarchical_clustering_ph(landscape_matrix, k_approach)
         seurat_obj <- assign_ph_clusters(seurat_obj, res$clusters,
-          paste0("hierarchical_cluster_landscape_ph_", prefix, "_approach"))
+          paste0("hierarchical_cluster_landscape_ph_", prefix, "_approach"),
+          SRA_col = SRA_col)
       }
     }
   }
@@ -974,17 +995,20 @@ apply_all_clustering_methods <- function(seurat_obj, dataset_name, assay,
       if (!is.null(k_tissue)) {
         cl <- perform_spectral_clustering(bdm_matrix, k_tissue)
         seurat_obj <- assign_ph_clusters(seurat_obj, cl,
-          paste0("spectral_cluster_bdm_", prefix, "_tissue"))
+          paste0("spectral_cluster_bdm_", prefix, "_tissue"),
+          SRA_col = SRA_col)
       }
       if (!is.null(k_sra)) {
         cl <- perform_spectral_clustering(bdm_matrix, k_sra)
         seurat_obj <- assign_ph_clusters(seurat_obj, cl,
-          paste0("spectral_cluster_bdm_", prefix, "_sra"))
+          paste0("spectral_cluster_bdm_", prefix, "_sra"),
+          SRA_col = SRA_col)
       }
       if (!is.null(k_approach)) {
         cl <- perform_spectral_clustering(bdm_matrix, k_approach)
         seurat_obj <- assign_ph_clusters(seurat_obj, cl,
-          paste0("spectral_cluster_bdm_", prefix, "_approach"))
+          paste0("spectral_cluster_bdm_", prefix, "_approach"),
+          SRA_col = SRA_col)
       }
     }
 
@@ -992,17 +1016,20 @@ apply_all_clustering_methods <- function(seurat_obj, dataset_name, assay,
       if (!is.null(k_tissue)) {
         cl <- perform_spectral_clustering(sdm_matrix, k_tissue)
         seurat_obj <- assign_ph_clusters(seurat_obj, cl,
-          paste0("spectral_cluster_sdm_", prefix, "_tissue"))
+          paste0("spectral_cluster_sdm_", prefix, "_tissue"),
+          SRA_col = SRA_col)
       }
       if (!is.null(k_sra)) {
         cl <- perform_spectral_clustering(sdm_matrix, k_sra)
         seurat_obj <- assign_ph_clusters(seurat_obj, cl,
-          paste0("spectral_cluster_sdm_", prefix, "_sra"))
+          paste0("spectral_cluster_sdm_", prefix, "_sra"),
+          SRA_col = SRA_col)
       }
       if (!is.null(k_approach)) {
         cl <- perform_spectral_clustering(sdm_matrix, k_approach)
         seurat_obj <- assign_ph_clusters(seurat_obj, cl,
-          paste0("spectral_cluster_sdm_", prefix, "_approach"))
+          paste0("spectral_cluster_sdm_", prefix, "_approach"),
+          SRA_col = SRA_col)
       }
     }
 
@@ -1010,17 +1037,20 @@ apply_all_clustering_methods <- function(seurat_obj, dataset_name, assay,
       if (!is.null(k_tissue)) {
         cl <- perform_spectral_clustering(landscape_matrix, k_tissue)
         seurat_obj <- assign_ph_clusters(seurat_obj, cl,
-          paste0("spectral_cluster_landscape_", prefix, "_tissue"))
+          paste0("spectral_cluster_landscape_", prefix, "_tissue"),
+          SRA_col = SRA_col)
       }
       if (!is.null(k_sra)) {
         cl <- perform_spectral_clustering(landscape_matrix, k_sra)
         seurat_obj <- assign_ph_clusters(seurat_obj, cl,
-          paste0("spectral_cluster_landscape_", prefix, "_sra"))
+          paste0("spectral_cluster_landscape_", prefix, "_sra"),
+          SRA_col = SRA_col)
       }
       if (!is.null(k_approach)) {
         cl <- perform_spectral_clustering(landscape_matrix, k_approach)
         seurat_obj <- assign_ph_clusters(seurat_obj, cl,
-          paste0("spectral_cluster_landscape_", prefix, "_approach"))
+          paste0("spectral_cluster_landscape_", prefix, "_approach"),
+          SRA_col = SRA_col)
       }
     }
   }
@@ -1030,7 +1060,10 @@ apply_all_clustering_methods <- function(seurat_obj, dataset_name, assay,
 
 generate_heatmaps <- function(dataset_name, metadata, seurat_obj, bdm_matrix, plots_folder,
                               hc_tissue, hc_sra, hc_approach,
-                              k_tissue, k_sra, k_approach) {
+                              k_tissue, k_sra, k_approach,
+                              SRA_col = "orig.ident",
+                              Tissue_col = "Tissue",
+                              Approach_col = "Approach") {
   if (!is.matrix(bdm_matrix) || nrow(bdm_matrix) != ncol(bdm_matrix)) {
     stop("BDM must be a square matrix with equal rows and columns.")
   }
@@ -1038,55 +1071,30 @@ generate_heatmaps <- function(dataset_name, metadata, seurat_obj, bdm_matrix, pl
     stop("BDM matrix must have row and column names.")
   }
 
-  if ("SRA_Number" %in% colnames(metadata) && length(unique(metadata$SRA_Number)) > 1) {
-    metadata2 <- metadata %>% dplyr::mutate(Sample = orig.ident)
-    seurat_obj@meta.data <- seurat_obj@meta.data %>%
-      dplyr::mutate(Sample = orig.ident) %>%
-      dplyr::left_join(
-        metadata2 %>% dplyr::select(Sample, SRA_Number, Tissue, Approach),
-        by = "Sample",
-        suffix = c(".seurat", ".meta")
-      ) %>%
-      dplyr::mutate(
-        Tissue = coalesce(Tissue.meta, Tissue.seurat),
-        Approach = Approach.seurat
-      ) %>%
-      dplyr::select(-Tissue.meta, -Tissue.seurat, -Approach.meta, -Approach.seurat)
+  metadata2 <- metadata %>% dplyr::mutate(Sample = .data[[SRA_col]])
+  seurat_obj@meta.data <- seurat_obj@meta.data %>%
+    dplyr::mutate(Sample = .data[[SRA_col]]) %>%
+    dplyr::left_join(
+      metadata2 %>% dplyr::select(Sample, all_of(c(SRA_col, Tissue_col, Approach_col))),
+      by = "Sample",
+      suffix = c(".seurat", ".meta")
+    ) %>%
+    dplyr::mutate(
+      !!Tissue_col := coalesce(.data[[paste0(Tissue_col, ".meta")]], .data[[paste0(Tissue_col, ".seurat")]]),
+      !!Approach_col := coalesce(.data[[paste0(Approach_col, ".meta")]], .data[[paste0(Approach_col, ".seurat")]])
+    ) %>%
+    dplyr::select(-matches("\.meta$|\.seurat$"))
 
-    sample_level_metadata <- seurat_obj@meta.data %>%
-      dplyr::group_by(Sample) %>%
-      dplyr::summarize(
-        SRA_Number = dplyr::first(SRA_Number),
-        Tissue = dplyr::first(Tissue),
-        Approach = dplyr::first(Approach),
-        across(contains("cluster"), ~ dplyr::first(.)),
-        .groups = "drop"
-      )
-    annot_fields <- c("SRA_Number", "Tissue", "Approach")
-  } else {
-    metadata2 <- metadata %>% dplyr::mutate(Sample = orig.ident)
-    seurat_obj@meta.data <- seurat_obj@meta.data %>%
-      dplyr::mutate(Sample = orig.ident) %>%
-      dplyr::left_join(
-        metadata2 %>% dplyr::select(Sample, Tissue),
-        by = "Sample",
-        suffix = c(".seurat", ".meta")
-      ) %>%
-      dplyr::mutate(Tissue = coalesce(Tissue.meta, Tissue.seurat)) %>%
-      dplyr::select(-Tissue.meta, -Tissue.seurat)
-
-    sample_level_metadata <- seurat_obj@meta.data %>%
-      dplyr::group_by(Sample) %>%
-      dplyr::summarize(
-        Tissue = dplyr::first(Tissue),
-        SRA_Number = dplyr::first(SRA),
-        Approach = dplyr::first(Approach),
-        Sample = dplyr::first(Sample),
-        across(contains("cluster"), ~ dplyr::first(.)),
-        .groups = "drop"
-      )
-    annot_fields <- c("Tissue", "SRA_Number", "Approach", "Sample")
-  }
+  sample_level_metadata <- seurat_obj@meta.data %>%
+    dplyr::group_by(Sample) %>%
+    dplyr::summarize(
+      !!SRA_col := dplyr::first(.data[[SRA_col]]),
+      !!Tissue_col := dplyr::first(.data[[Tissue_col]]),
+      !!Approach_col := dplyr::first(.data[[Approach_col]]),
+      across(contains("cluster"), ~ dplyr::first(.)),
+      .groups = "drop"
+    )
+  annot_fields <- c(SRA_col, Tissue_col, Approach_col)
 
   cluster_cols <- colnames(sample_level_metadata)[
     grepl("cluster", colnames(sample_level_metadata), ignore.case = TRUE) &
@@ -1236,15 +1244,18 @@ generate_visualizations_for_iteration <- function(seurat_obj, dataset_name, assa
                                                   landscape_matrix = NULL, metadata = NULL,
                                                   plots_folder = "plots",
                                                   run_visualizations = TRUE,
-                                                  run_sample_level_heatmap = TRUE) {
+                                                  run_sample_level_heatmap = TRUE,
+                                                  SRA_col = "orig.ident",
+                                                  Tissue_col = "Tissue",
+                                                  Approach_col = "Approach") {
   dataset_lower <- tolower(dataset_name)
 
-  k_tissue <- if ("Tissue" %in% colnames(seurat_obj@meta.data))
-    length(unique(seurat_obj$Tissue)) else NULL
-  k_sra <- if ("orig.ident" %in% colnames(seurat_obj@meta.data))
-    length(unique(seurat_obj$orig.ident)) else NULL
-  k_approach <- if ("Approach" %in% colnames(seurat_obj@meta.data))
-    length(unique(seurat_obj$Approach)) else NULL
+  k_tissue <- if (Tissue_col %in% colnames(seurat_obj@meta.data))
+    length(unique(seurat_obj@meta.data[[Tissue_col]])) else NULL
+  k_sra <- if (SRA_col %in% colnames(seurat_obj@meta.data))
+    length(unique(seurat_obj@meta.data[[SRA_col]])) else NULL
+  k_approach <- if (Approach_col %in% colnames(seurat_obj@meta.data))
+    length(unique(seurat_obj@meta.data[[Approach_col]])) else NULL
 
   if (run_visualizations) {
     if (!"umap" %in% names(seurat_obj@reductions)) {
@@ -1281,7 +1292,7 @@ generate_visualizations_for_iteration <- function(seurat_obj, dataset_name, assa
       paste0("spectral_cluster_landscape_", dataset_lower, "_sra"),
       paste0("spectral_cluster_landscape_", dataset_lower, "_approach"),
       random_group_cluster_cols,
-      "Tissue", "SRA", "Approach", "orig.ident"
+      Tissue_col, SRA_col, Approach_col
     )
 
     filtered_cluster_types <- c()
@@ -1316,9 +1327,9 @@ generate_visualizations_for_iteration <- function(seurat_obj, dataset_name, assa
   }
 
   if (run_sample_level_heatmap && !is.null(metadata) && !is.null(bdm_matrix)) {
-    orig_idents_in_seurat <- unique(seurat_obj@meta.data$orig.ident)
-    metadata_filtered <- metadata %>% dplyr::filter(orig.ident %in% orig_idents_in_seurat)
-    ordered_orig_idents <- as.character(metadata_filtered$orig.ident)
+    orig_idents_in_seurat <- unique(seurat_obj@meta.data[[SRA_col]])
+    metadata_filtered <- metadata %>% dplyr::filter(.data[[SRA_col]] %in% orig_idents_in_seurat)
+    ordered_orig_idents <- as.character(metadata_filtered[[SRA_col]])
     dimnames(bdm_matrix) <- list(ordered_orig_idents, ordered_orig_idents)
     if (!is.null(sdm_matrix)) dimnames(sdm_matrix) <- list(ordered_orig_idents, ordered_orig_idents)
     if (!is.null(landscape_matrix)) dimnames(landscape_matrix) <- list(ordered_orig_idents, ordered_orig_idents)
@@ -1346,19 +1357,25 @@ generate_visualizations_for_iteration <- function(seurat_obj, dataset_name, assa
 
     generate_heatmaps(paste0(dataset_name, "_BDM"), metadata_filtered, seurat_obj,
                       bdm_matrix, plots_folder, hc_tissue_bdm, hc_sra_bdm,
-                      hc_approach_bdm, k_tissue, k_sra, k_approach)
+                      hc_approach_bdm, k_tissue, k_sra, k_approach,
+                      SRA_col = SRA_col, Tissue_col = Tissue_col,
+                      Approach_col = Approach_col)
 
     if (!is.null(sdm_matrix)) {
       generate_heatmaps(paste0(dataset_name, "_SDM"), metadata_filtered, seurat_obj,
                         sdm_matrix, plots_folder, hc_tissue_sdm, hc_sra_sdm,
-                        hc_approach_sdm, k_tissue, k_sra, k_approach)
+                        hc_approach_sdm, k_tissue, k_sra, k_approach,
+                        SRA_col = SRA_col, Tissue_col = Tissue_col,
+                        Approach_col = Approach_col)
     }
 
     if (!is.null(landscape_matrix)) {
       generate_heatmaps(paste0(dataset_name, "_Landscape"), metadata_filtered, seurat_obj,
                         landscape_matrix, plots_folder, hc_tissue_landscape,
                         hc_sra_landscape, hc_approach_landscape,
-                        k_tissue, k_sra, k_approach)
+                        k_tissue, k_sra, k_approach,
+                        SRA_col = SRA_col, Tissue_col = Tissue_col,
+                        Approach_col = Approach_col)
     }
   }
 
