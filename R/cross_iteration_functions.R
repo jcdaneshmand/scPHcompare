@@ -1281,6 +1281,7 @@ cross_iteration_comparison_with_betti <- function(data_iterations,
 #' `cross_iteration_comparison_with_betti()` while ensuring the
 #' results directory exists.  This keeps sourcing the file side
 #' effect free.
+#' @export
 run_cross_iteration <- function(data_iterations,
                                 results_folder = "results",
                                 ...) {
