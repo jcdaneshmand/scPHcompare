@@ -19,9 +19,11 @@ library(scPHcompare)
 
 1. Prepare a metadata CSV describing each sample.  The
    `process_datasets_PH` function expects `File Path` and `Sample Name`
-   columns.  Additional metadata columns `SRA`, `Tissue`, and `Approach`
+columns.  Additional metadata columns `SRA`, `Tissue`, and `Approach`
    (scRNA-seq or snRNA-seq) will be used when present and propagated
    through the pipeline.
+   Their names can be overridden via the `SRA_col`, `Tissue_col`, and
+   `Approach_col` arguments of `run_postprocessing_pipeline`.
 2. Call `run_unified_pipeline()` with the metadata file and an output
    directory.  Additional arguments are forwarded to `process_datasets_PH`.
 
