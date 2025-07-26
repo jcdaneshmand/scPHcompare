@@ -1331,13 +1331,12 @@ cross_iteration_comparison_with_betti <- function(data_iterations,
   log_message("All group-specific comparisons completed.")
 }
 
-#' Run cross-iteration analysis
-#'
-#' This is a lightweight wrapper around
-#' `cross_iteration_comparison_with_betti()` that performs the
-#' cross-iteration comparison using default settings. Results are saved
-#' to a subfolder of `results_folder`.
-#' This function is typically invoked via run_modular_analysis().
+#' @title Run cross-iteration analysis
+#' @description
+#' A lightweight wrapper around `cross_iteration_comparison_with_betti()`
+#' that performs the comparison using default settings and writes the
+#' results to `results_folder`. The function is typically invoked from
+#' `run_modular_analysis()`.
 #'
 #' @param data_iterations List of iteration objects created by the
 #'   preprocessing pipeline.
@@ -1349,6 +1348,11 @@ cross_iteration_comparison_with_betti <- function(data_iterations,
 #'
 #' @return The result object returned by
 #'   `cross_iteration_comparison_with_betti()`.
+#'
+#' @examples
+#' \dontrun{
+#' run_cross_iteration(data_iterations)
+#' }
 #' @export
 run_cross_iteration <- function(data_iterations,
                                 results_folder = "results",
