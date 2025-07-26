@@ -597,7 +597,7 @@ process_batch_of_datasets <- function(batch_indices, expr_list, DIM, log_message
           log_message = log_message,
           memory_threshold = memory_threshold,
           max_threshold = 2000,
-          max_retries = 10,
+          max_retries = 1,
           timeout_datasets = timeout_datasets,
           results_file = results_file, # Ensure results_file is passed here
           log_file = log_file
@@ -647,7 +647,7 @@ is_job_completed <- function(job_id, PD_list, log_file) {
 #' process_and_monitor
 #'
 #' This function processes a single dataset for Persistent Homology (PH) calculation using the `vietoris_rips` function from the `ripserr` package.
-#' It monitors the process for any failures, timeouts, or invalid results, and retries with updated thresholds when necessary.
+#' It monitors the process for failures or timeouts and returns the resulting diagram if successful.
 #'
 #' @param expr_matrix A single expression matrix (as a numeric matrix or `dgCMatrix`).
 #' @param i Integer index or identifier of the dataset being processed.
@@ -656,7 +656,7 @@ is_job_completed <- function(job_id, PD_list, log_file) {
 #' @param memory_threshold A numeric threshold for memory usage (in gigabytes). Not currently implemented but reserved for future use.
 #' @param max_threshold A numeric value specifying the maximum allowed threshold for PH computation. Default is 2000.
 #' @param max_time_per_iteration A numeric value (in seconds) specifying the maximum time allowed for each PH computation. Default is 12 hours (43200 seconds).
-#' @param max_retries Integer specifying the maximum number of retries before giving up on a dataset. Default is 10.
+#' @param max_retries Integer specifying the maximum number of retries before giving up on a dataset. Default is 1, meaning no automatic retries.
 #' @param timeout_datasets A vector of dataset indices that have previously timed out, which triggers a specific handling workflow.
 #'
 #' @details
@@ -666,37 +666,30 @@ is_job_completed <- function(job_id, PD_list, log_file) {
 #'
 #' The function launches a PH calculation process using `vietoris_rips`. The process is monitored for:
 #' - **Unexpected termination:** If the process ends unexpectedly, the function checks if a valid PD (persistence diagram) file has been saved. If the PD is valid, the result is used.
-#' - **Timeouts:** If the process exceeds the maximum allowed time (`max_time_per_iteration`), the process is killed, and the function retries with an increased threshold.
-#' - **Invalid PD results:** If the PD file is found but has fewer than 1000 rows, the threshold is increased, and the process is retried.
+#' - **Timeouts:** If the process exceeds the maximum allowed time (`max_time_per_iteration`), the process is killed and no further attempt is made.
+#' - **Invalid PD results:** If the PD file is found but has fewer than 1000 rows, the function stops without another attempt.
 #'
-#' The function will retry a dataset up to `max_retries` times, with increasing thresholds. After reaching the maximum number of retries or exceeding the threshold,
-#' the function will return either the best valid PD found or `NULL` if no valid PD is found.
+#' The function performs a single attempt to compute the persistence diagram and returns the result if successful. If the attempt fails, `NULL` is returned.
 #'
 #' ## Data Journey:
 #' - **Initial Setup:** The dataset is passed as `expr_matrix` from the calling function (`process_batch_of_datasets`). If the dataset is not timed out, the function starts with a threshold of `-1`. If it has timed out, the threshold is set based on the median of non-zero values.
 #'
-#' - **First Iteration (Threshold: `-1`):** The PH process begins with an infinite threshold (`-1`). If the process exceeds the time limit (`max_time_per_iteration`), the process is killed, and the function switches to a median-based threshold.
-#'
-#' - **Second Iteration (Threshold: Max-based, No Timeout):** The function retries with the Max-based threshold. In this iteration, **there is no time limit**. If the process finishes successfully but the PD contains too few rows (less than 1000), the threshold is increased, and the process is retried.
-#'
-#' - **Subsequent Iterations (Threshold: Increased):** The process is repeated with incrementally higher thresholds until a valid PD (with more than 1000 rows) is found or the retries are exhausted.
-#'
-#' - **Final Success:** Once a valid PD is found, the process is finalized, and the PD along with the threshold used is returned.
+#' - **Processing:** The PH calculation is attempted once using an infinite threshold (`-1`). If the dataset previously timed out, a heuristic threshold based on nearest-neighbour distances is used instead.
+#'   The computation stops if it exceeds the allowed time or produces an invalid diagram.
 #'
 #' ## Control Flow:
-#' - **Success:** If a valid PD is found (more than 1000 rows), the process completes, and the PD is returned.
-#' - **Retry with Higher Threshold:** If the PD has fewer than 1000 rows or the process fails unexpectedly without a valid PD, the threshold is increased, and the process is retried.
-#' - **Process Termination:** If the process terminates but a valid PD is found on disk, the result is used without retrying.
-#' - **Timeout:** If the process exceeds the time limit, it is killed, the threshold is increased, and the process is retried. However, the **first median-based iteration has no time limit** after a timeout with threshold `-1`.
+#' - **Success:** If a valid PD is found (more than 1000 rows), the process completes and the PD is returned.
+#' - **Failure:** If the process terminates or the resulting diagram is invalid, the function returns `NULL`.
+#' - **Timeout:** If the process exceeds the time limit, it is killed and no further attempt is made.
 #'
 #' @return A list containing:
-#' - `PD`: The persistence diagram (PD) matrix if successful, or `NULL` if all retries fail.
+#' - `PD`: The persistence diagram (PD) matrix if successful, or `NULL` if the calculation fails.
 #' - `threshold`: The final threshold used for the successful PD or `NULL` if no valid PD is found.
 # Function to process and monitor a single dataset for Persistent Homology (PH) calculation
 process_and_monitor <- function(expr_matrix, i, DIM, log_message, memory_threshold,
                                 max_threshold = 5000,
                                 max_time_per_iteration = 20 * 24 * 3600, # 10*24 hours
-                                max_retries = 20,
+                                max_retries = 1,
                                 timeout_datasets = NULL,
                                 results_file = NULL,
                                 log_file = NULL,
