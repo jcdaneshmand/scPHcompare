@@ -82,7 +82,14 @@
 
 # datasets_to_drop <- c(12,15,18) #going to come back to these in a future run
 
-process_datasets_PH <- function(metadata, integration_method = "seurat", num_cores = 16, MIN_CELLS = 250, DIM = 1, THRESHOLD = -1, datasets_to_drop = NULL) {
+process_datasets_PH <- function(metadata,
+                                integration_method = "seurat",
+                                num_cores = 16,
+                                MIN_CELLS = 250,
+                                DIM = 1,
+                                THRESHOLD = -1,
+                                dataset_tag = "dataset",
+                                datasets_to_drop = NULL) {
   # Determine metadata column names and warn if missing
   sra_col <- intersect(c("SRA", "SRA_Number", "SRA Number"), colnames(metadata))[1]
   tissue_col <- intersect(c("Tissue", "tissue"), colnames(metadata))[1]
@@ -121,6 +128,8 @@ process_datasets_PH <- function(metadata, integration_method = "seurat", num_cor
     "igraph",
     "progressr"
   )
+
+  dataset_suffix <- if (nzchar(dataset_tag)) paste0("_", dataset_tag) else ""
   
   # Check and load required packages
   for (pkg in packages) {
@@ -130,49 +139,30 @@ process_datasets_PH <- function(metadata, integration_method = "seurat", num_cor
   }
   
   # Start logging
-  log_file <- paste0("PH_Pipeline_Log_", Sys.Date(), ".txt")
+  log_file <- paste0("PH_Pipeline_Log_", Sys.Date(), dataset_suffix, ".txt")
   sink(log_file, append = TRUE)
   
   # Helper functions are available once the package is loaded
   
   log_message("Processing series with CSV input")
   
-  # Extract file paths directly from the CSV
+  # Extract file paths directly from the CSV and load the sparse matrices
   file_paths <- metadata$'File Path'
-  
-  # file_paths <- file_paths[-datasets_to_drop]
-  
-  # Read sparse matrices into a list
-  my_sparse_matrices <- list()
-  
-  # Process .RData files directly
-  if (length(file_paths) > 0) {
-    tryCatch(
-      {
-        sparse_matrices <- lapply(file_paths, loadRData)
-        my_sparse_matrices <- sparse_matrices
-      },
-      error = function(e) {
-        log_message(paste("Error in processing .RData files from CSV:", e$message))
-      }
-    )
-    
-    sample_names <- tryCatch(
-      {
-        gsub(".*/|\\.sparse.RData$", "", file_paths)
-      },
-      error = function(e) {
-        log_message(paste("Error in defining sample names from CSV:", e$message))
-        NULL
-      }
-    )
-  }
-  
-  if (is.null(sample_names)) {
+
+  loaded <- tryCatch(
+    load_sparse_matrices(file_paths),
+    error = function(e) {
+      log_message(paste("Error in processing .RData files from CSV:", e$message))
+      NULL
+    }
+  )
+
+  if (is.null(loaded) || length(loaded$sample_names) == 0) {
     return(NULL)
   }
-  
-  names(my_sparse_matrices) <- sample_names
+
+  my_sparse_matrices <- loaded$matrices
+  sample_names <- loaded$sample_names
   
   # Create Seurat objects for each sample
   my_seurat_list <- tryCatch(
@@ -258,7 +248,7 @@ process_datasets_PH <- function(metadata, integration_method = "seurat", num_cor
   
 
   
-  prefiltered_cells_file <- "prefiltered_cells_bonemarrow.csv"
+  prefiltered_cells_file <- paste0("prefiltered_cells", dataset_suffix, ".csv")
 
   # Function to extract columns with constant values from metadata
   get_constant_metadata <- function(obj) {
@@ -649,7 +639,7 @@ process_datasets_PH <- function(metadata, integration_method = "seurat", num_cor
     
     # Check the structure of expr_list to verify the extraction
     str(expr_list_sctWhole)
-    saveRDS(expr_list_sctWhole, file="expr_list_sctWhole_bonemarrow.Rds")
+    saveRDS(expr_list_sctWhole, file = paste0("expr_list_sctWhole", dataset_suffix, ".Rds"))
 }
   
   # saveRDS(expr_list_sctInd, file = 'expr_list_scInd_bonemarrow.Rds')
@@ -668,127 +658,32 @@ process_datasets_PH <- function(metadata, integration_method = "seurat", num_cor
   
   timeout_datasets <- NULL
   
-  # Step 1: Process unintegrated data with the new batching, memory checking, and preschedule approach
-  PD_result_unintegrated <- tryCatch(
-    {
-      # Call the process_expression_list_with_monitoring function with timeout_datasets
-      process_expression_list_with_monitoring(
-        expr_list = expr_list_sctInd, 
-        DIM = 1, 
-        log_message = log_message, 
-        max_cores = 6, 
-        memory_threshold = 0.25,  # Example: 25% memory threshold
-        log_file = "progress_log_bonemarrow.csv", 
-        results_file = "intermediate_results_bonemarrow.rds",
-        timeout_datasets = NULL
-      )    
-    },
-    error = function(e) {
-      log_message(paste("Error in calculating persistence diagrams for unintegrated data:", e$message))
-      NULL
-    }
+  PD_result_unintegrated <- compute_ph_batch(
+    expr_list_sctInd, DIM, log_message, dataset_suffix,
+    "_unintegrated", max_cores = 6
   )
-  
-  PD_result_unintegrated_RAW <- tryCatch(
-    {
-      # Call the process_expression_list_with_monitoring function with timeout_datasets
-      process_expression_list_with_monitoring(
-        expr_list = expr_list_raw, 
-        DIM = 1, 
-        log_message = log_message, 
-        max_cores = 6, 
-        memory_threshold = 0.25,  # Example: 25% memory threshold
-        log_file = "progress_log_RAW_bonemarrow.csv", 
-        results_file = "intermediate_results_RAW_bonemarrow.rds",
-        timeout_datasets = NULL
-      )    
-    },
-    error = function(e) {
-      log_message(paste("Error in calculating persistence diagrams for unintegrated data:", e$message))
-      NULL
-    }
+  save_ph_results(
+    PD_result_unintegrated, expr_list_sctInd, DIM, THRESHOLD,
+    dataset_suffix, "_unintegrated", log_message
   )
-  
-  PD_result_unintegrated_sctWhole <- tryCatch(
-    {
-      # Call the process_expression_list_with_monitoring function with timeout_datasets
-      process_expression_list_with_monitoring(
-        expr_list = expr_list_sctWhole,
-        DIM = 1,
-        log_message = log_message,
-        max_cores = 8,
-        memory_threshold = 0.25, # Example: 25% memory threshold
-        log_file = "progress_log_sctWhole.csv",
-        results_file = "intermediate_results_sctWhole.rds",
-        timeout_datasets = NULL
-      )
-    },
-    error = function(e) {
-      log_message(paste("Error in calculating persistence diagrams for unintegrated data:", e$message))
-      NULL
-    }
+
+  PD_result_unintegrated_RAW <- compute_ph_batch(
+    expr_list_raw, DIM, log_message, dataset_suffix,
+    "_unintegrated_RAW", max_cores = 6
   )
-  #PD_result_unintegrated_sctWhole <- readRDS("intermediate_results_sctWhole_bonemarrow.rds")
+  save_ph_results(
+    PD_result_unintegrated_RAW, expr_list_raw, DIM, THRESHOLD,
+    dataset_suffix, "_unintegrated_RAW", log_message
+  )
 
-  # Extract PD_list and thresholds from unintegrated PH results
-  if (!is.null(PD_result_unintegrated)) {
-    thresholds_unintegrated <- PD_result_unintegrated$thresholds
-    PD_list_unintegrated <- PD_result_unintegrated$PD_list
-    
-    names(PD_list_unintegrated) <- names(expr_list_sctInd)
-    names(thresholds_unintegrated) <- names(expr_list_sctInd)
-    
-    # Save the unintegrated PD results
-    tryCatch(
-      {
-        saveRDS(object = PD_list_unintegrated, file = paste0("PD_list_dim", DIM, "_th", THRESHOLD, "_unintegrated_bonemarrow", ".Rds"))
-        saveRDS(object = thresholds_unintegrated, file = paste0("thresholds_dim", DIM, "_unintegrated_bonemarrow", ".Rds"))
-      },
-      error = function(e) {
-        log_message(paste("Error in saving persistence diagrams for unintegrated data:", e$message))
-      }
-    )
-  }
-  
-  # Extract PD_list and thresholds from unintegrated_RAW PH results
-  if (!is.null(PD_result_unintegrated_RAW)) {
-    thresholds_unintegrated_RAW <- PD_result_unintegrated_RAW$thresholds
-    PD_list_unintegrated_RAW <- PD_result_unintegrated_RAW$PD_list
-    
-    names(PD_list_unintegrated_RAW) <- names(expr_list_raw)
-    names(thresholds_unintegrated_RAW) <- names(expr_list_raw)
-    
-    # Save the unintegrated PD results
-    tryCatch(
-      {
-        saveRDS(object = PD_list_unintegrated_RAW, file = paste0("PD_list_dim", DIM, "_th", THRESHOLD, "_unintegrated_RAW_bonemarrow", ".Rds"))
-        saveRDS(object = thresholds_unintegrated_RAW, file = paste0("thresholds_dim", DIM, "_unintegrated_RAW_bonemarrow", ".Rds"))
-      },
-      error = function(e) {
-        log_message(paste("Error in saving persistence diagrams for unintegrated data RAW:", e$message))
-      }
-    )
-  }
-  
-  # Extract PD_list and thresholds from unintegrated_sctWhole PH results
-  if (!is.null(PD_result_unintegrated_sctWhole)) {
-    thresholds_unintegrated_sctWhole <- PD_result_unintegrated_sctWhole$thresholds
-    PD_list_unintegrated_sctWhole <- PD_result_unintegrated_sctWhole$PD_list
-
-    names(PD_list_unintegrated_sctWhole) <- names(expr_list_sctWhole)
-    names(thresholds_unintegrated_sctWhole) <- names(expr_list_sctWhole)
-
-    # Save the unintegrated PD results
-    tryCatch(
-      {
-        saveRDS(object = PD_list_unintegrated_sctWhole, file = paste0("PD_list_dim", DIM, "_th", THRESHOLD, "_unintegrated_sctWhole_bonemarrow", ".Rds"))
-        saveRDS(object = thresholds_unintegrated_sctWhole, file = paste0("thresholds_dim", DIM, "_unintegrated_sctWhole_bonemarrow", ".Rds"))
-      },
-      error = function(e) {
-        log_message(paste("Error in saving persistence diagrams for unintegrated data sctWhole:", e$message))
-      }
-    )
-  }
+  PD_result_unintegrated_sctWhole <- compute_ph_batch(
+    expr_list_sctWhole, DIM, log_message, dataset_suffix,
+    "_unintegrated_sctWhole", max_cores = 8
+  )
+  save_ph_results(
+    PD_result_unintegrated_sctWhole, expr_list_sctWhole, DIM, THRESHOLD,
+    dataset_suffix, "_unintegrated_sctWhole", log_message
+  )
   
   # Integration routines are available in the package
 
@@ -840,83 +735,22 @@ process_datasets_PH <- function(metadata, integration_method = "seurat", num_cor
     saveRDS(expr_list_integrated, file = "expr_list_integrated.rds")
   }
   
-  # Step 8: Process integrated data with the new batching, memory checking, and preschedule approach
-  PD_result_integrated <- tryCatch(
-    {
-      process_expression_list_with_monitoring(
-        expr_list = expr_list_integrated, 
-        DIM = DIM, 
-        log_message = log_message, 
-        max_cores = 8, 
-        memory_threshold = 0.25,  # Example: 25% memory threshold
-        log_file = "progress_log_integrated.csv", 
-        results_file = "intermediate_results_integrated.rds"
-      )
-    },
-    error = function(e) {
-      log_message(paste("Error in calculating persistence diagrams for integrated data:", e$message))
-      NULL
-    }
+  PD_result_integrated <- compute_ph_batch(
+    expr_list_integrated, DIM, log_message, dataset_suffix,
+    "_integrated", max_cores = 8
   )
-  
-  # Extract PD_list and thresholds from integrated PH results
-  if (!is.null(PD_result_integrated)) {
-    thresholds_integrated <- PD_result_integrated$thresholds
-    PD_list_integrated <- PD_result_integrated$PD_list
-    
-    # Save the integrated PD results
-    tryCatch(
-      {
-        saveRDS(object = PD_list_integrated, file = paste0("PD_list_dim", DIM, "_th", THRESHOLD, "_integrated", ".Rds"))
-        saveRDS(object = thresholds_integrated, file = paste0("thresholds_dim", DIM, "_integrated", ".Rds"))
-      },
-      error = function(e) {
-        log_message(paste("Error in saving persistence diagrams for integrated data:", e$message))
-      }
-    )
-    
-  }
+  save_ph_results(
+    PD_result_integrated, expr_list_integrated, DIM, THRESHOLD,
+    dataset_suffix, "_integrated", log_message
+  )
 
   ##
   ## Assemble output structure for post processing
   ## -------------------------------------------------------
-  data_iterations <- list(
-    list(
-      name = "Raw",
-      seurat_obj = merged_seurat_unintegrated,
-      assay = "RNA",
-      bdm_matrix = "BDM_unintegrated_Raw.rds",
-      sdm_matrix = "SDM_unintegrated_Raw.rds",
-      pd_list = "PD_list_after_retries_unintegrated_Raw.rds",
-      expr_list = expr_list_raw
-    ),
-    list(
-      name = "SCT_Individual",
-      seurat_obj = merged_seurat_unintegrated,
-      assay = "SCT_Ind",
-      bdm_matrix = "BDM_unintegrated_sctInd.rds",
-      sdm_matrix = "SDM_unintegrated_sctInd.rds",
-      pd_list = "PD_list_after_retries_unintegrated_sctInd.rds",
-      expr_list = expr_list_sctInd
-    ),
-    list(
-      name = "SCT_Whole",
-      seurat_obj = merged_seurat_unintegrated,
-      assay = "SCT",
-      bdm_matrix = "BDM_unintegrated_sctWhole.rds",
-      sdm_matrix = "SDM_unintegrated_sctWhole.rds",
-      pd_list = "PD_list_after_retries_unintegrated_sctWhole.rds",
-      expr_list = expr_list_sctWhole
-    ),
-    list(
-      name = "Integrated",
-      seurat_obj = result,
-      assay = "integrated",
-      bdm_matrix = "BDM_integrated.rds",
-      sdm_matrix = "SDM_integrated.rds",
-      pd_list = "PD_list_after_retries_integrated.rds",
-      expr_list = expr_list_integrated
-    )
+  data_iterations <- assemble_ph_results(
+    merged_seurat_unintegrated, result,
+    expr_list_raw, expr_list_sctInd,
+    expr_list_sctWhole, expr_list_integrated
   )
 
   # Close the log sink if opened

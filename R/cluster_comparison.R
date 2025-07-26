@@ -4,6 +4,7 @@
 #' provided Seurat objects.  It collects the clustering columns and
 #' produces comparative metrics and plots.
 run_cluster_comparison <- function(data_iterations, results_folder,
+                                   dataset_tag = "dataset",
                                    run_comparative_metrics = TRUE,
                                    include_silhouette = FALSE,
                                    SRA_col = "SRA",
@@ -101,7 +102,8 @@ if (num_collected_plots > 0) {
 
   for (i in seq_len(num_collected_plots)) {
     plot_name <- names(normalized_bar_plots_list)[i]
-    clean_plot_name <- gsub("_", " ", gsub("_bonemarrow$", "", plot_name))
+    suffix <- if (nzchar(dataset_tag)) paste0("_", dataset_tag, "$") else "$"
+    clean_plot_name <- gsub("_", " ", gsub(suffix, "", plot_name))
     p <- normalized_bar_plots_list[[i]]
 
     grouping_vars <- setdiff(names(p$data), c("Metric", "Normalized"))

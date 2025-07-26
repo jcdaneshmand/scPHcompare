@@ -30,7 +30,7 @@ library(scPHcompare)
 
 ## Quick start
 
-Prepare a CSV file describing each dataset. The required columns are `File Path` and `Sample Name`. Additional metadata such as `SRA`, `Tissue` and `Approach` (scRNA‑seq or snRNA‑seq) will be preserved if provided. Column names can be customised when calling the pipeline.
+Prepare a CSV file describing each dataset. The required columns are `File Path` and `Sample Name`. Additional metadata such as `SRA`, `Tissue` and `Approach` (scRNA‑seq or snRNA‑seq) will be preserved if provided. **At least one of `SRA`, `Tissue`, or `Approach` must be present to allow grouping and downstream analyses.** Column names can be customised when calling the pipeline.
 
 ```r
 results <- run_unified_pipeline(
@@ -67,6 +67,7 @@ The package exports the following user facing functions:
 * `run_postprocessing_pipeline()` – standalone function for clustering and analyses on existing PH results
 * `run_modular_analysis()` – runs cluster comparison, Betti curves and cross‑iteration analysis
 * `process_datasets_PH()` – lower level function performing PH calculations on input datasets
+
 
 Refer to the documentation in the `R/` directory for details on additional parameters.
 
