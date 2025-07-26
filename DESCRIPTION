@@ -61,3 +61,7 @@ Suggests:
     scCustomize,
     SeuratObject,
     stringr,
+    testthat (>= 3.0.0),
+    mockr,
+
+Config/testthat/edition: 3
