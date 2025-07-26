@@ -3,17 +3,6 @@
 # persistence homology calculations, managing memory, handling parallel processing, and dynamically adjusting thresholds.
 
 # Load necessary libraries
-require(tidyverse)
-require(ripserr)
-require(TDA)
-require(foreach)
-require(doParallel)
-require(parallel)
-require(umap)
-require(ps)
-require(processx)
-
-#----------------------------------------------
 # General Utility Functions
 #----------------------------------------------
 
@@ -305,7 +294,7 @@ CreateBottleneckDistanceMatrixParallel <- function(
       # Create the Rscript command using the saved PD file paths
       ph_job <- processx::process$new(
         "Rscript",
-        c("-e", paste0("\n          library(TDA);\n          PD1 <- readRDS('", PD1_path, "');\n          PD2 <- readRDS('", PD2_path, "');\n          bottleneck_distance <- bottleneck(PD1, PD2, dimension = ", DIM, ");\n          writeLines(as.character(bottleneck_distance), '", result_file, "')\n        ")),
+        c("-e", paste0("\n          PD1 <- readRDS('", PD1_path, "');\n          PD2 <- readRDS('", PD2_path, "');\n          bottleneck_distance <- TDA::bottleneck(PD1, PD2, dimension = ", DIM, ");\n          writeLines(as.character(bottleneck_distance), '", result_file, "')\n        ")),
         stdout = "|", stderr = "|"
       )
 
@@ -654,7 +643,7 @@ is_job_completed <- function(job_id, PD_list, log_file) {
 #' process_and_monitor
 #'
 #' Run persistent homology (PH) on a single expression matrix using
-#' `vietoris_rips` from the **ripserr** package. The function chooses an
+#' `ripserr::vietoris_rips` from the **ripserr** package. The function chooses an
 #' initial threshold of `-1` unless the dataset previously timed out, in
 #' which case a data-driven estimate is used. The PH computation runs in a
 #' separate process and is killed if it exceeds `max_time_per_iteration`.
@@ -688,9 +677,7 @@ process_and_monitor <- function(expr_matrix, i, DIM, log_message, memory_thresho
       # current_threshold <- max_val / 4
       # log_message(paste("Initial threshold for dataset", i, "set to:", current_threshold))
 
-      library(FNN)
 
-      # inside your tryCatch, replacing the simple max‐division logic:
       # -------------------------------------------------------------
       # 1. run a quick PCA on expr_matrix
       pcs <- prcomp(expr_matrix, center = TRUE, scale. = TRUE)$x[, seq_len(DIM)]
@@ -699,7 +686,7 @@ process_and_monitor <- function(expr_matrix, i, DIM, log_message, memory_thresho
       k_nn <- 100
 
       # 3. compute the k‐th nearest neighbor distances
-      knn_info <- get.knn(pcs, k = k_nn)
+      knn_info <- FNN::get.knn(pcs, k = k_nn)
 
       # 4. extract each point’s distance to its k-th neighbor
       kth_dists <- knn_info$nn.dist[, k_nn]
@@ -745,10 +732,9 @@ process_and_monitor <- function(expr_matrix, i, DIM, log_message, memory_thresho
       "Rscript",
       c("-e", paste0(
         "tryCatch({",
-        "library(ripserr);",
         "dataset <- readRDS('", dataset_file, "');",
         "dataset <- as.matrix(dataset);",
-        "PD <- vietoris_rips(dataset = dataset, max_dim = ", DIM, ", threshold = ", current_threshold, ", return_format = 'mat');",
+        "PD <- ripserr::vietoris_rips(dataset = dataset, max_dim = ", DIM, ", threshold = ", current_threshold, ", return_format = 'mat');",
         "saveRDS(PD, '", pd_file, "')",
         "}, error = function(e) { cat('Error:', e$message, '\n') })",
         ";quit(save='no')"

@@ -1,15 +1,4 @@
 # Make sure you have cowplot and other required packages installed
-library(cowplot)
-library(dplyr)
-library(tidyr)
-library(ggplot2) # Ensure ggplot2 is loaded
-library(ggtext)
-library(glue)
-library(gridExtra)
-library(parallel)
-library(digest)
-library(transport)
-library(svglite)
 
 # Helper function for logging
 log_message <- function(msg) {
@@ -111,13 +100,12 @@ compute_and_compare_betti_curves <- function(pd_list, landscape_list, seurat_obj
                                  curve_type = "Euler", dataset_name, base_sigma,
                                  grid_points, tau_max, results_folder, verbose = TRUE,
                                  num_cores = 8) {
-    library(parallel)
-    integrated_diff <- function(curve_diff, tau_vals) {
-      delta_tau <- diff(tau_vals)
-      integrated_sq <- sum(delta_tau * (curve_diff[-length(curve_diff)] ^ 2 +
-                                          curve_diff[-1] ^ 2) / 2, na.rm = TRUE)
-      sqrt(integrated_sq)
-    }
+  integrated_diff <- function(curve_diff, tau_vals) {
+    delta_tau <- diff(tau_vals)
+    integrated_sq <- sum(delta_tau * (curve_diff[-length(curve_diff)] ^ 2 +
+                                        curve_diff[-1] ^ 2) / 2, na.rm = TRUE)
+    sqrt(integrated_sq)
+  }
     log_message <- function(msg) {
       if (verbose) cat(sprintf("[%s] %s\n", Sys.time(), msg))
     }

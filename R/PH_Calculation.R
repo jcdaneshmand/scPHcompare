@@ -133,10 +133,6 @@ process_datasets_PH <- function(metadata,
   
   # Check and load required packages
   for (pkg in packages) {
-    if (!require(pkg, character.only = TRUE)) {
-      library(pkg, character.only = TRUE)
-    }
-  }
   
   # Start logging
   log_file <- paste0("PH_Pipeline_Log_", Sys.Date(), dataset_suffix, ".txt")
