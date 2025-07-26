@@ -60,18 +60,55 @@ run_modular_analysis <- function(ph_results,
     for (iter in data_iterations) {
       pd_list <- readRDS(iter$pd_list)
       landscape_list <- if (!is.null(iter$landscape_list)) readRDS(iter$landscape_list) else NULL
-      betti_results[[iter$name]] <- try(
-        compute_and_compare_betti_curves(
-          pd_list = pd_list,
-          landscape_list = landscape_list,
-          seurat_objects = list(iter$seurat_obj),
-          group_by_col = Tissue_col,
-          dataset_name = iter$name,
-          results_folder = results_dir,
-          ...
-        ),
-        silent = TRUE
-      )
+
+      iter_results <- list()
+
+      if (Tissue_col %in% colnames(iter$seurat_obj@meta.data)) {
+        iter_results$Tissue <- try(
+          compute_and_compare_betti_curves(
+            pd_list = pd_list,
+            landscape_list = landscape_list,
+            seurat_objects = list(iter$seurat_obj),
+            group_by_col = Tissue_col,
+            dataset_name = iter$name,
+            results_folder = results_dir,
+            ...
+          ),
+          silent = TRUE
+        )
+      }
+
+      if (SRA_col %in% colnames(iter$seurat_obj@meta.data)) {
+        iter_results$SRA <- try(
+          compute_and_compare_betti_curves(
+            pd_list = pd_list,
+            landscape_list = landscape_list,
+            seurat_objects = list(iter$seurat_obj),
+            group_by_col = SRA_col,
+            dataset_name = iter$name,
+            results_folder = results_dir,
+            ...
+          ),
+          silent = TRUE
+        )
+      }
+
+      if (Approach_col %in% colnames(iter$seurat_obj@meta.data)) {
+        iter_results$Approach <- try(
+          compute_and_compare_betti_curves(
+            pd_list = pd_list,
+            landscape_list = landscape_list,
+            seurat_objects = list(iter$seurat_obj),
+            group_by_col = Approach_col,
+            dataset_name = iter$name,
+            results_folder = results_dir,
+            ...
+          ),
+          silent = TRUE
+        )
+      }
+
+      betti_results[[iter$name]] <- iter_results
     }
     results$betti <- betti_results
   }
