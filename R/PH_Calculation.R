@@ -7,8 +7,8 @@
 #' and performs statistical comparisons across different clustering methods such as UMAP 
 #' and hierarchical clustering.
 #' 
-#' It supports batch integration methods including LIGER, Seurat, and MNN (Mutual Nearest Neighbors),
-#' allowing for batch effect correction in multi-sample or multi-dataset workflows. 
+#' Batch effect correction is currently supported through Seurat integration for
+#' multi-sample or multi-dataset workflows.
 #' The final output includes persistence diagrams. Distance matrices
 #' (BDM/SDM/LDM) are produced later during post-processing along with UMAP
 #' embeddings and clustering visualizations.
@@ -25,9 +25,8 @@
 #'   
 #'   \item \strong{Persistent Homology (PH) Analysis:}
 #'     \itemize{
-#'       \item Converts `Seurat` objects into `LIGER` objects for batch correction.
 #'       \item Calculates persistence diagrams for unintegrated data using `ripserr` and `TDA` packages.
-#'       \item Integrates datasets using methods such as Seurat, LIGER, or MNN, and recalculates persistence diagrams for integrated data.
+#'       \item Integrates datasets using Seurat and recalculates persistence diagrams for integrated data.
 #'     }
 #'   
 #'   \item \strong{Distance Matrix Generation (Post-Processing):}
