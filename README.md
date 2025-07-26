@@ -38,6 +38,7 @@ results <- run_unified_pipeline(
   results_dir = "results",
   num_cores = 8,
   integration_method = "seurat",
+  dataset_tag = "experiment1",
   run_cluster = TRUE,        # optional cluster comparison
   run_cross_iteration = TRUE,# optional cross‑iteration analysis
   run_betti = TRUE           # optional Betti curve comparison
@@ -66,7 +67,7 @@ The package exports the following user facing functions:
 * `run_unified_pipeline()` – entry point that runs preprocessing and optional post‑processing modules
 * `run_postprocessing_pipeline()` – standalone function for clustering and analyses on existing PH results
 * `run_modular_analysis()` – helper to selectively run cluster comparison, Betti curves or cross‑iteration steps
-* `process_datasets_PH()` – lower level function performing PH calculations on input datasets
+* `process_datasets_PH()` – lower level function performing PH calculations on input datasets; accepts `dataset_tag` to label output files
 * `run_cross_iteration()` – summarise metrics across different data iterations
 
 Refer to the documentation in the `R/` directory for details on additional parameters.
