@@ -76,6 +76,24 @@
 #' @section License:
 #' [Specify the license under which the script is distributed, e.g., GPL-3]
 
+#' @param metadata Data frame with file paths and associated metadata.
+#' @param integration_method Integration method to use ("seurat",
+#'   "liger" or "mnn").
+#' @param num_cores Number of cores for parallel processing.
+#' @param MIN_CELLS Minimum number of cells to keep a dataset.
+#' @param DIM Dimensionality for persistent homology calculation.
+#' @param THRESHOLD Threshold for persistence diagram calculation.
+#' @param dataset_tag Optional tag appended to output files.
+#' @param datasets_to_drop Integer vector of dataset indices to omit.
+#'
+#' @return A list containing processed iterations as well as the detected
+#'   column names for SRA, tissue and approach.
+#'
+#' @examples
+#' \dontrun{
+#' metadata <- read.csv("./data/VastlyDifferentTissues/metadata.csv")
+#' results <- process_datasets_PH(metadata, num_cores = 32)
+#' }
 #' @export
 
 

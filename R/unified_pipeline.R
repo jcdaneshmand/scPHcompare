@@ -1,3 +1,30 @@
+#' Run the complete PH pipeline
+#'
+#' This wrapper function first processes the datasets using
+#' `process_datasets_PH()` and then optionally performs the
+#' post-processing analyses provided by `run_postprocessing_pipeline()`.
+#'
+#' @param metadata_path Path to a CSV file containing dataset metadata.
+#' @param results_dir Directory where results should be written.
+#' @param num_cores Number of cores to use for parallel tasks.
+#' @param integration_method Integration method to apply when processing
+#'   datasets. Options include "seurat", "liger" or "mnn".
+#' @param run_cluster If `TRUE`, run clustering comparisons during
+#'   post-processing.
+#' @param run_modular If `TRUE`, perform modular analyses.
+#' @param run_betti If `TRUE`, compute and compare Betti curves.
+#' @param ... Additional arguments passed to the underlying processing
+#'   functions.
+#'
+#' @return The list produced by `process_datasets_PH()` that contains the
+#'   processed iterations and metadata column names.
+#'
+#' @examples
+#' \dontrun{
+#' metadata <- read.csv("./data/metadata.csv")
+#' run_unified_pipeline(metadata_path = "./data/metadata.csv")
+#' }
+#' @export
 run_unified_pipeline <- function(metadata_path,
                                  results_dir = "results",
                                  num_cores = 8,
