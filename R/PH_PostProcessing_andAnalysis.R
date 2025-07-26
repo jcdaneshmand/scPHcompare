@@ -28,14 +28,15 @@ library(transport) # For EMD
 
 #' Run post-processing modules
 #'
-#' Wrapper that selectively runs cluster comparison, Betti curve analysis,
-#' and cross-iteration analysis based on provided flags.
+#' Wrapper that selectively runs cluster comparison and Betti curve analysis.
+#' Cross-iteration analysis is now executed by default as part of this
+#' modular pipeline.
 #' @export
 run_modular_analysis <- function(ph_results,
                                  results_dir = "results",
                                  run_cluster = FALSE,
                                  run_betti = FALSE,
-                                 run_cross_iteration = FALSE,
+                                 run_cross_iteration = TRUE,
                                  SRA_col = "SRA",
                                  Tissue_col = "Tissue",
                                  Approach_col = "Approach",

@@ -1365,6 +1365,7 @@ cross_iteration_comparison_with_betti <- function(data_iterations,
 #' `cross_iteration_comparison_with_betti()` that performs the
 #' cross-iteration comparison using default settings. Results are saved
 #' to a subfolder of `results_folder`.
+#' This function is typically invoked via run_modular_analysis().
 #'
 #' @param data_iterations List of iteration objects created by the
 #'   preprocessing pipeline.

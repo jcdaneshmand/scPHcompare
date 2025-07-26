@@ -9,10 +9,10 @@
 * Calculation of persistence diagrams for each sample
 * Generation of distance matrices (Bottleneck, Spectral and Landscape) for PH objects
 * Multiple clustering approaches including standard Seurat, k-means, hierarchical PH and spectral clustering
-* Optional post-processing modules for:
+* Post-processing modules include:
   * Cluster comparison with statistical metrics
   * Betti curve analysis
-  * Cross‑iteration comparisons
+  * Cross‑iteration comparisons (executed automatically with the modular analysis)
 * Helper utilities for plotting, caching and validating intermediate results
 
 ## Installation
@@ -38,10 +38,9 @@ results <- run_unified_pipeline(
   results_dir = "results",
   num_cores = 8,
   integration_method = "seurat",
-  dataset_tag = "experiment1",
-  run_cluster = TRUE,        # optional cluster comparison
-  run_cross_iteration = TRUE,# optional cross‑iteration analysis
-  run_betti = TRUE           # optional Betti curve comparison
+  run_modular = TRUE,   # modular step incl. cross‑iteration comparisons
+  run_cluster = TRUE,   # optional cluster metrics output
+  run_betti = TRUE      # optional Betti curve comparison
 )
 ```
 
@@ -66,9 +65,9 @@ The package exports the following user facing functions:
 
 * `run_unified_pipeline()` – entry point that runs preprocessing and optional post‑processing modules
 * `run_postprocessing_pipeline()` – standalone function for clustering and analyses on existing PH results
-* `run_modular_analysis()` – helper to selectively run cluster comparison, Betti curves or cross‑iteration steps
-* `process_datasets_PH()` – lower level function performing PH calculations on input datasets; accepts `dataset_tag` to label output files
-* `run_cross_iteration()` – summarise metrics across different data iterations
+* `run_modular_analysis()` – runs cluster comparison, Betti curves and cross‑iteration analysis
+* `process_datasets_PH()` – lower level function performing PH calculations on input datasets
+
 
 Refer to the documentation in the `R/` directory for details on additional parameters.
 
