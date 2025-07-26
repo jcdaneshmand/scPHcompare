@@ -30,7 +30,7 @@ library(scPHcompare)
 
 ## Quick start
 
-Prepare a CSV file describing each dataset. The required columns are `File Path` and `Sample Name`. Additional metadata such as `SRA`, `Tissue` and `Approach` (scRNA‑seq or snRNA‑seq) will be preserved if provided. Column names can be customised when calling the pipeline.
+Prepare a CSV file describing each dataset. The required columns are `File Path` and `Sample Name`. Additional metadata such as `SRA`, `Tissue` and `Approach` (scRNA‑seq or snRNA‑seq) will be preserved if provided. **At least one of `SRA`, `Tissue`, or `Approach` must be present to allow grouping and downstream analyses.** Column names can be customised when calling the pipeline.
 
 ```r
 results <- run_unified_pipeline(
