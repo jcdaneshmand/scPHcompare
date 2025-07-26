@@ -264,32 +264,6 @@ for (iter in data_iterations) {
 
   results_list <- list()
 
-  # Existing cluster comparisons
-  cluster_columns <- c(
-      paste0("seurat_cluster_", tolower(dataset_name)),
-      paste0("kmeans_cluster_", tolower(dataset_name), "_tissue"),
-      paste0("kmeans_cluster_", tolower(dataset_name), "_sra"),
-      paste0("kmeans_cluster_", tolower(dataset_name), "_approach"),
-      paste0("hierarchical_cluster_bdm_ph_", tolower(dataset_name), "_tissue"),
-      paste0("hierarchical_cluster_bdm_ph_", tolower(dataset_name), "_sra"),
-      paste0("hierarchical_cluster_bdm_ph_", tolower(dataset_name), "_approach"),
-      paste0("spectral_cluster_bdm_", tolower(dataset_name), "_tissue"),
-      paste0("spectral_cluster_bdm_", tolower(dataset_name), "_sra"),
-      paste0("spectral_cluster_bdm_", tolower(dataset_name), "_approach"),
-      paste0("hierarchical_cluster_sdm_ph_", tolower(dataset_name), "_tissue"),
-      paste0("hierarchical_cluster_sdm_ph_", tolower(dataset_name), "_sra"),
-      paste0("hierarchical_cluster_sdm_ph_", tolower(dataset_name), "_approach"),
-      paste0("hierarchical_cluster_landscape_ph_", tolower(dataset_name), "_tissue"),
-      paste0("hierarchical_cluster_landscape_ph_", tolower(dataset_name), "_sra"),
-      paste0("hierarchical_cluster_landscape_ph_", tolower(dataset_name), "_approach"),
-      paste0("spectral_cluster_sdm_", tolower(dataset_name), "_tissue"),
-      paste0("spectral_cluster_sdm_", tolower(dataset_name), "_sra"),
-      paste0("spectral_cluster_sdm_", tolower(dataset_name), "_approach"),
-      paste0("spectral_cluster_landscape_", tolower(dataset_name), "_tissue"),
-      paste0("spectral_cluster_landscape_", tolower(dataset_name), "_sra"),
-      paste0("spectral_cluster_landscape_", tolower(dataset_name), "_approach")
-    )
-
   # Main comparisons
   if ("Tissue" %in% colnames(seurat_obj@meta.data)) {
     results_list$tissue_comparison <- tryCatch(
@@ -378,6 +352,7 @@ for (iter in data_iterations) {
   } else {
     cat("Warning: 'sample' column not found in seurat_obj metadata. Skipping sample-based comparison.\n")
   }
+
 
   # Loop over bootstrapped random group columns
   random_group_cols <- grep("^Random_Group", colnames(seurat_obj@meta.data), value = TRUE, ignore.case = TRUE)
