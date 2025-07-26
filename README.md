@@ -5,7 +5,6 @@
 ## Features
 
 * Preprocessing and integration of single-cell datasets using **Seurat**
-  (integration with LIGER and MNN is planned for a future release)
 * Calculation of persistence diagrams for each sample
 * Generation of distance matrices (Bottleneck, Spectral and Landscape) for PH objects
 * Multiple clustering approaches including standard Seurat, k-means, hierarchical PH and spectral clustering
