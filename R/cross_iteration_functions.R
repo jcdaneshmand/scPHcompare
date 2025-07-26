@@ -1,7 +1,8 @@
-
 # ---------------------------
 # Cross-Iteration Betti Curve and Cluster Metric Comparisons
 # ---------------------------
+# Add this to the top of your script with other library calls
+library(viridis)
 
 # Simple logging function.
 log_message <- function(msg) {
@@ -349,7 +350,6 @@ compute_landscape_curve <- function(landscape_obj, grid = seq(0, 1, length.out =
   aggregated_curve <- sqrt(curve0 ^ 2 + curve1 ^ 2)
   if (length(aggregated_curve) != length(grid)) {
     aggregated_curve <- approx(
-      ## MODIFICATION: The interpolation scale now matches the output grid's scale.
       x = seq(min(grid), max(grid), length.out = length(aggregated_curve)),
       y = aggregated_curve,
       xout = grid,
@@ -433,13 +433,15 @@ bootstrap_aggregated_landscape_curve <- function(individual_curves, grid_points,
   )
 }
 
-analyze_and_plot_curves <- function(curve1, curve2, grp1, grp2, curve_type, tau_vals,
+# --- UNIFIED SCALED PLOTTING FUNCTION ---
+analyze_and_plot_curves <- function(curve1, curve2, grp1, grp2, curve_type, tau_vals, tau_max,
                                     alpha, effect_threshold, num_permutations,
                                     null_effect_stats = NULL, null_ks_stats = NULL,
                                     verbose = TRUE) {
   log_message <- function(msg) {
     if (verbose) cat(sprintf("[%s] %s\n", Sys.time(), msg))
   }
+  
   integrated_diff_local <- function(curve_diff, tau_vals) {
     if (length(curve_diff) < 2) {
       log_message("curve_diff has less than 2 points; returning 0 for integrated difference.")
@@ -456,13 +458,16 @@ analyze_and_plot_curves <- function(curve1, curve2, grp1, grp2, curve_type, tau_
     delta_tau <- diff(tau_vals)
     sqrt(sum(delta_tau * (curve_diff[-length(curve_diff)] ^ 2 + curve_diff[-1] ^ 2) / 2, na.rm = TRUE))
   }
+  
   build_plot_data <- function(curve, grp) {
     data.frame(Tau = tau_vals, Mean = curve$mean,
                Lower = curve$lower, Upper = curve$upper, Group = grp)
   }
+  
   pd1 <- build_plot_data(curve1, grp1)
   pd2 <- build_plot_data(curve2, grp2)
   plot_data <- rbind(pd1, pd2)
+  
   if (grepl("Landscape", curve_type, ignore.case = TRUE)) {
     if (!is.null(curve1$individual_landscape_curves) && !is.null(curve2$individual_landscape_curves)) {
       inds1 <- do.call(cbind, curve1$individual_landscape_curves)
@@ -487,27 +492,27 @@ analyze_and_plot_curves <- function(curve1, curve2, grp1, grp2, curve_type, tau_
   } else {
     inds1 <- inds2 <- NULL
   }
+  
   if (!is.null(inds1) && !is.null(inds2) && is.matrix(inds1) && is.matrix(inds2) &&
       ncol(inds1) > 0 && ncol(inds2) > 0) {
     m1 <- rowMeans(inds1, na.rm = TRUE)
     m2 <- rowMeans(inds2, na.rm = TRUE)
   } else {
-    log_message("Falling back to using the aggregated 'mean' fields.")
+    log_message("Falling back to using the aggregated 'mean' fields for stats.")
     m1 <- curve1$mean
     m2 <- curve2$mean
   }
+  
   if (length(m1) < 2) m1 <- rep(0, length(tau_vals))
   if (length(m2) < 2) m2 <- rep(0, length(tau_vals))
+  
   if (length(m1) != length(tau_vals)) {
-    log_message("Interpolating m1 to match tau_vals length.")
-    m1 <- approx(x = seq(0, 1, length.out = length(m1)), y = m1,
-                 xout = seq(0, 1, length.out = length(tau_vals)), rule = 2)$y
+    m1 <- approx(x = seq(0, 1, length.out = length(m1)), y = m1, xout = seq(0, 1, length.out = length(tau_vals)), rule = 2)$y
   }
   if (length(m2) != length(tau_vals)) {
-    log_message("Interpolating m2 to match tau_vals length.")
-    m2 <- approx(x = seq(0, 1, length.out = length(m2)), y = m2,
-                 xout = seq(0, 1, length.out = length(tau_vals)), rule = 2)$y
+    m2 <- approx(x = seq(0, 1, length.out = length(m2)), y = m2, xout = seq(0, 1, length.out = length(tau_vals)), rule = 2)$y
   }
+
   tau_rescaled <- tau_vals / max(tau_vals)
   wass <- tryCatch({
     a <- m1 / sum(m1)
@@ -521,7 +526,9 @@ analyze_and_plot_curves <- function(curve1, curve2, grp1, grp2, curve_type, tau_
     log_message(paste("Wasserstein distance failed:", e$message))
     NA
   })
+  
   obs_diff <- integrated_diff_local(m1 - m2, tau_vals)
+  
   if (!is.null(inds1) && !is.null(inds2) && is.matrix(inds1) && is.matrix(inds2) &&
       ncol(inds1) > 0 && ncol(inds2) > 0) {
     all_inds <- cbind(inds1, inds2)
@@ -533,7 +540,7 @@ analyze_and_plot_curves <- function(curve1, curve2, grp1, grp2, curve_type, tau_
       m2p <- rowMeans(all_inds[, perm[(n1 + 1):n_total], drop = FALSE], na.rm = TRUE)
       integrated_diff_local(m1p - m2p, tau_vals)
     })
-    perm_p <- mean(perm_diffs >= obs_diff)
+    perm_p <- mean(perm_diffs >= obs_diff, na.rm = TRUE)
     ks_res <- lapply(1:nrow(inds1), function(i) {
       res <- tryCatch(ks.test(inds1[i,], inds2[i,]), error = function(e) NULL)
       if (is.null(res)) return(c(stat = NA, p = NA))
@@ -548,9 +555,12 @@ analyze_and_plot_curves <- function(curve1, curve2, grp1, grp2, curve_type, tau_
     ks_combined_stat <- NA
     ks_adj_pval <- NA
   }
+  
   eff_size <- ifelse(sd(c(m1, m2), na.rm = TRUE) == 0, 0, obs_diff / sd(c(m1, m2), na.rm = TRUE))
+  
   if (grepl("Euler", curve_type, ignore.case = TRUE) || grepl("Landscape", curve_type, ignore.case = TRUE)) {
     extract_null_values <- function(null_stats) {
+      if (is.null(null_stats)) return(list(median = NA, lower = NA, upper = NA))
       if (!is.null(null_stats$median)) {
         list(median = null_stats$median, lower = null_stats$lower, upper = null_stats$upper)
       } else if (!is.null(null_stats$quantiles)) {
@@ -580,6 +590,7 @@ analyze_and_plot_curves <- function(curve1, curve2, grp1, grp2, curve_type, tau_
   } else {
     annot_null <- ""
   }
+  
   sig <- ifelse(!is.na(perm_p) && perm_p < alpha, "sig", "notsig")
   annot <- paste("Wasserstein:", signif(wass, 3),
                  "\nPerm p:", ifelse(is.na(perm_p), "NA", signif(perm_p, 3)),
@@ -587,35 +598,41 @@ analyze_and_plot_curves <- function(curve1, curve2, grp1, grp2, curve_type, tau_
                  annot_null,
                  "\nMax KS stat:", ifelse(is.na(ks_combined_stat), "NA", signif(ks_combined_stat, 3)),
                  "\nSignificance:", sig)
-  x_scale <- if (all(tau_vals > 0)) scale_x_continuous(trans = "log10") else scale_x_continuous()
-  plot_data$Group <- as.factor(plot_data$Group)
-  max_x <- max(tau_vals)
-  ## MODIFICATION: Increased font sizes and line size for publication quality.
+  
   p <- ggplot(plot_data, aes(x = Tau, y = Mean, color = Group, group = Group)) +
-    geom_line(linewidth = 1.2) + # Increased line width
+    geom_line(linewidth = 1.2) +
     geom_ribbon(aes(ymin = Lower, ymax = Upper, fill = Group), alpha = 0.2) +
-    labs(title = paste(curve_type, "Comparison:", grp1, "vs.", grp2),
-         y = paste(curve_type, "Value")) +
-    x_scale +
-    annotate("text", x = max_x * 0.99, y = Inf, label = annot, hjust = 1, vjust = 1.2, size = 4) + # Increased text size
+    labs(
+      title = paste(curve_type, "Comparison:", grp1, "vs.", grp2),
+      x = "Normalized Filtration Scale (Tau)",
+      y = paste(curve_type, "Value")
+    ) +
+    # scale_x_continuous(labels = scales::percent_format(scale = 100, accuracy = 1), limits = c(0, 1)) +
+    annotate("text", x = 0.6, y = Inf, label = annot, hjust = 0, vjust = 1.2, size = 4) +
     coord_cartesian(clip = "off") +
-    theme_minimal(base_size = 14) + # Increased base font size
+    theme_minimal(base_size = 14) +
     theme(
-        plot.title = element_text(size = 16, face = "bold"),
-        axis.title = element_text(size = 14),
-        axis.text = element_text(size = 12),
-        legend.title = element_text(size = 14),
-        legend.text = element_text(size = 12)
-    )
+      plot.title = element_text(size = 16, face = "bold"),
+      axis.title = element_text(size = 12),
+      axis.text = element_text(size = 20),
+      legend.title = element_text(size = 14),
+      legend.text = element_text(size = 12)
+    ) +
+  scale_x_log10(
+    "Normalized Filtration Scale (Tau, log scale)",
+    labels = function(breaks) scales::percent(breaks / tau_max, accuracy = 0.01)
+  )
+
   list(stats = list(wasserstein = wass,
                     perm_p = perm_p,
                     effect_size = eff_size,
                     ks_stat = ks_combined_stat,
-                    ks_adj_p = ks_adj_pval),
+                    ks_adj_p = ks_adj_pval), 
        plot = p)
 }
 
-perform_pairwise_comparisons <- function(curves, euler_curves, groups, tau_vals, dimensions = c(0, 1),
+# --- MODIFICATION: Added tau_max to the function definition ---
+perform_pairwise_comparisons <- function(curves, euler_curves, groups, tau_vals, tau_max, dimensions = c(0, 1),
                                          dataset_name = NULL, group_by_col = NULL, plot_output_dir,
                                          alpha = 0.05, effect_threshold = 0.5, num_permutations = 1000,
                                          null_effect_stats = NULL, null_ks_stats = NULL) {
@@ -625,10 +642,6 @@ perform_pairwise_comparisons <- function(curves, euler_curves, groups, tau_vals,
   if (length(valid_groups) < 1) {
     log_message("No valid groups.")
     return(NULL)
-  }
-  use_log_scale <- all(tau_vals > 0)
-  build_plot_data <- function(curve, grp) {
-    data.frame(Tau = tau_vals, Mean = curve$mean, Lower = curve$lower, Upper = curve$upper, Group = grp)
   }
   res <- list()
   for (i in seq_along(valid_groups)) {
@@ -643,7 +656,8 @@ perform_pairwise_comparisons <- function(curves, euler_curves, groups, tau_vals,
         c2 <- tryCatch(curves[[grp2]], error = function(e) NULL)
         if (!is.null(c1) && is.atomic(c1)) c1 <- list(mean = c1, lower = c1, upper = c1)
         if (!is.null(c2) && is.atomic(c2)) c2 <- list(mean = c2, lower = c2, upper = c2)
-        ar <- analyze_and_plot_curves(c1, c2, grp1, grp2, "Landscape", tau_vals,
+        # --- MODIFICATION: Pass tau_max to the plotting function ---
+        ar <- analyze_and_plot_curves(c1, c2, grp1, grp2, "Landscape", tau_vals, tau_max,
                                       alpha, effect_threshold, num_permutations,
                                       null_effect_stats, null_ks_stats)
         if (!is.null(ar$stats)) comp[["landscape"]] <- ar$stats
@@ -653,7 +667,8 @@ perform_pairwise_comparisons <- function(curves, euler_curves, groups, tau_vals,
           c1 <- tryCatch(curves[[grp1]][[d + 1]], error = function(e) NULL)
           c2 <- tryCatch(curves[[grp2]][[d + 1]], error = function(e) NULL)
           if (is.null(c1) || is.null(c2)) next
-          ar <- analyze_and_plot_curves(c1, c2, grp1, grp2, paste("Betti Dim", d), tau_vals,
+          # --- MODIFICATION: Pass tau_max to the plotting function ---
+          ar <- analyze_and_plot_curves(c1, c2, grp1, grp2, paste("Betti Dim", d), tau_vals, tau_max,
                                         alpha, effect_threshold, num_permutations)
           if (!is.null(ar$stats)) comp[[paste0("dimension_", d)]] <- ar$stats
           if (!is.null(ar$plot)) plots <- c(plots, list(ar$plot))
@@ -661,7 +676,8 @@ perform_pairwise_comparisons <- function(curves, euler_curves, groups, tau_vals,
         e1 <- tryCatch(euler_curves[[grp1]], error = function(e) NULL)
         e2 <- tryCatch(euler_curves[[grp2]], error = function(e) NULL)
         if (!is.null(e1) && !is.null(e2)) {
-          er <- analyze_and_plot_curves(e1, e2, grp1, grp2, "Euler", tau_vals,
+          # --- MODIFICATION: Pass tau_max to the plotting function ---
+          er <- analyze_and_plot_curves(e1, e2, grp1, grp2, "Euler", tau_vals, tau_max,
                                         alpha, effect_threshold, num_permutations,
                                         null_effect_stats, null_ks_stats)
           comp[["euler"]] <- er$stats
@@ -669,6 +685,22 @@ perform_pairwise_comparisons <- function(curves, euler_curves, groups, tau_vals,
         }
       }
       if (length(plots) > 0) {
+        for (p_idx in seq_along(plots)) {
+          p <- plots[[p_idx]]
+          plot_title <- p$labels$title
+          curve_type_sanitized <- gsub("[[:space:]]+", "_", plot_title) 
+          curve_type_sanitized <- gsub("[^A-Za-z0-9_vs-]", "", curve_type_sanitized) 
+          png_file_name <- paste0(dataset_name, "_", group_by_col, "_", curve_type_sanitized, ".png")
+          png_file_path <- file.path(plot_output_dir, group_by_col, png_file_name)
+          ggsave(
+            filename = png_file_path,
+            plot = p,
+            width = 12,
+            height = 10,
+            dpi = 300
+          )
+          log_message(paste("Saved individual PNG plot to", png_file_path))
+        }
         if (is.null(dimensions)) {
           file_name_pdf <- paste0(dataset_name, "_landscape_curves_by_", group_by_col, "_",
                                   sanitize_group(grp1), "_vs_", sanitize_group(grp2), "_comparison.pdf")
@@ -682,14 +714,12 @@ perform_pairwise_comparisons <- function(curves, euler_curves, groups, tau_vals,
         }
         plot_file_pdf <- file.path(plot_output_dir, group_by_col, file_name_pdf)
         ensure_directory(dirname(plot_file_pdf))
-        ## MODIFICATION: Increased plot dimensions.
         pdf(plot_file_pdf, width = 12, height = 10 * length(plots))
         gridExtra::grid.arrange(grobs = plots, ncol = 1)
         dev.off()
         log_message(paste("Saved plot to", plot_file_pdf))
         plot_file_svg <- file.path(plot_output_dir, group_by_col, file_name_svg)
         ensure_directory(dirname(plot_file_svg))
-        ## MODIFICATION: Increased plot dimensions.
         svglite::svglite(plot_file_svg, width = 12, height = 10 * length(plots))
         gridExtra::grid.arrange(grobs = plots, ncol = 1)
         dev.off()
@@ -701,8 +731,10 @@ perform_pairwise_comparisons <- function(curves, euler_curves, groups, tau_vals,
   res
 }
 
-plot_aggregated_curves <- function(group_curves, groups, dimensions, tau_vals, dataset_name, group_by_col, euler_curves = NULL, results_folder) {
+# --- UNIFIED SCALED PLOTTING FUNCTION ---
+plot_aggregated_curves <- function(group_curves, groups, dimensions, tau_vals, tau_max, dataset_name, group_by_col, euler_curves = NULL, results_folder) {
   log_message("Generating aggregated plots.")
+  
   if (is.null(dimensions)) {
     out_dir <- file.path(results_folder, "plots", "landscape_curves", "aggregated_curves")
     curve_label <- "Landscape"
@@ -711,24 +743,36 @@ plot_aggregated_curves <- function(group_curves, groups, dimensions, tau_vals, d
     curve_label <- NULL
   }
   ensure_directory(out_dir)
+  
   gen_plot <- function(data, curve_type, dim = NULL) {
     data$Group <- as.factor(data$Group)
-    ## MODIFICATION: Increased font and line sizes for publication quality.
+    
     ggplot(data, aes(x = Tau, y = Mean, color = Group, group = Group)) +
-      geom_line(linewidth = 1.2, alpha = 0.6) + # Increased line width
+      geom_line(linewidth = 1.2, alpha = 0.6) +
       geom_ribbon(aes(ymin = Lower, ymax = Upper, fill = Group), alpha = 0.2) +
-      labs(title = paste(curve_type, "Curve", if (!is.null(dim)) paste("(Dim", dim, ")") else ""),
-           x = "Tau", y = paste(curve_type, "Value")) +
-      theme_minimal(base_size = 14) + # Increased base font size
-      theme(
-          plot.title = element_text(size = 16, face = "bold"),
-          axis.title = element_text(size = 14),
-          axis.text = element_text(size = 12),
-          legend.title = element_text(size = 14),
-          legend.text = element_text(size = 12)
+      labs(
+        title = paste(curve_type, "Curve", if (!is.null(dim)) paste("(Dim", dim, ")") else ""),
+        x = "Normalized Filtration Scale (Tau)", 
+        y = paste(curve_type, "Value")
       ) +
-      scale_x_continuous(trans = "log10")
+      theme_minimal(base_size = 14) +
+      theme(
+        plot.title = element_text(size = 16, face = "bold"),
+        axis.title = element_text(size = 10),
+        axis.text = element_text(size = 22),
+        legend.title = element_text(size = 14),
+        legend.text = element_text(size = 12)
+      ) +
+      # scale_x_continuous(labels = scales::percent_format(scale = 100, accuracy = 1), limits = c(0, 1)) +
+      # coord_trans(x = "log10") + # Add this line for the log scale
+      scale_x_log10(
+      "Normalized Filtration Scale (Tau, log scale)",
+      labels = function(breaks) scales::percent(breaks / tau_max, accuracy = 0.01)
+    ) +
+      scale_color_viridis_d() + 
+      scale_fill_viridis_d()    
   }
+  
   plots <- list()
   if (is.null(dimensions)) {
     aggregated_data_list <- list()
@@ -742,7 +786,7 @@ plot_aggregated_curves <- function(group_curves, groups, dimensions, tau_vals, d
     }
     if (length(aggregated_data_list) > 0) {
       all_data <- do.call(rbind, aggregated_data_list)
-      plots <- list(gen_plot(all_data, curve_label))
+      plots <- list(gen_plot(all_data, "Landscape"))
     }
   } else {
     betti_data_list <- list("0" = data.frame(), "1" = data.frame())
@@ -771,7 +815,24 @@ plot_aggregated_curves <- function(group_curves, groups, dimensions, tau_vals, d
       plots <- c(plots, list(gen_plot(euler_data, "Euler")))
     }
   }
+  
   if (length(plots) > 0) {
+    for (p_idx in seq_along(plots)) {
+      p <- plots[[p_idx]]
+      plot_title <- p$labels$title
+      curve_type_sanitized <- gsub("[[:space:]]+", "_", plot_title)
+      curve_type_sanitized <- gsub("[^A-Za-z0-9_]", "", curve_type_sanitized)
+      png_file_name <- paste0(dataset_name, "_aggregated_", group_by_col, "_", curve_type_sanitized, ".png")
+      png_file_path <- file.path(out_dir, png_file_name)
+      ggsave(
+        filename = png_file_path,
+        plot = p,
+        width = 12,
+        height = 10,
+        dpi = 300
+      )
+      log_message(paste("Saved individual aggregated PNG plot to", png_file_path))
+    }
     if (is.null(dimensions)) {
       file_name_pdf <- paste0(dataset_name, "_landscape_curves_by_", group_by_col, ".pdf")
       file_name_svg <- paste0(dataset_name, "_landscape_curves_by_", group_by_col, ".svg")
@@ -781,14 +842,12 @@ plot_aggregated_curves <- function(group_curves, groups, dimensions, tau_vals, d
     }
     plot_file_pdf <- file.path(out_dir, file_name_pdf)
     ensure_directory(dirname(plot_file_pdf))
-    ## MODIFICATION: Increased plot dimensions.
     pdf(plot_file_pdf, width = 12, height = 10 * length(plots))
     gridExtra::grid.arrange(grobs = plots, ncol = 1)
     dev.off()
     log_message(paste("Saved aggregated plot to", plot_file_pdf))
     plot_file_svg <- file.path(out_dir, file_name_svg)
     ensure_directory(dirname(plot_file_svg))
-    ## MODIFICATION: Increased plot dimensions.
     svglite::svglite(plot_file_svg, width = 12, height = 10 * length(plots))
     gridExtra::grid.arrange(grobs = plots, ncol = 1)
     dev.off()
@@ -1020,7 +1079,7 @@ compute_and_compare_betti_iterations <- function(
   if (!is.null(landscape_list)) {
     aggregated_landscape_curves_by_group <- setNames(lapply(as.character(groups), function(group) {
       group_ids <- group_metadata_mapping$orig.ident.Iter[group_metadata_mapping[[group_by_col]] == group]
-      grid <- tau_vals
+      grid <- seq(0, 1, length.out = grid_points) # Use a 0-1 grid for landscapes
       if (length(group_ids) == 0) {
         return(list(
           mean = rep(0, grid_points), lower = rep(0, grid_points),
@@ -1043,27 +1102,38 @@ compute_and_compare_betti_iterations <- function(
     dimensions = dimensions, dataset_name = dataset_name,
     base_sigma = base_sigma, grid_points = grid_points, tau_max = tau_max, results_folder = results_folder
   )
+  # --- MODIFICATION: Updated function call ---
   pairwise_results <- perform_pairwise_comparisons(
-    curves = betti_curves_by_group, groups = groups, tau_vals = tau_vals, dimensions = dimensions,
-    euler_curves = euler_curves_by_group, dataset_name = dataset_name, group_by_col = group_by_col,
+    curves = betti_curves_by_group, 
+    euler_curves = euler_curves_by_group,
+    groups = groups, 
+    tau_vals = tau_vals, 
+    tau_max = tau_max, # Pass tau_max
+    dimensions = dimensions,
+    dataset_name = dataset_name, 
+    group_by_col = group_by_col,
     plot_output_dir = file.path(results_folder, "plots", "betti_plots", "cross_iteration_comparisons", dataset_name, "pairwise_comparisons"),
     null_effect_stats = bootstrap_nulls$betti_euler$null_effect,
     null_ks_stats = bootstrap_nulls$betti_euler$null_ks,
-    alpha = 0.05, effect_threshold = 0.5, num_permutations = 1000
+    alpha = 0.05, 
+    effect_threshold = 0.5, 
+    num_permutations = 1000
   )
   landscape_pairwise_results <- NULL
   if (!is.null(aggregated_landscape_curves_by_group)) {
-    land_tau <- tau_vals
+    land_tau <- seq(0, 1, length.out = grid_points) # Landscape tau is 0-1
     landscape_nulls <- bootstrap_null_stats_landscape(
       landscape_list,
       n_bootstrap = 50,
       grid_points = grid_points
     )
+    # --- MODIFICATION: Updated function call ---
     landscape_pairwise_results <- perform_pairwise_comparisons(
       curves = aggregated_landscape_curves_by_group,
       euler_curves = NULL,
       groups = groups,
       tau_vals = land_tau,
+      tau_max = 1.0, # Pass tau_max for landscapes (which is 1.0)
       dimensions = NULL,
       dataset_name = dataset_name,
       group_by_col = group_by_col,
@@ -1080,17 +1150,31 @@ compute_and_compare_betti_iterations <- function(
     )
   }
   log_message("Generating aggregated plots for Betti/Euler curves.")
+  # --- MODIFICATION: Updated function call ---
   plot_aggregated_curves(
-    group_curves = betti_curves_by_group, groups = groups, dimensions = dimensions,
-    tau_vals = tau_vals, dataset_name = dataset_name, group_by_col = group_by_col,
-    euler_curves = euler_curves_by_group, results_folder = results_folder
+    group_curves = betti_curves_by_group, 
+    groups = groups, 
+    dimensions = dimensions,
+    tau_vals = tau_vals, 
+    tau_max = tau_max, # Pass tau_max
+    dataset_name = dataset_name, 
+    group_by_col = group_by_col,
+    euler_curves = euler_curves_by_group, 
+    results_folder = results_folder
   )
   if (!is.null(aggregated_landscape_curves_by_group)) {
     log_message("Generating aggregated landscape plots.")
+    # --- MODIFICATION: Updated function call ---
     plot_aggregated_curves(
-      group_curves = aggregated_landscape_curves_by_group, groups = groups, dimensions = NULL,
-      tau_vals = tau_vals, dataset_name = paste0(dataset_name, "_landscape"),
-      group_by_col = group_by_col, euler_curves = NULL, results_folder = results_folder
+      group_curves = aggregated_landscape_curves_by_group, 
+      groups = groups, 
+      dimensions = NULL,
+      tau_vals = seq(0, 1, length.out = grid_points), 
+      tau_max = 1.0, # Pass tau_max for landscapes
+      dataset_name = paste0(dataset_name, "_landscape"),
+      group_by_col = group_by_col, 
+      euler_curves = NULL, 
+      results_folder = results_folder
     )
   }
   list(
@@ -1274,25 +1358,6 @@ cross_iteration_comparison_with_betti <- function(data_iterations,
   log_message(paste("Wrote all curve-comparison stats to:", csv_out))
   log_message("All group-specific comparisons completed.")
                                                   }
-
-#' Run cross-iteration analysis
-#'
-#' Wrapper that simply forwards arguments to
-#' `cross_iteration_comparison_with_betti()` while ensuring the
-#' results directory exists.  This keeps sourcing the file side
-#' effect free.
-#' @export
-run_cross_iteration <- function(data_iterations,
-                                results_folder = "results",
-                                ...) {
-  ensure_directory(results_folder)
-  cross_iteration_comparison_with_betti(
-    data_iterations = data_iterations,
-    output_folder = file.path(results_folder,
-                              "cross_iteration_comparisons"),
-    ...
-  )
-}
                                                   
                                                   
 compare_all_iterations_with_mapped_methods_random_baseline_including_purity_pvals <- function(
@@ -1867,11 +1932,8 @@ compare_all_iterations_with_mapped_methods_random_baseline_including_purity_pval
       }
     }
 
-    # Prepare normalized data for bar and bubble charts.
-    # Here we create an annotation column using the degenerate flag.
     norm_long <- norm_df %>% mutate(IterPair = as.character(IterPair))
     norm_long <- norm_long %>% mutate(
-    # For ARI we check the flag; if degenerate, prepend "X" to the significance code.
       annot = ifelse(ARI_flag == DEGENERATE_SYMBOL,
                      paste0("X", significance_code(ARI_pval)),
                      significance_code(ARI_pval))
@@ -1881,7 +1943,6 @@ compare_all_iterations_with_mapped_methods_random_baseline_including_purity_pval
     norm_long$MethodRef <- factor(norm_long$MethodRef, levels = unique_methods)
     y_breaks <- seq(-1, 1.2, 0.2)
 
-    # Normalized Metrics Bar Chart for ARI with adjusted text position.
     p_bar <- ggplot(norm_long, aes(x = MethodRef, y = ARI_Norm, fill = "ARI")) +
       geom_bar(stat = "identity", position = position_dodge(width = 0.9)) +
       geom_text(aes(label = annot, vjust = ifelse(ARI_Norm >= 0, -0.2, 1.2)),
@@ -1970,6 +2031,5 @@ compare_all_iterations_with_mapped_methods_random_baseline_including_purity_pval
   list(
     raw_comparison = all_results,
     norm_metrics = norm_df
-  # Linked cluster comparisons for each unified method are saved separately.
   )
 }
