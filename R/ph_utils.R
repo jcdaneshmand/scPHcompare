@@ -60,7 +60,7 @@ assemble_ph_results <- function(merged_unintegrated, integrated,
       assay = "RNA",
       bdm_matrix = "BDM_unintegrated_Raw.rds",
       sdm_matrix = "SDM_unintegrated_Raw.rds",
-      pd_list = "PD_list_after_retries_unintegrated_Raw.rds",
+      pd_list = "PD_list_unintegrated_Raw.rds",
       expr_list = expr_list_raw
     ),
     list(
@@ -69,7 +69,7 @@ assemble_ph_results <- function(merged_unintegrated, integrated,
       assay = "SCT_Ind",
       bdm_matrix = "BDM_unintegrated_sctInd.rds",
       sdm_matrix = "SDM_unintegrated_sctInd.rds",
-      pd_list = "PD_list_after_retries_unintegrated_sctInd.rds",
+      pd_list = "PD_list_unintegrated_sctInd.rds",
       expr_list = expr_list_sctInd
     ),
     list(
@@ -78,7 +78,7 @@ assemble_ph_results <- function(merged_unintegrated, integrated,
       assay = "SCT",
       bdm_matrix = "BDM_unintegrated_sctWhole.rds",
       sdm_matrix = "SDM_unintegrated_sctWhole.rds",
-      pd_list = "PD_list_after_retries_unintegrated_sctWhole.rds",
+      pd_list = "PD_list_unintegrated_sctWhole.rds",
       expr_list = expr_list_sctWhole
     ),
     list(
@@ -87,7 +87,7 @@ assemble_ph_results <- function(merged_unintegrated, integrated,
       assay = "integrated",
       bdm_matrix = "BDM_integrated.rds",
       sdm_matrix = "SDM_integrated.rds",
-      pd_list = "PD_list_after_retries_integrated.rds",
+      pd_list = "PD_list_integrated.rds",
       expr_list = expr_list_integrated
     )
   )

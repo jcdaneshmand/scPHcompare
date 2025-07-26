@@ -85,7 +85,7 @@ save_intermediate_results <- function(results_file, job_id, best_PD) {
   }
 
   # Ensure PD_list is a named list
-  if (length(PD_list) > 0 && is.null(names(PD_list))) {
+  if (is.null(names(PD_list))) {
     names(PD_list) <- as.character(seq_along(PD_list))
   }
 
@@ -144,6 +144,13 @@ load_intermediate_results_and_identify_unfinished_jobs <- function(results_file,
     log_message("No intermediate results file found. Initializing an empty list for persistence diagrams.")
     PD_list <- vector("list", length(expr_list)) # Initialize an empty list if no results file is found
     saveRDS(PD_list, results_file) # Save the initialized empty list
+  }
+
+  # Ensure PD_list has names matching expr_list
+  if (length(expr_list) > 0) {
+    names(PD_list) <- names(expr_list)
+  } else if (is.null(names(PD_list))) {
+    names(PD_list) <- as.character(seq_along(PD_list))
   }
 
   # Identify jobs with incomplete or invalid PD results
@@ -503,8 +510,10 @@ process_expression_list_with_monitoring <- function(expr_list, DIM, log_message,
   job_indices <- load_res$job_indices
   threshold_tracker <- list()
 
-  # Ensure PD_list is a named list with job IDs as names
-  if (length(PD_list) > 0 && is.null(names(PD_list))) {
+  # Ensure PD_list is a named list matching expr_list
+  if (length(expr_list) > 0) {
+    names(PD_list) <- names(expr_list)
+  } else if (is.null(names(PD_list))) {
     names(PD_list) <- as.character(seq_along(PD_list))
   }
 
@@ -596,8 +605,6 @@ process_batch_of_datasets <- function(batch_indices, expr_list, DIM, log_message
           DIM = DIM,
           log_message = log_message,
           memory_threshold = memory_threshold,
-          max_threshold = 2000,
-          max_retries = 10,
           timeout_datasets = timeout_datasets,
           results_file = results_file, # Ensure results_file is passed here
           log_file = log_file
@@ -646,57 +653,28 @@ is_job_completed <- function(job_id, PD_list, log_file) {
 
 #' process_and_monitor
 #'
-#' This function processes a single dataset for Persistent Homology (PH) calculation using the `vietoris_rips` function from the `ripserr` package.
-#' It monitors the process for any failures, timeouts, or invalid results, and retries with updated thresholds when necessary.
+#' Run persistent homology (PH) on a single expression matrix using
+#' `vietoris_rips` from the **ripserr** package. The function chooses an
+#' initial threshold of `-1` unless the dataset previously timed out, in
+#' which case a data-driven estimate is used. The PH computation runs in a
+#' separate process and is killed if it exceeds `max_time_per_iteration`.
 #'
-#' @param expr_matrix A single expression matrix (as a numeric matrix or `dgCMatrix`).
-#' @param i Integer index or identifier of the dataset being processed.
-#' @param DIM Integer specifying the dimension to compute for Persistent Homology.
-#' @param log_message Function for logging messages (e.g., to a file or console).
-#' @param memory_threshold A numeric threshold for memory usage (in gigabytes). Not currently implemented but reserved for future use.
-#' @param max_threshold A numeric value specifying the maximum allowed threshold for PH computation. Default is 2000.
-#' @param max_time_per_iteration A numeric value (in seconds) specifying the maximum time allowed for each PH computation. Default is 12 hours (43200 seconds).
-#' @param max_retries Integer specifying the maximum number of retries before giving up on a dataset. Default is 10.
-#' @param timeout_datasets A vector of dataset indices that have previously timed out, which triggers a specific handling workflow.
+#' @param expr_matrix A numeric matrix or `dgCMatrix` of expression values.
+#' @param i Identifier of the dataset.
+#' @param DIM Dimension for PH computation.
+#' @param log_message Function for logging messages.
+#' @param memory_threshold Reserved for future memory checks.
+#' @param max_time_per_iteration Maximum runtime in seconds (default 12 hours).
+#' @param timeout_datasets Vector of dataset indices that previously timed out.
 #'
-#' @details
-#'
-#' The function starts by determining the initial threshold for the dataset. If the dataset has previously timed out (is part of the `timeout_datasets`),
-#' the initial threshold is set based on the median of the non-zero values in the expression matrix. Otherwise, the process begins with an infinite threshold (`-1`).
-#'
-#' The function launches a PH calculation process using `vietoris_rips`. The process is monitored for:
-#' - **Unexpected termination:** If the process ends unexpectedly, the function checks if a valid PD (persistence diagram) file has been saved. If the PD is valid, the result is used.
-#' - **Timeouts:** If the process exceeds the maximum allowed time (`max_time_per_iteration`), the process is killed, and the function retries with an increased threshold.
-#' - **Invalid PD results:** If the PD file is found but has fewer than 1000 rows, the threshold is increased, and the process is retried.
-#'
-#' The function will retry a dataset up to `max_retries` times, with increasing thresholds. After reaching the maximum number of retries or exceeding the threshold,
-#' the function will return either the best valid PD found or `NULL` if no valid PD is found.
-#'
-#' ## Data Journey:
-#' - **Initial Setup:** The dataset is passed as `expr_matrix` from the calling function (`process_batch_of_datasets`). If the dataset is not timed out, the function starts with a threshold of `-1`. If it has timed out, the threshold is set based on the median of non-zero values.
-#'
-#' - **First Iteration (Threshold: `-1`):** The PH process begins with an infinite threshold (`-1`). If the process exceeds the time limit (`max_time_per_iteration`), the process is killed, and the function switches to a median-based threshold.
-#'
-#' - **Second Iteration (Threshold: Max-based, No Timeout):** The function retries with the Max-based threshold. In this iteration, **there is no time limit**. If the process finishes successfully but the PD contains too few rows (less than 1000), the threshold is increased, and the process is retried.
-#'
-#' - **Subsequent Iterations (Threshold: Increased):** The process is repeated with incrementally higher thresholds until a valid PD (with more than 1000 rows) is found or the retries are exhausted.
-#'
-#' - **Final Success:** Once a valid PD is found, the process is finalized, and the PD along with the threshold used is returned.
-#'
-#' ## Control Flow:
-#' - **Success:** If a valid PD is found (more than 1000 rows), the process completes, and the PD is returned.
-#' - **Retry with Higher Threshold:** If the PD has fewer than 1000 rows or the process fails unexpectedly without a valid PD, the threshold is increased, and the process is retried.
-#' - **Process Termination:** If the process terminates but a valid PD is found on disk, the result is used without retrying.
-#' - **Timeout:** If the process exceeds the time limit, it is killed, the threshold is increased, and the process is retried. However, the **first median-based iteration has no time limit** after a timeout with threshold `-1`.
-#'
-#' @return A list containing:
-#' - `PD`: The persistence diagram (PD) matrix if successful, or `NULL` if all retries fail.
-#' - `threshold`: The final threshold used for the successful PD or `NULL` if no valid PD is found.
+#' @return A list with
+#' \describe{
+#'   \item{PD}{The persistence diagram matrix or `NULL` if no valid result was produced.}
+#'   \item{threshold}{The threshold used for the PH run, or `NULL` on failure.}
+#' }
 # Function to process and monitor a single dataset for Persistent Homology (PH) calculation
 process_and_monitor <- function(expr_matrix, i, DIM, log_message, memory_threshold,
-                                max_threshold = 5000,
                                 max_time_per_iteration = 20 * 24 * 3600, # 10*24 hours
-                                max_retries = 20,
                                 timeout_datasets = NULL,
                                 results_file = NULL,
                                 log_file = NULL,
@@ -750,8 +728,6 @@ process_and_monitor <- function(expr_matrix, i, DIM, log_message, memory_thresho
     }
 
     best_PD <- NULL
-    max_rows <- -1
-    retry_count <- 0
 
     log_message(paste("Starting process for dataset", i, "with threshold", current_threshold))
 
@@ -763,106 +739,50 @@ process_and_monitor <- function(expr_matrix, i, DIM, log_message, memory_thresho
     saveRDS(expr_matrix, dataset_file)
     log_message(paste("Dataset", i, "saved to", dataset_file))
 
-    repeat {
-      log_message(paste("Current threshold for dataset", i, ":", current_threshold))
-      if (current_threshold > max_threshold || retry_count >= max_retries) {
-        log_message(paste("Exceeded max threshold or max retries for dataset", i, ". Stopping process."))
-        break
-      }
+    pd_file <- file.path(temp_dataset_dir, paste0("PD_", i, "_", current_threshold, ".rds"))
 
-      pd_file <- file.path(temp_dataset_dir, paste0("PD_", i, "_", current_threshold, ".rds"))
+    ph_job <- processx::process$new(
+      "Rscript",
+      c("-e", paste0(
+        "tryCatch({",
+        "library(ripserr);",
+        "dataset <- readRDS('", dataset_file, "');",
+        "dataset <- as.matrix(dataset);",
+        "PD <- vietoris_rips(dataset = dataset, max_dim = ", DIM, ", threshold = ", current_threshold, ", return_format = 'mat');",
+        "saveRDS(PD, '", pd_file, "')",
+        "}, error = function(e) { cat('Error:', e$message, '\n') })",
+        ";quit(save='no')"
+      )),
+      stdout = "|", stderr = "|"
+    )
 
-      # Start the PH calculation in a separate process.
-      # Note the explicit call to quit() after saving the PD.
-      ph_job <- processx::process$new(
-          "Rscript",
-          c("-e", paste0("
-        tryCatch({
-          library(ripserr)
-          dataset <- readRDS('", dataset_file, "')
-          # Convert to a standard (dense) matrix if necessary:
-          dataset <- as.matrix(dataset)
-          threshold_val <- ", current_threshold, "
-          PD <- vietoris_rips(dataset = dataset, max_dim = ", DIM, ", threshold = threshold_val, return_format = 'mat')
-          saveRDS(PD, '", pd_file, "')
-        }, error = function(e) {
-          cat('Error:', e$message, '\\n')
-        })
-        quit(save = 'no')
-      ")),
-        stdout = "|", stderr = "|"
-        )
+    start_time <- Sys.time()
+    log_message(paste("PH process for dataset", i, "started with PID:", ph_job$get_pid()))
 
-      start_time <- Sys.time()
-      result_collected <- FALSE
-      log_message(paste("PH process for dataset", i, "started with PID:", ph_job$get_pid()))
+    while (ph_job$is_alive()) {
+      Sys.sleep(60)
+      elapsed_time <- as.numeric(difftime(Sys.time(), start_time, units = "secs"))
+      log_message(paste("Elapsed time for dataset", i, "PH calculation:", round(elapsed_time), "seconds"))
 
-      while (!result_collected) {
-        Sys.sleep(60)
-        elapsed_time <- as.numeric(difftime(Sys.time(), start_time, units = "secs"))
-        log_message(paste("Elapsed time for dataset", i, "PH calculation:", round(elapsed_time),
-                          "seconds (current threshold:", current_threshold, ")"))
-
-        if (elapsed_time > max_time_per_iteration || retry_count >= max_retries) {
-          log_message(paste("Timeout or max retries reached for dataset", i, ". Retrying with updated threshold."))
-          ph_job$kill()
-          current_threshold <- current_threshold + (current_threshold / 2)
-          retry_count <- retry_count + 1
-          log_message(paste("Updated threshold for dataset", i, "to:", current_threshold))
-          break
-        }
-
-        if (!ph_job$is_alive()) {
-          log_message(paste("Process for dataset", i, "terminated. Checking for valid PD file."))
-          if (file.exists(pd_file)) {
-            current_PD <- readRDS(pd_file)
-            if (!is.null(current_PD) && nrow(current_PD) > 0) {
-              log_message(paste("Found valid PD file for dataset", i, "with", nrow(current_PD), "rows."))
-              best_PD <- current_PD
-              max_rows <- nrow(best_PD)
-              save_intermediate_results(results_file = results_file, job_id = i, best_PD = best_PD)
-              result_collected <- TRUE
-              break
-            }
-          }
-        }
-
-        if (file.exists(pd_file)) {
-          current_PD <- readRDS(pd_file)
-          if (!is.null(current_PD) && nrow(current_PD) > 0) {
-            log_message(paste("PD file for dataset", i, "found and loaded. PD size:", nrow(current_PD)))
-            if (nrow(current_PD) < 1000) {
-              log_message(paste("PD has fewer than 1000 rows (", nrow(current_PD), "). Consider reviewing."))
-            }
-            if (nrow(current_PD) > max_rows) {
-              best_PD <- current_PD
-              max_rows <- nrow(best_PD)
-              log_message(paste("Updated best PD with", max_rows, "rows for dataset", i, "at threshold", current_threshold))
-              save_intermediate_results(results_file = results_file, job_id = i, best_PD = best_PD)
-              result_collected <- TRUE
-              if (ph_job$is_alive()) {
-                log_message(paste("Killing lingering process for dataset", i))
-                ph_job$kill()
-              }
-              break
-            }
-          }
-        }
-      }
-
-      if (result_collected) {
-        log_message(paste("Best PD found for dataset", i, "with threshold", current_threshold, ". Finalizing process."))
-        update_progress_log(log_file, i, "completed", current_threshold)
+      if (elapsed_time > max_time_per_iteration) {
+        log_message(paste("Timeout exceeded for dataset", i, "at threshold:", current_threshold, "- killing process."))
+        ph_job$kill()
         break
       }
     }
 
-    if (!is.null(best_PD)) {
+    if (file.exists(pd_file)) {
+      best_PD <- readRDS(pd_file)
+    }
+
+    if (!is.null(best_PD) && nrow(best_PD) > 0) {
+      save_intermediate_results(results_file = results_file, job_id = i, best_PD = best_PD)
+      update_progress_log(log_file, i, "completed", current_threshold)
       return(list(PD = best_PD, threshold = current_threshold))
     } else {
-      log_message(paste("No valid PD found for dataset", i, "after all attempts."))
       update_progress_log(log_file, i, "failed", current_threshold)
       return(list(PD = NULL, threshold = NULL))
+    }
     }
 
   }, error = function(e) {
@@ -879,214 +799,6 @@ calculate_max_threshold <- function(expr_matrix) {
   return(max_val)
 }
 
-
-
-retry_single_job <- function(job_id, expr_list, DIM, retry_progress_data, retry_PD_list,
-                             time_limit_per_retry = 28800, doubling_limit = 5, log_message = print) {
-  # Retrieve the current threshold for this job from the retry progress data
-  current_threshold <- retry_progress_data$best_threshold[retry_progress_data$job_id == job_id]
-
-  # Start with the previous best PD for this job from the retry PD list
-  best_PD <- retry_PD_list[[job_id]]
-  max_rows <- if (!is.null(best_PD)) nrow(best_PD) else 0
-  iteration <- 0
-
-  log_message(paste("Retrying PD calculation for job:", job_id, "starting at threshold:", current_threshold))
-
-  # Create a temporary folder to store dataset RDS files
-  temp_dir <- "temp_datasets"
-  if (!dir.exists(temp_dir)) {
-    dir.create(temp_dir)
-    log_message(paste("Created temporary directory for datasets:", temp_dir))
-  }
-
-  # Save the current dataset to an RDS file before the first process
-  dataset_file <- file.path(temp_dir, paste0("dataset_", job_id, ".rds"))
-  saveRDS(expr_list[[job_id]], dataset_file)
-  log_message(paste("Dataset", job_id, "saved to", dataset_file))
-
-  # Retry loop with threshold doubling
-  while (iteration < doubling_limit) {
-    iteration <- iteration + 1
-    retry_start_time <- Sys.time() # Start time for the retry attempt
-
-    # Log and double the threshold only if this is not the first iteration and a valid PD was found previously
-    if (iteration > 1 && nrow(best_PD) > max_rows) {
-      current_threshold <- current_threshold * 2 # Double the threshold with each iteration if the previous PD was valid
-      log_message(paste("Doubling threshold for job:", job_id, "to:", current_threshold))
-    }
-
-    log_message(paste("Attempting PH calculation for job:", job_id, "with threshold:", current_threshold))
-
-    # Create the Rscript command using the saved dataset file
-    ph_job <- processx::process$new(
-      "Rscript",
-      c("-e", paste0("
-        library(ripserr);
-        dataset <- readRDS('", dataset_file, "');  # Load the dataset from the RDS file
-        PD <- vietoris_rips(dataset = dataset, dim = ", DIM, ", threshold = ", current_threshold, ", return_format = 'mat');
-        saveRDS(PD, 'PD_", job_id, ".rds')  # Save the PD to a temporary RDS file
-      ")),
-      stdout = "|", stderr = "|"
-    )
-
-    # Log the process ID and start time
-    log_message(paste("Started PH process for job:", job_id, "with PID:", ph_job$get_pid(), "at", retry_start_time))
-    result_collected <- FALSE
-
-    while (!result_collected) {
-      Sys.sleep(60) # Sleep for 1 minute between checks
-      elapsed_time <- as.numeric(difftime(Sys.time(), retry_start_time, units = "secs"))
-
-      # Log the elapsed time for this process
-      log_message(paste("Elapsed time for job:", job_id, "with PID:", ph_job$get_pid(), ":", round(elapsed_time), "seconds (current threshold:", current_threshold, ")"))
-
-      if (elapsed_time > time_limit_per_retry) {
-        log_message(paste("Timeout exceeded for job:", job_id, "at threshold:", current_threshold, ". Killing the process with PID:", ph_job$get_pid()))
-        ph_job$kill() # Kill the process after timeout
-
-        if (!ph_job$is_alive()) {
-          log_message(paste("Process for job:", job_id, "with PID:", ph_job$get_pid(), "has been successfully killed."))
-        }
-        break
-      }
-
-      if (!ph_job$is_alive()) {
-        # Read the PD from the temporary RDS file if it exists
-        PD_file <- paste0("PD_", job_id, ".rds")
-        if (file.exists(PD_file)) {
-          PD <- readRDS(PD_file)
-          if (!is.null(PD) && nrow(PD) > max_rows) {
-            # Update the best PD if the new one has more rows
-            best_PD <- PD
-            max_rows <- nrow(PD)
-            log_message(paste("Found valid PD for job:", job_id, "with threshold:", current_threshold, "and", max_rows, "rows. Process ID:", ph_job$get_pid()))
-            result_collected <- TRUE
-          } else {
-            log_message(paste("No improvement in PD for job:", job_id, "with threshold:", current_threshold))
-          }
-        }
-        result_collected <- TRUE
-      }
-    }
-
-    # Stop retrying if a valid PD with more rows has been found or if time exceeded
-    if (nrow(best_PD) > max_rows) {
-      log_message(paste("Best PD found for job:", job_id, "with threshold:", current_threshold, ". Doubling threshold for next iteration."))
-    } else {
-      log_message(paste("No further improvement for job:", job_id, "at threshold:", current_threshold, ". Stopping retries."))
-      break
-    }
-  }
-
-  # Update the retry PD list and retry progress data
-  if (!is.null(best_PD)) {
-    retry_PD_list[[job_id]] <- best_PD
-    retry_progress_data$status[retry_progress_data$job_id == job_id] <- "completed"
-    retry_progress_data$best_threshold[retry_progress_data$job_id == job_id] <- current_threshold
-    log_message(paste("Updated best PD for job:", job_id, "with threshold:", current_threshold, "and", max_rows, "rows. Process ID:", ph_job$get_pid()))
-  } else {
-    log_message(paste("No valid PD found after retries for job:", job_id, ". Retaining the previous best PD, if any. Process ID:", ph_job$get_pid()))
-  }
-
-  # Clean up temporary files
-  if (file.exists(dataset_file)) {
-    file.remove(dataset_file)
-    log_message(paste("Temporary dataset file removed for job:", job_id))
-  }
-  PD_file <- paste0("PD_", job_id, ".rds")
-  if (file.exists(PD_file)) {
-    file.remove(PD_file)
-    log_message(paste("Temporary PD file removed for job:", job_id))
-  }
-
-  return(list(PD_list = retry_PD_list, progress_data = retry_progress_data))
-}
-
-# Modified retry_pd_calculation function
-retry_pd_calculation <- function(progress_log, results_file, expr_list, DIM, doubling_limit, time_limit, num_cores, log_message,
-                                 retry_progress_log = "progress_log_retries.csv", retry_results_file = "intermediate_results_retries.rds", overwrite_original = FALSE) {
-  # Load original progress data and results
-  original_progress_data <- read.csv(progress_log)
-  original_PD_list <- if (file.exists(results_file)) readRDS(results_file) else list()
-
-  # Initialize retry progress data and PD list if not found
-  retry_progress_data <- if (file.exists(retry_progress_log)) read.csv(retry_progress_log) else original_progress_data
-  retry_PD_list <- if (file.exists(retry_results_file)) readRDS(retry_results_file) else original_PD_list
-
-  # Ensure that retry_PD_list and retry_progress_data are named according to expr_list
-  retry_PD_list <- setNames(retry_PD_list, names(expr_list))
-  retry_progress_data$dataset_name <- names(expr_list)[retry_progress_data$job_id]
-
-  # Identify jobs to retry: Only select jobs where the threshold is not -1 or the job failed/incomplete
-  jobs_to_retry <- retry_progress_data$job_id[
-    (retry_progress_data$status %in% c("failed", "incomplete")) |
-      (retry_progress_data$best_threshold != -1)
-  ]
-
-  # Log the jobs that will be retried
-  log_message(paste("Jobs to retry:", paste(jobs_to_retry, collapse = ", ")))
-
-  # Retry logic using parallel processing
-  retry_results <- mclapply(jobs_to_retry, function(job_id) {
-    retry_single_job(
-      job_id = job_id,
-      expr_list = expr_list,
-      DIM = DIM,
-      retry_progress_data = retry_progress_data,
-      retry_PD_list = retry_PD_list,
-      time_limit_per_retry = time_limit,
-      doubling_limit = doubling_limit,
-      log_message = log_message
-    )
-  }, mc.cores = min(num_cores, length(jobs_to_retry)))
-
-  # Update retry PD list and retry progress data based on results
-  for (res in retry_results) {
-    if (!is.null(res)) {
-      # Update the relevant PDs in retry_PD_list using the job_id names from the result
-      for (job_name in names(res$PD_list)) {
-        retry_PD_list[[job_name]] <- res$PD_list[[job_name]]
-      }
-
-      # Update the relevant rows in retry_progress_data based on job_id
-      for (job_id in res$progress_data$job_id) {
-        retry_progress_data[retry_progress_data$job_id == job_id,] <- res$progress_data[res$progress_data$job_id == job_id,]
-      }
-    }
-  }
-
-  # Save retry-specific results and progress log
-  saveRDS(retry_PD_list, retry_results_file)
-  write.csv(retry_progress_data, retry_progress_log, row.names = FALSE)
-  log_message(paste("Retry results saved to", retry_results_file))
-  log_message(paste("Retry progress log saved to", retry_progress_log))
-
-  # Re-load the retry results and progress log to ensure consistency with saved state
-  retry_PD_list <- if (file.exists(retry_results_file)) readRDS(retry_results_file) else retry_PD_list
-  retry_progress_data <- if (file.exists(retry_progress_log)) read.csv(retry_progress_log) else retry_progress_data
-
-  # If required, update the original files with the retry results
-  if (overwrite_original) {
-    saveRDS(retry_PD_list, results_file)
-    write.csv(retry_progress_data, progress_log, row.names = FALSE)
-    log_message(paste("Original results and progress log overwritten with retry outputs."))
-  }
-
-  # Return the updated PD list and progress data using expr_list names
-  retry_PD_list <- setNames(retry_PD_list, names(expr_list))
-  retry_progress_data$dataset_name <- names(expr_list)[retry_progress_data$job_id]
-
-  return(list(PD_list = retry_PD_list, progress_data = retry_progress_data))
-}
-
-
-# Function to determine adaptive threshold increment based on median value
-determine_proportional_increment <- function(median_val, proportion = 1) {
-  increment <- median_val * proportion
-  # Allow increments less than 1 by rounding to two decimal places
-  return(round(increment, digits = 2))
-}
 
 
 # Modified get_anchors function to handle missing anchor files
