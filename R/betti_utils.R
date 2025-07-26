@@ -19,6 +19,10 @@ log_message <- function(msg) {
 # ----------------------------------------------------
 # Betti/Euler/Landscape Curve Comparison Function
 # ----------------------------------------------------
+
+# ----------------------------------------------------
+# Betti/Euler/Landscape Curve Comparison Function
+# ----------------------------------------------------
 compute_and_compare_betti_curves <- function(pd_list, landscape_list, seurat_objects = NULL, group_by_col = NULL,
                                              dimensions = c(0, 1), grid_points = 500, num_permutations = 10000,
                                              bootstrap_samples = 100, dataset_name = NULL, comparison_type = "group",
@@ -102,6 +106,7 @@ compute_and_compare_betti_curves <- function(pd_list, landscape_list, seurat_obj
     })
   }
 
+  # --- UNIFIED NULL STATISTICS (for Betti/Euler) ---
   compute_null_stats <- function(pd_list, metadata_list, tau_vals, dimensions,
                                  curve_type = "Euler", dataset_name, base_sigma,
                                  grid_points, tau_max, results_folder, verbose = TRUE,
@@ -116,15 +121,44 @@ compute_and_compare_betti_curves <- function(pd_list, landscape_list, seurat_obj
     log_message <- function(msg) {
       if (verbose) cat(sprintf("[%s] %s\n", Sys.time(), msg))
     }
+    if (is.null(metadata_list) || length(metadata_list) == 0 || !all(sapply(metadata_list, is.data.frame))) {
+        log_message("Warning: metadata_list is invalid or empty. Cannot compute metadata-driven null stats. Returning NULL.")
+        return(NULL)
+    }
     combined_meta <- do.call(rbind, metadata_list)
     bs_cols <- grep("^random_group_bootstrap_", colnames(combined_meta),
                     value = TRUE, ignore.case = TRUE)
+    if (length(bs_cols) == 0) {
+        log_message("Warning: No 'random_group_bootstrap_' columns found in metadata. Cannot compute null stats. Returning NULL.")
+        return(NULL)
+    }
+    
     results <- mclapply(bs_cols, function(col) {
-      idx1 <- which(combined_meta[[col]] == 1)
-      idx2 <- which(combined_meta[[col]] == 2)
-      if (length(idx1) == 0 || length(idx2) == 0) return(NULL)
-      pd_grp1 <- pd_list[idx1]
-      pd_grp2 <- pd_list[idx2]
+      if (!"orig.ident" %in% colnames(combined_meta)) {
+          log_message("Error: 'orig.ident' not found in combined metadata. Cannot match PDs to metadata for null stats.")
+          return(NULL)
+      }
+      meta_idents <- combined_meta[["orig.ident"]]
+      pd_list_names <- names(pd_list)
+      
+      pd_indices_in_meta <- match(pd_list_names, meta_idents)
+      pd_indices_in_meta <- pd_indices_in_meta[!is.na(pd_indices_in_meta)]
+      
+      if(length(pd_indices_in_meta) == 0) {
+        log_message("Warning: No overlap between pd_list names and metadata 'orig.ident'.")
+        return(NULL)
+      }
+      
+      random_groups_for_pds <- combined_meta[[col]][pd_indices_in_meta]
+
+      idx1_pd_names <- pd_list_names[which(random_groups_for_pds == 1)]
+      idx2_pd_names <- pd_list_names[which(random_groups_for_pds == 2)]
+      
+      if (length(idx1_pd_names) == 0 || length(idx2_pd_names) == 0) return(NULL)
+      
+      pd_grp1 <- pd_list[idx1_pd_names]
+      pd_grp2 <- pd_list[idx2_pd_names]
+      
       if (curve_type == "Euler") {
         curve1 <- compute_euler_curve(pd_grp1, dimensions, "group1", dataset_name,
                                       grid_points, tau_max, base_sigma, n_bootstrap = 50,
@@ -266,53 +300,6 @@ compute_and_compare_betti_curves <- function(pd_list, landscape_list, seurat_obj
     sqrt(sum(delta_tau * (curve_diff[-length(curve_diff)] ^ 2 + curve_diff[-1] ^ 2) / 2, na.rm = TRUE))
   }
 
-  summary_landscape <- function(landscape_obj, grid = seq(0, 1, length.out = grid_points)) {
-    curve <- compute_landscape_curve(landscape_obj, grid = grid)
-    delta <- diff(grid)
-    auc <- sum(((curve[-length(curve)] + curve[-1]) / 2) * delta)
-    auc
-  }
-
-  compute_null_stats_individual_landscapes <- function(landscape_list, n_bootstrap = 50, grid_points = 500) {
-    N <- length(landscape_list)
-    if (N < 2) return(NULL)
-    summary_values <- sapply(landscape_list, function(land) {
-      summary_landscape(land, grid = seq(0, 1, length.out = grid_points))
-    })
-    boot_effects <- numeric(n_bootstrap)
-    boot_ks <- numeric(n_bootstrap)
-    for (rep in 1:n_bootstrap) {
-      set.seed(100 + rep)
-      indices <- sample(N, replace = TRUE)
-      half <- floor(length(indices) / 2)
-      group1_vals <- summary_values[indices[1:half]]
-      group2_vals <- summary_values[indices[(half + 1):length(indices)]]
-      diff_val <- abs(mean(group1_vals) - mean(group2_vals))
-      sd_pooled <- sd(c(group1_vals, group2_vals), na.rm = TRUE)
-      effect <- ifelse(sd_pooled == 0, 0, diff_val / sd_pooled)
-      boot_effects[rep] <- effect
-      ks_result <- tryCatch(ks.test(group1_vals, group2_vals), error = function(e) NULL)
-      ks_stat <- if (!is.null(ks_result)) as.numeric(ks_result$statistic) else NA
-      boot_ks[rep] <- ks_stat
-    }
-    list(
-      null_effect = list(
-        mean = mean(boot_effects, na.rm = TRUE),
-        sd = sd(boot_effects, na.rm = TRUE),
-        lower = quantile(boot_effects, probs = 0.025, na.rm = TRUE),
-        median = quantile(boot_effects, probs = 0.5, na.rm = TRUE),
-        upper = quantile(boot_effects, probs = 0.975, na.rm = TRUE)
-      ),
-      null_ks = list(
-        mean = mean(boot_ks, na.rm = TRUE),
-        sd = sd(boot_ks, na.rm = TRUE),
-        lower = quantile(boot_ks, probs = 0.025, na.rm = TRUE),
-        median = quantile(boot_ks, probs = 0.5, na.rm = TRUE),
-        upper = quantile(boot_ks, probs = 0.975, na.rm = TRUE)
-      )
-    )
-  }
-
   compute_landscape_curve <- function(landscape_obj, grid = seq(0, 1, length.out = grid_points)) {
     if (is.null(landscape_obj)) return(rep(0, length(grid)))
     curve0 <- if (is.matrix(landscape_obj$dim0)) {
@@ -336,6 +323,55 @@ compute_and_compare_betti_curves <- function(pd_list, landscape_list, seurat_obj
     }
     aggregated_curve
   }
+  
+  summary_landscape <- function(landscape_obj, grid = seq(0, 1, length.out = grid_points)) {
+    curve <- compute_landscape_curve(landscape_obj, grid = grid)
+    delta <- diff(grid)
+    auc <- sum(((curve[-length(curve)] + curve[-1]) / 2) * delta)
+    auc
+  }
+
+  compute_null_stats_landscapes <- function(landscape_list, n_bootstrap = 50, grid_points = 500) {
+    if (length(landscape_list) < 2) {
+        log_message("Warning: Fewer than 2 landscapes provided. Cannot compute null stats.")
+        return(NULL)
+    }
+    summary_values <- sapply(landscape_list, function(land) {
+        summary_landscape(land, grid = seq(0, 1, length.out = grid_points))
+    })
+    boot_effects <- numeric(n_bootstrap)
+    boot_ks <- numeric(n_bootstrap)
+    N <- length(summary_values)
+    for (rep in 1:n_bootstrap) {
+        set.seed(100 + rep)
+        indices <- sample(N, replace = TRUE)
+        half <- floor(length(indices) / 2)
+        if (half == 0 || half == N) next 
+        
+        group1_vals <- summary_values[indices[1:half]]
+        group2_vals <- summary_values[indices[(half + 1):length(indices)]]
+        
+        diff_val <- abs(mean(group1_vals) - mean(group2_vals))
+        sd_pooled <- sd(c(group1_vals, group2_vals), na.rm = TRUE)
+        boot_effects[rep] <- ifelse(sd_pooled == 0, 0, diff_val / sd_pooled)
+        
+        ks_result <- tryCatch(ks.test(group1_vals, group2_vals), error = function(e) NULL)
+        boot_ks[rep] <- if (!is.null(ks_result)) as.numeric(ks_result$statistic) else NA
+    }
+    
+    list(
+        null_effect = list(
+            mean = mean(boot_effects, na.rm = TRUE),
+            sd = sd(boot_effects, na.rm = TRUE),
+            quantiles = quantile(boot_effects, probs = c(0.025, 0.5, 0.975), na.rm = TRUE)
+        ),
+        null_ks = list(
+            mean = mean(boot_ks, na.rm = TRUE),
+            sd = sd(boot_ks, na.rm = TRUE),
+            quantiles = quantile(boot_ks, probs = c(0.025, 0.5, 0.975), na.rm = TRUE)
+        )
+    )
+  }
 
   compute_aggregated_landscape_curve <- function(landscape_list_group, grid = seq(0, 1, length.out = grid_points)) {
     curves <- sapply(landscape_list_group, function(land) {
@@ -346,51 +382,6 @@ compute_and_compare_betti_curves <- function(pd_list, landscape_list, seurat_obj
     } else {
       rowMeans(curves, na.rm = TRUE)
     }
-  }
-
-  compute_null_stats_aggregated_landscapes <- function(pd_list, landscape_list, tau_vals, n_bootstrap = 50, num_cores = 8, grid_points = 500) {
-    integrated_diff_local <- function(curve_diff, grid) {
-      delta <- diff(grid)
-      sqrt(sum(delta * (curve_diff[-length(curve_diff)] ^ 2 + curve_diff[-1] ^ 2) / 2, na.rm = TRUE))
-    }
-    N <- length(pd_list)
-    if (N < 2) return(NULL)
-    boot_effects <- numeric(n_bootstrap)
-    boot_ks <- numeric(n_bootstrap)
-    grid <- seq(0, 1, length.out = grid_points)
-    for (rep in 1:n_bootstrap) {
-      set.seed(100 + rep)
-      indices <- sample(N)
-      half <- floor(N / 2)
-      group1_ids <- indices[1:half]
-      group2_ids <- indices[(half + 1):N]
-      agg1 <- compute_aggregated_landscape_curve(landscape_list[group1_ids], grid = grid)
-      agg2 <- compute_aggregated_landscape_curve(landscape_list[group2_ids], grid = grid)
-      diff_val <- integrated_diff_local(agg1 - agg2, grid)
-      sd_pooled <- sd(c(agg1, agg2), na.rm = TRUE)
-      effect <- ifelse(sd_pooled == 0, 0, diff_val / sd_pooled)
-      boot_effects[rep] <- effect
-      if (sum(agg1) == 0 || sum(agg2) == 0) {
-        ks_stat <- NA
-      } else {
-        cdf1 <- cumsum(agg1 / sum(agg1))
-        cdf2 <- cumsum(agg2 / sum(agg2))
-        ks_stat <- max(abs(cdf1 - cdf2), na.rm = TRUE)
-      }
-      boot_ks[rep] <- ks_stat
-    }
-    list(
-      null_effect = list(
-        mean = mean(boot_effects, na.rm = TRUE),
-        sd = sd(boot_effects, na.rm = TRUE),
-        quantiles = quantile(boot_effects, probs = c(0.025, 0.5, 0.975), na.rm = TRUE)
-      ),
-      null_ks = list(
-        mean = mean(boot_ks, na.rm = TRUE),
-        sd = sd(boot_ks, na.rm = TRUE),
-        quantiles = quantile(boot_ks, probs = c(0.025, 0.5, 0.975), na.rm = TRUE)
-      )
-    )
   }
 
   bootstrap_aggregated_landscape_curve <- function(individual_curves, grid_points, n_bootstrap = 100) {
@@ -411,13 +402,15 @@ compute_and_compare_betti_curves <- function(pd_list, landscape_list, seurat_obj
     )
   }
 
-  analyze_and_plot_curves <- function(curve1, curve2, grp1, grp2, curve_type, tau_vals,
-                                      alpha, effect_threshold, num_permutations,
-                                      null_effect_stats = NULL, null_ks_stats = NULL,
-                                      verbose = TRUE) {
+  # --- UPDATED FUNCTION (from Canvas) ---
+  analyze_and_plot_curves <- function(curve1, curve2, grp1, grp2, curve_type, tau_vals, tau_max,
+                                    alpha, effect_threshold, num_permutations,
+                                    null_effect_stats = NULL, null_ks_stats = NULL,
+                                    verbose = TRUE) {
     log_message <- function(msg) {
       if (verbose) cat(sprintf("[%s] %s\n", Sys.time(), msg))
     }
+    
     integrated_diff_local <- function(curve_diff, tau_vals) {
       if (length(curve_diff) < 2) {
         log_message("curve_diff has less than 2 points; returning 0 for integrated difference.")
@@ -434,13 +427,16 @@ compute_and_compare_betti_curves <- function(pd_list, landscape_list, seurat_obj
       delta_tau <- diff(tau_vals)
       sqrt(sum(delta_tau * (curve_diff[-length(curve_diff)] ^ 2 + curve_diff[-1] ^ 2) / 2, na.rm = TRUE))
     }
+    
     build_plot_data <- function(curve, grp) {
       data.frame(Tau = tau_vals, Mean = curve$mean,
                  Lower = curve$lower, Upper = curve$upper, Group = grp)
     }
+    
     pd1 <- build_plot_data(curve1, grp1)
     pd2 <- build_plot_data(curve2, grp2)
     plot_data <- rbind(pd1, pd2)
+    
     if (grepl("Landscape", curve_type, ignore.case = TRUE)) {
       if (!is.null(curve1$individual_landscape_curves) && !is.null(curve2$individual_landscape_curves)) {
         inds1 <- do.call(cbind, curve1$individual_landscape_curves)
@@ -465,27 +461,27 @@ compute_and_compare_betti_curves <- function(pd_list, landscape_list, seurat_obj
     } else {
       inds1 <- inds2 <- NULL
     }
+    
     if (!is.null(inds1) && !is.null(inds2) && is.matrix(inds1) && is.matrix(inds2) &&
         ncol(inds1) > 0 && ncol(inds2) > 0) {
       m1 <- rowMeans(inds1, na.rm = TRUE)
       m2 <- rowMeans(inds2, na.rm = TRUE)
     } else {
-      log_message("Falling back to using the aggregated 'mean' fields.")
+      log_message("Falling back to using the aggregated 'mean' fields for stats.")
       m1 <- curve1$mean
       m2 <- curve2$mean
     }
+    
     if (length(m1) < 2) m1 <- rep(0, length(tau_vals))
     if (length(m2) < 2) m2 <- rep(0, length(tau_vals))
+    
     if (length(m1) != length(tau_vals)) {
-      log_message("Interpolating m1 to match tau_vals length.")
-      m1 <- approx(x = seq(0, 1, length.out = length(m1)), y = m1,
-                   xout = seq(0, 1, length.out = length(tau_vals)), rule = 2)$y
+      m1 <- approx(x = seq(0, 1, length.out = length(m1)), y = m1, xout = seq(0, 1, length.out = length(tau_vals)), rule = 2)$y
     }
     if (length(m2) != length(tau_vals)) {
-      log_message("Interpolating m2 to match tau_vals length.")
-      m2 <- approx(x = seq(0, 1, length.out = length(m2)), y = m2,
-                   xout = seq(0, 1, length.out = length(tau_vals)), rule = 2)$y
+      m2 <- approx(x = seq(0, 1, length.out = length(m2)), y = m2, xout = seq(0, 1, length.out = length(tau_vals)), rule = 2)$y
     }
+
     tau_rescaled <- tau_vals / max(tau_vals)
     wass <- tryCatch({
       a <- m1 / sum(m1)
@@ -499,7 +495,9 @@ compute_and_compare_betti_curves <- function(pd_list, landscape_list, seurat_obj
       log_message(paste("Wasserstein distance failed:", e$message))
       NA
     })
+    
     obs_diff <- integrated_diff_local(m1 - m2, tau_vals)
+    
     if (!is.null(inds1) && !is.null(inds2) && is.matrix(inds1) && is.matrix(inds2) &&
         ncol(inds1) > 0 && ncol(inds2) > 0) {
       all_inds <- cbind(inds1, inds2)
@@ -511,7 +509,7 @@ compute_and_compare_betti_curves <- function(pd_list, landscape_list, seurat_obj
         m2p <- rowMeans(all_inds[, perm[(n1 + 1):n_total], drop = FALSE], na.rm = TRUE)
         integrated_diff_local(m1p - m2p, tau_vals)
       })
-      perm_p <- mean(perm_diffs >= obs_diff)
+      perm_p <- mean(perm_diffs >= obs_diff, na.rm = TRUE)
       ks_res <- lapply(1:nrow(inds1), function(i) {
         res <- tryCatch(ks.test(inds1[i,], inds2[i,]), error = function(e) NULL)
         if (is.null(res)) return(c(stat = NA, p = NA))
@@ -526,9 +524,12 @@ compute_and_compare_betti_curves <- function(pd_list, landscape_list, seurat_obj
       ks_combined_stat <- NA
       ks_adj_pval <- NA
     }
+    
     eff_size <- ifelse(sd(c(m1, m2), na.rm = TRUE) == 0, 0, obs_diff / sd(c(m1, m2), na.rm = TRUE))
+    
     if (grepl("Euler", curve_type, ignore.case = TRUE) || grepl("Landscape", curve_type, ignore.case = TRUE)) {
       extract_null_values <- function(null_stats) {
+        if (is.null(null_stats)) return(list(median = NA, lower = NA, upper = NA))
         if (!is.null(null_stats$median)) {
           list(median = null_stats$median, lower = null_stats$lower, upper = null_stats$upper)
         } else if (!is.null(null_stats$quantiles)) {
@@ -558,6 +559,7 @@ compute_and_compare_betti_curves <- function(pd_list, landscape_list, seurat_obj
     } else {
       annot_null <- ""
     }
+    
     sig <- ifelse(!is.na(perm_p) && perm_p < alpha, "sig", "notsig")
     annot <- paste("Wasserstein:", signif(wass, 3),
                    "\nPerm p:", ifelse(is.na(perm_p), "NA", signif(perm_p, 3)),
@@ -565,37 +567,39 @@ compute_and_compare_betti_curves <- function(pd_list, landscape_list, seurat_obj
                    annot_null,
                    "\nMax KS stat:", ifelse(is.na(ks_combined_stat), "NA", signif(ks_combined_stat, 3)),
                    "\nSignificance:", sig)
-    x_scale <- if (all(tau_vals > 0)) scale_x_continuous(trans = "log10") else scale_x_continuous()
-    plot_data$Group <- as.factor(plot_data$Group)
-    max_x <- max(tau_vals)
     
-    ## MODIFICATION: Increased font sizes and line size for publication quality.
-    p <- ggplot(plot_data, aes(x = Tau, y = Mean, color = Group, group = Group)) +
-      geom_line(linewidth = 1.2) + # Increased line width
+    p <- ggplot(plot_data, aes(x = Tau / tau_max, y = Mean, color = Group, group = Group)) +
+      geom_line(linewidth = 1.2) +
       geom_ribbon(aes(ymin = Lower, ymax = Upper, fill = Group), alpha = 0.2) +
       labs(title = paste(curve_type, "Comparison:", grp1, "vs.", grp2),
+           x = "Normalized Filtration Scale (Tau)",
            y = paste(curve_type, "Value")) +
-      x_scale +
-      annotate("text", x = max_x * 0.99, y = Inf, label = annot, hjust = 1, vjust = 1.2, size = 4) + # Increased text size
+      # scale_x_continuous(labels = scales::percent_format(scale = 100, accuracy = 1), limits = c(0, 1)) +
+      annotate("text", x = 0.6, y = Inf, label = annot, hjust = 0, vjust = 1.2, size = 4) +
       coord_cartesian(clip = "off") +
-      theme_minimal(base_size = 14) + # Increased base font size
+      theme_minimal(base_size = 14) +
       theme(
           plot.title = element_text(size = 16, face = "bold"),
-          axis.title = element_text(size = 14),
-          axis.text = element_text(size = 12),
+          axis.title = element_text(size = 12),
+          axis.text = element_text(size = 20),
           legend.title = element_text(size = 14),
           legend.text = element_text(size = 12)
+      ) +
+      scale_x_log10(
+        "Normalized Filtration Scale (Tau, log scale)",
+        labels = function(breaks) scales::percent(breaks / tau_max, accuracy = 0.0000001)
       )
 
     list(stats = list(wasserstein = wass,
                       perm_p = perm_p,
                       effect_size = eff_size,
                       ks_stat = ks_combined_stat,
-                      ks_adj_p = ks_adj_pval),
+                      ks_adj_p = ks_adj_pval), 
          plot = p)
   }
 
-  perform_pairwise_comparisons <- function(curves, euler_curves, groups, tau_vals, dimensions = c(0, 1),
+  # --- MODIFICATION: Added tau_max to the function definition ---
+  perform_pairwise_comparisons <- function(curves, euler_curves, groups, tau_vals, tau_max, dimensions = c(0, 1),
                                            dataset_name = NULL, group_by_col = NULL, plot_output_dir,
                                            alpha = 0.05, effect_threshold = 0.5, num_permutations = 1000,
                                            null_effect_stats = NULL, null_ks_stats = NULL) {
@@ -605,10 +609,6 @@ compute_and_compare_betti_curves <- function(pd_list, landscape_list, seurat_obj
     if (length(valid_groups) < 1) {
       log_message("No valid groups.")
       return(NULL)
-    }
-    use_log_scale <- all(tau_vals > 0)
-    build_plot_data <- function(curve, grp) {
-      data.frame(Tau = tau_vals, Mean = curve$mean, Lower = curve$lower, Upper = curve$upper, Group = grp)
     }
     res <- list()
     for (i in seq_along(valid_groups)) {
@@ -623,7 +623,8 @@ compute_and_compare_betti_curves <- function(pd_list, landscape_list, seurat_obj
           c2 <- tryCatch(curves[[grp2]], error = function(e) NULL)
           if (!is.null(c1) && is.atomic(c1)) c1 <- list(mean = c1, lower = c1, upper = c1)
           if (!is.null(c2) && is.atomic(c2)) c2 <- list(mean = c2, lower = c2, upper = c2)
-          ar <- analyze_and_plot_curves(c1, c2, grp1, grp2, "Landscape", tau_vals,
+          # --- MODIFICATION: Pass tau_max to the plotting function ---
+          ar <- analyze_and_plot_curves(c1, c2, grp1, grp2, "Landscape", tau_vals, tau_max,
                                         alpha, effect_threshold, num_permutations,
                                         null_effect_stats, null_ks_stats)
           if (!is.null(ar$stats)) comp[["landscape"]] <- ar$stats
@@ -633,7 +634,8 @@ compute_and_compare_betti_curves <- function(pd_list, landscape_list, seurat_obj
             c1 <- tryCatch(curves[[grp1]][[d + 1]], error = function(e) NULL)
             c2 <- tryCatch(curves[[grp2]][[d + 1]], error = function(e) NULL)
             if (is.null(c1) || is.null(c2)) next
-            ar <- analyze_and_plot_curves(c1, c2, grp1, grp2, paste("Betti Dim", d), tau_vals,
+            # --- MODIFICATION: Pass tau_max to the plotting function ---
+            ar <- analyze_and_plot_curves(c1, c2, grp1, grp2, paste("Betti Dim", d), tau_vals, tau_max,
                                           alpha, effect_threshold, num_permutations)
             if (!is.null(ar$stats)) comp[[paste0("dimension_", d)]] <- ar$stats
             if (!is.null(ar$plot)) plots <- c(plots, list(ar$plot))
@@ -641,35 +643,41 @@ compute_and_compare_betti_curves <- function(pd_list, landscape_list, seurat_obj
           e1 <- tryCatch(euler_curves[[grp1]], error = function(e) NULL)
           e2 <- tryCatch(euler_curves[[grp2]], error = function(e) NULL)
           if (!is.null(e1) && !is.null(e2)) {
-            er <- analyze_and_plot_curves(e1, e2, grp1, grp2, "Euler", tau_vals,
+            # --- MODIFICATION: Pass tau_max to the plotting function ---
+            er <- analyze_and_plot_curves(e1, e2, grp1, grp2, "Euler", tau_vals, tau_max,
                                           alpha, effect_threshold, num_permutations,
                                           null_effect_stats, null_ks_stats)
             comp[["euler"]] <- er$stats
             plots <- c(plots, list(er$plot))
           }
         }
-        if (length(plots) > 0) {
+        if (length(plots) > 0) {         
+          for (p_idx in seq_along(plots)) {
+            p <- plots[[p_idx]]
+            plot_title <- p$labels$title
+            curve_type_sanitized <- gsub("[[:space:]]+", "_", plot_title) 
+            curve_type_sanitized <- gsub("[^A-Za-z0-9_vs-]", "", curve_type_sanitized)
+            png_file_name <- paste0(dataset_name, "_", group_by_col, "_", curve_type_sanitized, ".png")
+            png_file_path <- file.path(plot_output_dir, group_by_col, png_file_name)
+            ensure_directory(dirname(png_file_path))
+            ggsave(filename = png_file_path, plot = p, width = 12, height = 10, dpi = 300)
+            log_message(paste("Saved individual PNG plot to", png_file_path))
+          }
           if (is.null(dimensions)) {
-            file_name_pdf <- paste0(dataset_name, "_landscape_curves_by_", group_by_col, "_",
-                                    sanitize_group(grp1), "_vs_", sanitize_group(grp2), "_comparison.pdf")
-            file_name_svg <- paste0(dataset_name, "_landscape_curves_by_", group_by_col, "_",
-                                    sanitize_group(grp1), "_vs_", sanitize_group(grp2), "_comparison.svg")
+            file_name_pdf <- paste0(dataset_name, "_landscape_curves_by_", group_by_col, "_", sanitize_group(grp1), "_vs_", sanitize_group(grp2), "_comparison.pdf")
+            file_name_svg <- paste0(dataset_name, "_landscape_curves_by_", group_by_col, "_", sanitize_group(grp1), "_vs_", sanitize_group(grp2), "_comparison.svg")
           } else {
-            file_name_pdf <- paste0(dataset_name, "_", group_by_col, "_",
-                                    sanitize_group(grp1), "_vs_", sanitize_group(grp2), "_comparison.pdf")
-            file_name_svg <- paste0(dataset_name, "_", group_by_col, "_",
-                                    sanitize_group(grp1), "_vs_", sanitize_group(grp2), "_comparison.svg")
+            file_name_pdf <- paste0(dataset_name, "_", group_by_col, "_", sanitize_group(grp1), "_vs_", sanitize_group(grp2), "_comparison.pdf")
+            file_name_svg <- paste0(dataset_name, "_", group_by_col, "_", sanitize_group(grp1), "_vs_", sanitize_group(grp2), "_comparison.svg")
           }
           plot_file_pdf <- file.path(plot_output_dir, group_by_col, file_name_pdf)
           ensure_directory(dirname(plot_file_pdf))
-          ## MODIFICATION: Increased plot dimensions.
           pdf(plot_file_pdf, width = 12, height = 10 * length(plots))
           gridExtra::grid.arrange(grobs = plots, ncol = 1)
           dev.off()
           log_message(paste("Saved plot to", plot_file_pdf))
           plot_file_svg <- file.path(plot_output_dir, group_by_col, file_name_svg)
           ensure_directory(dirname(plot_file_svg))
-          ## MODIFICATION: Increased plot dimensions.
           svglite::svglite(plot_file_svg, width = 12, height = 10 * length(plots))
           gridExtra::grid.arrange(grobs = plots, ncol = 1)
           dev.off()
@@ -681,8 +689,10 @@ compute_and_compare_betti_curves <- function(pd_list, landscape_list, seurat_obj
     res
   }
 
-  plot_aggregated_curves <- function(group_curves, groups, dimensions, tau_vals, dataset_name, group_by_col, euler_curves = NULL, results_folder) {
+  # --- UPDATED FUNCTION (from Canvas) ---
+  plot_aggregated_curves <- function(group_curves, groups, dimensions, tau_vals, tau_max, dataset_name, group_by_col, euler_curves = NULL, results_folder) {
     log_message("Generating aggregated plots.")
+    
     if (is.null(dimensions)) {
       out_dir <- file.path(results_folder, "plots", "landscape_curves", "aggregated_curves")
       curve_label <- "Landscape"
@@ -691,24 +701,34 @@ compute_and_compare_betti_curves <- function(pd_list, landscape_list, seurat_obj
       curve_label <- NULL
     }
     ensure_directory(out_dir)
+    
     gen_plot <- function(data, curve_type, dim = NULL) {
       data$Group <- as.factor(data$Group)
-      ## MODIFICATION: Increased font and line sizes for publication quality.
-      ggplot(data, aes(x = Tau, y = Mean, color = Group, group = Group)) +
-        geom_line(linewidth = 1.2, alpha = 0.6) + # Increased line width
+      
+      ggplot(data, aes(x = Tau / tau_max, y = Mean, color = Group, group = Group)) +
+        geom_line(linewidth = 1.2, alpha = 0.6) +
         geom_ribbon(aes(ymin = Lower, ymax = Upper, fill = Group), alpha = 0.2) +
-        labs(title = paste(curve_type, "Curve", if (!is.null(dim)) paste("(Dim", dim, ")") else ""),
-             x = "Tau", y = paste(curve_type, "Value")) +
-        theme_minimal(base_size = 14) + # Increased base font size
-        theme(
-            plot.title = element_text(size = 16, face = "bold"),
-            axis.title = element_text(size = 14),
-            axis.text = element_text(size = 12),
-            legend.title = element_text(size = 14),
-            legend.text = element_text(size = 12)
+        labs(
+          title = paste(curve_type, "Curve", if (!is.null(dim)) paste("(Dim", dim, ")") else ""),
+          x = "Normalized Filtration Scale (Tau)", 
+          y = paste(curve_type, "Value")
         ) +
-        scale_x_continuous(trans = "log10")
+        theme_minimal(base_size = 14) +
+        theme(
+          plot.title = element_text(size = 16, face = "bold"),
+          axis.title = element_text(size = 10),
+          axis.text = element_text(size = 22),
+          legend.title = element_text(size = 14),
+          legend.text = element_text(size = 12)
+        ) +
+        scale_x_log10(
+          "Normalized Filtration Scale (Tau, log scale)",
+          labels = function(breaks) scales::percent(breaks / tau_max, accuracy = 0.0000001)
+        ) +
+        scale_color_viridis_d() + 
+        scale_fill_viridis_d()    
     }
+    
     plots <- list()
     if (is.null(dimensions)) {
       aggregated_data_list <- list()
@@ -722,7 +742,7 @@ compute_and_compare_betti_curves <- function(pd_list, landscape_list, seurat_obj
       }
       if (length(aggregated_data_list) > 0) {
         all_data <- do.call(rbind, aggregated_data_list)
-        plots <- list(gen_plot(all_data, curve_label))
+        plots <- list(gen_plot(all_data, "Landscape"))
       }
     } else {
       betti_data_list <- list("0" = data.frame(), "1" = data.frame())
@@ -751,7 +771,19 @@ compute_and_compare_betti_curves <- function(pd_list, landscape_list, seurat_obj
         plots <- c(plots, list(gen_plot(euler_data, "Euler")))
       }
     }
+    
     if (length(plots) > 0) {
+      for (p_idx in seq_along(plots)) {
+        p <- plots[[p_idx]]
+        plot_title <- p$labels$title
+        curve_type_sanitized <- gsub("[[:space:]]+", "_", plot_title)
+        curve_type_sanitized <- gsub("[^A-Za-z0-9_]", "", curve_type_sanitized)
+        png_file_name <- paste0(dataset_name, "_aggregated_", group_by_col, "_", curve_type_sanitized, ".png")
+        png_file_path <- file.path(out_dir, png_file_name)
+        ensure_directory(dirname(png_file_path))
+        ggsave(filename = png_file_path, plot = p, width = 12, height = 10, dpi = 300)
+        log_message(paste("Saved individual aggregated PNG plot to", png_file_path))
+      }
       if (is.null(dimensions)) {
         file_name_pdf <- paste0(dataset_name, "_landscape_curves_by_", group_by_col, ".pdf")
         file_name_svg <- paste0(dataset_name, "_landscape_curves_by_", group_by_col, ".svg")
@@ -761,14 +793,12 @@ compute_and_compare_betti_curves <- function(pd_list, landscape_list, seurat_obj
       }
       plot_file_pdf <- file.path(out_dir, file_name_pdf)
       ensure_directory(dirname(plot_file_pdf))
-      ## MODIFICATION: Increased plot dimensions.
       pdf(plot_file_pdf, width = 12, height = 10 * length(plots))
       gridExtra::grid.arrange(grobs = plots, ncol = 1)
       dev.off()
       log_message(paste("Saved aggregated plot to", plot_file_pdf))
       plot_file_svg <- file.path(out_dir, file_name_svg)
       ensure_directory(dirname(plot_file_svg))
-      ## MODIFICATION: Increased plot dimensions.
       svglite::svglite(plot_file_svg, width = 12, height = 10 * length(plots))
       gridExtra::grid.arrange(grobs = plots, ncol = 1)
       dev.off()
@@ -778,9 +808,17 @@ compute_and_compare_betti_curves <- function(pd_list, landscape_list, seurat_obj
     }
   }
 
+  # --- Main Execution Logic ---
   log_message("Starting computation.")
-  tau_max <- max(unlist(lapply(pd_list, function(pd) max(pd[, 3], na.rm = TRUE))), na.rm = TRUE)
+  tau_max <- max(unlist(lapply(pd_list, function(pd) if(is.matrix(pd) && ncol(pd) >= 3) max(pd[, 3], na.rm = TRUE) else -Inf)), na.rm = TRUE)
+  if (is.infinite(tau_max)) {
+      log_message("Warning: Could not determine a valid tau_max. Defaulting to 1.")
+      tau_max <- 1.0
+  }
   tau_vals <- seq(0.0001, tau_max, length.out = grid_points)
+  
+  if (is.null(seurat_objects) || length(seurat_objects) == 0) stop("Seurat objects list is required for metadata.")
+  
   group_metadata_mapping <- do.call(rbind, lapply(seurat_objects, function(obj) {
     meta <- obj@meta.data
     unique(meta[, c("orig.ident", group_by_col)])
@@ -788,64 +826,68 @@ compute_and_compare_betti_curves <- function(pd_list, landscape_list, seurat_obj
   if (nrow(group_metadata_mapping) == 0) stop("No valid metadata mapping found.")
   groups <- unique(group_metadata_mapping[[group_by_col]])
   log_message(paste("Groups identified:", paste(groups, collapse = ", ")))
+  
   metadata_list <- lapply(seurat_objects, function(obj) obj@meta.data)
+  
+  log_message("Computing null statistics for Betti/Euler curves...")
   bootstrap_nulls <- compute_null_stats(pd_list, metadata_list, tau_vals, dimensions, "Euler",
                                         dataset_name, base_sigma, grid_points, tau_max, results_folder, verbose = TRUE)
-  print(bootstrap_nulls)
-  landscape_nulls <- compute_null_stats_individual_landscapes(landscape_list, n_bootstrap = 50, grid_points = grid_points)
-  log_message(paste("Individual landscape null stats: Mean Effect =",
-                    landscape_nulls$null_effect$mean,
-                    "Mean KS =", landscape_nulls$null_ks$mean))
+  log_message("Completed null statistics for Betti/Euler curves.")
+  
+  log_message("Computing null statistics for Landscape curves...")
+  landscape_nulls <- compute_null_stats_landscapes(landscape_list, n_bootstrap = 50, grid_points = grid_points)
+  log_message("Completed null statistics for Landscape curves.")
+
+  log_message("Aggregating and analyzing Landscape curves...")
   aggregated_landscape_curves_by_group <- setNames(lapply(as.character(groups), function(group) {
     group_ids <- group_metadata_mapping$orig.ident[group_metadata_mapping[[group_by_col]] == group]
-    log_debug_to_file(paste("Processing Group:", group), debug_log_file)
-    log_debug_to_file(paste("Number of PDs found for this group:", length(group_ids)), debug_log_file)
-    log_debug_to_file("First 5 IDs for this group:", debug_log_file)
-    log_debug_to_file(paste(head(group_ids, 5)), debug_log_file)
     grid <- seq(0, 1, length.out = grid_points)
     if (length(group_ids) == 0) {
       return(list(
-        mean = rep(0, grid_points),
-        lower = rep(0, grid_points),
-        upper = rep(0, grid_points),
+        mean = rep(0, grid_points), lower = rep(0, grid_points), upper = rep(0, grid_points),
         individual_landscape_curves = list()
       ))
     }
     individual_curves <- lapply(landscape_list[group_ids], function(land) {
       compute_landscape_curve(land, grid = grid)
     })
-    log_debug_to_file("Checking the generated individual curves for this group...", debug_log_file)
-    log_debug_to_file(paste("Number of individual curves created:", length(individual_curves)), debug_log_file)
-    log_debug_to_file("Summary of the FIRST individual curve:", debug_log_file)
-    log_debug_to_file(paste(summary(individual_curves[[1]])), debug_log_file)
-    log_debug_to_file("Summary of the LAST individual curve:", debug_log_file)
-    try({
-      log_debug_to_file(print(summary(individual_curves[[length(individual_curves)]])), debug_log_file)
-    }, silent = TRUE)
     bootstrapped_agg <- bootstrap_aggregated_landscape_curve(individual_curves, grid_points, n_bootstrap = bootstrap_samples)
     list(
-      mean = bootstrapped_agg$mean,
-      lower = bootstrapped_agg$lower,
-      upper = bootstrapped_agg$upper,
+      mean = bootstrapped_agg$mean, lower = bootstrapped_agg$lower, upper = bootstrapped_agg$upper,
       individual_landscape_curves = individual_curves,
       bootstrap_aggregates = bootstrapped_agg$bootstrap_curves
     )
   }), groups)
+
+  # --- MODIFICATION: Updated function call ---
   landscape_pairwise_results <- perform_pairwise_comparisons(aggregated_landscape_curves_by_group,
-                                                             aggregated_landscape_curves_by_group,
-                                                             groups, tau_vals,
+                                                             NULL,
+                                                             groups, 
+                                                             seq(0, 1, length.out=grid_points), 
+                                                             tau_max = 1.0, # Landscapes are on a 0-1 scale
                                                              dimensions = NULL,
                                                              dataset_name = dataset_name,
                                                              group_by_col = group_by_col,
                                                              plot_output_dir = file.path(results_folder, "plots", "landscape_curves", dataset_name, "pairwise_comparisons"),
                                                              null_effect_stats = landscape_nulls$null_effect,
-                                                             null_ks_stats = landscape_nulls$null_ks,
-                                                             alpha = 0.05, effect_threshold = 0.5, num_permutations = 1000)
-  plot_aggregated_curves(aggregated_landscape_curves_by_group, groups, dimensions = NULL, tau_vals,
-                         dataset_name, group_by_col, euler_curves = NULL, results_folder)
+                                                             null_ks_stats = landscape_nulls$null_ks)
+  
+  # --- MODIFICATION: Updated function call ---
+  plot_aggregated_curves(aggregated_landscape_curves_by_group, 
+                         groups, 
+                         dimensions = NULL, 
+                         seq(0, 1, length.out=grid_points),
+                         tau_max = 1.0, # Landscapes are on a 0-1 scale
+                         dataset_name, 
+                         group_by_col, 
+                         euler_curves = NULL, 
+                         results_folder)
+  
+  log_message("Aggregating and analyzing Betti/Euler curves...")
   group_results <- mclapply(as.character(groups), function(group) {
     log_message(paste("Processing group:", group))
-    group_pd <- pd_list[group_metadata_mapping$orig.ident[group_metadata_mapping[[group_by_col]] == group]]
+    group_pd_ids <- group_metadata_mapping$orig.ident[group_metadata_mapping[[group_by_col]] == group]
+    group_pd <- pd_list[names(pd_list) %in% group_pd_ids]
     if (length(group_pd) == 0) {
       log_message(paste("No PDs for group:", group))
       return(NULL)
@@ -865,21 +907,42 @@ compute_and_compare_betti_curves <- function(pd_list, landscape_list, seurat_obj
       NULL
     })
   }, mc.cores = num_cores)
+  
   group_results <- Filter(Negate(is.null), group_results)
-  if (length(group_results) == 0) { log_message("No results computed."); return(NULL) }
+  if (length(group_results) == 0) { log_message("No results computed for Betti/Euler."); return(NULL) }
+  
   betti_curves_by_group <- setNames(lapply(group_results, function(res) {
-    curves <- res$betti_curves[[res$group]]
-    setNames(curves, paste0("dimension_", seq_along(curves)))
+    res$betti_curves[[res$group]]
   }), vapply(group_results, `[[`, "", "group"))
+  
   euler_curves_by_group <- setNames(lapply(group_results, function(res) {
     res$euler_curve[[res$group]]
   }), vapply(group_results, `[[`, "", "group"))
-  pairwise_results <- perform_pairwise_comparisons(betti_curves_by_group, euler_curves_by_group, groups, tau_vals, dimensions,
-                                                   dataset_name, group_by_col,
+  
+  # --- MODIFICATION: Updated function call ---
+  pairwise_results <- perform_pairwise_comparisons(betti_curves_by_group, 
+                                                   euler_curves_by_group, 
+                                                   groups, 
+                                                   tau_vals, 
+                                                   tau_max, # Pass the calculated tau_max
+                                                   dimensions,
+                                                   dataset_name, 
+                                                   group_by_col,
                                                    plot_output_dir = file.path(results_folder, "plots", "betti_plots", dataset_name, "pairwise_comparisons"),
-                                                   null_effect_stats = bootstrap_nulls$null_effect, null_ks_stats = bootstrap_nulls$null_ks,
-                                                   alpha = 0.05, effect_threshold = 0.5, num_permutations = 1000)
-  plot_aggregated_curves(betti_curves_by_group, groups, dimensions, tau_vals, dataset_name, group_by_col, euler_curves_by_group, results_folder)
+                                                   null_effect_stats = bootstrap_nulls$null_effect, 
+                                                   null_ks_stats = bootstrap_nulls$null_ks)
+                                                   
+  # --- MODIFICATION: Updated function call ---
+  plot_aggregated_curves(betti_curves_by_group, 
+                         groups, 
+                         dimensions, 
+                         tau_vals, 
+                         tau_max, # Pass the calculated tau_max
+                         dataset_name, 
+                         group_by_col, 
+                         euler_curves_by_group, 
+                         results_folder)
+  
   list(
     group_results = group_results,
     pairwise_results = pairwise_results,
