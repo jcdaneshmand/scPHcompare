@@ -3,27 +3,6 @@
 # ---------------------------
 # Libraries
 # ---------------------------
-library(Seurat)
-library(dplyr)
-library(ggplot2)
-library(pheatmap)
-library(mclust)
-library(aricode)
-library(RColorBrewer)
-library(gridExtra)
-library(cluster)
-library(parallel)
-library(foreach)
-library(doParallel)
-library(reshape2)
-library(TDA)
-library(TDAstats)
-library(ComplexHeatmap)
-library(circlize)
-library(viridis)
-library(dendextend) # For coloring dendrogram branches
-library(digest)
-library(transport) # For EMD
 
 
 #' Run post-processing modules
@@ -404,11 +383,9 @@ compute_and_save_distance_matrices <- function(
 # New Helper Function: Compute Persistence Landscapes for Dimensions 0 and 1
 # ---------------------------
 ComputePersistenceLandscapes <- function(pd, grid = seq(0, 1, length.out = 100)) {
-  library("TDA")
   # Wrap the computation in tryCatch so that errors are caught
-  res <- tryCatch({
-    landscape0 <- landscape(Diag = pd, dimension = 0, tseq = grid)
-    landscape1 <- landscape(Diag = pd, dimension = 1, tseq = grid)
+    landscape0 <- TDA::landscape(Diag = pd, dimension = 0, tseq = grid)
+    landscape1 <- TDA::landscape(Diag = pd, dimension = 1, tseq = grid)
     list(dim0 = landscape0, dim1 = landscape1)
   },
     error = function(e) {
@@ -916,10 +893,8 @@ ensure_directory <- function(path) {
 
 #' Perform spectral clustering on a distance matrix
 perform_spectral_clustering <- function(distance_matrix, k) {
-  library(kernlab)
   epsilon <- 1e-8
-  similarity_matrix <- exp(-distance_matrix^2 / (2 * (mean(distance_matrix) + epsilon)^2))
-  res <- specc(as.kernelMatrix(similarity_matrix), centers = k)
+  res <- kernlab::specc(kernlab::as.kernelMatrix(similarity_matrix), centers = k)
   clusters <- res@.Data
   names(clusters) <- rownames(distance_matrix)
   clusters

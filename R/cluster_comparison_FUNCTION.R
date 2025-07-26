@@ -1,11 +1,4 @@
 # Make sure you have cowplot and other required packages installed
-library(cowplot)
-library(dplyr)
-library(tidyr)
-library(ggplot2) # Ensure ggplot2 is loaded
-library(ggtext)
-library(glue)
-
 # ---------------------------
 # ---------------------------
 # Enhanced Cluster Comparison with P-values
@@ -41,19 +34,6 @@ enhanced_cluster_comparison_with_pvals <- function(
   log_message("Starting enhanced cluster comparison analysis with p-values.")
 
   # -- Load libraries --
-  log_message("Loading libraries…")
-  library(mclust);
-  library(aricode);
-  library(clusterSim)
-  library(ggplot2);
-  library(entropy);
-  library(reshape2)
-  library(tidyr);
-  library(dplyr);
-  library(grid)
-  library(parallel)
-  if (include_silhouette) {
-    library(cluster)
     log_message("Loaded silhouette library.")
   }
   log_message("All libraries loaded.")

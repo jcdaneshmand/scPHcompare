@@ -10,12 +10,6 @@ run_cluster_comparison <- function(data_iterations, results_folder,
                                    SRA_col = "SRA",
                                    verbose = TRUE) {
   # Ensure required packages are loaded
-  library(cowplot)
-  library(dplyr)
-  library(tidyr)
-  library(ggplot2)
-  library(ggtext)
-  library(glue)
 
   # Helper functions included in the package
 

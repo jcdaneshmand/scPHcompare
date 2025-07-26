@@ -2,7 +2,6 @@
 # Cross-Iteration Betti Curve and Cluster Metric Comparisons
 # ---------------------------
 # Add this to the top of your script with other library calls
-library(viridis)
 
 # Simple logging function.
 log_message <- function(msg) {
@@ -80,7 +79,6 @@ compute_null_stats <- function(pd_list, metadata_list, tau_vals, dimensions,
                                curve_type = "Euler", dataset_name, base_sigma,
                                grid_points, tau_max, results_folder, verbose = TRUE,
                                num_cores = 8) {
-  library(parallel)
   integrated_diff <- function(curve_diff, tau_vals) {
     delta_tau <- diff(tau_vals)
     integrated_sq <- sum(delta_tau * (curve_diff[-length(curve_diff)] ^ 2 +
@@ -93,7 +91,7 @@ compute_null_stats <- function(pd_list, metadata_list, tau_vals, dimensions,
   combined_meta <- do.call(rbind, metadata_list)
   bs_cols <- grep("^random_group_bootstrap_", colnames(combined_meta),
                   value = TRUE, ignore.case = TRUE)
-  results <- mclapply(bs_cols, function(col) {
+  results <- parallel::mclapply(bs_cols, function(col) {
     idx1 <- which(combined_meta[[col]] == 1)
     idx2 <- which(combined_meta[[col]] == 2)
     if (length(idx1) == 0 || length(idx2) == 0) return(NULL)
@@ -170,7 +168,7 @@ get_or_compute_curve <- function(pd, dimension, dataset_name, base_sigma, grid_p
 
 bootstrap_curve <- function(pd_subset, dimension, group_name, dataset_name, grid_points, tau_max, base_sigma, n_bootstrap, seed = 42, results_folder, num_cores = 8) {
   log_message(paste("Starting bootstrapping for dimension", dimension, "with", n_bootstrap, "samples."))
-  individual_pd_curves <- mclapply(seq_along(pd_subset), function(i) {
+  individual_pd_curves <- parallel::mclapply(seq_along(pd_subset), function(i) {
     pd <- pd_subset[[i]]
     if (is.matrix(pd) && nrow(pd) > 0) {
       curv <- get_or_compute_curve(pd, dimension, dataset_name, base_sigma, grid_points, tau_max, results_folder)
@@ -180,7 +178,7 @@ bootstrap_curve <- function(pd_subset, dimension, group_name, dataset_name, grid
     }
   }, mc.cores = num_cores)
   names(individual_pd_curves) <- paste0("pd_", seq_along(pd_subset))
-  bootstrap_curves <- mclapply(1:n_bootstrap, function(rep) {
+  bootstrap_curves <- parallel::mclapply(1:n_bootstrap, function(rep) {
     set.seed(seed + rep)
     sampled <- pd_subset[sample(seq_along(pd_subset), replace = TRUE)]
     agg <- numeric(grid_points)
@@ -931,20 +929,6 @@ compute_and_compare_betti_iterations <- function(
   base_sigma = 1, num_cores = 20, results_folder = "results", verbose = TRUE,
   landscape_list = NULL
 ) {
-  library(ggplot2)
-  library(parallel)
-  library(cowplot)
-  library(dplyr)
-  library(digest)
-  library(transport)
-  ensure_directory <- function(path) {
-    if (length(path) == 0 || is.na(path) || path == "")
-      stop("Invalid directory path provided: ", path)
-    if (!dir.exists(path)) {
-      dir.create(path, recursive = TRUE)
-      log_message(paste("Created directory:", path))
-    }
-  }
   log_message <- function(msg) {
     if (verbose) cat(sprintf("[%s] %s\n", Sys.time(), msg))
   }
@@ -1197,18 +1181,6 @@ cross_iteration_comparison_with_betti <- function(data_iterations,
                                                   num_cores = 16,
                                                   verbose = TRUE,
                                                   metadata = NULL) {
-  library(dplyr)
-  library(readr)
-  library(parallel)
-  group_values <- unique(unlist(lapply(data_iterations, function(iter)
-    unique(iter$seurat_obj@meta.data[[group_by_col]]))))
-  log_message <- function(msg) {
-    if (verbose) cat(sprintf("[%s] %s\n", Sys.time(), msg))
-  }
-  reference_cell_names <- colnames(data_iterations[[1]]$seurat_obj)
-  log_message("Matching cell names across iterations")
-  for (i in seq_along(data_iterations)) {
-    seurat_obj <- data_iterations[[i]]$seurat_obj
     if (!all(colnames(seurat_obj) == reference_cell_names)) {
       if (ncol(seurat_obj) == length(reference_cell_names)) {
         colnames(seurat_obj) <- reference_cell_names
@@ -1224,7 +1196,7 @@ cross_iteration_comparison_with_betti <- function(data_iterations,
     combined_pd_list <- list()
     metadata_list <- list()
     combined_landscape_list <- list()
-    iter_results <- mclapply(data_iterations, function(iter) {
+    iter_results <- parallel::mclapply(data_iterations, function(iter) {
       pd_list <- readRDS(iter$pd_list)
       if (!all(startsWith(names(pd_list), paste0(iter$name, "_")))) {
         valid_names <- paste0(iter$name, "_", names(pd_list))
@@ -1316,7 +1288,7 @@ cross_iteration_comparison_with_betti <- function(data_iterations,
     log_message(paste("Completed comparison for", group_by_col, ":", group_value, "- results saved to:", output_file))
     results
   }
-  results <- mclapply(group_values, process_group, mc.cores = num_cores)
+  results <- parallel::mclapply(group_values, process_group, mc.cores = num_cores)
   log_message("Flattening all pairwise curve-comparison stats into one data.frame")
   metrics <- c("wasserstein", "perm_p", "effect_size", "ks_stat", "ks_adj_p")
   extract_row <- function(st, grp, pair, comp) {
