@@ -2033,3 +2033,37 @@ compare_all_iterations_with_mapped_methods_random_baseline_including_purity_pval
     norm_metrics = norm_df
   )
 }
+
+#' Run cross-iteration analysis
+#'
+#' This is a lightweight wrapper around
+#' `cross_iteration_comparison_with_betti()` that performs the
+#' cross-iteration comparison using default settings. Results are saved
+#' to a subfolder of `results_folder`.
+#'
+#' @param data_iterations List of iteration objects created by the
+#'   preprocessing pipeline.
+#' @param results_folder Directory where output files should be written.
+#' @param group_by_col Metadata column used to group cells when comparing
+#'   Betti curves across iterations.
+#' @param ... Additional parameters passed to
+#'   `cross_iteration_comparison_with_betti()`.
+#'
+#' @return The result object returned by
+#'   `cross_iteration_comparison_with_betti()`.
+#' @export
+run_cross_iteration <- function(data_iterations,
+                                results_folder = "results",
+                                group_by_col = "Tissue",
+                                ...) {
+  if (!dir.exists(results_folder)) {
+    dir.create(results_folder, recursive = TRUE)
+  }
+  cross_iteration_comparison_with_betti(
+    data_iterations = data_iterations,
+    group_by_col = group_by_col,
+    output_folder = file.path(results_folder, "cross_iteration_comparisons"),
+    ...
+  )
+}
+
