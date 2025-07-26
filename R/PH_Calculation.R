@@ -205,7 +205,7 @@ process_datasets_PH <- function(metadata,
   }
   
   
-  # Add SRA, tissue, and approach metadata with detection based on data characteristics
+  # Add SRA, tissue, and approach metadata without automatic approach detection
   my_seurat_list <- tryCatch(
     {
       mclapply(seq_along(my_seurat_list), function(i) {
@@ -221,18 +221,6 @@ process_datasets_PH <- function(metadata,
           seurat_obj@meta.data$Approach <- metadata[[approach_col]][i]
         }
 
-        if (is.na(approach_col) || is.na(seurat_obj@meta.data$Approach)) {
-          median_genes_per_cell <- median(seurat_obj$nFeature_RNA)
-          mt_gene_percent <- mean(seurat_obj$percent_mito)
-          median_umi_counts <- median(seurat_obj$nCount_RNA)
-
-          if (median_genes_per_cell < 1000 && mt_gene_percent < 5 && median_umi_counts < 5000) {
-            seurat_obj@meta.data$Approach <- "snRNA-seq"
-          } else {
-            seurat_obj@meta.data$Approach <- "scRNA-seq"
-          }
-        }
-        
         return(seurat_obj)
       }, mc.cores = num_cores)
     },
