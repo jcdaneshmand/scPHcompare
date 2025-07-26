@@ -4,7 +4,6 @@ run_unified_pipeline <- function(metadata_path,
                                  integration_method = "seurat",
                                  run_cluster = FALSE,
                                  run_modular = FALSE,
-                                 run_cross_iteration = FALSE,
                                  run_betti = FALSE,
                                  ...) {
   if (!requireNamespace("readr", quietly = TRUE)) {
@@ -19,7 +18,7 @@ run_unified_pipeline <- function(metadata_path,
                                     integration_method = integration_method,
                                     num_cores = num_cores,
                                     ...)
-  if (run_cluster || run_modular || run_cross_iteration || run_betti) {
+  if (run_cluster || run_modular || run_betti) {
     try(run_postprocessing_pipeline(ph_results,
                                     results_dir = results_dir,
                                     num_cores = num_cores,
