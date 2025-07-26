@@ -783,7 +783,6 @@ process_and_monitor <- function(expr_matrix, i, DIM, log_message, memory_thresho
       update_progress_log(log_file, i, "failed", current_threshold)
       return(list(PD = NULL, threshold = NULL))
     }
-    }
 
   }, error = function(e) {
     log_message(paste("Unexpected error in processing dataset", i, ":", e$message))
