@@ -82,7 +82,14 @@
 
 # datasets_to_drop <- c(12,15,18) #going to come back to these in a future run
 
-process_datasets_PH <- function(metadata, integration_method = "seurat", num_cores = 16, MIN_CELLS = 250, DIM = 1, THRESHOLD = -1, datasets_to_drop = NULL) {
+process_datasets_PH <- function(metadata,
+                                integration_method = "seurat",
+                                num_cores = 16,
+                                MIN_CELLS = 250,
+                                DIM = 1,
+                                THRESHOLD = -1,
+                                dataset_tag = "dataset",
+                                datasets_to_drop = NULL) {
   # Determine metadata column names and warn if missing
   sra_col <- intersect(c("SRA", "SRA_Number", "SRA Number"), colnames(metadata))[1]
   tissue_col <- intersect(c("Tissue", "tissue"), colnames(metadata))[1]
@@ -121,6 +128,8 @@ process_datasets_PH <- function(metadata, integration_method = "seurat", num_cor
     "igraph",
     "progressr"
   )
+
+  dataset_suffix <- if (nzchar(dataset_tag)) paste0("_", dataset_tag) else ""
   
   # Check and load required packages
   for (pkg in packages) {
@@ -130,7 +139,7 @@ process_datasets_PH <- function(metadata, integration_method = "seurat", num_cor
   }
   
   # Start logging
-  log_file <- paste0("PH_Pipeline_Log_", Sys.Date(), ".txt")
+  log_file <- paste0("PH_Pipeline_Log_", Sys.Date(), dataset_suffix, ".txt")
   sink(log_file, append = TRUE)
   
   # Helper functions are available once the package is loaded
@@ -258,7 +267,7 @@ process_datasets_PH <- function(metadata, integration_method = "seurat", num_cor
   
 
   
-  prefiltered_cells_file <- "prefiltered_cells_bonemarrow.csv"
+  prefiltered_cells_file <- paste0("prefiltered_cells", dataset_suffix, ".csv")
 
   # Function to extract columns with constant values from metadata
   get_constant_metadata <- function(obj) {
@@ -649,7 +658,7 @@ process_datasets_PH <- function(metadata, integration_method = "seurat", num_cor
     
     # Check the structure of expr_list to verify the extraction
     str(expr_list_sctWhole)
-    saveRDS(expr_list_sctWhole, file="expr_list_sctWhole_bonemarrow.Rds")
+    saveRDS(expr_list_sctWhole, file = paste0("expr_list_sctWhole", dataset_suffix, ".Rds"))
 }
   
   # saveRDS(expr_list_sctInd, file = 'expr_list_scInd_bonemarrow.Rds')
@@ -678,8 +687,8 @@ process_datasets_PH <- function(metadata, integration_method = "seurat", num_cor
         log_message = log_message, 
         max_cores = 6, 
         memory_threshold = 0.25,  # Example: 25% memory threshold
-        log_file = "progress_log_bonemarrow.csv", 
-        results_file = "intermediate_results_bonemarrow.rds",
+        log_file = paste0("progress_log", dataset_suffix, ".csv"),
+        results_file = paste0("intermediate_results", dataset_suffix, ".rds"),
         timeout_datasets = NULL
       )    
     },
@@ -698,8 +707,8 @@ process_datasets_PH <- function(metadata, integration_method = "seurat", num_cor
         log_message = log_message, 
         max_cores = 6, 
         memory_threshold = 0.25,  # Example: 25% memory threshold
-        log_file = "progress_log_RAW_bonemarrow.csv", 
-        results_file = "intermediate_results_RAW_bonemarrow.rds",
+        log_file = paste0("progress_log_RAW", dataset_suffix, ".csv"),
+        results_file = paste0("intermediate_results_RAW", dataset_suffix, ".rds"),
         timeout_datasets = NULL
       )    
     },
@@ -718,8 +727,8 @@ process_datasets_PH <- function(metadata, integration_method = "seurat", num_cor
         log_message = log_message,
         max_cores = 8,
         memory_threshold = 0.25, # Example: 25% memory threshold
-        log_file = "progress_log_sctWhole.csv",
-        results_file = "intermediate_results_sctWhole.rds",
+        log_file = paste0("progress_log_sctWhole", dataset_suffix, ".csv"),
+        results_file = paste0("intermediate_results_sctWhole", dataset_suffix, ".rds"),
         timeout_datasets = NULL
       )
     },
@@ -741,8 +750,12 @@ process_datasets_PH <- function(metadata, integration_method = "seurat", num_cor
     # Save the unintegrated PD results
     tryCatch(
       {
-        saveRDS(object = PD_list_unintegrated, file = paste0("PD_list_dim", DIM, "_th", THRESHOLD, "_unintegrated_bonemarrow", ".Rds"))
-        saveRDS(object = thresholds_unintegrated, file = paste0("thresholds_dim", DIM, "_unintegrated_bonemarrow", ".Rds"))
+        saveRDS(object = PD_list_unintegrated,
+                file = paste0("PD_list_dim", DIM, "_th", THRESHOLD,
+                               "_unintegrated", dataset_suffix, ".Rds"))
+        saveRDS(object = thresholds_unintegrated,
+                file = paste0("thresholds_dim", DIM, "_unintegrated",
+                               dataset_suffix, ".Rds"))
       },
       error = function(e) {
         log_message(paste("Error in saving persistence diagrams for unintegrated data:", e$message))
@@ -761,8 +774,12 @@ process_datasets_PH <- function(metadata, integration_method = "seurat", num_cor
     # Save the unintegrated PD results
     tryCatch(
       {
-        saveRDS(object = PD_list_unintegrated_RAW, file = paste0("PD_list_dim", DIM, "_th", THRESHOLD, "_unintegrated_RAW_bonemarrow", ".Rds"))
-        saveRDS(object = thresholds_unintegrated_RAW, file = paste0("thresholds_dim", DIM, "_unintegrated_RAW_bonemarrow", ".Rds"))
+        saveRDS(object = PD_list_unintegrated_RAW,
+                file = paste0("PD_list_dim", DIM, "_th", THRESHOLD,
+                               "_unintegrated_RAW", dataset_suffix, ".Rds"))
+        saveRDS(object = thresholds_unintegrated_RAW,
+                file = paste0("thresholds_dim", DIM, "_unintegrated_RAW",
+                               dataset_suffix, ".Rds"))
       },
       error = function(e) {
         log_message(paste("Error in saving persistence diagrams for unintegrated data RAW:", e$message))
@@ -781,8 +798,12 @@ process_datasets_PH <- function(metadata, integration_method = "seurat", num_cor
     # Save the unintegrated PD results
     tryCatch(
       {
-        saveRDS(object = PD_list_unintegrated_sctWhole, file = paste0("PD_list_dim", DIM, "_th", THRESHOLD, "_unintegrated_sctWhole_bonemarrow", ".Rds"))
-        saveRDS(object = thresholds_unintegrated_sctWhole, file = paste0("thresholds_dim", DIM, "_unintegrated_sctWhole_bonemarrow", ".Rds"))
+        saveRDS(object = PD_list_unintegrated_sctWhole,
+                file = paste0("PD_list_dim", DIM, "_th", THRESHOLD,
+                               "_unintegrated_sctWhole", dataset_suffix, ".Rds"))
+        saveRDS(object = thresholds_unintegrated_sctWhole,
+                file = paste0("thresholds_dim", DIM, "_unintegrated_sctWhole",
+                               dataset_suffix, ".Rds"))
       },
       error = function(e) {
         log_message(paste("Error in saving persistence diagrams for unintegrated data sctWhole:", e$message))
@@ -849,8 +870,8 @@ process_datasets_PH <- function(metadata, integration_method = "seurat", num_cor
         log_message = log_message, 
         max_cores = 8, 
         memory_threshold = 0.25,  # Example: 25% memory threshold
-        log_file = "progress_log_integrated.csv", 
-        results_file = "intermediate_results_integrated.rds"
+        log_file = paste0("progress_log_integrated", dataset_suffix, ".csv"),
+        results_file = paste0("intermediate_results_integrated", dataset_suffix, ".rds")
       )
     },
     error = function(e) {
@@ -867,8 +888,12 @@ process_datasets_PH <- function(metadata, integration_method = "seurat", num_cor
     # Save the integrated PD results
     tryCatch(
       {
-        saveRDS(object = PD_list_integrated, file = paste0("PD_list_dim", DIM, "_th", THRESHOLD, "_integrated", ".Rds"))
-        saveRDS(object = thresholds_integrated, file = paste0("thresholds_dim", DIM, "_integrated", ".Rds"))
+        saveRDS(object = PD_list_integrated,
+                file = paste0("PD_list_dim", DIM, "_th", THRESHOLD,
+                               "_integrated", dataset_suffix, ".Rds"))
+        saveRDS(object = thresholds_integrated,
+                file = paste0("thresholds_dim", DIM, "_integrated",
+                               dataset_suffix, ".Rds"))
       },
       error = function(e) {
         log_message(paste("Error in saving persistence diagrams for integrated data:", e$message))
