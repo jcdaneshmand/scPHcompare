@@ -935,6 +935,12 @@ compute_and_compare_betti_curves <- function(pd_list, landscape_list, seurat_obj
     group_results = group_results,
     pairwise_results = pairwise_results,
     aggregated_landscape_curves = aggregated_landscape_curves_by_group,
-    landscape_pairwise_results = landscape_pairwise_results
+    landscape_pairwise_results = landscape_pairwise_results,
+    null_summary = list(
+      euler_effect_size = if (!is.null(bootstrap_nulls)) bootstrap_nulls$null_effect else NULL,
+      euler_ks = if (!is.null(bootstrap_nulls)) bootstrap_nulls$null_ks else NULL,
+      landscape_effect_size = if (!is.null(landscape_nulls)) landscape_nulls$null_effect else NULL,
+      landscape_ks = if (!is.null(landscape_nulls)) landscape_nulls$null_ks else NULL
+    )
   )
 }
