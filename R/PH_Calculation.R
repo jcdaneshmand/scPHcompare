@@ -615,20 +615,6 @@ process_datasets_PH <- function(metadata,
     str(expr_list_sctWhole)
     saveRDS(expr_list_sctWhole, file = paste0("expr_list_sctWhole", dataset_suffix, ".Rds"))
 
-    # saveRDS(expr_list_sctInd, file = 'expr_list_scInd_bonemarrow.Rds')
-    # saveRDS(expr_list_sctWhole, file = 'expr_list_sctWhole_bonemarrow.Rds')
-    # saveRDS(expr_list_raw, file = 'expr_list_raw_bonemarrow.Rds')
-
-    # expr_list_sctInd <- readRDS(file = 'expr_list_scInd_bonemarrow.Rds')
-    # expr_list_sctWhole <- readRDS(file = 'expr_list_sctWhole_bonemarrow.Rds')
-    # expr_list_raw <- readRDS(file = 'expr_list_raw_bonemarrow.Rds')
-
-    # expr_list_sctInd <- readRDS("expr_list_sctInd.Rds")
-    # expr_list_raw <- readRDS("expr_list_raw.Rds")
-    # expr_list_sctWhole <- readRDS("expr_list_sctWhole.Rds")
-    # expr_list_integrated <- readRDS("expr_list_integrated.Rds")
-
-
     timeout_datasets <- NULL
 
     PD_result_unintegrated <- compute_ph_batch(
