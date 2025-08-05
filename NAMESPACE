@@ -44,4 +44,5 @@ export(process_datasets_PH)
 export(run_modular_analysis)
 export(run_cross_iteration)
 
+export(perform_integration)
 export(generate_toy_data)
