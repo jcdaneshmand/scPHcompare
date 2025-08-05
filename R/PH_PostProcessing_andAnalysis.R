@@ -1440,11 +1440,8 @@ generate_visualizations_for_iteration <- function(seurat_obj, dataset_name, assa
 }
 
 
-
-
-
-# Function to plot persistence diagrams and barcodes
-plot_persistence <- function(pd, output_file_base, plot_title) {
+# Function to plot persistence diagrams, barcodes, and landscapes
+plot_persistence <- function(pd, landscape = NULL, grid = NULL, output_file_base, plot_title) {
   tryCatch({
     if (!is.matrix(pd) || ncol(pd) != 3) {
       stop("PD is not a valid matrix with three columns (dimension, birth, death).")
@@ -1452,77 +1449,92 @@ plot_persistence <- function(pd, output_file_base, plot_title) {
 
     # Convert persistence diagram to data frame
     pd_df <- data.frame(
-        Dimension = pd[, "dimension"],
-        Birth = pd[, "birth"],
-        Death = pd[, "death"]
-      )
+      Dimension = pd[, "dimension"],
+      Birth = pd[, "birth"],
+      Death = pd[, "death"]
+    )
 
     # Determine plot limits
     max_value <- max(c(pd_df$Birth, pd_df$Death), na.rm = TRUE)
 
-    # Create the persistence diagram plot
+    # 1. Persistence Diagram Plot
     pd_plot <- ggplot(pd_df, aes(x = Birth, y = Death, color = as.factor(Dimension))) +
-        geom_point(size = 3, alpha = 0.8) +
-        geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "black") +
-        scale_color_manual(values = c("#1b9e77", "#d95f02", "#7570b3")) +
-        scale_x_continuous(limits = c(0, max_value), expand = c(0, 0)) +
-        scale_y_continuous(limits = c(0, max_value), expand = c(0, 0)) +
-        labs(
-          title = paste("Persistence Diagram -", plot_title),
-          x = "Birth Time",
-          y = "Death Time",
-          color = "Dimension"
-        ) +
-        theme_minimal(base_size = 14) +
-        theme(
-          plot.background = element_rect(fill = "white", color = NA),
-          plot.title = element_text(hjust = 0.5, face = "bold"),
-          legend.position = "top",
-          axis.text = element_text(size = 12),
-          axis.title = element_text(size = 14, face = "bold"),
-          aspect.ratio = 1
-        )
-
-    # Create the persistence barcode plot
-    barcode_plot <- ggplot(pd_df, aes(y = as.factor(Dimension), x = Birth, xend = Death, color = as.factor(Dimension))) +
-        geom_segment(size = 2) +
-        scale_color_manual(values = c("#1b9e77", "#d95f02", "#7570b3")) +
-        labs(
-          title = paste("Persistence Barcode -", plot_title),
-          x = "Time",
-          y = "Dimension",
-    dim0_df$t <- grid
-    df0 <- melt(dim0_df, id.vars = "t", variable.name = "Level", value.name = "Value")
-    df0$Dimension <- "0"
-
-    # Convert the landscape for dimension 1
-    dim1_df <- as.data.frame(landscape$dim1)
-    dim1_df$t <- grid
-    df1 <- melt(dim1_df, id.vars = "t", variable.name = "Level", value.name = "Value")
-    df1$Dimension <- "1"
-
-    # Combine data from both dimensions
-    df <- rbind(df0, df1)
-    df$Level <- as.factor(df$Level)
-
-    # Create the plot: one facet per dimension
-    p <- ggplot(df, aes(x = t, y = Value, color = Level)) +
-      geom_line() +
-      facet_wrap(~Dimension, scales = "free_y") +
-      labs(title = paste("Persistence Landscape -", plot_title),
-           x = "t", y = "Landscape Value") +
+      geom_point(size = 3, alpha = 0.8) +
+      geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "black") +
+      scale_color_manual(values = c("#1b9e77", "#d95f02", "#7570b3")) +
+      scale_x_continuous(limits = c(0, max_value), expand = c(0, 0)) +
+      scale_y_continuous(limits = c(0, max_value), expand = c(0, 0)) +
+      labs(
+        title = paste("Persistence Diagram -", plot_title),
+        x = "Birth Time",
+        y = "Death Time",
+        color = "Dimension"
+      ) +
       theme_minimal(base_size = 14) +
-      theme(plot.title = element_text(hjust = 0.5, face = "bold"),
-            legend.position = "top")
+      theme(
+        plot.background = element_rect(fill = "white", color = NA),
+        plot.title = element_text(hjust = 0.5, face = "bold"),
+        legend.position = "top",
+        axis.text = element_text(size = 12),
+        axis.title = element_text(size = 14, face = "bold"),
+        aspect.ratio = 1
+      )
 
-    # Save the plot in multiple formats
-    ggsave(paste0(output_file_base, ".png"), p, width = 8, height = 6, dpi = 300)
-    ggsave(paste0(output_file_base, ".svg"), p, width = 8, height = 6)
-    ggsave(paste0(output_file_base, ".pdf"), p, width = 8, height = 6)
-    log_message(paste("Saved landscape plot to", output_file_base))
+    # Save persistence diagram
+    ggsave(paste0(output_file_base, "_diagram.png"), pd_plot, width = 8, height = 6, dpi = 300)
+
+    # 2. Persistence Barcode Plot
+    barcode_plot <- ggplot(pd_df, aes(y = as.factor(Dimension), x = Birth, xend = Death, color = as.factor(Dimension))) +
+      geom_segment(aes(xend = Death, yend = as.factor(Dimension)), size = 2) +
+      scale_color_manual(values = c("#1b9e77", "#d95f02", "#7570b3")) +
+      labs(
+        title = paste("Persistence Barcode -", plot_title),
+        x = "Time",
+        y = "Dimension",
+        color = "Dimension"
+      ) +
+      theme_minimal(base_size = 14) +
+      theme(
+        plot.title = element_text(hjust = 0.5, face = "bold"),
+        legend.position = "top"
+      )
+
+    # Save barcode
+    ggsave(paste0(output_file_base, "_barcode.png"), barcode_plot, width = 8, height = 4, dpi = 300)
+
+    # 3. Persistence Landscape Plot (Optional)
+    if (!is.null(landscape) && !is.null(grid)) {
+      dim0_df <- as.data.frame(landscape$dim0)
+      dim0_df$t <- grid
+      df0 <- reshape2::melt(dim0_df, id.vars = "t", variable.name = "Level", value.name = "Value")
+      df0$Dimension <- "0"
+
+      dim1_df <- as.data.frame(landscape$dim1)
+      dim1_df$t <- grid
+      df1 <- reshape2::melt(dim1_df, id.vars = "t", variable.name = "Level", value.name = "Value")
+      df1$Dimension <- "1"
+
+      df <- rbind(df0, df1)
+      df$Level <- as.factor(df$Level)
+
+      landscape_plot <- ggplot(df, aes(x = t, y = Value, color = Level)) +
+        geom_line() +
+        facet_wrap(~Dimension, scales = "free_y") +
+        labs(title = paste("Persistence Landscape -", plot_title),
+             x = "t", y = "Landscape Value") +
+        theme_minimal(base_size = 14) +
+        theme(plot.title = element_text(hjust = 0.5, face = "bold"),
+              legend.position = "top")
+
+      # Save landscape plots
+      ggsave(paste0(output_file_base, "_landscape.png"), landscape_plot, width = 8, height = 6, dpi = 300)
+      ggsave(paste0(output_file_base, "_landscape.svg"), landscape_plot, width = 8, height = 6)
+      ggsave(paste0(output_file_base, "_landscape.pdf"), landscape_plot, width = 8, height = 6)
+
+      log_message(paste("Saved landscape plot to", output_file_base))
+    }
 
   }, error = function(e) {
-    log_message(paste("Error in plotting landscape data:", e$message))
+    log_message(paste("Error in plotting persistence data:", e$message))
   })
 }
-
