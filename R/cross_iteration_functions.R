@@ -1190,7 +1190,6 @@ cross_iteration_comparison_with_betti <- function(data_iterations,
         log_message(paste0("Iteration ", data_iterations[[i]]$name, " has a different number of cells; skipping renaming."))
       }
     }
-  }
   process_group <- function(group_value) {
     log_message(paste("Processing", group_by_col, ":", group_value))
     combined_pd_list <- list()
