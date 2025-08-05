@@ -28,6 +28,10 @@ library(scPHcompare)
 
 `scPHcompare` depends on several Bioconductor and CRAN packages listed in the `DESCRIPTION` file. Make sure these are available in your R environment before running the pipeline.
 
+## Input data
+
+At present `scPHcompare` mainly supports expression matrices stored in `.RData` files. Datasets in this format can be obtained from resources such as [PanglaoDB](https://panglaodb.se/) for a wide range of tissues and species. Support for other standard matrix formats is planned for a future release.
+
 ## Quick start
 
 Prepare a CSV file describing each dataset. The required columns are `File Path` and `Sample Name`. Additional metadata such as `SRA`, `Tissue` and `Approach` (scRNA‑seq or snRNA‑seq) will be preserved if provided. **At least one of `SRA`, `Tissue`, or `Approach` must be present to allow grouping and downstream analyses.** Column names can be customised when calling the pipeline. Approach labels are taken directly from the metadata and are no longer inferred automatically from expression metrics.
