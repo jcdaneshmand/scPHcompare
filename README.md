@@ -10,9 +10,10 @@
 * Multiple clustering approaches including standard Seurat, k-means, hierarchical PH and spectral clustering
 * Post-processing modules include:
   * Cluster comparison with statistical metrics
-  * Betti curve analysis
+  * Betti, Euler, and Landscape curve analysis
   * Cross‑iteration comparisons (executed automatically with the modular analysis)
 * Helper utilities for plotting, caching and validating intermediate results
+* `generate_toy_data()` helper for creating small synthetic datasets
 
 ## Installation
 
@@ -49,18 +50,18 @@ Distance matrices can also be generated separately for each iteration by calling
 
 ## Toy Example Data
 
-To try the package without obtaining real datasets, a small synthetic dataset can be generated with the helper script:
-
-```bash
-Rscript inst/scripts/generate_toy_data.R
-```
-
-This writes three sparse 100×50 matrices and a `metadata.csv` file to `inst/extdata/toy/`. The metadata can then be used to run the pipeline:
+To try the package without obtaining real datasets, a small synthetic dataset can be generated directly in R:
 
 ```r
-toy_meta <- system.file("extdata", "toy", "metadata.csv", package = "scPHcompare")
+library(scPHcompare)
+toy_files <- generate_toy_data()
+```
+
+This writes three sparse 100×50 matrices and a `metadata.csv` file to `inst/extdata/toy/` and returns their paths. The metadata can then be used to run the pipeline:
+
+```r
 results <- run_unified_pipeline(
-  metadata_path = toy_meta,
+  metadata_path = toy_files$metadata,
   results_dir = "toy_results",
   num_cores = 2
 )
