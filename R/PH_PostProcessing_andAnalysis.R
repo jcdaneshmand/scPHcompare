@@ -5,6 +5,261 @@
 # ---------------------------
 
 
+# ---------------------------------------------------------------
+# Heatmap Generation Helper
+# ---------------------------------------------------------------
+generate_heatmaps_for_all_statistics <- function(
+  results_list, dataset_name, plots_folder,
+  null_summary = list(euler_effect_size = NULL, euler_ks = NULL,
+                      landscape_effect_size = NULL, landscape_ks = NULL),
+  plot_output_dir = file.path(plots_folder, "betti_plots", dataset_name, "statistical_comparison_heatmaps"),
+  verbose = TRUE
+) {
+  log_message <- function(msg) {
+    if (verbose) message(sprintf("[%s] %s", Sys.time(), msg))
+  }
+  log_message("Generating heatmaps for all statistics in pairwise comparison results.")
+
+  ensure_directory <- function(path) {
+    if (!dir.exists(path)) dir.create(path, recursive = TRUE)
+  }
+  ensure_directory(plot_output_dir)
+
+  all_combined_csvs <- list()
+
+  null_summary_str_euler_effect <- if (!is.null(null_summary$euler_effect_size)) {
+    paste("Null Eff Mean:", signif(null_summary$euler_effect_size$mean, 3),
+          "SD:", signif(null_summary$euler_effect_size$sd, 3),
+          "Quantiles:", paste(signif(null_summary$euler_effect_size$quantiles, 3), collapse = ", "))
+  } else { "" }
+
+  null_summary_str_euler_ks <- if (!is.null(null_summary$euler_ks)) {
+    paste("Null KS Mean:", signif(null_summary$euler_ks$mean, 3),
+          "SD:", signif(null_summary$euler_ks$sd, 3),
+          "Quantiles:", paste(signif(null_summary$euler_ks$quantiles, 3), collapse = ", "))
+  } else { "" }
+
+  null_summary_str_landscape_effect <- if (!is.null(null_summary$landscape_effect_size)) {
+    paste("Null Eff Mean:", signif(null_summary$landscape_effect_size$mean, 3),
+          "SD:", signif(null_summary$landscape_effect_size$sd, 3),
+          "Quantiles:", paste(signif(null_summary$landscape_effect_size$quantiles, 3), collapse = ", "))
+  } else { "" }
+
+  null_summary_str_landscape_ks <- if (!is.null(null_summary$landscape_ks)) {
+    paste("Null KS Mean:", signif(null_summary$landscape_ks$mean, 3),
+          "SD:", signif(null_summary$landscape_ks$sd, 3),
+          "Quantiles:", paste(signif(null_summary$landscape_ks$quantiles, 3), collapse = ", "))
+  } else { "" }
+
+  for (comparison_type in names(results_list)) {
+    log_message(paste("Processing heatmaps for", comparison_type))
+
+    if (is.null(results_list[[comparison_type]]) || !is.list(results_list[[comparison_type]])) {
+      log_message(paste("Invalid or missing pairwise results for", comparison_type, "- Skipping heatmaps."))
+      next
+    }
+
+    heatmap_list <- list()
+
+    for (dimension in c("dimension_0", "dimension_1", "euler", "landscape")) {
+      log_message(paste("Processing dimension:", dimension, "for", comparison_type))
+
+      pairwise_stats_df <- list()
+
+      current_results <- if (tolower(dimension) == "landscape") {
+        results_list[[comparison_type]]$landscape_pairwise_results
+      } else {
+        results_list[[comparison_type]]$pairwise_results
+      }
+
+      if (is.null(current_results)) {
+        log_message(paste("No pairwise results available for", dimension, "in", comparison_type))
+        next
+      }
+
+      available_statistics <- if (tolower(dimension) == "landscape") {
+        unique(unlist(lapply(current_results, function(pair) {
+          if (!is.null(pair[["landscape"]])) names(pair[["landscape"]])
+        })))
+      } else {
+        unique(unlist(lapply(current_results, function(pair) {
+          if (!is.null(pair[[dimension]])) names(pair[[dimension]])
+        })))
+      }
+
+      for (stat in available_statistics) {
+        log_message(paste("Generating heatmap for statistic:", stat, "in", dimension, "for", comparison_type))
+
+        fill_label <- stat
+        subtitle_text <- NULL
+        if (tolower(dimension) %in% c("euler", "landscape")) {
+          if (tolower(stat) == "effect_size") {
+            subtitle_text <- if (dimension == "euler") null_summary_str_euler_effect else null_summary_str_landscape_effect
+          } else if (tolower(stat) %in% c("ks_result", "ks_stat")) {
+            fill_label <- "-log10(p-value)"
+            subtitle_text <- if (dimension == "euler") null_summary_str_euler_ks else null_summary_str_landscape_ks
+          } else if (tolower(stat) == "perm_p") {
+            fill_label <- "-log10(perm p-value)"
+            subtitle_text <- "Fill = -log10(perm p-value)."
+          }
+        } else {
+          if (tolower(stat) %in% c("ks_result", "ks_stat")) {
+            fill_label <- "-log10(p-value)"
+            subtitle_text <- "Fill = -log10(p-value); Block label = KS statistic."
+          } else if (tolower(stat) == "perm_p") {
+            fill_label <- "-log10(perm p-value)"
+            subtitle_text <- "Fill = -log10(perm p-value)."
+          }
+        }
+
+        pairwise_data <- tryCatch({
+          do.call(rbind, lapply(names(current_results), function(pair) {
+            result <- current_results[[pair]]
+            group_names <- strsplit(pair, "_vs_")[[1]]
+            value <- NULL
+            label <- NA
+
+            if (tolower(dimension) == "landscape") {
+              value <- result[["landscape"]][[stat]]
+            } else {
+              value <- result[[dimension]][[stat]]
+            }
+
+            if (tolower(stat) %in% c("ks_result", "ks_stat")) {
+              if (is.list(value)) {
+                p_val <- value[["combined_p"]]
+                if (p_val == 0) p_val <- 1e-16
+                value <- -log10(p_val)
+                label <- round(as.numeric(value[["combined_stat"]])[1], 3)
+              } else {
+                value <- -log10(ifelse(value == 0, 1e-16, value))
+              }
+            } else if (tolower(stat) == "perm_p") {
+              if (is.list(value) && !is.null(value[["perm_p"]])) {
+                value <- value[["perm_p"]]
+              }
+              value <- -log10(ifelse(value == 0, 1e-16, value))
+            } else if (inherits(value, "htest")) {
+              value <- value$p.value
+            }
+
+            data.frame(Group1 = group_names[1], Group2 = group_names[2], Value = as.numeric(value), Label = as.numeric(label))
+          }))
+        }, error = function(e) {
+          log_message(paste("Error collecting data for", stat, "in", dimension, "for", comparison_type, ":", conditionMessage(e)))
+          NULL
+        })
+
+        if (is.null(pairwise_data) || nrow(pairwise_data) == 0) {
+          log_message(paste("No valid data for statistic", stat, "in", dimension, "for", comparison_type, "- Skipping heatmap."))
+          next
+        }
+
+        pairwise_stat <- pairwise_data[, c("Group1", "Group2", "Value")]
+        colnames(pairwise_stat)[3] <- stat
+        pairwise_stats_df[[stat]] <- pairwise_stat
+
+        groups <- unique(c(pairwise_data$Group1, pairwise_data$Group2))
+        heatmap_matrix <- matrix(NA, length(groups), length(groups), dimnames = list(groups, groups))
+        label_matrix <- matrix(NA, length(groups), length(groups), dimnames = list(groups, groups))
+        for (i in seq_len(nrow(pairwise_data))) {
+          g1 <- pairwise_data$Group1[i]
+          g2 <- pairwise_data$Group2[i]
+          heatmap_matrix[g1, g2] <- pairwise_data$Value[i]
+          heatmap_matrix[g2, g1] <- pairwise_data$Value[i]
+          if (!is.na(pairwise_data$Label[i])) {
+            label_matrix[g1, g2] <- pairwise_data$Label[i]
+            label_matrix[g2, g1] <- pairwise_data$Label[i]
+          }
+        }
+
+        heatmap_data <- as.data.frame(as.table(heatmap_matrix))
+        colnames(heatmap_data) <- c("Group1", "Group2", "Value")
+
+        if (tolower(stat) %in% c("ks_result", "ks_stat", "perm_p")) {
+          label_data <- as.data.frame(as.table(label_matrix))
+          colnames(label_data) <- c("Group1", "Group2", "Label")
+          heatmap_data <- merge(heatmap_data, label_data, by = c("Group1", "Group2"), all.x = TRUE)
+        }
+
+        fill_scale <- ggplot2::scale_fill_gradient(low = "white", high = "blue", na.value = "grey50")
+
+        heatmap_plot <- tryCatch({
+          p <- ggplot2::ggplot(heatmap_data, ggplot2::aes(x = Group1, y = Group2, fill = Value)) +
+            ggplot2::geom_tile(color = "white") +
+            fill_scale +
+            ggplot2::labs(
+              title = paste("Pairwise Heatmap for", comparison_type, "-", dimension, "-", stat),
+              subtitle = subtitle_text,
+              x = "Group 1", y = "Group 2", fill = fill_label
+            ) +
+            ggplot2::theme_minimal(base_size = 14) +
+            ggplot2::theme(
+              axis.text.x = ggplot2::element_text(angle = 45, hjust = 1, size = 12),
+              axis.text.y = ggplot2::element_text(size = 12),
+              plot.title = ggplot2::element_text(size = 14, face = "bold"),
+              plot.subtitle = ggplot2::element_text(size = 12),
+              legend.text = ggplot2::element_text(size = 12),
+              legend.title = ggplot2::element_text(size = 14, face = "bold")
+            )
+
+          if ("Label" %in% names(heatmap_data)) {
+            p <- p + ggplot2::geom_text(ggplot2::aes(label = Label), color = "black", size = 4.5, na.rm = TRUE)
+          }
+          p
+        }, error = function(e) {
+          log_message(paste("Error generating plot for", stat, "in", dimension, "for", comparison_type, ":", conditionMessage(e)))
+          NULL
+        })
+
+        if (!is.null(heatmap_plot)) {
+          heatmap_list[[paste(dimension, stat, sep = "_")]] <- heatmap_plot
+        }
+      }
+
+      if (length(pairwise_stats_df) > 0) {
+        csv_output_dir <- file.path(plot_output_dir, "statistical_csvs", comparison_type)
+        ensure_directory(csv_output_dir)
+        wide_df <- Reduce(function(x, y) merge(x, y, by = c("Group1", "Group2"), all = TRUE), pairwise_stats_df)
+        csv_file <- file.path(csv_output_dir, paste0(dataset_name, "_", comparison_type, "_", dimension, "_all_statistics.csv"))
+        utils::write.csv(wide_df, csv_file, row.names = FALSE)
+        log_message(paste("Saved wide-format CSV for", dimension, "in", comparison_type, "to", csv_file))
+
+        wide_df$ComparisonType <- comparison_type
+        wide_df$Dimension <- dimension
+        all_combined_csvs[[paste(comparison_type, dimension, sep = "_")]] <- wide_df
+      }
+    }
+
+    if (length(heatmap_list) > 0) {
+      combined <- tryCatch({
+        gridExtra::marrangeGrob(grobs = heatmap_list, nrow = 2, ncol = 2)
+      }, error = function(e) {
+        log_message(paste("Error combining heatmaps for", comparison_type, ":", conditionMessage(e)))
+        NULL
+      })
+      if (!is.null(combined)) {
+        combined_file <- file.path(plot_output_dir, paste0(dataset_name, "_", comparison_type, "_combined_heatmaps.pdf"))
+        ggplot2::ggsave(combined_file, combined, width = 16, height = 12)
+        log_message(paste("Saved combined heatmaps for", comparison_type, "to", combined_file))
+      }
+    }
+
+    log_message(paste("Completed heatmap generation for", comparison_type))
+  }
+
+  if (length(all_combined_csvs) > 0) {
+    all_stats_df <- do.call(rbind, all_combined_csvs)
+    master_file <- file.path(plot_output_dir, paste0(dataset_name, "_all_pairwise_statistics_combined.csv"))
+    utils::write.csv(all_stats_df, master_file, row.names = FALSE)
+    log_message(paste("Saved final combined CSV for all stats to", master_file))
+  }
+
+  log_message("Completed heatmap generation for all statistics.")
+  return(all_stats_df)
+}
+
+
 #' Run post-processing modules
 #'
 #' This helper runs the optional post-processing analyses on the
@@ -56,6 +311,7 @@ run_modular_analysis <- function(ph_results,
 
   if (run_betti && !is.null(data_iterations)) {
     betti_results <- list()
+    meta_list <- list()
     for (iter in data_iterations) {
       pd_list <- readRDS(iter$pd_list)
       landscape_list <- if (!is.null(iter$landscape_list)) readRDS(iter$landscape_list) else NULL
@@ -107,9 +363,108 @@ run_modular_analysis <- function(ph_results,
         )
       }
 
+      if ("sample" %in% colnames(iter$seurat_obj@meta.data)) {
+        iter_results$sample <- try(
+          compute_and_compare_betti_curves(
+            pd_list = pd_list,
+            landscape_list = landscape_list,
+            seurat_objects = list(iter$seurat_obj),
+            group_by_col = "sample",
+            dataset_name = iter$name,
+            results_folder = results_dir,
+            ...
+          ),
+          silent = TRUE
+        )
+      }
+
+      random_group_cols <- grep("^Random_Group", colnames(iter$seurat_obj@meta.data), value = TRUE, ignore.case = TRUE)
+      if (length(random_group_cols) > 0) {
+        for (rg in random_group_cols) {
+          iter_results[[paste0("random_group_comparison_", rg)]] <- try(
+            compute_and_compare_betti_curves(
+              pd_list = pd_list,
+              landscape_list = landscape_list,
+              seurat_objects = list(iter$seurat_obj),
+              group_by_col = rg,
+              dataset_name = iter$name,
+              results_folder = results_dir,
+              ...
+            ),
+            silent = TRUE
+          )
+        }
+      }
+
+      random_group_keys <- grep("^random_group_comparison", names(iter_results), value = TRUE, ignore.case = TRUE)
+      euler_effect <- c()
+      euler_ks <- c()
+      landscape_effect <- c()
+      landscape_ks <- c()
+      for (key in random_group_keys) {
+        rg_result <- iter_results[[key]]$pairwise_results
+        rg_landscape <- iter_results[[key]]$landscape_pairwise_results
+        if (!is.null(rg_result)) {
+          for (comp_name in names(rg_result)) {
+            comp <- rg_result[[comp_name]]
+            comp_landscape <- rg_landscape[[comp_name]]
+            if (is.list(comp) && !is.null(comp$euler)) {
+              if (!is.null(comp$euler$effect_size)) euler_effect <- c(euler_effect, comp$euler$effect_size)
+              if (!is.null(comp$euler$ks_stat)) euler_ks <- c(euler_ks, comp$euler$ks_stat)
+            }
+            if (!is.null(comp_landscape$landscape)) {
+              if (!is.null(comp_landscape$landscape$effect_size)) landscape_effect <- c(landscape_effect, comp_landscape$landscape$effect_size)
+              if (!is.null(comp_landscape$landscape$ks_stat)) landscape_ks <- c(landscape_ks, comp_landscape$landscape$ks_stat)
+            }
+          }
+        }
+      }
+
+      euler_effect <- euler_effect[!is.na(euler_effect)]
+      euler_ks <- euler_ks[!is.na(euler_ks)]
+      landscape_effect <- landscape_effect[!is.na(landscape_effect)]
+      landscape_ks <- landscape_ks[!is.na(landscape_ks)]
+
+      euler_random_group_null_effect <- if (length(euler_effect) > 0) list(mean = mean(euler_effect), sd = sd(euler_effect), quantiles = stats::quantile(euler_effect, probs = c(0.025, 0.5, 0.975))) else NULL
+      euler_random_group_null_ks <- if (length(euler_ks) > 0) list(mean = mean(euler_ks), sd = sd(euler_ks), quantiles = stats::quantile(euler_ks, probs = c(0.025, 0.5, 0.975))) else NULL
+      landscape_random_group_null_effect <- if (length(landscape_effect) > 0) list(mean = mean(landscape_effect), sd = sd(landscape_effect), quantiles = stats::quantile(landscape_effect, probs = c(0.025, 0.5, 0.975))) else NULL
+      landscape_random_group_null_ks <- if (length(landscape_ks) > 0) list(mean = mean(landscape_ks), sd = sd(landscape_ks), quantiles = stats::quantile(landscape_ks, probs = c(0.025, 0.5, 0.975))) else NULL
+
+      overall_null_summary <- list(
+        euler_effect_size = euler_random_group_null_effect,
+        euler_ks = euler_random_group_null_ks,
+        landscape_effect_size = landscape_random_group_null_effect,
+        landscape_ks = landscape_random_group_null_ks
+      )
+
+      df_iter <- try(
+        generate_heatmaps_for_all_statistics(
+          results_list = iter_results,
+          dataset_name = iter$name,
+          plots_folder = results_dir,
+          null_summary = overall_null_summary
+        ),
+        silent = TRUE
+      )
+
+      if (!inherits(df_iter, "try-error") && !is.null(df_iter)) {
+        df_iter <- dplyr::mutate(df_iter, Dataset = iter$name)
+        meta_list[[iter$name]] <- df_iter
+      }
+
       betti_results[[iter$name]] <- iter_results
     }
     results$betti <- betti_results
+
+    if (length(meta_list) > 0) {
+      meta_master_df <- dplyr::bind_rows(meta_list)
+      utils::write.csv(
+        meta_master_df,
+        file.path(results_dir, "betti_plots", "ALL_datasets_all_pairwise_statistics_meta_master.csv"),
+        row.names = FALSE
+      )
+      results$betti_meta <- meta_master_df
+    }
   }
 
   if (run_cross_iteration && exists("run_cross_iteration") && !is.null(data_iterations)) {
