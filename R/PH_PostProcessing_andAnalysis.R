@@ -428,16 +428,14 @@ compute_and_save_distance_matrices <- function(
 # New Helper Function: Compute Persistence Landscapes for Dimensions 0 and 1
 # ---------------------------
 ComputePersistenceLandscapes <- function(pd, grid = seq(0, 1, length.out = 100)) {
-  # Wrap the computation in tryCatch so that errors are caught
+  res <- tryCatch({
     landscape0 <- TDA::landscape(Diag = pd, dimension = 0, tseq = grid)
     landscape1 <- TDA::landscape(Diag = pd, dimension = 1, tseq = grid)
     list(dim0 = landscape0, dim1 = landscape1)
-  },
-    error = function(e) {
-      log_message(paste("Error computing persistence landscape for a PD:", e$message))
-      return(NULL)
-    }
-  )
+  }, error = function(e) {
+    log_message(paste("Error computing persistence landscape for a PD:", e$message))
+    return(NULL)
+  })
   return(res)
 }
 
@@ -1142,7 +1140,7 @@ generate_heatmaps <- function(dataset_name, metadata, seurat_obj, bdm_matrix, pl
       !!Tissue_col := coalesce(.data[[paste0(Tissue_col, ".meta")]], .data[[paste0(Tissue_col, ".seurat")]]),
       !!Approach_col := coalesce(.data[[paste0(Approach_col, ".meta")]], .data[[paste0(Approach_col, ".seurat")]])
     ) %>%
-    dplyr::select(-matches("\.meta$|\.seurat$"))
+    dplyr::select(-matches("\\.meta$|\\.seurat$"))
 
   sample_level_metadata <- seurat_obj@meta.data %>%
     dplyr::group_by(Sample) %>%
