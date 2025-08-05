@@ -47,6 +47,27 @@ The wrapper executes preprocessing and PH calculation first. If the optional mod
 
 Distance matrices can also be generated separately for each iteration by calling `process_iteration_calculate_matrices()` from `PH_PostProcessing_andAnalysis.R`.
 
+## Toy Example Data
+
+To try the package without obtaining real datasets, a small synthetic dataset can be generated with the helper script:
+
+```bash
+Rscript inst/scripts/generate_toy_data.R
+```
+
+This writes three sparse 100×50 matrices and a `metadata.csv` file to `inst/extdata/toy/`. The metadata can then be used to run the pipeline:
+
+```r
+toy_meta <- system.file("extdata", "toy", "metadata.csv", package = "scPHcompare")
+results <- run_unified_pipeline(
+  metadata_path = toy_meta,
+  results_dir = "toy_results",
+  num_cores = 2
+)
+```
+
+These toy data are randomly generated and very small. They are intended only for demonstrations and automated tests and should not be used for biological interpretation.
+
 ## Output overview
 
 The pipeline creates several subfolders under `results_dir`. These are
