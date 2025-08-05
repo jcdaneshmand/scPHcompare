@@ -1,10 +1,3 @@
-#VDT VERSION
-
-# ---------------------------
-# Libraries
-# ---------------------------
-
-
 # ---------------------------------------------------------------
 # Heatmap Generation Helper
 # ---------------------------------------------------------------
@@ -363,38 +356,38 @@ run_modular_analysis <- function(ph_results,
         )
       }
 
-      if ("sample" %in% colnames(iter$seurat_obj@meta.data)) {
-        iter_results$sample <- try(
-          compute_and_compare_betti_curves(
-            pd_list = pd_list,
-            landscape_list = landscape_list,
-            seurat_objects = list(iter$seurat_obj),
-            group_by_col = "sample",
-            dataset_name = iter$name,
-            results_folder = results_dir,
-            ...
-          ),
-          silent = TRUE
-        )
-      }
+      # if ("sample" %in% colnames(iter$seurat_obj@meta.data)) {
+      #   iter_results$sample <- try(
+      #     compute_and_compare_betti_curves(
+      #       pd_list = pd_list,
+      #       landscape_list = landscape_list,
+      #       seurat_objects = list(iter$seurat_obj),
+      #       group_by_col = "sample",
+      #       dataset_name = iter$name,
+      #       results_folder = results_dir,
+      #       ...
+      #     ),
+      #     silent = TRUE
+      #   )
+      # }
 
-      random_group_cols <- grep("^Random_Group", colnames(iter$seurat_obj@meta.data), value = TRUE, ignore.case = TRUE)
-      if (length(random_group_cols) > 0) {
-        for (rg in random_group_cols) {
-          iter_results[[paste0("random_group_comparison_", rg)]] <- try(
-            compute_and_compare_betti_curves(
-              pd_list = pd_list,
-              landscape_list = landscape_list,
-              seurat_objects = list(iter$seurat_obj),
-              group_by_col = rg,
-              dataset_name = iter$name,
-              results_folder = results_dir,
-              ...
-            ),
-            silent = TRUE
-          )
-        }
-      }
+      # random_group_cols <- grep("^Random_Group", colnames(iter$seurat_obj@meta.data), value = TRUE, ignore.case = TRUE)
+      # if (length(random_group_cols) > 0) {
+      #   for (rg in random_group_cols) {
+      #     iter_results[[paste0("random_group_comparison_", rg)]] <- try(
+      #       compute_and_compare_betti_curves(
+      #         pd_list = pd_list,
+      #         landscape_list = landscape_list,
+      #         seurat_objects = list(iter$seurat_obj),
+      #         group_by_col = rg,
+      #         dataset_name = iter$name,
+      #         results_folder = results_dir,
+      #         ...
+      #       ),
+      #       silent = TRUE
+      #     )
+      #   }
+      # }
 
       random_group_keys <- grep("^random_group_comparison", names(iter_results), value = TRUE, ignore.case = TRUE)
       euler_effect <- c()
