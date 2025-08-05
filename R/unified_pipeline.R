@@ -46,15 +46,22 @@ run_unified_pipeline <- function(metadata_path,
                                     num_cores = num_cores,
                                     ...)
   if (run_cluster || run_modular || run_betti) {
-    try(run_postprocessing_pipeline(ph_results,
-                                    results_dir = results_dir,
-                                    num_cores = num_cores,
-                                    metadata_path = metadata_path,
-                                    SRA_col = ph_results$SRA_col,
-                                    Tissue_col = ph_results$Tissue_col,
-                                    Approach_col = ph_results$Approach_col,
-                                    ...),
-        silent = TRUE)
+    tryCatch(
+      run_postprocessing_pipeline(ph_results,
+                                  results_dir = results_dir,
+                                  num_cores = num_cores,
+                                  metadata_path = metadata_path,
+                                  SRA_col = ph_results$SRA_col,
+                                  Tissue_col = ph_results$Tissue_col,
+                                  Approach_col = ph_results$Approach_col,
+                                  ...),
+      error = function(e) {
+        stop(
+          sprintf("Post-processing pipeline failed: %s", conditionMessage(e)),
+          call. = FALSE
+        )
+      }
+    )
   }
   ph_results
 }
