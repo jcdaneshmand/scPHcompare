@@ -14,7 +14,7 @@ run_cluster_comparison <- function(data_iterations, results_folder,
   # Helper functions included in the package
 
   log_message <- function(msg) {
-    if (verbose) cat(sprintf("[%s] %s\n", Sys.time(), msg))
+    if (verbose) message(sprintf("[%s] %s", Sys.time(), msg))
   }
 
   normalized_bar_plots_list <- list()

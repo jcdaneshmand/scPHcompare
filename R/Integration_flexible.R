@@ -26,8 +26,8 @@ perform_integration <- function(
   }
   clean_memory <- function() invisible(gc(full = TRUE))
   debug_error_handler <- function(e) {
-    cat("An error occurred in a parallel worker. sys.calls():\n")
-    print(sys.calls())
+    message("An error occurred in a parallel worker. sys.calls():")
+    message(paste(capture.output(sys.calls()), collapse = "\n"))
     stop(e)
   }
 

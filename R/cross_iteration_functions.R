@@ -5,7 +5,7 @@
 
 # Simple logging function.
 log_message <- function(msg) {
-  cat(sprintf("[%s] %s\n", Sys.time(), msg))
+  message(sprintf("[%s] %s", Sys.time(), msg))
 }
 
 # --- Helper: Directory Creation ---
@@ -86,7 +86,7 @@ compute_null_stats <- function(pd_list, metadata_list, tau_vals, dimensions,
     sqrt(integrated_sq)
   }
   log_message <- function(msg) {
-    if (verbose) cat(sprintf("[%s] %s\n", Sys.time(), msg))
+    if (verbose) message(sprintf("[%s] %s", Sys.time(), msg))
   }
   combined_meta <- do.call(rbind, metadata_list)
   bs_cols <- grep("^random_group_bootstrap_", colnames(combined_meta),
@@ -437,7 +437,7 @@ analyze_and_plot_curves <- function(curve1, curve2, grp1, grp2, curve_type, tau_
                                     null_effect_stats = NULL, null_ks_stats = NULL,
                                     verbose = TRUE) {
   log_message <- function(msg) {
-    if (verbose) cat(sprintf("[%s] %s\n", Sys.time(), msg))
+    if (verbose) message(sprintf("[%s] %s", Sys.time(), msg))
   }
   
   integrated_diff_local <- function(curve_diff, tau_vals) {
@@ -866,7 +866,7 @@ compute_null_stats_cross_iterations <- function(pd_list, metadata_list, tau_vals
     sqrt(integrated_sq)
   }
   log_message <- function(msg) {
-    if (verbose) cat(sprintf("[%s] %s\n", Sys.time(), msg))
+    if (verbose) message(sprintf("[%s] %s", Sys.time(), msg))
   }
   combined_meta <- do.call(rbind, metadata_list)
   bs_cols <- grep("^random_group_bootstrap_", colnames(combined_meta), value = TRUE, ignore.case = TRUE)
@@ -930,7 +930,7 @@ compute_and_compare_betti_iterations <- function(
   landscape_list = NULL
 ) {
   log_message <- function(msg) {
-    if (verbose) cat(sprintf("[%s] %s\n", Sys.time(), msg))
+    if (verbose) message(sprintf("[%s] %s", Sys.time(), msg))
   }
   generate_cache_filename <- function(dataset_name, hash, results_folder) {
     path <- file.path(results_folder, "plots", "betti_plots", "betti_cache", dataset_name, paste0("cache_", hash, ".rds"))
