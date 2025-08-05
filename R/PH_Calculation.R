@@ -121,35 +121,8 @@ process_datasets_PH <- function(metadata,
   if (length(missing) > 0) {
     message("Metadata missing columns: ", paste(missing, collapse = ", "))
   }
-  packages <- c(
-    "tidyverse",
-    "Matrix",
-    "ripserr",
-    "TDA",
-    "foreach",
-    "doParallel",
-    "parallel",
-    "rliger",
-    "Seurat",
-    "SeuratDisk",
-    "stringr",
-    "pheatmap",
-    "mclust",
-    "aricode",
-    "clusterSim",
-    "Rtsne",
-    "batchelor",  
-    "BiocSingular",
-    "scCustomize",
-    "kernlab",
-    "igraph",
-    "progressr"
-  )
 
   dataset_suffix <- if (nzchar(dataset_tag)) paste0("_", dataset_tag) else ""
-  
-  # Check and load required packages
-  for (pkg in packages) {
   
   # Start logging
   log_file <- paste0("PH_Pipeline_Log_", Sys.Date(), dataset_suffix, ".txt")
@@ -641,7 +614,6 @@ process_datasets_PH <- function(metadata,
     # Check the structure of expr_list to verify the extraction
     str(expr_list_sctWhole)
     saveRDS(expr_list_sctWhole, file = paste0("expr_list_sctWhole", dataset_suffix, ".Rds"))
-}
   
   # saveRDS(expr_list_sctInd, file = 'expr_list_scInd_bonemarrow.Rds')
   # saveRDS(expr_list_sctWhole, file = 'expr_list_sctWhole_bonemarrow.Rds')
