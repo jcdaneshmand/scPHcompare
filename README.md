@@ -32,6 +32,8 @@ library(scPHcompare)
 
 Prepare a CSV file describing each dataset. The required columns are `File Path` and `Sample Name`. Additional metadata such as `SRA`, `Tissue` and `Approach` (scRNA‑seq or snRNA‑seq) will be preserved if provided. **At least one of `SRA`, `Tissue`, or `Approach` must be present to allow grouping and downstream analyses.** Column names can be customised when calling the pipeline. Approach labels are taken directly from the metadata and are no longer inferred automatically from expression metrics.
 
+Currently, `scPHcompare` primarily reads expression matrices stored as `.RData` files. Many such datasets can be downloaded from [PanglaoDB](https://panglaodb.se). Support for other standard matrix formats is planned for a future release.
+
 ```r
 results <- run_unified_pipeline(
   metadata_path = "metadata.csv",
