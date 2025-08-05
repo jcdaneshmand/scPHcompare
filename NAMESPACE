@@ -39,3 +39,5 @@ export(run_postprocessing_pipeline)
 export(process_datasets_PH)
 export(run_modular_analysis)
 export(run_cross_iteration)
+
+export(generate_toy_data)
