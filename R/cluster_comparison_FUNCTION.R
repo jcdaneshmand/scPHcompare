@@ -25,7 +25,7 @@ enhanced_cluster_comparison_with_pvals <- function(
     return(NULL)
   }
   log_message <- function(msg) {
-    if (verbose) cat(sprintf("[%s] %s\n", Sys.time(), msg))
+    if (verbose) message(sprintf("[%s] %s", Sys.time(), msg))
   }
   if (!dir.exists(plots_folder)) {
     dir.create(plots_folder, recursive = TRUE)

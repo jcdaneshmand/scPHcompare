@@ -2,7 +2,7 @@
 
 # Helper function for logging
 log_message <- function(msg) {
-  cat(sprintf("[%s] %s\n", Sys.time(), msg))
+  message(sprintf("[%s] %s", Sys.time(), msg))
 }
 
 # ----------------------------------------------------
@@ -19,7 +19,7 @@ compute_and_compare_betti_curves <- function(pd_list, landscape_list, seurat_obj
 
   # Simple logging function.
   log_message <- function(msg) {
-    cat(sprintf("[%s] %s\n", Sys.time(), msg))
+    message(sprintf("[%s] %s", Sys.time(), msg))
   }
 
   log_debug_to_file <- function(msg, file_path) {
@@ -107,7 +107,7 @@ compute_and_compare_betti_curves <- function(pd_list, landscape_list, seurat_obj
     sqrt(integrated_sq)
   }
     log_message <- function(msg) {
-      if (verbose) cat(sprintf("[%s] %s\n", Sys.time(), msg))
+      if (verbose) message(sprintf("[%s] %s", Sys.time(), msg))
     }
     if (is.null(metadata_list) || length(metadata_list) == 0 || !all(sapply(metadata_list, is.data.frame))) {
         log_message("Warning: metadata_list is invalid or empty. Cannot compute metadata-driven null stats. Returning NULL.")
@@ -396,7 +396,7 @@ compute_and_compare_betti_curves <- function(pd_list, landscape_list, seurat_obj
                                     null_effect_stats = NULL, null_ks_stats = NULL,
                                     verbose = TRUE) {
     log_message <- function(msg) {
-      if (verbose) cat(sprintf("[%s] %s\n", Sys.time(), msg))
+      if (verbose) message(sprintf("[%s] %s", Sys.time(), msg))
     }
     
     integrated_diff_local <- function(curve_diff, tau_vals) {

@@ -605,54 +605,54 @@ process_iteration_calculate_matrices <- function(iteration, num_cores, log_messa
 }
 
 # Validate that an object is a matrix (or data frame) with correct dimensions and names
-validate_matrix <- function(mat, expected_dim = NULL, expected_names = NULL) {
+validate_matrix <- function(mat, expected_dim = NULL, expected_names = NULL, verbose = FALSE) {
   if (!is.matrix(mat) && !is.data.frame(mat)) {
-    cat("Validation failed: Object is not a matrix or data.frame.\n")
+    if (verbose) message("Validation failed: Object is not a matrix or data.frame.")
     return(FALSE)
   }
 
   dims <- dim(mat)
-  cat("Matrix dimensions:", dims, "\n")
+  if (verbose) message("Matrix dimensions: ", paste(dims, collapse = " x "))
   if (!is.null(expected_dim) && !all(dims == expected_dim)) {
-    cat("Dimension mismatch. Expected:", expected_dim, "\n")
+    if (verbose) message("Dimension mismatch. Expected: ", paste(expected_dim, collapse = " x "))
     return(FALSE)
   }
 
   if (!is.null(expected_names)) {
     if (is.null(rownames(mat)) || is.null(colnames(mat))) {
-      cat("Row or column names are missing.\n")
+      if (verbose) message("Row or column names are missing.")
       return(FALSE)
     }
     if (!all(rownames(mat) == expected_names)) {
-      cat("Row names do not match expected names.\n")
+      if (verbose) message("Row names do not match expected names.")
       return(FALSE)
     }
     if (!all(colnames(mat) == expected_names)) {
-      cat("Column names do not match expected names.\n")
+      if (verbose) message("Column names do not match expected names.")
       return(FALSE)
     }
   }
 
   if (!isTRUE(all.equal(mat, t(mat)))) {
-    cat("Warning: Matrix is not symmetric.\n")
-  } else {
-    cat("Matrix is symmetric.\n")
+    if (verbose) message("Warning: Matrix is not symmetric.")
+  } else if (verbose) {
+    message("Matrix is symmetric.")
   }
 
-  return(TRUE)
+  TRUE
 }
 
 # Validate that the landscape list is structured properly.
-validate_landscape_list <- function(landscape_list, expected_length = NULL, grid_length = 100) {
+validate_landscape_list <- function(landscape_list, expected_length = NULL, grid_length = 100, verbose = FALSE) {
   if (!is.list(landscape_list)) {
-    cat("Validation failed: Landscape object is not a list.\n")
+    if (verbose) message("Validation failed: Landscape object is not a list.")
     return(FALSE)
   }
 
   n <- length(landscape_list)
-  cat("Length of landscape list:", n, "\n")
+  if (verbose) message("Length of landscape list: ", n)
   if (!is.null(expected_length) && n != expected_length) {
-    cat("Landscape list length does not match expected value:", expected_length, "\n")
+    if (verbose) message("Landscape list length does not match expected value: ", expected_length)
     return(FALSE)
   }
 
@@ -660,19 +660,19 @@ validate_landscape_list <- function(landscape_list, expected_length = NULL, grid
   for (i in seq_along(landscape_list)) {
     elem <- landscape_list[[i]]
     if (!is.list(elem) || is.null(elem$dim0) || is.null(elem$dim1)) {
-      cat("Element", i, "is not properly structured (missing dim0 or dim1).\n")
+      if (verbose) message("Element ", i, " is not properly structured (missing dim0 or dim1).")
       valid <- FALSE
     } else {
       len0 <- length(elem$dim0)
       len1 <- length(elem$dim1)
-      cat("Element", i, "has dim0 length", len0, "and dim1 length", len1, "\n")
+      if (verbose) message("Element ", i, " has dim0 length ", len0, " and dim1 length ", len1)
       if (len0 != grid_length || len1 != grid_length) {
-        cat("Element", i, "does not have the expected grid length of", grid_length, "\n")
+        if (verbose) message("Element ", i, " does not have the expected grid length of ", grid_length)
         valid <- FALSE
       }
     }
   }
-  return(valid)
+  valid
 }
 
 
@@ -685,13 +685,14 @@ validate_landscape_list <- function(landscape_list, expected_length = NULL, grid
 perform_standard_seurat_clustering <- function(seurat_obj,
                                                assay = "integrated",
                                                resolution = 0.5,
-                                               variable_features_path = NULL) {
+                                               variable_features_path = NULL,
+                                               verbose = FALSE) {
   # Set active assay
   DefaultAssay(seurat_obj) <- assay
 
   # Logging helper function
   log_message <- function(message) {
-    cat(Sys.time(), "-", message, "\n")
+    if (verbose) message(sprintf("%s - %s", Sys.time(), message))
   }
 
   log_message(paste("Starting clustering for assay:", assay))
@@ -802,9 +803,9 @@ perform_standard_seurat_clustering <- function(seurat_obj,
 }
 
 # Function: K-means Clustering
-perform_kmeans_clustering <- function(seurat_obj, assay, dims = 1:50, k = 5) {
+perform_kmeans_clustering <- function(seurat_obj, assay, dims = 1:50, k = 5, verbose = FALSE) {
   log_message <- function(message) {
-    cat(Sys.time(), "-", message, "\n")
+    if (verbose) message(sprintf("%s - %s", Sys.time(), message))
   }
 
   log_message(paste("Starting K-means clustering on assay:", assay, "with", k, "clusters"))
@@ -833,9 +834,9 @@ perform_kmeans_clustering <- function(seurat_obj, assay, dims = 1:50, k = 5) {
 }
 
 # Function: Hierarchical Clustering using BDM matrix
-perform_hierarchical_clustering_ph <- function(bdm_matrix, k) {
+perform_hierarchical_clustering_ph <- function(bdm_matrix, k, verbose = FALSE) {
   log_message <- function(message) {
-    cat(Sys.time(), "-", message, "\n")
+    if (verbose) message(sprintf("%s - %s", Sys.time(), message))
   }
 
   log_message("Starting hierarchical clustering using BDM matrix.")
@@ -858,9 +859,9 @@ perform_hierarchical_clustering_ph <- function(bdm_matrix, k) {
 
 # Function: Assign PH Clusters to Seurat Object
 assign_ph_clusters <- function(seurat_obj, clusters_ph, new_cluster_col,
-                               SRA_col = "orig.ident") {
+                               SRA_col = "orig.ident", verbose = FALSE) {
   log_message <- function(message) {
-    cat(Sys.time(), "-", message, "\n")
+    if (verbose) message(sprintf("%s - %s", Sys.time(), message))
   }
 
   log_message(paste("Assigning PH clusters to Seurat object with column name:", new_cluster_col))
@@ -885,7 +886,7 @@ assign_ph_clusters <- function(seurat_obj, clusters_ph, new_cluster_col,
   }
 
   log_message("Sample IDs extracted from Seurat object:")
-  print(head(seurat_sample_ids))
+  if (verbose) log_message(paste(head(seurat_sample_ids), collapse = ", "))
 
   # Identify common sample-level identifiers between Seurat object and clusters_ph
   common_sample_ids <- intersect(seurat_sample_ids, names(clusters_ph))
@@ -1292,7 +1293,7 @@ generate_heatmaps <- function(dataset_name, metadata, seurat_obj, bdm_matrix, pl
   }
 
   dev.off()
-  cat("All heatmaps and dendrograms saved to:", pdf_path, "\n")
+  message("All heatmaps and dendrograms saved to: ", pdf_path)
 }
 
 #' Generate visualizations and heatmaps for a single iteration
@@ -1377,7 +1378,7 @@ generate_visualizations_for_iteration <- function(seurat_obj, dataset_name, assa
           theme(legend.title = element_text(size = 12),
                 legend.text = element_text(size = 10),
                 plot.title = element_text(hjust = 0.5, size = 10, face = "bold"))
-        print(p)
+        grid::grid.draw(p)
       }
     }
     dev.off()
