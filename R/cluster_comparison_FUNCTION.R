@@ -32,12 +32,7 @@ enhanced_cluster_comparison_with_pvals <- function(
     log_message(sprintf("Created plots folder: %s", plots_folder))
   }
   log_message("Starting enhanced cluster comparison analysis with p-values.")
-
-  # -- Load libraries --
-    log_message("Loaded silhouette library.")
-  }
-  log_message("All libraries loaded.")
-
+  
   # -- Identify random-group columns --
   random_group_cluster_cols <- grep(
     "random_group",
@@ -568,4 +563,5 @@ enhanced_cluster_comparison_with_pvals <- function(
   log_message("Closed PDF device and completed all plot saving.")
   # Return the bar plot for the final combination step
   list(raw_comparison = raw_comparison, norm_metrics = norm_df, normalized_bar_plot = if (exists("p_bar")) p_bar else NULL)
+
 }
