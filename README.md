@@ -10,7 +10,7 @@
 * Multiple clustering approaches including standard Seurat, k-means, hierarchical PH and spectral clustering
 * Post-processing modules include:
   * Cluster comparison with statistical metrics
-  * Betti curve analysis
+  * Betti, Euler, and Landscape curve analysis
   * Cross‑iteration comparisons (executed automatically with the modular analysis)
 * Helper utilities for plotting, caching and validating intermediate results
 * `generate_toy_data()` helper for creating small synthetic datasets
