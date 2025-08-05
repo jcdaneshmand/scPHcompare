@@ -147,10 +147,14 @@ process_datasets_PH <- function(metadata,
   )
 
   dataset_suffix <- if (nzchar(dataset_tag)) paste0("_", dataset_tag) else ""
-  
+
   # Check and load required packages
   for (pkg in packages) {
-  
+    if (!requireNamespace(pkg, quietly = TRUE)) {
+      stop(paste("Package", pkg, "is required but not installed."))
+    }
+  }
+
   # Start logging
   log_file <- paste0("PH_Pipeline_Log_", Sys.Date(), dataset_suffix, ".txt")
   sink(log_file, append = TRUE)
@@ -641,52 +645,51 @@ process_datasets_PH <- function(metadata,
     # Check the structure of expr_list to verify the extraction
     str(expr_list_sctWhole)
     saveRDS(expr_list_sctWhole, file = paste0("expr_list_sctWhole", dataset_suffix, ".Rds"))
-}
-  
-  # saveRDS(expr_list_sctInd, file = 'expr_list_scInd_bonemarrow.Rds')
-  # saveRDS(expr_list_sctWhole, file = 'expr_list_sctWhole_bonemarrow.Rds')
-  # saveRDS(expr_list_raw, file = 'expr_list_raw_bonemarrow.Rds')
 
-  # expr_list_sctInd <- readRDS(file = 'expr_list_scInd_bonemarrow.Rds')
-  # expr_list_sctWhole <- readRDS(file = 'expr_list_sctWhole_bonemarrow.Rds')
-  # expr_list_raw <- readRDS(file = 'expr_list_raw_bonemarrow.Rds')
-  
-  # expr_list_sctInd <- readRDS("expr_list_sctInd.Rds")
-  # expr_list_raw <- readRDS("expr_list_raw.Rds")
-  # expr_list_sctWhole <- readRDS("expr_list_sctWhole.Rds") 
-  # expr_list_integrated <- readRDS("expr_list_integrated.Rds")
+    # saveRDS(expr_list_sctInd, file = 'expr_list_scInd_bonemarrow.Rds')
+    # saveRDS(expr_list_sctWhole, file = 'expr_list_sctWhole_bonemarrow.Rds')
+    # saveRDS(expr_list_raw, file = 'expr_list_raw_bonemarrow.Rds')
 
-  
-  timeout_datasets <- NULL
-  
-  PD_result_unintegrated <- compute_ph_batch(
-    expr_list_sctInd, DIM, log_message, dataset_suffix,
-    "_unintegrated", max_cores = 6
-  )
-  save_ph_results(
-    PD_result_unintegrated, expr_list_sctInd, DIM, THRESHOLD,
-    dataset_suffix, "_unintegrated", log_message
-  )
+    # expr_list_sctInd <- readRDS(file = 'expr_list_scInd_bonemarrow.Rds')
+    # expr_list_sctWhole <- readRDS(file = 'expr_list_sctWhole_bonemarrow.Rds')
+    # expr_list_raw <- readRDS(file = 'expr_list_raw_bonemarrow.Rds')
 
-  PD_result_unintegrated_RAW <- compute_ph_batch(
-    expr_list_raw, DIM, log_message, dataset_suffix,
-    "_unintegrated_RAW", max_cores = 6
-  )
-  save_ph_results(
-    PD_result_unintegrated_RAW, expr_list_raw, DIM, THRESHOLD,
-    dataset_suffix, "_unintegrated_RAW", log_message
-  )
+    # expr_list_sctInd <- readRDS("expr_list_sctInd.Rds")
+    # expr_list_raw <- readRDS("expr_list_raw.Rds")
+    # expr_list_sctWhole <- readRDS("expr_list_sctWhole.Rds")
+    # expr_list_integrated <- readRDS("expr_list_integrated.Rds")
 
-  PD_result_unintegrated_sctWhole <- compute_ph_batch(
-    expr_list_sctWhole, DIM, log_message, dataset_suffix,
-    "_unintegrated_sctWhole", max_cores = 8
-  )
-  save_ph_results(
-    PD_result_unintegrated_sctWhole, expr_list_sctWhole, DIM, THRESHOLD,
-    dataset_suffix, "_unintegrated_sctWhole", log_message
-  )
-  
-  # Integration routines are available in the package
+
+    timeout_datasets <- NULL
+
+    PD_result_unintegrated <- compute_ph_batch(
+      expr_list_sctInd, DIM, log_message, dataset_suffix,
+      "_unintegrated", max_cores = 6
+    )
+    save_ph_results(
+      PD_result_unintegrated, expr_list_sctInd, DIM, THRESHOLD,
+      dataset_suffix, "_unintegrated", log_message
+    )
+
+    PD_result_unintegrated_RAW <- compute_ph_batch(
+      expr_list_raw, DIM, log_message, dataset_suffix,
+      "_unintegrated_RAW", max_cores = 6
+    )
+    save_ph_results(
+      PD_result_unintegrated_RAW, expr_list_raw, DIM, THRESHOLD,
+      dataset_suffix, "_unintegrated_RAW", log_message
+    )
+
+    PD_result_unintegrated_sctWhole <- compute_ph_batch(
+      expr_list_sctWhole, DIM, log_message, dataset_suffix,
+      "_unintegrated_sctWhole", max_cores = 8
+    )
+    save_ph_results(
+      PD_result_unintegrated_sctWhole, expr_list_sctWhole, DIM, THRESHOLD,
+      dataset_suffix, "_unintegrated_sctWhole", log_message
+    )
+
+    # Integration routines are available in the package
 
     # Call the integration function
     result <- perform_integration(
@@ -709,41 +712,41 @@ process_datasets_PH <- function(metadata,
     # final_save_path <- "final_integrated_seurat_v5_multiStudySeriesOnly.rds"
     # saveRDS(merged_integrated, file = final_save_path)
     # log_message(paste("Final integrated Seurat object saved successfully at:", final_save_path))
-        
+
     # Verify that the 'orig.ident' column exists in the metadata of the merged object
     if (!"orig.ident" %in% colnames(result@meta.data)) {
       stop("Error: The 'orig.ident' column is not found in the metadata. Ensure that the orig.ident information is present.")
     }
-    
+
     # Split the merged Seurat object by orig.ident using the metadata column
     origIdent_list <- SplitObject(result, split.by = "orig.ident")
-    
+
     # Create an empty list to store the SCT-normalized expression data for each orig.ident
     expr_list_integrated <- list()
-    
+
     # Loop through each orig.ident-specific Seurat object and extract the SCT-normalized data
     for (sra_name in names(origIdent_list)) {
       # Extract the SCT-normalized data from the 'data' slot of the SCT assay
       sra_data <- GetAssayData(origIdent_list[[sra_name]], slot = "data", assay = "integrated")
-      
+
       # Store the extracted data in expr_list using the orig.ident name as the key
       expr_list_integrated[[sra_name]] <- sra_data
     }
-    
+
     # Check the structure of expr_list to verify the extraction
     str(expr_list_integrated)
-    
+
     saveRDS(expr_list_integrated, file = "expr_list_integrated.rds")
+
+    PD_result_integrated <- compute_ph_batch(
+      expr_list_integrated, DIM, log_message, dataset_suffix,
+      "_integrated", max_cores = 8
+    )
+    save_ph_results(
+      PD_result_integrated, expr_list_integrated, DIM, THRESHOLD,
+      dataset_suffix, "_integrated", log_message
+    )
   }
-  
-  PD_result_integrated <- compute_ph_batch(
-    expr_list_integrated, DIM, log_message, dataset_suffix,
-    "_integrated", max_cores = 8
-  )
-  save_ph_results(
-    PD_result_integrated, expr_list_integrated, DIM, THRESHOLD,
-    dataset_suffix, "_integrated", log_message
-  )
 
   ##
   ## Assemble output structure for post processing
