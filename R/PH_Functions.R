@@ -16,8 +16,7 @@ loadRData <- function(fileName) {
 
 # Function to log messages to the console with flushing
 log_message <- function(message) {
-  cat(message, "\n")
-  flush.console()
+  base::message(message)
 }
 
 # Function to update the progress log file
@@ -736,7 +735,7 @@ process_and_monitor <- function(expr_matrix, i, DIM, log_message, memory_thresho
         "dataset <- as.matrix(dataset);",
         "PD <- ripserr::vietoris_rips(dataset = dataset, max_dim = ", DIM, ", threshold = ", current_threshold, ", return_format = 'mat');",
         "saveRDS(PD, '", pd_file, "')",
-        "}, error = function(e) { cat('Error:', e$message, '\n') })",
+        "}, error = function(e) { message('Error:', e$message) })",
         ";quit(save='no')"
       )),
       stdout = "|", stderr = "|"

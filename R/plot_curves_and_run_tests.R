@@ -279,12 +279,12 @@ for (iter in data_iterations) {
           results_folder = results_folder
         ),
         error = function(e) {
-          cat("Error in Tissue-based comparison:", conditionMessage(e), "\n")
+          message("Error in Tissue-based comparison: ", conditionMessage(e))
           NULL
         }
       )
   } else {
-    cat("Warning: 'Tissue' column not found in seurat_obj metadata. Skipping tissue-based comparison.\n")
+    message("Warning: 'Tissue' column not found in seurat_obj metadata. Skipping tissue-based comparison.")
   }
 
   if ("SRA" %in% colnames(seurat_obj@meta.data)) {
@@ -301,12 +301,12 @@ for (iter in data_iterations) {
           results_folder = results_folder
         ),
         error = function(e) {
-          cat("Error in SRA-based comparison:", conditionMessage(e), "\n")
+          message("Error in SRA-based comparison: ", conditionMessage(e))
           NULL
         }
       )
   } else {
-    cat("Warning: 'SRA' column not found in seurat_obj metadata. Skipping SRA-based comparison.\n")
+    message("Warning: 'SRA' column not found in seurat_obj metadata. Skipping SRA-based comparison.")
   }
 
   if ("Approach" %in% colnames(seurat_obj@meta.data)) {
@@ -323,12 +323,12 @@ for (iter in data_iterations) {
           results_folder = results_folder
         ),
         error = function(e) {
-          cat("Error in Approach-based comparison:", conditionMessage(e), "\n")
+          message("Error in Approach-based comparison: ", conditionMessage(e))
           NULL
         }
       )
   } else {
-    cat("Warning: 'Approach' column not found in seurat_obj metadata. Skipping Approach-based comparison.\n")
+    message("Warning: 'Approach' column not found in seurat_obj metadata. Skipping Approach-based comparison.")
   }
 
   if ("sample" %in% colnames(seurat_obj@meta.data)) {
@@ -345,12 +345,12 @@ for (iter in data_iterations) {
           results_folder = results_folder
         ),
         error = function(e) {
-          cat("Error in sample-based comparison:", conditionMessage(e), "\n")
+          message("Error in sample-based comparison: ", conditionMessage(e))
           NULL
         }
       )
   } else {
-    cat("Warning: 'sample' column not found in seurat_obj metadata. Skipping sample-based comparison.\n")
+    message("Warning: 'sample' column not found in seurat_obj metadata. Skipping sample-based comparison.")
   }
 
 
@@ -371,13 +371,13 @@ for (iter in data_iterations) {
             results_folder = results_folder
           ),
           error = function(e) {
-            cat("Error in", rg, "based comparison:", conditionMessage(e), "\n")
+            message("Error in ", rg, " based comparison: ", conditionMessage(e))
             NULL
           }
         )
     }
   } else {
-    cat("Warning: No 'Random_Group' column found in seurat_obj metadata. Skipping Random_Group-based comparison.\n")
+    message("Warning: No 'Random_Group' column found in seurat_obj metadata. Skipping Random_Group-based comparison.")
   }
 
   # cluster_cols <- grep("hierarchical", colnames(seurat_obj@meta.data), value = TRUE, ignore.case = TRUE)
@@ -488,13 +488,13 @@ for (iter in data_iterations) {
     euler_null_stats_effect <- mean(euler_null_stats_effect)
     euler_null_sd_effect <- sd(euler_null_stats_effect)
     euler_null_quantiles_effect <- quantile(euler_null_stats_effect, probs = c(0.025, 0.5, 0.975))
-    cat("Random Group Null Distribution (Effect Size) Mean:", euler_null_stats_effect, "\n")
-    cat("Random Group Null Distribution (Effect Size) SD:", euler_null_sd_effect, "\n")
-    cat("Random Group Null Distribution (Effect Size) Quantiles:", euler_null_quantiles_effect, "\n")
+    message("Random Group Null Distribution (Effect Size) Mean: ", euler_null_stats_effect)
+    message("Random Group Null Distribution (Effect Size) SD: ", euler_null_sd_effect)
+    message("Random Group Null Distribution (Effect Size) Quantiles: ", euler_null_quantiles_effect)
 
     euler_random_group_null_effect <- list(mean = euler_null_stats_effect, sd = euler_null_sd_effect, quantiles = euler_null_quantiles_effect)
   } else {
-    cat("No valid random group effect size statistics were found to build a null distribution.\n")
+    message("No valid random group effect size statistics were found to build a null distribution.")
     euler_random_group_null_effect <- NULL
   }
 
@@ -503,13 +503,13 @@ for (iter in data_iterations) {
     euler_null_mean_ks <- mean(euler_null_stats_ks)
     euler_null_sd_ks <- sd(euler_null_stats_ks)
     euler_null_quantiles_ks <- quantile(euler_null_stats_ks, probs = c(0.025, 0.5, 0.975))
-    cat("Random Group Null Distribution (KS) Mean:", euler_null_mean_ks, "\n")
-    cat("Random Group Null Distribution (KS) SD:", euler_null_sd_ks, "\n")
-    cat("Random Group Null Distribution (KS) Quantiles:", euler_null_quantiles_ks, "\n")
+    message("Random Group Null Distribution (KS) Mean: ", euler_null_mean_ks)
+    message("Random Group Null Distribution (KS) SD: ", euler_null_sd_ks)
+    message("Random Group Null Distribution (KS) Quantiles: ", euler_null_quantiles_ks)
 
     euler_random_group_null_ks <- list(mean = euler_null_mean_ks, sd = euler_null_sd_ks, quantiles = euler_null_quantiles_ks)
   } else {
-    cat("No valid random group KS statistics were found to build a null distribution.\n")
+    message("No valid random group KS statistics were found to build a null distribution.")
     euler_random_group_null_ks <- NULL
   }
 
@@ -519,15 +519,15 @@ for (iter in data_iterations) {
     landscape_null_mean_effect <- mean(landscape_null_stats_effect)
     landscape_null_sd_effect <- sd(landscape_null_stats_effect)
     landscape_null_quantiles_effect <- quantile(landscape_null_stats_effect, probs = c(0.025, 0.5, 0.975))
-    cat("Random Group Landscape Null Distribution (Effect Size) Mean:", landscape_null_mean_effect, "\n")
-    cat("Random Group Landscape Null Distribution (Effect Size) SD:", landscape_null_sd_effect, "\n")
-    cat("Random Group Landscape Null Distribution (Effect Size) Quantiles:", landscape_null_quantiles_effect, "\n")
+    message("Random Group Landscape Null Distribution (Effect Size) Mean: ", landscape_null_mean_effect)
+    message("Random Group Landscape Null Distribution (Effect Size) SD: ", landscape_null_sd_effect)
+    message("Random Group Landscape Null Distribution (Effect Size) Quantiles: ", landscape_null_quantiles_effect)
 
     landscape_random_group_null_effect <- list(mean = landscape_null_mean_effect,
                                                   sd = landscape_null_sd_effect,
                                                   quantiles = landscape_null_quantiles_effect)
   } else {
-    cat("No valid random group landscape effect size statistics were found.\n")
+    message("No valid random group landscape effect size statistics were found.")
     landscape_random_group_null_effect <- NULL
   }
 
@@ -536,15 +536,15 @@ for (iter in data_iterations) {
     landscape_null_mean_ks <- mean(landscape_null_stats_ks)
     landscape_null_sd_ks <- sd(landscape_null_stats_ks)
     landscape_null_quantiles_ks <- quantile(landscape_null_stats_ks, probs = c(0.025, 0.5, 0.975))
-    cat("Random Group Landscape Null Distribution (KS) Mean:", landscape_null_mean_ks, "\n")
-    cat("Random Group Landscape Null Distribution (KS) SD:", landscape_null_sd_ks, "\n")
-    cat("Random Group Landscape Null Distribution (KS) Quantiles:", landscape_null_quantiles_ks, "\n")
+    message("Random Group Landscape Null Distribution (KS) Mean: ", landscape_null_mean_ks)
+    message("Random Group Landscape Null Distribution (KS) SD: ", landscape_null_sd_ks)
+    message("Random Group Landscape Null Distribution (KS) Quantiles: ", landscape_null_quantiles_ks)
 
     landscape_random_group_null_ks <- list(mean = landscape_null_mean_ks,
                                               sd = landscape_null_sd_ks,
                                               quantiles = landscape_null_quantiles_ks)
   } else {
-    cat("No valid random group landscape KS statistics were found.\n")
+    message("No valid random group landscape KS statistics were found.")
     landscape_random_group_null_ks <- NULL
   }
 
@@ -567,7 +567,7 @@ for (iter in data_iterations) {
         null_summary = overall_null_summary
       ),
       error = function(e) {
-        cat("Error in generating heatmaps:", conditionMessage(e), "\n")
+        message("Error in generating heatmaps: ", conditionMessage(e))
       }
     )
 

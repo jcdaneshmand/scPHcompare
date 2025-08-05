@@ -534,11 +534,11 @@ process_datasets_PH <- function(metadata,
     } else {
       # If the conditions are not met, print appropriate messages
       if (!exists("my_seurat_list_filtered")) {
-        cat("The list 'my_seurat_list_filtered' does not exist. Please ensure it is created before running this code.\n")
+        message("The list 'my_seurat_list_filtered' does not exist. Please ensure it is created before running this code.")
       }
-      
+
       if (exists("merged_seurat_unintegrated")) {
-        cat("The object 'merged_seurat_unintegrated' already exists. Skipping merging and SCTransform steps.\n")
+        message("The object 'merged_seurat_unintegrated' already exists. Skipping merging and SCTransform steps.")
       }
     }
   }
@@ -574,8 +574,8 @@ process_datasets_PH <- function(metadata,
     
     # Verify the naming of expr_list_sctransformed
     if (!is.null(expr_list_sctInd)) {
-      log_message("Successfully named expr_list_sctransformed entries by orig.ident:")
-      print(names(expr_list_sctInd))
+      log_message(paste("Successfully named expr_list_sctransformed entries by orig.ident:",
+                        paste(names(expr_list_sctInd), collapse = ", ")))
     } else {
       log_message("expr_list_sctransformed is NULL due to an error in extraction.")
     }
@@ -609,8 +609,8 @@ process_datasets_PH <- function(metadata,
     
     # Verify the naming of expr_list_raw
     if (!is.null(expr_list_raw)) {
-      log_message("Successfully named expr_list_raw entries by orig.ident:")
-      print(names(expr_list_raw))
+      log_message(paste("Successfully named expr_list_raw entries by orig.ident:",
+                        paste(names(expr_list_raw), collapse = ", ")))
     } else {
       log_message("expr_list_raw is NULL due to an error in extraction.")
     }
