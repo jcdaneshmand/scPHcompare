@@ -1,3 +1,38 @@
+#' Perform flexible integration of multiple Seurat objects.
+#'
+#' Integrate a list of Seurat objects into a single dataset using a flexible
+#' pipeline with optional checkpointing, anchor caching, and parallelization.
+#'
+#' @param seurat_list A named list of [Seurat][Seurat::Seurat-class] objects to
+#'   be integrated.
+#' @param metadata_column Metadata column name used to group datasets. Leave
+#'   empty to treat the entire list as one group.
+#' @param integration_features_n Number of features to use for integration.
+#' @param dims Number of dimensions to use in downstream integration steps.
+#' @param num_cores Number of cores to use for parallel processing.
+#' @param min_cells_threshold Minimum number of cells required in each dataset.
+#' @param output_path Path where the integrated `Seurat` object should be saved.
+#' @param checkpoint_dir Directory in which to store integration checkpoints.
+#' @param anchor_batches_dir Directory to cache anchor computations.
+#' @param clear_existing If `TRUE`, remove existing checkpoints and caches
+#'   before running.
+#' @param gene_subset_method Method used to obtain common genes across datasets.
+#' @param k_anchor `k.anchor` parameter passed to
+#'   [Seurat::FindIntegrationAnchors()].
+#' @param k_filter `k.filter` parameter passed to
+#'   [Seurat::FindIntegrationAnchors()].
+#' @param k_weight `k.weight` parameter passed to [Seurat::IntegrateData()].
+#' @param min_final_anchors Minimum number of anchors required to proceed with
+#'   integration.
+#'
+#' @return An integrated `Seurat` object combining all input datasets.
+#'
+#' @examples
+#' \dontrun{
+#' data_list <- list(sample1 = seurat1, sample2 = seurat2)
+#' integrated <- perform_integration(data_list, metadata_column = "batch")
+#' }
+#' @export
 perform_integration <- function(
   seurat_list,
   metadata_column = "", # default is empty so the whole list is one group
