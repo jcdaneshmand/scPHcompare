@@ -14,6 +14,9 @@ run_postprocessing_pipeline(
   run_spectral_clustering = TRUE,
   run_visualizations = TRUE,
   run_sample_level_heatmap = TRUE,
+  run_cluster = TRUE,
+  run_betti = TRUE,
+  run_cross_iteration = TRUE,
   metadata_path = "./data/VastlyDifferentTissues/metadata.csv",
   SRA_col = "orig.ident",
   Tissue_col = "Tissue",
@@ -40,6 +43,12 @@ clustering on PH distances.}
 \item{run_visualizations}{Logical, generate plots for each iteration.}
 
 \item{run_sample_level_heatmap}{Logical, create sample-level heatmaps.}
+
+\item{run_cluster}{Logical, run clustering comparisons if `TRUE`.}
+
+\item{run_betti}{Logical, compute Betti curves if `TRUE`.}
+
+\item{run_cross_iteration}{Logical, run cross-iteration analysis.}
 
 \item{metadata_path}{Optional path to metadata CSV for plotting.}
 

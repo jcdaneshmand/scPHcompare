@@ -53,9 +53,9 @@ results <- run_unified_pipeline(
   results_dir = "results",
   num_cores = 8,
   integration_method = "seurat",
-  run_modular = TRUE,   # modular step incl. cross‑iteration comparisons
-  run_cluster = TRUE,   # optional cluster metrics output
-  run_betti = TRUE      # optional Betti curve comparison
+  run_cluster = TRUE,        # optional cluster metrics output
+  run_betti = TRUE,          # optional Betti curve comparison
+  run_cross_iteration = TRUE # cross-iteration comparisons
 )
 ```
 

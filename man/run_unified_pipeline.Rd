@@ -10,8 +10,8 @@ run_unified_pipeline(
   num_cores = 8,
   integration_method = "seurat",
   run_cluster = FALSE,
-  run_modular = FALSE,
   run_betti = FALSE,
+  run_cross_iteration = FALSE,
   ...
 )
 }
@@ -28,9 +28,9 @@ datasets. Options include "seurat", "liger" or "mnn".}
 \item{run_cluster}{If `TRUE`, run clustering comparisons during
 post-processing.}
 
-\item{run_modular}{If `TRUE`, perform modular analyses.}
-
 \item{run_betti}{If `TRUE`, compute and compare Betti curves.}
+
+\item{run_cross_iteration}{If `TRUE`, perform cross-iteration analyses.}
 
 \item{...}{Additional arguments passed to the underlying processing
 functions.}
