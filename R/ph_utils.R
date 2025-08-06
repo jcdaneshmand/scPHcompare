@@ -5,6 +5,16 @@ load_sparse_matrices <- function(file_paths) {
   if (length(file_paths) == 0) {
     return(list(matrices = list(), sample_names = character(0)))
   }
+  missing <- file_paths[!file.exists(file_paths)]
+  if (length(missing) > 0) {
+    stop(
+      sprintf(
+        "The following files do not exist: %s",
+        paste(missing, collapse = ", ")
+      ),
+      call. = FALSE
+    )
+  }
   sparse_matrices <- lapply(file_paths, loadRData)
   sample_names <- gsub(".*/|\\.sparse.RData$", "", file_paths)
   names(sparse_matrices) <- sample_names
