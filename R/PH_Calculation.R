@@ -182,7 +182,11 @@ process_datasets_PH <- function(metadata,
       mclapply(my_seurat_list, function(obj) {
         obj <- PercentageFeatureSet(obj, pattern = "^MT-", col.name = "percent_mito")
         obj <- PercentageFeatureSet(obj, pattern = "^RP[SL]", col.name = "percent_ribo")
-        obj <- PercentageFeatureSet(obj, pattern = "^HB[^(P)]", col.name = "percent_hb")
+        # Hemoglobin genes are typically annotated as 'HB' followed by a subunit
+        # letter (e.g., HBA1, HBB). Exclude non-hemoglobin genes such as 'HBP'
+        # by using a negative lookahead.
+        obj <- PercentageFeatureSet(obj, pattern = "^HB(?!P)", perl = TRUE,
+                                    col.name = "percent_hb")
         return(obj)
       }, mc.cores = num_cores)
     },
