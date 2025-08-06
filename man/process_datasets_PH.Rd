@@ -106,7 +106,7 @@ Execute the script in an environment with adequate computational resources, as t
 
 \dontrun{
   # Load metadata and process datasets with Persistent Homology
-  metadata <- read.csv("./data/VastlyDifferentTissues/metadata.csv")
+  metadata <- read.csv("./data/VastlyDifferentTissues/metadata.csv", check.names = FALSE)
   process_datasets_PH(metadata, num_cores = 32)
 }
 }
@@ -123,7 +123,7 @@ Jonah Daneshmand
 
 \examples{
 \dontrun{
-metadata <- read.csv("./data/VastlyDifferentTissues/metadata.csv")
+metadata <- read.csv("./data/VastlyDifferentTissues/metadata.csv", check.names = FALSE)
 results <- process_datasets_PH(metadata, num_cores = 32)
 }
 }
