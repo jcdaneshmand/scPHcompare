@@ -65,7 +65,8 @@
 #' @section Example:
 #' \dontrun{
 #'   # Load metadata and process datasets with Persistent Homology
-#'   metadata <- read.csv("./data/VastlyDifferentTissues/metadata.csv")
+#'   metadata <- read.csv("./data/VastlyDifferentTissues/metadata.csv",
+#'                        check.names = FALSE)
 #'   process_datasets_PH(metadata, num_cores = 32)
 #' }
 #'
@@ -90,7 +91,8 @@
 #'
 #' @examples
 #' \dontrun{
-#' metadata <- read.csv("./data/VastlyDifferentTissues/metadata.csv")
+#' metadata <- read.csv("./data/VastlyDifferentTissues/metadata.csv",
+#'                     check.names = FALSE)
 #' results <- process_datasets_PH(metadata, num_cores = 32)
 #' }
 #' @export
@@ -131,9 +133,12 @@ process_datasets_PH <- function(metadata,
   # Helper functions are available once the package is loaded
   
   log_message("Processing series with CSV input")
-  
-  # Extract file paths directly from the CSV and load the sparse matrices
-  file_paths <- metadata$'File Path'
+
+  # Extract file paths from either 'File Path' or 'File.Path' column
+  file_paths <- dplyr::coalesce(metadata[['File Path']], metadata[['File.Path']])
+  if (all(is.na(file_paths))) {
+    stop("Metadata must contain a 'File Path' or 'File.Path' column.")
+  }
 
   loaded <- tryCatch(
     load_sparse_matrices(file_paths),
