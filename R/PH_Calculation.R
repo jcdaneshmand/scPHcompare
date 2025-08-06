@@ -133,9 +133,15 @@ process_datasets_PH <- function(metadata,
   dataset_suffix <- if (nzchar(dataset_tag)) paste0("_", dataset_tag) else ""
   
   # Start logging
-  log_file <- paste0("PH_Pipeline_Log_", Sys.Date(), dataset_suffix, ".txt")
+  log_file_path <- paste0("PH_Pipeline_Log_", Sys.Date(), dataset_suffix, ".txt")
+  log_file <- file(log_file_path, open = "a")
   sink(log_file, append = TRUE)
-  on.exit(sink(), add = TRUE)
+  sink(log_file, append = TRUE, type = "message")
+  on.exit({
+    sink(NULL)
+    sink(NULL, type = "message")
+    close(log_file)
+  }, add = TRUE)
   
   # Helper functions are available once the package is loaded
   
