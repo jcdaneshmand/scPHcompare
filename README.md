@@ -41,7 +41,7 @@ renv::restore()
 
 ## Input data
 
-At present `scPHcompare` mainly supports expression matrices stored in `.RData` files. Datasets in this format can be obtained from resources such as [PanglaoDB](https://panglaodb.se/) for a wide range of tissues and species. Support for other standard matrix formats is planned for a future release.
+At present `scPHcompare` mainly supports expression matrices stored in `.RData` files. Datasets in this format can be obtained from resources such as [PanglaoDB](https://panglaodb.se/) for a wide range of tissues. Support for other standard matrix formats is planned for a future release.
 
 ## Quick start
 
