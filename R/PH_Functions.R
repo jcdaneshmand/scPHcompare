@@ -6,6 +6,9 @@
 # General Utility Functions
 #----------------------------------------------
 
+# Shared logging
+source("logging_utils.R")
+
 # Function to load an RData file
 # Input: fileName (string) - Path to the RData file
 # Output: The loaded data from the RData file
@@ -13,12 +16,6 @@ loadRData <- function(fileName) {
   load(fileName)
   get(ls()[ls() != "fileName"]) # Return the loaded data, excluding the fileName variable itself
 }
-
-# Function to log messages to the console with flushing
-log_message <- function(message) {
-  base::message(message)
-}
-
 # Function to update the progress log file
 # Now includes the best threshold used for the dataset
 # Input: log_file - Path to the log file

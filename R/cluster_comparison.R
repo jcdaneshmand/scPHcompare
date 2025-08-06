@@ -1,3 +1,5 @@
+source("logging_utils.R")
+
 #' Compare clustering results across methods.
 #'
 #' This function assumes clustering has already been performed on the
@@ -13,10 +15,6 @@ run_cluster_comparison <- function(data_iterations, results_folder,
 
   # Helper functions included in the package
 
-  log_message <- function(msg) {
-    if (verbose) message(sprintf("[%s] %s", Sys.time(), msg))
-  }
-
   normalized_bar_plots_list <- list()
   for (iter in data_iterations) {
     results <- enhanced_cluster_comparison_with_pvals(
@@ -31,9 +29,9 @@ run_cluster_comparison <- function(data_iterations, results_folder,
 
     if (!is.null(results) && !is.null(results$normalized_bar_plot)) {
       normalized_bar_plots_list[[iter$name]] <- results$normalized_bar_plot
-      log_message(sprintf("Collected normalized bar plot for %s.", iter$name))
+      if (verbose) log_message(sprintf("Collected normalized bar plot for %s.", iter$name))
     } else {
-      log_message(sprintf(
+      if (verbose) log_message(sprintf(
         "Could not collect normalized bar plot for %s. Results might be NULL or plot creation failed.",
         iter$name
       ))
@@ -41,7 +39,7 @@ run_cluster_comparison <- function(data_iterations, results_folder,
   }
 
   num_collected_plots <- length(normalized_bar_plots_list)
-  log_message(sprintf(
+  if (verbose) log_message(sprintf(
     "Attempting to combine %d normalized bar plots into a grid with combined legend.",
     num_collected_plots
   ))
@@ -53,7 +51,7 @@ run_cluster_comparison <- function(data_iterations, results_folder,
 
 if (num_collected_plots > 0) {
 
-  log_message(sprintf("Beginning combined plot generation for %d plots.", num_collected_plots))
+  if (verbose) log_message(sprintf("Beginning combined plot generation for %d plots.", num_collected_plots))
 
   # --- 1. Setup File Paths ---
   plots_folder <- file.path(results_folder, "plots/withinIterationClusterComparison")
@@ -78,7 +76,7 @@ if (num_collected_plots > 0) {
   )
 
   # --- 3. Calculate Global Axis Range for Alignment ---
-  log_message("Calculating global axis range to align plot origins.")
+  if (verbose) log_message("Calculating global axis range to align plot origins.")
   all_norm_values <- unlist(lapply(normalized_bar_plots_list, function(p) p$data$Normalized))
   all_norm_values <- all_norm_values[is.finite(all_norm_values)]
   global_min <- min(all_norm_values, na.rm = TRUE)
@@ -87,7 +85,7 @@ if (num_collected_plots > 0) {
   global_range <- c(global_min - axis_buffer, global_max + axis_buffer)
 
   # --- 4. Modify Individual Plots ---
-  log_message("--- Starting individual plot modification loop. ---")
+  if (verbose) log_message("--- Starting individual plot modification loop. ---")
   plots_for_grid <- vector("list", length = num_collected_plots)
 
   all_iteration_suffixes <- c("raw", "sct_individual", "sct_whole", "integrated")
@@ -200,7 +198,7 @@ if (num_collected_plots > 0) {
     plots_for_grid[[i]] <- final_plot
   }
 
-  log_message("\n--- Arranging and saving final plot. ---")
+  if (verbose) log_message("\n--- Arranging and saving final plot. ---")
   plots_arranged <- Reduce(`/`, plots_for_grid)
   final_combined_plot <- plots_arranged +
     plot_annotation(tag_levels = 'A') +
@@ -214,15 +212,15 @@ if (num_collected_plots > 0) {
   plot_width  <- 8.5
   plot_height <- 11
 
-  log_message(sprintf("Saving final plot object of class '%s' to %s and %s", class(final_combined_plot)[1], combined_plot_png, combined_plot_pdf))
+  if (verbose) log_message(sprintf("Saving final plot object of class '%s' to %s and %s", class(final_combined_plot)[1], combined_plot_png, combined_plot_pdf))
 
   ggsave(filename  = combined_plot_png, plot = final_combined_plot, width = plot_width, height = plot_height, units = "in", dpi = 300, limitsize = FALSE, type = "cairo")
   ggsave(filename  = combined_plot_pdf, plot = final_combined_plot, width = plot_width, height = plot_height, units = "in", limitsize = FALSE)
 
-  log_message("--- Successfully generated and saved the final plot. ---")
+  if (verbose) log_message("--- Successfully generated and saved the final plot. ---")
 
 } else {
-  log_message("No normalized bar plots were successfully collected to combine.")
+  if (verbose) log_message("No normalized bar plots were successfully collected to combine.")
 }
 
   invisible(normalized_bar_plots_list)
