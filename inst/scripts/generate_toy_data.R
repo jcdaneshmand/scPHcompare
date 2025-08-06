@@ -1,7 +1,8 @@
 #!/usr/bin/env Rscript
 
 # Script to generate toy sparse expression matrices and metadata
-# for scPHcompare package
+# for scPHcompare package. Creates 20 datasets spanning 5 tissues,
+# 2 sequencing approaches and 2 SRA identifiers.
 
 set.seed(123)
 
@@ -24,13 +25,19 @@ pkg_root <- normalizePath(file.path(dirname(script_path), "..", ".."))
 out_dir <- file.path(pkg_root, "inst", "extdata", "toy")
 if (!dir.exists(out_dir)) dir.create(out_dir, recursive = TRUE, showWarnings = FALSE)
 
-samples <- data.frame(
-  sample = c("sample1", "sample2", "sample3"),
-  sra    = c("SRR000001", "SRR000002", "SRR000003"),
-  tissue = c("brain", "heart", "liver"),
-  approach = c("scRNA-seq", "scRNA-seq", "snRNA-seq"),
+tissues <- c("brain", "heart", "liver", "kidney", "lung")
+sras <- c("SRR000001", "SRR000002")
+approaches <- c("scRNA-seq", "snRNA-seq")
+
+samples <- expand.grid(
+  sra = sras,
+  tissue = tissues,
+  approach = approaches,
+  KEEP.OUT.ATTRS = FALSE,
   stringsAsFactors = FALSE
 )
+samples$sample <- sprintf("sample%02d", seq_len(nrow(samples)))
+samples <- samples[c("sample", "sra", "tissue", "approach")]
 
 metadata <- data.frame(
   `File Path` = character(),
