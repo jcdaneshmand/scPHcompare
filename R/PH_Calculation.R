@@ -93,7 +93,6 @@
 #' @param DIM Dimensionality for persistent homology calculation.
 #' @param THRESHOLD Threshold for persistence diagram calculation.
 #' @param dataset_tag Optional tag appended to output files.
-#' @param datasets_to_drop Integer vector of dataset indices to omit.
 #'
 #' @return A list containing processed iterations as well as the detected
 #'   column names for SRA, tissue and approach.
@@ -107,16 +106,13 @@
 
 
 
-# datasets_to_drop <- c(12,15,18) #going to come back to these in a future run
-
 process_datasets_PH <- function(metadata,
                                 integration_method = "seurat",
                                 num_cores = 16,
                                 MIN_CELLS = 250,
                                 DIM = 1,
                                 THRESHOLD = -1,
-                                dataset_tag = "dataset",
-                                datasets_to_drop = NULL) {
+                                dataset_tag = "dataset") {
   # Determine metadata column names and warn if missing
   sra_col <- intersect(c("SRA", "SRA_Number", "SRA Number"), colnames(metadata))[1]
   tissue_col <- intersect(c("Tissue", "tissue"), colnames(metadata))[1]

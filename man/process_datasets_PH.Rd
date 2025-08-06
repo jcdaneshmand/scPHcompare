@@ -11,8 +11,7 @@ process_datasets_PH(
   MIN_CELLS = 250,
   DIM = 1,
   THRESHOLD = -1,
-  dataset_tag = "dataset",
-  datasets_to_drop = NULL
+  dataset_tag = "dataset"
 )
 }
 \arguments{
@@ -30,8 +29,6 @@ process_datasets_PH(
 \item{THRESHOLD}{Threshold for persistence diagram calculation.}
 
 \item{dataset_tag}{Optional tag appended to output files.}
-
-\item{datasets_to_drop}{Integer vector of dataset indices to omit.}
 }
 \value{
 A list containing processed iterations as well as the detected
