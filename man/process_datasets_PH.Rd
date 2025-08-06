@@ -117,8 +117,7 @@ Jonah Daneshmand
 }
 
 \section{License}{
-
-[Specify the license under which the script is distributed, e.g., GPL-3]
+MIT License
 }
 
 \examples{
