@@ -953,7 +953,7 @@ process_iteration_calculate_matrices <- function(iteration, num_cores, log_messa
 }
 
 # Validate that an object is a matrix (or data frame) with correct dimensions and names
-validate_matrix <- function(mat, expected_dim = NULL, expected_names = NULL, verbose = FALSE) {
+validate_matrix <- function(mat, expected_dim = NULL, expected_names = NULL, verbose = TRUE) {
   if (!is.matrix(mat) && !is.data.frame(mat)) {
     if (verbose) message("Validation failed: Object is not a matrix or data.frame.")
     return(FALSE)
@@ -991,7 +991,7 @@ validate_matrix <- function(mat, expected_dim = NULL, expected_names = NULL, ver
 }
 
 # Validate that the landscape list is structured properly.
-validate_landscape_list <- function(landscape_list, expected_length = NULL, grid_length = 100, verbose = FALSE) {
+validate_landscape_list <- function(landscape_list, expected_length = NULL, grid_length = 100, verbose = TRUE) {
   if (!is.list(landscape_list)) {
     if (verbose) message("Validation failed: Landscape object is not a list.")
     return(FALSE)
@@ -1034,7 +1034,7 @@ perform_standard_seurat_clustering <- function(seurat_obj,
                                                assay = "integrated",
                                                resolution = 0.5,
                                                variable_features_path = NULL,
-                                               verbose = FALSE) {
+                                               verbose = TRUE) {
   # Set active assay
   DefaultAssay(seurat_obj) <- assay
 
@@ -1151,7 +1151,7 @@ perform_standard_seurat_clustering <- function(seurat_obj,
 }
 
 # Function: K-means Clustering
-perform_kmeans_clustering <- function(seurat_obj, assay, dims = 1:50, k = 5, verbose = FALSE) {
+perform_kmeans_clustering <- function(seurat_obj, assay, dims = 1:50, k = 5, verbose = TRUE) {
   log_message <- function(message) {
     if (verbose) message(sprintf("%s - %s", Sys.time(), message))
   }
@@ -1182,7 +1182,7 @@ perform_kmeans_clustering <- function(seurat_obj, assay, dims = 1:50, k = 5, ver
 }
 
 # Function: Hierarchical Clustering using BDM matrix
-perform_hierarchical_clustering_ph <- function(bdm_matrix, k, verbose = FALSE) {
+perform_hierarchical_clustering_ph <- function(bdm_matrix, k, verbose = TRUE) {
   log_message <- function(message) {
     if (verbose) message(sprintf("%s - %s", Sys.time(), message))
   }
@@ -1207,7 +1207,7 @@ perform_hierarchical_clustering_ph <- function(bdm_matrix, k, verbose = FALSE) {
 
 # Function: Assign PH Clusters to Seurat Object
 assign_ph_clusters <- function(seurat_obj, clusters_ph, new_cluster_col,
-                               SRA_col = "orig.ident", verbose = FALSE) {
+                               SRA_col = "orig.ident", verbose = TRUE) {
   log_message <- function(message) {
     if (verbose) message(sprintf("%s - %s", Sys.time(), message))
   }

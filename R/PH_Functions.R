@@ -794,7 +794,7 @@ get_anchors <- function(seurat_list, integration_features, dims, anchor_file) {
       normalization.method = "SCT",
       anchor.features = integration_features,
       dims = 1:dims,
-      verbose = FALSE
+      verbose = TRUE
     )
     saveRDS(anchors, file = anchor_file)
     log_message(paste("Saved new anchor batch to:", anchor_file))
