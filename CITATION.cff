@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use this package, please cite it using the following metadata."
+title: "scPHcompare"
+version: "0.1.0"
+authors:
+  - given-names: "Jonah"
+    family-names: "Daneshmand"
+    email: "jcdaneshmand@users.noreply.github.com"
+license: "MIT"
+date-released: 2025-08-05
+preferred-citation:
+  type: article
+  title: "Persistent Homology Comparison Tools"
+  authors:
+    - given-names: "Jonah"
+      family-names: "Daneshmand"
+  year: 2025
+  url: "https://doi.org/placeholder"
+  notes: "Placeholder for forthcoming publication link."
