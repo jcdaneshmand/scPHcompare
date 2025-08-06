@@ -13,7 +13,7 @@
   * Betti, Euler, and Landscape curve analysis
   * Cross‑iteration comparisons (executed automatically with the modular analysis)
 * Helper utilities for plotting, caching and validating intermediate results
-* `generate_toy_data()` helper for creating small synthetic datasets
+* `generate_toy_data()` helper for recreating a set of small synthetic datasets for demonstrations and tests
 
 ## Installation
 
@@ -54,14 +54,14 @@ Distance matrices can also be generated separately for each iteration by calling
 
 ## Toy Example Data
 
-To try the package without obtaining real datasets, a small synthetic dataset can be generated directly in R:
+To try the package without obtaining real datasets, a set of synthetic datasets can be generated directly in R:
 
 ```r
 library(scPHcompare)
 toy_files <- generate_toy_data()
 ```
 
-This writes three sparse 100×50 matrices and a `metadata.csv` file to `inst/extdata/toy/` and returns their paths. The metadata can then be used to run the pipeline:
+`generate_toy_data()` recreates 20 sparse 100×50 matrices spanning five tissues, two sequencing approaches (`scRNA-seq` and `snRNA-seq`), and two SRA identifiers. The matrices and a corresponding `metadata.csv` file are written to `inst/extdata/toy/` and their paths are returned. The metadata can then be used to run the pipeline:
 
 ```r
 results <- run_unified_pipeline(
@@ -71,7 +71,7 @@ results <- run_unified_pipeline(
 )
 ```
 
-These toy data are randomly generated and very small. They are intended only for demonstrations and automated tests and should not be used for biological interpretation.
+These toy datasets are randomly generated and extremely small. They are intended only for demonstrations and automated tests and should not be used for biological interpretation.
 
 ## Output overview
 
