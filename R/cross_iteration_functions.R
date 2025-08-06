@@ -3,10 +3,7 @@
 # ---------------------------
 # Add this to the top of your script with other library calls
 
-# Simple logging function.
-log_message <- function(msg) {
-  message(sprintf("[%s] %s", Sys.time(), msg))
-}
+source("logging_utils.R")
 
 # --- Helper: Directory Creation ---
 ensure_directory <- function(path) {
@@ -84,9 +81,6 @@ compute_null_stats <- function(pd_list, metadata_list, tau_vals, dimensions,
     integrated_sq <- sum(delta_tau * (curve_diff[-length(curve_diff)] ^ 2 +
                                         curve_diff[-1] ^ 2) / 2, na.rm = TRUE)
     sqrt(integrated_sq)
-  }
-  log_message <- function(msg) {
-    if (verbose) message(sprintf("[%s] %s", Sys.time(), msg))
   }
   combined_meta <- do.call(rbind, metadata_list)
   bs_cols <- grep("^random_group_bootstrap_", colnames(combined_meta),
@@ -436,17 +430,13 @@ analyze_and_plot_curves <- function(curve1, curve2, grp1, grp2, curve_type, tau_
                                     alpha, effect_threshold, num_permutations,
                                     null_effect_stats = NULL, null_ks_stats = NULL,
                                     verbose = TRUE) {
-  log_message <- function(msg) {
-    if (verbose) message(sprintf("[%s] %s", Sys.time(), msg))
-  }
-  
   integrated_diff_local <- function(curve_diff, tau_vals) {
     if (length(curve_diff) < 2) {
-      log_message("curve_diff has less than 2 points; returning 0 for integrated difference.")
+      if (verbose) log_message("curve_diff has less than 2 points; returning 0 for integrated difference.")
       return(0)
     }
     if (length(curve_diff) != length(tau_vals)) {
-      log_message("Interpolating curve_diff to match tau_vals length.")
+      if (verbose) log_message("Interpolating curve_diff to match tau_vals length.")
       curve_diff <- approx(
         x = seq(0, 1, length.out = length(curve_diff)),
         y = curve_diff,
@@ -496,7 +486,7 @@ analyze_and_plot_curves <- function(curve1, curve2, grp1, grp2, curve_type, tau_
     m1 <- rowMeans(inds1, na.rm = TRUE)
     m2 <- rowMeans(inds2, na.rm = TRUE)
   } else {
-    log_message("Falling back to using the aggregated 'mean' fields for stats.")
+    if (verbose) log_message("Falling back to using the aggregated 'mean' fields for stats.")
     m1 <- curve1$mean
     m2 <- curve2$mean
   }
@@ -521,7 +511,7 @@ analyze_and_plot_curves <- function(curve1, curve2, grp1, grp2, curve_type, tau_
     diff_cdf <- abs(F_a - F_b)
     sum(0.5 * (diff_cdf[-length(diff_cdf)] + diff_cdf[-1]) * dx)
   }, error = function(e) {
-    log_message(paste("Wasserstein distance failed:", e$message))
+    if (verbose) log_message(paste("Wasserstein distance failed:", e$message))
     NA
   })
   
@@ -865,9 +855,6 @@ compute_null_stats_cross_iterations <- function(pd_list, metadata_list, tau_vals
     integrated_sq <- sum(delta_tau * (curve_diff[-length(curve_diff)] ^ 2 + curve_diff[-1] ^ 2) / 2)
     sqrt(integrated_sq)
   }
-  log_message <- function(msg) {
-    if (verbose) message(sprintf("[%s] %s", Sys.time(), msg))
-  }
   combined_meta <- do.call(rbind, metadata_list)
   bs_cols <- grep("^random_group_bootstrap_", colnames(combined_meta), value = TRUE, ignore.case = TRUE)
   results_list <- parallel::mclapply(bs_cols, function(col) {
@@ -929,9 +916,7 @@ compute_and_compare_betti_iterations <- function(
   base_sigma = 1, num_cores = 20, results_folder = "results", verbose = TRUE,
   landscape_list = NULL
 ) {
-  log_message <- function(msg) {
-    if (verbose) message(sprintf("[%s] %s", Sys.time(), msg))
-  }
+  # Shared logging utility; messages are printed only when verbose
   generate_cache_filename <- function(dataset_name, hash, results_folder) {
     path <- file.path(results_folder, "plots", "betti_plots", "betti_cache", dataset_name, paste0("cache_", hash, ".rds"))
     ensure_directory(dirname(path))
@@ -961,7 +946,7 @@ compute_and_compare_betti_iterations <- function(
   load_curve_cache <- function(dataset_name, hash, results_folder) {
     cache_file <- generate_cache_filename(dataset_name, hash, results_folder)
     if (file.exists(cache_file)) {
-      log_message(paste("Loaded cached curve from:", cache_file))
+      if (verbose) log_message(paste("Loaded cached curve from:", cache_file))
       return(readRDS(cache_file))
     }
     NULL
@@ -970,19 +955,19 @@ compute_and_compare_betti_iterations <- function(
     cache_file <- generate_cache_filename(dataset_name, hash, results_folder)
     dir.create(dirname(cache_file), recursive = TRUE, showWarnings = FALSE)
     saveRDS(curve, cache_file)
-    log_message(paste("Saved cached curve to:", cache_file))
+    if (verbose) log_message(paste("Saved cached curve to:", cache_file))
   }
   get_or_compute_curve <- function(pd, dimensions, dataset_name, base_sigma, grid_points, tau_max, results_folder) {
     hash <- generate_hash(pd, dimensions, dataset_name, base_sigma, grid_points, tau_max)
     cached_curve <- load_curve_cache(dataset_name, hash, results_folder)
     if (!is.null(cached_curve)) return(cached_curve)
-    log_message("Cache miss for curve. Computing curve.")
+    if (verbose) log_message("Cache miss for curve. Computing curve.")
     curve <- compute_betti_curve(pd, dimensions[1], grid_points, tau_max, base_sigma)
     save_curve_cache(curve, dataset_name, hash, results_folder)
     curve
   }
   bootstrap_curve <- function(pd_subset, dimension, group_name, dataset_name, grid_points, tau_max, base_sigma, n_bootstrap, seed = 42, results_folder) {
-    log_message(paste("Starting bootstrapping for Betti curve in dimension", dimension, "with", n_bootstrap, "samples."))
+    if (verbose) log_message(paste("Starting bootstrapping for Betti curve in dimension", dimension, "with", n_bootstrap, "samples."))
     individual_pd_curves <- lapply(seq_along(pd_subset), function(pd_idx) {
       pd <- pd_subset[[pd_idx]]
       if (is.matrix(pd) && nrow(pd) > 0) {
@@ -1016,7 +1001,7 @@ compute_and_compare_betti_iterations <- function(
       upper = apply(do.call(cbind, valid_curves), 1, quantile, probs = 0.975, na.rm = TRUE),
       individual_pd_curves = individual_pd_curves
     )
-    log_message(paste("Completed bootstrapping for Betti curve in dimension", dimension))
+    if (verbose) log_message(paste("Completed bootstrapping for Betti curve in dimension", dimension))
     aggregated_results
   }
   tau_max <- max(unlist(lapply(pd_list, function(pd) max(pd[, 3], na.rm = TRUE))), na.rm = TRUE)
@@ -1027,27 +1012,27 @@ compute_and_compare_betti_iterations <- function(
     metadata[metadata$orig.ident.Iter %in% pd_names,]
   }))
   groups <- unique(group_metadata_mapping[[group_by_col]])
-  log_message(paste("Groups identified:", paste(groups, collapse = ", ")))
+  if (verbose) log_message(paste("Groups identified:", paste(groups, collapse = ", ")))
   group_results <- parallel::mclapply(as.character(groups), function(group) {
-    log_message(paste("Processing group:", group))
+    if (verbose) log_message(paste("Processing group:", group))
     group_pd <- pd_list[group_metadata_mapping$orig.ident.Iter[group_metadata_mapping[[group_by_col]] == group]]
     if (length(group_pd) == 0) {
-      log_message(paste("No PDs for group:", group))
+      if (verbose) log_message(paste("No PDs for group:", group))
       return(NULL)
     }
     tryCatch({
       bootstrap_curves <- lapply(dimensions, function(dim) {
-        log_message(paste("Bootstrapping Betti for dimension", dim, "in group", group))
+        if (verbose) log_message(paste("Bootstrapping Betti for dimension", dim, "in group", group))
         bootstrap_curve(group_pd, dim, group, dataset_name, grid_points, tau_max, base_sigma, bootstrap_samples, results_folder = results_folder)
       })
       bootstrap_curves <- list(betti = bootstrap_curves)
-      log_message(paste("Computing Euler curve for group:", group))
+      if (verbose) log_message(paste("Computing Euler curve for group:", group))
       ec <- compute_euler_curve(group_pd, dimensions, group, dataset_name, grid_points, tau_max, base_sigma, bootstrap_samples, results_folder)
       ec <- list(euler = ec)
       consistency <- check_betti_euler_consistency(ec$euler, bootstrap_curves$betti, dimensions, tau_vals)
       list(group = group, betti_curves = setNames(bootstrap_curves, group), euler_curve = setNames(ec, group), consistency = consistency)
     }, error = function(e) {
-      log_message(paste("Error processing group:", group, "-", e$message))
+      if (verbose) log_message(paste("Error processing group:", group, "-", e$message))
       NULL
     })
   }, mc.cores = num_cores)
@@ -1133,7 +1118,7 @@ compute_and_compare_betti_iterations <- function(
       num_permutations = 1000
     )
   }
-  log_message("Generating aggregated plots for Betti/Euler curves.")
+  if (verbose) log_message("Generating aggregated plots for Betti/Euler curves.")
   # --- MODIFICATION: Updated function call ---
   plot_aggregated_curves(
     group_curves = betti_curves_by_group, 
@@ -1147,7 +1132,7 @@ compute_and_compare_betti_iterations <- function(
     results_folder = results_folder
   )
   if (!is.null(aggregated_landscape_curves_by_group)) {
-    log_message("Generating aggregated landscape plots.")
+    if (verbose) log_message("Generating aggregated landscape plots.")
     # --- MODIFICATION: Updated function call ---
     plot_aggregated_curves(
       group_curves = aggregated_landscape_curves_by_group, 
@@ -1185,13 +1170,13 @@ cross_iteration_comparison_with_betti <- function(data_iterations,
       if (ncol(seurat_obj) == length(reference_cell_names)) {
         colnames(seurat_obj) <- reference_cell_names
         data_iterations[[i]]$seurat_obj <- seurat_obj
-        log_message(paste0("Iteration ", data_iterations[[i]]$name, " renamed to match reference cell names."))
+        if (verbose) log_message(paste0("Iteration ", data_iterations[[i]]$name, " renamed to match reference cell names."))
       } else {
-        log_message(paste0("Iteration ", data_iterations[[i]]$name, " has a different number of cells; skipping renaming."))
+        if (verbose) log_message(paste0("Iteration ", data_iterations[[i]]$name, " has a different number of cells; skipping renaming."))
       }
     }
   process_group <- function(group_value) {
-    log_message(paste("Processing", group_by_col, ":", group_value))
+    if (verbose) log_message(paste("Processing", group_by_col, ":", group_value))
     combined_pd_list <- list()
     metadata_list <- list()
     combined_landscape_list <- list()
@@ -1224,7 +1209,7 @@ cross_iteration_comparison_with_betti <- function(data_iterations,
       group_metadata <- metadata_local[metadata_local[[group_by_col]] == group_value,]
       group_pd_list <- pd_list[valid_names %in% group_metadata$orig.ident.Iter]
       if (length(group_pd_list) == 0) {
-        log_message(paste("No persistence diagrams for", group_by_col, ":", group_value, "in iteration:", iter$name))
+        if (verbose) log_message(paste("No persistence diagrams for", group_by_col, ":", group_value, "in iteration:", iter$name))
         return(NULL)
       }
       pd_names_filtered <- valid_names[valid_names %in% group_metadata$orig.ident.Iter]
@@ -1258,10 +1243,10 @@ cross_iteration_comparison_with_betti <- function(data_iterations,
         combined_landscape_list <- c(combined_landscape_list, res$landscape_list)
       }
     }
-    log_message(paste("Combined pd_list entries:", length(combined_pd_list)))
-    log_message(paste("Combined landscape entries:", length(combined_landscape_list)))
+    if (verbose) log_message(paste("Combined pd_list entries:", length(combined_pd_list)))
+    if (verbose) log_message(paste("Combined landscape entries:", length(combined_landscape_list)))
     if (length(metadata_list) < 2) {
-      log_message(paste("Skipping", group_by_col, group_value, "- fewer than two iterations available."))
+      if (verbose) log_message(paste("Skipping", group_by_col, group_value, "- fewer than two iterations available."))
       return(NULL)
     }
     common_cols <- Reduce(intersect, lapply(metadata_list, colnames))
@@ -1284,11 +1269,11 @@ cross_iteration_comparison_with_betti <- function(data_iterations,
     )
     output_file <- file.path(output_folder, paste0("comparison_", group_by_col, "_", group_value, ".rds"))
     saveRDS(results, output_file)
-    log_message(paste("Completed comparison for", group_by_col, ":", group_value, "- results saved to:", output_file))
+    if (verbose) log_message(paste("Completed comparison for", group_by_col, ":", group_value, "- results saved to:", output_file))
     results
   }
   results <- parallel::mclapply(group_values, process_group, mc.cores = num_cores)
-  log_message("Flattening all pairwise curve-comparison stats into one data.frame")
+  if (verbose) log_message("Flattening all pairwise curve-comparison stats into one data.frame")
   metrics <- c("wasserstein", "perm_p", "effect_size", "ks_stat", "ks_adj_p")
   extract_row <- function(st, grp, pair, comp) {
     vals <- setNames(lapply(metrics, function(m) if (!is.null(st[[m]])) st[[m]] else NA_real_), metrics)
@@ -1326,8 +1311,8 @@ cross_iteration_comparison_with_betti <- function(data_iterations,
   all_pairs <- rbind(betti_df, land_df)
   csv_out <- file.path(output_folder, paste(group_by_col, "all_cross_iteration_pairwise_stats.csv"))
   write.csv(all_pairs, csv_out, row.names = FALSE)
-  log_message(paste("Wrote all curve-comparison stats to:", csv_out))
-  log_message("All group-specific comparisons completed.")
+  if (verbose) log_message(paste("Wrote all curve-comparison stats to:", csv_out))
+  if (verbose) log_message("All group-specific comparisons completed.")
 }
 
 #' @title Run cross-iteration analysis
