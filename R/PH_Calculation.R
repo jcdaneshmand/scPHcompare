@@ -73,7 +73,7 @@
 #' Jonah Daneshmand
 #'
 #' @section License:
-#' [Specify the license under which the script is distributed, e.g., GPL-3]
+#' MIT License
 
 #' @param metadata Data frame with file paths and associated metadata.
 #' @param integration_method Integration method to use ("seurat",
