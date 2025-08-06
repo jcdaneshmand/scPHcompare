@@ -50,6 +50,9 @@ test_that("run_postprocessing_pipeline calls run_modular_analysis", {
         run_spectral_clustering = FALSE,
         run_visualizations = FALSE,
         run_sample_level_heatmap = FALSE,
+        run_cluster = TRUE,
+        run_betti = FALSE,
+        run_cross_iteration = FALSE,
         metadata_path = NULL
       )
     }

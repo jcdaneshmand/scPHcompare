@@ -486,6 +486,9 @@ run_modular_analysis <- function(ph_results,
 #' @param run_spectral_clustering Logical, run spectral clustering.
 #' @param run_visualizations Logical, generate plots for each iteration.
 #' @param run_sample_level_heatmap Logical, create sample-level heatmaps.
+#' @param run_cluster Logical, run clustering comparisons if `TRUE`.
+#' @param run_betti Logical, compute Betti curves if `TRUE`.
+#' @param run_cross_iteration Logical, run cross-iteration analysis.
 #' @param metadata_path Optional path to metadata CSV for plotting.
 #' @param SRA_col Metadata column with sample identifiers.
 #' @param Tissue_col Metadata column containing tissue labels.
@@ -509,6 +512,9 @@ run_postprocessing_pipeline <- function(ph_results,
                                         run_spectral_clustering = TRUE,
                                         run_visualizations = TRUE,
                                         run_sample_level_heatmap = TRUE,
+                                        run_cluster = TRUE,
+                                        run_betti = TRUE,
+                                        run_cross_iteration = TRUE,
                                         metadata_path = "./data/VastlyDifferentTissues/metadata.csv",
                                         SRA_col = "orig.ident",
                                         Tissue_col = "Tissue",
@@ -595,15 +601,17 @@ run_postprocessing_pipeline <- function(ph_results,
 
   ph_results$data_iterations <- data_iterations
 
-  run_modular_analysis(ph_results,
-                       results_dir = results_dir,
-                       run_cluster = TRUE,
-                       run_betti = TRUE,
-                       run_cross_iteration = TRUE,
-                       SRA_col = SRA_col,
-                       Tissue_col = Tissue_col,
-                       Approach_col = Approach_col,
-                       ...)
+  if (run_cluster || run_betti || run_cross_iteration) {
+    run_modular_analysis(ph_results,
+                         results_dir = results_dir,
+                         run_cluster = run_cluster,
+                         run_betti = run_betti,
+                         run_cross_iteration = run_cross_iteration,
+                         SRA_col = SRA_col,
+                         Tissue_col = Tissue_col,
+                         Approach_col = Approach_col,
+                         ...)
+  }
 
   invisible(ph_results)
 }
