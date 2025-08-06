@@ -316,9 +316,9 @@ process_datasets_PH <- function(metadata,
       NULL
     }
   )
-  
-  
-  filtered_cells_file <- "filtered_cells.csv"
+
+
+  filtered_cells_file <- paste0("filtered_cells", dataset_suffix, ".csv")
 
   # Function to extract columns with constant values from metadata
   get_constant_metadata <- function(obj) {
