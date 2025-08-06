@@ -1,3 +1,13 @@
+# Internal helper to extract columns with constant values from metadata
+.get_constant_metadata <- function(obj, count_field) {
+  metadata <- obj@meta.data
+  constant_cols <- sapply(metadata, function(col) length(unique(col)) == 1)
+  constant_metadata <- metadata[1, constant_cols, drop = FALSE]  # Keep one row with constant columns
+  constant_metadata$Sample <- obj@project.name  # Add the sample name
+  constant_metadata[[count_field]] <- nrow(metadata)  # Add cell count with custom label
+  return(constant_metadata)
+}
+
 #' PH Pipeline for Single-Cell RNA-Seq Data
 #'
 #' @description 
@@ -224,40 +234,34 @@ process_datasets_PH <- function(metadata,
   
   prefiltered_cells_file <- paste0("prefiltered_cells", dataset_suffix, ".csv")
 
-  # Function to extract columns with constant values from metadata
-  get_constant_metadata <- function(obj) {
-    metadata <- obj@meta.data
-    constant_cols <- sapply(metadata, function(col) length(unique(col)) == 1)
-    constant_metadata <- metadata[1, constant_cols, drop = FALSE]  # Keep one row with constant columns
-    constant_metadata$Sample <- obj@project.name  # Add the sample name
-    constant_metadata$Number_of_Cells_Before_Filtering <- nrow(metadata)  # Add cell count
-    return(constant_metadata)
-  }
-
-  # After filtering, extract the updated metadata for each remaining sample
+  # Extract constant metadata for each sample before filtering
   prefiltered_cells <- tryCatch(
     {
       # Combine metadata from all Seurat objects in the list
       do.call(
         rbind,
-        lapply(my_seurat_list, get_constant_metadata)
+        lapply(
+          my_seurat_list,
+          .get_constant_metadata,
+          count_field = "Number_of_Cells_Before_Filtering"
+        )
       )
     },
     error = function(e) {
-      log_message(paste("Error in creating filtered metadata table:", e$message))
+      log_message(paste("Error in creating prefiltered metadata table:", e$message))
       NULL
     }
   )
 
-  # Save the filtered metadata to a CSV file
+  # Save the prefiltering metadata to a CSV file
   if (!is.null(prefiltered_cells)) {
     tryCatch(
       {
         write.csv(prefiltered_cells, file = prefiltered_cells_file, row.names = FALSE)
-        log_message(paste("Filtered metadata saved to", prefiltered_cells_file))
+        log_message(paste("Prefiltered metadata saved to", prefiltered_cells_file))
       },
       error = function(e) {
-        log_message(paste("Error in saving filtered metadata to CSV:", e$message))
+        log_message(paste("Error in saving prefiltered metadata to CSV:", e$message))
       }
     )
   }
@@ -320,23 +324,17 @@ process_datasets_PH <- function(metadata,
 
   filtered_cells_file <- paste0("filtered_cells", dataset_suffix, ".csv")
 
-  # Function to extract columns with constant values from metadata
-  get_constant_metadata <- function(obj) {
-    metadata <- obj@meta.data
-    constant_cols <- sapply(metadata, function(col) length(unique(col)) == 1)
-    constant_metadata <- metadata[1, constant_cols, drop = FALSE]  # Keep one row with constant columns
-    constant_metadata$Sample <- obj@project.name  # Add the sample name
-    constant_metadata$Number_of_Cells_After_Filtering <- nrow(metadata)  # Add cell count
-    return(constant_metadata)
-  }
-
-  # After filtering, extract the updated metadata for each remaining sample
+  # Extract constant metadata for each sample after filtering
   filtered_cells <- tryCatch(
     {
-      # Combine metadata from all Seurat objects in the list
+      # Combine metadata from all filtered Seurat objects in the list
       do.call(
         rbind,
-        lapply(my_seurat_list_filtered, get_constant_metadata)
+        lapply(
+          my_seurat_list_filtered,
+          .get_constant_metadata,
+          count_field = "Number_of_Cells_After_Filtering"
+        )
       )
     },
     error = function(e) {
