@@ -549,6 +549,7 @@ process_datasets_PH <- function(metadata,
     if (!is.null(expr_list_sctInd)) {
       log_message(paste("Successfully named expr_list_sctransformed entries by orig.ident:",
                         paste(names(expr_list_sctInd), collapse = ", ")))
+      saveRDS(expr_list_sctInd, file = paste0("expr_list_sctInd", dataset_suffix, ".Rds"))
     } else {
       log_message("expr_list_sctransformed is NULL due to an error in extraction.")
     }
@@ -584,6 +585,7 @@ process_datasets_PH <- function(metadata,
     if (!is.null(expr_list_raw)) {
       log_message(paste("Successfully named expr_list_raw entries by orig.ident:",
                         paste(names(expr_list_raw), collapse = ", ")))
+      saveRDS(expr_list_raw, file = paste0("expr_list_raw", dataset_suffix, ".Rds"))
     } else {
       log_message("expr_list_raw is NULL due to an error in extraction.")
     }
@@ -705,7 +707,7 @@ process_datasets_PH <- function(metadata,
     # Check the structure of expr_list to verify the extraction
     str(expr_list_integrated)
 
-    saveRDS(expr_list_integrated, file = "expr_list_integrated.rds")
+    saveRDS(expr_list_integrated, file = paste0("expr_list_integrated", dataset_suffix, ".Rds"))
 
     PD_result_integrated <- compute_ph_batch(
       expr_list_integrated, DIM, log_message, dataset_suffix,
