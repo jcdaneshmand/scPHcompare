@@ -127,6 +127,7 @@ process_datasets_PH <- function(metadata,
   # Start logging
   log_file <- paste0("PH_Pipeline_Log_", Sys.Date(), dataset_suffix, ".txt")
   sink(log_file, append = TRUE)
+  on.exit(sink(), add = TRUE)
   
   # Helper functions are available once the package is loaded
   
@@ -714,8 +715,6 @@ process_datasets_PH <- function(metadata,
     expr_list_sctWhole, expr_list_integrated
   )
 
-  # Close the log sink if opened
-  try(sink(), silent = TRUE)
   ph_results <- list(
     data_iterations = data_iterations,
     SRA_col = sra_col,
