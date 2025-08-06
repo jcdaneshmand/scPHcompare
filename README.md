@@ -59,7 +59,7 @@ results <- run_unified_pipeline(
 )
 ```
 
-The wrapper executes preprocessing and PH calculation first. If the optional modules are enabled the function `run_postprocessing_pipeline()` performs clustering, visualisation and distance matrix generation. Results such as Seurat objects and plots are written to the directory specified by `results_dir`.
+The wrapper executes preprocessing and PH calculation first. If the optional modules are enabled the function `run_postprocessing_pipeline()` performs clustering, visualisation and distance matrix generation. Results such as Seurat objects, plots and comparison tables are written to the directory specified by `results_dir`.
 
 Distance matrices can also be generated separately for each iteration by calling `process_iteration_calculate_matrices()` from `PH_PostProcessing_andAnalysis.R`.
 
@@ -107,8 +107,11 @@ in later runs:
   computations. Each dataset gets its own subfolder with hashed cache
   files such as
   `results/plots/betti_plots/betti_cache/Raw/cache_abcd1234.rds`.
+* `plots/betti_plots/<dataset_name>/statistical_comparison_heatmaps/statistical_csvs/`
+  – directory where pairwise-statistics tables (CSV) are saved for each
+  comparison. Replace `<dataset_name>` with the name of the iteration.
 
-Pairwise statistics summarised across datasets are provided in CSV files under the `Result Tables/` directory of this repository.
+Pairwise statistics summarised across datasets for the manuscript are archived in the repository's `Result Tables/` directory. This folder contains the original analysis tables and should be preserved.
 
 ## Functions exported
 
