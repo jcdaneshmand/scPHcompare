@@ -10,7 +10,7 @@ license: "MIT"
 date-released: 2025-08-05
 preferred-citation:
   type: article
-  title: "Persistent Homology Comparison Tools"
+  title: "Impact of Integration on Persistent Homology Clustering and Biological Signal Detection in scRNA-seq Data"
   authors:
     - given-names: "Jonah"
       family-names: "Daneshmand"
