@@ -72,7 +72,7 @@ library(scPHcompare)
 toy_files <- generate_toy_data()
 ```
 
-`generate_toy_data()` recreates 20 sparse 100×50 matrices spanning five tissues, two sequencing approaches (`scRNA-seq` and `snRNA-seq`), and two SRA identifiers. The matrices and a corresponding `metadata.csv` file are written to `inst/extdata/toy/` and their paths are returned. The metadata can then be used to run the pipeline:
+`generate_toy_data()` recreates 20 sparse 100×300 matrices spanning five tissues, two sequencing approaches (`scRNA-seq` and `snRNA-seq`), and two SRA identifiers. The matrices and a corresponding `metadata.csv` file are written to `inst/extdata/toy/` and their paths are returned. The metadata can then be used to run the pipeline:
 
 ```r
 results <- run_unified_pipeline(
