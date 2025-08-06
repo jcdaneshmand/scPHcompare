@@ -1,9 +1,10 @@
 #' Generate toy datasets
 #'
 #' This function runs the helper script located at
-#' `inst/scripts/generate_toy_data.R` to recreate the toy sparse
+#' `inst/scripts/generate_toy_data.R` to recreate 20 toy sparse
 #' expression matrices and accompanying metadata under
-#' `inst/extdata/toy`.
+#' `inst/extdata/toy`. The datasets span five tissues, two sequencing
+#' approaches, and two SRA identifiers.
 #'
 #' @return A named list with `matrices` (a character vector of paths to
 #'   the generated `.sparse.RData` files) and `metadata` (the path to the
