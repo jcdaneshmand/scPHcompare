@@ -197,7 +197,7 @@ perform_integration <- function(
   ##############################
   ## 6) KITCHEN SINK CLEANUP (WITH SCT REBUILD)
   ##############################
-  kitchen_sink_cleanup <- function(obj, unify_feats, dims_use = 20, verbose = FALSE) {
+  kitchen_sink_cleanup <- function(obj, unify_feats, dims_use = 20, verbose = TRUE) {
     # Remove old PCA and extraneous layers
     obj@reductions$pca <- NULL
     if ("SCT" %in% names(obj@assays)) {
@@ -243,7 +243,7 @@ perform_integration <- function(
         var_feats <- rownames(mat)
         VariableFeatures(obj) <- var_feats
       }
-      obj <- RunPCA(obj, assay = "SCT", features = var_feats, npcs = dims_use, verbose = FALSE)
+      obj <- RunPCA(obj, assay = "SCT", features = var_feats, npcs = dims_use, verbose = TRUE)
     }
     obj
   }
@@ -257,7 +257,7 @@ perform_integration <- function(
         new_mat <- safe_complete_matrix(mat, union(rownames(mat), required_feats))
         o <- SetAssayData(o, "SCT", "data", new.data = new_mat)
         all_genes <- rownames(new_mat)
-        o <- ScaleData(o, assay = "SCT", features = all_genes, verbose = FALSE)
+        o <- ScaleData(o, assay = "SCT", features = all_genes, verbose = TRUE)
       }
       o
     })
@@ -289,7 +289,7 @@ perform_integration <- function(
     obj_list <- lapply(obj_list, ensure_pca, dims_use = dims_use)
     obj_list <- lapply(obj_list, function(o) {
       all_genes <- rownames(GetAssayData(o, "SCT", "data"))
-      o <- ScaleData(o, assay = "SCT", features = all_genes, verbose = FALSE)
+      o <- ScaleData(o, assay = "SCT", features = all_genes, verbose = TRUE)
       o
     })
     scale_rows <- Reduce(intersect, lapply(obj_list, function(o) {
@@ -399,7 +399,7 @@ perform_integration <- function(
         log_problematic_group(obj_list, group_id)
         verified_objs <- verify_features_on_subscript_error(obj_list, global_feats, dims_use = dims_use)
         verified_objs <- lapply(verified_objs, function(o) {
-          kitchen_sink_cleanup(o, unify_feats = global_feats, dims_use = dims_use, verbose = FALSE)
+          kitchen_sink_cleanup(o, unify_feats = global_feats, dims_use = dims_use, verbose = TRUE)
         })
         verified_objs <- prep_sct_for_anchors(verified_objs, global_feats)
         anchors2 <- tryCatch({
@@ -420,7 +420,7 @@ perform_integration <- function(
         }, error = function(e2) {
           message(sprintf("RPCA fallback => CCA in group '%s'_retry => %s", group_id, e2$message))
           verified_objs <- lapply(verified_objs, function(o) {
-            kitchen_sink_cleanup(o, unify_feats = global_feats, dims_use = dims_use, verbose = FALSE)
+            kitchen_sink_cleanup(o, unify_feats = global_feats, dims_use = dims_use, verbose = TRUE)
           })
           verified_objs <- prep_sct_for_anchors(verified_objs, global_feats)
           FindIntegrationAnchors(
@@ -517,8 +517,8 @@ perform_integration <- function(
         }
         newA <- verify_features_on_subscript_error(list(objA), unify_feats, dims_use = dims_use)[[1]]
         newB <- verify_features_on_subscript_error(list(objB), unify_feats, dims_use = dims_use)[[1]]
-        newA <- kitchen_sink_cleanup(newA, unify_feats = unify_feats, dims_use = dims_use, verbose = FALSE)
-        newB <- kitchen_sink_cleanup(newB, unify_feats = unify_feats, dims_use = dims_use, verbose = FALSE)
+        newA <- kitchen_sink_cleanup(newA, unify_feats = unify_feats, dims_use = dims_use, verbose = TRUE)
+        newB <- kitchen_sink_cleanup(newB, unify_feats = unify_feats, dims_use = dims_use, verbose = TRUE)
         newAB <- prep_sct_for_anchors(list(newA, newB), unify_feats)
         anchors2 <- tryCatch({
           loaded2 <- load_anchors(prefix, paste0(name_id, "_retry"))
@@ -538,7 +538,7 @@ perform_integration <- function(
         }, error = function(e2) {
           message(sprintf("RPCA fallback => CCA in merge '%s'_retry => %s", name_id, e2$message))
           newAB <- lapply(newAB, function(o) {
-            kitchen_sink_cleanup(o, unify_feats = unify_feats, dims_use = dims_use, verbose = FALSE)
+            kitchen_sink_cleanup(o, unify_feats = unify_feats, dims_use = dims_use, verbose = TRUE)
           })
           newAB <- prep_sct_for_anchors(newAB, unify_feats)
           FindIntegrationAnchors(
@@ -694,7 +694,7 @@ perform_integration <- function(
         }
       }
       all_sct_genes <- rownames(GetAssayData(obj, "SCT", "data"))
-      obj <- ScaleData(obj, assay = "SCT", features = all_sct_genes, verbose = FALSE)
+      obj <- ScaleData(obj, assay = "SCT", features = all_sct_genes, verbose = TRUE)
       obj
     }, error = debug_error_handler)
   }, mc.cores = num_cores)
@@ -760,7 +760,7 @@ perform_integration <- function(
           dims_use = dims
         )
         verified_objs <- lapply(verified_objs, function(o) {
-          kitchen_sink_cleanup(o, unify_feats = universal_feats, dims_use = dims, verbose = FALSE)
+          kitchen_sink_cleanup(o, unify_feats = universal_feats, dims_use = dims, verbose = TRUE)
         })
         merged_retry <- tryCatch({
           merge_pairwise_integration(
