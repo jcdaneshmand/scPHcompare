@@ -41,6 +41,7 @@ Imports:
     reshape2,
     ripserr,
     rlang,
+    scales,
     Seurat,
     SeuratDisk,
     svglite,
