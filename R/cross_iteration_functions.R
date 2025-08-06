@@ -3,12 +3,30 @@
 # ---------------------------
 # Add this to the top of your script with other library calls
 
-# Simple logging function.
+#' Log a timestamped message
+#'
+#' Prepends a timestamp to a message and prints it to the console. Useful for
+#' lightweight progress reporting throughout long-running computations.
+#'
+#' @param msg Character string to log.
+#' @return Invisibly returns `NULL` after printing the message.
+#' @examples
+#' log_message("Processing started")
+#' @keywords internal
 log_message <- function(msg) {
   message(sprintf("[%s] %s", Sys.time(), msg))
 }
 
 # --- Helper: Directory Creation ---
+#' Ensure that a directory exists
+#'
+#' Creates the directory path recursively if it does not already exist.
+#'
+#' @param path Character path to check or create.
+#' @return Invisibly returns `NULL` after ensuring the directory exists.
+#' @examples
+#' ensure_directory(tempdir())
+#' @keywords internal
 ensure_directory <- function(path) {
   if (length(path) == 0 || is.na(path) || path == "") {
     stop("Invalid directory path provided.")
@@ -17,12 +35,35 @@ ensure_directory <- function(path) {
 }
 
 # --- Helper: Normalization with Division-by-Zero Check ---
+#' Normalize a curve to unit sum
+#'
+#' Scales a numeric vector so that it sums to one. If the total is zero, a
+#' vector of zeros is returned to avoid division by zero.
+#'
+#' @param curve Numeric vector representing the curve values.
+#' @param grid_points Integer indicating the length of the curve.
+#' @return Numeric vector of length `grid_points` that sums to one.
+#' @examples
+#' normalize_curve(c(1, 2, 3), grid_points = 3)
+#' @keywords internal
 normalize_curve <- function(curve, grid_points) {
   tot <- sum(curve)
   if (tot == 0) rep(0, grid_points) else curve / tot
 }
 
 # --- Curve Caching ---
+#' Generate a cache file name for a Betti curve
+#'
+#' Constructs the file path used to store a cached Betti curve and ensures that
+#' the directory exists.
+#'
+#' @param dataset_name Name of the dataset as a string.
+#' @param hash Hash string representing the curve parameters.
+#' @param results_folder Base directory where results are stored.
+#' @return Character string containing the full cache file path.
+#' @examples
+#' generate_cache_filename("dataset", "abc123", tempdir())
+#' @keywords internal
 generate_cache_filename <- function(dataset_name, hash, results_folder) {
   path <- file.path(results_folder, "plots", "betti_plots", "betti_cache", dataset_name, paste0("cache_", hash, ".rds"))
   ensure_directory(dirname(path))
@@ -30,6 +71,23 @@ generate_cache_filename <- function(dataset_name, hash, results_folder) {
 }
 
 # --- Compute Betti Curve ---
+#' Compute a smoothed Betti curve
+#'
+#' Converts a persistence diagram into a smoothed Betti curve using Gaussian
+#' kernels whose width depends on the persistence of each feature.
+#'
+#' @param pd Persistence diagram as a matrix or data frame with columns
+#'   `dimension`, `birth`, and `death`.
+#' @param dimension Integer dimension for which to compute the Betti curve.
+#' @param grid_points Number of evaluation points along the filtration scale.
+#' @param tau_max Maximum filtration value.
+#' @param base_sigma Minimum standard deviation for the Gaussian kernel.
+#'
+#' @return Numeric vector of length `grid_points` representing the Betti curve.
+#' @examples
+#' pd <- matrix(c(0, 0.1, 0.4), ncol = 3)
+#' compute_betti_curve(pd, dimension = 0, grid_points = 10, tau_max = 1, base_sigma = 0.05)
+#' @keywords internal
 compute_betti_curve <- function(pd, dimension, grid_points, tau_max, base_sigma) {
   pd <- as.data.frame(pd)
   valid_pd <- pd[pd[, 1] == dimension & pd[, 2] < pd[, 3],]
@@ -50,6 +108,26 @@ compute_betti_curve <- function(pd, dimension, grid_points, tau_max, base_sigma)
 }
 
 # --- Check Betti-Euler Consistency ---
+#' Verify consistency between Betti and Euler curves
+#'
+#' Compares an Euler curve with the alternating sum of Betti curves across
+#' dimensions to check whether they satisfy the Euler characteristic identity.
+#'
+#' @param euler_curve List containing at least a `mean` component representing
+#'   the Euler curve.
+#' @param betti_curves List of lists where each element has a `mean` component
+#'   for the corresponding Betti curve.
+#' @param dimensions Integer vector of homology dimensions represented in the
+#'   Betti curves.
+#' @param tau_vals Numeric vector of filtration parameter values.
+#'
+#' @return Logical vector indicating consistency at each `tau` value, or `NULL`
+#'   if an error occurs.
+#' @examples
+#' euler <- list(mean = c(1, 0))
+#' betti <- list(list(mean = c(1, 0)))
+#' check_betti_euler_consistency(euler, betti, dimensions = 0, tau_vals = c(0, 1))
+#' @keywords internal
 check_betti_euler_consistency <- function(euler_curve, betti_curves, dimensions, tau_vals) {
   log_message("Starting Betti-Euler consistency check.")
   if (!is.list(betti_curves) ||
@@ -135,10 +213,40 @@ compute_null_stats <- function(pd_list, metadata_list, tau_vals, dimensions,
   )
 }
 
+#' Generate a hash for curve parameters
+#'
+#' Creates a SHA-256 hash based on the persistence diagram and curve parameters.
+#'
+#' @param pd Persistence diagram as a matrix or data frame.
+#' @param dimension Integer dimension for which the curve is computed.
+#' @param dataset_name Name of the dataset as a string.
+#' @param base_sigma Minimum standard deviation for the Gaussian kernel.
+#' @param grid_points Number of evaluation points along the filtration scale.
+#' @param tau_max Maximum filtration value.
+#'
+#' @return Character string representing the hash.
+#' @examples
+#' generate_hash(matrix(c(0, 0.1, 0.4), ncol = 3), 0, "dataset", 0.05, 10, 1)
+#' @keywords internal
 generate_hash <- function(pd, dimension, dataset_name, base_sigma, grid_points, tau_max) {
   digest(list(pd, dimension, dataset_name, base_sigma, grid_points, tau_max), algo = "sha256")
 }
 
+#' Load a cached curve from disk
+#'
+#' Retrieves a previously cached curve using the dataset name and parameter hash
+#' to locate the appropriate file.
+#'
+#' @param dataset_name Name of the dataset as a string.
+#' @param hash Hash string identifying the curve parameters.
+#' @param results_folder Base directory where results are stored.
+#'
+#' @return The cached curve if available, otherwise `NULL`.
+#' @examples
+#' \dontrun{
+#' load_curve_cache("dataset", "abc123", tempdir())
+#' }
+#' @keywords internal
 load_curve_cache <- function(dataset_name, hash, results_folder) {
   cache_file <- generate_cache_filename(dataset_name, hash, results_folder)
   if (file.exists(cache_file)) {
@@ -148,6 +256,21 @@ load_curve_cache <- function(dataset_name, hash, results_folder) {
   NULL
 }
 
+#' Save a curve to the cache
+#'
+#' Stores a computed curve to disk so that subsequent requests with the same
+#' parameters can reuse the cached result.
+#'
+#' @param curve Numeric vector representing the curve to cache.
+#' @param dataset_name Name of the dataset as a string.
+#' @param hash Hash string identifying the curve parameters.
+#' @param results_folder Base directory where results are stored.
+#' @return Invisibly returns `NULL` after saving the file.
+#' @examples
+#' \dontrun{
+#' save_curve_cache(1:5, "dataset", "abc123", tempdir())
+#' }
+#' @keywords internal
 save_curve_cache <- function(curve, dataset_name, hash, results_folder) {
   cache_file <- generate_cache_filename(dataset_name, hash, results_folder)
   ensure_directory(dirname(cache_file))
@@ -155,6 +278,25 @@ save_curve_cache <- function(curve, dataset_name, hash, results_folder) {
   log_message(paste("Saved cached curve to:", cache_file))
 }
 
+#' Retrieve or compute a Betti curve
+#'
+#' Attempts to load a cached Betti curve; if not available, computes the curve
+#' and stores it for future use.
+#'
+#' @param pd Persistence diagram as a matrix or data frame.
+#' @param dimension Integer dimension for which to compute the curve.
+#' @param dataset_name Name of the dataset as a string.
+#' @param base_sigma Minimum standard deviation for the Gaussian kernel.
+#' @param grid_points Number of evaluation points along the filtration scale.
+#' @param tau_max Maximum filtration value.
+#' @param results_folder Base directory where results are stored.
+#' @return Normalized Betti curve as a numeric vector.
+#' @examples
+#' \dontrun{
+#' pd <- matrix(c(0, 0.1, 0.4), ncol = 3)
+#' get_or_compute_curve(pd, 0, "dataset", 0.05, 10, 1, tempdir())
+#' }
+#' @keywords internal
 get_or_compute_curve <- function(pd, dimension, dataset_name, base_sigma, grid_points, tau_max, results_folder) {
   hash <- generate_hash(pd, dimension, dataset_name, base_sigma, grid_points, tau_max)
   cached_curve <- load_curve_cache(dataset_name, hash, results_folder)
@@ -166,6 +308,31 @@ get_or_compute_curve <- function(pd, dimension, dataset_name, base_sigma, grid_p
   norm_curve
 }
 
+#' Bootstrap Betti curves for a subset of persistence diagrams
+#'
+#' Generates bootstrap samples of Betti curves by resampling persistence
+#' diagrams with replacement.
+#'
+#' @param pd_subset List of persistence diagrams.
+#' @param dimension Integer dimension for which to compute Betti curves.
+#' @param group_name Character label for the group being processed.
+#' @param dataset_name Name of the dataset as a string.
+#' @param grid_points Number of evaluation points along the filtration scale.
+#' @param tau_max Maximum filtration value.
+#' @param base_sigma Minimum standard deviation for the Gaussian kernel.
+#' @param n_bootstrap Number of bootstrap samples to draw.
+#' @param seed Random seed for reproducibility.
+#' @param results_folder Base directory where results are stored.
+#' @param num_cores Number of cores for parallel computation.
+#'
+#' @return List containing the mean curve, lower and upper confidence bands, and
+#'   individual persistence diagram curves.
+#' @examples
+#' \dontrun{
+#' pd <- list(matrix(c(0, 0.1, 0.4), ncol = 3))
+#' bootstrap_curve(pd, 0, "grp", "dataset", 10, 1, 0.05, 5, results_folder = tempdir())
+#' }
+#' @keywords internal
 bootstrap_curve <- function(pd_subset, dimension, group_name, dataset_name, grid_points, tau_max, base_sigma, n_bootstrap, seed = 42, results_folder, num_cores = 8) {
   log_message(paste("Starting bootstrapping for dimension", dimension, "with", n_bootstrap, "samples."))
   individual_pd_curves <- parallel::mclapply(seq_along(pd_subset), function(i) {
@@ -202,6 +369,29 @@ bootstrap_curve <- function(pd_subset, dimension, group_name, dataset_name, grid
   )
 }
 
+#' Compute the Euler curve from persistence diagrams
+#'
+#' Aggregates Betti curves across dimensions with alternating signs to obtain
+#' the Euler characteristic curve for a group of persistence diagrams.
+#'
+#' @param pd_subset List of persistence diagrams.
+#' @param dimensions Integer vector of homology dimensions to include.
+#' @param group_name Character label for the group being processed.
+#' @param dataset_name Name of the dataset as a string.
+#' @param grid_points Number of evaluation points along the filtration scale.
+#' @param tau_max Maximum filtration value.
+#' @param base_sigma Minimum standard deviation for the Gaussian kernel.
+#' @param n_bootstrap Number of bootstrap samples to draw.
+#' @param results_folder Base directory where results are stored.
+#'
+#' @return List containing the mean Euler curve, lower and upper confidence
+#'   bands, and individual Euler curves.
+#' @examples
+#' \dontrun{
+#' pd <- list(matrix(c(0, 0.1, 0.4), ncol = 3))
+#' compute_euler_curve(pd, 0:1, "grp", "dataset", 10, 1, 0.05, 5, tempdir())
+#' }
+#' @keywords internal
 compute_euler_curve <- function(pd_subset, dimensions, group_name, dataset_name, grid_points, tau_max, base_sigma, n_bootstrap, results_folder) {
   log_message("Computing Euler curve with bootstrapping.")
   individual_euler <- lapply(seq_along(pd_subset), function(i) {
@@ -232,12 +422,39 @@ compute_euler_curve <- function(pd_subset, dimensions, group_name, dataset_name,
   list(mean = euler_mean, lower = euler_lower, upper = euler_upper, individual_euler_curves = individual_euler)
 }
 
+#' Compute integrated difference between two curves
+#'
+#' Approximates the L2 distance between consecutive points of a difference curve
+#' using the trapezoidal rule.
+#'
+#' @param curve_diff Numeric vector of differences between two curves.
+#' @param tau_vals Numeric vector of corresponding filtration values.
+#'
+#' @return Single numeric value giving the integrated difference.
+#' @examples
+#' integrated_diff(c(0, 1, 0), c(0, 0.5, 1))
+#' @keywords internal
 integrated_diff <- function(curve_diff, tau_vals) {
   if (length(curve_diff) < 2) return(0)
   delta_tau <- diff(tau_vals)
   sqrt(sum(delta_tau * (curve_diff[-length(curve_diff)] ^ 2 + curve_diff[-1] ^ 2) / 2, na.rm = TRUE))
 }
 
+#' Summarize a persistence landscape
+#'
+#' Computes the area under the curve of an aggregated persistence landscape.
+#'
+#' @param landscape_obj Persistence landscape object with components `dim0` and
+#'   `dim1`.
+#' @param grid Numeric vector of evaluation points.
+#'
+#' @return Numeric value representing the area under the landscape curve.
+#' @examples
+#' \dontrun{
+#' land <- list(dim0 = matrix(1, 10, 1), dim1 = matrix(0, 10, 1))
+#' summary_landscape(land, grid = seq(0, 1, length.out = 10))
+#' }
+#' @keywords internal
 summary_landscape <- function(landscape_obj, grid = seq(0, 1, length.out = grid_points)) {
   curve <- compute_landscape_curve(landscape_obj, grid = grid)
   delta <- diff(grid)
@@ -333,6 +550,22 @@ compute_null_stats_individual_landscapes <- function(landscape_list, n_bootstrap
   )
 }
 
+#' Compute an aggregated persistence landscape curve
+#'
+#' Combines dimension 0 and dimension 1 landscape components into a single curve
+#' and optionally interpolates it to a specified grid.
+#'
+#' @param landscape_obj Persistence landscape object with `dim0` and `dim1`
+#'   components, each either a vector or matrix.
+#' @param grid Numeric vector of evaluation points.
+#'
+#' @return Numeric vector representing the aggregated landscape curve.
+#' @examples
+#' \dontrun{
+#' land <- list(dim0 = matrix(1, 5, 1), dim1 = matrix(0, 5, 1))
+#' compute_landscape_curve(land, grid = seq(0, 1, length.out = 5))
+#' }
+#' @keywords internal
 compute_landscape_curve <- function(landscape_obj, grid = seq(0, 1, length.out = grid_points)) {
   if (is.null(landscape_obj)) return(rep(0, length(grid)))
   curve0 <- if (is.matrix(landscape_obj$dim0)) {
@@ -357,6 +590,20 @@ compute_landscape_curve <- function(landscape_obj, grid = seq(0, 1, length.out =
   aggregated_curve
 }
 
+#' Compute an aggregated landscape curve for a group
+#'
+#' Calculates the mean landscape curve across a list of persistence landscapes.
+#'
+#' @param landscape_list_group List of persistence landscape objects.
+#' @param grid Numeric vector of evaluation points.
+#'
+#' @return Numeric vector representing the averaged landscape curve.
+#' @examples
+#' \dontrun{
+#' lands <- list(list(dim0 = matrix(1,5,1), dim1 = matrix(0,5,1)))
+#' compute_aggregated_landscape_curve(lands, grid = seq(0,1,length.out=5))
+#' }
+#' @keywords internal
 compute_aggregated_landscape_curve <- function(landscape_list_group, grid = seq(0, 1, length.out = grid_points)) {
   curves <- sapply(landscape_list_group, function(land) {
     compute_landscape_curve(land, grid = grid)
@@ -413,6 +660,24 @@ compute_null_stats_aggregated_landscapes <- function(pd_list, landscape_list, ta
   )
 }
 
+#' Bootstrap an aggregated landscape curve
+#'
+#' Creates confidence bands for an aggregated landscape curve via bootstrap
+#' resampling of individual curves.
+#'
+#' @param individual_curves List of individual landscape curves (numeric
+#'   vectors).
+#' @param grid_points Number of evaluation points along each curve.
+#' @param n_bootstrap Number of bootstrap samples to draw.
+#'
+#' @return List containing the mean curve, lower and upper confidence bands, and
+#'   the bootstrap samples.
+#' @examples
+#' \dontrun{
+#' curves <- list(runif(10), runif(10))
+#' bootstrap_aggregated_landscape_curve(curves, grid_points = 10, n_bootstrap = 50)
+#' }
+#' @keywords internal
 bootstrap_aggregated_landscape_curve <- function(individual_curves, grid_points, n_bootstrap = 100) {
   boot_samples <- replicate(n_bootstrap, {
     sampled <- sample(individual_curves, replace = TRUE)
