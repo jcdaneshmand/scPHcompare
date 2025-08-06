@@ -49,7 +49,7 @@ metadata <- data.frame(
 )
 
 for (i in seq_len(nrow(samples))) {
-  m <- rsparsematrix(nrow = 100, ncol = 50, density = 0.05)
+  m <- rsparsematrix(nrow = 100, ncol = 300, density = 0.05)
   sample <- samples$sample[i]
   file_rel <- file.path("inst", "extdata", "toy", paste0(sample, ".sparse.RData"))
   file_abs <- file.path(pkg_root, file_rel)
