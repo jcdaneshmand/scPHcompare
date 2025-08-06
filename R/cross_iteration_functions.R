@@ -5,7 +5,14 @@
 
 source("logging_utils.R")
 
-# --- Helper: Directory Creation ---
+#' Ensure a directory exists
+#'
+#' Creates the directory if it does not already exist.
+#'
+#' @param path Character path to the directory.
+#' @return Invisibly returns `NULL` after ensuring the directory is present.
+#' @examples
+#' ensure_directory(tempdir())
 ensure_directory <- function(path) {
   if (length(path) == 0 || is.na(path) || path == "") {
     stop("Invalid directory path provided.")
@@ -13,20 +20,50 @@ ensure_directory <- function(path) {
   if (!dir.exists(path)) dir.create(path, recursive = TRUE)
 }
 
-# --- Helper: Normalization with Division-by-Zero Check ---
+#' Normalize a curve to sum to one
+#'
+#' Scales a curve so that its values sum to one, guarding against division by zero.
+#'
+#' @param curve Numeric vector of curve values.
+#' @param grid_points Integer number of grid points; used when the curve sums to zero.
+#' @return Numeric vector representing the normalized curve.
+#' @examples
+#' normalize_curve(c(1, 2, 3), 3)
 normalize_curve <- function(curve, grid_points) {
   tot <- sum(curve)
   if (tot == 0) rep(0, grid_points) else curve / tot
 }
 
-# --- Curve Caching ---
+#' Generate a cache filename for Betti curves
+#'
+#' Constructs a file path for caching computed Betti curves.
+#'
+#' @param dataset_name Character dataset identifier.
+#' @param hash Character hash representing the curve parameters.
+#' @param results_folder Base results directory.
+#' @return Full path to the cache file.
+#' @examples
+#' generate_cache_filename("toy", "abc", tempdir())
 generate_cache_filename <- function(dataset_name, hash, results_folder) {
   path <- file.path(results_folder, "plots", "betti_plots", "betti_cache", dataset_name, paste0("cache_", hash, ".rds"))
   ensure_directory(dirname(path))
   path
 }
 
-# --- Compute Betti Curve ---
+#' Compute a Betti curve
+#'
+#' Converts a persistence diagram into a smoothed Betti curve.
+#'
+#' @param pd Persistence diagram as a matrix or data frame with columns dimension, birth, and death.
+#' @param dimension Integer homology dimension to consider.
+#' @param grid_points Number of evaluation points for the curve.
+#' @param tau_max Maximum filtration value.
+#' @param base_sigma Minimum bandwidth for the Gaussian kernel.
+#' @return Numeric vector representing the Betti curve.
+#' @examples
+#' pd <- matrix(c(0, 0, 1,
+#'                0, 0.2, 0.5), ncol = 3, byrow = TRUE)
+#' compute_betti_curve(pd, 0, 10, 1, 0.1)
 compute_betti_curve <- function(pd, dimension, grid_points, tau_max, base_sigma) {
   pd <- as.data.frame(pd)
   valid_pd <- pd[pd[, 1] == dimension & pd[, 2] < pd[, 3],]
@@ -46,7 +83,19 @@ compute_betti_curve <- function(pd, dimension, grid_points, tau_max, base_sigma)
   })
 }
 
-# --- Check Betti-Euler Consistency ---
+#' Check Betti and Euler curve consistency
+#'
+#' Validates that the Euler curve matches the alternating sum of Betti curves across dimensions.
+#'
+#' @param euler_curve List containing a `mean` vector of Euler values.
+#' @param betti_curves List of lists where each element has a `mean` Betti curve.
+#' @param dimensions Integer vector of homology dimensions corresponding to `betti_curves`.
+#' @param tau_vals Numeric vector of tau values evaluated.
+#' @return Logical vector indicating consistency at each tau value, or `NULL` on error.
+#' @examples
+#' euler <- list(mean = c(1, 0))
+#' betti <- list(list(mean = c(1, 0)))
+#' check_betti_euler_consistency(euler, betti, 0, c(0, 1))
 check_betti_euler_consistency <- function(euler_curve, betti_curves, dimensions, tau_vals) {
   log_message("Starting Betti-Euler consistency check.")
   if (!is.list(betti_curves) ||
@@ -72,6 +121,29 @@ check_betti_euler_consistency <- function(euler_curve, betti_curves, dimensions,
   })
 }
 
+#' Compute null statistics via bootstrapping
+#'
+#' Generates null effect size and Kolmogorov-Smirnov statistics by bootstrapping
+#' random group assignments of persistence diagrams.
+#'
+#' @param pd_list List of persistence diagrams.
+#' @param metadata_list List of metadata data frames corresponding to `pd_list`.
+#' @param tau_vals Numeric vector of tau values used in the curves.
+#' @param dimensions Integer vector of homology dimensions.
+#' @param curve_type Character string specifying the curve type (e.g. "Euler").
+#' @param dataset_name Character dataset identifier.
+#' @param base_sigma Minimum bandwidth for the Gaussian kernel.
+#' @param grid_points Number of grid points for the curves.
+#' @param tau_max Maximum tau value.
+#' @param results_folder Directory for storing intermediate results and cache.
+#' @param verbose Logical flag to emit log messages.
+#' @param num_cores Number of CPU cores for parallel execution.
+#' @return List containing null effect size and KS statistics.
+#' @examples
+#' compute_null_stats(list(), list(), seq(0, 1, length.out = 5), c(0),
+#'                   dataset_name = "toy", base_sigma = 0.1,
+#'                   grid_points = 5, tau_max = 1, results_folder = tempdir(),
+#'                   verbose = FALSE, num_cores = 1)
 compute_null_stats <- function(pd_list, metadata_list, tau_vals, dimensions,
                                curve_type = "Euler", dataset_name, base_sigma,
                                grid_points, tau_max, results_folder, verbose = TRUE,
@@ -129,10 +201,31 @@ compute_null_stats <- function(pd_list, metadata_list, tau_vals, dimensions,
   )
 }
 
+#' Generate cache hash
+#'
+#' Creates a unique hash from curve parameters for caching purposes.
+#'
+#' @param pd Persistence diagram.
+#' @param dimension Homology dimension.
+#' @param dataset_name Dataset identifier.
+#' @param base_sigma Minimum bandwidth for smoothing.
+#' @param grid_points Number of grid points.
+#' @param tau_max Maximum tau value.
+#' @return Character SHA-256 hash string.
+#' @examples
+#' generate_hash(matrix(1:3, ncol = 3), 0, "toy", 0.1, 10, 1)
 generate_hash <- function(pd, dimension, dataset_name, base_sigma, grid_points, tau_max) {
   digest(list(pd, dimension, dataset_name, base_sigma, grid_points, tau_max), algo = "sha256")
 }
 
+#' Load a cached curve if available
+#'
+#' @param dataset_name Dataset identifier.
+#' @param hash Hash produced by `generate_hash`.
+#' @param results_folder Base results directory.
+#' @return Cached curve as a numeric vector or `NULL` if not found.
+#' @examples
+#' load_curve_cache("toy", "abc", tempdir())
 load_curve_cache <- function(dataset_name, hash, results_folder) {
   cache_file <- generate_cache_filename(dataset_name, hash, results_folder)
   if (file.exists(cache_file)) {
@@ -142,13 +235,38 @@ load_curve_cache <- function(dataset_name, hash, results_folder) {
   NULL
 }
 
+#' Save a curve to cache
+#'
+#' @param curve Numeric vector representing the curve.
+#' @param dataset_name Dataset identifier.
+#' @param hash Hash representing the curve parameters.
+#' @param results_folder Directory where the cache will be written.
+#' @return Invisibly returns the path to the saved cache file.
+#' @examples
+#' save_curve_cache(1:3, "toy", "abc", tempdir())
 save_curve_cache <- function(curve, dataset_name, hash, results_folder) {
   cache_file <- generate_cache_filename(dataset_name, hash, results_folder)
   ensure_directory(dirname(cache_file))
   saveRDS(curve, cache_file)
   log_message(paste("Saved cached curve to:", cache_file))
+  invisible(cache_file)
 }
 
+#' Retrieve a cached Betti curve or compute it
+#'
+#' Loads a cached Betti curve if available; otherwise computes and caches it.
+#'
+#' @param pd Persistence diagram.
+#' @param dimension Homology dimension to compute.
+#' @param dataset_name Dataset identifier.
+#' @param base_sigma Minimum bandwidth for smoothing.
+#' @param grid_points Number of grid points.
+#' @param tau_max Maximum tau value.
+#' @param results_folder Directory containing cache files.
+#' @return Numeric vector representing the normalized Betti curve.
+#' @examples
+#' pd <- matrix(c(0, 0, 1), ncol = 3, byrow = TRUE)
+#' get_or_compute_curve(pd, 0, "toy", 0.1, 10, 1, tempdir())
 get_or_compute_curve <- function(pd, dimension, dataset_name, base_sigma, grid_points, tau_max, results_folder) {
   hash <- generate_hash(pd, dimension, dataset_name, base_sigma, grid_points, tau_max)
   cached_curve <- load_curve_cache(dataset_name, hash, results_folder)
@@ -160,6 +278,25 @@ get_or_compute_curve <- function(pd, dimension, dataset_name, base_sigma, grid_p
   norm_curve
 }
 
+#' Bootstrap Betti curves for a group
+#'
+#' Generates bootstrapped Betti curves for a list of persistence diagrams.
+#'
+#' @param pd_subset List of persistence diagrams.
+#' @param dimension Integer homology dimension.
+#' @param group_name Character group label.
+#' @param dataset_name Dataset identifier.
+#' @param grid_points Number of grid points.
+#' @param tau_max Maximum tau value.
+#' @param base_sigma Minimum bandwidth for smoothing.
+#' @param n_bootstrap Number of bootstrap replicates.
+#' @param seed Random seed for reproducibility.
+#' @param results_folder Directory for caching results.
+#' @param num_cores Number of CPU cores for parallel computation.
+#' @return List with mean, lower, upper Betti curves and individual curves.
+#' @examples
+#' bootstrap_curve(list(matrix(c(0,0,1), ncol = 3)), 0, "grp", "toy",
+#'                 10, 1, 0.1, 5, results_folder = tempdir(), num_cores = 1)
 bootstrap_curve <- function(pd_subset, dimension, group_name, dataset_name, grid_points, tau_max, base_sigma, n_bootstrap, seed = 42, results_folder, num_cores = 8) {
   log_message(paste("Starting bootstrapping for dimension", dimension, "with", n_bootstrap, "samples."))
   individual_pd_curves <- parallel::mclapply(seq_along(pd_subset), function(i) {
@@ -196,6 +333,23 @@ bootstrap_curve <- function(pd_subset, dimension, group_name, dataset_name, grid
   )
 }
 
+#' Compute Euler curves with bootstrapping
+#'
+#' Computes Euler characteristic curves for a group of diagrams using bootstrapping.
+#'
+#' @param pd_subset List of persistence diagrams.
+#' @param dimensions Integer vector of homology dimensions.
+#' @param group_name Group label.
+#' @param dataset_name Dataset identifier.
+#' @param grid_points Number of grid points.
+#' @param tau_max Maximum tau value.
+#' @param base_sigma Minimum bandwidth for smoothing.
+#' @param n_bootstrap Number of bootstrap samples.
+#' @param results_folder Directory for cached results.
+#' @return List containing mean, lower, upper, and individual Euler curves.
+#' @examples
+#' compute_euler_curve(list(matrix(c(0,0,1), ncol = 3)), 0, "grp", "toy",
+#'                     10, 1, 0.1, 5, tempdir())
 compute_euler_curve <- function(pd_subset, dimensions, group_name, dataset_name, grid_points, tau_max, base_sigma, n_bootstrap, results_folder) {
   log_message("Computing Euler curve with bootstrapping.")
   individual_euler <- lapply(seq_along(pd_subset), function(i) {
@@ -226,12 +380,29 @@ compute_euler_curve <- function(pd_subset, dimensions, group_name, dataset_name,
   list(mean = euler_mean, lower = euler_lower, upper = euler_upper, individual_euler_curves = individual_euler)
 }
 
+#' Integrated squared difference between curves
+#'
+#' @param curve_diff Numeric vector of curve differences.
+#' @param tau_vals Numeric vector of tau values.
+#' @return Scalar integrated distance.
+#' @examples
+#' integrated_diff(c(0, 1, 0), c(0, 0.5, 1))
 integrated_diff <- function(curve_diff, tau_vals) {
   if (length(curve_diff) < 2) return(0)
   delta_tau <- diff(tau_vals)
   sqrt(sum(delta_tau * (curve_diff[-length(curve_diff)] ^ 2 + curve_diff[-1] ^ 2) / 2, na.rm = TRUE))
 }
 
+#' Summarise a persistence landscape
+#'
+#' Computes the area under the aggregated landscape curve.
+#'
+#' @param landscape_obj List with components `dim0` and `dim1`.
+#' @param grid Numeric vector of grid points.
+#' @return Area under the aggregated landscape curve.
+#' @examples
+#' land <- list(dim0 = c(0, 1, 0), dim1 = c(0, 0, 0))
+#' summary_landscape(land, seq(0, 1, length.out = 3))
 summary_landscape <- function(landscape_obj, grid = seq(0, 1, length.out = grid_points)) {
   curve <- compute_landscape_curve(landscape_obj, grid = grid)
   delta <- diff(grid)
@@ -239,6 +410,15 @@ summary_landscape <- function(landscape_obj, grid = seq(0, 1, length.out = grid_
   auc
 }
 
+#' Bootstrap null statistics for landscape summaries
+#'
+#' @param landscape_list List of landscape objects.
+#' @param n_bootstrap Number of bootstrap samples.
+#' @param grid_points Number of grid points for evaluation.
+#' @return List containing null effect and KS statistics.
+#' @examples
+#' bootstrap_null_stats_landscape(list(list(dim0 = c(0,1), dim1 = c(0,0))),
+#'                                n_bootstrap = 2, grid_points = 5)
 bootstrap_null_stats_landscape <- function(landscape_list, n_bootstrap = 50, grid_points = 500) {
   if (!exists("summary_landscape")) {
     summary_landscape <- function(landscape_obj, grid) {
@@ -285,6 +465,15 @@ bootstrap_null_stats_landscape <- function(landscape_list, n_bootstrap = 50, gri
   )
 }
 
+#' Bootstrap null stats for individual landscapes
+#'
+#' @param landscape_list List of landscape objects.
+#' @param n_bootstrap Number of bootstrap iterations.
+#' @param grid_points Number of grid points.
+#' @return List with null effect and KS statistics or `NULL` if insufficient data.
+#' @examples
+#' compute_null_stats_individual_landscapes(list(list(dim0 = c(0,1), dim1 = c(0,0))),
+#'                                         n_bootstrap = 2, grid_points = 5)
 compute_null_stats_individual_landscapes <- function(landscape_list, n_bootstrap = 50, grid_points = 500) {
   N <- length(landscape_list)
   if (N < 2) {
@@ -327,6 +516,14 @@ compute_null_stats_individual_landscapes <- function(landscape_list, n_bootstrap
   )
 }
 
+#' Compute aggregated landscape curve
+#'
+#' @param landscape_obj Landscape object with components `dim0` and `dim1`.
+#' @param grid Numeric vector of grid points.
+#' @return Numeric vector of aggregated landscape values.
+#' @examples
+#' land <- list(dim0 = c(0,1,0), dim1 = c(0,0,0))
+#' compute_landscape_curve(land, seq(0, 1, length.out = 3))
 compute_landscape_curve <- function(landscape_obj, grid = seq(0, 1, length.out = grid_points)) {
   if (is.null(landscape_obj)) return(rep(0, length(grid)))
   curve0 <- if (is.matrix(landscape_obj$dim0)) {
@@ -351,6 +548,14 @@ compute_landscape_curve <- function(landscape_obj, grid = seq(0, 1, length.out =
   aggregated_curve
 }
 
+#' Aggregate multiple landscape curves
+#'
+#' @param landscape_list_group List of landscape objects.
+#' @param grid Numeric vector of grid points.
+#' @return Mean aggregated landscape curve.
+#' @examples
+#' compute_aggregated_landscape_curve(list(list(dim0 = c(0,1), dim1 = c(0,0))),
+#'                                   seq(0, 1, length.out = 3))
 compute_aggregated_landscape_curve <- function(landscape_list_group, grid = seq(0, 1, length.out = grid_points)) {
   curves <- sapply(landscape_list_group, function(land) {
     compute_landscape_curve(land, grid = grid)
@@ -362,6 +567,19 @@ compute_aggregated_landscape_curve <- function(landscape_list_group, grid = seq(
   }
 }
 
+#' Bootstrap null stats for aggregated landscapes
+#'
+#' @param pd_list List of persistence diagrams.
+#' @param landscape_list List of landscape objects.
+#' @param tau_vals Numeric vector of tau values.
+#' @param n_bootstrap Number of bootstrap samples.
+#' @param num_cores Number of CPU cores.
+#' @param grid_points Number of grid points.
+#' @return List with null effect and KS statistics.
+#' @examples
+#' compute_null_stats_aggregated_landscapes(list(matrix(c(0,0,1), ncol=3)),
+#'                                         list(list(dim0=c(0,1), dim1=c(0,0))),
+#'                                         c(0,1))
 compute_null_stats_aggregated_landscapes <- function(pd_list, landscape_list, tau_vals, n_bootstrap = 50, num_cores = 8, grid_points = 500) {
   integrated_diff_local <- function(curve_diff, grid) {
     delta <- diff(grid)
@@ -407,6 +625,14 @@ compute_null_stats_aggregated_landscapes <- function(pd_list, landscape_list, ta
   )
 }
 
+#' Bootstrap an aggregated landscape curve
+#'
+#' @param individual_curves List of numeric vectors representing individual curves.
+#' @param grid_points Number of grid points.
+#' @param n_bootstrap Number of bootstrap samples.
+#' @return List with mean, lower, upper curves and all bootstrap samples.
+#' @examples
+#' bootstrap_aggregated_landscape_curve(list(c(0,1,0)), 3, n_bootstrap = 2)
 bootstrap_aggregated_landscape_curve <- function(individual_curves, grid_points, n_bootstrap = 100) {
   boot_samples <- replicate(n_bootstrap, {
     sampled <- sample(individual_curves, replace = TRUE)
