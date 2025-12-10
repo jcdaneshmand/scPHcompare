@@ -551,8 +551,9 @@ run_postprocessing_pipeline <- function(ph_results,
 
     if (run_standard_seurat_clustering) {
       seurat_obj <- perform_standard_seurat_clustering(seurat_obj, assay, variable_features_path)
-      seurat_obj@meta.data[[paste0("seurat_cluster_", tolower(iter$name))]] <- Idents(seurat_obj)
-      Idents(seurat_obj) <- seurat_obj@meta.data[[paste0("seurat_cluster_", tolower(iter$name))]]
+      safe_iter_name <- gsub("\\s+", "_", tolower(iter$name))
+      seurat_obj@meta.data[[paste0("seurat_cluster_", safe_iter_name)]] <- Idents(seurat_obj)
+      Idents(seurat_obj) <- seurat_obj@meta.data[[paste0("seurat_cluster_", safe_iter_name)]]
       seurat_obj@meta.data$seurat_clusters <- NULL
     }
 
@@ -591,8 +592,9 @@ run_postprocessing_pipeline <- function(ph_results,
       Approach_col = Approach_col
     )
 
+    safe_save_name <- gsub("\\s+", "_", tolower(iter$name))
     save_path <- file.path(results_dir, "seurat_objects",
-                           paste0(tolower(iter$name), "_seurat_object.rds"))
+                           paste0(safe_save_name, "_seurat_object.rds"))
     if (!dir.exists(dirname(save_path))) dir.create(dirname(save_path), recursive = TRUE)
     saveRDS(seurat_obj, save_path)
 
@@ -1311,7 +1313,7 @@ apply_all_clustering_methods <- function(seurat_obj, dataset_name, assay,
                                          Tissue_col = "Tissue",
                                          Approach_col = "Approach") {
 
-  prefix <- tolower(dataset_name)
+  prefix <- gsub("\\s+", "_", tolower(dataset_name))
 
   k_tissue <- if (Tissue_col %in% colnames(seurat_obj@meta.data))
     length(unique(seurat_obj@meta.data[[Tissue_col]])) else NULL
@@ -1662,7 +1664,7 @@ generate_visualizations_for_iteration <- function(seurat_obj, dataset_name, assa
                                                   SRA_col = "orig.ident",
                                                   Tissue_col = "Tissue",
                                                   Approach_col = "Approach") {
-  dataset_lower <- tolower(dataset_name)
+  dataset_lower <- gsub("\\s+", "_", tolower(dataset_name))
 
   k_tissue <- if (Tissue_col %in% colnames(seurat_obj@meta.data))
     length(unique(seurat_obj@meta.data[[Tissue_col]])) else NULL

@@ -703,15 +703,18 @@ process_datasets_PH <- function(metadata,
     # Check the structure of expr_list to verify the extraction
     str(expr_list_integrated)
 
-    saveRDS(expr_list_integrated, file = paste0("expr_list_integrated", dataset_suffix, ".Rds"))
+    saveRDS(expr_list_integrated, file = paste0(
+      "expr_list_", SEURAT_INTEGRATION_PREFIX, dataset_suffix, ".Rds"
+    ))
 
+    seurat_prefix <- paste0("_", SEURAT_INTEGRATION_PREFIX)
     PD_result_integrated <- compute_ph_batch(
       expr_list_integrated, DIM, log_message, dataset_suffix,
-      "_integrated", max_cores = 8
+      seurat_prefix, max_cores = 8
     )
     save_ph_results(
       PD_result_integrated, expr_list_integrated, DIM, THRESHOLD,
-      dataset_suffix, "_integrated", log_message
+      dataset_suffix, seurat_prefix, log_message
     )
   }
 
