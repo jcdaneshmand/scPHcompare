@@ -563,19 +563,19 @@ compute_and_compare_betti_curves <- function(pd_list, landscape_list, seurat_obj
            x = "Normalized Filtration Scale (Tau)",
            y = paste(curve_type, "Value")) +
       # scale_x_continuous(labels = scales::percent_format(scale = 100, accuracy = 1), limits = c(0, 1)) +
-      annotate("text", x = 0.6, y = Inf, label = annot, hjust = 0, vjust = 1.2, size = 4) +
+      # annotate("text", x = 0.6, y = Inf, label = annot, hjust = 0, vjust = 1.2, size = 4) +
       coord_cartesian(clip = "off") +
       theme_minimal(base_size = 14) +
       theme(
           plot.title = element_text(size = 16, face = "bold"),
-          axis.title = element_text(size = 12),
-          axis.text = element_text(size = 20),
-          legend.title = element_text(size = 14),
-          legend.text = element_text(size = 12)
+          axis.title = element_text(size = 20),
+          axis.text = element_text(size = 14),
+          legend.title = element_text(size = 16),
+          legend.text = element_text(size = 15)
       ) +
       scale_x_log10(
         "Normalized Filtration Scale (Tau, log scale)",
-        labels = function(breaks) scales::percent(breaks / tau_max, accuracy = 0.0000001)
+        labels = function(breaks) scales::percent(breaks / tau_max, accuracy = 0.01)
       )
 
     list(stats = list(wasserstein = wass,
@@ -704,14 +704,14 @@ compute_and_compare_betti_curves <- function(pd_list, landscape_list, seurat_obj
         theme_minimal(base_size = 14) +
         theme(
           plot.title = element_text(size = 16, face = "bold"),
-          axis.title = element_text(size = 10),
-          axis.text = element_text(size = 22),
-          legend.title = element_text(size = 14),
-          legend.text = element_text(size = 12)
+          axis.title = element_text(size = 20),
+          axis.text = element_text(size = 14),
+          legend.title = element_text(size = 16),
+          legend.text = element_text(size = 15)
         ) +
         scale_x_log10(
           "Normalized Filtration Scale (Tau, log scale)",
-          labels = function(breaks) scales::percent(breaks / tau_max, accuracy = 0.0000001)
+          labels = function(breaks) scales::percent(breaks / tau_max, accuracy = 0.01)
         ) +
         scale_color_viridis_d() + 
         scale_fill_viridis_d()    
@@ -933,7 +933,7 @@ compute_and_compare_betti_curves <- function(pd_list, landscape_list, seurat_obj
   
   list(
     group_results = group_results,
-    pairwise_results = pairwise_results,
+    # pairwise_results = pairwise_results,
     aggregated_landscape_curves = aggregated_landscape_curves_by_group,
     landscape_pairwise_results = landscape_pairwise_results,
     null_summary = list(
