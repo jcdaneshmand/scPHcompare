@@ -14,6 +14,7 @@ apply_all_clustering_methods(
   run_kmeans_clustering = TRUE,
   run_hierarchical_ph_clustering = TRUE,
   run_spectral_clustering = TRUE,
+  hierarchical_methods = c("ward.D2", "average", "complete", "mcquitty"),
   SRA_col = "orig.ident",
   Tissue_col = "Tissue",
   Approach_col = "Approach"
