@@ -258,7 +258,9 @@ generate_heatmaps_for_all_statistics <- function(
 #' This helper runs the optional post-processing analyses on the
 #' output of `process_datasets_PH()`. Depending on the supplied
 #' arguments, clustering comparisons, Betti curve analyses and a
-#' cross-iteration comparison can be performed.
+#' cross-iteration comparison can be performed. Results are returned as a
+#' list keyed by module (`cluster`, `betti`, `cross_iteration`) so callers
+#' can inspect successes or downstream errors.
 #'
 #' @param ph_results The list returned by `process_datasets_PH()`.
 #' @param results_dir Directory where results should be written.
@@ -1189,7 +1191,30 @@ perform_kmeans_clustering <- function(seurat_obj, assay, dims = 1:50, k = 5, ver
   return(seurat_obj)
 }
 
-# Function: Hierarchical Clustering using BDM matrix
+#' Perform hierarchical clustering on a Bottleneck distance matrix
+#'
+#' Wrapper around `hclust()` that validates a Bottleneck distance
+#' matrix (BDM), applies one or more linkage methods and returns the
+#' resulting dendrograms and cluster assignments. Cluster labels are
+#' ordered according to the sample names in the distance matrix.
+#'
+#' @param bdm_matrix Square numeric matrix of Bottleneck distances where
+#'   rows and columns share the same sample ordering.
+#' @param k Integer number of clusters to cut from each dendrogram.
+#' @param methods Character vector of hierarchical clustering linkage
+#'   methods to evaluate (passed to `hclust()`).
+#' @param verbose Logical, print progress messages if `TRUE`.
+#'
+#' @return A list with elements:
+#' \describe{
+#'   \item{results}{Named list of linkage methods, each containing
+#'   `clusters` (a vector of cluster assignments) and `tree` (an `hclust`
+#'   object).}
+#'   \item{clusters}{Cluster assignments from the first requested
+#'   method for convenience.}
+#'   \item{tree}{The `hclust` tree from the first requested method.}
+#' }
+#' @keywords internal
 perform_hierarchical_clustering_ph <- function(
   bdm_matrix, k, methods = c("ward.D2", "average", "complete", "mcquitty"),
   verbose = TRUE
@@ -1380,6 +1405,43 @@ perform_spectral_clustering <- function(distance_matrix, k) {
 }
 
 #' Apply all clustering approaches to a Seurat object
+#'
+#' Runs the package's standard clustering methods (k-means, hierarchical
+#' clustering on PH-derived distance matrices and spectral clustering)
+#' and stores the resulting labels in the Seurat metadata. Column names
+#' follow the pattern `<method>_<matrix>_<dataset>_<group>` where
+#' `<matrix>` is `bdm`, `sdm` or `landscape`, `<dataset>` is the
+#' lower‑case `dataset_name` and `<group>` indicates the grouping variable
+#' used (`tissue`, `sra`, or `approach`). Hierarchical clustering columns
+#' additionally include the linkage method
+#' (`hierarchical_cluster_<matrix>_ph_<dataset>_<group>_<method>`).
+#'
+#' @param seurat_obj Seurat object with PCA embeddings and metadata.
+#' @param dataset_name Name of the dataset/iteration (used for column
+#'   prefixes).
+#' @param assay Assay to set as `DefaultAssay()` during clustering.
+#' @param bdm_matrix Bottleneck distance matrix used for PH clustering
+#'   and spectral clustering (optional).
+#' @param sdm_matrix Spectral distance matrix used for PH clustering and
+#'   spectral clustering (optional).
+#' @param landscape_matrix Landscape distance matrix used for PH
+#'   clustering and spectral clustering (optional).
+#' @param run_kmeans_clustering Logical, run k-means clustering if
+#'   `TRUE`.
+#' @param run_hierarchical_ph_clustering Logical, run hierarchical
+#'   clustering on PH-derived distances if `TRUE`.
+#' @param run_spectral_clustering Logical, run spectral clustering if
+#'   `TRUE`.
+#' @param hierarchical_methods Character vector of linkage methods passed
+#'   to `hclust()`.
+#' @param SRA_col Metadata column containing sample identifiers.
+#' @param Tissue_col Metadata column containing tissue labels.
+#' @param Approach_col Metadata column describing sequencing approach.
+#'
+#' @return The input Seurat object with additional metadata columns for
+#'   each clustering strategy. When hierarchical clustering is run, the
+#'   `@misc$hierarchical_trees` slot stores the dendrograms per dataset
+#'   and distance matrix.
 apply_all_clustering_methods <- function(seurat_obj, dataset_name, assay,
                                          bdm_matrix = NULL, sdm_matrix = NULL,
                                          landscape_matrix = NULL,
