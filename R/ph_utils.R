@@ -16,6 +16,24 @@ if (!exists("HARMONY_ASSAY_NAME")) {
   HARMONY_ASSAY_NAME <- "harmony"
 }
 
+# Load the default iteration configuration shipped with the package
+# This keeps iteration labels, prefixes, and assay names centralized so that
+# downstream modules do not hard-code integration identifiers.
+get_iteration_config <- function(config_path = system.file("extdata", "iteration_config.csv", package = "scPHcompare")) {
+  if (!nzchar(config_path) || !file.exists(config_path)) {
+    stop("Iteration configuration file is missing: ", config_path)
+  }
+
+  cfg <- utils::read.csv(config_path, stringsAsFactors = FALSE, check.names = FALSE)
+  required_cols <- c("label", "prefix", "assay")
+  missing_cols <- setdiff(required_cols, colnames(cfg))
+  if (length(missing_cols) > 0) {
+    stop("Iteration configuration is missing required columns: ", paste(missing_cols, collapse = ", "))
+  }
+
+  cfg
+}
+
 # Load sparse matrices from a vector of file paths
 load_sparse_matrices <- function(file_paths) {
   if (length(file_paths) == 0) {
