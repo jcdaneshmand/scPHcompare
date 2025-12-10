@@ -8,7 +8,9 @@
 #' @param results_dir Directory where results should be written.
 #' @param num_cores Number of cores to use for parallel tasks.
 #' @param integration_method Integration method to apply when processing
-#'   datasets. Options include "seurat", "liger" or "mnn".
+#'   datasets. Use "seurat" to produce the Seurat integration iteration or
+#'   "harmony" to produce the Harmony iteration (raw and SCT iterations are
+#'   always generated alongside the chosen integration output).
 #' @param run_cluster If `TRUE`, run clustering comparisons during
 #'   post-processing.
 #' @param run_cross_iteration If `TRUE`, perform cross-iteration analyses.

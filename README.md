@@ -45,14 +45,14 @@ At present `scPHcompare` mainly supports expression matrices stored in `.RData` 
 
 ## Quick start
 
-Prepare a CSV file describing each dataset. The required columns are `File Path` and `Sample Name`. Additional metadata such as `SRA`, `Tissue` and `Approach` (scRNA‑seq or snRNA‑seq) will be preserved if provided. **At least one of `SRA`, `Tissue`, or `Approach` must be present to allow grouping and downstream analyses.**
+Prepare a CSV file describing each dataset. The required columns are `File Path` and `Sample Name`. Additional metadata such as `SRA`, `Tissue` and `Approach` (scRNA‑seq or snRNA‑seq) will be preserved if provided. **At least one of `SRA`, `Tissue`, or `Approach` must be present to allow grouping and downstream analyses.** The expression matrices referenced by `File Path` must all have the same dimensionality so they can be aligned for merging and distance calculations (the pipeline pads missing features with zeros when needed but assumes each matrix represents the same gene space).
 
 ```r
 results <- run_unified_pipeline(
   metadata_path = "metadata.csv",
   results_dir = "results",
   num_cores = 8,
-  integration_method = "seurat",
+  integration_method = "seurat", # or "harmony" to run the Harmony iteration
   run_cluster = TRUE,        # optional cluster metrics output
   run_betti = TRUE,          # optional Betti curve comparison
   run_cross_iteration = TRUE # cross-iteration comparisons
@@ -60,6 +60,16 @@ results <- run_unified_pipeline(
 ```
 
 The wrapper executes preprocessing and PH calculation first. If the optional modules are enabled the function `run_postprocessing_pipeline()` performs clustering, visualisation and distance matrix generation. Results such as Seurat objects, plots and comparison tables are written to the directory specified by `results_dir`.
+
+### Integration iterations and labels
+
+`run_unified_pipeline()` can generate multiple iterations in one run. The available iteration labels and their associated assay names are listed in `inst/extdata/iteration_config.csv`:
+
+* `Seurat Integration` → stored under the prefix `seurat_integration` with assay `integrated`
+* `Harmony Integration` → stored under the prefix `harmony_integration` with assay `harmony`
+* Additional rows describe the raw and SCT-derived iterations (`Raw`, `SCT_Individual`, `SCT_Whole`) that are produced alongside the integration outputs.
+
+Select the integration strategy with the `integration_method` argument (`"seurat"` or `"harmony"`). The chosen method controls which integration iteration is generated, while the other baseline iterations (raw and SCT variants) remain available for comparison. The iteration labels from `iteration_config.csv` are reused when naming output files (for example, `seurat_integration_seurat_object.rds` or `harmony_integration_seurat_object.rds`).
 
 Distance matrices can also be generated separately for each iteration by calling `process_iteration_calculate_matrices()` from `PH_PostProcessing_andAnalysis.R`.
 

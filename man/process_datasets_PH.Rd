@@ -17,8 +17,8 @@ process_datasets_PH(
 \arguments{
 \item{metadata}{Data frame with file paths and associated metadata.}
 
-\item{integration_method}{Integration method to use ("seurat",
-"liger" or "mnn").}
+\item{integration_method}{Integration method to use ("seurat" for the
+Seurat integration iteration or "harmony" for the Harmony iteration).}
 
 \item{num_cores}{Number of cores for parallel processing.}
 

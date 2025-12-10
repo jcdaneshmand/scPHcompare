@@ -87,8 +87,8 @@
 #' MIT License
 
 #' @param metadata Data frame with file paths and associated metadata.
-#' @param integration_method Integration method to use ("seurat",
-#'   "liger" or "mnn").
+#' @param integration_method Integration method to use ("seurat" for the
+#'   Seurat integration iteration or "harmony" for the Harmony iteration).
 #' @param num_cores Number of cores for parallel processing.
 #' @param MIN_CELLS Minimum number of cells to keep a dataset.
 #' @param DIM Dimensionality for persistent homology calculation.
