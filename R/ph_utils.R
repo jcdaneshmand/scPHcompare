@@ -34,6 +34,43 @@ get_iteration_config <- function(config_path = system.file("extdata", "iteration
   cfg
 }
 
+# Retrieve the set of integration iteration labels from configuration or defaults
+get_integration_labels <- function(iteration_cfg = NULL) {
+  cfg <- iteration_cfg
+  if (is.null(cfg)) {
+    cfg <- tryCatch(get_iteration_config(), error = function(e) NULL)
+  }
+
+  if (!is.null(cfg) && "label" %in% names(cfg)) {
+    unique(cfg$label)
+  } else {
+    unique(c(SEURAT_INTEGRATION_LABEL, HARMONY_INTEGRATION_LABEL))
+  }
+}
+
+# Prioritize a preferred integration iteration while keeping other iterations intact
+prioritize_integration_iterations <- function(data_iterations, preferred_integration = SEURAT_INTEGRATION_LABEL) {
+  if (length(data_iterations) == 0) {
+    return(data_iterations)
+  }
+
+  available_names <- vapply(data_iterations, function(iter) iter$name, character(1))
+  integration_labels <- get_integration_labels()
+  preferred_matches <- intersect(preferred_integration, integration_labels)
+
+  preferred_idx <- which(available_names %in% preferred_matches)
+  if (length(preferred_idx) == 0 && SEURAT_INTEGRATION_LABEL %in% available_names) {
+    preferred_idx <- which(available_names == SEURAT_INTEGRATION_LABEL)[1]
+  }
+
+  if (length(preferred_idx) == 0) {
+    return(data_iterations)
+  }
+
+  ordered_idx <- c(preferred_idx, setdiff(seq_along(data_iterations), preferred_idx))
+  data_iterations[ordered_idx]
+}
+
 # Load sparse matrices from a vector of file paths
 load_sparse_matrices <- function(file_paths) {
   if (length(file_paths) == 0) {

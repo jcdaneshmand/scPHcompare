@@ -1425,8 +1425,15 @@ cross_iteration_comparison_with_betti <- function(data_iterations,
       } else {
         landscape_list <- NULL
       }
+      iteration_levels <- tryCatch(get_iteration_config()$label, error = function(e) NULL)
+      iteration_value <- if (!is.null(iteration_levels)) {
+        factor(iter$name, levels = iteration_levels, ordered = TRUE)
+      } else {
+        iter$name
+      }
+
       metadata_local <- iter$seurat_obj@meta.data
-      metadata_local$Iteration <- iter$name
+      metadata_local$Iteration <- iteration_value
       if (!("orig.ident" %in% names(metadata_local)) || !identical(orig_ident_columns, "orig.ident")) {
         metadata_local$orig.ident <- do.call(paste, c(metadata_local[orig_ident_columns], sep = "_"))
       }
