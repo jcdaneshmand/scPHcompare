@@ -7,10 +7,11 @@
 #' @param metadata_path Path to a CSV file containing dataset metadata.
 #' @param results_dir Directory where results should be written.
 #' @param num_cores Number of cores to use for parallel tasks.
-#' @param integration_method Integration method to apply when processing
-#'   datasets. Use "seurat" to produce the Seurat integration iteration or
-#'   "harmony" to produce the Harmony iteration (raw and SCT iterations are
-#'   always generated alongside the chosen integration output).
+#' @param integration_methods Character vector of integration methods to apply
+#'   when processing datasets. Use "seurat" to produce the Seurat integration
+#'   iteration, "harmony" to produce the Harmony iteration, or supply both to
+#'   run them side by side (raw and SCT iterations are always generated
+#'   alongside the chosen integration outputs).
 #' @param run_cluster If `TRUE`, run clustering comparisons during
 #'   post-processing.
 #' @param run_cross_iteration If `TRUE`, perform cross-iteration analyses.
@@ -30,7 +31,7 @@
 run_unified_pipeline <- function(metadata_path,
                                  results_dir = "results",
                                  num_cores = 8,
-                                 integration_method = "seurat",
+                                 integration_methods = "seurat",
                                  run_cluster = FALSE,
                                  run_betti = FALSE,
                                  run_cross_iteration = FALSE,
@@ -44,7 +45,7 @@ run_unified_pipeline <- function(metadata_path,
   }
   metadata <- readr::read_csv(metadata_path, show_col_types = FALSE)
   ph_results <- process_datasets_PH(metadata,
-                                    integration_method = integration_method,
+                                    integration_methods = integration_methods,
                                     num_cores = num_cores,
                                     ...)
   if (run_cluster || run_betti || run_cross_iteration) {
