@@ -483,6 +483,8 @@ run_modular_analysis <- function(ph_results,
 #' @param run_kmeans_clustering Logical, run k-means clustering.
 #' @param run_hierarchical_ph_clustering Logical, perform hierarchical
 #'   clustering on PH distances.
+#' @param hierarchical_methods Character vector of hierarchical clustering
+#'   linkage methods to evaluate when clustering on PH distances.
 #' @param run_spectral_clustering Logical, run spectral clustering.
 #' @param run_visualizations Logical, generate plots for each iteration.
 #' @param run_sample_level_heatmap Logical, create sample-level heatmaps.
@@ -509,6 +511,7 @@ run_postprocessing_pipeline <- function(ph_results,
                                         run_standard_seurat_clustering = TRUE,
                                         run_kmeans_clustering = TRUE,
                                         run_hierarchical_ph_clustering = TRUE,
+                                        hierarchical_methods = c("ward.D2", "average", "complete", "mcquitty"),
                                         run_spectral_clustering = TRUE,
                                         run_visualizations = TRUE,
                                         run_sample_level_heatmap = TRUE,
@@ -569,6 +572,7 @@ run_postprocessing_pipeline <- function(ph_results,
       landscape_matrix = landscape,
       run_kmeans_clustering = run_kmeans_clustering,
       run_hierarchical_ph_clustering = run_hierarchical_ph_clustering,
+      hierarchical_methods = hierarchical_methods,
       run_spectral_clustering = run_spectral_clustering,
       SRA_col = SRA_col,
       Tissue_col = Tissue_col,
@@ -1190,7 +1194,9 @@ perform_kmeans_clustering <- function(seurat_obj, assay, dims = 1:50, k = 5, ver
 }
 
 # Function: Hierarchical Clustering using BDM matrix
-perform_hierarchical_clustering_ph <- function(bdm_matrix, k, verbose = TRUE) {
+perform_hierarchical_clustering_ph <- function(bdm_matrix, k,
+                                               methods = c("ward.D2", "average", "complete", "mcquitty"),
+                                               verbose = TRUE) {
   log_message <- function(message) {
     if (verbose) message(sprintf("%s - %s", Sys.time(), message))
   }
@@ -1200,17 +1206,35 @@ perform_hierarchical_clustering_ph <- function(bdm_matrix, k, verbose = TRUE) {
     stop("BDM input must be a matrix.")
   }
 
-  # Convert BDM matrix to distance object and perform hierarchical clustering
-  log_message("Calculating distance and performing hierarchical clustering.")
-  hc <- hclust(as.dist(bdm_matrix), method = "ward.D2")
-  log_message("Hierarchical clustering completed.")
+  if (length(methods) == 0) {
+    stop("At least one hierarchical clustering method must be provided.")
+  }
 
-  # Cut dendrogram to form clusters
-  clusters_ph <- cutree(hc, k = k)
-  log_message(paste("Clusters formed using cutree with k =", k))
+  clusters_ph <- list()
+  trees <- list()
+
+  for (method in methods) {
+    # Convert BDM matrix to distance object and perform hierarchical clustering
+    log_message(sprintf("Calculating distance and performing hierarchical clustering using '%s'.", method))
+    hc <- hclust(as.dist(bdm_matrix), method = method)
+    log_message(sprintf("Hierarchical clustering completed for '%s'.", method))
+
+    # Cut dendrogram to form clusters
+    clusters_ph[[method]] <- cutree(hc, k = k)
+    trees[[method]] <- hc
+    log_message(paste("Clusters formed using cutree with k =", k, "for method", method))
+  }
+
+  default_method <- methods[[1]]
 
   # Return both the clusters and the hierarchical tree
-  return(list(clusters = clusters_ph, tree = hc))
+  return(list(
+    clusters = clusters_ph,
+    trees = trees,
+    default_method = default_method,
+    clusters_default = clusters_ph[[default_method]],
+    tree = trees[[default_method]]
+  ))
 }
 
 # Function: Assign PH Clusters to Seurat Object
@@ -1306,6 +1330,7 @@ apply_all_clustering_methods <- function(seurat_obj, dataset_name, assay,
                                          landscape_matrix = NULL,
                                          run_kmeans_clustering = TRUE,
                                          run_hierarchical_ph_clustering = TRUE,
+                                         hierarchical_methods = c("ward.D2", "average", "complete", "mcquitty"),
                                          run_spectral_clustering = TRUE,
                                          SRA_col = "orig.ident",
                                          Tissue_col = "Tissue",
@@ -1341,20 +1366,20 @@ apply_all_clustering_methods <- function(seurat_obj, dataset_name, assay,
   if (run_hierarchical_ph_clustering) {
     if (!is.null(bdm_matrix)) {
       if (!is.null(k_tissue)) {
-        res <- perform_hierarchical_clustering_ph(bdm_matrix, k_tissue)
-        seurat_obj <- assign_ph_clusters(seurat_obj, res$clusters,
+        res <- perform_hierarchical_clustering_ph(bdm_matrix, k_tissue, methods = hierarchical_methods)
+        seurat_obj <- assign_ph_clusters(seurat_obj, res$clusters_default,
           paste0("hierarchical_cluster_bdm_ph_", prefix, "_tissue"),
           SRA_col = SRA_col)
       }
       if (!is.null(k_sra)) {
-        res <- perform_hierarchical_clustering_ph(bdm_matrix, k_sra)
-        seurat_obj <- assign_ph_clusters(seurat_obj, res$clusters,
+        res <- perform_hierarchical_clustering_ph(bdm_matrix, k_sra, methods = hierarchical_methods)
+        seurat_obj <- assign_ph_clusters(seurat_obj, res$clusters_default,
           paste0("hierarchical_cluster_bdm_ph_", prefix, "_sra"),
           SRA_col = SRA_col)
       }
       if (!is.null(k_approach)) {
-        res <- perform_hierarchical_clustering_ph(bdm_matrix, k_approach)
-        seurat_obj <- assign_ph_clusters(seurat_obj, res$clusters,
+        res <- perform_hierarchical_clustering_ph(bdm_matrix, k_approach, methods = hierarchical_methods)
+        seurat_obj <- assign_ph_clusters(seurat_obj, res$clusters_default,
           paste0("hierarchical_cluster_bdm_ph_", prefix, "_approach"),
           SRA_col = SRA_col)
       }
@@ -1362,20 +1387,20 @@ apply_all_clustering_methods <- function(seurat_obj, dataset_name, assay,
 
     if (!is.null(sdm_matrix)) {
       if (!is.null(k_tissue)) {
-        res <- perform_hierarchical_clustering_ph(sdm_matrix, k_tissue)
-        seurat_obj <- assign_ph_clusters(seurat_obj, res$clusters,
+        res <- perform_hierarchical_clustering_ph(sdm_matrix, k_tissue, methods = hierarchical_methods)
+        seurat_obj <- assign_ph_clusters(seurat_obj, res$clusters_default,
           paste0("hierarchical_cluster_sdm_ph_", prefix, "_tissue"),
           SRA_col = SRA_col)
       }
       if (!is.null(k_sra)) {
-        res <- perform_hierarchical_clustering_ph(sdm_matrix, k_sra)
-        seurat_obj <- assign_ph_clusters(seurat_obj, res$clusters,
+        res <- perform_hierarchical_clustering_ph(sdm_matrix, k_sra, methods = hierarchical_methods)
+        seurat_obj <- assign_ph_clusters(seurat_obj, res$clusters_default,
           paste0("hierarchical_cluster_sdm_ph_", prefix, "_sra"),
           SRA_col = SRA_col)
       }
       if (!is.null(k_approach)) {
-        res <- perform_hierarchical_clustering_ph(sdm_matrix, k_approach)
-        seurat_obj <- assign_ph_clusters(seurat_obj, res$clusters,
+        res <- perform_hierarchical_clustering_ph(sdm_matrix, k_approach, methods = hierarchical_methods)
+        seurat_obj <- assign_ph_clusters(seurat_obj, res$clusters_default,
           paste0("hierarchical_cluster_sdm_ph_", prefix, "_approach"),
           SRA_col = SRA_col)
       }
@@ -1383,20 +1408,20 @@ apply_all_clustering_methods <- function(seurat_obj, dataset_name, assay,
 
     if (!is.null(landscape_matrix)) {
       if (!is.null(k_tissue)) {
-        res <- perform_hierarchical_clustering_ph(landscape_matrix, k_tissue)
-        seurat_obj <- assign_ph_clusters(seurat_obj, res$clusters,
+        res <- perform_hierarchical_clustering_ph(landscape_matrix, k_tissue, methods = hierarchical_methods)
+        seurat_obj <- assign_ph_clusters(seurat_obj, res$clusters_default,
           paste0("hierarchical_cluster_landscape_ph_", prefix, "_tissue"),
           SRA_col = SRA_col)
       }
       if (!is.null(k_sra)) {
-        res <- perform_hierarchical_clustering_ph(landscape_matrix, k_sra)
-        seurat_obj <- assign_ph_clusters(seurat_obj, res$clusters,
+        res <- perform_hierarchical_clustering_ph(landscape_matrix, k_sra, methods = hierarchical_methods)
+        seurat_obj <- assign_ph_clusters(seurat_obj, res$clusters_default,
           paste0("hierarchical_cluster_landscape_ph_", prefix, "_sra"),
           SRA_col = SRA_col)
       }
       if (!is.null(k_approach)) {
-        res <- perform_hierarchical_clustering_ph(landscape_matrix, k_approach)
-        seurat_obj <- assign_ph_clusters(seurat_obj, res$clusters,
+        res <- perform_hierarchical_clustering_ph(landscape_matrix, k_approach, methods = hierarchical_methods)
+        seurat_obj <- assign_ph_clusters(seurat_obj, res$clusters_default,
           paste0("hierarchical_cluster_landscape_ph_", prefix, "_approach"),
           SRA_col = SRA_col)
       }
