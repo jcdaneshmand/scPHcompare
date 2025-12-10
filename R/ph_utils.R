@@ -6,6 +6,15 @@ if (!exists("SEURAT_INTEGRATION_LABEL")) {
 if (!exists("SEURAT_INTEGRATION_PREFIX")) {
   SEURAT_INTEGRATION_PREFIX <- "seurat_integration"
 }
+if (!exists("HARMONY_INTEGRATION_LABEL")) {
+  HARMONY_INTEGRATION_LABEL <- "Harmony Integration"
+}
+if (!exists("HARMONY_INTEGRATION_PREFIX")) {
+  HARMONY_INTEGRATION_PREFIX <- "harmony_integration"
+}
+if (!exists("HARMONY_ASSAY_NAME")) {
+  HARMONY_ASSAY_NAME <- "harmony"
+}
 
 # Load sparse matrices from a vector of file paths
 load_sparse_matrices <- function(file_paths) {
@@ -69,8 +78,10 @@ save_ph_results <- function(result, expr_list, DIM, THRESHOLD,
 # Assemble data iteration metadata for downstream processing
 assemble_ph_results <- function(merged_unintegrated, integrated,
                                 expr_list_raw, expr_list_sctInd,
-                                expr_list_sctWhole, expr_list_integrated) {
-  list(
+                                expr_list_sctWhole, expr_list_integrated,
+                                harmony = NULL, expr_list_harmony = NULL,
+                                harmony_assay = HARMONY_ASSAY_NAME) {
+  iterations <- list(
     list(
       name = "Raw",
       seurat_obj = merged_unintegrated,
@@ -108,5 +119,19 @@ assemble_ph_results <- function(merged_unintegrated, integrated,
       expr_list = expr_list_integrated
     )
   )
+
+  if (!is.null(harmony) && !is.null(expr_list_harmony)) {
+    iterations <- c(iterations, list(list(
+      name = HARMONY_INTEGRATION_LABEL,
+      seurat_obj = harmony,
+      assay = harmony_assay,
+      bdm_matrix = paste0("BDM_", HARMONY_INTEGRATION_PREFIX, ".rds"),
+      sdm_matrix = paste0("SDM_", HARMONY_INTEGRATION_PREFIX, ".rds"),
+      pd_list = paste0("PD_list_", HARMONY_INTEGRATION_PREFIX, ".rds"),
+      expr_list = expr_list_harmony
+    )))
+  }
+
+  iterations
 }
 
