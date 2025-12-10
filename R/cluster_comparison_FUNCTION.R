@@ -70,10 +70,14 @@ enhanced_cluster_comparison_with_pvals <- function(
   # hierarchical
   hier_types <- c("bdm_ph", "sdm_ph", "landscape_ph")
   hier_suffixes <- c("_tissue", "_sra", "_approach")
-  hierarchical_methods <- c(
+  hierarchical_method_names <- seurat_obj@misc$hierarchical_methods[[dataset_lower]]
+  if (is.null(hierarchical_method_names)) {
+    hierarchical_method_names <- c("ward.D2", "average", "complete", "mcquitty")
+  }
+  hierarchical_methods <- unlist(lapply(hierarchical_method_names, function(method_name) {
     as.vector(outer(hier_types, hier_suffixes,
-      function(x, y) paste0("hierarchical_cluster_", x, "_", dataset_lower, y)))
-  )
+      function(x, y) paste0("hierarchical_cluster_", x, "_", dataset_lower, y, "_", method_name)))
+  }))
 
   # spectral
   spec_types <- c("bdm", "sdm", "landscape")

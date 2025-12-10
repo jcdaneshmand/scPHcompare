@@ -1637,7 +1637,7 @@ apply_all_clustering_methods <- function(seurat_obj, dataset_name, assay,
 }
 
 generate_heatmaps <- function(dataset_name, metadata, seurat_obj, bdm_matrix, plots_folder,
-                              hc_tissue, hc_sra, hc_approach,
+                              hierarchical_tree_set,
                               k_tissue, k_sra, k_approach,
                               SRA_col = "orig.ident",
                               Tissue_col = "Tissue",
@@ -1682,7 +1682,8 @@ generate_heatmaps <- function(dataset_name, metadata, seurat_obj, bdm_matrix, pl
     stop("No cluster columns (excluding Random_Group) found in the sample-level metadata.")
   }
 
-  hierarchical_cols <- cluster_cols[grepl("hierarchical", cluster_cols, ignore.case = TRUE)]
+  normalized_cluster_cols <- tolower(gsub("\\.", "", cluster_cols))
+  hierarchical_cols <- cluster_cols[grepl("hierarchical_cluster_.*_(wardd2|average|complete|mcquitty)$", normalized_cluster_cols)]
   non_hierarchical_cols <- setdiff(cluster_cols, hierarchical_cols)
 
   sample_annotations <- sample_level_metadata %>%
@@ -1716,18 +1717,60 @@ generate_heatmaps <- function(dataset_name, metadata, seurat_obj, bdm_matrix, pl
   }
   pdf(pdf_path, height = 20, width = 25)
 
+  get_tree_for_cluster <- function(cluster_col, target_key, method_name) {
+    if (!is.null(hierarchical_tree_set) && !is.null(hierarchical_tree_set[[target_key]])) {
+      available_trees <- hierarchical_tree_set[[target_key]]
+      method_match <- names(available_trees) == method_name
+      if (any(method_match)) {
+        return(available_trees[[which(method_match)[[1]]]])
+      }
+
+      normalized_methods <- gsub("\\.", "", tolower(names(available_trees)))
+      normalized_method_name <- gsub("\\.", "", tolower(method_name))
+      method_match <- normalized_methods == normalized_method_name
+      if (any(method_match)) {
+        return(available_trees[[which(method_match)[[1]]]])
+      }
+
+      if (length(available_trees) > 0) {
+        return(available_trees[[1]])
+      }
+    }
+
+    method_lookup <- function(name) {
+      lower_name <- tolower(name)
+      if (lower_name %in% c("ward.d2", "wardd2")) {
+        return("ward.D2")
+      } else if (lower_name == "average") {
+        return("average")
+      } else if (lower_name == "complete") {
+        return("complete")
+      } else if (lower_name == "mcquitty") {
+        return("mcquitty")
+      }
+      name
+    }
+
+    fallback_method <- method_lookup(method_name)
+    tryCatch(hclust(as.dist(bdm_matrix), method = fallback_method), error = function(...) NULL)
+  }
+
   for (cluster_col in hierarchical_cols) {
     cluster_annotations <- sample_annotations %>% dplyr::pull(!!rlang::sym(cluster_col))
     cluster_colors <- annotation_colors[[cluster_col]]
+    method_name <- sub(".*_([^_]+)$", "\\1", cluster_col)
     if (grepl("tissue", cluster_col, ignore.case = TRUE)) {
-      hc <- hc_tissue; k_val <- k_tissue
+      target_key <- "tissue"; k_val <- k_tissue
     } else if (grepl("approach", cluster_col, ignore.case = TRUE)) {
-      hc <- hc_approach; k_val <- k_approach
+      target_key <- "approach"; k_val <- k_approach
     } else if (grepl("sra", cluster_col, ignore.case = TRUE)) {
-      hc <- hc_sra; k_val <- k_sra
+      target_key <- "sra"; k_val <- k_sra
     } else {
-      hc <- hc_sra; k_val <- NA
+      target_key <- "sra"; k_val <- NA
     }
+
+    hc <- get_tree_for_cluster(cluster_col, target_key, method_name)
+    if (is.null(hc)) next
 
     sample_order <- order.dendrogram(as.dendrogram(hc))
     ordered_annotations <- cluster_annotations[sample_order]
@@ -1921,51 +1964,54 @@ generate_visualizations_for_iteration <- function(seurat_obj, dataset_name, assa
     if (!is.null(sdm_matrix)) dimnames(sdm_matrix) <- list(ordered_orig_idents, ordered_orig_idents)
     if (!is.null(landscape_matrix)) dimnames(landscape_matrix) <- list(ordered_orig_idents, ordered_orig_idents)
 
-    get_tree_for_target <- function(tree_list, target_key, distance_matrix, k) {
+    get_trees_for_target <- function(tree_list, target_key, distance_matrix, k) {
       if (!is.null(tree_list) && !is.null(tree_list[[target_key]])) {
-        available_methods <- intersect(hierarchical_methods, names(tree_list[[target_key]]))
-        if (length(available_methods) > 0) {
-          return(tree_list[[target_key]][[available_methods[[1]]]])
-        }
+        return(tree_list[[target_key]])
       }
 
       if (!is.null(distance_matrix) && !is.null(k)) {
-        return(perform_hierarchical_clustering_ph(distance_matrix, k, methods = hierarchical_methods)$tree)
+        res <- perform_hierarchical_clustering_ph(distance_matrix, k, methods = hierarchical_methods)
+        return(lapply(res$results, function(item) item$tree))
       }
 
       NULL
     }
 
-    hc_tissue_bdm <- get_tree_for_target(hierarchical_trees$bdm, "tissue", bdm_matrix, k_tissue)
-    hc_sra_bdm <- get_tree_for_target(hierarchical_trees$bdm, "sra", bdm_matrix, k_sra)
-    hc_approach_bdm <- get_tree_for_target(hierarchical_trees$bdm, "approach", bdm_matrix, k_approach)
+    hierarchical_tree_set_bdm <- list(
+      tissue = get_trees_for_target(hierarchical_trees$bdm, "tissue", bdm_matrix, k_tissue),
+      sra = get_trees_for_target(hierarchical_trees$bdm, "sra", bdm_matrix, k_sra),
+      approach = get_trees_for_target(hierarchical_trees$bdm, "approach", bdm_matrix, k_approach)
+    )
 
-    hc_tissue_sdm <- get_tree_for_target(hierarchical_trees$sdm, "tissue", sdm_matrix, k_tissue)
-    hc_sra_sdm <- get_tree_for_target(hierarchical_trees$sdm, "sra", sdm_matrix, k_sra)
-    hc_approach_sdm <- get_tree_for_target(hierarchical_trees$sdm, "approach", sdm_matrix, k_approach)
+    hierarchical_tree_set_sdm <- list(
+      tissue = get_trees_for_target(hierarchical_trees$sdm, "tissue", sdm_matrix, k_tissue),
+      sra = get_trees_for_target(hierarchical_trees$sdm, "sra", sdm_matrix, k_sra),
+      approach = get_trees_for_target(hierarchical_trees$sdm, "approach", sdm_matrix, k_approach)
+    )
 
-    hc_tissue_landscape <- get_tree_for_target(hierarchical_trees$landscape, "tissue", landscape_matrix, k_tissue)
-    hc_sra_landscape <- get_tree_for_target(hierarchical_trees$landscape, "sra", landscape_matrix, k_sra)
-    hc_approach_landscape <- get_tree_for_target(hierarchical_trees$landscape, "approach", landscape_matrix, k_approach)
+    hierarchical_tree_set_landscape <- list(
+      tissue = get_trees_for_target(hierarchical_trees$landscape, "tissue", landscape_matrix, k_tissue),
+      sra = get_trees_for_target(hierarchical_trees$landscape, "sra", landscape_matrix, k_sra),
+      approach = get_trees_for_target(hierarchical_trees$landscape, "approach", landscape_matrix, k_approach)
+    )
 
     generate_heatmaps(paste0(dataset_name, "_BDM"), metadata_filtered, seurat_obj,
-                      bdm_matrix, plots_folder, hc_tissue_bdm, hc_sra_bdm,
-                      hc_approach_bdm, k_tissue, k_sra, k_approach,
+                      bdm_matrix, plots_folder, hierarchical_tree_set_bdm,
+                      k_tissue, k_sra, k_approach,
                       SRA_col = SRA_col, Tissue_col = Tissue_col,
                       Approach_col = Approach_col)
 
     if (!is.null(sdm_matrix)) {
       generate_heatmaps(paste0(dataset_name, "_SDM"), metadata_filtered, seurat_obj,
-                        sdm_matrix, plots_folder, hc_tissue_sdm, hc_sra_sdm,
-                        hc_approach_sdm, k_tissue, k_sra, k_approach,
+                        sdm_matrix, plots_folder, hierarchical_tree_set_sdm,
+                        k_tissue, k_sra, k_approach,
                         SRA_col = SRA_col, Tissue_col = Tissue_col,
                         Approach_col = Approach_col)
     }
 
     if (!is.null(landscape_matrix)) {
       generate_heatmaps(paste0(dataset_name, "_Landscape"), metadata_filtered, seurat_obj,
-                        landscape_matrix, plots_folder, hc_tissue_landscape,
-                        hc_sra_landscape, hc_approach_landscape,
+                        landscape_matrix, plots_folder, hierarchical_tree_set_landscape,
                         k_tissue, k_sra, k_approach,
                         SRA_col = SRA_col, Tissue_col = Tissue_col,
                         Approach_col = Approach_col)
