@@ -1,5 +1,12 @@
 # Helper utilities for the PH pipeline
 
+if (!exists("SEURAT_INTEGRATION_LABEL")) {
+  SEURAT_INTEGRATION_LABEL <- "Seurat Integration"
+}
+if (!exists("SEURAT_INTEGRATION_PREFIX")) {
+  SEURAT_INTEGRATION_PREFIX <- "seurat_integration"
+}
+
 # Load sparse matrices from a vector of file paths
 load_sparse_matrices <- function(file_paths) {
   if (length(file_paths) == 0) {
@@ -92,12 +99,12 @@ assemble_ph_results <- function(merged_unintegrated, integrated,
       expr_list = expr_list_sctWhole
     ),
     list(
-      name = "Integrated",
+      name = SEURAT_INTEGRATION_LABEL,
       seurat_obj = integrated,
       assay = "integrated",
-      bdm_matrix = "BDM_integrated.rds",
-      sdm_matrix = "SDM_integrated.rds",
-      pd_list = "PD_list_integrated.rds",
+      bdm_matrix = paste0("BDM_", SEURAT_INTEGRATION_PREFIX, ".rds"),
+      sdm_matrix = paste0("SDM_", SEURAT_INTEGRATION_PREFIX, ".rds"),
+      pd_list = paste0("PD_list_", SEURAT_INTEGRATION_PREFIX, ".rds"),
       expr_list = expr_list_integrated
     )
   )

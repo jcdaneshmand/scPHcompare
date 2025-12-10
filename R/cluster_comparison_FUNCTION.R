@@ -58,7 +58,7 @@ enhanced_cluster_comparison_with_pvals <- function(
 
   # -- Define clustering method names (now *complete*) --
   log_message("Defining original clustering methods…")
-  dataset_lower <- tolower(dataset_name)
+  dataset_lower <- gsub("\\s+", "_", tolower(dataset_name))
 
   # seurat has no suffix by default
   seurat_methods <- paste0("seurat_cluster_", dataset_lower)

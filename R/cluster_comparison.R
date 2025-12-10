@@ -88,7 +88,12 @@ if (num_collected_plots > 0) {
   if (verbose) log_message("--- Starting individual plot modification loop. ---")
   plots_for_grid <- vector("list", length = num_collected_plots)
 
-  all_iteration_suffixes <- c("raw", "sct_individual", "sct_whole", "integrated")
+  seurat_suffix <- if (exists("SEURAT_INTEGRATION_PREFIX")) {
+    SEURAT_INTEGRATION_PREFIX
+  } else {
+    "seurat_integration"
+  }
+  all_iteration_suffixes <- c("raw", "sct_individual", "sct_whole", "integrated", seurat_suffix)
   pattern_to_find_suffixes <- paste0("_", all_iteration_suffixes, collapse = "|")
   group_order <- c("Approach", "Tissue", "Sample")
 
