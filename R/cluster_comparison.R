@@ -93,7 +93,15 @@ if (num_collected_plots > 0) {
   } else {
     "seurat_integration"
   }
-  all_iteration_suffixes <- c("raw", "sct_individual", "sct_whole", "integrated", seurat_suffix)
+  harmony_suffix <- if (exists("HARMONY_INTEGRATION_PREFIX")) {
+    HARMONY_INTEGRATION_PREFIX
+  } else {
+    "harmony_integration"
+  }
+
+  all_iteration_suffixes <- c(
+    "raw", "sct_individual", "sct_whole", "integrated", seurat_suffix, harmony_suffix
+  )
   pattern_to_find_suffixes <- paste0("_", all_iteration_suffixes, collapse = "|")
   group_order <- c("Approach", "Tissue", "Sample")
 

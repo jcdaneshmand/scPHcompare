@@ -115,6 +115,8 @@ process_datasets_PH <- function(metadata,
                                 DIM = 1,
                                 THRESHOLD = -1,
                                 dataset_tag = "dataset") {
+  expr_list_harmony <- NULL
+  harmony_result <- NULL
   # Determine metadata column names and warn if missing
   sra_col <- intersect(c("SRA", "SRA_Number", "SRA Number"), colnames(metadata))[1]
   tissue_col <- intersect(c("Tissue", "tissue"), colnames(metadata))[1]
@@ -716,6 +718,68 @@ process_datasets_PH <- function(metadata,
       PD_result_integrated, expr_list_integrated, DIM, THRESHOLD,
       dataset_suffix, seurat_prefix, log_message
     )
+
+    if (!is.null(expr_list_sctInd)) {
+      if (requireNamespace("harmony", quietly = TRUE)) {
+        log_message("Running Harmony integration on SCT-normalized data")
+
+        harmony_input <- GetAssayData(merged_seurat_unintegrated, assay = "SCT", slot = "data")
+        harmony_metadata <- merged_seurat_unintegrated@meta.data
+
+        harmony_corrected <- harmony::HarmonyMatrix(
+          data_mat = as.matrix(harmony_input),
+          meta_data = harmony_metadata,
+          vars_use = "orig.ident",
+          do_pca = FALSE
+        )
+
+        rownames(harmony_corrected) <- rownames(harmony_input)
+        colnames(harmony_corrected) <- colnames(harmony_input)
+
+        cell_split <- split(seq_len(ncol(harmony_corrected)), harmony_metadata$orig.ident)
+        expr_list_harmony <- lapply(names(cell_split), function(batch_name) {
+          cols <- cell_split[[batch_name]]
+          batch_mat <- harmony_corrected[, cols, drop = FALSE]
+          template <- expr_list_sctInd[[batch_name]]
+
+          if (!is.null(template)) {
+            missing_feats <- setdiff(rownames(template), rownames(batch_mat))
+            if (length(missing_feats) > 0) {
+              add_mat <- matrix(0,
+                                nrow = length(missing_feats),
+                                ncol = ncol(batch_mat),
+                                dimnames = list(missing_feats, colnames(batch_mat)))
+              batch_mat <- rbind(batch_mat, add_mat)
+            }
+            batch_mat <- batch_mat[rownames(template), , drop = FALSE]
+          }
+
+          batch_mat
+        })
+        names(expr_list_harmony) <- names(cell_split)
+
+        saveRDS(expr_list_harmony, file = paste0(
+          "expr_list_", HARMONY_INTEGRATION_PREFIX, dataset_suffix, ".Rds"
+        ))
+
+        harmony_result <- merged_seurat_unintegrated
+        harmony_result[[HARMONY_ASSAY_NAME]] <- CreateAssayObject(data = harmony_corrected)
+
+        harmony_prefix <- paste0("_", HARMONY_INTEGRATION_PREFIX)
+        PD_result_harmony <- compute_ph_batch(
+          expr_list_harmony, DIM, log_message, dataset_suffix,
+          harmony_prefix, max_cores = 8
+        )
+        save_ph_results(
+          PD_result_harmony, expr_list_harmony, DIM, THRESHOLD,
+          dataset_suffix, harmony_prefix, log_message
+        )
+      } else {
+        log_message("Harmony package not installed; skipping Harmony integration.")
+      }
+    } else {
+      log_message("Skipping Harmony integration because SCT data were not generated.")
+    }
   }
 
   ##
@@ -724,7 +788,8 @@ process_datasets_PH <- function(metadata,
   data_iterations <- assemble_ph_results(
     merged_seurat_unintegrated, result,
     expr_list_raw, expr_list_sctInd,
-    expr_list_sctWhole, expr_list_integrated
+    expr_list_sctWhole, expr_list_integrated,
+    harmony = harmony_result, expr_list_harmony = expr_list_harmony
   )
 
   ph_results <- list(
