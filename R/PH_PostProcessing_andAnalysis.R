@@ -1190,27 +1190,70 @@ perform_kmeans_clustering <- function(seurat_obj, assay, dims = 1:50, k = 5, ver
 }
 
 # Function: Hierarchical Clustering using BDM matrix
-perform_hierarchical_clustering_ph <- function(bdm_matrix, k, verbose = TRUE) {
+perform_hierarchical_clustering_ph <- function(
+  bdm_matrix, k, methods = c("ward.D2", "average", "complete", "mcquitty"),
+  verbose = TRUE
+) {
   log_message <- function(message) {
     if (verbose) message(sprintf("%s - %s", Sys.time(), message))
   }
 
   log_message("Starting hierarchical clustering using BDM matrix.")
-  if (!is.matrix(bdm_matrix)) {
-    stop("BDM input must be a matrix.")
+  if (!is.matrix(bdm_matrix) || !is.numeric(bdm_matrix)) {
+    stop("BDM input must be a numeric matrix.")
+  }
+  if (nrow(bdm_matrix) != ncol(bdm_matrix)) {
+    stop("BDM matrix must be square to compute distances.")
   }
 
-  # Convert BDM matrix to distance object and perform hierarchical clustering
-  log_message("Calculating distance and performing hierarchical clustering.")
-  hc <- hclust(as.dist(bdm_matrix), method = "ward.D2")
-  log_message("Hierarchical clustering completed.")
+  if (!is.numeric(k) || length(k) != 1 || is.na(k) || k <= 0 || k > nrow(bdm_matrix)) {
+    stop("k must be a single positive number not exceeding the number of samples.")
+  }
 
-  # Cut dendrogram to form clusters
-  clusters_ph <- cutree(hc, k = k)
-  log_message(paste("Clusters formed using cutree with k =", k))
+  if (is.null(methods) || length(methods) == 0) {
+    stop("At least one hierarchical clustering method must be provided.")
+  }
+  if (!is.character(methods)) {
+    stop("methods must be provided as a character vector.")
+  }
 
-  # Return both the clusters and the hierarchical tree
-  return(list(clusters = clusters_ph, tree = hc))
+  available_methods <- c("ward.D", "ward.D2", "single", "complete", "average", "mcquitty", "median", "centroid")
+  invalid_methods <- setdiff(methods, available_methods)
+  if (length(invalid_methods) > 0) {
+    stop(sprintf(
+      "Invalid method(s): %s. Supported methods are: %s.",
+      paste(invalid_methods, collapse = ", "),
+      paste(available_methods, collapse = ", ")
+    ))
+  }
+
+  if (length(unique(methods)) != length(methods)) {
+    warning("Duplicate methods detected; duplicates will be ignored.")
+    methods <- unique(methods)
+  }
+
+  # Convert BDM matrix to distance object once
+  log_message("Calculating distance from BDM matrix.")
+  bdm_dist <- as.dist(bdm_matrix)
+
+  results <- list()
+  for (method in methods) {
+    log_message(sprintf("Performing hierarchical clustering using method: %s", method))
+    hc <- hclust(bdm_dist, method = method)
+    log_message("Hierarchical clustering completed.")
+
+    clusters_ph <- cutree(hc, k = k)
+    log_message(paste("Clusters formed using cutree with k =", k, "for method", method))
+
+    results[[method]] <- list(clusters = clusters_ph, tree = hc)
+  }
+
+  primary_method <- methods[[1]]
+  return(list(
+    results = results,
+    clusters = results[[primary_method]]$clusters,
+    tree = results[[primary_method]]$tree
+  ))
 }
 
 # Function: Assign PH Clusters to Seurat Object
