@@ -486,6 +486,8 @@ run_modular_analysis <- function(ph_results,
 #' @param run_hierarchical_ph_clustering Logical, perform hierarchical
 #'   clustering on PH distances.
 #' @param run_spectral_clustering Logical, run spectral clustering.
+#' @param hierarchical_methods Character vector of linkage methods passed to
+#'   `hclust()` when running hierarchical clustering.
 #' @param run_visualizations Logical, generate plots for each iteration.
 #' @param run_sample_level_heatmap Logical, create sample-level heatmaps.
 #' @param run_cluster Logical, run clustering comparisons if `TRUE`.
@@ -512,6 +514,7 @@ run_postprocessing_pipeline <- function(ph_results,
                                         run_kmeans_clustering = TRUE,
                                         run_hierarchical_ph_clustering = TRUE,
                                         run_spectral_clustering = TRUE,
+                                        hierarchical_methods = c("ward.D2", "average", "complete", "mcquitty"),
                                         run_visualizations = TRUE,
                                         run_sample_level_heatmap = TRUE,
                                         run_cluster = TRUE,
@@ -572,6 +575,7 @@ run_postprocessing_pipeline <- function(ph_results,
       run_kmeans_clustering = run_kmeans_clustering,
       run_hierarchical_ph_clustering = run_hierarchical_ph_clustering,
       run_spectral_clustering = run_spectral_clustering,
+      hierarchical_methods = hierarchical_methods,
       SRA_col = SRA_col,
       Tissue_col = Tissue_col,
       Approach_col = Approach_col
@@ -1242,6 +1246,17 @@ perform_hierarchical_clustering_ph <- function(
     stop("methods must be provided as a character vector.")
   }
 
+  cleaned_methods <- methods[!is.na(methods) & nzchar(methods)]
+  if (length(cleaned_methods) != length(methods)) {
+    warning("Removed NA or empty hierarchical clustering methods.")
+  }
+
+  has_duplicates <- any(duplicated(cleaned_methods))
+  methods <- unique(cleaned_methods)
+  if (length(methods) == 0) {
+    stop("At least one non-missing hierarchical clustering method must be provided.")
+  }
+
   available_methods <- c("ward.D", "ward.D2", "single", "complete", "average", "mcquitty", "median", "centroid")
   invalid_methods <- setdiff(methods, available_methods)
   if (length(invalid_methods) > 0) {
@@ -1252,9 +1267,8 @@ perform_hierarchical_clustering_ph <- function(
     ))
   }
 
-  if (length(unique(methods)) != length(methods)) {
+  if (has_duplicates) {
     warning("Duplicate methods detected; duplicates will be ignored.")
-    methods <- unique(methods)
   }
 
   # Convert BDM matrix to distance object once
@@ -1454,7 +1468,17 @@ apply_all_clustering_methods <- function(seurat_obj, dataset_name, assay,
                                          Approach_col = "Approach") {
 
   prefix <- tolower(dataset_name)
-  hierarchical_methods <- unique(hierarchical_methods)
+  if (is.null(hierarchical_methods) || length(hierarchical_methods) == 0) {
+    stop("hierarchical_methods must include at least one method.")
+  }
+  if (!is.character(hierarchical_methods)) {
+    stop("hierarchical_methods must be a character vector.")
+  }
+
+  hierarchical_methods <- unique(hierarchical_methods[!is.na(hierarchical_methods) & nzchar(hierarchical_methods)])
+  if (length(hierarchical_methods) == 0) {
+    stop("hierarchical_methods must include at least one non-missing method.")
+  }
 
   k_tissue <- if (Tissue_col %in% colnames(seurat_obj@meta.data))
     length(unique(seurat_obj@meta.data[[Tissue_col]])) else NULL
