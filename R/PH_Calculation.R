@@ -87,8 +87,9 @@
 #' MIT License
 
 #' @param metadata Data frame with file paths and associated metadata.
-#' @param integration_method Integration method to use ("seurat" for the
-#'   Seurat integration iteration or "harmony" for the Harmony iteration).
+#' @param integration_methods Character vector of integration methods to use
+#'   ("seurat" for the Seurat integration iteration, "harmony" for the Harmony
+#'   iteration, or both to run each integration in parallel).
 #' @param num_cores Number of cores for parallel processing.
 #' @param MIN_CELLS Minimum number of cells to keep a dataset.
 #' @param DIM Dimensionality for persistent homology calculation.
@@ -109,14 +110,32 @@
 
 
 process_datasets_PH <- function(metadata,
-                                integration_method = "seurat",
+                                integration_methods = "seurat",
                                 num_cores = 16,
                                 MIN_CELLS = 250,
                                 DIM = 1,
                                 THRESHOLD = -1,
                                 dataset_tag = "dataset") {
+  integration_methods <- unique(tolower(integration_methods))
+  allowed_methods <- c("seurat", "harmony")
+  invalid_methods <- setdiff(integration_methods, allowed_methods)
+  if (length(invalid_methods) > 0) {
+    stop("Unsupported integration methods: ", paste(invalid_methods, collapse = ", "))
+  }
+  if (length(integration_methods) == 0) {
+    stop("At least one integration method must be provided.")
+  }
+
+  expr_list_raw <- NULL
+  expr_list_sctInd <- NULL
+  expr_list_sctWhole <- NULL
+  expr_list_integrated <- NULL
   expr_list_harmony <- NULL
+  result <- NULL
   harmony_result <- NULL
+  merged_seurat_unintegrated <- NULL
+  run_seurat_integration <- "seurat" %in% integration_methods
+  run_harmony_integration <- "harmony" %in% integration_methods
   # Determine metadata column names and warn if missing
   sra_col <- intersect(c("SRA", "SRA_Number", "SRA Number"), colnames(metadata))[1]
   tissue_col <- intersect(c("Tissue", "tissue"), colnames(metadata))[1]
@@ -377,7 +396,7 @@ process_datasets_PH <- function(metadata,
 
   
   # Normalize data according to the integration method
-  if (integration_method == "seurat") {
+  if (run_seurat_integration || run_harmony_integration) {
     # Perform SCTransform normalization on each individually
     log_message("Performing SCTransform normalization for Seurat integration")
     my_seurat_list_filtered <- tryCatch(
@@ -405,8 +424,8 @@ process_datasets_PH <- function(metadata,
       }
     )
   
-    # Check if my_seurat_list_filtered exists and merged_seurat_unintegrated doesn't exist
-    if (exists("my_seurat_list_filtered") && !exists("merged_seurat_unintegrated")) {
+    # Check if filtering produced data and we still need to create the merged object
+    if (!is.null(my_seurat_list_filtered) && is.null(merged_seurat_unintegrated)) {
       
     ### 1. Rename cells in each original object so that cell names are unique
     names <- vapply(
@@ -529,7 +548,7 @@ process_datasets_PH <- function(metadata,
   }
 
   #### RUN PH on UNINTEGRATED DATA ####
-  if (integration_method == "seurat") {
+  if (run_seurat_integration || run_harmony_integration) {
     # Extract SCTransformed data for unintegrated PH
     log_message("Extracting SCTransformed data for unintegrated PH")
     
@@ -658,68 +677,72 @@ process_datasets_PH <- function(metadata,
       dataset_suffix, "_unintegrated_sctWhole", log_message
     )
 
-    # Integration routines are available in the package
+    if (run_seurat_integration) {
+      # Integration routines are available in the package
 
-    # Call the integration function
-    result <- perform_integration(
-      seurat_list = my_seurat_list_filtered,
-      integration_features_n = 3000,
-      dims = 50,
-      min_cells_threshold = 200,
-      num_cores = num_cores
-      #checkpoint_dir = "./integration_checkpoints_bonemarrow",
-      #output_path = "final_integrated_seurat_bonemarrow.rds",
-      #anchor_batches_dir = "./intermediate_seuratIntegration_results/anchor_batches_bonemarrow"
-    )
+      # Call the integration function
+      result <- perform_integration(
+        seurat_list = my_seurat_list_filtered,
+        integration_features_n = 3000,
+        dims = 50,
+        min_cells_threshold = 200,
+        num_cores = num_cores
+        #checkpoint_dir = "./integration_checkpoints_bonemarrow",
+        #output_path = "final_integrated_seurat_bonemarrow.rds",
+        #anchor_batches_dir = "./intermediate_seuratIntegration_results/anchor_batches_bonemarrow"
+      )
 
-    # result <- readRDS("final_integrated_seurat_bonemarrow.rds")
-    # result <- readRDS("final_integrated_seurat.rds")
+      # result <- readRDS("final_integrated_seurat_bonemarrow.rds")
+      # result <- readRDS("final_integrated_seurat.rds")
 
-    DefaultAssay(result) <- "integrated"
+      DefaultAssay(result) <- "integrated"
 
-    # # Save the final integrated Seurat object
-    # final_save_path <- "final_integrated_seurat_v5_multiStudySeriesOnly.rds"
-    # saveRDS(merged_integrated, file = final_save_path)
-    # log_message(paste("Final integrated Seurat object saved successfully at:", final_save_path))
+      # # Save the final integrated Seurat object
+      # final_save_path <- "final_integrated_seurat_v5_multiStudySeriesOnly.rds"
+      # saveRDS(merged_integrated, file = final_save_path)
+      # log_message(paste("Final integrated Seurat object saved successfully at:", final_save_path))
 
-    # Verify that the 'orig.ident' column exists in the metadata of the merged object
-    if (!"orig.ident" %in% colnames(result@meta.data)) {
-      stop("Error: The 'orig.ident' column is not found in the metadata. Ensure that the orig.ident information is present.")
+      # Verify that the 'orig.ident' column exists in the metadata of the merged object
+      if (!"orig.ident" %in% colnames(result@meta.data)) {
+        stop("Error: The 'orig.ident' column is not found in the metadata. Ensure that the orig.ident information is present.")
+      }
+
+      # Split the merged Seurat object by orig.ident using the metadata column
+      origIdent_list <- SplitObject(result, split.by = "orig.ident")
+
+      # Create an empty list to store the SCT-normalized expression data for each orig.ident
+      expr_list_integrated <- list()
+
+      # Loop through each orig.ident-specific Seurat object and extract the SCT-normalized data
+      for (sra_name in names(origIdent_list)) {
+        # Extract the SCT-normalized data from the 'data' slot of the SCT assay
+        sra_data <- GetAssayData(origIdent_list[[sra_name]], slot = "data", assay = "integrated")
+
+        # Store the extracted data in expr_list using the orig.ident name as the key
+        expr_list_integrated[[sra_name]] <- sra_data
+      }
+
+      # Check the structure of expr_list to verify the extraction
+      str(expr_list_integrated)
+
+      saveRDS(expr_list_integrated, file = paste0(
+        "expr_list_", SEURAT_INTEGRATION_PREFIX, dataset_suffix, ".Rds"
+      ))
+
+      seurat_prefix <- paste0("_", SEURAT_INTEGRATION_PREFIX)
+      PD_result_integrated <- compute_ph_batch(
+        expr_list_integrated, DIM, log_message, dataset_suffix,
+        seurat_prefix, max_cores = 8
+      )
+      save_ph_results(
+        PD_result_integrated, expr_list_integrated, DIM, THRESHOLD,
+        dataset_suffix, seurat_prefix, log_message
+      )
+    } else {
+      log_message("Skipping Seurat integration based on integration_methods configuration.")
     }
 
-    # Split the merged Seurat object by orig.ident using the metadata column
-    origIdent_list <- SplitObject(result, split.by = "orig.ident")
-
-    # Create an empty list to store the SCT-normalized expression data for each orig.ident
-    expr_list_integrated <- list()
-
-    # Loop through each orig.ident-specific Seurat object and extract the SCT-normalized data
-    for (sra_name in names(origIdent_list)) {
-      # Extract the SCT-normalized data from the 'data' slot of the SCT assay
-      sra_data <- GetAssayData(origIdent_list[[sra_name]], slot = "data", assay = "integrated")
-
-      # Store the extracted data in expr_list using the orig.ident name as the key
-      expr_list_integrated[[sra_name]] <- sra_data
-    }
-
-    # Check the structure of expr_list to verify the extraction
-    str(expr_list_integrated)
-
-    saveRDS(expr_list_integrated, file = paste0(
-      "expr_list_", SEURAT_INTEGRATION_PREFIX, dataset_suffix, ".Rds"
-    ))
-
-    seurat_prefix <- paste0("_", SEURAT_INTEGRATION_PREFIX)
-    PD_result_integrated <- compute_ph_batch(
-      expr_list_integrated, DIM, log_message, dataset_suffix,
-      seurat_prefix, max_cores = 8
-    )
-    save_ph_results(
-      PD_result_integrated, expr_list_integrated, DIM, THRESHOLD,
-      dataset_suffix, seurat_prefix, log_message
-    )
-
-    if (!is.null(expr_list_sctInd)) {
+    if (run_harmony_integration && !is.null(expr_list_sctInd)) {
       if (requireNamespace("harmony", quietly = TRUE)) {
         log_message("Running Harmony integration on SCT-normalized data")
 
@@ -777,7 +800,7 @@ process_datasets_PH <- function(metadata,
       } else {
         log_message("Harmony package not installed; skipping Harmony integration.")
       }
-    } else {
+    } else if (run_harmony_integration) {
       log_message("Skipping Harmony integration because SCT data were not generated.")
     }
   }
