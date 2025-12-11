@@ -8,10 +8,11 @@ run_unified_pipeline(
   metadata_path,
   results_dir = "results",
   num_cores = 8,
-  integration_method = "seurat",
+  integration_methods = "seurat",
   run_cluster = FALSE,
   run_betti = FALSE,
   run_cross_iteration = FALSE,
+  custom_iteration_inputs = NULL,
   ...
 )
 }
@@ -22,9 +23,11 @@ run_unified_pipeline(
 
 \item{num_cores}{Number of cores to use for parallel tasks.}
 
-\item{integration_method}{Integration method to apply when processing
-datasets. Use "seurat" to produce the Seurat integration iteration or
-"harmony" to produce the Harmony iteration.}
+\item{integration_methods}{Character vector of integration methods to apply
+when processing datasets. Use "seurat" to produce the Seurat integration
+iteration, "harmony" to produce the Harmony iteration, or supply both to run
+them side by side (raw and SCT iterations are always generated alongside the
+chosen integration outputs).}
 
 \item{run_cluster}{If `TRUE`, run clustering comparisons during
 post-processing.}
@@ -32,6 +35,16 @@ post-processing.}
 \item{run_betti}{If `TRUE`, compute and compare Betti curves.}
 
 \item{run_cross_iteration}{If `TRUE`, perform cross-iteration analyses.}
+
+\item{custom_iteration_inputs}{Optional named list mapping iteration labels or
+prefixes to lists with `seurat_object_path`, `ph_list_path`, `bdm_matrix_path`,
+`sdm_matrix_path`, `landscape_list_path`, and
+`landscape_l2_distance_matrix_path` entries, or a path to an R script that
+defines such a list. When provided, matching iterations load the supplied
+objects before recomputing only the missing matrices and clustering outputs. If
+`NULL`, the function looks for a populated template at
+`inst/extdata/custom_iteration_inputs_template.R` and will import it
+automatically when valid paths are detected.}
 
 \item{...}{Additional arguments passed to the underlying processing
 functions.}

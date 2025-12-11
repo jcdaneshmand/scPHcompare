@@ -12,6 +12,7 @@ run_postprocessing_pipeline(
   run_kmeans_clustering = TRUE,
   run_hierarchical_ph_clustering = TRUE,
   run_spectral_clustering = TRUE,
+  hierarchical_methods = c("ward.D2", "average", "complete", "mcquitty"),
   run_visualizations = TRUE,
   run_sample_level_heatmap = TRUE,
   run_cluster = TRUE,
@@ -21,6 +22,8 @@ run_postprocessing_pipeline(
   SRA_col = "orig.ident",
   Tissue_col = "Tissue",
   Approach_col = "Approach",
+  custom_iteration_inputs = NULL,
+  preferred_integration_iteration = SEURAT_INTEGRATION_LABEL,
   ...
 )
 }
@@ -40,6 +43,9 @@ clustering on PH distances.}
 
 \item{run_spectral_clustering}{Logical, run spectral clustering.}
 
+\item{hierarchical_methods}{Character vector of linkage methods passed to
+`hclust()` when running hierarchical clustering.}
+
 \item{run_visualizations}{Logical, generate plots for each iteration.}
 
 \item{run_sample_level_heatmap}{Logical, create sample-level heatmaps.}
@@ -57,6 +63,20 @@ clustering on PH distances.}
 \item{Tissue_col}{Metadata column containing tissue labels.}
 
 \item{Approach_col}{Metadata column describing experimental approach.}
+
+\item{custom_iteration_inputs}{Optional named list mapping iteration labels or
+prefixes to lists with `seurat_object_path`, `ph_list_path`, `bdm_matrix_path`,
+`sdm_matrix_path`, `landscape_list_path`, and
+`landscape_l2_distance_matrix_path` entries, or a path to an R script that
+defines such a list. When provided, the matching iterations will load and use
+these custom inputs, recomputing only the missing matrices before continuing
+with downstream analyses. If `NULL`, the function looks for a populated
+template at `inst/extdata/custom_iteration_inputs_template.R` and imports it
+when valid paths are present.}
+
+\item{preferred_integration_iteration}{Preferred integration iteration name to
+prioritize when determining defaults. Falls back to Seurat integration when the
+requested iteration is unavailable.}
 
 \item{...}{Additional arguments passed to helper functions.}
 }
