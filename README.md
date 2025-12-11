@@ -120,6 +120,23 @@ in later runs:
   module. Each grouping generates aggregated pairwise statistics, for
   example `Tissue_<tissue>_all_cross_iteration_pairwise_stats.csv`.
 
+### Clustering metadata column naming
+
+Clustering results added to the Seurat metadata follow consistent naming
+patterns to ease downstream filtering. Columns created by
+`apply_all_clustering_methods()` use lower‑case dataset names and a suffix
+matching the grouping variable:
+
+* K‑means clustering: `kmeans_cluster_<dataset>_<group>`
+* Hierarchical clustering on PH distances:
+  `hierarchical_cluster_<matrix>_ph_<dataset>_<group>_<linkage>` where
+  `<matrix>` is `bdm`, `sdm`, or `landscape`
+* Spectral clustering: `spectral_cluster_<matrix>_<dataset>_<group>`
+
+Grouping suffixes correspond to `tissue`, `sra`, or `approach`. These
+columns are consumed by `run_cluster_comparison()` when generating
+comparison plots and metrics.
+
 Pairwise statistics summarised across datasets for the manuscript are archived in the repository's `Result Tables/` directory. This folder contains the original analysis tables and should be preserved.
 
 ## Functions exported

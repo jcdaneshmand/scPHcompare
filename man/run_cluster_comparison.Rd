@@ -2,7 +2,7 @@
 % Please edit documentation in R/cluster_comparison.R
 \name{run_cluster_comparison}
 \alias{run_cluster_comparison}
-\title{Compare clustering results across methods.}
+\title{Compare clustering results across methods}
 \usage{
 run_cluster_comparison(
   data_iterations,
@@ -14,8 +14,36 @@ run_cluster_comparison(
   verbose = TRUE
 )
 }
+\arguments{
+\item{data_iterations}{List of iteration objects produced by
+\code{process_datasets_PH()}, each containing a \code{seurat_obj} element with
+clustering metadata columns.}
+
+\item{results_folder}{Path to the root results directory where plots
+should be written.}
+
+\item{dataset_tag}{Optional suffix used to distinguish datasets in plot
+names.}
+
+\item{run_comparative_metrics}{Logical, compute comparison metrics if
+\code{TRUE}.}
+
+\item{include_silhouette}{Logical, include silhouette calculations when
+\code{TRUE}.}
+
+\item{SRA_col}{Metadata column containing sample identifiers used for
+grouping.}
+
+\item{verbose}{Logical, print progress messages when \code{TRUE}.}
+}
+\value{
+(Invisibly) a list of normalized bar plots, one per iteration,
+useful for further custom plotting.
+}
 \description{
-This function assumes clustering has already been performed on the
-provided Seurat objects.  It collects the clustering columns and
-produces comparative metrics and plots.
+Collates clustering columns that already exist in the provided Seurat
+objects (e.g. those added by \code{apply_all_clustering_methods()}) and
+generates comparison plots and metrics. Normalised bar plots are
+collected for each iteration and saved as a combined figure in
+\verb{results_folder/plots/withinIterationClusterComparison/}.
 }
