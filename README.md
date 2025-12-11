@@ -17,27 +17,18 @@
 
 ## Installation
 
-The package can be installed from a local checkout using `devtools`:
-
-```r
-# install.packages("devtools")
-library(devtools)
-install("path/to/scPHcompare")
-library(scPHcompare)
-```
-
-`scPHcompare` depends on several Bioconductor and CRAN packages listed in the `DESCRIPTION` file. Make sure these are available in your R environment before running the pipeline.
-
-## Dependency management with renv
-
-This repository tracks its R package dependencies with [renv](https://rstudio.github.io/renv/). After cloning the repository, install `renv` if necessary and restore the lockfile to create a project-local library:
+After cloning the repository, restore the `renv` environment first so dependencies (including `devtools`) match the lockfile. Then install the package from the restored environment:
 
 ```r
 # install.packages("renv")  # run once per machine
 renv::restore()
+
+library(devtools)            # installed from the lockfile
+devtools::install("path/to/scPHcompare")
+library(scPHcompare)
 ```
 
-`renv::restore()` installs the specific package versions recorded in `renv.lock`. R sessions started from the project root automatically use this library; alternatively call `renv::activate()` manually. If you add or upgrade packages, run `renv::snapshot()` to update the lockfile before committing.
+`renv::restore()` installs the specific Bioconductor and CRAN package versions recorded in `renv.lock`. R sessions started from the project root automatically use this library; alternatively call `renv::activate()` manually. If you add or upgrade packages, run `renv::snapshot()` to update the lockfile before committing.
 
 ## Input data
 
