@@ -52,7 +52,7 @@ results <- run_unified_pipeline(
   metadata_path = "metadata.csv",
   results_dir = "results",
   num_cores = 8,
-  integration_method = "seurat", # or "harmony" to run the Harmony iteration
+  integration_methods = "seurat", # or include "harmony" to run the Harmony iteration
   run_cluster = TRUE,        # optional cluster metrics output
   run_betti = TRUE,          # optional Betti curve comparison
   run_cross_iteration = TRUE # cross-iteration comparisons
@@ -69,7 +69,7 @@ The wrapper executes preprocessing and PH calculation first. If the optional mod
 * `Harmony Integration` → stored under the prefix `harmony_integration` with assay `harmony`
 * Additional rows describe the raw and SCT-derived iterations (`Raw`, `SCT_Individual`, `SCT_Whole`) that are produced alongside the integration outputs.
 
-Select the integration strategy with the `integration_method` argument (`"seurat"` or `"harmony"`). The chosen method controls which integration iteration is generated, while the other baseline iterations (raw and SCT variants) remain available for comparison. The iteration labels from `iteration_config.csv` are reused when naming output files (for example, `seurat_integration_seurat_object.rds` or `harmony_integration_seurat_object.rds`).
+Select the integration strategy with the `integration_methods` argument (`"seurat"`, `"harmony"`, or both). The chosen method controls which integration iteration is generated, while the other baseline iterations (raw and SCT variants) remain available for comparison. The iteration labels from `iteration_config.csv` are reused when naming output files (for example, `seurat_integration_seurat_object.rds` or `harmony_integration_seurat_object.rds`).
 
 Distance matrices can also be generated separately for each iteration by calling `process_iteration_calculate_matrices()` from `PH_PostProcessing_andAnalysis.R`.
 
