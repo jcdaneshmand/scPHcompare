@@ -16,6 +16,13 @@
 #'   post-processing.
 #' @param run_cross_iteration If `TRUE`, perform cross-iteration analyses.
 #' @param run_betti If `TRUE`, compute and compare Betti curves.
+#' @param custom_iteration_inputs Optional named list mapping iteration labels or
+#'   prefixes to lists with `seurat_object_path` and `ph_list_path` entries, or a
+#'   path to an R script that defines such a list. When provided, matching
+#'   iterations load the supplied Seurat objects and PH lists before recomputing
+#'   distance matrices and clustering outputs. If `NULL`, the function looks for
+#'   a populated template at `inst/extdata/custom_iteration_inputs_template.R`
+#'   and will import it automatically when valid paths are detected.
 #' @param ... Additional arguments passed to the underlying processing
 #'   functions.
 #'
@@ -35,10 +42,12 @@ run_unified_pipeline <- function(metadata_path,
                                  run_cluster = FALSE,
                                  run_betti = FALSE,
                                  run_cross_iteration = FALSE,
+                                 custom_iteration_inputs = NULL,
                                  ...) {
   if (!requireNamespace("readr", quietly = TRUE)) {
     stop("Package 'readr' is required")
   }
+  custom_iteration_inputs <- import_custom_iteration_inputs(custom_iteration_inputs)
   # Functions are available once the package is loaded
   if (!dir.exists(results_dir)) {
     dir.create(results_dir, recursive = TRUE)
@@ -60,6 +69,7 @@ run_unified_pipeline <- function(metadata_path,
                                   SRA_col = ph_results$SRA_col,
                                   Tissue_col = ph_results$Tissue_col,
                                   Approach_col = ph_results$Approach_col,
+                                  custom_iteration_inputs = custom_iteration_inputs,
                                   ...),
       error = function(e) {
         stop(

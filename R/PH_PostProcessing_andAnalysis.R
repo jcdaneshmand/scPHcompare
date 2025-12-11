@@ -479,6 +479,153 @@ run_modular_analysis <- function(ph_results,
   invisible(results)
 }
 
+apply_custom_iteration_overrides <- function(data_iterations,
+                                             custom_iteration_inputs,
+                                             log_message = message) {
+  if (is.null(custom_iteration_inputs) || length(custom_iteration_inputs) == 0) {
+    return(data_iterations)
+  }
+  if (is.null(names(custom_iteration_inputs)) || any(!nzchar(names(custom_iteration_inputs)))) {
+    stop("custom_iteration_inputs must be a named list keyed by iteration labels or prefixes.")
+  }
+  if (is.null(log_message)) {
+    log_message <- message
+  }
+
+  normalized_names <- vapply(
+    names(custom_iteration_inputs),
+    normalize_iteration_label,
+    character(1)
+  )
+
+  for (i in seq_along(data_iterations)) {
+    iter <- data_iterations[[i]]
+    iter_label <- normalize_iteration_label(iter$name)
+    match_idx <- which(normalized_names == iter_label)
+    if (length(match_idx) == 0) {
+      next
+    }
+
+    override <- custom_iteration_inputs[[match_idx[[1]]]]
+    if (!is.list(override)) {
+      stop(sprintf("Custom iteration entry for '%s' must be a list with path values.", iter_label))
+    }
+
+    seurat_path <- override$seurat_object_path
+    if (is.null(seurat_path)) seurat_path <- override$seurat_object
+    if (is.null(seurat_path)) seurat_path <- override$seurat_path
+
+    ph_list_path <- override$ph_list_path
+    if (is.null(ph_list_path)) ph_list_path <- override$ph_list
+    if (is.null(ph_list_path)) ph_list_path <- override$pd_list_path
+
+    bdm_path <- override$bdm_matrix_path
+    if (is.null(bdm_path)) bdm_path <- override$bdm_path
+
+    sdm_path <- override$sdm_matrix_path
+    if (is.null(sdm_path)) sdm_path <- override$sdm_path
+
+    landscape_list_path <- override$landscape_list_path
+    if (is.null(landscape_list_path)) landscape_list_path <- override$landscape_path
+
+    landscape_matrix_path <- override$landscape_l2_distance_matrix_path
+    if (is.null(landscape_matrix_path)) landscape_matrix_path <- override$landscape_matrix_path
+    if (is.null(landscape_matrix_path)) landscape_matrix_path <- override$landscape_distance_matrix_path
+
+    provided_flags <- list(
+      seurat = FALSE,
+      pd_list = FALSE,
+      bdm = FALSE,
+      sdm = FALSE,
+      landscape_list = FALSE,
+      landscape_matrix = FALSE
+    )
+
+    if (!is.null(seurat_path)) {
+      if (!file.exists(seurat_path)) {
+        stop(sprintf("Seurat object path does not exist for iteration '%s': %s", iter_label, seurat_path))
+      }
+      seurat_obj <- readRDS(seurat_path)
+      data_iterations[[i]]$seurat_obj <- seurat_obj
+      log_message(sprintf("Loaded custom Seurat object for %s from %s", iter$name, seurat_path))
+      provided_flags$seurat <- TRUE
+    }
+
+    if (!is.null(ph_list_path)) {
+      if (!file.exists(ph_list_path)) {
+        stop(sprintf("PH list path does not exist for iteration '%s': %s", iter_label, ph_list_path))
+      }
+      ph_list <- readRDS(ph_list_path)
+      if (!is.list(ph_list)) {
+        stop(sprintf("PH list for iteration '%s' must be a list.", iter_label))
+      }
+
+      expr_names <- names(iter$expr_list)
+      if (!is.null(expr_names) && length(expr_names) > 0) {
+        if (length(ph_list) != length(expr_names)) {
+          log_message(sprintf(
+            "Warning: Custom PH list length (%s) does not match expr_list length (%s) for %s",
+            length(ph_list), length(expr_names), iter$name
+          ))
+        }
+        names(ph_list) <- expr_names
+      }
+
+      pd_dest_path <- iter$pd_list
+      if (is.null(pd_dest_path) || !nzchar(pd_dest_path)) {
+        data_iterations[[i]]$pd_list <- ph_list_path
+        pd_dest_path <- ph_list_path
+      } else {
+        saveRDS(ph_list, file = pd_dest_path)
+      }
+      log_message(sprintf("Loaded custom PH list for %s from %s", iter$name, ph_list_path))
+      provided_flags$pd_list <- TRUE
+    }
+
+    if (!is.null(bdm_path)) {
+      if (!file.exists(bdm_path)) {
+        stop(sprintf("BDM matrix path does not exist for iteration '%s': %s", iter_label, bdm_path))
+      }
+      data_iterations[[i]]$bdm_matrix <- bdm_path
+      log_message(sprintf("Loaded custom BDM matrix path for %s from %s", iter$name, bdm_path))
+      provided_flags$bdm <- TRUE
+    }
+
+    if (!is.null(sdm_path)) {
+      if (!file.exists(sdm_path)) {
+        stop(sprintf("SDM matrix path does not exist for iteration '%s': %s", iter_label, sdm_path))
+      }
+      data_iterations[[i]]$sdm_matrix <- sdm_path
+      log_message(sprintf("Loaded custom SDM matrix path for %s from %s", iter$name, sdm_path))
+      provided_flags$sdm <- TRUE
+    }
+
+    if (!is.null(landscape_list_path)) {
+      if (!file.exists(landscape_list_path)) {
+        stop(sprintf("Landscape list path does not exist for iteration '%s': %s", iter_label, landscape_list_path))
+      }
+      data_iterations[[i]]$landscape_list <- landscape_list_path
+      log_message(sprintf("Loaded custom landscape list for %s from %s", iter$name, landscape_list_path))
+      provided_flags$landscape_list <- TRUE
+    }
+
+    if (!is.null(landscape_matrix_path)) {
+      if (!file.exists(landscape_matrix_path)) {
+        stop(sprintf("Landscape distance matrix path does not exist for iteration '%s': %s", iter_label, landscape_matrix_path))
+      }
+      data_iterations[[i]]$landscape_l2_distance_matrix <- landscape_matrix_path
+      log_message(sprintf("Loaded custom landscape distance matrix for %s from %s", iter$name, landscape_matrix_path))
+      provided_flags$landscape_matrix <- TRUE
+    }
+
+    data_iterations[[i]]$custom_override_applied <- isTRUE(provided_flags$seurat) ||
+      isTRUE(provided_flags$pd_list)
+    data_iterations[[i]]$override_flags <- provided_flags
+  }
+
+  data_iterations
+}
+
 #' Full post-processing pipeline
 #'
 #' Performs matrix calculations, clustering and all downstream analyses
@@ -504,6 +651,14 @@ run_modular_analysis <- function(ph_results,
 #' @param SRA_col Metadata column with sample identifiers.
 #' @param Tissue_col Metadata column containing tissue labels.
 #' @param Approach_col Metadata column describing experimental approach.
+#' @param custom_iteration_inputs Optional named list mapping iteration labels or
+#'   prefixes to lists with `seurat_object_path` and `ph_list_path` entries, or a
+#'   path to an R script that defines such a list. When provided, the matching
+#'   iterations will load and use these Seurat objects and PH lists, recomputing
+#'   distance matrices and clustering outputs before continuing with downstream
+#'   analyses. If `NULL`, the function looks for a populated template at
+#'   `inst/extdata/custom_iteration_inputs_template.R` and imports it when valid
+#'   paths are present.
 #' @param preferred_integration_iteration Preferred integration iteration name to
 #'   prioritize when determining defaults. Falls back to Seurat integration when
 #'   the requested iteration is unavailable.
@@ -534,9 +689,12 @@ run_postprocessing_pipeline <- function(ph_results,
                                         SRA_col = "orig.ident",
                                         Tissue_col = "Tissue",
                                         Approach_col = "Approach",
+                                        custom_iteration_inputs = NULL,
                                         preferred_integration_iteration = SEURAT_INTEGRATION_LABEL,
                                         ...) {
   if (!dir.exists(results_dir)) dir.create(results_dir, recursive = TRUE)
+
+  custom_iteration_inputs <- import_custom_iteration_inputs(custom_iteration_inputs)
 
   metadata <- if (!is.null(metadata_path) && file.exists(metadata_path)) {
     readr::read_csv(metadata_path)
@@ -551,6 +709,12 @@ run_postprocessing_pipeline <- function(ph_results,
   if (is.null(data_iterations) || length(data_iterations) == 0) {
     stop("'ph_results' must contain data_iterations")
   }
+
+  data_iterations <- apply_custom_iteration_overrides(
+    data_iterations = data_iterations,
+    custom_iteration_inputs = custom_iteration_inputs,
+    log_message = log_message
+  )
 
   for (i in seq_along(data_iterations)) {
     iter <- data_iterations[[i]]
@@ -639,31 +803,30 @@ run_postprocessing_pipeline <- function(ph_results,
 }
 
 
+is_valid_saved_matrix <- function(matrix_path, expected_length = NULL) {
+  if (is.null(matrix_path) || !nzchar(matrix_path) || !file.exists(matrix_path)) {
+    return(FALSE)
+  }
+  tryCatch({
+    matrix_data <- readRDS(matrix_path)
+    if (!is.matrix(matrix_data) && !is.data.frame(matrix_data)) {
+      return(FALSE)
+    }
+    if (any(!is.finite(as.numeric(matrix_data)))) {
+      return(FALSE)
+    }
+    if (!is.null(expected_length) && nrow(matrix_data) != expected_length) {
+      return(FALSE)
+    }
+    TRUE
+  }, error = function(e) {
+    FALSE
+  })
+}
+
 compute_and_save_distance_matrices <- function(
     pd_list_path, expr_list, bdm_path, sdm_path, dataset_name, num_cores = 32,
     log_message, recompute_bdm = TRUE, recompute_sdm = TRUE) {
-
-  # Function to check if a matrix is valid
-  is_valid_matrix <- function(matrix_path, expected_length = NULL) {
-    if (!file.exists(matrix_path)) {
-      return(FALSE)
-    }
-    tryCatch({
-      matrix_data <- readRDS(matrix_path)
-      if (!is.matrix(matrix_data) && !is.data.frame(matrix_data)) {
-        return(FALSE)
-      }
-      if (any(!is.finite(as.numeric(matrix_data)))) {
-        return(FALSE)
-      }
-      if (!is.null(expected_length) && nrow(matrix_data) != expected_length) {
-        return(FALSE)
-      }
-      return(TRUE)
-    }, error = function(e) {
-      return(FALSE)
-    })
-  }
 
   # Load the PD list (needed for computation) and get names from the provided expr_list
   pd_list <- readRDS(pd_list_path)
@@ -675,7 +838,7 @@ compute_and_save_distance_matrices <- function(
   bdm_progress_file <- paste0("BDM_progress_", dataset_name, ".rds")
 
   # Check or load/recompute BDM
-  if (is_valid_matrix(bdm_path, expected_length = length(expr_list_names)) && !recompute_bdm) {
+  if (is_valid_saved_matrix(bdm_path, expected_length = length(expr_list_names)) && !recompute_bdm) {
     log_message(paste("Loading preexisting and valid BDM for", dataset_name))
     BDM <- readRDS(bdm_path)
     # Update row and column names if they differ or are missing
@@ -723,7 +886,7 @@ compute_and_save_distance_matrices <- function(
   }
 
   # Check or recompute SDM
-  if (is_valid_matrix(sdm_path, expected_length = length(expr_list_names)) && !recompute_sdm) {
+  if (is_valid_saved_matrix(sdm_path, expected_length = length(expr_list_names)) && !recompute_sdm) {
     log_message(paste("Loading preexisting and valid SDM for", dataset_name))
     SDM <- readRDS(sdm_path)
     # Update row and column names if they differ or are missing
@@ -954,32 +1117,107 @@ compute_and_save_landscape_matrices <- function(
   }
 }
 
+compute_landscape_distance_matrix_from_list <- function(landscape_list,
+                                                        pd_names,
+                                                        landscape_distance_matrix_path,
+                                                        log_message) {
+  n <- length(landscape_list)
+  if (is.null(pd_names) || length(pd_names) != n) {
+    pd_names <- paste0("PD_", seq_len(n))
+  }
+  combined_distance_matrix <- matrix(0, n, n)
+  rownames(combined_distance_matrix) <- pd_names
+  colnames(combined_distance_matrix) <- pd_names
+
+  for (i in 1:n) {
+    for (j in i:n) {
+      if (any(is.na(landscape_list[[i]]$dim0)) || any(is.na(landscape_list[[j]]$dim0))) {
+        combined_dist <- NA
+      } else {
+        dist_dim0 <- sqrt(sum((landscape_list[[i]]$dim0 - landscape_list[[j]]$dim0) ^ 2))
+        dist_dim1 <- sqrt(sum((landscape_list[[i]]$dim1 - landscape_list[[j]]$dim1) ^ 2))
+        combined_dist <- sqrt(dist_dim0 ^ 2 + dist_dim1 ^ 2)
+      }
+      combined_distance_matrix[i, j] <- combined_dist
+      combined_distance_matrix[j, i] <- combined_dist
+    }
+  }
+
+  saveRDS(combined_distance_matrix, file = landscape_distance_matrix_path)
+  write.csv(combined_distance_matrix, file = sub(".Rds", ".csv", landscape_distance_matrix_path))
+  log_message(paste("Saved combined landscape distance matrix to", landscape_distance_matrix_path))
+}
+
 # ---------------------------
 # Updated Per-Iteration Function: Integrate All Computations
 # ---------------------------
 process_iteration_calculate_matrices <- function(iteration, num_cores, log_message) {
   log_message(paste("Processing dataset:", iteration$name))
 
+  expected_length <- length(iteration$expr_list)
+  override_flags <- iteration$override_flags
+  if (is.null(override_flags)) override_flags <- list()
+  force_recompute <- isTRUE(iteration$custom_override_applied)
+  provided_bdm <- isTRUE(override_flags$bdm)
+  provided_sdm <- isTRUE(override_flags$sdm)
+  provided_landscape_list <- isTRUE(override_flags$landscape_list)
+  provided_landscape_matrix <- isTRUE(override_flags$landscape_matrix)
+
+  recompute_bdm <- !provided_bdm && (force_recompute || !is_valid_saved_matrix(iteration$bdm_matrix, expected_length))
+  recompute_sdm <- !provided_sdm && (force_recompute || recompute_bdm || !is_valid_saved_matrix(iteration$sdm_matrix, expected_length))
+
   # Compute Bottleneck and Spectral Distance Matrices
-  compute_and_save_distance_matrices(
-    pd_list_path = iteration$pd_list,
-    expr_list = iteration$expr_list,
-    bdm_path = iteration$bdm_matrix,
-    sdm_path = iteration$sdm_matrix,
-    dataset_name = iteration$name,
-    num_cores = num_cores,
-    log_message = log_message
-  )
+  if (recompute_bdm || recompute_sdm) {
+    compute_and_save_distance_matrices(
+      pd_list_path = iteration$pd_list,
+      expr_list = iteration$expr_list,
+      bdm_path = iteration$bdm_matrix,
+      sdm_path = iteration$sdm_matrix,
+      dataset_name = iteration$name,
+      num_cores = num_cores,
+      log_message = log_message,
+      recompute_bdm = recompute_bdm,
+      recompute_sdm = recompute_sdm
+    )
+  } else {
+    log_message(paste("Skipping BDM/SDM recomputation for", iteration$name, "(valid custom inputs available)."))
+  }
 
   # Compute Persistence Landscapes and Combined Distance Matrix for Dimensions 0 and 1
-  log_message(paste("Computing persistence landscapes and combined distance matrix for", iteration$name))
-  compute_and_save_landscape_matrices(
-    pd_list_path = iteration$pd_list,
-    landscape_list_path = iteration$landscape_list,
-    landscape_distance_matrix_path = iteration$landscape_l2_distance_matrix,
-    log_message = log_message,
-    num_cores = num_cores
-  )
+  landscape_list_valid <- FALSE
+  if (!is.null(iteration$landscape_list) && file.exists(iteration$landscape_list)) {
+    landscape_list_valid <- tryCatch({
+      lst <- readRDS(iteration$landscape_list)
+      validate_landscape_list(lst, expected_length = expected_length, verbose = FALSE)
+    }, error = function(e) FALSE)
+  }
+
+  landscape_matrix_valid <- is_valid_saved_matrix(iteration$landscape_l2_distance_matrix, expected_length)
+  recompute_landscape_list <- !provided_landscape_list && (force_recompute || !landscape_list_valid)
+  recompute_landscape_matrix <- !provided_landscape_matrix && (force_recompute || !landscape_matrix_valid)
+
+  if (recompute_landscape_list) {
+    log_message(paste("Computing persistence landscapes and combined distance matrix for", iteration$name))
+    compute_and_save_landscape_matrices(
+      pd_list_path = iteration$pd_list,
+      landscape_list_path = iteration$landscape_list,
+      landscape_distance_matrix_path = iteration$landscape_l2_distance_matrix,
+      log_message = log_message,
+      num_cores = num_cores
+    )
+  } else if (recompute_landscape_matrix) {
+    log_message(paste("Reusing provided landscape list to compute distance matrix for", iteration$name))
+    landscape_list <- readRDS(iteration$landscape_list)
+    expr_names <- names(iteration$expr_list)
+    compute_landscape_distance_matrix_from_list(
+      landscape_list = landscape_list,
+      pd_names = expr_names,
+      landscape_distance_matrix_path = iteration$landscape_l2_distance_matrix,
+      log_message = log_message
+    )
+  } else {
+    log_message(paste("Skipping persistence landscape recomputation for", iteration$name, "(valid outputs already present)."))
+  }
 }
 
 # Validate that an object is a matrix (or data frame) with correct dimensions and names

@@ -73,6 +73,52 @@ Select the integration strategy with the `integration_methods` argument (`"seura
 
 Distance matrices can also be generated separately for each iteration by calling `process_iteration_calculate_matrices()` from `PH_PostProcessing_andAnalysis.R`.
 
+### Providing custom Seurat objects or PH lists for an iteration
+
+If you want to rerun the clustering and visualisation steps on your own Seurat
+objects or PH lists, supply a named `custom_iteration_inputs` list **or a path**
+to an R script that defines that list. A template containing every iteration is
+available at `inst/extdata/custom_iteration_inputs_template.R`; copy it,
+populate the file paths you wish to override (Seurat object, PD list, BDM, SDM,
+landscape list or landscape L2 matrix), and either pass the resulting list
+directly or point `custom_iteration_inputs` to the edited file. The overrides
+are applied before distance matrices are generated, ensuring all clustering
+approaches are rerun on the substituted data while reusing any valid
+precomputed matrices already on disk:
+
+```r
+custom_inputs <- list(
+  "Seurat Integration" = list(
+    seurat_object_path = "./overrides/seurat_integration_object.rds",
+    ph_list_path = "./overrides/seurat_integration_ph_list.rds",
+    bdm_matrix_path = "./overrides/seurat_integration_bdm.rds",
+    sdm_matrix_path = "./overrides/seurat_integration_sdm.rds",
+    landscape_list_path = "./overrides/seurat_integration_landscape_list.rds",
+    landscape_l2_distance_matrix_path = "./overrides/seurat_integration_landscape_l2.rds"
+  ),
+  Raw = list(ph_list_path = "./overrides/raw_pd_list.rds")
+)
+
+results <- run_unified_pipeline(
+  metadata_path = "metadata.csv",
+  results_dir = "results",
+  custom_iteration_inputs = custom_inputs,
+  run_cluster = TRUE
+)
+```
+
+Alternatively, point `custom_iteration_inputs` to the edited template file so
+the pipeline can read the overrides directly from disk:
+
+```r
+results <- run_unified_pipeline(
+  metadata_path = "metadata.csv",
+  results_dir = "results",
+  custom_iteration_inputs = "./overrides/custom_iteration_inputs_template.R",
+  run_cluster = TRUE
+)
+```
+
 ## Toy Example Data
 
 To try the package without obtaining real datasets, a set of synthetic datasets can be generated directly in R:
