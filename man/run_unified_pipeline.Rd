@@ -23,7 +23,8 @@ run_unified_pipeline(
 \item{num_cores}{Number of cores to use for parallel tasks.}
 
 \item{integration_method}{Integration method to apply when processing
-datasets. Options include "seurat", "liger" or "mnn".}
+datasets. Use "seurat" to produce the Seurat integration iteration or
+"harmony" to produce the Harmony iteration.}
 
 \item{run_cluster}{If `TRUE`, run clustering comparisons during
 post-processing.}

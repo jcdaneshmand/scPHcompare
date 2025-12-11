@@ -28,6 +28,7 @@ Imports:
     ggtext,
     glue,
     gridExtra,
+    harmony,
     kernlab,
     Matrix,
     mclust,

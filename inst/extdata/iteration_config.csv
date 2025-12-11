@@ -1,0 +1,6 @@
+label,prefix,assay
+Raw,raw,RNA
+SCT_Individual,sct_individual,SCT_Ind
+SCT_Whole,sct_whole,SCT
+Seurat Integration,seurat_integration,integrated
+Harmony Integration,harmony_integration,harmony
