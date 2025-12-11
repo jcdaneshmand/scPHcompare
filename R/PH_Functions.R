@@ -45,9 +45,9 @@ update_progress_log <- function(log_file, job_id, status, threshold = NA) {
 # Function to get available memory using ps package
 get_available_memory <- function() {
   mem_info <- ps::ps_system_memory()
-  # Available memory in bytes
-  memfree_bytes <- mem_info$free
-  return(memfree_bytes)
+  # Convert available memory from bytes to megabytes for downstream calculations
+  memfree_mb <- mem_info$free / (1024 ^ 2)
+  return(memfree_mb)
 }
 
 # Function to save intermediate results for persistence diagrams
