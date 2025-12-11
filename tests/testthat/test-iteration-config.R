@@ -37,7 +37,10 @@ test_that("assemble_ph_results interpolates paths from iteration metadata", {
     expr_list_integrated = expr_list_placeholder,
     harmony = NULL,
     expr_list_harmony = NULL,
-    iteration_cfg = cfg
+    iteration_cfg = cfg,
+    DIM = 1,
+    THRESHOLD = -1,
+    dataset_suffix = ""
   )
 
   expect_true(length(iterations) >= 4)

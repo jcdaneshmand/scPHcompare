@@ -60,7 +60,7 @@ normalize_iteration_label <- function(identifier, iteration_cfg = NULL) {
   cfg$label[match_idx[[1]]]
 }
 
-build_iteration_paths <- function(prefix, unintegrated = FALSE) {
+build_iteration_paths <- function(prefix, DIM, THRESHOLD, dataset_suffix, unintegrated = FALSE) {
   path_prefix <- if (unintegrated) {
     paste0("unintegrated_", prefix)
   } else {
@@ -70,7 +70,10 @@ build_iteration_paths <- function(prefix, unintegrated = FALSE) {
   list(
     bdm_matrix = sprintf("BDM_%s.rds", path_prefix),
     sdm_matrix = sprintf("SDM_%s.rds", path_prefix),
-    pd_list = sprintf("PD_list_%s.rds", path_prefix)
+    pd_list = paste0(
+      "PD_list_dim", DIM, "_th", THRESHOLD,
+      "_", path_prefix, dataset_suffix, ".Rds"
+    )
   )
 }
 
@@ -177,7 +180,8 @@ assemble_ph_results <- function(merged_unintegrated, integrated,
                                 expr_list_sctWhole, expr_list_integrated,
                                 harmony = NULL, expr_list_harmony = NULL,
                                 harmony_assay = HARMONY_ASSAY_NAME,
-                                iteration_cfg = NULL) {
+                                iteration_cfg = NULL,
+                                DIM, THRESHOLD, dataset_suffix) {
   cfg <- iteration_cfg
   if (is.null(cfg)) {
     cfg <- tryCatch(get_iteration_config(), error = function(e) NULL)
@@ -207,7 +211,13 @@ assemble_ph_results <- function(merged_unintegrated, integrated,
       next
     }
 
-    paths <- build_iteration_paths(prefix, unintegrated = isTRUE(src$unintegrated))
+    paths <- build_iteration_paths(
+      prefix,
+      DIM = DIM,
+      THRESHOLD = THRESHOLD,
+      dataset_suffix = dataset_suffix,
+      unintegrated = isTRUE(src$unintegrated)
+    )
     iterations[[length(iterations) + 1]] <- list(
       name = cfg$label[[i]],
       label = cfg$label[[i]],
