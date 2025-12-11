@@ -1,0 +1,128 @@
+File Path,Sample Name,SRA,Tissue,Approach
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/SubstantiaNigra/SRA850958_SRS4386092.sparse.RData,SRS4386092,SRA850958,substantia nigra,snRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/SubstantiaNigra/SRA850958_SRS4386091.sparse.RData,SRS4386091,SRA850958,substantia nigra,snRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/SubstantiaNigra/SRA850958_SRS4386107.sparse.RData,SRS4386107,SRA850958,substantia nigra,snRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/SubstantiaNigra/SRA850958_SRS4386101.sparse.RData,SRS4386101,SRA850958,substantia nigra,snRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/SubstantiaNigra/SRA850958_SRS4386110.sparse.RData,SRS4386110,SRA850958,substantia nigra,snRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/SubstantiaNigra/SRA850958_SRS4386109.sparse.RData,SRS4386109,SRA850958,substantia nigra,snRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/SubstantiaNigra/SRA850958_SRS4386113.sparse.RData,SRS4386113,SRA850958,substantia nigra,snRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/SubstantiaNigra/SRA850958_SRS4386112.sparse.RData,SRS4386112,SRA850958,substantia nigra,snRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/SubstantiaNigra/SRA850958_SRS4386111.sparse.RData,SRS4386111,SRA850958,substantia nigra,snRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Testis/SRA826293_SRS4181124.sparse.RData,SRS4181124,SRA826293,testis,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Testis/SRA826293_SRS4181125.sparse.RData,SRS4181125,SRA826293,testis,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Testis/SRA826293_SRS4181123.sparse.RData,SRS4181123,SRA826293,testis,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Testis/SRA826293_SRS4181126.sparse.RData,SRS4181126,SRA826293,testis,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Testis/SRA826293_SRS4181127.sparse.RData,SRS4181127,SRA826293,testis,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Testis/SRA826293_SRS4181128.sparse.RData,SRS4181128,SRA826293,testis,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Testis/SRA826293_SRS4181129.sparse.RData,SRS4181129,SRA826293,testis,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Testis/SRA826293_SRS4181130.sparse.RData,SRS4181130,SRA826293,testis,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Testis/SRA784242_SRS3822686.sparse.RData,SRS3822686,SRA784242,testis,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Testis/SRA784242_SRS3822683.sparse.RData,SRS3822683,SRA784242,testis,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Testis/SRA784242_SRS3822682.sparse.RData,SRS3822682,SRA784242,testis,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Testis/SRA784242_SRS3822680.sparse.RData,SRS3822680,SRA784242,testis,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/BoneMarrow/SRA779509_SRS3805264.sparse.RData,SRS3805264,SRA779509,bone marrow,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/BoneMarrow/SRA779509_SRS3805249.sparse.RData,SRS3805249,SRA779509,bone marrow,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/BoneMarrow/SRA779509_SRS3805261.sparse.RData,SRS3805261,SRA779509,bone marrow,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/BoneMarrow/SRA779509_SRS3805267.sparse.RData,SRS3805267,SRA779509,bone marrow,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/BoneMarrow/SRA779509_SRS3805260.sparse.RData,SRS3805260,SRA779509,bone marrow,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/BoneMarrow/SRA779509_SRS3805256.sparse.RData,SRS3805256,SRA779509,bone marrow,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/BoneMarrow/SRA779509_SRS3805253.sparse.RData,SRS3805253,SRA779509,bone marrow,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/BoneMarrow/SRA779509_SRS3805250.sparse.RData,SRS3805250,SRA779509,bone marrow,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/BoneMarrow/SRA779509_SRS3805251.sparse.RData,SRS3805251,SRA779509,bone marrow,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/BoneMarrow/SRA779509_SRS3805257.sparse.RData,SRS3805257,SRA779509,bone marrow,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/BoneMarrow/SRA779509_SRS3805254.sparse.RData,SRS3805254,SRA779509,bone marrow,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/BoneMarrow/SRA779509_SRS3805252.sparse.RData,SRS3805252,SRA779509,bone marrow,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/BoneMarrow/SRA779509_SRS3805268.sparse.RData,SRS3805268,SRA779509,bone marrow,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/BoneMarrow/SRA779509_SRS3805258.sparse.RData,SRS3805258,SRA779509,bone marrow,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/BoneMarrow/SRA779509_SRS3805265.sparse.RData,SRS3805265,SRA779509,bone marrow,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/BoneMarrow/SRA779509_SRS3805269.sparse.RData,SRS3805269,SRA779509,bone marrow,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/BoneMarrow/SRA779509_SRS3805246.sparse.RData,SRS3805246,SRA779509,bone marrow,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/BoneMarrow/SRA779509_SRS3805259.sparse.RData,SRS3805259,SRA779509,bone marrow,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/BoneMarrow/SRA779509_SRS3805263.sparse.RData,SRS3805263,SRA779509,bone marrow,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/BoneMarrow/SRA779509_SRS3805266.sparse.RData,SRS3805266,SRA779509,bone marrow,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/BoneMarrow/SRA779509_SRS3805245.sparse.RData,SRS3805245,SRA779509,bone marrow,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/BoneMarrow/SRA779509_SRS3805248.sparse.RData,SRS3805248,SRA779509,bone marrow,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/BoneMarrow/SRA779509_SRS3805262.sparse.RData,SRS3805262,SRA779509,bone marrow,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/BoneMarrow/SRA779509_SRS3805255.sparse.RData,SRS3805255,SRA779509,bone marrow,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/BoneMarrow/SRA779509_SRS3805247.sparse.RData,SRS3805247,SRA779509,bone marrow,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Liver/SRA760933_SRS3693061.sparse.RData,SRS3693061,SRA760933,liver,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/PBMCs/SRA749327_SRS3693912.sparse.RData,SRS3693912,SRA749327,pbmc,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/PBMCs/SRA749327_SRS3693911.sparse.RData,SRS3693911,SRA749327,pbmc,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/PBMCs/SRA749327_SRS3693910.sparse.RData,SRS3693910,SRA749327,pbmc,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/PBMCs/SRA749327_SRS3693913.sparse.RData,SRS3693913,SRA749327,pbmc,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Prostate/SRA742961_SRS3565205.sparse.RData,SRS3565205,SRA742961,prostate,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Prostate/SRA742961_SRS3565204.sparse.RData,SRS3565204,SRA742961,prostate,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Prostate/SRA742961_SRS3565202.sparse.RData,SRS3565202,SRA742961,prostate,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Prostate/SRA742961_SRS3565210.sparse.RData,SRS3565210,SRA742961,prostate,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Prostate/SRA742961_SRS3565195.sparse.RData,SRS3565195,SRA742961,prostate,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Prostate/SRA742961_SRS3565211.sparse.RData,SRS3565211,SRA742961,prostate,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Prostate/SRA742961_SRS3565207.sparse.RData,SRS3565207,SRA742961,prostate,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Prostate/SRA742961_SRS3565203.sparse.RData,SRS3565203,SRA742961,prostate,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Prostate/SRA742961_SRS3565206.sparse.RData,SRS3565206,SRA742961,prostate,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Prostate/SRA742961_SRS3565209.sparse.RData,SRS3565209,SRA742961,prostate,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Prostate/SRA742961_SRS3565201.sparse.RData,SRS3565201,SRA742961,prostate,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Prostate/SRA742961_SRS3565198.sparse.RData,SRS3565198,SRA742961,prostate,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Prostate/SRA742961_SRS3565196.sparse.RData,SRS3565196,SRA742961,prostate,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Prostate/SRA742961_SRS3565199.sparse.RData,SRS3565199,SRA742961,prostate,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Prostate/SRA742961_SRS3565208.sparse.RData,SRS3565208,SRA742961,prostate,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Prostate/SRA742961_SRS3565197.sparse.RData,SRS3565197,SRA742961,prostate,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/BoneMarrow/SRA740174_SRS3548780.sparse.RData,SRS3548780,SRA740174,bone marrow,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/BoneMarrow/SRA740174_SRS3548782.sparse.RData,SRS3548782,SRA740174,bone marrow,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/BoneMarrow/SRA740174_SRS3548783.sparse.RData,SRS3548783,SRA740174,bone marrow,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/BoneMarrow/SRA740174_SRS3548781.sparse.RData,SRS3548781,SRA740174,bone marrow,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Colon/SRA728025_SRS3454421.sparse.RData,SRS3454421,SRA728025,colon,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Colon/SRA728025_SRS3454424.sparse.RData,SRS3454424,SRA728025,colon,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Colon/SRA728025_SRS3454423.sparse.RData,SRS3454423,SRA728025,colon,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Colon/SRA728025_SRS3454422.sparse.RData,SRS3454422,SRA728025,colon,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Colon/SRA728025_SRS3454426.sparse.RData,SRS3454426,SRA728025,colon,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Colon/SRA728025_SRS3454425.sparse.RData,SRS3454425,SRA728025,colon,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Colon/SRA728025_SRS3454427.sparse.RData,SRS3454427,SRA728025,colon,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Colon/SRA728025_SRS3454430.sparse.RData,SRS3454430,SRA728025,colon,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Colon/SRA728025_SRS3454428.sparse.RData,SRS3454428,SRA728025,colon,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Liver/SRA716608_SRS3391631.sparse.RData,SRS3391631,SRA716608,liver,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Liver/SRA716608_SRS3391629.sparse.RData,SRS3391629,SRA716608,liver,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Liver/SRA716608_SRS3391630.sparse.RData,SRS3391630,SRA716608,liver,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Liver/SRA716608_SRS3391632.sparse.RData,SRS3391632,SRA716608,liver,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Liver/SRA716608_SRS3391633.sparse.RData,SRS3391633,SRA716608,liver,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/PBMCs/SRA713577_SRS3363004.sparse.RData,SRS3363004,SRA713577,pbmc,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Colon-UlcerativeColitis/SRA703206_SRS3296613.sparse.RData,SRS3296613,SRA703206,colon,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Colon-UlcerativeColitis/SRA703206_SRS3296614.sparse.RData,SRS3296614,SRA703206,colon,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Colon/SRA703206_SRS3296611.sparse.RData,SRS3296611,SRA703206,colon,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Colon/SRA703206_SRS3296612.sparse.RData,SRS3296612,SRA703206,colon,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/PancreaticIslets/SRA701877_SRS3279688.sparse.RData,SRS3279688,SRA701877,pancreatic islets,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/PancreaticIslets/SRA701877_SRS3279685.sparse.RData,SRS3279685,SRA701877,pancreatic islets,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/PancreaticIslets/SRA701877_SRS3279689.sparse.RData,SRS3279689,SRA701877,pancreatic islets,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/PancreaticIslets/SRA701877_SRS3279691.sparse.RData,SRS3279691,SRA701877,pancreatic islets,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/PancreaticIslets/SRA701877_SRS3279686.sparse.RData,SRS3279686,SRA701877,pancreatic islets,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/PancreaticIslets/SRA701877_SRS3279684.sparse.RData,SRS3279684,SRA701877,pancreatic islets,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/PancreaticIslets/SRA701877_SRS3279687.sparse.RData,SRS3279687,SRA701877,pancreatic islets,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/PancreaticIslets/SRA701877_SRS3279690.sparse.RData,SRS3279690,SRA701877,pancreatic islets,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/PancreaticIslets/SRA701877_SRS3279694.sparse.RData,SRS3279694,SRA701877,pancreatic islets,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/PancreaticIslets/SRA701877_SRS3279692.sparse.RData,SRS3279692,SRA701877,pancreatic islets,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/PancreaticIslets/SRA701877_SRS3279693.sparse.RData,SRS3279693,SRA701877,pancreatic islets,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/PancreaticIslets/SRA701877_SRS3279695.sparse.RData,SRS3279695,SRA701877,pancreatic islets,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Testis/SRA667709_SRS3065426.sparse.RData,SRS3065426,SRA667709,testis,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Testis/SRA667709_SRS3065428.sparse.RData,SRS3065428,SRA667709,testis,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Testis/SRA667709_SRS3065427.sparse.RData,SRS3065427,SRA667709,testis,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Testis/SRA667709_SRS3065429.sparse.RData,SRS3065429,SRA667709,testis,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Testis/SRA667709_SRS3065431.sparse.RData,SRS3065431,SRA667709,testis,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Testis/SRA667709_SRS3065430.sparse.RData,SRS3065430,SRA667709,testis,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Testis/SRA645804_SRS2823411.sparse.RData,SRS2823411,SRA645804,testis,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Testis/SRA645804_SRS2823405.sparse.RData,SRS2823405,SRA645804,testis,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Testis/SRA645804_SRS2823406.sparse.RData,SRS2823406,SRA645804,testis,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Testis/SRA645804_SRS2823410.sparse.RData,SRS2823410,SRA645804,testis,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Testis/SRA645804_SRS2823407.sparse.RData,SRS2823407,SRA645804,testis,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Testis/SRA645804_SRS2823404.sparse.RData,SRS2823404,SRA645804,testis,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Testis/SRA645804_SRS2823408.sparse.RData,SRS2823408,SRA645804,testis,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Testis/SRA645804_SRS3572594.sparse.RData,SRS3572594,SRA645804,testis,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Testis/SRA645804_SRS2823409.sparse.RData,SRS2823409,SRA645804,testis,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/Testis/SRA645804_SRS2823412.sparse.RData,SRS2823412,SRA645804,testis,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/PBMCs/SRA628554_SRS2664365.sparse.RData,SRS2664365,SRA628554,pbmc,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/PBMCs/SRA628554_SRS2664364.sparse.RData,SRS2664364,SRA628554,pbmc,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/BoneMarrow/SRA621638_SRS2610285.sparse.RData,SRS2610285,SRA621638,bone marrow,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/BoneMarrow/SRA621638_SRS2610283.sparse.RData,SRS2610283,SRA621638,bone marrow,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/PBMCs/SRA550660_SRS2089636.sparse.RData,SRS2089636,SRA550660,pbmc,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/PBMCs/SRA550660_SRS2089638.sparse.RData,SRS2089638,SRA550660,pbmc,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/PBMCs/SRA550660_SRS2089635.sparse.RData,SRS2089635,SRA550660,pbmc,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/PBMCs/SRA550660_SRS2089637.sparse.RData,SRS2089637,SRA550660,pbmc,scRNA-seq
+/mnt/e/Repositories/Jonah/PH_ClusteringApp/data/VastlyDifferentTissues/PBMCs/SRA550660_SRS2089639.sparse.RData,SRS2089639,SRA550660,pbmc,scRNA-seq
