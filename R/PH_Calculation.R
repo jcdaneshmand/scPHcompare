@@ -812,7 +812,8 @@ process_datasets_PH <- function(metadata,
     merged_seurat_unintegrated, result,
     expr_list_raw, expr_list_sctInd,
     expr_list_sctWhole, expr_list_integrated,
-    harmony = harmony_result, expr_list_harmony = expr_list_harmony
+    harmony = harmony_result, expr_list_harmony = expr_list_harmony,
+    DIM = DIM, THRESHOLD = THRESHOLD, dataset_suffix = dataset_suffix
   )
 
   ph_results <- list(
