@@ -119,6 +119,13 @@ results <- run_unified_pipeline(
 )
 ```
 
+When `custom_iteration_inputs` is left as `NULL`, the pipeline also checks the
+packaged template at `inst/extdata/custom_iteration_inputs_template.R`. If you
+save real file paths into that template (or a copy of it on your library path),
+those overrides will be picked up automatically without needing to pass an
+argument, letting you swap in custom Seurat objects or PH lists for specific
+iterations with no changes to your pipeline call.
+
 ## Toy Example Data
 
 To try the package without obtaining real datasets, a set of synthetic datasets can be generated directly in R:
@@ -203,6 +210,8 @@ The package exports the following user facing functions:
 * `run_postprocessing_pipeline()` – standalone function for clustering and analyses on existing PH results
 * `run_modular_analysis()` – runs cluster comparison, Betti curves and cross‑iteration analysis
 * `process_datasets_PH()` – lower level function performing PH calculations on input datasets
+* `run_cross_iteration()` – helper to run only the cross‑iteration Betti curve comparisons on a set of prepared iterations
+* `perform_integration()` – integrates a list of Seurat objects with checkpointing and anchor caching before PH calculation
 
 
 Refer to the documentation in the `R/` directory for details on additional parameters.
