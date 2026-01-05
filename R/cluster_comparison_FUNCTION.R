@@ -20,6 +20,9 @@ enhanced_cluster_comparison_with_pvals <- function(
   SRA_col = "SRA_Number"
 ) {
   # -- Initialization & Logging helper --
+  log_message_verbose <- function(msg) {
+    if (verbose) log_message(msg)
+  }
   if (!run_comparative_metrics) {
     log_message_verbose("Comparative metrics not requested. Exiting function.")
     return(NULL)
