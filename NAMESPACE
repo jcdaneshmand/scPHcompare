@@ -44,6 +44,8 @@ export(run_postprocessing_pipeline)
 export(process_datasets_PH)
 export(run_modular_analysis)
 export(run_cross_iteration)
+export(load_custom_iteration_inputs_template)
+export(import_custom_iteration_inputs)
 
 export(perform_integration)
 export(generate_toy_data)

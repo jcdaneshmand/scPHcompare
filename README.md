@@ -72,9 +72,19 @@ to an R script that defines that list. A template containing every iteration is
 available at `inst/extdata/custom_iteration_inputs_template.R`; copy it,
 populate the file paths you wish to override (Seurat object, PD list, BDM, SDM,
 landscape list or landscape L2 matrix), and either pass the resulting list
-directly or point `custom_iteration_inputs` to the edited file. The overrides
-are applied before distance matrices are generated, ensuring all clustering
-approaches are rerun on the substituted data while reusing any valid
+directly or point `custom_iteration_inputs` to the edited file. These helpers
+are exported for convenience:
+
+```r
+# Load the packaged template (returns NULL if no paths are filled in)
+load_custom_iteration_inputs_template()
+
+# Import a file or list and receive a normalised override object
+import_custom_iteration_inputs("./custom_iteration_inputs_template.R")
+```
+
+The overrides are applied before distance matrices are generated, ensuring all
+clustering approaches are rerun on the substituted data while reusing any valid
 precomputed matrices already on disk:
 
 ```r
