@@ -27,6 +27,9 @@ enhanced_cluster_comparison_with_pvals <- function(
     log_message_verbose("Comparative metrics not requested. Exiting function.")
     return(NULL)
   }
+  log_message_verbose <- function(msg) {
+    if (verbose) log_message(msg)
+  }
   if (!dir.exists(plots_folder)) {
     dir.create(plots_folder, recursive = TRUE)
     log_message_verbose(sprintf("Created plots folder: %s", plots_folder))
