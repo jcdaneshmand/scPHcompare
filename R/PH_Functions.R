@@ -528,14 +528,18 @@ process_expression_list_with_monitoring <- function(expr_list, DIM, log_message,
 
   # Extract final thresholds from the progress log file
   log_message("Extracting thresholds from the progress log file.")
-  threshold_tracker <- extract_thresholds_from_log(log_file)
+  threshold_tracker <- extract_thresholds_from_log(log_file, log_message)
 
   return(list(PD_list = PD_list, thresholds = threshold_tracker))
 }
 
 
 # Function to extract thresholds from the progress log
-extract_thresholds_from_log <- function(log_file) {
+extract_thresholds_from_log <- function(log_file, log_message = message) {
+  if (is.null(log_message)) {
+    log_message <- message
+  }
+
   # Check if the log file exists
   if (!file.exists(log_file)) {
     log_message(paste("Log file", log_file, "does not exist. Returning an empty threshold tracker."))
