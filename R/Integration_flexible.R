@@ -53,12 +53,6 @@ perform_integration <- function(
   ##############################
   ## 0) LOGGING & UTILS
   ##############################
-  log_message <- function(msg) {
-    message(sprintf("[%s] %s", format(Sys.time(), "%Y-%m-%d %H:%M:%OS6"), msg))
-  }
-  log_debug <- function(msg) {
-    message(sprintf("[%s] DEBUG: %s", format(Sys.time(), "%Y-%m-%d %H:%M:%OS6"), msg))
-  }
   clean_memory <- function() invisible(gc(full = TRUE))
   debug_error_handler <- function(e) {
     message("An error occurred in a parallel worker. sys.calls():")

@@ -21,17 +21,17 @@ enhanced_cluster_comparison_with_pvals <- function(
 ) {
   # -- Initialization & Logging helper --
   if (!run_comparative_metrics) {
-    message("Comparative metrics not requested. Exiting function.")
+    log_message_verbose("Comparative metrics not requested. Exiting function.")
     return(NULL)
   }
-  log_message <- function(msg) {
-    if (verbose) message(sprintf("[%s] %s", Sys.time(), msg))
+  log_message_verbose <- function(msg) {
+    if (verbose) log_message(msg)
   }
   if (!dir.exists(plots_folder)) {
     dir.create(plots_folder, recursive = TRUE)
-    log_message(sprintf("Created plots folder: %s", plots_folder))
+    log_message_verbose(sprintf("Created plots folder: %s", plots_folder))
   }
-  log_message("Starting enhanced cluster comparison analysis with p-values.")
+  log_message_verbose("Starting enhanced cluster comparison analysis with p-values.")
   
   # -- Identify random-group columns --
   random_group_cluster_cols <- grep(
@@ -40,24 +40,24 @@ enhanced_cluster_comparison_with_pvals <- function(
     ignore.case = TRUE,
     value = TRUE
   )
-  log_message(sprintf(
+  log_message_verbose(sprintf(
     "Found %d random-group columns for baseline distribution.",
     length(random_group_cluster_cols)
   ))
 
   # -- Silhouette setup --
   if (include_silhouette) {
-    log_message("Setting up silhouette distance matrix…")
+    log_message_verbose("Setting up silhouette distance matrix…")
     if (!"pca" %in% names(seurat_obj@reductions)) {
       stop("PCA reduction not found—needed for silhouette.")
     }
     emb <- Embeddings(seurat_obj, "pca")[, 1:10, drop = FALSE]
     dist_mat <- dist(emb)
-    log_message("Silhouette distance matrix ready.")
+    log_message_verbose("Silhouette distance matrix ready.")
   }
 
   # -- Define clustering method names (now *complete*) --
-  log_message("Defining original clustering methods…")
+  log_message_verbose("Defining original clustering methods…")
   dataset_lower <- gsub("\\s+", "_", tolower(dataset_name))
 
   # seurat has no suffix by default
@@ -93,13 +93,13 @@ enhanced_cluster_comparison_with_pvals <- function(
     hierarchical_methods,
     spectral_methods
   )
-  log_message(sprintf(
+  log_message_verbose(sprintf(
     "Original methods: %s",
     paste(original_methods, collapse = ", ")
   ))
 
   # -- Expand seurat_cluster into three suffixes --
-  log_message("Expanding seurat_cluster methods to include _sra/_tissue/_approach…")
+  log_message_verbose("Expanding seurat_cluster methods to include _sra/_tissue/_approach…")
   final_methods <- c()
   for (meth in original_methods) {
     if (!meth %in% colnames(seurat_obj@meta.data)) next
@@ -113,7 +113,7 @@ enhanced_cluster_comparison_with_pvals <- function(
       final_methods <- c(final_methods, meth)
     }
   }
-  log_message(sprintf(
+  log_message_verbose(sprintf(
     "Final methods to evaluate: %s",
     paste(final_methods, collapse = ", ")
   ))
@@ -175,7 +175,7 @@ enhanced_cluster_comparison_with_pvals <- function(
     silhouette_object <- tryCatch({
       silhouette(labs, dist_mat)
     }, error = function(e) {
-      log_message(sprintf("Error in silhouette calculation for clustering with %d unique labels: %s", length(unique_labs), e$message))
+      log_message_verbose(sprintf("Error in silhouette calculation for clustering with %d unique labels: %s", length(unique_labs), e$message))
       return(NULL)
     })
 
@@ -184,7 +184,7 @@ enhanced_cluster_comparison_with_pvals <- function(
     }
 
     if (!"sil_width" %in% colnames(silhouette_object)) {
-      log_message("Silhouette object missing 'sil_width' column after calculation.")
+      log_message_verbose("Silhouette object missing 'sil_width' column after calculation.")
       return(NA_real_)
     }
 
@@ -213,23 +213,23 @@ enhanced_cluster_comparison_with_pvals <- function(
   }
 
   # -- Compute real vs random metrics --
-  log_message("Beginning metric computation loop…")
+  log_message_verbose("Beginning metric computation loop…")
   raw_comparison <- data.frame()
   for (method in final_methods) {
-    log_message(sprintf("Processing method: %s", method))
+    log_message_verbose(sprintf("Processing method: %s", method))
     if (!method %in% colnames(seurat_obj@meta.data)) {
-      log_message(" -> column not found, skipping.")
+      log_message_verbose(" -> column not found, skipping.")
       next
     }
     ref_col <- get_reference_column(method)
     if (!ref_col %in% colnames(seurat_obj@meta.data)) {
-      log_message(sprintf(" -> reference '%s' missing, skipping.", ref_col))
+      log_message_verbose(sprintf(" -> reference '%s' missing, skipping.", ref_col))
       next
     }
     real_cluster <- as.character(seurat_obj@meta.data[[method]])
     truth <- as.character(seurat_obj@meta.data[[ref_col]])
     if (length(real_cluster) != length(truth)) {
-      log_message(" -> length mismatch, skipping.")
+      log_message_verbose(" -> length mismatch, skipping.")
       next
     }
 
@@ -316,7 +316,7 @@ enhanced_cluster_comparison_with_pvals <- function(
     }
     raw_comparison <- rbind(raw_comparison, rowdf)
   }
-  log_message("Finished computing raw metrics for all methods.")
+  log_message_verbose("Finished computing raw metrics for all methods.")
 
   # -- Adjust p-values --
   if (nrow(raw_comparison) > 0) {
@@ -327,14 +327,14 @@ enhanced_cluster_comparison_with_pvals <- function(
       raw_comparison[[paste0(col, "_adj_bh")]] <- p.adjust(raw_comparison[[col]], method = "BH")
       raw_comparison[[paste0(col, "_adj_bonferroni")]] <- p.adjust(raw_comparison[[col]], method = "bonferroni")
     }
-    log_message("Adjusted p-values for multiple testing.")
+    log_message_verbose("Adjusted p-values for multiple testing.")
   }
 
   # -- Write CSVs --
   raw_csv <- file.path(plots_folder, paste0(dataset_name, "_raw_comparison_metrics_with_pvals.csv"))
   norm_csv <- file.path(plots_folder, paste0(dataset_name, "_normalized_metrics_with_pvals.csv"))
   write.csv(raw_comparison, raw_csv, row.names = FALSE);
-  log_message(sprintf("Wrote raw CSV: %s", raw_csv))
+  log_message_verbose(sprintf("Wrote raw CSV: %s", raw_csv))
 
   norm_list <- lapply(seq_len(nrow(raw_comparison)), function(i) {
     rowi <- raw_comparison[i,]
@@ -381,17 +381,17 @@ enhanced_cluster_comparison_with_pvals <- function(
   
   ## FIX: Add a check for empty data frame to prevent downstream errors
   if (is.null(norm_df) || nrow(norm_df) == 0) {
-    log_message(paste("No valid methods produced data for comparison in dataset:", dataset_name, ". Skipping plot generation."))
+    log_message_verbose(paste("No valid methods produced data for comparison in dataset:", dataset_name, ". Skipping plot generation."))
     return(NULL) # Exit function gracefully
   }
   
   write.csv(norm_df, norm_csv, row.names = FALSE);
-  log_message(sprintf("Wrote normalized CSV: %s", norm_csv))
+  log_message_verbose(sprintf("Wrote normalized CSV: %s", norm_csv))
 
   # -- Generate PDF + individual PNG/SVG plots --
   pdf_file <- file.path(plots_folder, paste0("Combined_Cluster_Metrics_", dataset_name, "_with_pvals.pdf"))
   pdf(pdf_file, width = 11, height = 8.5)
-  log_message(sprintf("Opened PDF device: %s", pdf_file))
+  log_message_verbose(sprintf("Opened PDF device: %s", pdf_file))
 
   grid.newpage()
   text_explanation <- paste0(
@@ -447,13 +447,13 @@ enhanced_cluster_comparison_with_pvals <- function(
             axis.text.y = element_text(size = 10)) +
       labs(title = paste(mname, "Heatmap -", dataset_name), x = NULL, y = NULL)
 
-    log_message(sprintf("Plotting heatmap for %s", mname))
+    log_message_verbose(sprintf("Plotting heatmap for %s", mname))
     print(p)
     ggsave(file.path(plots_folder, paste0(dataset_name, "_heatmap_", mname, ".png")),
            p, width = 7, height = 5, dpi = 300)
     ggsave(file.path(plots_folder, paste0(dataset_name, "_heatmap_", mname, ".svg")),
            p, width = 7, height = 5, device = "svg")
-    log_message(sprintf("Saved heatmap_%s.png/svg", mname))
+    log_message_verbose(sprintf("Saved heatmap_%s.png/svg", mname))
     grid.newpage()
   }
 
@@ -498,7 +498,7 @@ enhanced_cluster_comparison_with_pvals <- function(
                               levels = unique(paste0(Method, "\n(Ref=", ReferenceCol, ")"))))
 
   # -- 1) Normalized bar chart --
-  log_message("Plotting normalized bar chart…")
+  log_message_verbose("Plotting normalized bar chart…")
   p_bar <- ggplot(norm_long, aes(x = MethodRef, y = Normalized, fill = Metric)) +
     geom_vline(xintercept = seq(1.5, length(unique(norm_long$MethodRef)) - 0.5, by = 1),
                color = "grey40") +
@@ -516,11 +516,11 @@ enhanced_cluster_comparison_with_pvals <- function(
          p_bar, width = 12, height = 7, dpi = 300)
   ggsave(file.path(plots_folder, paste0(dataset_name, "_normalized_bar.svg")),
          p_bar, width = 12, height = 7, device = "svg")
-  log_message("Saved normalized_bar.png/svg")
+  log_message_verbose("Saved normalized_bar.png/svg")
   grid.newpage()
 
   # -- 2) Bubble chart --
-  log_message("Plotting bubble chart…")
+  log_message_verbose("Plotting bubble chart…")
   p_bubble <- ggplot(norm_long, aes(x = Metric, y = MethodRef, size = Normalized, color = p_adj)) +
     geom_point(alpha = 0.8) + geom_text(aes(label = annot), vjust = -2, size = 3.5) +
     scale_color_gradient(low = "red", high = "blue") +
@@ -535,11 +535,11 @@ enhanced_cluster_comparison_with_pvals <- function(
          p_bubble, width = 10, height = 8, dpi = 300)
   ggsave(file.path(plots_folder, paste0(dataset_name, "_bubble.svg")),
          p_bubble, width = 10, height = 8, device = "svg")
-  log_message("Saved bubble.png/svg")
+  log_message_verbose("Saved bubble.png/svg")
   grid.newpage()
 
   # -- 3) Observed vs Random bar chart --
-  log_message("Plotting Observed vs Random chart…")
+  log_message_verbose("Plotting Observed vs Random chart…")
   obs_rand <- norm_long %>%
     dplyr::select(MethodRef, Metric, Observed, RandMean, annot) %>%
     pivot_longer(c(Observed, RandMean), names_to = "Type", values_to = "Value")
@@ -560,11 +560,11 @@ enhanced_cluster_comparison_with_pvals <- function(
          p_obs, width = 12, height = 8, dpi = 300)
   ggsave(file.path(plots_folder, paste0(dataset_name, "_obs_vs_random.svg")),
          p_obs, width = 12, height = 8, device = "svg")
-  log_message("Saved obs_vs_random.png/svg")
+  log_message_verbose("Saved obs_vs_random.png/svg")
 
   # -- Close PDF and finish --
   dev.off()
-  log_message("Closed PDF device and completed all plot saving.")
+  log_message_verbose("Closed PDF device and completed all plot saving.")
   # Return the bar plot for the final combination step
   list(raw_comparison = raw_comparison, norm_metrics = norm_df, normalized_bar_plot = if (exists("p_bar")) p_bar else NULL)
 
