@@ -72,14 +72,6 @@
 #' Ensure all required packages are installed, and the input metadata CSV is correctly formatted with paths to `.RData` files. 
 #' Execute the script in an environment with adequate computational resources, as the pipeline utilizes parallel processing.
 #'
-#' @section Example:
-#' \dontrun{
-#'   # Load metadata and process datasets with Persistent Homology
-#'   metadata <- read.csv("./data/VastlyDifferentTissues/metadata.csv",
-#'                        check.names = FALSE)
-#'   process_datasets_PH(metadata, num_cores = 32)
-#' }
-#'
 #' @section Author:
 #' Jonah Daneshmand
 #'
@@ -95,9 +87,20 @@
 #' @param DIM Dimensionality for persistent homology calculation.
 #' @param THRESHOLD Threshold for persistence diagram calculation.
 #' @param dataset_tag Optional tag appended to output files.
+#' @param provenance_dir Directory for sample-flow and PH-attempt CSV files.
+#' @param strict_reconciliation If `TRUE`, stop when any PH-eligible sample lacks
+#'   a completed persistence diagram. Set to `FALSE` only for diagnostic runs.
+#' @param ph_representations Expression representations on which to calculate
+#'   PH. Defaults to every historical representation. Selecting a subset is
+#'   intended for smoke tests and focused diagnostic runs; preprocessing and
+#'   requested integration methods still run normally.
+#' @param ph_poll_interval Seconds between PH child-process status and memory
+#'   samples. Waiting returns immediately when the child exits.
+#' @param ph_progress_log_interval Minimum seconds between PH progress messages.
+#' @param ph_max_time_per_sample Maximum runtime in seconds for one PH child.
 #'
-#' @return A list containing processed iterations as well as the detected
-#'   column names for SRA, tissue and approach.
+#' @return A list containing processed iterations, detected metadata column
+#'   names, and additive sample-flow provenance.
 #'
 #' @examples
 #' \dontrun{
@@ -115,7 +118,16 @@ process_datasets_PH <- function(metadata,
                                 MIN_CELLS = 250,
                                 DIM = 1,
                                 THRESHOLD = -1,
-                                dataset_tag = "dataset") {
+                                dataset_tag = "dataset",
+                                provenance_dir = "provenance",
+                                strict_reconciliation = TRUE,
+                                ph_representations = c(
+                                  "sct_individual", "raw", "sct_whole",
+                                  "seurat_integration", "harmony_integration"
+                                ),
+                                ph_poll_interval = 0.25,
+                                ph_progress_log_interval = 60,
+                                ph_max_time_per_sample = 20 * 24 * 3600) {
   integration_methods <- unique(tolower(integration_methods))
   allowed_methods <- c("seurat", "harmony")
   invalid_methods <- setdiff(integration_methods, allowed_methods)
@@ -124,6 +136,28 @@ process_datasets_PH <- function(metadata,
   }
   if (length(integration_methods) == 0) {
     stop("At least one integration method must be provided.")
+  }
+  allowed_representations <- c(
+    "sct_individual", "raw", "sct_whole",
+    "seurat_integration", "harmony_integration"
+  )
+  ph_representations <- unique(tolower(ph_representations))
+  invalid_representations <- setdiff(ph_representations, allowed_representations)
+  if (length(ph_representations) == 0L || length(invalid_representations) > 0L) {
+    stop(
+      "ph_representations must contain supported values: ",
+      paste(allowed_representations, collapse = ", "),
+      call. = FALSE
+    )
+  }
+  ph_controls <- c(
+    ph_poll_interval = ph_poll_interval,
+    ph_progress_log_interval = ph_progress_log_interval,
+    ph_max_time_per_sample = ph_max_time_per_sample
+  )
+  if (any(!is.finite(ph_controls)) || any(ph_controls <= 0)) {
+    stop("PH polling, logging, and timeout controls must be positive finite seconds.",
+         call. = FALSE)
   }
 
   expr_list_raw <- NULL
@@ -152,6 +186,9 @@ process_datasets_PH <- function(metadata,
   }
 
   dataset_suffix <- if (nzchar(dataset_tag)) paste0("_", dataset_tag) else ""
+  dir.create(provenance_dir, recursive = TRUE, showWarnings = FALSE)
+  sample_flow_file <- file.path(provenance_dir, paste0("sample_flow", dataset_suffix, ".csv"))
+  attempt_log_file <- file.path(provenance_dir, paste0("ph_attempt_log", dataset_suffix, ".csv"))
   
   # Start logging
   log_file_path <- paste0("PH_Pipeline_Log_", Sys.Date(), dataset_suffix, ".txt")
@@ -182,6 +219,22 @@ process_datasets_PH <- function(metadata,
 
   my_sparse_matrices <- loaded$matrices
   sample_names <- loaded$sample_names
+  source_count_candidates <- intersect(
+    c("Number of Cells", "Number_of_Cells", "Cell Count", "cell_count"),
+    colnames(metadata)
+  )
+  source_counts <- if (length(source_count_candidates) > 0L) {
+    suppressWarnings(as.numeric(metadata[[source_count_candidates[[1]]]]))
+  } else {
+    rep(NA_real_, length(sample_names))
+  }
+  sample_flow <- new_sample_flow(
+    sample_ids = sample_names,
+    cohort = dataset_tag,
+    source_counts = source_counts,
+    loaded_features = vapply(my_sparse_matrices, nrow, integer(1)),
+    loaded_cells = vapply(my_sparse_matrices, ncol, integer(1))
+  )
   
   # Create Seurat objects for each sample
   my_seurat_list <- tryCatch(
@@ -189,7 +242,13 @@ process_datasets_PH <- function(metadata,
       mclapply(seq_along(my_sparse_matrices), function(i) {
         spm <- my_sparse_matrices[[i]]
         name <- names(my_sparse_matrices)[i]
-        CreateSeuratObject(counts = spm, project = name)
+        obj <- CreateSeuratObject(counts = spm, project = name)
+        obj@project.name <- name
+        obj@meta.data$orig.ident <- factor(
+          rep(name, nrow(obj@meta.data)),
+          levels = name
+        )
+        obj
       }, mc.cores = num_cores)
     },
     error = function(e) {
@@ -201,6 +260,13 @@ process_datasets_PH <- function(metadata,
   if (is.null(my_seurat_list)) {
     return(NULL)
   }
+  names(my_seurat_list) <- sample_names
+  pre_qc_ids <- vapply(my_seurat_list, function(obj) obj@project.name, character(1))
+  sample_flow <- record_pre_qc_sample_flow(
+    sample_flow,
+    pre_qc_ids,
+    vapply(my_seurat_list, function(obj) nrow(obj@meta.data), integer(1))
+  )
 
   
   # Calculate percentage of mitochondrial, ribosomal, and hemoglobin genes
@@ -212,8 +278,12 @@ process_datasets_PH <- function(metadata,
         # Hemoglobin genes are typically annotated as 'HB' followed by a subunit
         # letter (e.g., HBA1, HBB). Exclude non-hemoglobin genes such as 'HBP'
         # by using a negative lookahead.
-        obj <- PercentageFeatureSet(obj, pattern = "^HB(?!P)", perl = TRUE,
-                                    col.name = "percent_hb")
+        hemoglobin_features <- grep(
+          "^HB(?!P)", rownames(obj), value = TRUE, perl = TRUE
+        )
+        obj <- PercentageFeatureSet(
+          obj, features = hemoglobin_features, col.name = "percent_hb"
+        )
         return(obj)
       }, mc.cores = num_cores)
     },
@@ -329,24 +399,35 @@ process_datasets_PH <- function(metadata,
     return(NULL)
   }
   
-  # Remove datasets with insufficient cells after filtering
-  my_seurat_list_filtered <- tryCatch(
-    {
-      discard(my_seurat_list_filtered, function(obj) {
-        num_cells <- nrow(obj@meta.data)
-        log_message(paste("Sample", obj@project.name, "has", num_cells, "cells"))
-        if (num_cells < MIN_CELLS) {
-          log_message(paste("Skipping sample", obj@project.name, "due to insufficient cells after filtering (", num_cells, "cells)"))
-          return(TRUE)  # Discard this object
-        }
-        return(FALSE)  # Keep this object
-      })
-    },
-    error = function(e) {
-      log_message(paste("Error in removing insufficient cell datasets for series:", e$message))
-      NULL
-    }
+  # Record every post-QC sample before applying the historical minimum-cell rule.
+  post_qc_ids <- vapply(my_seurat_list_filtered, function(obj) obj@project.name, character(1))
+  post_qc_cells <- vapply(my_seurat_list_filtered, function(obj) nrow(obj@meta.data), integer(1))
+  sample_flow <- record_post_qc_sample_flow(
+    sample_flow, post_qc_ids, post_qc_cells, MIN_CELLS
   )
+  write_provenance_csv(sample_flow, sample_flow_file)
+
+  eligible_ids <- sample_flow$sample_id[sample_flow$ph_eligible]
+  excluded_ids <- sample_flow$sample_id[!sample_flow$ph_eligible]
+  assert_sample_reconciliation(
+    input_ids = sample_flow$sample_id,
+    excluded_ids = excluded_ids,
+    eligible_ids = eligible_ids,
+    strict_completion = FALSE
+  )
+
+  # Remove datasets with insufficient cells after filtering using an explicit,
+  # auditable keep mask. This preserves the existing `< MIN_CELLS` behavior.
+  keep_sample <- post_qc_cells >= MIN_CELLS
+  for (i in seq_along(my_seurat_list_filtered)) {
+    log_message(paste("Sample", post_qc_ids[[i]], "has", post_qc_cells[[i]], "cells"))
+    if (!keep_sample[[i]]) {
+      log_message(paste("Skipping sample", post_qc_ids[[i]],
+                        "due to insufficient cells after filtering (",
+                        post_qc_cells[[i]], "cells)"))
+    }
+  }
+  my_seurat_list_filtered <- my_seurat_list_filtered[keep_sample]
 
 
   filtered_cells_file <- paste0("filtered_cells", dataset_suffix, ".csv")
@@ -424,7 +505,7 @@ process_datasets_PH <- function(metadata,
     ### 1. Rename cells in each original object so that cell names are unique
     names <- vapply(
       my_seurat_list_filtered,
-      function(seurat_obj) seurat_obj@meta.data$orig.ident[1],
+      function(seurat_obj) as.character(seurat_obj@meta.data$orig.ident[1]),
       FUN.VALUE = character(1)
     )
     my_seurat_list_filtered <- lapply(my_seurat_list_filtered, function(seurat_obj) {
@@ -644,32 +725,53 @@ process_datasets_PH <- function(metadata,
 
     timeout_datasets <- NULL
 
-    PD_result_unintegrated <- compute_ph_batch(
-      expr_list_sctInd, DIM, log_message, dataset_suffix,
-      "_unintegrated", max_cores = 6
-    )
-    save_ph_results(
-      PD_result_unintegrated, expr_list_sctInd, DIM, THRESHOLD,
-      dataset_suffix, "_unintegrated", log_message
-    )
+    if ("sct_individual" %in% ph_representations) {
+      PD_result_unintegrated <- compute_ph_batch(
+        expr_list_sctInd, DIM, log_message, dataset_suffix,
+        "_unintegrated", max_cores = 6,
+        cohort = dataset_tag, attempt_log_file = attempt_log_file,
+        strict_reconciliation = strict_reconciliation,
+        poll_interval = ph_poll_interval,
+        progress_log_interval = ph_progress_log_interval,
+        max_time_per_iteration = ph_max_time_per_sample
+      )
+      save_ph_results(
+        PD_result_unintegrated, expr_list_sctInd, DIM, THRESHOLD,
+        dataset_suffix, "_unintegrated", log_message
+      )
+    }
 
-    PD_result_unintegrated_RAW <- compute_ph_batch(
-      expr_list_raw, DIM, log_message, dataset_suffix,
-      "_unintegrated_RAW", max_cores = 6
-    )
-    save_ph_results(
-      PD_result_unintegrated_RAW, expr_list_raw, DIM, THRESHOLD,
-      dataset_suffix, "_unintegrated_RAW", log_message
-    )
+    if ("raw" %in% ph_representations) {
+      PD_result_unintegrated_RAW <- compute_ph_batch(
+        expr_list_raw, DIM, log_message, dataset_suffix,
+        "_unintegrated_RAW", max_cores = 6,
+        cohort = dataset_tag, attempt_log_file = attempt_log_file,
+        strict_reconciliation = strict_reconciliation,
+        poll_interval = ph_poll_interval,
+        progress_log_interval = ph_progress_log_interval,
+        max_time_per_iteration = ph_max_time_per_sample
+      )
+      save_ph_results(
+        PD_result_unintegrated_RAW, expr_list_raw, DIM, THRESHOLD,
+        dataset_suffix, "_unintegrated_RAW", log_message
+      )
+    }
 
-    PD_result_unintegrated_sctWhole <- compute_ph_batch(
-      expr_list_sctWhole, DIM, log_message, dataset_suffix,
-      "_unintegrated_sctWhole", max_cores = 8
-    )
-    save_ph_results(
-      PD_result_unintegrated_sctWhole, expr_list_sctWhole, DIM, THRESHOLD,
-      dataset_suffix, "_unintegrated_sctWhole", log_message
-    )
+    if ("sct_whole" %in% ph_representations) {
+      PD_result_unintegrated_sctWhole <- compute_ph_batch(
+        expr_list_sctWhole, DIM, log_message, dataset_suffix,
+        "_unintegrated_sctWhole", max_cores = 8,
+        cohort = dataset_tag, attempt_log_file = attempt_log_file,
+        strict_reconciliation = strict_reconciliation,
+        poll_interval = ph_poll_interval,
+        progress_log_interval = ph_progress_log_interval,
+        max_time_per_iteration = ph_max_time_per_sample
+      )
+      save_ph_results(
+        PD_result_unintegrated_sctWhole, expr_list_sctWhole, DIM, THRESHOLD,
+        dataset_suffix, "_unintegrated_sctWhole", log_message
+      )
+    }
 
     if (run_seurat_integration) {
       # Integration routines are available in the package
@@ -724,14 +826,21 @@ process_datasets_PH <- function(metadata,
       ))
 
       seurat_prefix <- paste0("_", SEURAT_INTEGRATION_PREFIX)
-      PD_result_integrated <- compute_ph_batch(
-        expr_list_integrated, DIM, log_message, dataset_suffix,
-        seurat_prefix, max_cores = 8
-      )
-      save_ph_results(
-        PD_result_integrated, expr_list_integrated, DIM, THRESHOLD,
-        dataset_suffix, seurat_prefix, log_message
-      )
+      if ("seurat_integration" %in% ph_representations) {
+        PD_result_integrated <- compute_ph_batch(
+          expr_list_integrated, DIM, log_message, dataset_suffix,
+          seurat_prefix, max_cores = 8,
+          cohort = dataset_tag, attempt_log_file = attempt_log_file,
+          strict_reconciliation = strict_reconciliation,
+          poll_interval = ph_poll_interval,
+          progress_log_interval = ph_progress_log_interval,
+          max_time_per_iteration = ph_max_time_per_sample
+        )
+        save_ph_results(
+          PD_result_integrated, expr_list_integrated, DIM, THRESHOLD,
+          dataset_suffix, seurat_prefix, log_message
+        )
+      }
     } else {
       log_message("Skipping Seurat integration based on integration_methods configuration.")
     }
@@ -749,6 +858,19 @@ process_datasets_PH <- function(metadata,
           vars_use = "orig.ident",
           do_pca = FALSE
         )
+
+        expected_dim <- dim(harmony_input)
+        if (identical(dim(harmony_corrected), rev(expected_dim))) {
+          harmony_corrected <- t(harmony_corrected)
+        } else if (!identical(dim(harmony_corrected), expected_dim)) {
+          stop(
+            "Harmony returned unexpected dimensions: ",
+            paste(dim(harmony_corrected), collapse = "x"),
+            "; expected ", paste(expected_dim, collapse = "x"),
+            " or its transpose.",
+            call. = FALSE
+          )
+        }
 
         rownames(harmony_corrected) <- rownames(harmony_input)
         colnames(harmony_corrected) <- colnames(harmony_input)
@@ -783,14 +905,21 @@ process_datasets_PH <- function(metadata,
         harmony_result[[HARMONY_ASSAY_NAME]] <- CreateAssayObject(data = harmony_corrected)
 
         harmony_prefix <- paste0("_", HARMONY_INTEGRATION_PREFIX)
-        PD_result_harmony <- compute_ph_batch(
-          expr_list_harmony, DIM, log_message, dataset_suffix,
-          harmony_prefix, max_cores = 8
-        )
-        save_ph_results(
-          PD_result_harmony, expr_list_harmony, DIM, THRESHOLD,
-          dataset_suffix, harmony_prefix, log_message
-        )
+        if ("harmony_integration" %in% ph_representations) {
+          PD_result_harmony <- compute_ph_batch(
+            expr_list_harmony, DIM, log_message, dataset_suffix,
+            harmony_prefix, max_cores = 8,
+            cohort = dataset_tag, attempt_log_file = attempt_log_file,
+            strict_reconciliation = strict_reconciliation,
+            poll_interval = ph_poll_interval,
+            progress_log_interval = ph_progress_log_interval,
+            max_time_per_iteration = ph_max_time_per_sample
+          )
+          save_ph_results(
+            PD_result_harmony, expr_list_harmony, DIM, THRESHOLD,
+            dataset_suffix, harmony_prefix, log_message
+          )
+        }
       } else {
         log_message("Harmony package not installed; skipping Harmony integration.")
       }
@@ -808,12 +937,24 @@ process_datasets_PH <- function(metadata,
     expr_list_sctWhole, expr_list_integrated,
     harmony = harmony_result, expr_list_harmony = expr_list_harmony
   )
+  data_iterations <- Filter(
+    function(iteration) iteration$prefix %in% ph_representations,
+    data_iterations
+  )
 
   ph_results <- list(
     data_iterations = data_iterations,
     SRA_col = sra_col,
     Tissue_col = tissue_col,
-    Approach_col = approach_col
+    Approach_col = approach_col,
+    provenance = list(
+      sample_flow = sample_flow,
+      sample_flow_file = normalizePath(sample_flow_file, winslash = "/", mustWork = FALSE),
+      attempt_log_file = normalizePath(attempt_log_file, winslash = "/", mustWork = FALSE),
+      eligible_ids = eligible_ids,
+      excluded_ids = excluded_ids,
+      ph_representations = ph_representations
+    )
   )
   return(ph_results)
 }

@@ -22,5 +22,5 @@ Invisibly returns the path to the saved cache file.
 Save a curve to cache
 }
 \examples{
-save_curve_cache(1:3, "toy", "abc", tempdir())
+scPHcompare:::save_curve_cache(1:3, "toy", "abc", tempdir())
 }

@@ -20,6 +20,37 @@ generate_visualizations_for_iteration(
   Approach_col = "Approach"
 )
 }
+\arguments{
+\item{seurat_obj}{Seurat object containing reductions, metadata, and stored
+hierarchical trees.}
+
+\item{dataset_name}{Iteration label used in metadata and output names.}
+
+\item{assay}{Assay used when a UMAP reduction must be generated.}
+
+\item{bdm_matrix}{Optional bottleneck-distance matrix.}
+
+\item{sdm_matrix}{Optional spectral-distance matrix.}
+
+\item{landscape_matrix}{Optional persistence-landscape distance matrix.}
+
+\item{metadata}{Optional dataset metadata retained for compatibility.}
+
+\item{plots_folder}{Output directory for generated plots.}
+
+\item{run_visualizations}{Logical; generate clustering visualizations.}
+
+\item{run_sample_level_heatmap}{Logical; generate sample-level heatmaps.}
+
+\item{SRA_col}{Metadata column containing sample identifiers.}
+
+\item{Tissue_col}{Metadata column containing tissue labels.}
+
+\item{Approach_col}{Metadata column describing sequencing approach.}
+}
+\value{
+The Seurat object, invisibly, after visualization side effects.
+}
 \description{
 Generate visualizations and heatmaps for a single iteration
 }

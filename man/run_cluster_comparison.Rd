@@ -16,7 +16,7 @@ run_cluster_comparison(
 }
 \arguments{
 \item{data_iterations}{List of iteration objects produced by
-\code{process_datasets_PH()}, each containing a \code{seurat_obj} element with
+`process_datasets_PH()`, each containing a `seurat_obj` element with
 clustering metadata columns.}
 
 \item{results_folder}{Path to the root results directory where plots
@@ -26,24 +26,24 @@ should be written.}
 names.}
 
 \item{run_comparative_metrics}{Logical, compute comparison metrics if
-\code{TRUE}.}
+`TRUE`.}
 
 \item{include_silhouette}{Logical, include silhouette calculations when
-\code{TRUE}.}
+`TRUE`.}
 
 \item{SRA_col}{Metadata column containing sample identifiers used for
 grouping.}
 
-\item{verbose}{Logical, print progress messages when \code{TRUE}.}
+\item{verbose}{Logical, print progress messages when `TRUE`.}
 }
 \value{
 (Invisibly) a list of normalized bar plots, one per iteration,
-useful for further custom plotting.
+  useful for further custom plotting.
 }
 \description{
 Collates clustering columns that already exist in the provided Seurat
-objects (e.g. those added by \code{apply_all_clustering_methods()}) and
+objects (e.g. those added by `apply_all_clustering_methods()`) and
 generates comparison plots and metrics. Normalised bar plots are
 collected for each iteration and saved as a combined figure in
-\verb{results_folder/plots/withinIterationClusterComparison/}.
+`results_folder/plots/withinIterationClusterComparison/`.
 }

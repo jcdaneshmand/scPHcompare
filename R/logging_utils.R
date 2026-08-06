@@ -1,13 +1,12 @@
-#' Logging utilities
-#'
-#' Provides a simple logging helper that prepends timestamps to messages.
+# Internal environment holding the optional shared log connection.
+log_env <- new.env(parent = emptyenv())
+
+#' Write a timestamped pipeline message
 #'
 #' @param msg Character string to log.
 #' @return Invisibly returns `NULL` after printing the message.
 #' @examples
-log_env <- new.env(parent = emptyenv())
-
-#' log_message("processing")
+#' scPHcompare:::log_message("processing")
 log_message <- function(msg) {
   timestamped <- sprintf("[%s] %s", format(Sys.time(), "%Y-%m-%d %H:%M:%OS6"), msg)
   message(timestamped)

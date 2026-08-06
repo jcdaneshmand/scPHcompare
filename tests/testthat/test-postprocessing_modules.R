@@ -37,7 +37,7 @@ test_that("run_postprocessing_pipeline calls run_modular_analysis", {
     process_iteration_calculate_matrices = function(...) {},
     assignRandomGroup = function(obj, ...) obj,
     apply_all_clustering_methods = function(obj, ...) obj,
-    generate_visualizations_for_iteration = function(obj, ...) obj,
+    generate_visualizations_for_iteration = function(seurat_obj, ...) seurat_obj,
     run_modular_analysis = mock_modular,
     {
       res <- run_postprocessing_pipeline(
@@ -62,6 +62,37 @@ test_that("run_postprocessing_pipeline calls run_modular_analysis", {
   expect_true(modular_called)
   expect_identical(captured_results, fake_results)
   expect_identical(res, fake_results)
+})
+
+test_that("assignRandomGroup is reproducible and balanced by sample identity", {
+  counts <- Matrix::Matrix(
+    matrix(
+      1,
+      nrow = 2,
+      ncol = 8,
+      dimnames = list(c("gene-a", "gene-b"), paste0("cell-", seq_len(8)))
+    ),
+    sparse = TRUE
+  )
+  obj <- Seurat::CreateSeuratObject(counts = counts, project = "fixture")
+  obj@meta.data$orig.ident <- rep(c("sample-a", "sample-b", "sample-c", "sample-d"), each = 2)
+
+  set.seed(987)
+  rng_before <- .Random.seed
+  grouped_one <- scPHcompare:::assignRandomGroup(obj, k = 2L, seed = 123L)
+  grouped_two <- scPHcompare:::assignRandomGroup(obj, k = 2L, seed = 123L)
+
+  expect_identical(.Random.seed, rng_before)
+  expect_identical(grouped_one@meta.data$Random_Group,
+                   grouped_two@meta.data$Random_Group)
+
+  per_sample <- split(
+    grouped_one@meta.data$Random_Group,
+    grouped_one@meta.data$orig.ident
+  )
+  expect_true(all(vapply(per_sample, function(x) length(unique(x)) == 1L, logical(1))))
+  group_sizes <- table(vapply(per_sample, `[[`, integer(1), 1L))
+  expect_lte(max(group_sizes) - min(group_sizes), 1L)
 })
 
 # Test run_modular_analysis --------------------------------------------------------
@@ -124,4 +155,30 @@ test_that("run_cross_iteration forwards to cross_iteration_comparison_with_betti
   expect_true(dir.exists(file.path(results_dir, "cross_iteration_comparisons")))
   expect_identical(captured_args$group_by_col, "Tissue")
   expect_identical(res, "done")
+})
+
+test_that("cross-iteration comparison rejects an empty iteration set clearly", {
+  expect_error(
+    scPHcompare:::cross_iteration_comparison_with_betti(
+      data_iterations = list(),
+      output_folder = tempfile("cross-iteration-")
+    ),
+    "at least one iteration"
+  )
+})
+
+test_that("spectral clustering constructs similarities from distances", {
+  distance_matrix <- as.matrix(stats::dist(matrix(
+    c(0, 0, 1, 0, 0, 1), ncol = 2, byrow = TRUE
+  )))
+  rownames(distance_matrix) <- colnames(distance_matrix) <- c("a", "b", "c")
+
+  clusters <- scPHcompare:::perform_spectral_clustering(distance_matrix, 2L)
+
+  expect_length(clusters, 3L)
+  expect_identical(names(clusters), c("a", "b", "c"))
+  expect_error(
+    scPHcompare:::perform_spectral_clustering(distance_matrix, 3L),
+    "smaller than the matrix dimension"
+  )
 })

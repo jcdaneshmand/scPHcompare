@@ -37,5 +37,5 @@ Loads a cached Betti curve if available; otherwise computes and caches it.
 }
 \examples{
 pd <- matrix(c(0, 0, 1), ncol = 3, byrow = TRUE)
-get_or_compute_curve(pd, 0, "toy", 0.1, 10, 1, tempdir())
+scPHcompare:::get_or_compute_curve(pd, 0, "toy", 0.1, 10, 1, tempdir())
 }

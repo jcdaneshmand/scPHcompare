@@ -24,6 +24,6 @@ List containing null effect and KS statistics.
 Bootstrap null statistics for landscape summaries
 }
 \examples{
-bootstrap_null_stats_landscape(list(list(dim0 = c(0,1), dim1 = c(0,0))),
+scPHcompare:::bootstrap_null_stats_landscape(list(list(dim0 = c(0,1), dim1 = c(0,0))),
                                n_bootstrap = 2, grid_points = 5)
 }

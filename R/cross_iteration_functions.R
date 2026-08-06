@@ -12,7 +12,7 @@
 #' @param path Character path to the directory.
 #' @return Invisibly returns `NULL` after ensuring the directory is present.
 #' @examples
-#' ensure_directory(tempdir())
+#' scPHcompare:::ensure_directory(tempdir())
 ensure_directory <- function(path) {
   if (length(path) == 0 || is.na(path) || path == "") {
     stop("Invalid directory path provided.")
@@ -28,7 +28,7 @@ ensure_directory <- function(path) {
 #' @param grid_points Integer number of grid points; used when the curve sums to zero.
 #' @return Numeric vector representing the normalized curve.
 #' @examples
-#' normalize_curve(c(1, 2, 3), 3)
+#' scPHcompare:::normalize_curve(c(1, 2, 3), 3)
 normalize_curve <- function(curve, grid_points) {
   tot <- sum(curve)
   if (tot == 0) rep(0, grid_points) else curve / tot
@@ -43,7 +43,7 @@ normalize_curve <- function(curve, grid_points) {
 #' @param results_folder Base results directory.
 #' @return Full path to the cache file.
 #' @examples
-#' generate_cache_filename("toy", "abc", tempdir())
+#' scPHcompare:::generate_cache_filename("toy", "abc", tempdir())
 generate_cache_filename <- function(dataset_name, hash, results_folder) {
   path <- file.path(results_folder, "plots", "betti_plots", "betti_cache", dataset_name, paste0("cache_", hash, ".rds"))
   ensure_directory(dirname(path))
@@ -63,7 +63,7 @@ generate_cache_filename <- function(dataset_name, hash, results_folder) {
 #' @examples
 #' pd <- matrix(c(0, 0, 1,
 #'                0, 0.2, 0.5), ncol = 3, byrow = TRUE)
-#' compute_betti_curve(pd, 0, 10, 1, 0.1)
+#' scPHcompare:::compute_betti_curve(pd, 0, 10, 1, 0.1)
 compute_betti_curve <- function(pd, dimension, grid_points, tau_max, base_sigma) {
   pd <- as.data.frame(pd)
   valid_pd <- pd[pd[, 1] == dimension & pd[, 2] < pd[, 3],]
@@ -95,7 +95,7 @@ compute_betti_curve <- function(pd, dimension, grid_points, tau_max, base_sigma)
 #' @examples
 #' euler <- list(mean = c(1, 0))
 #' betti <- list(list(mean = c(1, 0)))
-#' check_betti_euler_consistency(euler, betti, 0, c(0, 1))
+#' scPHcompare:::check_betti_euler_consistency(euler, betti, 0, c(0, 1))
 check_betti_euler_consistency <- function(euler_curve, betti_curves, dimensions, tau_vals) {
   log_message("Starting Betti-Euler consistency check.")
   if (!is.list(betti_curves) ||
@@ -140,7 +140,7 @@ check_betti_euler_consistency <- function(euler_curve, betti_curves, dimensions,
 #' @param num_cores Number of CPU cores for parallel execution.
 #' @return List containing null effect size and KS statistics.
 #' @examples
-#' compute_null_stats(list(), list(), seq(0, 1, length.out = 5), c(0),
+#' scPHcompare:::compute_null_stats(list(), list(), seq(0, 1, length.out = 5), c(0),
 #'                   dataset_name = "toy", base_sigma = 0.1,
 #'                   grid_points = 5, tau_max = 1, results_folder = tempdir(),
 #'                   verbose = FALSE, num_cores = 1)
@@ -213,7 +213,7 @@ compute_null_stats <- function(pd_list, metadata_list, tau_vals, dimensions,
 #' @param tau_max Maximum tau value.
 #' @return Character SHA-256 hash string.
 #' @examples
-#' generate_hash(matrix(1:3, ncol = 3), 0, "toy", 0.1, 10, 1)
+#' scPHcompare:::generate_hash(matrix(1:3, ncol = 3), 0, "toy", 0.1, 10, 1)
 generate_hash <- function(pd, dimension, dataset_name, base_sigma, grid_points, tau_max) {
   digest(list(pd, dimension, dataset_name, base_sigma, grid_points, tau_max), algo = "sha256")
 }
@@ -225,7 +225,7 @@ generate_hash <- function(pd, dimension, dataset_name, base_sigma, grid_points, 
 #' @param results_folder Base results directory.
 #' @return Cached curve as a numeric vector or `NULL` if not found.
 #' @examples
-#' load_curve_cache("toy", "abc", tempdir())
+#' scPHcompare:::load_curve_cache("toy", "abc", tempdir())
 load_curve_cache <- function(dataset_name, hash, results_folder) {
   cache_file <- generate_cache_filename(dataset_name, hash, results_folder)
   if (file.exists(cache_file)) {
@@ -243,7 +243,7 @@ load_curve_cache <- function(dataset_name, hash, results_folder) {
 #' @param results_folder Directory where the cache will be written.
 #' @return Invisibly returns the path to the saved cache file.
 #' @examples
-#' save_curve_cache(1:3, "toy", "abc", tempdir())
+#' scPHcompare:::save_curve_cache(1:3, "toy", "abc", tempdir())
 save_curve_cache <- function(curve, dataset_name, hash, results_folder) {
   cache_file <- generate_cache_filename(dataset_name, hash, results_folder)
   ensure_directory(dirname(cache_file))
@@ -266,7 +266,7 @@ save_curve_cache <- function(curve, dataset_name, hash, results_folder) {
 #' @return Numeric vector representing the normalized Betti curve.
 #' @examples
 #' pd <- matrix(c(0, 0, 1), ncol = 3, byrow = TRUE)
-#' get_or_compute_curve(pd, 0, "toy", 0.1, 10, 1, tempdir())
+#' scPHcompare:::get_or_compute_curve(pd, 0, "toy", 0.1, 10, 1, tempdir())
 get_or_compute_curve <- function(pd, dimension, dataset_name, base_sigma, grid_points, tau_max, results_folder) {
   hash <- generate_hash(pd, dimension, dataset_name, base_sigma, grid_points, tau_max)
   cached_curve <- load_curve_cache(dataset_name, hash, results_folder)
@@ -295,7 +295,7 @@ get_or_compute_curve <- function(pd, dimension, dataset_name, base_sigma, grid_p
 #' @param num_cores Number of CPU cores for parallel computation.
 #' @return List with mean, lower, upper Betti curves and individual curves.
 #' @examples
-#' bootstrap_curve(list(matrix(c(0,0,1), ncol = 3)), 0, "grp", "toy",
+#' scPHcompare:::bootstrap_curve(list(matrix(c(0,0,1), ncol = 3)), 0, "grp", "toy",
 #'                 10, 1, 0.1, 5, results_folder = tempdir(), num_cores = 1)
 bootstrap_curve <- function(pd_subset, dimension, group_name, dataset_name, grid_points, tau_max, base_sigma, n_bootstrap, seed = 42, results_folder, num_cores = 8) {
   log_message(paste("Starting bootstrapping for dimension", dimension, "with", n_bootstrap, "samples."))
@@ -348,8 +348,10 @@ bootstrap_curve <- function(pd_subset, dimension, group_name, dataset_name, grid
 #' @param results_folder Directory for cached results.
 #' @return List containing mean, lower, upper, and individual Euler curves.
 #' @examples
-#' compute_euler_curve(list(matrix(c(0,0,1), ncol = 3)), 0, "grp", "toy",
+#' \dontrun{
+#' scPHcompare:::compute_euler_curve(list(matrix(c(0,0,1), ncol = 3)), 0, "grp", "toy",
 #'                     10, 1, 0.1, 5, tempdir())
+#' }
 compute_euler_curve <- function(pd_subset, dimensions, group_name, dataset_name, grid_points, tau_max, base_sigma, n_bootstrap, results_folder) {
   log_message("Computing Euler curve with bootstrapping.")
   individual_euler <- lapply(seq_along(pd_subset), function(i) {
@@ -386,7 +388,7 @@ compute_euler_curve <- function(pd_subset, dimensions, group_name, dataset_name,
 #' @param tau_vals Numeric vector of tau values.
 #' @return Scalar integrated distance.
 #' @examples
-#' integrated_diff(c(0, 1, 0), c(0, 0.5, 1))
+#' scPHcompare:::integrated_diff(c(0, 1, 0), c(0, 0.5, 1))
 integrated_diff <- function(curve_diff, tau_vals) {
   if (length(curve_diff) < 2) return(0)
   delta_tau <- diff(tau_vals)
@@ -402,8 +404,8 @@ integrated_diff <- function(curve_diff, tau_vals) {
 #' @return Area under the aggregated landscape curve.
 #' @examples
 #' land <- list(dim0 = c(0, 1, 0), dim1 = c(0, 0, 0))
-#' summary_landscape(land, seq(0, 1, length.out = 3))
-summary_landscape <- function(landscape_obj, grid = seq(0, 1, length.out = grid_points)) {
+#' scPHcompare:::summary_landscape(land, seq(0, 1, length.out = 3))
+summary_landscape <- function(landscape_obj, grid = seq(0, 1, length.out = 500)) {
   curve <- compute_landscape_curve(landscape_obj, grid = grid)
   delta <- diff(grid)
   auc <- sum(((curve[-length(curve)] + curve[-1]) / 2) * delta)
@@ -417,7 +419,7 @@ summary_landscape <- function(landscape_obj, grid = seq(0, 1, length.out = grid_
 #' @param grid_points Number of grid points for evaluation.
 #' @return List containing null effect and KS statistics.
 #' @examples
-#' bootstrap_null_stats_landscape(list(list(dim0 = c(0,1), dim1 = c(0,0))),
+#' scPHcompare:::bootstrap_null_stats_landscape(list(list(dim0 = c(0,1), dim1 = c(0,0))),
 #'                                n_bootstrap = 2, grid_points = 5)
 bootstrap_null_stats_landscape <- function(landscape_list, n_bootstrap = 50, grid_points = 500) {
   if (!exists("summary_landscape")) {
@@ -472,7 +474,7 @@ bootstrap_null_stats_landscape <- function(landscape_list, n_bootstrap = 50, gri
 #' @param grid_points Number of grid points.
 #' @return List with null effect and KS statistics or `NULL` if insufficient data.
 #' @examples
-#' compute_null_stats_individual_landscapes(list(list(dim0 = c(0,1), dim1 = c(0,0))),
+#' scPHcompare:::compute_null_stats_individual_landscapes(list(list(dim0 = c(0,1), dim1 = c(0,0))),
 #'                                         n_bootstrap = 2, grid_points = 5)
 compute_null_stats_individual_landscapes <- function(landscape_list, n_bootstrap = 50, grid_points = 500) {
   N <- length(landscape_list)
@@ -523,8 +525,8 @@ compute_null_stats_individual_landscapes <- function(landscape_list, n_bootstrap
 #' @return Numeric vector of aggregated landscape values.
 #' @examples
 #' land <- list(dim0 = c(0,1,0), dim1 = c(0,0,0))
-#' compute_landscape_curve(land, seq(0, 1, length.out = 3))
-compute_landscape_curve <- function(landscape_obj, grid = seq(0, 1, length.out = grid_points)) {
+#' scPHcompare:::compute_landscape_curve(land, seq(0, 1, length.out = 3))
+compute_landscape_curve <- function(landscape_obj, grid = seq(0, 1, length.out = 500)) {
   if (is.null(landscape_obj)) return(rep(0, length(grid)))
   curve0 <- if (is.matrix(landscape_obj$dim0)) {
     rowMeans(landscape_obj$dim0, na.rm = TRUE)
@@ -554,9 +556,9 @@ compute_landscape_curve <- function(landscape_obj, grid = seq(0, 1, length.out =
 #' @param grid Numeric vector of grid points.
 #' @return Mean aggregated landscape curve.
 #' @examples
-#' compute_aggregated_landscape_curve(list(list(dim0 = c(0,1), dim1 = c(0,0))),
+#' scPHcompare:::compute_aggregated_landscape_curve(list(list(dim0 = c(0,1), dim1 = c(0,0))),
 #'                                   seq(0, 1, length.out = 3))
-compute_aggregated_landscape_curve <- function(landscape_list_group, grid = seq(0, 1, length.out = grid_points)) {
+compute_aggregated_landscape_curve <- function(landscape_list_group, grid = seq(0, 1, length.out = 500)) {
   curves <- sapply(landscape_list_group, function(land) {
     compute_landscape_curve(land, grid = grid)
   })
@@ -577,7 +579,7 @@ compute_aggregated_landscape_curve <- function(landscape_list_group, grid = seq(
 #' @param grid_points Number of grid points.
 #' @return List with null effect and KS statistics.
 #' @examples
-#' compute_null_stats_aggregated_landscapes(list(matrix(c(0,0,1), ncol=3)),
+#' scPHcompare:::compute_null_stats_aggregated_landscapes(list(matrix(c(0,0,1), ncol=3)),
 #'                                         list(list(dim0=c(0,1), dim1=c(0,0))),
 #'                                         c(0,1))
 compute_null_stats_aggregated_landscapes <- function(pd_list, landscape_list, tau_vals, n_bootstrap = 50, num_cores = 8, grid_points = 500) {
@@ -632,7 +634,7 @@ compute_null_stats_aggregated_landscapes <- function(pd_list, landscape_list, ta
 #' @param n_bootstrap Number of bootstrap samples.
 #' @return List with mean, lower, upper curves and all bootstrap samples.
 #' @examples
-#' bootstrap_aggregated_landscape_curve(list(c(0,1,0)), 3, n_bootstrap = 2)
+#' scPHcompare:::bootstrap_aggregated_landscape_curve(list(c(0,1,0)), 3, n_bootstrap = 2)
 bootstrap_aggregated_landscape_curve <- function(individual_curves, grid_points, n_bootstrap = 100) {
   boot_samples <- replicate(n_bootstrap, {
     sampled <- sample(individual_curves, replace = TRUE)
@@ -1388,10 +1390,28 @@ cross_iteration_comparison_with_betti <- function(data_iterations,
                                                   dimensions = c(0, 1), grid_points = 500,
                                                   num_permutations = 10000, bootstrap_samples = 100,
                                                   base_sigma = 1,
-                                                  output_folder = file.path(results_folder, "cross_iteration_comparisons"),
+                                                  output_folder = file.path("results", "cross_iteration_comparisons"),
                                                   num_cores = 16,
                                                   verbose = TRUE,
                                                   metadata = NULL) {
+  if (is.null(data_iterations) || length(data_iterations) == 0L) {
+    stop("data_iterations must contain at least one iteration.", call. = FALSE)
+  }
+  if (!dir.exists(output_folder)) {
+    dir.create(output_folder, recursive = TRUE)
+  }
+  group_values <- unique(unlist(lapply(data_iterations, function(iter) {
+    unique(iter$seurat_obj@meta.data[[group_by_col]])
+  })))
+  log_message <- function(msg) {
+    if (verbose) {
+      message(sprintf("[%s] %s", Sys.time(), msg))
+    }
+  }
+  reference_cell_names <- colnames(data_iterations[[1]]$seurat_obj)
+  log_message("Matching cell names across iterations")
+  for (i in seq_along(data_iterations)) {
+    seurat_obj <- data_iterations[[i]]$seurat_obj
     if (!all(colnames(seurat_obj) == reference_cell_names)) {
       if (ncol(seurat_obj) == length(reference_cell_names)) {
         colnames(seurat_obj) <- reference_cell_names
@@ -1401,6 +1421,7 @@ cross_iteration_comparison_with_betti <- function(data_iterations,
         if (verbose) log_message(paste0("Iteration ", data_iterations[[i]]$name, " has a different number of cells; skipping renaming."))
       }
     }
+  }
   process_group <- function(group_value) {
     if (verbose) log_message(paste("Processing", group_by_col, ":", group_value))
     combined_pd_list <- list()
@@ -1578,10 +1599,14 @@ run_cross_iteration <- function(data_iterations,
   if (!dir.exists(results_folder)) {
     dir.create(results_folder, recursive = TRUE)
   }
+  output_folder <- file.path(results_folder, "cross_iteration_comparisons")
+  if (!dir.exists(output_folder)) {
+    dir.create(output_folder, recursive = TRUE)
+  }
   cross_iteration_comparison_with_betti(
     data_iterations = data_iterations,
     group_by_col = group_by_col,
-    output_folder = file.path(results_folder, "cross_iteration_comparisons"),
+    output_folder = output_folder,
     ...
   )
 }

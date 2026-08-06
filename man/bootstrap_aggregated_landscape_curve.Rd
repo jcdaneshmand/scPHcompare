@@ -24,5 +24,5 @@ List with mean, lower, upper curves and all bootstrap samples.
 Bootstrap an aggregated landscape curve
 }
 \examples{
-bootstrap_aggregated_landscape_curve(list(c(0,1,0)), 3, n_bootstrap = 2)
+scPHcompare:::bootstrap_aggregated_landscape_curve(list(c(0,1,0)), 3, n_bootstrap = 2)
 }

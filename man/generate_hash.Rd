@@ -26,5 +26,5 @@ Character SHA-256 hash string.
 Creates a unique hash from curve parameters for caching purposes.
 }
 \examples{
-generate_hash(matrix(1:3, ncol = 3), 0, "toy", 0.1, 10, 1)
+scPHcompare:::generate_hash(matrix(1:3, ncol = 3), 0, "toy", 0.1, 10, 1)
 }

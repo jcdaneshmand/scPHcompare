@@ -65,18 +65,17 @@ clustering on PH distances.}
 \item{Approach_col}{Metadata column describing experimental approach.}
 
 \item{custom_iteration_inputs}{Optional named list mapping iteration labels or
-prefixes to lists with `seurat_object_path`, `ph_list_path`, `bdm_matrix_path`,
-`sdm_matrix_path`, `landscape_list_path`, and
-`landscape_l2_distance_matrix_path` entries, or a path to an R script that
-defines such a list. When provided, the matching iterations will load and use
-these custom inputs, recomputing only the missing matrices before continuing
-with downstream analyses. If `NULL`, the function looks for a populated
-template at `inst/extdata/custom_iteration_inputs_template.R` and imports it
-when valid paths are present.}
+prefixes to lists with `seurat_object_path` and `ph_list_path` entries, or a
+path to an R script that defines such a list. When provided, the matching
+iterations will load and use these Seurat objects and PH lists, recomputing
+distance matrices and clustering outputs before continuing with downstream
+analyses. If `NULL`, the function looks for a populated template at
+`inst/extdata/custom_iteration_inputs_template.R` and imports it when valid
+paths are present.}
 
 \item{preferred_integration_iteration}{Preferred integration iteration name to
-prioritize when determining defaults. Falls back to Seurat integration when the
-requested iteration is unavailable.}
+prioritize when determining defaults. Falls back to Seurat integration when
+the requested iteration is unavailable.}
 
 \item{...}{Additional arguments passed to helper functions.}
 }

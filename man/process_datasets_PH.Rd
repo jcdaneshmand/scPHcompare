@@ -6,19 +6,27 @@
 \usage{
 process_datasets_PH(
   metadata,
-  integration_method = "seurat",
+  integration_methods = "seurat",
   num_cores = 16,
   MIN_CELLS = 250,
   DIM = 1,
   THRESHOLD = -1,
-  dataset_tag = "dataset"
+  dataset_tag = "dataset",
+  provenance_dir = "provenance",
+  strict_reconciliation = TRUE,
+  ph_representations = c("sct_individual", "raw", "sct_whole", "seurat_integration",
+    "harmony_integration"),
+  ph_poll_interval = 0.25,
+  ph_progress_log_interval = 60,
+  ph_max_time_per_sample = 20 * 24 * 3600
 )
 }
 \arguments{
 \item{metadata}{Data frame with file paths and associated metadata.}
 
-\item{integration_method}{Integration method to use ("seurat" for the
-Seurat integration iteration or "harmony" for the Harmony iteration).}
+\item{integration_methods}{Character vector of integration methods to use
+("seurat" for the Seurat integration iteration, "harmony" for the Harmony
+iteration, or both to run each integration in parallel).}
 
 \item{num_cores}{Number of cores for parallel processing.}
 
@@ -29,10 +37,27 @@ Seurat integration iteration or "harmony" for the Harmony iteration).}
 \item{THRESHOLD}{Threshold for persistence diagram calculation.}
 
 \item{dataset_tag}{Optional tag appended to output files.}
+
+\item{provenance_dir}{Directory for sample-flow and PH-attempt CSV files.}
+
+\item{strict_reconciliation}{If `TRUE`, stop when any PH-eligible sample lacks
+a completed persistence diagram. Set to `FALSE` only for diagnostic runs.}
+
+\item{ph_representations}{Expression representations on which to calculate
+PH. Defaults to every historical representation. Selecting a subset is
+intended for smoke tests and focused diagnostic runs; preprocessing and
+requested integration methods still run normally.}
+
+\item{ph_poll_interval}{Seconds between PH child-process status and memory
+samples. Waiting returns immediately when the child exits.}
+
+\item{ph_progress_log_interval}{Minimum seconds between PH progress messages.}
+
+\item{ph_max_time_per_sample}{Maximum runtime in seconds for one PH child.}
 }
 \value{
-A list containing processed iterations as well as the detected
-  column names for SRA, tissue and approach.
+A list containing processed iterations, detected metadata column
+  names, and additive sample-flow provenance.
 }
 \description{
 The `process_datasets_PH` function is designed to process single-cell RNA-seq datasets using 
@@ -100,16 +125,6 @@ The script requires the following R packages:
 
 Ensure all required packages are installed, and the input metadata CSV is correctly formatted with paths to `.RData` files. 
 Execute the script in an environment with adequate computational resources, as the pipeline utilizes parallel processing.
-}
-
-\section{Example}{
-
-\dontrun{
-  # Load metadata and process datasets with Persistent Homology
-  metadata <- read.csv("./data/VastlyDifferentTissues/metadata.csv",
-                       check.names = FALSE)
-  process_datasets_PH(metadata, num_cores = 32)
-}
 }
 
 \section{Author}{

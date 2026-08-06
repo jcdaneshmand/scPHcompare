@@ -6,6 +6,17 @@
 \usage{
 perform_spectral_clustering(distance_matrix, k)
 }
+\arguments{
+\item{distance_matrix}{Square numeric distance matrix.}
+
+\item{k}{Number of clusters; must be at least two and smaller than the
+matrix dimension.}
+}
+\value{
+Named integer cluster assignments.
+}
 \description{
-Perform spectral clustering on a distance matrix
+Converts distances to Gaussian similarities. The kernel bandwidth is the
+median positive finite distance, with a value of one used for a degenerate
+all-zero matrix.
 }

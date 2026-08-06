@@ -23,6 +23,8 @@
 #'   distance matrices and clustering outputs. If `NULL`, the function looks for
 #'   a populated template at `inst/extdata/custom_iteration_inputs_template.R`
 #'   and will import it automatically when valid paths are detected.
+#' @param pipeline_metrics_file Optional path for the stage-level runtime and
+#'   process-RSS CSV. Defaults to `pipeline_stage_metrics.csv` in `results_dir`.
 #' @param ... Additional arguments passed to the underlying processing
 #'   functions.
 #'
@@ -43,7 +45,10 @@ run_unified_pipeline <- function(metadata_path,
                                  run_betti = FALSE,
                                  run_cross_iteration = FALSE,
                                  custom_iteration_inputs = NULL,
+                                 pipeline_metrics_file = NULL,
                                  ...) {
+  pipeline_started_at <- Sys.time()
+  pipeline_rss_before <- current_process_rss()
   if (!requireNamespace("readr", quietly = TRUE)) {
     stop("Package 'readr' is required")
   }
@@ -52,32 +57,69 @@ run_unified_pipeline <- function(metadata_path,
   if (!dir.exists(results_dir)) {
     dir.create(results_dir, recursive = TRUE)
   }
-  metadata <- readr::read_csv(metadata_path, show_col_types = FALSE)
-  ph_results <- process_datasets_PH(metadata,
-                                    integration_methods = integration_methods,
-                                    num_cores = num_cores,
-                                    ...)
-  if (run_cluster || run_betti || run_cross_iteration) {
-    tryCatch(
-      run_postprocessing_pipeline(ph_results,
-                                  results_dir = results_dir,
-                                  num_cores = num_cores,
-                                  run_cluster = run_cluster,
-                                  run_betti = run_betti,
-                                  run_cross_iteration = run_cross_iteration,
-                                  metadata_path = metadata_path,
-                                  SRA_col = ph_results$SRA_col,
-                                  Tissue_col = ph_results$Tissue_col,
-                                  Approach_col = ph_results$Approach_col,
-                                  custom_iteration_inputs = custom_iteration_inputs,
-                                  ...),
-      error = function(e) {
-        stop(
-          sprintf("Post-processing pipeline failed: %s", conditionMessage(e)),
-          call. = FALSE
-        )
-      }
-    )
+  if (is.null(pipeline_metrics_file)) {
+    pipeline_metrics_file <- file.path(results_dir, "pipeline_stage_metrics.csv")
   }
+  metadata_stage <- time_stage(
+    "metadata_load",
+    readr::read_csv(metadata_path, show_col_types = FALSE)
+  )
+  metadata <- metadata_stage$value
+  timings <- metadata_stage$timing
+  processing_stage <- time_stage(
+    "ph_processing",
+    process_datasets_PH(metadata,
+                        integration_methods = integration_methods,
+                        num_cores = num_cores,
+                        ...)
+  )
+  ph_results <- processing_stage$value
+  timings <- rbind(timings, processing_stage$timing)
+  if (run_cluster || run_betti || run_cross_iteration) {
+    postprocessing_stage <- time_stage(
+      "postprocessing",
+      tryCatch(
+        run_postprocessing_pipeline(ph_results,
+                                    results_dir = results_dir,
+                                    num_cores = num_cores,
+                                    run_cluster = run_cluster,
+                                    run_betti = run_betti,
+                                    run_cross_iteration = run_cross_iteration,
+                                    metadata_path = metadata_path,
+                                    SRA_col = ph_results$SRA_col,
+                                    Tissue_col = ph_results$Tissue_col,
+                                    Approach_col = ph_results$Approach_col,
+                                    custom_iteration_inputs = custom_iteration_inputs,
+                                    ...),
+        error = function(e) {
+          stop(
+            sprintf("Post-processing pipeline failed: %s", conditionMessage(e)),
+            call. = FALSE
+          )
+        }
+      )
+    )
+    timings <- rbind(timings, postprocessing_stage$timing)
+  }
+  pipeline_finished_at <- Sys.time()
+  timings <- rbind(
+    timings,
+    new_stage_timing(
+      "pipeline_total",
+      started_at = pipeline_started_at,
+      finished_at = pipeline_finished_at,
+      rss_before_bytes = pipeline_rss_before,
+      rss_after_bytes = current_process_rss()
+    )
+  )
+  dir.create(dirname(pipeline_metrics_file), recursive = TRUE, showWarnings = FALSE)
+  utils::write.csv(timings, pipeline_metrics_file, row.names = FALSE, na = "")
+  if (is.null(ph_results$provenance)) {
+    ph_results$provenance <- list()
+  }
+  ph_results$provenance$pipeline_metrics <- timings
+  ph_results$provenance$pipeline_metrics_file <- normalizePath(
+    pipeline_metrics_file, winslash = "/", mustWork = TRUE
+  )
   ph_results
 }

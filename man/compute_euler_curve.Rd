@@ -42,6 +42,8 @@ List containing mean, lower, upper, and individual Euler curves.
 Computes Euler characteristic curves for a group of diagrams using bootstrapping.
 }
 \examples{
-compute_euler_curve(list(matrix(c(0,0,1), ncol = 3)), 0, "grp", "toy",
+\dontrun{
+scPHcompare:::compute_euler_curve(list(matrix(c(0,0,1), ncol = 3)), 0, "grp", "toy",
                     10, 1, 0.1, 5, tempdir())
+}
 }

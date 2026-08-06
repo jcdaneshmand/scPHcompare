@@ -26,5 +26,5 @@ Converts a persistence diagram into a smoothed Betti curve.
 \examples{
 pd <- matrix(c(0, 0, 1,
                0, 0.2, 0.5), ncol = 3, byrow = TRUE)
-compute_betti_curve(pd, 0, 10, 1, 0.1)
+scPHcompare:::compute_betti_curve(pd, 0, 10, 1, 0.1)
 }

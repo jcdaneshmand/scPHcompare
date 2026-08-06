@@ -5,3 +5,8 @@
 ^tmp$
 ^output$
 ^CITATION\.cff$
+^LICENSE\.md$
+^scripts$
+^example_run\.r$
+^PROJECT_PLAN\.md$
+^docs$

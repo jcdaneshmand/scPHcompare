@@ -18,5 +18,5 @@ Scalar integrated distance.
 Integrated squared difference between curves
 }
 \examples{
-integrated_diff(c(0, 1, 0), c(0, 0.5, 1))
+scPHcompare:::integrated_diff(c(0, 1, 0), c(0, 0.5, 1))
 }

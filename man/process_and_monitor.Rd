@@ -11,10 +11,16 @@ process_and_monitor(
   log_message,
   memory_threshold,
   max_time_per_iteration = 20 * 24 * 3600,
+  poll_interval = 0.25,
+  progress_log_interval = 60,
   timeout_datasets = NULL,
   results_file = NULL,
   log_file = NULL,
-  temp_dataset_dir = "temp_datasets_sct_whole"
+  temp_dataset_dir = "temp_datasets_sct_whole",
+  sample_id = as.character(i),
+  cohort = "dataset",
+  representation = "unknown",
+  persist_shared = TRUE
 )
 }
 \arguments{
@@ -28,15 +34,37 @@ process_and_monitor(
 
 \item{memory_threshold}{Reserved for future memory checks.}
 
-\item{max_time_per_iteration}{Maximum runtime in seconds (default 12 hours).}
+\item{max_time_per_iteration}{Maximum runtime in seconds (default 20 days).}
+
+\item{poll_interval}{Seconds between subprocess status and process-tree
+memory samples. Process-aware waiting returns as soon as the child exits.}
+
+\item{progress_log_interval}{Minimum seconds between elapsed-time log entries.}
 
 \item{timeout_datasets}{Vector of dataset indices that previously timed out.}
+
+\item{results_file}{Path to the intermediate persistence-diagram file.}
+
+\item{log_file}{Path to the legacy progress log.}
+
+\item{temp_dataset_dir}{Directory for subprocess input and output files.}
+
+\item{sample_id}{Stable sample identifier corresponding to `i`.}
+
+\item{cohort}{Cohort label written to structured attempt provenance.}
+
+\item{representation}{Expression representation written to attempt provenance.}
+
+\item{persist_shared}{If `TRUE`, write shared intermediate and progress files
+in this process. Parallel batch workers set this to `FALSE` so their parent
+can serialize shared-file updates without races.}
 }
 \value{
 A list with
 \describe{
   \item{PD}{The persistence diagram matrix or `NULL` if no valid result was produced.}
   \item{threshold}{The threshold used for the PH run, or `NULL` on failure.}
+  \item{attempt}{A one-row structured provenance record for this attempt.}
 }
 }
 \description{

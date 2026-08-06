@@ -16,5 +16,5 @@ Invisibly returns `NULL` after ensuring the directory is present.
 Creates the directory if it does not already exist.
 }
 \examples{
-ensure_directory(tempdir())
+scPHcompare:::ensure_directory(tempdir())
 }

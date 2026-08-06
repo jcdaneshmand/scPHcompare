@@ -2,7 +2,7 @@
 % Please edit documentation in R/logging_utils.R
 \name{log_message}
 \alias{log_message}
-\title{Logging utilities}
+\title{Write a timestamped pipeline message}
 \usage{
 log_message(msg)
 }
@@ -13,8 +13,8 @@ log_message(msg)
 Invisibly returns `NULL` after printing the message.
 }
 \description{
-Provides a simple logging helper that prepends timestamps to messages.
+Write a timestamped pipeline message
 }
 \examples{
-log_message("processing")
+scPHcompare:::log_message("processing")
 }

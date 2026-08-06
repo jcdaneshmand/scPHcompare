@@ -2,6 +2,8 @@
 
 `scPHcompare` is an R package that wraps a collection of scripts for computing persistent homology (PH) on single-cell RNA-seq datasets and for comparing the resulting topological summaries across many samples. The code originated as several standalone R files; the package now exposes the main workflow through the function `run_unified_pipeline()`.
 
+> **Scientific audit status:** the legacy/current PH route passes Seurat feature-by-cell matrices directly to a row-as-point PH API, while the dissertation intended cells as observations. Existing biological persistence diagrams and all distances, clustering, statistics, and figures derived from them are therefore historical reproduction artifacts, not validated corrected results. The compatibility pipeline remains available but is not an approved scientific default; see `docs/audits/LANDSCAPE_ORACLE_AND_DIAGRAM_ELIGIBILITY_2026-08-05.md`.
+
 ## Features
 
 * Preprocessing and integration of single-cell datasets using **Seurat**
@@ -120,26 +122,89 @@ results <- run_unified_pipeline(
 )
 ```
 
-## Toy Example Data
+## Deterministic analytical baseline
 
-To try the package without obtaining real datasets, a set of synthetic datasets can be generated directly in R:
+The maintained public smoke route runs real persistent homology on two tiny
+point clouds with known topology and writes a stable scientific manifest plus
+stage-level timing evidence:
 
 ```r
 library(scPHcompare)
-toy_files <- generate_toy_data()
+baseline <- run_toy_baseline(
+  output_dir = "toy_baseline",
+  seed = 20260805L
+)
+baseline$manifest
+baseline$timings
 ```
 
-`generate_toy_data()` recreates 20 sparse 100×300 matrices spanning five tissues, two sequencing approaches (`scRNA-seq` and `snRNA-seq`), and two SRA identifiers. The matrices and a corresponding `metadata.csv` file are written to `inst/extdata/toy/` and their paths are returned. The metadata can then be used to run the pipeline:
+The rotated square must produce three finite H0 features and one H1 feature;
+the rotated line must produce three finite H0 features and no H1 feature. The
+seed controls the rotation while preserving those distances, and the caller's
+RNG state is restored after the run. `baseline_manifest.csv` contains the seed,
+dependency versions, output digests, and expected feature counts. Timing and
+wall-clock fields are kept in `stage_timings.csv` and `ph_attempt_log.csv` so
+they do not make the scientific manifest nondeterministic. The manifest also
+records the maximum error against the known H0/H1 birth/death values and the
+accepted numerical tolerance (`1e-10`).
+
+## Realistic production-route fixture
+
+`run_realistic_fixture()` generates two redistributable 520-gene, 20-cell
+synthetic samples and sends them through the actual sparse-RData loader, fixed
+QC gates, Seurat construction, per-sample and merged SCTransform, Harmony
+integration, and PH subprocess route. H0 remains the default; H1 is an explicit
+option and is also covered by the locked reference contract:
 
 ```r
-results <- run_unified_pipeline(
-  metadata_path = toy_files$metadata,
-  results_dir = "toy_results",
-  num_cores = 2
+fixture <- run_realistic_fixture(
+  output_dir = "realistic_fixture",
+  seed = 20260805L
+)
+fixture$manifest
+fixture$results$provenance$pipeline_metrics
+
+h1_fixture <- run_realistic_fixture(
+  output_dir = "realistic_fixture_h1",
+  seed = 20260805L,
+  max_dimension = 1L
 )
 ```
 
-These toy datasets are randomly generated and extremely small. They are intended only for demonstrations and automated tests and should not be used for biological interpretation.
+The default seed is checked against the packaged reference contract in
+`inst/extdata/realistic_fixture_reference.csv`. The contract covers sample and
+feature counts, post-QC eligibility, output dimensions, finite values, H0/H1
+interval counts, PH completion, and locked-environment hashes. The fixture selects only the
+Harmony PH representation to bound smoke-test runtime; normal
+`process_datasets_PH()` calls still compute every historical representation by
+default. PH attempt provenance includes sampled monitor, child, descendant, and
+process-tree peak RSS fields. These are poll-boundary sampled peaks, not
+continuous operating-system maxima. The unified wrapper separately writes
+stage-boundary process RSS to `pipeline_stage_metrics.csv`.
+
+For a repeated H0/H1 comparison, run
+`Rscript scripts/profile_realistic_ph_dimensions.R <empty-output-directory>`.
+The profiler requires stable input/Harmony hashes, repeatable within-dimension
+PH hashes, identical H0 output when H1 is enabled, and positive H1 counts.
+
+## Legacy synthetic matrix generator
+
+`generate_toy_data()` recreates 20 sparse 100-by-300 matrices spanning five
+tissues, two sequencing approaches (`scRNA-seq` and `snRNA-seq`), and two SRA
+identifiers. It is retained for matrix-loading and metadata demonstrations.
+These matrices have only 100 features, below the full pipeline's default
+500-feature-per-cell QC requirement, so they are **not** an end-to-end example
+for `run_unified_pipeline()` and should not be represented as one.
+
+```r
+toy_files <- generate_toy_data()
+loaded <- scPHcompare:::load_sparse_matrices(toy_files$matrices)
+length(loaded$matrices)
+```
+
+All fixture families are synthetic and must not be used for biological
+interpretation. The realistic fixture validates software routing and
+reproducibility, not biological conclusions.
 
 ## Output overview
 

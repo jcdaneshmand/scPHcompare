@@ -303,6 +303,17 @@ run_modular_analysis <- function(ph_results,
     preferred_integration = preferred_integration_iteration
   )
 
+  iteration_metadata <- function(seurat_obj) {
+    if (methods::is(seurat_obj, "Seurat")) {
+      return(seurat_obj@meta.data)
+    }
+    if (is.list(seurat_obj) && is.data.frame(seurat_obj$meta.data)) {
+      return(seurat_obj$meta.data)
+    }
+    stop("Each iteration must contain a Seurat object or a list with data-frame meta.data.",
+         call. = FALSE)
+  }
+
   if (run_cluster && exists("run_cluster_comparison") && !is.null(data_iterations)) {
     results$cluster <- try(run_cluster_comparison(data_iterations,
                                                  results_folder = results_dir,
@@ -317,10 +328,11 @@ run_modular_analysis <- function(ph_results,
     for (iter in data_iterations) {
       pd_list <- readRDS(iter$pd_list)
       landscape_list <- if (!is.null(iter$landscape_list)) readRDS(iter$landscape_list) else NULL
+      metadata_columns <- colnames(iteration_metadata(iter$seurat_obj))
 
       iter_results <- list()
 
-      if (Tissue_col %in% colnames(iter$seurat_obj@meta.data)) {
+      if (Tissue_col %in% metadata_columns) {
         iter_results$Tissue <- try(
           compute_and_compare_betti_curves(
             pd_list = pd_list,
@@ -335,7 +347,7 @@ run_modular_analysis <- function(ph_results,
         )
       }
 
-      if (SRA_col %in% colnames(iter$seurat_obj@meta.data)) {
+      if (SRA_col %in% metadata_columns) {
         iter_results$SRA <- try(
           compute_and_compare_betti_curves(
             pd_list = pd_list,
@@ -350,7 +362,7 @@ run_modular_analysis <- function(ph_results,
         )
       }
 
-      if (Approach_col %in% colnames(iter$seurat_obj@meta.data)) {
+      if (Approach_col %in% metadata_columns) {
         iter_results$Approach <- try(
           compute_and_compare_betti_curves(
             pd_list = pd_list,
@@ -970,8 +982,15 @@ compute_and_save_distance_matrices <- function(
 # ---------------------------
 ComputePersistenceLandscapes <- function(pd, grid = seq(0, 1, length.out = 100)) {
   res <- tryCatch({
-    landscape0 <- TDA::landscape(Diag = pd, dimension = 0, tseq = grid)
-    landscape1 <- TDA::landscape(Diag = pd, dimension = 1, tseq = grid)
+    # The historical public contract is explicitly the first landscape level
+    # on a common unit grid. Canonicalization prevents TDA-version-dependent
+    # matrix orientation from changing downstream reductions.
+    landscape0 <- compute_landscape_values(
+      pd, dimension = 0L, grid = grid, levels = 1L
+    )
+    landscape1 <- compute_landscape_values(
+      pd, dimension = 1L, grid = grid, levels = 1L
+    )
     list(dim0 = landscape0, dim1 = landscape1)
   }, error = function(e) {
     log_message(paste("Error computing persistence landscape for a PD:", e$message))
@@ -1550,6 +1569,7 @@ perform_hierarchical_clustering_ph <- function(
 }
 
 #' Apply hierarchical clustering results for multiple methods to a Seurat object
+#' @noRd
 apply_hierarchical_methods <- function(seurat_obj, distance_matrix, k, prefix,
                                        target_label, matrix_label, SRA_col,
                                        methods, verbose = TRUE) {
@@ -1664,8 +1684,26 @@ ensure_directory <- function(path) {
 # ---------------------------
 
 #' Perform spectral clustering on a distance matrix
+#'
+#' Converts distances to Gaussian similarities. The kernel bandwidth is the
+#' median positive finite distance, with a value of one used for a degenerate
+#' all-zero matrix.
+#'
+#' @param distance_matrix Square numeric distance matrix.
+#' @param k Number of clusters; must be at least two and smaller than the
+#'   matrix dimension.
+#' @return Named integer cluster assignments.
 perform_spectral_clustering <- function(distance_matrix, k) {
-  epsilon <- 1e-8
+  if (!is.matrix(distance_matrix) || nrow(distance_matrix) != ncol(distance_matrix)) {
+    stop("distance_matrix must be a square matrix.", call. = FALSE)
+  }
+  if (length(k) != 1L || !is.finite(k) || k < 2L || k >= nrow(distance_matrix)) {
+    stop("k must be at least 2 and smaller than the matrix dimension.", call. = FALSE)
+  }
+  positive_distances <- distance_matrix[is.finite(distance_matrix) & distance_matrix > 0]
+  sigma <- if (length(positive_distances)) stats::median(positive_distances) else 1
+  similarity_matrix <- exp(-(distance_matrix ^ 2) / (2 * sigma ^ 2))
+  diag(similarity_matrix) <- 1
   res <- kernlab::specc(kernlab::as.kernelMatrix(similarity_matrix), centers = k)
   clusters <- res@.Data
   names(clusters) <- rownames(distance_matrix)
@@ -2200,6 +2238,22 @@ generate_heatmaps <- function(dataset_name, metadata, seurat_obj, bdm_matrix, pl
 }
 
 #' Generate visualizations and heatmaps for a single iteration
+#'
+#' @param seurat_obj Seurat object containing reductions, metadata, and stored
+#'   hierarchical trees.
+#' @param dataset_name Iteration label used in metadata and output names.
+#' @param assay Assay used when a UMAP reduction must be generated.
+#' @param bdm_matrix Optional bottleneck-distance matrix.
+#' @param sdm_matrix Optional spectral-distance matrix.
+#' @param landscape_matrix Optional persistence-landscape distance matrix.
+#' @param metadata Optional dataset metadata retained for compatibility.
+#' @param plots_folder Output directory for generated plots.
+#' @param run_visualizations Logical; generate clustering visualizations.
+#' @param run_sample_level_heatmap Logical; generate sample-level heatmaps.
+#' @param SRA_col Metadata column containing sample identifiers.
+#' @param Tissue_col Metadata column containing tissue labels.
+#' @param Approach_col Metadata column describing sequencing approach.
+#' @return The Seurat object, invisibly, after visualization side effects.
 generate_visualizations_for_iteration <- function(seurat_obj, dataset_name, assay,
                                                   bdm_matrix = NULL, sdm_matrix = NULL,
                                                   landscape_matrix = NULL, metadata = NULL,

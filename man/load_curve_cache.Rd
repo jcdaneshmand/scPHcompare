@@ -20,5 +20,5 @@ Cached curve as a numeric vector or `NULL` if not found.
 Load a cached curve if available
 }
 \examples{
-load_curve_cache("toy", "abc", tempdir())
+scPHcompare:::load_curve_cache("toy", "abc", tempdir())
 }
