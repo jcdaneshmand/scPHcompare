@@ -11,3 +11,10 @@ provenance/
 
 # Local dependency restores and other disposable validation workspaces.
 tmp/
+__pycache__/
+*.py[cod]
+
+# Local R package build/check products.
+scPHcompare_*.tar.gz
+scPHcompare.Rcheck/
+..Rcheck/

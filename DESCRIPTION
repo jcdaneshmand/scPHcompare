@@ -3,6 +3,8 @@ Type: Package
 Title: Persistent Homology Comparison Tools
 Version: 0.1.0
 Authors@R: c(person(given = "Jonah", family = "Daneshmand", role = c("aut", "cre"), email = "jcdaneshmand@users.noreply.github.com"))
+Author: Jonah Daneshmand [aut, cre]
+Maintainer: Jonah Daneshmand <jcdaneshmand@users.noreply.github.com>
 Description: Utilities for running persistent homology analysis and
     comparison pipelines on single-cell RNA-seq data.
 License: MIT + file LICENSE

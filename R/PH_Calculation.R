@@ -98,6 +98,10 @@
 #'   samples. Waiting returns immediately when the child exits.
 #' @param ph_progress_log_interval Minimum seconds between PH progress messages.
 #' @param ph_max_time_per_sample Maximum runtime in seconds for one PH child.
+#' @param acknowledge_legacy_orientation If `TRUE`, suppress the explicit warning
+#'   that this historical pipeline passes feature-by-cell assay matrices to a
+#'   rows-as-points PH route. This does not make those diagrams scientifically
+#'   eligible for the corrected dual-view analysis.
 #'
 #' @return A list containing processed iterations, detected metadata column
 #'   names, and additive sample-flow provenance.
@@ -127,7 +131,8 @@ process_datasets_PH <- function(metadata,
                                 ),
                                 ph_poll_interval = 0.25,
                                 ph_progress_log_interval = 60,
-                                ph_max_time_per_sample = 20 * 24 * 3600) {
+                                ph_max_time_per_sample = 20 * 24 * 3600,
+                                acknowledge_legacy_orientation = FALSE) {
   integration_methods <- unique(tolower(integration_methods))
   allowed_methods <- c("seurat", "harmony")
   invalid_methods <- setdiff(integration_methods, allowed_methods)
@@ -147,6 +152,14 @@ process_datasets_PH <- function(metadata,
     stop(
       "ph_representations must contain supported values: ",
       paste(allowed_representations, collapse = ", "),
+      call. = FALSE
+    )
+  }
+  if (!isTRUE(acknowledge_legacy_orientation)) {
+    warning(
+      "process_datasets_PH currently uses legacy_gene_view_v0 rows-as-points ",
+      "orientation. Use the typed dual-view constructors for corrected work; ",
+      "set acknowledge_legacy_orientation = TRUE only for historical reproduction.",
       call. = FALSE
     )
   }
@@ -953,7 +966,9 @@ process_datasets_PH <- function(metadata,
       attempt_log_file = normalizePath(attempt_log_file, winslash = "/", mustWork = FALSE),
       eligible_ids = eligible_ids,
       excluded_ids = excluded_ids,
-      ph_representations = ph_representations
+      ph_representations = ph_representations,
+      topology_contract_id = "legacy_gene_view_v0",
+      scientific_eligible = FALSE
     )
   )
   return(ph_results)

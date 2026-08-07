@@ -4,7 +4,7 @@
 
 | Field | Value |
 |---|---|
-| Status | Frozen for MV-02 implementation and MV-03 feasibility pilot; not activated for confirmatory science |
+| Status | Frozen and enforced by MV-02 typed constructors/tests; ready for MV-03 feasibility pilot; not activated for confirmatory science |
 | Date | 2026-08-05 |
 | Contract IDs | `cell_topology_v1`, `gene_topology_v1` |
 | Legacy ID | `legacy_gene_view_v0` — historical reproduction/stress use only |
@@ -340,6 +340,8 @@ G-MV1 passes as a technical contract freeze for MV-02/MV-03 because:
 This pass does not approve a confirmatory full run or biological claims. Broader author-team review remains required at G-MV7 and before manuscript activation.
 
 ## 18. References and evidence
+
+Implementation evidence: `R/dual_view_topology.R`, `tests/testthat/test-dual-view-topology.R`, and `docs/audits/MV02_ORIENTATION_SAFE_CONSTRUCTORS_2026-08-05.md`. The implementation provides a strict `scientific` profile and a reduced `analytical_fixture` profile that is always marked scientifically ineligible. The corrected PH entry point refuses bare matrices and bare `dist` objects.
 
 - Local orientation and engine audit: `docs/audits/LANDSCAPE_ORACLE_AND_DIAGRAM_ELIGIBILITY_2026-08-05.md`.
 - Dissertation cell-by-cell intent: `docs/Dissertation_SubmissionReady_October.pdf`, PDF page 54 (printed page 40); local and Git-ignored.
