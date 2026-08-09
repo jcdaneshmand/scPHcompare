@@ -263,3 +263,140 @@ test_that("pair chunks are bounded, immutable, and deterministic", {
   invalid$exact[[1L]] <- FALSE
   expect_error(mv05c2_assign_pair_chunks_v1(invalid), "chunk contract")
 })
+
+test_that("MV5-D1 feature eligibility is strictly training-derived", {
+  training_a <- rbind(
+    GeneA = c(0, 1, 2, 3), GeneB = c(0, 2, 4, 6),
+    GeneC = c(0, 4, 8, 12), GeneD = c(0, 8, 16, 24)
+  )
+  training_b <- sweep(training_a, 1L, c(0, 1, 0, 2), "+")
+  held_out_full <- training_a + 3
+  held_out_missing <- held_out_full[c("GeneA", "GeneB"), , drop = FALSE]
+  full <- list(a = training_a, b = training_b, q = held_out_full)
+  missing <- list(a = training_a, b = training_b, q = held_out_missing)
+  first <- mv05c2_select_training_panel_v1(full, c("a", "b"), 2L)
+  second <- mv05c2_select_training_panel_v1(missing, c("a", "b"), 2L)
+  expect_identical(first, second)
+  expect_true(any(!first$feature_id %in% rownames(held_out_missing)))
+})
+
+test_that("MV5-D1 standardization is numerically independent of held-out values", {
+  genes <- paste0("Gene", sprintf("%03d", seq_len(500L)))
+  cells <- paste0("Cell", sprintf("%03d", seq_len(384L)))
+  base <- outer(seq_len(500L), seq_len(384L), function(gene, cell) {
+    sin(gene / 17 + cell / 11) + cos(gene / 23 - cell / 7)
+  })
+  rownames(base) <- genes
+  colnames(base) <- cells
+  matrices_a <- list(train_a = base, train_b = base * 1.1 + 0.2,
+                     query = base * 0.7 - 0.1)
+  matrices_b <- matrices_a
+  matrices_a$query <- matrices_a$query[-1L, , drop = FALSE]
+  matrices_b$query <- matrices_b$query[-1L, , drop = FALSE] + 100
+  panel <- data.frame(
+    feature_id = genes, gene = genes, stringsAsFactors = FALSE
+  )
+  keys <- stats::setNames(
+    paste0("mv05d0_sample_seed_sct_v2:", c(
+      paste(rep("a", 64L), collapse = ""),
+      paste(rep("b", 64L), collapse = ""),
+      paste(rep("c", 64L), collapse = "")
+    )), names(matrices_a)
+  )
+  first <- mv05d1_prepare_cell_sources_v1(
+    matrices_a, panel, c("train_a", "train_b"), "fold:q",
+    "fold:q:training", 1L, keys, cohort = "test"
+  )
+  second <- mv05d1_prepare_cell_sources_v1(
+    matrices_b, panel, c("train_a", "train_b"), "fold:q",
+    "fold:q:training", 1L, keys, cohort = "test"
+  )
+  expect_identical(first$center, second$center)
+  expect_identical(first$scale, second$scale)
+  expect_identical(first$standardization_id, second$standardization_id)
+  expect_identical(first$missing_feature_counts[["query"]], 1L)
+  expect_true(all(first$cell_sources$query$matrix[1L, ] == 0))
+  expect_identical(
+    first$training_sources$train_a$input_sha256,
+    second$training_sources$train_a$input_sha256
+  )
+  expect_false(identical(
+    first$cell_sources$query$input_sha256,
+    second$cell_sources$query$input_sha256
+  ))
+})
+
+test_that("MV5-D1 fold identities and resource gates are immutable and closed", {
+  keys <- stats::setNames(
+    paste0("mv05d0_sample_seed_sct_v2:", c(
+      paste(rep("a", 64L), collapse = ""),
+      paste(rep("b", 64L), collapse = ""),
+      paste(rep("c", 64L), collapse = "")
+    )), c("a", "b", "q")
+  )
+  runtime <- list(
+    contract_id = "mv05d1_fold_runtime_v1", r_version = "R test",
+    rng_kind = c("Mersenne-Twister", "Inversion", "Rejection"),
+    matrix_version = "1", digest_version = "1", blas = "test",
+    lapack = "test", omp_num_threads = "1", openblas_num_threads = "1",
+    mkl_num_threads = "1"
+  )
+  hash <- paste(rep("d", 64L), collapse = "")
+  identity <- mv05d1_cell_fold_identity_v1(
+    "fold:q", "fold:q:training", "q", 1L, c("b", "a"), "q", keys,
+    hash, hash, hash, runtime, panel_size = 500L, n_components = 30L
+  )
+  expect_identical(identity$training_ids, c("a", "b"))
+  expect_identical(identity$outcome_label_state, "closed")
+  changed <- identity
+  changed$seed <- 2L
+  expect_false(identical(
+    identity$cache_key,
+    mv05d1_cell_fold_identity_v1(
+      "fold:q", "fold:q:training", "q", 2L, c("a", "b"), "q", keys,
+      hash, hash, hash, runtime, panel_size = 500L, n_components = 30L
+    )$cache_key
+  ))
+
+  metrics <- data.frame(
+    fold_id = "fold:q", seed = 1L, disposition = "built_atomic",
+    elapsed_seconds = 10, peak_process_tree_rss_bytes = 100,
+    private_cache_size_bytes = 1000, outcome_label_state = "closed",
+    biological_outcomes_computed = FALSE, ph_jobs_executed = 0L,
+    landscape_jobs_executed = 0L, distance_jobs_executed = 0L,
+    clustering_jobs_executed = 0L, integration_jobs_executed = 0L,
+    gene_view_jobs_executed = 0L, stringsAsFactors = FALSE
+  )
+  expect_invisible(mv05d1_validate_resource_metrics_v1(
+    metrics, 1L, 20, 1000, 10000
+  ))
+  metrics$ph_jobs_executed <- 1L
+  expect_error(mv05d1_validate_resource_metrics_v1(
+    metrics, 1L, 20, 1000, 10000
+  ), "scope")
+})
+
+test_that("MV5-D1 projection keeps unmeasured PH explicit", {
+  previous <- data.frame(
+    contract_id = "old",
+    scenario = c("naive_full_mv05d", "resource_safe_sct_cell_primary"),
+    normalization_worker_hours = c(NA, 2.5),
+    cached_sct_fold_worker_hours = c(NA, 4),
+    landscape_worker_hours = c(90, 3.5),
+    integrated_reference_mapping_worker_hours = c(NA, 0),
+    projected_lower_bound_worker_hours = c(240, 10),
+    nominal_cap_hours = 24,
+    planning_cap_with_10_percent_reserve_hours = 21.6,
+    cap_passes = c(FALSE, TRUE), disposition = c("old", "old"),
+    outcome_label_state = "closed",
+    biological_outcomes_computed = FALSE, stringsAsFactors = FALSE
+  )
+  observed <- mv05d1_post_fold_projection_v2(previous, 1.25)
+  expect_true(is.na(observed$measured_cell_coordinate_worker_hours[[1L]]))
+  expect_equal(observed$measured_cell_coordinate_worker_hours[[2L]], 1.25)
+  expect_equal(observed$known_components_lower_bound_worker_hours[[2L]], 7.25)
+  expect_identical(observed$unmeasured_components[[2L]], "cell_ph")
+  expect_false(observed$feasibility_complete[[2L]])
+  expect_true(is.na(observed$cap_passes[[2L]]))
+  expect_match(observed$disposition[[2L]], "pending_measured_production_cell_ph")
+})

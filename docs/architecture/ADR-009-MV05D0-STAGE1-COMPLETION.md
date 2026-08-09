@@ -2,8 +2,8 @@
 
 ## Status
 
-Accepted 2026-08-07. MV5-D0 stage 1 is complete. Downstream fold execution and
-all biological outcomes remain unauthorized pending the next sprint review.
+Accepted 2026-08-07 and superseded at the fold boundary by ADR-010. MV5-D0
+stage 1 remains the accepted normalization input bundle.
 
 ## Context
 
