@@ -102,7 +102,7 @@ An exploratory method enters the confirmatory set only through a recorded decisi
 | MV-02 | Implement orientation-safe view constructors and fixtures | MV-01 | G-MV2: contracts enforced by tests | `complete` — technical gate; no biological activation |
 | MV-03 | Generate corrected pilot H0/H1 diagrams and establish feasibility | MV-02 | G-MV3: eligible diagrams exist | `complete` — 132 eligible jobs; technical gate only |
 | MV-04 | Validate topological distances and production calculation | MV-03 | G-MV4: sample-distance matrices are correct and feasible | `complete` — immutable primary matrices; bounded sensitivity exclusions |
-| MV-05 | Compare clustering and matched non-topological baselines | MV-04; frozen statistical plan | G-MV5: fair single-view benchmark | `in_progress` — SCT cell retrieval predictions and matched baselines are immutable; label opening and endpoint evaluation next |
+| MV-05 | Compare clustering and matched non-topological baselines | MV-04; frozen statistical plan | G-MV5: fair single-view benchmark | `in_progress` — MV5-N froze the inductive clustering contract and passed the complete-matrix resource gate; full clustering production and all cluster outcomes remain closed |
 | MV-06 | Test transparent multiview fusion and complementarity | MV-05 | G-MV6: fusion adds stable information or is rejected | `not_started` |
 | MV-07 | Robustness synthesis and full-run decision | MV-06 | G-MV7: freeze, revise, or stop before full rerun | `not_started` |
 
@@ -395,6 +395,28 @@ the reserved total through integrated retrieval is 12.379 worker-hours and
 PH, landscape, distance, outcome, clustering, gene-view, or fusion work ran, so
 G-MV5 remains open.
 
+MV5-H integrated cell-PH production completed on 2026-08-09. All 75 groups and
+6,750 typed cells-as-observations views produced complete Euclidean VR H0/H1:
+2,592,000 H0 and 1,545,943 H1 intervals. Every record passed independent
+coordinate/record/file/diagram/stored-MST validation and 75 fresh full-view MST
+checks. A separate 90-view group repeated byte identically and resume rebuilt
+zero groups. PH measured 1.098 worker-hours, 274.9 MiB peak RSS, and 179.9 MB;
+the reserved total through retrieval is 12.169 worker-hours and 1.269 GB. Exact
+integrated landscape distances are separately authorized, but no landscape,
+distance, outcome, clustering, gene-view, or fusion work ran, so G-MV5 remains
+open.
+
+MV5-I integrated cell landscape-distance production completed on 2026-08-09.
+All 35,350 frozen held-out-query-to-training biological pairs produced separate
+H0/H1 rows: 70,700 exact all-active-level distances in 360 immutable chunks.
+Every request/result/source/level identity passed; four independent exact R
+oracles agreed within 7.11e-14; all 14 maximum-group files repeated byte
+identically; and all 720 production files survived a zero-rebuild resume.
+Landscape work measured 0.576 worker-hours, 243.9 MiB peak RSS, and 1.255 GB
+including staging. A separate label-closed integrated retrieval-input sprint is
+authorized, but no retrieval, outcome, clustering, gene-view, fusion, or new-
+data work ran, so G-MV5 remains open.
+
 - [ ] Both views use the same samples, splits, endpoints, and eligible clustering rules.
 - [ ] Baselines operate at the same sample-level unit.
 - [ ] No method is tuned preferentially using outcome labels.
@@ -507,16 +529,27 @@ Each sprint report must end with:
 
 ## 14. Immediate next action
 
-MV5-G is complete. All 75 fixed-D1-panel label-closed integrated-coordinate
-groups passed independent validation, one complete group repeated byte
-identically, and a completed-queue resume rebuilt zero groups. Coordinate
-production measured 9.107 worker-hours, 806.4 MB, 3.077 GiB peak RSS, and
-790.95 seconds for the slowest group. The reserved total through retrieval is
-12.379 worker-hours and 1.335 GB, within all frozen caps.
+MV5-N is complete. It froze training-only PAM/k-medoids, the five-seed
+pairwise-ARI one-SE rule over `k=2:min(10,n-1)`, canonical cluster identities,
+and immutable held-out assignment to frozen medoids. Average linkage is the
+sole eligible sensitivity and uses the PAM-selected `k`; spectral clustering
+remains ineligible. The contract preserves separate H0 and H1 landscapes with
+all consecutive active levels, exact critical-pair integration, and no fixed
+level cap or uniform grid.
 
-The immediate next action is a separately specified integrated cell-PH sprint:
-compute complete Euclidean Vietoris–Rips H0/H1 for the 6,750 accepted integrated
-cell views using the D3 record contract and correctness gates, validate and
-repeat the immutable output, then stop and reproject before landscapes. Do not
-run landscapes, distances, retrieval, outcomes, clustering, gene topology,
-fusion, new data, or manuscript claim promotion in that PH sprint.
+The exact inventory contains 262,675 training pairs and 525,350 H0/H1 rows per
+representation. A label-closed minimum/representative/maximum admission passed
+384/384 rows, 12/12 independent R exact oracles, 12/12 byte repeats, and an
+immutable resume check. Matched energy and shared-pseudobulk admissions also
+passed. The conservative combined full-production projection is 16.117
+worker-hours including a 10% reserve, below the 21.6-hour planning cap.
+
+The immediate next action is MV5-O: write and validate a prospective,
+label-closed full-matrix execution specification that binds source and code
+hashes, immutable queues, resource and storage guards, independent validation
+sampling, clean-repeat and resume rules, and explicit abort criteria. Only
+after that prefreeze may MV5-O generate the complete training landscape,
+energy, and shared-pseudobulk matrices and immutable cluster predictions.
+Biological or technical label opening, cluster ARI/NMI, outcome-informed
+method or tissue selection, robustness execution, gene topology, fusion, new
+data, optimization, and manuscript claim promotion remain prohibited.
