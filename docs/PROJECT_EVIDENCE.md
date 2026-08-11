@@ -710,10 +710,210 @@ biological outcomes remain closed. A separate prospective outcome-evaluation
 contract is required before label access; the other three configurations
 remain unauthorized.
 
-## 20. Change history
+## 20. MV5-Y PC20 robustness-outcome prefreeze evidence
+
+**Observed:** All 150 accepted PC20 groups and all eight representation/family
+axes pair exactly to the accepted 30-coordinate retrieval inputs on fold, seed,
+held-out query, training reference, and mapped method. The paired scope is
+70,700 biological pairs and 282,800 method rows, with zero missing or excess
+rows. The structural 90-sample/15-study external key join passes while label
+values and accepted outcome tables remain unopened.
+
+**Frozen:** The complete retrieval-only panel has 24 estimands: 16 direct
+PC20-minus-PC30 changes and eight H0/H1 topology-increment DID changes over MRR
+and fixed-1-NN. Every estimand receives paired tissue-stratified study-block
+bootstrap uncertainty; exactly four MRR DID tests form the sole Holm-adjusted
+family. No equivalence/noninferiority margin or claim is authorized.
+
+**Validation:** A clean second assembly reproduces all 13 generated contract
+ledgers byte for byte.
+
+**Boundary:** MV5-X contains zero within-training PC20 pairs, so clustering
+sensitivity is not identifiable without 525,350 new label-closed
+within-training biological pairs across both representations and new frozen
+cluster artifacts. All 150 MV5-Y execution flags remain false; ranks, labels,
+outcomes, comparisons, and selection remain zero. MV5-Z may later execute only
+the frozen retrieval contract.
+
+## 21. MV5-Z PC20 retrieval-robustness execution evidence
+
+**Prediction firewall:** A committed prediction lock (`c16f2b2`) binds 282,800
+canonical PC20 ranking rows after all 178 sources and all 150 groups validate.
+Independent reconstruction of every rank and tie passes before tissue access.
+
+**Observed:** All 24 fixed PC20-minus-PC30 estimands complete. Primary MRR
+topology-increment changes are -0.02036 (integrated H0), -0.06444 (integrated
+H1), -0.02567 (SCT H0), and 0.00537 (SCT H1). Integrated H1 and SCT H0 paired
+bootstrap intervals are below zero, but all four Holm-adjusted sign-flip
+p-values are at least 0.352. The result is heterogeneous sensitivity evidence,
+not equivalence, robustness success, superiority, or a default-setting result.
+
+**Validation:** Fifteen independent categories reconstruct 282,800 ranks,
+3,600 query-method outcomes, 10,800 query estimands, all aggregations, exact
+bootstrap/sign matrices, 24 intervals, four raw/Holm p-values, and 150 private
+hashes. All 150 private artifacts and 16 deterministic public files repeat
+byte-for-byte; 300 private result/status files and all 17 runner public files
+remain unchanged through resume.
+
+**Boundary:** PC20 clustering and the other three robustness configurations are
+not authorized. A selection-resistant continuation gate must decide the next
+calculation using the pre-existing configuration order and complete evidence.
+
+## 22. MV5-AA selection-resistant continuation evidence
+
+**Order and decision:** The canonical MV5-V configuration order is PC20,
+cosine-chord, nested 192 cells, then nested 256 cells. A committed rule binds
+the complete PC20 analysis without estimate- or subgroup-driven selection and
+authorizes only the unique next cosine configuration.
+
+**Scientific basis:** PC20 changes coordinate count under Euclidean geometry;
+cosine-chord tests radial-scale dependence while holding 384 cells and 30
+coordinates fixed. The first sensitivity cannot resolve the second named
+alternative, so continuation is scientifically identifiable and one-factor-at-
+a-time regardless of favorable or unfavorable PC20 subgroups.
+
+**Scope and validation:** The later label-closed scope is 150 groups, 13,500
+views, 70,700 pairs, 141,400 landscape requests, 70,700 energy rows, and
+282,800 method rows. Twelve standalone validation categories pass; two complete
+11-ledger assemblies are byte-identical.
+
+**Boundary:** No cosine calculation, rank, label, outcome, clustering, or
+nested-cell work occurred. A bound cosine-only execution sprint is next.
+
+## 23. MV5-AB label-closed cosine calculation evidence
+
+**Observed calculation:** Exactly 150 cosine-chord groups complete: 13,500
+row-normalized views, 141,400 exact H0/H1 landscape rows, 70,700 energy rows and
+282,800 method rows. Runtime is 2.608 worker-hours; all resource caps pass.
+
+**Independent geometry evidence:** A helper-independent validator renormalizes
+all raw coordinates and matches all 5,170,500 H0 MST deaths (maximum error
+`5.11e-15`) plus 30 stratified direct energy values (maximum error `4.88e-15`).
+Fifteen artifact categories and two byte-identical validation assemblies pass.
+
+**Reproducibility:** Sixteen deterministic repeat artifacts match exactly. All
+1,650 private paths, sizes, hashes and timestamps remain unchanged through a
+150-group validation-only resume.
+
+**Boundary:** This accepts a label-closed calculation, not a cosine biological
+result. Rankings, labels, outcomes, clustering and nested-cell settings remain
+closed; a separate prediction-locked outcome prefreeze is next.
+
+## 24. MV5-AC cosine retrieval-outcome prefreeze evidence
+
+**Exact pairing:** All eight representation/family axes pair exactly between
+the accepted 384-cell/30-coordinate Euclidean and cosine-chord calculations.
+All 282,800 keys match on representation, fold, seed, query, reference, and
+mapped method, with zero missing or excess rows.
+
+**Frozen analysis:** The complete panel has two endpoints, 16 direct geometry
+changes, eight topology-increment DIDs, paired tissue-stratified study-block
+bootstrap intervals, and four Holm-adjusted MRR H0/H1 sign-flip tests. The
+prediction lock orders by distance then canonical sample ID and must precede
+tissue-only access. No equivalence claim is authorized.
+
+**Validation and boundary:** 187 sources and all 150 private manifests bind;
+11 independent categories pass; 14/14 ledgers repeat byte-identically. Labels,
+cosine ranks, endpoints, outcomes, and selection remain zero. Clustering is not
+identifiable because all 525,350 required within-training biological pairs are
+absent; nested-cell settings remain unauthorized.
+
+## 25. MV5-AD cosine retrieval-robustness execution evidence
+
+**Prediction firewall:** Engine `c22d667` generated 282,800 canonical cosine
+ranks. Independent reconstruction passed before the complete prediction lock
+was committed at `2e2f9f3`; tissue values and accepted endpoint rows remained
+unopened until after that commit.
+
+**Observed:** All four topology-increment cosine-minus-Euclidean MRR changes
+were negative. Integrated H0/H1 were -0.07216/-0.10106 (Holm 0.2734/0.1052).
+SCT H0/H1 were -0.11833/-0.10088 (Holm 0.0224 each). This is a bounded geometry
+sensitivity result, not equivalence, universal Euclidean superiority, or a
+default-setting claim.
+
+**Validation:** Fifteen independent categories reconstructed 282,800 ranks,
+3,600 cosine outcomes, 3,600 Euclidean pairings, 10,800 query estimands, all
+aggregations, exact bootstrap/sign matrices, 24 intervals, four raw/Holm
+p-values, and 150 private hashes. Twenty-two deterministic repeat comparisons
+pass; all 600 prediction/outcome unit files survive resume unchanged.
+
+**Boundary:** Cosine clustering and both nested-cell settings remain closed. A
+selection-resistant continuation gate must decide whether nested 192 cells is
+the next justified calculation without subgroup or estimate selection.
+
+## 26. MV5-AE selection-resistant nested-cell continuation evidence
+
+**Decision:** The canonical order fixes nested 192 after completed PC20 and
+cosine. Both prior 24-estimand/four-test panels are bound without slicing; the
+decision interface consumes no representation, dimension, tissue, endpoint,
+seed, estimate, interval, p-value, or method ranking.
+
+**Distinctness and feasibility:** Nested 192 changes only cell depth while
+retaining 30 PCs, Euclidean geometry, and deterministic inclusion within the
+frozen 384 cells. Six real admissions and both complete prior configurations
+support a one-worker, six-hour, 4-GiB later envelope.
+
+**Scope and validation:** Exactly 150 later label-closed groups are authorized:
+13,500 views, 70,700 pairs, 141,400 landscape rows, 70,700 energy rows, and
+282,800 method rows. Ten independent categories and 11/11 byte repeats pass;
+calculation/ranking/labels/outcomes/clustering/nested-256 remain zero.
+
+## 27. MV5-AF label-closed nested-192 calculation evidence
+
+**Observed calculation:** Exactly 150 nested-192 Euclidean groups complete:
+13,500 views, 141,400 exact H0/H1 landscape rows, 70,700 energy rows, and
+282,800 method rows. Runtime is 1.233 worker-hours; maximum unit time is 53.302
+seconds, peak RSS is 454,893,568 bytes, and private storage is 1,254,700,479
+bytes. Every resource cap passes.
+
+**Exact nesting and independent evidence:** The frozen selection is the first
+192 cells in a sample/seed/cell-ID SHA-256 order, not source rows 1–192. A
+helper-independent validator reconstructs every selected identity, proves
+192-within-256 inclusion, matches all 2,578,500 H0 MST deaths, 60 direct H1
+diagrams, 60 exact landscape distances, and 30 energy distances. All 1,350
+manifest hashes and 282,800 method rows validate.
+
+**Reproducibility and boundary:** Sixteen group-repeat artifacts and 11/11
+clean validator ledgers match byte-for-byte. All 1,650 private paths, hashes,
+sizes, and timestamps remain unchanged through a 150-group resume. This accepts
+only the label-closed calculation; ranks, labels, outcomes, clustering, nested
+256, gene/fusion/new-data/Rust/default/claim work remain closed.
+
+## 28. MV5-AG nested-192 retrieval-outcome prefreeze evidence
+
+**Exact comparison:** The fixed contrast changes only cell depth from the
+accepted 384 cells to its deterministic nested-192 subset. All 150 SCT and
+integrated groups cross-link to the exact accepted 384-cell coordinate source;
+30 coordinates, Euclidean geometry, folds, seeds, pair axes, landscape
+semantics, and method families remain fixed.
+
+**Pairing and analysis freeze:** All eight method axes pair exactly over
+282,800 baseline and 282,800 nested-192 rows, with zero missing, excess, or
+duplicate keys. The future distance/sample-ID tie order, two endpoints, 16
+direct changes, eight topology-increment DIDs, blocked bootstrap, four MRR
+sign-flip tests, and Holm family are frozen while tissue and endpoint values
+remain unread.
+
+**Validation and boundary:** The prefreeze binds 188 sources, passes eight
+explicit acceptance criteria and 12 independent categories, and reproduces 15
+production plus one validator ledger byte-for-byte. Retrieval is identifiable;
+clustering is rejected because 525,350 required within-training pairs are
+absent. Ranks, labels, outcomes, selection, clustering, and nested 256 remain
+zero.
+
+## 29. Change history
 
 | Version | Date | Summary |
 |---|---|---|
+| 0.3.31 | 2026-08-11 | Completed the nested-192 retrieval-outcome prefreeze: bound 188 sources, proved exact 384-source identity for all 150 groups and exact pairing of all eight 282,800-row method axes, froze 24 complete-reporting estimands and four primary tests before label access, rejected clustering for 525,350 missing within-training pairs, passed eight criteria plus 12 independent categories, and reproduced 16/16 ledgers byte-for-byte while keeping ranks, labels, outcomes and nested 256 closed |
+| 0.3.30 | 2026-08-11 | Completed the exact 150-group label-closed nested-192 calculation in 1.233 worker-hours; clarified and reconstructed the SHA-256 nested-cell order, proved all 13,500 192-within-256 selections, matched 2,578,500 H0 MST deaths plus 60 H1, 60 landscape and 30 energy oracles, validated all 282,800 method rows, reproduced 16 group and 11 validator artifacts byte-for-byte, and preserved all 1,650 paths/hashes/sizes/timestamps while keeping ranks, labels, outcomes, clustering and nested 256 closed |
+| 0.3.29 | 2026-08-11 | Completed the post-cosine selection-resistant continuation gate: bound both complete result panels without slicing, preserved nested 192 as canonical position three, excluded nine subgroup/result selection inputs, authorized exactly 150 later label-closed groups under six-admission/two-full-precedent resource evidence, passed 10 independent categories and 11 byte repeats, and kept calculation, rankings, labels, outcomes, clustering, and nested 256 closed |
+| 0.3.28 | 2026-08-11 | Completed the committed prediction-locked cosine retrieval analysis: independently reconstructed and committed 282,800 ranks before tissue access; executed 7,200 endpoint rows, 24 intervals and four Holm tests; retained negative topology-increment changes including SCT H0/H1 Holm 0.0224; passed 15 independent categories, 22 repeat comparisons, and unchanged 600-file prediction/outcome resumes without equivalence, clustering, nested-cell, or default claims |
+| 0.3.27 | 2026-08-11 | Completed the cosine retrieval-outcome prefreeze: bound 187 sources, proved all eight 282,800-row Euclidean/cosine axes pair exactly, froze a durable distance/sample-ID prediction lock plus 24 complete-reporting estimands and four primary tests, validated 11 categories, repeated 14 ledgers byte-identically, and excluded clustering because 525,350 within-training pairs are absent while keeping rankings, labels and outcomes closed |
+| 0.3.26 | 2026-08-11 | Completed the exact 150-group label-closed cosine-chord calculation in 2.608 worker-hours; independently renormalized all 13,500 views, reconstructed 5,170,500 H0 MST deaths and 30 stratified energy values, validated all 282,800 method rows and 1,350 manifest hashes, repeated 16 artifacts byte-identically, and preserved all 1,650 paths/hashes/sizes/timestamps through resume while keeping rankings, labels and outcomes closed |
+| 0.3.25 | 2026-08-11 | Froze and applied the selection-resistant post-PC20 continuation rule, bound all 24 estimands/four primary tests and the canonical configuration order without subgroup selection, authorized exactly 150 later label-closed cosine groups, independently validated 12 categories, and reproduced two 11-ledger assemblies byte-for-byte while executing no new calculation or outcome |
+| 0.3.24 | 2026-08-11 | Completed the committed prediction-locked PC20 retrieval robustness analysis: 282,800 canonical ranks, 7,200 endpoint rows, 24 paired estimands/intervals and four Holm-adjusted tests; independently reconstructed all values, repeated 150 private and 16 public artifacts byte-identically, and preserved 300 private files through resume while retaining heterogeneous negative sensitivity without equivalence or selection claims |
+| 0.3.23 | 2026-08-11 | Froze the retrieval-only PC20 robustness evaluation after proving all eight 30-PC/PC20 prediction axes pair exactly; bound 178 sources, 24 complete-reporting estimands, paired blocked uncertainty and four-test multiplicity, reproduced 13/13 ledgers byte-identically, and formally rejected clustering from directed-only MV5-X artifacts while keeping ranks, labels, outcomes, and execution at zero |
 | 0.3.22 | 2026-08-11 | Completed and independently validated the exact 150-group PC20 robustness calculation: 13,500 views, 141,400 H0/H1 landscape rows, 282,800 reconstructed method rows, 16 byte-identical repeat artifacts, and an unchanged 1,650-file full resume in 3.101 worker-hours, while keeping all outcomes and other configurations unauthorized |
 | 0.3.21 | 2026-08-10 | Completed MV5-W launch readiness: implemented/bound the full-pair atomic runner, executed one prospectively selected real 90-view/425-pair PC20 smoke, passed independent numerical validation, eight-artifact byte repeat and unchanged 11-file resume within caps, and authorized only a later 150-group PC20 execution with outcomes closed |
 | 0.3.20 | 2026-08-10 | Completed MV5-V streamed full-robustness prefreeze: bound 176 sources/calculation primitives, derived the exact 600-group/54,000-view and 565,600-landscape-row scope, froze deterministic subchunks/atomic resume/repeat/validation/abort contracts and a 30-hour/16-GiB envelope, while leaving orchestration and all execution/outcomes unauthorized |
