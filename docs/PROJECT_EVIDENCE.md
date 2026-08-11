@@ -5,7 +5,7 @@
 | Field | Value |
 |---|---|
 | Status | Draft evidence baseline; findings require verification before manuscript use |
-| Version | 0.3.12 |
+| Version | 0.3.14 |
 | Created | 2026-08-03 |
 | Canonical project | `jcdaneshmand/scPHcompare` |
 | Evidence owner | Jonah Daneshmand |
@@ -470,10 +470,260 @@ Cell-level Louvain/K-means remains valuable, but should be presented as a separa
 
 The original editorial decision and reviewer reports have now been recovered. Because the letter states that the reports are confidential and must not be published without editor permission, the verbatim source and detailed response matrix are stored under the Git-ignored `docs/private/` directory. Public planning documents use only generalized workstreams derived from them.
 
-## 11. Change history
+## 11. MV5-P complete-training-distance evidence
+
+**Observed:** The complete label-closed MV5-O distance scope has been
+materialized and independently validated: 150 groups, 4,340 separate exact
+all-active-level H0/H1 landscape chunks, 150 representation-specific energy
+units, 75 shared-pseudobulk units, 4,565 total immutable units, 1,838,725
+values, and 525 complete symmetric zero-diagonal finite/nonnegative training
+matrix components.
+
+**Observed:** Twelve frozen exact R oracles pass; both prespecified maximum
+groups reproduce 32 landscape outputs plus energy byte-for-byte; the extra SCT
+shared-pseudobulk output passes a separately reported supplemental repeat; and
+all 4,565 output/status pairs survive completed-run resume with unchanged
+hashes, sizes, and timestamps and zero rebuild.
+
+**Observed:** Execution uses `12.044379` worker-hours, reaches
+`492163072` bytes maximum process-tree RSS, and stores
+`4570070656` bytes in the private production root, within all frozen caps.
+The prior 1.278-GB estimate is now classified as output-focused and incomplete
+because it omitted full repeated group-local interval staging; the discrepancy
+was disclosed during execution and remained below a conservative
+`6.011`-GB reserve forecast and the 10-GiB hard guard.
+
+**Scientific boundary:** These are validated training-distance inputs, not a
+biological result. No production clusters, held-out assignments, labels,
+ARI/NMI, tissue or method selection, robustness result, gene topology, fusion,
+new data, optimization, or manuscript claim were produced in MV5-P.
+
+## 12. MV5-Q label-closed clustering-artifact evidence
+
+**Observed:** All 150 frozen fold/representation/distance groups completed from
+the accepted MV5-P training matrices and MV5-D5/MV5-J query distances. The run
+fit 6,750 candidate PAM models and produced 567,000 private candidate-partition
+rows, 1,350 public stability rows, 126,000 selected PAM/average-linkage
+training-partition rows, and 9,000 held-out assignments across 750 complete
+analysis-matrix contexts.
+
+**Observed:** Independent validation reproduces all 150 five-seed one-SE k
+selections, canonical sorted-member cluster identities, one-medoid-per-PAM-
+cluster identities, and every PAM and average-linkage held-out assignment. The
+canonical maximum-size fold (`large_loso_v1:SRA713577`, 89 training samples)
+reproduces all 40 artifacts byte-for-byte. Full resume reuses all 150 groups and
+leaves all 753 paths, hashes, sizes, and timestamps unchanged with zero rebuild.
+
+**Observed:** Clustering itself uses `134.125` elapsed seconds across groups,
+with `1.838` seconds maximum group time and `1219973120` bytes peak process RSS,
+inside the frozen limits. Ten query aliases are explicitly audited across all
+15 folds and five seeds. The stopped preliminary root is not accepted; it
+exposed and led to correction of an SCT pseudobulk representation alias before
+the accepted `production-v2` run.
+
+**Scientific boundary:** Stability is agreement among seed-specific training
+partitions, not agreement with a biological label. No biological or technical
+label was opened, and no training-alignment or held-out-generalization endpoint,
+method ranking, robustness claim, gene topology, fusion, new-data result,
+optimization, or manuscript claim was produced in MV5-Q.
+
+## 13. MV5-R prediction-locked clustering-outcome prefreeze evidence
+
+**Observed:** The prefreeze binds 18 sources at accepted MV5-Q commit
+`f16321c`, including `joined_metadata_cellcounts.csv` by SHA-256
+`e2b6f1e7d7dc05ba8e80627aad4ea1677c3b718a844397acd06596d7e22a18d0`
+without copying or tracking the external file. Its structural audit confirms
+124 source rows/18 studies, 90 candidate samples/15 studies, five tissues, two
+approaches, and an exact match to the MV5-Q sample axis.
+
+**Observed:** The registry freezes PAM as primary, average linkage as
+sensitivity, six descriptive training ARI/NMI endpoints, and two training-only
+plurality held-out balanced-accuracy endpoints. The immutable execution queue
+has 2,400 unique units: 150 groups by two algorithms by eight endpoints. Twelve
+validations, ten abort rules, aggregation, uncertainty, missingness, public-
+safety, and resource rules are prospective and explicit.
+
+**Observed:** Three studies contain both sequencing approaches. The contract
+therefore preserves tissue-stratified study-block resampling for tissue but
+uses global study-block resampling for approach, avoiding false splitting of
+mixed studies. All 18 source hashes validate; 8/8 regenerated public artifacts
+are byte-identical; focused tests pass 18/18; the full suite passes 803 checks
+with two expected skips; and the staged-tree standard package check is
+`Status: OK`.
+
+**Scientific boundary:** No real ARI, NMI, balanced accuracy, p-value,
+confidence interval, method ranking, tissue ranking, or biological/technical
+interpretation was computed or opened. Held-out study prediction is forbidden;
+fold-specific cluster IDs cannot be pooled; labels may be used only under the
+frozen training-only prediction rule in a separately authorized execution.
+
+## 14. MV5-S prediction-locked clustering-outcome evidence
+
+**Observed:** Prospective engine commit `c3f8da0` and execution-freeze commit
+`4f7f73c` bind the exact max-NMI, ARI, training-only plurality prediction,
+seed/fold aggregation, tissue-stratified/global-study bootstrap, atomic resume,
+and public-safety implementations before outcomes. All 2,400 units complete,
+producing 9,000 training seed metrics, 18,000 private held-out predictions,
+3,000 held-out seed summaries, and 40 macro contexts with zero p-values and
+zero method selection.
+
+**Observed:** Held-out tissue balanced accuracy spans 0.0103 to 0.2578 across
+the 20 fixed representation-distance-algorithm contexts; held-out approach
+balanced accuracy spans 0.4925 to 0.5000. Training fold-mean ranges are tissue
+ARI -0.0066 to 0.4796/NMI 0.0295 to 0.5395, study ARI -0.0176 to 0.3815/NMI
+0.0240 to 0.4676, and approach ARI -0.0339 to 0.1976/NMI 0.0052 to 0.1078.
+Training folds overlap and remain descriptive.
+
+**Observed:** Independent validation passes 12 categories, including every
+training metric, held-out prediction, bootstrap, and aggregation. Clean repeat
+reproduces 2,400/2,400 private outcomes and 8/8 outcome tables byte-for-byte.
+Resume reuses 2,400/2,400 units while 4,800 artifact/status files remain
+unchanged. First-pass resources are 51.888 unit-seconds, 0.570 seconds maximum
+unit time, and 740,687,872 bytes peak RSS. Final verification parses 5/5 MV5-S
+scripts, passes 831 repository checks with two expected skips, and yields a
+clean staged-tree package `Status: OK`.
+
+**Scientific boundary:** These are complete secondary clustering outcomes, not
+a method-ranking or manuscript-claim exercise. No p-value, winner, refit,
+post-outcome tuning, spectral promotion, robustness result, gene topology,
+fusion, new-data result, or optimization claim was produced.
+
+## 15. MV5-T selection-resistant robustness/gap-gate evidence
+
+**Observed:** The prospective gate at `7f6784d` freezes 14 committed sources
+plus all 150 accepted private SCT/integrated coordinate-file hashes. Three
+minimum/median/maximum fold-seed pairs expose 270 sample views per
+representation; all paired 384-by-30 shapes, sample/cell identities, nested
+192-in-256 selections, first-20 coordinates, finite values, and nonzero norms
+pass.
+
+**Observed:** Ten candidate families are scored without consulting MV5-S values.
+Nested 192/256-cell counts, 20-PC truncation, and cosine-chord geometry are
+admitted as four one-factor-at-a-time configurations. The unopened resource
+queue has exactly 24 groups. Ten gate artifacts reproduce byte-for-byte;
+focused tests pass 16/16 and the full suite passes 847 checks with two expected
+skips.
+
+**Observed:** Prior measurements project 15.542 worker-hours and 10.18 GB for
+the four-setting full grid. Full execution is denied. Only a 24-group, one-
+worker, two-hour, 2-GiB resource admission is authorized next.
+
+**Scientific boundary:** MV5-T calculates no robustness diagram, distance,
+retrieval endpoint, cluster, label outcome, ranking, or claim. All admitted work
+is post-outcome secondary sensitivity and cannot rescue or replace completed
+results.
+
+## 16. MV5-U bounded robustness resource-admission evidence
+
+**Observed:** All 24 frozen label-closed units complete across three folds, two
+representations, and four one-factor-at-a-time cell-count/PC/geometry
+configurations. The run builds 2,160 views, 1,069,189 finite H0/H1 intervals,
+4,320 landscape summaries, 1,536 exact landscape pair rows, and 768 matched
+energy rows.
+
+**Observed:** The revised dissertation-aligned landscape definition is enforced:
+H0/H1 separate, essential H0 excluded, all active consecutive levels, no level
+cap, no uniform grid, and exact critical-pair L2 integration. Independent
+validation passes 15/15 categories, including all-view MST oracles, analytic
+square H1, analytic exact landscape, sampled energy, source identities, and
+configuration isolation.
+
+**Observed:** Maximum unit time is 55.508 seconds, total measured unit time is
+895.449 seconds, peak process-tree RSS is 622,227,456 bytes, and private
+production storage is 288,635,915 bytes. A clean repeat matches 168/168
+scientific artifacts byte-for-byte. Resume reuses 24/24 units with all 240
+private files unchanged.
+
+**Verification:** The focused MV5-U correction tests pass 26 expectations, the
+full repository suite passes with two established CRAN skips, and a build/check
+of the exact staged index finishes with package `Status: OK`.
+
+**Correction:** Initial independent validation exposed a Python `True`/`False`
+versus R logical parsing defect in the validator. Commit `8bc2718` adds strict
+cross-language boolean parsing and tests. The frozen production implementation
+digest is unchanged, no scientific artifacts were modified, and corrected
+validation passes.
+
+**Scientific boundary:** This is resource and semantic admission evidence, not
+a robustness outcome. Labels and outcomes remain closed and full robustness is
+explicitly unauthorized. The next eligible action is only a prospective
+streamed full-robustness execution gate.
+
+## 17. MV5-V streamed full-robustness prefreeze evidence
+
+**Observed:** The exact label-closed scope contains 600 groups, 54,000 views,
+282,800 heldout-training biological pairs, 565,600 H0/H1 exact-landscape rows,
+2,880 deterministic subchunks, 282,800 energy rows, and 1,131,200 assembled
+four-method rows. All 150 private coordinate identities join one-to-one to the
+accepted pair scopes; no label or outcome field enters the queue.
+
+**Observed:** Accepted historical PH, landscape, and retrieval-input stages
+project 69,381.174 seconds (19.273 worker-hours) across four configurations.
+The prospective program cap is one worker, 30 worker-hours, 4 GiB RSS/group,
+and 16 GiB private storage, with configuration-stratified stop decisions.
+
+**Scientific boundary:** The calculation primitives are bound, but the full-
+group orchestration engine is deliberately unbound. All 600 queue rows retain
+`execution_authorized=FALSE`; MV5-W runner implementation/binding and one real
+label-closed smoke are required before any configuration launch. MV5-V computes
+no robustness outcome, comparison, ranking, or claim.
+
+## 18. MV5-W full-robustness launch-readiness evidence
+
+**Observed:** The prospectively selected integrated PC20 smoke completes 90
+views, 425 directed pairs, 850 exact all-active H0/H1 landscape rows in four
+subchunks, 425 energy rows, and 1,700 label-closed method rows in 70.085 seconds
+at 541,970,432 bytes peak RSS and 15,559,362 private bytes.
+
+**Observed:** Thirteen independent validation categories pass. All eight
+deterministic artifacts reproduce byte-for-byte, and validation-only resume
+reuses the group with all 11 files unchanged.
+
+**Scientific boundary:** Only the first PC20 configuration's 150 groups are
+eligible for a separate prospectively bound execution. No label, retrieval
+outcome, robustness comparison, rank, winner, or claim was calculated; the
+other three configurations remain unauthorized.
+
+## 19. MV5-X PC20 configuration execution evidence
+
+**Observed:** All 150 prospectively authorized PC20 groups complete on the
+first pass with 13,500 views, 70,700 heldout-training biological pairs, 27,000
+landscape summaries, 141,400 exact all-active H0/H1 landscape rows, 70,700
+energy rows, and 282,800 four-method rows. The other 450 queue rows remain
+unauthorized and unexecuted.
+
+**Observed:** Total measured group time is 11,163.624 seconds (3.101 worker-
+hours), maximum group time is 185.348 seconds, peak process-tree RSS is
+638,365,696 bytes, and final private storage is 2,487,457,825 bytes. These are
+well within the frozen 30-hour program, 600-second/4-GiB group, and 16-GiB
+storage caps.
+
+**Validation:** Fifteen independent categories pass across all 150 groups and
+1,350 manifest-declared artifacts. All 13,500 H0 MST checks pass; all 282,800
+method rows reconstruct from H0/H1 landscape and energy inputs; 16/16
+prospectively marked repeat artifacts match byte-for-byte; and all 1,650 files
+remain unchanged through a full 150-group validation-only resume.
+
+**Scientific boundary:** This accepts the PC20 calculation as a robustness
+input, not a robustness outcome. Labels, ranks, winners, comparisons, and
+biological outcomes remain closed. A separate prospective outcome-evaluation
+contract is required before label access; the other three configurations
+remain unauthorized.
+
+## 20. Change history
 
 | Version | Date | Summary |
 |---|---|---|
+| 0.3.22 | 2026-08-11 | Completed and independently validated the exact 150-group PC20 robustness calculation: 13,500 views, 141,400 H0/H1 landscape rows, 282,800 reconstructed method rows, 16 byte-identical repeat artifacts, and an unchanged 1,650-file full resume in 3.101 worker-hours, while keeping all outcomes and other configurations unauthorized |
+| 0.3.21 | 2026-08-10 | Completed MV5-W launch readiness: implemented/bound the full-pair atomic runner, executed one prospectively selected real 90-view/425-pair PC20 smoke, passed independent numerical validation, eight-artifact byte repeat and unchanged 11-file resume within caps, and authorized only a later 150-group PC20 execution with outcomes closed |
+| 0.3.20 | 2026-08-10 | Completed MV5-V streamed full-robustness prefreeze: bound 176 sources/calculation primitives, derived the exact 600-group/54,000-view and 565,600-landscape-row scope, froze deterministic subchunks/atomic resume/repeat/validation/abort contracts and a 30-hour/16-GiB envelope, while leaving orchestration and all execution/outcomes unauthorized |
+| 0.3.19 | 2026-08-10 | Completed MV5-U bounded label-closed robustness resource admission: 24 units/2,160 views, exact dissertation-aligned H0/H1 landscapes, independent numerical validation, 168 byte-identical clean-repeat artifacts, zero-rebuild 240-file resume, passing resource caps, and an audited validator-only cross-language boolean correction; full robustness remains unauthorized |
+| 0.3.18 | 2026-08-10 | Completed the MV5-T selection-resistant robustness/gap gate: froze 164 sources, validated paired coordinate readiness, admitted four one-factor-at-a-time cell-count/PC/geometry configurations, emitted a 24-group no-outcome admission queue, rejected immediate full execution on 15.54-hour/10.18-GB projections, and retained all outcomes closed |
+| 0.3.17 | 2026-08-10 | Executed and independently validated the complete MV5-S prediction-locked clustering outcome contract: 2,400 units, 9,000 training metrics, 18,000 held-out predictions, blocked bootstrap intervals, byte-identical clean repeat, zero-rebuild resume, and complete secondary reporting without p-values or method selection |
+| 0.3.16 | 2026-08-10 | Completed the MV5-R prediction-locked clustering-outcome prefreeze: bound 18 source identities and the external label hash, verified the exact 90-sample join without copying labels, froze two algorithm roles/eight endpoints/aggregation/uncertainty/aborts/resources, and emitted a 2,400-unit no-outcome execution queue |
+| 0.3.15 | 2026-08-10 | Completed and independently validated MV5-Q label-closed clustering artifacts for all 150 frozen analysis groups, including all candidate PAM grids, one-SE selections, canonical PAM/average partitions, held-out assignments, ten-alias audit, byte-identical maximum-fold repeat, and zero-rebuild full resume while keeping all outcomes closed |
+| 0.3.14 | 2026-08-10 | Completed and independently validated all frozen MV5-P label-closed training-distance inputs, matrices, exact oracles, maximum-group repeats, all-unit resume, and observed resource/storage evidence while keeping clustering and outcomes closed and explicitly correcting the scope of the prefreeze storage estimate |
+| 0.3.13 | 2026-08-10 | Completed the MV5-O label-closed production prefreeze: froze exact sources, group/chunk/baseline queues, executable landscape and baseline implementations, resource/storage/abort/resume rules, and independent/byte-repeat/real-runner evidence while keeping full production, clustering, labels, and outcomes at zero |
 | 0.3.12 | 2026-08-10 | Completed the MV5-N label-closed clustering and resource gate: froze training-only PAM and deterministic held-out assignment, retained the dissertation-aligned exact all-active-level H0/H1 landscape definition, reproduced the complete training-pair scope, passed bounded independent exact admissions and matched baselines, and kept full production and all outcomes closed |
 | 0.3.11 | 2026-08-09 | Completed 6,750 corrected integrated cells-as-observations H0/H1 records with independent identity/file/diagram validation, stored and fresh MST evidence, exact complete-group repeat, immutable resume, and measured authorization for dissertation-aligned exact all-active-level integrated landscapes |
 | 0.3.10 | 2026-08-09 | Completed all 75 fixed-D1-panel label-closed integrated coordinate groups: 6,750 views and 450 mappings passed 675 independent checks, exact complete-group repeat, zero-rebuild resume, and cap-passing measured reprojection; integrated cell PH is separately authorized but not executed |
