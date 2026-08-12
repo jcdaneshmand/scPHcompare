@@ -14,6 +14,7 @@ run_unified_pipeline(
   run_cross_iteration = FALSE,
   custom_iteration_inputs = NULL,
   pipeline_metrics_file = NULL,
+  corrected_landscape_control = NULL,
   ...
 )
 }
@@ -47,6 +48,10 @@ and will import it automatically when valid paths are detected.}
 
 \item{pipeline_metrics_file}{Optional path for the stage-level runtime and
 process-RSS CSV. Defaults to `pipeline_stage_metrics.csv` in `results_dir`.}
+
+\item{corrected_landscape_control}{Optional explicit v1 control for additive,
+versioned corrected-landscape artifacts. `NULL` (default) performs no
+corrected-landscape work and preserves historical workflow behavior.}
 
 \item{...}{Additional arguments passed to the underlying processing
 functions.}

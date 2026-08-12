@@ -24,6 +24,7 @@ run_postprocessing_pipeline(
   Approach_col = "Approach",
   custom_iteration_inputs = NULL,
   preferred_integration_iteration = SEURAT_INTEGRATION_LABEL,
+  corrected_landscape_control = NULL,
   ...
 )
 }
@@ -76,6 +77,10 @@ paths are present.}
 \item{preferred_integration_iteration}{Preferred integration iteration name to
 prioritize when determining defaults. Falls back to Seurat integration when
 the requested iteration is unavailable.}
+
+\item{corrected_landscape_control}{Optional explicit v1 control for additive,
+versioned corrected-landscape artifacts. `NULL` (default) preserves the
+historical workflow. Corrected matrices are not consumed downstream.}
 
 \item{...}{Additional arguments passed to helper functions.}
 }

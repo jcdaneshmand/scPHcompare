@@ -674,6 +674,9 @@ apply_custom_iteration_overrides <- function(data_iterations,
 #' @param preferred_integration_iteration Preferred integration iteration name to
 #'   prioritize when determining defaults. Falls back to Seurat integration when
 #'   the requested iteration is unavailable.
+#' @param corrected_landscape_control Optional explicit v1 control for additive,
+#'   versioned corrected-landscape artifacts. `NULL` (default) preserves the
+#'   historical workflow. Corrected matrices are not consumed downstream.
 #' @param ... Additional arguments passed to helper functions.
 #'
 #' @return Invisibly returns a list with generated results.
@@ -703,6 +706,7 @@ run_postprocessing_pipeline <- function(ph_results,
                                         Approach_col = "Approach",
                                         custom_iteration_inputs = NULL,
                                         preferred_integration_iteration = SEURAT_INTEGRATION_LABEL,
+                                        corrected_landscape_control = NULL,
                                         ...) {
   if (!dir.exists(results_dir)) dir.create(results_dir, recursive = TRUE)
 
@@ -728,14 +732,42 @@ run_postprocessing_pipeline <- function(ph_results,
     log_message = log_message
   )
 
+  corrected_landscape_control <-
+    .validate_corrected_landscape_control_v1(corrected_landscape_control)
+  legacy_work_requested <- is.null(corrected_landscape_control) || any(c(
+    run_standard_seurat_clustering, run_kmeans_clustering,
+    run_hierarchical_ph_clustering, run_spectral_clustering,
+    run_visualizations, run_sample_level_heatmap,
+    run_cluster, run_betti, run_cross_iteration
+  ))
+
   for (i in seq_along(data_iterations)) {
     iter <- data_iterations[[i]]
     log_message(paste("Processing", iter$name))
 
-    # compute matrices if necessary
-    process_iteration_calculate_matrices(iteration = iter,
-                                         num_cores = num_cores,
-                                         log_message = log_message)
+    # Historical matrix and downstream pathways remain unchanged and are
+    # skipped only for an explicitly corrected-artifacts-only invocation.
+    if (legacy_work_requested) {
+      process_iteration_calculate_matrices(iteration = iter,
+                                           num_cores = num_cores,
+                                           log_message = log_message)
+    }
+
+    if (!is.null(corrected_landscape_control)) {
+      data_iterations[[i]]$corrected_landscape_v1 <-
+        produce_corrected_landscape_artifacts_v1(
+          pd_list_path = iter$pd_list,
+          iteration_name = iter$name,
+          results_dir = results_dir,
+          control = corrected_landscape_control,
+          log_message = log_message
+        )
+      iter$corrected_landscape_v1 <- data_iterations[[i]]$corrected_landscape_v1
+    }
+
+    if (!legacy_work_requested) {
+      next
+    }
 
     seurat_obj <- iter$seurat_obj
     assay <- iter$assay

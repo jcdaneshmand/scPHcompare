@@ -817,3 +817,323 @@ within-training distances and the two-representation comparison is missing
 commit the nested-192 ranking runner, independently reconstruct all ranks, and
 durably commit the full prediction lock before `Tissue.x` can be opened.
 Nested 256 remains closed.
+
+MV5-AH completes the prediction-locked analysis from engine `d9334bc`, durable
+prediction lock `1a197a8`, and immutable-resume correction `41bc7c7`. All
+282,800 ranks were independently reconstructed and committed before tissue
+access. Tissue-only execution then produced 7,200 endpoint rows and the full
+24-estimand panel.
+
+The four primary topology-increment MRR changes are integrated H0/H1
+-0.01080/-0.01115 and SCT H0/H1 +0.00131/-0.01366. Every blocked interval
+crosses zero and every Holm p-value is 1.0. This is no detected cell-depth
+change in the current benchmark, not equivalence, invariance, noninferiority,
+or default-setting evidence.
+
+Ten prediction and 15 outcome validation categories pass. Two clean builds
+reproduce the complete prediction payload, 150 private ranking artifacts, 17
+deterministic outcome ledgers, 150 private outcomes, and inference matrices.
+All 300 prediction and 301 outcome private files preserve paths, hashes, sizes,
+and timestamps through full resumes. A resume-only inference-matrix rewrite was
+corrected prospectively and audited without changing scientific outputs.
+
+The immediate next action is a selection-resistant post-nested-192
+continuation gate. It must bind the complete PC20, cosine, and nested-192
+panels without subgroup or result selection before deciding whether nested 256
+is justified. Clustering remains separately non-identifiable for this
+configuration.
+
+MV5-AI completes that selection-resistant gate at commit `23640a4`. It binds
+the three prior panels without slicing and excludes ranks, tissues,
+representations, dimensions, estimates, intervals, p-values, and outcomes from
+the decision interface. The immutable fourth configuration is nested 256 cells
+with 30 coordinates and Euclidean geometry.
+
+The gate authorizes exactly 150 later label-closed groups: 13,500 views, 70,700
+directed pairs, 141,400 separate H0/H1 exact all-active-consecutive-level
+landscape rows, 70,700 matched-energy rows, and 282,800 four-method rows. The
+same SHA-256 cell order fixes the accepted 192-cell set as the exact prefix of
+the 256-cell set, and both are strict subsets of the same 384-cell realization.
+The next action is calculation only, before ranking or labels.
+
+MV5-AJ completes that calculation from prospective engine `3d553cf`, binding
+`7162d03`, and completion commit `5e88fc1`. All 150 groups publish atomically
+under one worker in 7,104.807 worker-seconds. The maximum group is 95.101
+seconds, peak process-tree RSS is 507,351,040 bytes, and final private storage
+is 1,664,639,370 bytes.
+
+Independent validation reconstructs all 13,500 point selections, verifies the
+accepted 192 prefix and 256-of-384 subset, matches 3,442,500 H0 MST deaths, 60
+direct H1 diagrams, 60 exact landscape distances, 30 energy distances, every
+manifest, and all 282,800 method rows. Sixteen deterministic group artifacts
+and 11 validator ledgers repeat byte-identically; all 1,650 private files
+survive a validation-only resume with paths, hashes, sizes, and timestamps
+unchanged. Labels, ranks, and outcomes remain zero.
+
+The immediate next action is a separate prefreeze for prediction-locked
+nested-256 retrieval sensitivity against the accepted 384-cell Euclidean
+baseline. It must retain the complete fixed 24-estimand panel and prove exact
+pair-axis compatibility before tissue access. Clustering remains
+non-identifiable from directed-only rows.
+
+MV5-AK completes that prefreeze from prospective engine `5c882d5`. It binds
+196 sources and proves all 150 nested-256 groups use the exact accepted
+384-cell coordinate source, the exact accepted 192-cell prefix, and the exact
+256-of-384 subset. All eight representation/family axes pair one-to-one over
+282,800 rows with zero missing, excess, or duplicate keys.
+
+The later prediction order is frozen as ascending immutable distance followed
+by ascending canonical training sample ID for exact ties. Two endpoints, 16
+direct nested-256-minus-384 changes, eight topology-increment DIDs, paired
+blocked uncertainty, and the four-test Holm family are fixed before tissue
+access. Fifteen production ledgers and the 12-category independent validator
+reproduce byte-for-byte across clean builds. Ranks, labels, outcomes, method
+selection, and alternate configurations remain zero.
+
+Clustering is explicitly rejected because MV5-AJ has zero nested-256
+within-training distances and the two-representation comparison is missing
+525,350 biological pairs. The immediate next action is MV5-AL: implement and
+commit the nested-256 ranking runner, independently reconstruct all ranks, and
+durably commit the full prediction lock before `Tissue.x` can be opened.
+
+MV5-AL completes that prediction-locked analysis from engine `fdd8ce1` and
+durable prediction lock `d889838`. All 282,800 ranks were independently
+reconstructed and committed before tissue access. Tissue-only execution then
+produced 7,200 endpoint rows and the full 24-estimand panel.
+
+The four primary topology-increment MRR changes are integrated H0/H1
+-0.00951/-0.04579 and SCT H0/H1 +0.00808/-0.01386. The integrated H1 blocked
+interval excludes zero and its raw p-value is 0.0149, but its frozen four-test
+Holm p-value is 0.0596; the other Holm p-values are 0.7758. Accordingly, no
+primary test passes the prespecified family. The integrated H1 result remains
+suggestive sensitivity evidence and may not be promoted through selection.
+
+Ten prediction and 17 outcome validation categories pass. Two clean builds
+reproduce the complete prediction payload, all 150 ranking payloads, 17 stable
+outcome ledgers, all 150 private outcomes, and the inference matrix. All 300
+prediction and 301 outcome private files preserve paths, hashes, sizes, and
+timestamps through full resumes.
+
+The immediate next action is a selection-resistant synthesis gate over the
+complete PC20, cosine, nested-192, and nested-256 panels. It must bind every
+prespecified result before deciding whether any additional existing-data
+analysis is justified. Clustering remains non-identifiable for these
+directed-only configurations; gene/fusion, new data, optimization/default
+changes, and manuscript claims remain closed.
+
+MV5-AM completes that four-panel synthesis from prospective contract `9319b35`
+and validator correction `5b082b2`. It binds all 96 macro estimands, 96 blocked
+intervals, and 16 primary contrasts without filtering. Twelve independent
+validation categories reconstruct every numerical row and source identity;
+all 15 production/validation ledgers reproduce byte-for-byte across two clean
+builds. New calculation, labels, outcomes, clustering, selection, and default
+changes remain zero.
+
+The complete panel shows the clearest adjusted sensitivity for cosine-chord
+geometry in SCT H0 and H1 (both within-panel Holm p = 0.0224). Nested-192 shows
+no detected depth effect; nested-256 integrated H1 is suggestive but does not
+pass its frozen family (Holm p = 0.0596). PC20 has no adjusted detection. These
+are descriptive complete-panel observations, not a cross-panel pooled effect,
+method winner, or default decision.
+
+All panels retain the exact all-finite-interval, all-active-level,
+critical-pair L2 landscape definition with H0/H1 separate. The immutable
+four-configuration sequence is exhausted, and clustering remains
+non-identifiable from directed-only rows. The immediate next action is MV5-AN:
+prospectively prefreeze reconciliation of the corrected scientific landscape
+definition with every public/internal API, legacy behavior, documentation,
+compatibility constraint, and migration path. MV5-AN may not itself change a
+default.
+
+MV5-AN completes that reconciliation from prospective engine `f2aab37`. It
+classifies 45 landscape-named R functions, the accepted exact Python engine,
+six exported workflow exposure points, and six artifact schemas without an
+ambiguous pathway. Twelve independent validation categories pass, and all 15
+production and validation ledgers reproduce byte-for-byte across clean builds.
+Behavior, exports, workflow defaults, artifacts, and project calculations all
+remain unchanged.
+
+The audit confirms exported workflows can still reach historical level-1,
+100-point unit-grid behavior and unversioned combined artifacts, while accepted
+robustness production uses exact all-active H0/H1 distances. Silent redirection
+would therefore be unsafe. The immediate next action is MV5-AO: add versioned
+public pairwise and complete-matrix landscape APIs, result/provenance schemas,
+analytic oracles, exact/adaptive agreement, legacy-schema detection, explicit
+legacy mode, documentation, and bounded resource evidence. Existing workflow
+defaults and legacy artifacts must remain unchanged.
+
+MV5-AO completes that additive implementation at public engine `1deeec6` and
+independent validator `0b85c20`. The two new versioned APIs expose exact
+all-active H0/H1 pair and complete-matrix distances, error-controlled adaptive
+integration, deterministic identities, explicit legacy reproduction, and
+read-only legacy-schema detection. Fifty-four focused expectations, the full
+repository suite, and 16 independent validation categories pass. Five audit
+ledgers reproduce byte-for-byte; the bounded 45-pair smoke produces the same
+34,720-byte result in both builds, with expected wall-time variation.
+
+No historical workflow, default, source pathway, filename, or artifact writer
+changed. The immediate next action is MV5-AP: prospectively prefreeze a
+read-only realistic compatibility/resource evaluation on a frozen
+representative subset of existing persistence diagrams. It must measure exact
+guard feasibility, adaptive fallback needs, scientific-versus-legacy distance
+differences, versioned serialization/reload, runtime, and memory before any
+later opt-in workflow integration is considered. No workflow default or
+artifact may change in MV5-AP.
+
+MV5-AP stops safely at gate implementation `10b7eb2` and independent validator
+`94ea8db`. The deterministic 24-diagram subset spans all eight accepted MV-04
+strata and both topology views; every diagram and file hash verifies. The first
+realistic cell-view sentinel triggers two reproduced blockers before full
+execution: the public exact guard of 200 rejects its 383 H0 intervals, and
+adaptive integration at `1e-8` fails in H1 with extremely bad integrand
+behavior even with 1,000 subdivisions. Raised-guard exact succeeds; an explicit
+`1e-6` adaptive diagnostic agrees to approximately `1.005e-9`, but this cannot
+justify silently weakening the contract.
+
+The MV5-AP abort rule therefore closes opt-in integration, workflow/default
+migration, and artifact rewriting. The only reasonable next sprint is MV5-AQ,
+a numerical-engine remediation prefreeze using the frozen sentinel. It must
+repair strict H1 error control and define a realistic computational guard before
+MV5-AP may be rerun. Because this is a major issue, automatic continuation
+stops pending project-owner confirmation.
+
+MV5-AQ completes the authorized numerical remediation at engine `ecc4957` and
+auditable runner `a8d8e89`. The frozen MV5-AP sentinel now certifies at strict
+`1e-8`: adaptive H0/H1 agree with exact to approximately `7.11e-15` and
+`1.79e-10`, respectively. The repair preserves all finite intervals and all
+active levels, keeps H0/H1 separate, and uses no grid, level cap, interval
+removal, or tolerance relaxation. A conservative global certificate sums fine
+quadrature error and an independent refinement delta.
+
+The public numerical default is now `auto` with a resource-informed exact guard
+of 500 intervals. This guard selects exact versus adaptive integration only;
+it is not a scientific cap. A 499-H0 and 1,206/1,471-H1 pressure pair routed H0
+to exact and H1 to adaptive, certified, and completed in 92.436 seconds under
+the frozen 180-second bound. Fifteen independent categories and clean repeats
+pass; historical workflows and artifacts remain unchanged.
+
+The immediate next action is MV5-AP-R1: rerun the previously stopped realistic
+compatibility/resource gate on its frozen 24-diagram manifest. MV5-AQ does not
+authorize integration, workflow/default migration, artifact rewriting, or new
+scientific claims.
+
+MV5-AP-R1 completes that rerun from prospective contract `a74e523` and
+validator hardening `8a6be9f`. The exact frozen 24-diagram subset yields all 24
+within-stratum triplet pairs. Every input identity verifies; all 48 H0/H1
+results certify at strict `1e-8`; 18 pairs route exact/exact and six high-depth
+gene pairs route exact/adaptive. The original sentinel again agrees exact to
+adaptive within `1.79e-10` for H1.
+
+Two complete runs reproduce every stable public field and all eight
+runtime-stripped private payloads. Total wall times are 1,285.96 and 1,280.65
+seconds, peak RSS is 990,363,648 bytes, and the deepest units finish in 564.58
+and 567.94 wall seconds under the frozen 600-second limit. The narrow margin is
+valid feasibility evidence and a later optimization priority; it does not
+justify a landscape cap or grid approximation.
+
+The immediate next action is MV5-AR: prospectively freeze an opt-in workflow
+integration design, including versioned artifact boundaries, explicit legacy
+coexistence, resource guards, resume/cache behavior, validation, rollback, and
+abort rules. No integration, default change, artifact rewrite, Rust change, or
+claim is authorized by MV5-AP-R1 itself.
+
+MV5-AR completes that prefreeze from prospective contract `aac9ef9` and
+validator correction `1da7fe5`. Actual workflow inspection shows corrected
+all-active H0/H1 matrices cannot safely replace the historical combined matrix
+or enter legacy curve consumers. The frozen first integration stage is
+therefore additive, default-off, and artifacts-only through a future explicit
+control on postprocessing plus unified-pipeline pass-through.
+
+Seven non-colliding artifact classes, pair-sharded atomic resume, hash-bound
+completion-last semantics, strict auto/500 error control, legacy coexistence,
+rollback, 15 validation classes, and 14 abort rules are fixed. Resource
+admission uses one worker, explicit caller pair/wall budgets, a 1.5-GiB minimum
+RSS budget, conservative 30/240-second exact/adaptive pair estimates, and
+profiling-required refusal outside the observed interval envelope. Refusal
+does not truncate landscapes or loosen tolerance.
+
+Fourteen ledgers reproduce byte-for-byte and 16 independent validation
+categories pass twice; all behavior/export/artifact/calculation counters are
+zero. The immediate next action is MV5-AS: implement only the additive opt-in
+artifact producer. Corrected downstream consumption, defaults, legacy rewrite,
+optimization/Rust, and claims remain closed.
+
+MV5-AS completes that additive implementation at producer `2aa502e`, realistic
+smoke runner `5db4247`, and aggregate-validator hardening `4f06337`. The
+postprocessing and unified entrypoints now expose a strict NULL-default control
+that writes a new completion-bound corrected-landscape sidecar while leaving
+legacy landscape fields, filenames, writers, and downstream consumers
+unchanged.
+
+The producer preserves all finite intervals and all active levels, stores H0
+and H1 separately, uses exact or error-controlled integration, admits work
+through the frozen one-worker resource plan, writes atomic create-only pair
+shards, reconstructs matrices from verified shards, and writes completion last.
+Focused tests cover interruption/resume, immutable completion, corruption and
+signature refusal, public-API equality, serialization, and default-off
+coexistence.
+
+Two clean three-diagram realistic runs certify all six H0/H1 pair calculations,
+repeat every stable public artifact, and remain below 46.05 seconds wall and
+943,030,272 bytes peak RSS. Fifteen independent validation categories pass
+twice with byte-identical output, all 15 prohibited-change counters remain
+zero, and the exact staged package check reports `Status: OK`. The immediate
+next action is MV5-AT: a broader bounded realistic workflow smoke across the
+already frozen existing-data strata. Corrected downstream consumption,
+defaults, legacy rewrite, new data, optimization/Rust, and claims remain closed.
+
+MV5-AT completes the broader bounded realistic workflow smoke from prospective
+specification `9444c1d`, bound scope `818d505`, and validator `7684bb3`. All
+eight frozen strata (24 diagrams and 24 within-stratum pairs) pass through the
+actual corrected-only postprocessing path. All 48 H0/H1 results certify; H0 is
+exact throughout and H1 is strict adaptive in the two high-depth gene strata.
+Every shard reconstructs its matrix entries; completions, immutable resumes,
+input immutability, and legacy isolation verify. Wall time peaks at 578.21
+seconds and RSS at 936,157,184 bytes. Next is MV5-AU, a corrected-matrix
+consumer prefreeze only; consumption and other closed scopes remain closed.
+
+MV5-AU completes that consumer prefreeze at prospective contract `7db3e5c`.
+Actual-code inspection selects a verified read-only sidecar loader followed by
+separate H0 and H1 average-linkage dendrograms as the unique safe first
+consumer: deterministic, label-free, no `k`, no kernel scale, and no view or
+dimension fusion. PAM, spectral, other linkage families, combined-primary use,
+Betti/Euler and cross-iteration curves, evaluation, and legacy pathways remain
+closed. Nine ledgers repeat byte-for-byte; 10 independent categories pass; 15
+prohibited counters are zero. Next is MV5-AV implementation and bounded
+label-free smoke only.
+
+MV5-AV implements the verified loader and separate H0/H1 average-linkage trees
+at `1be734e`, with smoke validator `d8f83c9`. Twenty-six focused expectations
+pass. Two clean read-only runs build 16 trees across eight frozen cell/gene
+sidecars; public ledgers and seven-category validators repeat byte-for-byte,
+and source artifacts remain unchanged. There is no combined tree, partition,
+`k`, label, outcome, workflow default, or legacy redirection. Next is MV5-AW,
+a partition-policy prefreeze only.
+
+MV5-AW stops safely: every corrected realistic stratum has three samples, so
+the admissible `k` grid is only `k = 2`, and no matched resampled matrices exist
+for label-closed stability estimation. A cut would be mechanical rather than
+identified. Larger complete matrices plus a prospective resampling panel are
+the next possible direction, but their materially broader calculation scope
+requires owner approval. Trees remain descriptive; partitions and downstream
+evaluation remain closed.
+
+Owner authorization opens MV5-AX. All 56 existing eligible diagrams verify;
+the larger scope is eight strata and 204 pairs, including 90 adaptive-H1 pairs.
+Conservative scheduling projects 6.02 adaptive worker-hours and 3.01 hours wall
+with the two independent gene strata concurrent, each internally one-worker.
+Rust remains a later equivalence-gated kernel candidate and does not block the
+bounded calculation. MV5-AY may produce the complete matrices; partitions stay
+closed pending stability design.
+
+MV5-AY completes and independently accepts all eight corrected matrices: 56
+diagrams, 204 pairs, and 408 separate H0/H1 results. Every pair uses finite
+intervals, all active levels, strict exact/error-controlled L2, and atomic
+resumable shards. A narrowly scoped deterministic bisection fallback resolves
+one QUADPACK partition failure without loosening the error budget; 37 focused
+expectations and the repeated real pair pass. Sixteen independent validation
+categories pass twice with byte-identical public evidence. Cumulative recovery
+cost remains below the frozen wall and 2-GiB caps. Partitions remain closed.
+Next is MV5-AZ: inventory and prospectively freeze label-closed matched-axis
+stability/resampling, including a numerical-equivalence speed gate before any
+additional high-depth gene calculation.
