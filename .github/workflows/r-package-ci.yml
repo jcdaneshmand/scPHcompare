@@ -66,6 +66,7 @@ jobs:
             --project=. \
             --library="${RENV_PATHS_LIBRARY}" \
             --report=dependency-bootstrap-manifest.csv
+          printf 'R_LIBS_USER=%s\n' "${RENV_PATHS_LIBRARY}" >> "${GITHUB_ENV}"
 
       - name: Build and check package
         shell: bash
