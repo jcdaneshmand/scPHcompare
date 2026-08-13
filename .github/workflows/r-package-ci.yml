@@ -66,7 +66,9 @@ jobs:
             --project=. \
             --library="${RENV_PATHS_LIBRARY}" \
             --report=dependency-bootstrap-manifest.csv
+          printf 'R_LIBS=%s\n' "${RENV_PATHS_LIBRARY}" >> "${GITHUB_ENV}"
           printf 'R_LIBS_USER=%s\n' "${RENV_PATHS_LIBRARY}" >> "${GITHUB_ENV}"
+          printf 'RENV_CONFIG_AUTOLOADER_ENABLED=FALSE\n' >> "${GITHUB_ENV}"
 
       - name: Build and check package
         shell: bash
