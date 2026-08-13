@@ -39,6 +39,18 @@ jobs:
           r-version: "4.4.1"
           use-public-rspm: true
 
+      - name: Install locked R system prerequisites
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends \
+            libcurl4-openssl-dev \
+            libglpk-dev \
+            libgmp3-dev \
+            libhdf5-dev \
+            pandoc
+
       - name: Cache exact renv library
         uses: actions/cache@v4
         with:
