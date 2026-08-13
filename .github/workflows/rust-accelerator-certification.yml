@@ -188,7 +188,9 @@ jobs:
       - name: Check exact R source package with accelerator absent and present
         shell: pwsh
         run: |
-          R CMD build .
+          $rExecutable = Get-Command R -CommandType Application -ErrorAction Stop |
+            Select-Object -First 1 -ExpandProperty Source
+          & $rExecutable CMD build .
           if ($LASTEXITCODE -ne 0) { throw "R CMD build failed" }
           $tarball = (Get-ChildItem -File "scPHcompare_*.tar.gz" | Select-Object -First 1).FullName
           if (-not $tarball) { throw "R source tarball is missing" }
@@ -202,7 +204,7 @@ jobs:
               Remove-Item Env:SCPH_RUST_LANDSCAPE_LIB -ErrorAction SilentlyContinue
             }
             Push-Location $checkRoot
-            R CMD check --no-manual --no-build-vignettes $tarball
+            & $rExecutable CMD check --no-manual --no-build-vignettes $tarball
             $status = $LASTEXITCODE
             Pop-Location
             if ($status -ne 0) { throw "R CMD check failed in $mode mode" }
