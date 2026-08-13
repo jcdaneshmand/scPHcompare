@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-22.04
     timeout-minutes: 180
     env:
-      RENV_PATHS_LIBRARY: ${{ runner.tool_cache }}/scphcompare-renv-library
+      RENV_PATHS_LIBRARY: ${{ github.workspace }}/../scphcompare-renv-library
       RENV_CONFIG_AUTOLOADER_ENABLED: "TRUE"
       R_KEEP_PKG_SOURCE: yes
     steps:
