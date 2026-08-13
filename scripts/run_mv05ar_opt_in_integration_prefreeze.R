@@ -6,7 +6,11 @@ if (length(args) != 1L) {
 }
 output_dir <- normalizePath(args[[1L]], mustWork = FALSE)
 dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
-setwd("/mnt/e/Repositories/Jonah/PH Pipeline Repo/scPHcompare")
+script_arg <- grep("^--file=", commandArgs(trailingOnly = FALSE), value = TRUE)
+if (length(script_arg) != 1L) stop("Unable to resolve the repository root.")
+setwd(normalizePath(file.path(
+  dirname(gsub("~+~", " ", sub("^--file=", "", script_arg[[1L]]), fixed = TRUE)), ".."
+), mustWork = TRUE))
 pkgload::load_all(".", quiet = TRUE)
 
 write_csv <- function(value, id) utils::write.csv(

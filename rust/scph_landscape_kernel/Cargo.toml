@@ -1,0 +1,18 @@
+[package]
+name = "scph_landscape_kernel"
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+description = "Bounded exact persistence-landscape squared-L2 prototype for scPHcompare"
+publish = false
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[profile.release]
+codegen-units = 1
+lto = "thin"
+panic = "unwind"
+strip = "debuginfo"
+
+[dependencies]

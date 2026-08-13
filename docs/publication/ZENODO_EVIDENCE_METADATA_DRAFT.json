@@ -1,0 +1,44 @@
+{
+  "creator_order_status": "provisional_author_team_review_required",
+  "creators": [
+    {
+      "name": "Jonah Daneshmand",
+      "order": 1
+    },
+    {
+      "name": "Julia H. Chariker",
+      "order": 2
+    },
+    {
+      "name": "Akshitkumar Mistry",
+      "order": 3
+    },
+    {
+      "name": "Eric C. Rouchka",
+      "order": 4
+    }
+  ],
+  "credit_note": "Provisional creator order follows the public preprint record and preserves project-owner direction that Dr. Eric C. Rouchka and Dr. Akshitkumar Mistry receive credit; final creator/contributor classification, roles, ORCIDs, affiliations, and CRediT statements require author-team approval.",
+  "description": "Generated audit tables and derived persistence-homology result objects supporting the scPHcompare modernization and validation.",
+  "doi": "pending_reservation",
+  "evidence_file_count": 1136,
+  "license": "license_review_required_before_deposit",
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/jcdaneshmand/scPHcompare",
+      "relation": "isSupplementTo",
+      "scheme": "url"
+    },
+    {
+      "identifier": "software_version_doi_pending",
+      "relation": "isSupplementTo",
+      "scheme": "doi"
+    }
+  ],
+  "resource_type": "dataset",
+  "schema": "scphcompare_zenodo_metadata_draft_v1",
+  "source_revision": "53c5f2e0864aff288d34871fb8272da15ac660ca",
+  "status": "draft_owner_and_author_team_review_required",
+  "title": "scPHcompare derived computational evidence",
+  "uncompressed_evidence_bytes": 267553258
+}

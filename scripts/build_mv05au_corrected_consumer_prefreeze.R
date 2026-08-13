@@ -2,7 +2,11 @@
 args <- commandArgs(trailingOnly = TRUE)
 if (length(args) != 1L) stop("Usage: build_mv05au_corrected_consumer_prefreeze.R OUTPUT_DIR")
 out <- normalizePath(args[[1]], mustWork = FALSE); dir.create(out, recursive = TRUE, showWarnings = FALSE)
-setwd("/mnt/e/Repositories/Jonah/PH Pipeline Repo/scPHcompare")
+script_arg <- grep("^--file=", commandArgs(trailingOnly = FALSE), value = TRUE)
+if (length(script_arg) != 1L) stop("Unable to resolve the repository root.")
+setwd(normalizePath(file.path(
+  dirname(gsub("~+~", " ", sub("^--file=", "", script_arg[[1L]]), fixed = TRUE)), ".."
+), mustWork = TRUE))
 write_csv <- function(x, id) utils::write.csv(x, file.path(out, paste0("mv05au-", id,
   "-2026-08-12.csv")), row.names = FALSE, na = "", quote = TRUE)
 

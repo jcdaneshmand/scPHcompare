@@ -1,7 +1,9 @@
 #!/usr/bin/env Rscript
 args<-commandArgs(trailingOnly=TRUE);if(length(args)!=2L)stop("Usage: validate_mv05ay_complete_matrices.R UNITS_DIR OUTPUT_DIR")
 units<-normalizePath(args[[1]],mustWork=TRUE);out<-normalizePath(args[[2]],mustWork=FALSE);dir.create(out,recursive=TRUE,showWarnings=FALSE)
-setwd("/mnt/e/Repositories/Jonah/PH Pipeline Repo/scPHcompare");pkgload::load_all(".",quiet=TRUE)
+script_arg<-grep("^--file=",commandArgs(trailingOnly=FALSE),value=TRUE)
+if(length(script_arg)!=1L)stop("Unable to resolve the repository root.")
+setwd(normalizePath(file.path(dirname(gsub("~+~"," ",sub("^--file=","",script_arg[[1L]]),fixed=TRUE)),".."),mustWork=TRUE));pkgload::load_all(".",quiet=TRUE)
 scope<-utils::read.csv("docs/audits/mv05ax-complete-scope-2026-08-12.csv",stringsAsFactors=FALSE);manifest<-utils::read.csv("docs/audits/mv04-input-diagram-manifest-2026-08-05.csv",stringsAsFactors=FALSE)
 # The accepted manifest hashes the raw serialized diagram. Corrected-landscape
 # input manifests deliberately hash the canonical public three-column matrix.

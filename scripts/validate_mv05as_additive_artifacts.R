@@ -7,7 +7,11 @@ if (length(args) != 4L) {
 runs <- normalizePath(args[1:2], mustWork = TRUE)
 evidence_dir <- normalizePath(args[[3L]], mustWork = TRUE)
 output_csv <- normalizePath(args[[4L]], mustWork = FALSE)
-setwd("/mnt/e/Repositories/Jonah/PH Pipeline Repo/scPHcompare")
+script_arg <- grep("^--file=", commandArgs(trailingOnly = FALSE), value = TRUE)
+if (length(script_arg) != 1L) stop("Unable to resolve the repository root.")
+setwd(normalizePath(file.path(
+  dirname(gsub("~+~", " ", sub("^--file=", "", script_arg[[1L]]), fixed = TRUE)), ".."
+), mustWork = TRUE))
 pkgload::load_all(".", quiet = TRUE)
 read_run <- function(run, id) utils::read.csv(file.path(
   run, paste0("mv05as-", id, "-2026-08-12.csv")

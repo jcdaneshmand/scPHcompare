@@ -4,7 +4,11 @@ if (length(args) != 2L) stop("Usage: validate_mv05at_broader_workflow_smoke.R UN
 units_dir <- normalizePath(args[[1]], mustWork = TRUE)
 output_dir <- normalizePath(args[[2]], mustWork = FALSE)
 dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
-setwd("/mnt/e/Repositories/Jonah/PH Pipeline Repo/scPHcompare")
+script_arg <- grep("^--file=", commandArgs(trailingOnly = FALSE), value = TRUE)
+if (length(script_arg) != 1L) stop("Unable to resolve the repository root.")
+setwd(normalizePath(file.path(
+  dirname(gsub("~+~", " ", sub("^--file=", "", script_arg[[1L]]), fixed = TRUE)), ".."
+), mustWork = TRUE))
 pkgload::load_all(".", quiet = TRUE)
 write_csv <- function(x, id) utils::write.csv(x, file.path(output_dir,
   paste0("mv05at-", id, "-2026-08-12.csv")), row.names = FALSE, na = "", quote = TRUE)

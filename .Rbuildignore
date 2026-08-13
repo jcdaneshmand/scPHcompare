@@ -11,5 +11,7 @@
 ^PROJECT_PLAN\.md$
 ^docs$
 ^results$
+^rust$
+^rust-candidate-evidence$
 ^\.\.Rcheck$
 ^scPHcompare_.*\.tar\.gz$
