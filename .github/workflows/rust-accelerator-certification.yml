@@ -203,6 +203,7 @@ jobs:
         run: |
           $rExecutable = Get-Command R -CommandType Application -ErrorAction Stop |
             Select-Object -First 1 -ExpandProperty Source
+          $env:R_LIBS_USER = $env:RENV_PATHS_LIBRARY
           & $rExecutable CMD build .
           if ($LASTEXITCODE -ne 0) { throw "R CMD build failed" }
           $tarball = (Get-ChildItem -File "scPHcompare_*.tar.gz" | Select-Object -First 1).FullName
