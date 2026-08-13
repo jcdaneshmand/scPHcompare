@@ -117,6 +117,12 @@ jobs:
             "--library=$env:RENV_PATHS_LIBRARY" `
             "--report=$env:EVIDENCE_DIR/dependency-bootstrap-manifest.csv"
           if ($LASTEXITCODE -ne 0) { throw "Exact locked R dependency restore failed" }
+          "R_LIBS=$env:RENV_PATHS_LIBRARY" |
+            Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          "R_LIBS_USER=$env:RENV_PATHS_LIBRARY" |
+            Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          "RENV_CONFIG_AUTOLOADER_ENABLED=FALSE" |
+            Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
       - name: Install and verify pinned Rust toolchain
         shell: pwsh
