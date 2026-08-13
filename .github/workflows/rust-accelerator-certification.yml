@@ -87,6 +87,19 @@ jobs:
           r-version: "4.4.1"
           use-public-rspm: true
 
+      - name: Install locked R system prerequisites on Linux
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends \
+            libcurl4-openssl-dev \
+            libglpk-dev \
+            libgmp3-dev \
+            libhdf5-dev \
+            pandoc
+
       - name: Cache exact locked R library
         uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
         with:
