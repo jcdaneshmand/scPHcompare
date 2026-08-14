@@ -18,7 +18,8 @@ process_datasets_PH(
     "harmony_integration"),
   ph_poll_interval = 0.25,
   ph_progress_log_interval = 60,
-  ph_max_time_per_sample = 20 * 24 * 3600
+  ph_max_time_per_sample = 20 * 24 * 3600,
+  acknowledge_legacy_orientation = FALSE
 )
 }
 \arguments{
@@ -54,6 +55,11 @@ samples. Waiting returns immediately when the child exits.}
 \item{ph_progress_log_interval}{Minimum seconds between PH progress messages.}
 
 \item{ph_max_time_per_sample}{Maximum runtime in seconds for one PH child.}
+
+\item{acknowledge_legacy_orientation}{If `TRUE`, suppress the explicit warning
+that this historical pipeline passes feature-by-cell assay matrices to a
+rows-as-points PH route. This does not make those diagrams scientifically
+eligible for the corrected dual-view analysis.}
 }
 \value{
 A list containing processed iterations, detected metadata column

@@ -10,3 +10,6 @@
 ^example_run\.r$
 ^PROJECT_PLAN\.md$
 ^docs$
+^results$
+^\.\.Rcheck$
+^scPHcompare_.*\.tar\.gz$

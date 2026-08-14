@@ -4,7 +4,7 @@
 
 | Field | Value |
 |---|---|
-| Status | MV-01 contract complete and technically frozen; MV-02 is next |
+| Status | MV5-D0 stage 1 complete: 90 raw shards, 450 deterministic selections, 450 validated v2 SCT caches, and post-cache reprojection; downstream MV5-D and G-MV5 remain open |
 | Date | 2026-08-05 |
 | Scope | Existing scPHcompare data; cell topology, gene topology, topological distances, clustering, and multiview fusion |
 | Primary scientific view | Cell topology |
@@ -99,10 +99,10 @@ An exploratory method enters the confirmatory set only through a recorded decisi
 | Sprint | Purpose | Depends on | Primary gate | Status |
 |---|---|---|---|---|
 | MV-01 | Freeze dual-view scientific and mathematical contracts | Current orientation/landscape audits | G-MV1: definitions approved | `complete` — technical pilot freeze; no scientific activation |
-| MV-02 | Implement orientation-safe view constructors and fixtures | MV-01 | G-MV2: contracts enforced by tests | `ready` |
-| MV-03 | Generate corrected pilot H0/H1 diagrams and establish feasibility | MV-02 | G-MV3: eligible diagrams exist | `not_started` |
-| MV-04 | Validate topological distances and production calculation | MV-03 | G-MV4: sample-distance matrices are correct and feasible | `not_started` |
-| MV-05 | Compare clustering and matched non-topological baselines | MV-04; statistical-plan draft | G-MV5: fair single-view benchmark | `not_started` |
+| MV-02 | Implement orientation-safe view constructors and fixtures | MV-01 | G-MV2: contracts enforced by tests | `complete` — technical gate; no biological activation |
+| MV-03 | Generate corrected pilot H0/H1 diagrams and establish feasibility | MV-02 | G-MV3: eligible diagrams exist | `complete` — 132 eligible jobs; technical gate only |
+| MV-04 | Validate topological distances and production calculation | MV-03 | G-MV4: sample-distance matrices are correct and feasible | `complete` — immutable primary matrices; bounded sensitivity exclusions |
+| MV-05 | Compare clustering and matched non-topological baselines | MV-04; frozen statistical plan | G-MV5: fair single-view benchmark | `in_progress` — immutable folds, baseline fixtures, and synthetic inductive mapping pass; biological execution not started |
 | MV-06 | Test transparent multiview fusion and complementarity | MV-05 | G-MV6: fusion adds stable information or is rejected | `not_started` |
 | MV-07 | Robustness synthesis and full-run decision | MV-06 | G-MV7: freeze, revise, or stop before full rerun | `not_started` |
 
@@ -182,11 +182,13 @@ Make it difficult to confuse cells, genes, and coordinates again.
 
 ### Acceptance gate G-MV2
 
-- [ ] An ambiguous bare assay matrix cannot enter the corrected PH route.
-- [ ] Transposition and identifier mistakes fail loudly.
-- [ ] Analytical fixtures produce the intended, different cell/gene diagrams.
-- [ ] Legacy and corrected artifacts cannot collide in caches.
-- [ ] Complete package tests and source-package check pass.
+- [x] An ambiguous bare assay matrix cannot enter the corrected PH route.
+- [x] Transposition and identifier mistakes fail loudly.
+- [x] Analytical fixtures produce the intended, different cell/gene diagrams.
+- [x] Legacy and corrected artifacts cannot collide in caches.
+- [x] Complete package tests and source-package check pass.
+
+Evidence: `R/dual_view_topology.R`, `tests/testthat/test-dual-view-topology.R`, generated API documentation, and `docs/audits/MV02_ORIENTATION_SAFE_CONSTRUCTORS_2026-08-05.md`. G-MV2 passes for technical implementation only. The reduced analytical profile is permanently ineligible for scientific results, and the existing-data pilot remains prohibited until MV-03 preflight and resource controls are implemented.
 
 ## 7. MV-03 — Corrected pilot diagrams and feasibility boundary
 
@@ -209,12 +211,20 @@ Generate the first scientifically eligible cell-view and deliberately specified 
 
 ### Acceptance gate G-MV3
 
-- [ ] At least one deterministic pilot stratum has eligible H0/H1 diagrams for both views.
-- [ ] Every artifact is bound to the generating view contract and sample manifest.
-- [ ] Cell/gene point counts agree with provenance.
-- [ ] Filtration and infinite-feature handling are explicit.
-- [ ] Runtime and memory boundaries are measured rather than guessed.
-- [ ] Repeated subsampling stability is sufficient for the intended comparison or the instability is documented as a stop/narrowing result.
+- [x] At least one deterministic pilot stratum has eligible H0/H1 diagrams for both views.
+- [x] Every artifact is bound to the generating view contract and sample manifest.
+- [x] Cell/gene point counts agree with provenance.
+- [x] Filtration and infinite-feature handling are explicit.
+- [x] Runtime and memory boundaries are measured rather than guessed.
+- [x] Repeated subsampling stability is sufficient for the intended comparison or the instability is documented as a stop/narrowing result.
+
+**Gate disposition (2026-08-05): complete for technical advancement.** All 132
+frozen Stage A/B/C jobs completed with eligible typed provenance and no
+failures. The slowest job took 14.64 seconds and peak measured process-tree RSS
+was about 1.04 GiB. Five-seed total-persistence CV had median 0.023 and maximum
+0.120. This permits MV-04 distance validation only; biological interpretation
+remains prohibited. Evidence:
+`docs/audits/MV03_CORRECTED_PILOT_FEASIBILITY_2026-08-05.md`.
 
 ### Stop conditions
 
@@ -243,12 +253,12 @@ Turn eligible pilot diagrams into correct, auditable sample-distance matrices an
 
 ### Acceptance gate G-MV4
 
-- [ ] All primary matrices pass mathematical and identifier checks.
-- [ ] Landscape results agree with the R correctness oracle on tractable eligible cases.
-- [ ] H0 and H1 are retained separately.
-- [ ] Sensitivity methods are complete or technically excluded with evidence.
-- [ ] The production path has measured runtime and peak memory.
-- [ ] Rust remains rejected unless every existing gate criterion is satisfied.
+- [x] All primary matrices pass mathematical and identifier checks.
+- [x] Landscape results agree with the R correctness oracle on tractable eligible cases.
+- [x] H0 and H1 are retained separately.
+- [x] Sensitivity methods are complete or technically excluded with evidence.
+- [x] The production path has measured runtime and peak memory.
+- [x] Rust remains rejected because every existing gate criterion is not satisfied.
 
 ## 9. MV-05 — Single-view clustering and matched baseline benchmark
 
@@ -270,6 +280,56 @@ Determine what each topological view contributes before attempting fusion.
 | MV5-08 | Write single-view disposition | Cell works/fails/uncertain; gene works/fails/uncertain; H0/H1 contribution and confounding boundaries |
 
 ### Acceptance gate G-MV5
+
+The plan-freeze readiness subgate passed on 2026-08-06: endpoints, units,
+baselines, LOSO splits, label boundaries, clustering rules, uncertainty,
+multiplicity, failures, and resource stages are frozen in
+`docs/specifications/MV05_STATISTICAL_BENCHMARK_PLAN_V1.md`. This does not check
+any G-MV5 item below; those require executed single-view results.
+
+The MV5-A/MV5-B technical subgate also passed on 2026-08-06. All 18
+label-closed LOSO manifests are immutable; analytical and 500-gene/384-cell
+scientific-shape fixtures pass for the three matched baselines; and two
+synthetic Seurat reference-mapping repetitions produced identical query
+embeddings. This advances only to MV5-C and does not check the G-MV5 items.
+
+MV5-C one-tissue feasibility completed on 2026-08-06 with outcomes still
+closed. All ten fold/seed jobs completed cell topology for SCT and inductive
+integration. SCT gene topology completed in the five 5-reference/1-query jobs
+and was structurally unavailable in the five 1-reference/5-query jobs because
+the training-only panel contained held-out constant genes. Exact all-level
+H0/H1 distances, matched baselines, 85 matrices, neighbor rankings, and
+label-free clustering artifacts are immutable. The naïve 90-sample projection
+fails current per-job and aggregate caps, so MV5-D execution is not authorized.
+This advances technical feasibility evidence but does not check a G-MV5 item.
+
+MV5-C2 resource-safe engineering completed on 2026-08-06 with outcomes still
+closed. Sample–seed SCT cache records, cached-fold execution, exact
+query-to-training pair chunks, and immutable resume all reproduce MV5-C
+exactly. The 90-sample plan reduces normalization operations 15-fold and
+landscape rows 8.497-fold. Full all-view MV5-D remains prohibited at a 25.82 h
+lower bound before integrated mapping; SCT cell-primary label-closed
+precomputation is conditionally feasible at 18.68 h. This does not check a
+G-MV5 item or authorize labels.
+
+MV5-D0 normalization-cache gating ran on 2026-08-07 with outcomes still
+closed. The 450-cache build stopped upstream because the monolithic raw RDS
+expanded to about 45.74 GiB RSS, violating the 8-GiB guard. Six recovered
+sample shards completed matrix-only SCT caches in 175.43 worker-seconds at
+3.361 GiB maximum RSS and project to 3.009 GiB for 450 entries. Current-runtime
+rebuilds are byte-reproducible, but legacy caches differ slightly despite
+identical inputs, exposing an incomplete v1 runtime identity. Runtime-complete
+v2 identities are now required. No fold, PH, landscape, clustering, endpoint,
+or G-MV5 item advanced.
+
+MV5-D0 stage 1 then completed on 2026-08-07 after exactly one existing
+per-sample Seurat source was found for each frozen candidate. Ninety canonical
+raw shards, 450 deterministic selection identities, and 450 runtime-complete
+matrix-only SCT caches independently validate with zero failures. The cache
+used 2.562 worker-hours, 1.81 GiB peak RSS, and 2.992 GB storage. The updated
+SCT cell-primary lower bound is 10.525 hours. Execution stopped before folds,
+PH, landscapes, distances, clustering, integration, or outcomes, so G-MV5
+remains open.
 
 - [ ] Both views use the same samples, splits, endpoints, and eligible clustering rules.
 - [ ] Baselines operate at the same sample-level unit.
@@ -383,4 +443,7 @@ Each sprint report must end with:
 
 ## 14. Immediate next action
 
-Execute MV-02: implement versioned orientation-safe view objects, cell/gene constructors, explicit point-cloud or `dist` routing, analytical fixtures, metric/property validation, provenance/cache identities, and a visibly separate legacy compatibility boundary. Do not generate the existing-data pilot diagrams until G-MV2 passes.
+Review the completed MV5-D0 stage-1 gate. If approved, specify MV5-D1 as the
+label-closed SCT cell-primary fold stage using the frozen caches and existing
+query-to-training scope. Do not open outcomes or add gene topology, integration,
+complete-matrix clustering, or fusion to that authorization.

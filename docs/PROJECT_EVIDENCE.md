@@ -5,7 +5,7 @@
 | Field | Value |
 |---|---|
 | Status | Draft evidence baseline; findings require verification before manuscript use |
-| Version | 0.3.4 |
+| Version | 0.3.9 |
 | Created | 2026-08-03 |
 | Canonical project | `jcdaneshmand/scPHcompare` |
 | Evidence owner | Jonah Daneshmand |
@@ -318,7 +318,17 @@ The findings in this section are issues to verify, not accusations about how the
 
 **Risk:** The persistence diagrams describe gene/feature geometry, not the intended cell geometry. Every downstream bottleneck, spectral, landscape, clustering, statistical, figure, and manuscript result derived from those diagrams is scientifically ineligible for the corrected analysis.
 
-**Required resolution:** MV-01 froze the prospective `cell_topology_v1` contract in `docs/specifications/DUAL_VIEW_TOPOLOGY_SPECIFICATION_V1.md`: shared sample inputs, cells as rows, cohort-fitted PCA with variance-weighted PC scores, Euclidean primary geometry, full H0/H1 filtration, and explicit provenance/resource gates. It also defined `gene_topology_v1` as an intentional, separately interpreted secondary view rather than retroactively legitimizing the historical diagrams. MV-02 must implement and test these contracts without changing production defaults; MV-03 must generate fresh eligible diagrams before any distance, clustering, or biological analysis. Historical artifacts remain restricted to labeled reproduction or stress testing.
+**Resolution:** MV-01 froze the prospective definitions, MV-02 enforces them
+through versioned typed objects, and MV-03 has now generated 132 scientifically
+eligible corrected H0/H1 pilot diagrams for both views under monitored resource
+caps. MV-03 recovered missing SCT Pearson residuals from the recorded SCT model,
+proved cell pairing by canonical identifiers, fit label-free cohort panels and
+equal-contribution transformations, and retained five-seed sensitivity. All
+jobs completed; the slowest took 14.64 seconds and peak process-tree RSS was
+about 1.04 GiB. This passes G-MV3 for MV-04 technical distance validation only.
+Clustering, fusion, and biological interpretation remain prohibited.
+Historical artifacts remain restricted to labeled reproduction or stress
+testing.
 
 ## 6. Manuscript, reference, and figure audit findings
 
@@ -464,6 +474,11 @@ The original editorial decision and reviewer reports have now been recovered. Be
 
 | Version | Date | Summary |
 |---|---|---|
+| 0.3.9 | 2026-08-06 | Completed MV5-A/MV5-B immutable outcome-label-closed LOSO manifests, exact matched-baseline implementations and fixtures, and deterministic synthetic Seurat reference mapping; advanced only to MV5-C feasibility |
+| 0.3.8 | 2026-08-06 | Froze the prospective MV-05 sample-level LOSO benchmark, matched baselines, label firewall, clustering/uncertainty/multiplicity rules, existing-data feasibility, and transductive-integration exclusion without computing outcomes |
+| 0.3.7 | 2026-08-05 | Completed MV-04 immutable all-level exact H0/H1 landscape distances, eligible R-oracle and deterministic validation, fit-scope-bound normalization, contribution/resource profiling, bounded diagram-distance sensitivities, and the negative Rust gate; advanced only to MV-05 statistical-plan design |
+| 0.3.6 | 2026-08-05 | Completed MV-03 representation-native residual recovery, paired extraction, frozen feature panels, matched subsampling, fit-scope scaling/PCA, 132 monitored corrected H0/H1 jobs, and five-seed feasibility summaries; advanced MV-04 only |
+| 0.3.5 | 2026-08-05 | Implemented and analytically validated orientation-safe typed cell/gene topology objects, corrected-only PH dispatch, explicit legacy stamping, immutable cache/provenance identities, and full-shape versus fixture eligibility separation |
 | 0.3.4 | 2026-08-05 | Froze the MV-01 dual-view scientific contract, deterministic existing-data pilot manifest, distance/clustering hierarchy, leakage and provenance rules, resource envelope, and stop/go criteria |
 | 0.3.3 | 2026-08-05 | Recorded independent landscape-oracle results, the Persim sign-crossing failure, and hard invalidation of historical diagrams/results caused by feature-as-point PH orientation |
 | 0.3.2 | 2026-08-05 | Added exact/adaptive reference-engine validation, analytical and representative benchmark evidence, established-library assessment, and the negative current Rust decision |
