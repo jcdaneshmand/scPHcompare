@@ -33,12 +33,12 @@ This directory converts `PROJECT_PLAN.md` into executable, reviewable work. The 
 |---|---|---|---|---|
 | 0 | [Preservation and provenance](phase-0-preservation.md) | None | `in_progress` | G0 |
 | 1 | [Scientific and implementation audit](phase-1-scientific-audit.md) | Preservation controls from Phase 0 | `in_progress` | G1 |
-| 2 | [Reproducible baseline and repository health](phase-2-reproducible-baseline.md) | Approved Phase 1 specifications | `not_started` | G2 |
+| 2 | [Reproducible baseline and repository health](phase-2-reproducible-baseline.md) | Approved Phase 1 specifications | `in_progress` | G2 |
 | 3 | [Literature, references, and figures](phase-3-literature-and-figures.md) | Can overlap Phases 0–2 | `in_progress` | G3 |
-| 4 | [Primary benchmark redesign](phase-4-primary-benchmark.md) | G1; statistical plan | `not_started` | G4 |
-| 5 | [Method expansion](phase-5-method-expansion.md) | G4 | `not_started` | G5 |
+| 4 | [Primary benchmark redesign](phase-4-primary-benchmark.md) | G1; statistical plan | `in_progress` | G4 |
+| 5 | [Method expansion](phase-5-method-expansion.md) | G4 | `in_progress` | G5 |
 | 6 | [Biological and practical validation](phase-6-biological-validation.md) | G4; may overlap Phase 5 | `not_started` | G6 |
-| 7 | [Profiling and optimization](phase-7-optimization.md) | Stable corrected pipeline; normally G5/G6 | `not_started` | G7 |
+| 7 | [Profiling and optimization](phase-7-optimization.md) | Stable corrected pipeline; normally G5/G6 | `in_progress` | G7 |
 | 8 | [Manuscript and response package](phase-8-manuscript.md) | Stable confirmatory results | `not_started` | G8 |
 | 9 | [Release and archive](phase-9-release.md) | G8 | `not_started` | G9 |
 

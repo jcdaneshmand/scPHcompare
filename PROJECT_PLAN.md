@@ -5,7 +5,7 @@
 | Field | Value |
 |---|---|
 | Status | Draft for owner and author-team review |
-| Version | 0.3.34 |
+| Version | 0.3.35 |
 | Created | 2026-08-03 |
 | Canonical repository | `jcdaneshmand/scPHcompare` |
 | Historical source repository | `jcdaneshmand/PH_ClusteringApp` |
@@ -650,19 +650,21 @@ Publish a durable, citable research artifact.
 | D-046 | 2026-08-10 | Freeze label-closed clustering as training-only PAM with five-seed one-SE stability selection, deterministic canonical labels, immutable held-out medoid assignment, and average linkage as the sole sensitivity; retain separate exact all-active-level H0/H1 landscapes and matched energy/pseudobulk baselines | Exact inventories reproduce 262,675 training pairs and 525,350 H0/H1 rows per representation; 384/384 admitted landscape rows, 12/12 independent R exact oracles, 12/12 byte repeats, immutable resume, and 384/384 admitted baseline rows pass; conservative total production projection is 16.117 worker-hours including reserve | MV5-N complete; full matrices remain closed pending a separate prospective MV5-O execution specification; all biological and technical labels, cluster outcomes, method selection, and claims remain closed |
 | D-047 | 2026-08-10 | Prefreeze complete training-matrix production as 150 deterministic fold-seed-representation groups, 4,340 group-cached landscape chunks, 150 energy units, and 75 shared-pseudobulk units, all bound to immutable source/implementation roots, atomic status/output schemas, caps, validation, repeat/resume, and non-retrying abort rules | 19/19 independent checks and 7/7 byte-repeat artifacts pass; the exact landscape runner reproduces 32/32 accepted real-diagram distances, one independent R oracle, clean byte repeat, and immutable resume; 16.117 h and conservative 1.278 GB projections pass 21.6-h/10-GiB caps; production/clustering/outcomes remain zero | MV5-O prefreeze complete; authorize a separate goal to execute only the frozen label-closed distance queues, stopping before production clustering or label opening |
 | D-048 | 2026-08-10 | Accept complete label-closed training-distance production while preserving separate exact all-active-level H0/H1 landscapes, representation-specific energy, shared pseudobulk, immutable source/unit identities, and zero downstream clustering/outcomes | All 150 groups, 4,565 units, 1,838,725 values, and 525 matrix components pass; 12/12 exact R oracles, 66/66 frozen repeat outputs plus one supplemental pseudobulk output, and all 4,565 immutable resume units pass; observed work is `12.044379` h with `492163072` B maximum RSS and `4570070656` B private root. The 1.278-GB output-focused prefreeze estimate omitted complete group-local interval staging, but a disclosed `6.011`-GB reserve forecast and final observed storage remain below 10 GiB | MV5-P complete; authorize only a separately scoped label-closed clustering-artifact sprint under the frozen MV5-N contract, stopping again before labels, ARI/NMI, or any biological/technical outcome |
+| D-049 | 2026-08-14 | Accept published `main` at `d0192d35` as the canonical audited continuation baseline while preserving all nine publication branches and keeping releases, binaries, DOI actions, defaults, new calculations, and manuscript claims closed | PRs #111-#119 merged in the authorized order; exact final tree `188e24a7`; main R run `31768108363` passed in 22m19s; private/excluded-artifact guard passed | Publication merge technically complete; phase gates still require their own scientific/owner dispositions |
+| D-050 | 2026-08-14 | Begin MV-06 only as a bounded label-closed four-stratum fusion feasibility sprint; require a separate matched gene-view scale-up/resource gate before blocked evaluation | MV-04 supplies matched cell/gene H0/H1 matrices for two 10-sample and two 4-sample strata, while the 90-sample MV-05 benchmark lacks full gene-view matrices | MV6-A authorized; blocked outcomes, advanced fusion, new data, defaults, claims, and release actions remain closed |
 
 ## 9. Status dashboard
 
 | Phase | Status | Gate |
 |---|---|---|
-| 0. Preserve and establish provenance | Main synchronized; P0-02 complete; P0-03/P0-04/P0-05 in progress | G0 not evaluated |
-| 1. Scientific/implementation audit | Landscape target/oracle and eligible MV-04 production distances validated; historical diagrams invalidated; statistics and claim disposition remain | G1 not evaluated |
-| 2. Reproducible baseline/repository health | Full testthat suite and source-package check green; dual-view analytical fixtures and structured provenance implemented; clean-clone validation remains | G2 not evaluated |
+| 0. Preserve and establish provenance | Audited nine-slice publication stack merged; private PDFs/reviews, generated evidence bundle, binaries, and `example_run.r` remain excluded; baseline owner/author review remains | G0 not evaluated |
+| 1. Scientific/implementation audit | Corrected landscape contract and orientation-safe cell/gene definitions validated; historical diagrams invalidated; consolidated claim/author review remains | G1 not evaluated |
+| 2. Reproducible baseline/repository health | Published main CI passes privacy, exact restore, package check, and installed realistic H0/H1 fixtures; clean-clone user route and complete policy review remain | G2 not evaluated |
 | 3. Literature/reference/figure audit | Initial literature sample only | G3 not evaluated |
-| 4. Redesign primary comparison | MV5-P complete: all frozen complete training-distance matrices pass identity, numerical, oracle, repeat, resume, and observed resource gates; a separate label-closed clustering-artifact sprint is next, while every label-open outcome remains closed; G4 synthesis remains open | G4 not evaluated |
-| 5. Expand methods | Primary landscape distances validated; bounded diagram sensitivities retained; clustering/fusion remain gated | G5 not evaluated |
+| 4. Redesign primary comparison | Prediction-locked retrieval, clustering, complete robustness panels, corrected matrices, and null/negative results have auditable evidence; author-level synthesis remains | G4 not evaluated |
+| 5. Expand methods | Cell benchmark and dual-view pilot are validated; MV-06 four-stratum label-closed fusion feasibility is next, while blocked fusion needs a matched full gene-view gate | G5 not evaluated |
 | 6. Biological/practical validation | Not started | G6 not evaluated |
-| 7. Profile and optimize | Eligible all-level critical-pair batch profiled; gene-H1 construction/object growth is dominant; Rust remains gated off | G7 not evaluated |
+| 7. Profile and optimize | Rust landscape kernel passed complete numerical equivalence and nonpublishing four-platform candidate CI; R remains canonical/default and distribution/adoption remains open | G7 not evaluated |
 | 8. Rewrite manuscript | Not started | G8 not evaluated |
 | 9. Release/archive | Not started | G9 not evaluated |
 
@@ -670,6 +672,7 @@ Publish a durable, citable research artifact.
 
 | Version | Date | Summary |
 |---|---|---|
+| 0.3.35 | 2026-08-14 | Reconciled the audited P01-P09 publication merge and exact main CI, corrected phase-dashboard drift, preserved the dissertation-aligned landscape contract, and authorized only a four-stratum label-closed MV6 fusion feasibility sprint before any larger matched gene-view or blocked evaluation |
 | 0.3.34 | 2026-08-10 | Completed MV5-P label-closed distance production: 150 groups, 4,565 units, 1,838,725 values, 525 complete matrices, 12 exact R oracles, two 33-output maximum-group repeats, supplemental pseudobulk repeat, all-unit zero-rebuild resume, observed cap reconciliation, and explicit correction of the output-focused storage underestimate without fitting clusters or opening labels |
 | 0.3.33 | 2026-08-10 | Completed MV5-O production prefreeze: bound 18 sources and four production implementations; froze 150 groups and 4,565 resumable units; added corrected 1.278-GB storage accounting, atomic/resume/abort rules, 12-oracle and maximum-group repeat plans; passed independent/repeat and real landscape-runner fixtures without executing production or outcomes |
 | 0.3.32 | 2026-08-10 | Completed MV5-N label-closed clustering/resource gate: froze training-only PAM and deterministic held-out assignment, retained average linkage as sensitivity, instantiated exact complete-pair identity inventories, passed bounded exact landscape and matched-baseline admissions with independent oracles/repeats/resume, and projected full production at 16.117 worker-hours without authorizing it or opening outcomes |

@@ -87,8 +87,14 @@ The final retained main run is:
 - final conclusion: `SUCCESS`
 - duration: `26m34s`
 
-P09 must remain a draft until its documentation diff is independently
-revalidated and the P09 R-package check itself succeeds.
+P09 subsequently passed its retained R-package check at run `31766356585`, was
+merged as PR #119 at `d0192d35a4ab52006aa83b0ad3b0ad6a19f066cb`,
+and produced exact tree `188e24a7b0c588b1926a2d99f43ba9e48e938053`.
+The exact merged-main run `31768108363` completed successfully in 22m19s,
+including the privacy guard, exact dependency restore, package check, realistic
+H0/H1 fixtures, and synthetic audit-evidence upload. All nine publication
+branches remained preserved; no release, tag, DOI, binary publication, or
+default change followed.
 
 ## Remote state and closed actions
 
