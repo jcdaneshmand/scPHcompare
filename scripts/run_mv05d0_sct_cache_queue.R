@@ -107,6 +107,7 @@ while (length(pending) || length(running)) {
     )
     running[[stem]] <- list(
       process = process, job = job, started = Sys.time(), peak = 0,
+      cap_disposition = NA_character_,
       audit_path = audit_path, stdout_path = stdout_path,
       stderr_path = stderr_path
     )
@@ -116,7 +117,19 @@ while (length(pending) || length(running)) {
   for (stem in names(running)) {
     item <- running[[stem]]
     rss <- process_tree_rss(item$process$get_pid())
-    item$peak <- max(item$peak, rss)
+    elapsed_now <- as.numeric(difftime(Sys.time(), item$started, units = "secs"))
+    cap <- mv05d0_enforce_live_process_caps_v1(
+      item$process, elapsed_seconds = elapsed_now,
+      current_rss_bytes = rss, peak_rss_bytes = item$peak,
+      elapsed_cap_seconds = elapsed_cap, rss_cap_bytes = rss_cap
+    )
+    item$peak <- cap$peak_rss_bytes
+    if (!is.na(cap$disposition)) {
+      if (is.na(item$cap_disposition)) {
+        item$cap_disposition <- cap$disposition
+      }
+      admission_open <- FALSE
+    }
     running[[stem]] <- item
     if (item$process$is_alive()) next
     item$process$wait(timeout = 5000)
@@ -127,8 +140,13 @@ while (length(pending) || length(running)) {
                       check.names = FALSE)
     } else NULL
     disposition <- if (is.null(audit)) "failed" else audit$disposition[[1L]]
-    if (elapsed > elapsed_cap) disposition <- "elapsed_cap_exceeded"
-    if (item$peak > rss_cap) disposition <- "rss_cap_exceeded"
+    if (!is.na(item$cap_disposition)) disposition <- item$cap_disposition
+    if (elapsed > elapsed_cap && is.na(item$cap_disposition)) {
+      disposition <- "elapsed_cap_exceeded"
+    }
+    if (item$peak > rss_cap && is.na(item$cap_disposition)) {
+      disposition <- "rss_cap_exceeded"
+    }
     if (cache_bytes() > storage_cap) disposition <- "storage_cap_exceeded"
     row <- data.frame(
       contract_id = "mv05d0_sct_cache_resource_metric_v1",
