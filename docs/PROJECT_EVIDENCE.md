@@ -474,6 +474,7 @@ The original editorial decision and reviewer reports have now been recovered. Be
 
 | Version | Date | Summary |
 |---|---|---|
+| 0.3.10 | 2026-08-09 | Completed all 75 fixed-D1-panel label-closed integrated coordinate groups: 6,750 views and 450 mappings passed 675 independent checks, exact complete-group repeat, zero-rebuild resume, and cap-passing measured reprojection; integrated cell PH is separately authorized but not executed |
 | 0.3.9 | 2026-08-06 | Completed MV5-A/MV5-B immutable outcome-label-closed LOSO manifests, exact matched-baseline implementations and fixtures, and deterministic synthetic Seurat reference mapping; advanced only to MV5-C feasibility |
 | 0.3.8 | 2026-08-06 | Froze the prospective MV-05 sample-level LOSO benchmark, matched baselines, label firewall, clustering/uncertainty/multiplicity rules, existing-data feasibility, and transductive-integration exclusion without computing outcomes |
 | 0.3.7 | 2026-08-05 | Completed MV-04 immutable all-level exact H0/H1 landscape distances, eligible R-oracle and deterministic validation, fit-scope-bound normalization, contribution/resource profiling, bounded diagram-distance sensitivities, and the negative Rust gate; advanced only to MV-05 statistical-plan design |

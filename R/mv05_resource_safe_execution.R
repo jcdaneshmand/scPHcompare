@@ -675,7 +675,8 @@ mv05c2_select_training_panel_v1 <- function(matrices, training_ids,
     stop("panel_size must be an integer of at least two.", call. = FALSE)
   }
   common <- sort(
-    Reduce(intersect, lapply(matrices, rownames)), method = "radix"
+    Reduce(intersect, lapply(matrices[training_ids], rownames)),
+    method = "radix"
   )
   canonical <- canonical_mv03_gene_ids(common)
   category <- mv03_feature_category(common)
@@ -711,6 +712,448 @@ mv05c2_select_training_panel_v1 <- function(matrices, training_ids,
          call. = FALSE)
   }
   candidates[seq_len(panel_size), , drop = FALSE]
+}
+
+mv05d1_fold_runtime_v1 <- function() {
+  package_version <- function(package) {
+    if (!requireNamespace(package, quietly = TRUE)) {
+      stop("Required MV5-D1 package is unavailable: ", package,
+           call. = FALSE)
+    }
+    as.character(utils::packageVersion(package))
+  }
+  soft <- extSoftVersion()
+  soft_value <- function(name) {
+    if (name %in% names(soft)) unname(soft[[name]]) else ""
+  }
+  list(
+    contract_id = "mv05d1_fold_runtime_v1",
+    r_version = R.version.string,
+    rng_kind = unname(RNGkind()),
+    matrix_version = package_version("Matrix"),
+    digest_version = package_version("digest"),
+    blas = soft_value("BLAS"), lapack = soft_value("LAPACK"),
+    omp_num_threads = Sys.getenv("OMP_NUM_THREADS", unset = ""),
+    openblas_num_threads = Sys.getenv("OPENBLAS_NUM_THREADS", unset = ""),
+    mkl_num_threads = Sys.getenv("MKL_NUM_THREADS", unset = "")
+  )
+}
+
+mv05d1_cell_fold_identity_v1 <- function(
+    fold_id, fit_scope_id, held_out_study, seed, training_ids, query_ids,
+    normalization_cache_keys, candidate_manifest_sha256, fold_plan_sha256,
+    implementation_sha256, runtime = mv05d1_fold_runtime_v1(),
+    panel_size = 500L, n_components = 30L) {
+  seed <- as.integer(seed)
+  panel_size <- as.integer(panel_size)
+  n_components <- as.integer(n_components)
+  training_ids <- sort(unique(as.character(training_ids)), method = "radix")
+  query_ids <- sort(unique(as.character(query_ids)), method = "radix")
+  normalization_cache_keys <- normalization_cache_keys[
+    order(names(normalization_cache_keys), method = "radix")
+  ]
+  required_runtime <- c(
+    "contract_id", "r_version", "rng_kind", "matrix_version",
+    "digest_version", "blas", "lapack", "omp_num_threads",
+    "openblas_num_threads", "mkl_num_threads"
+  )
+  if (length(seed) != 1L || is.na(seed) || seed < 0L ||
+      length(panel_size) != 1L || is.na(panel_size) || panel_size < 2L ||
+      length(n_components) != 1L || is.na(n_components) ||
+      n_components < 1L || n_components > panel_size ||
+      !length(training_ids) || !length(query_ids) ||
+      length(intersect(training_ids, query_ids)) ||
+      is.null(names(normalization_cache_keys)) ||
+      anyDuplicated(names(normalization_cache_keys)) ||
+      !identical(sort(c(training_ids, query_ids), method = "radix"),
+                 names(normalization_cache_keys)) ||
+      any(!grepl("^mv05d0_sample_seed_sct_v2:[0-9a-f]{64}$",
+                 normalization_cache_keys)) ||
+      !is.list(runtime) || !all(required_runtime %in% names(runtime)) ||
+      !identical(runtime$contract_id, "mv05d1_fold_runtime_v1")) {
+    stop("MV5-D1 cell-fold identity parameters are invalid.", call. = FALSE)
+  }
+  identity <- list(
+    contract_id = "mv05d1_sct_cell_fold_identity_v1",
+    representation = "sct_fold", view_id = "cell_topology_v1",
+    coordinate_contract_id = "mv05d1_training_fitted_pca_v1",
+    feature_selection_contract_id =
+      "mv05d1_training_only_median_variance_rank_v1",
+    standardization_contract_id = "mv05d1_training_only_zscore_v1",
+    held_out_missing_feature_policy =
+      "training_mean_zero_after_standardization_v1",
+    pca_contract_id = "stats_prcomp_training_cells_svd_v1",
+    fold_id = .mv05c2_string(fold_id, "fold_id"),
+    fit_scope_id = .mv05c2_string(fit_scope_id, "fit_scope_id"),
+    held_out_study = .mv05c2_string(held_out_study, "held_out_study"),
+    seed = seed, training_ids = training_ids, query_ids = query_ids,
+    normalization_cache_keys = normalization_cache_keys,
+    candidate_manifest_sha256 = .mv05c2_hash(
+      candidate_manifest_sha256, "candidate_manifest_sha256"
+    ),
+    fold_plan_sha256 = .mv05c2_hash(fold_plan_sha256, "fold_plan_sha256"),
+    implementation_sha256 = .mv05c2_hash(
+      implementation_sha256, "implementation_sha256"
+    ),
+    panel_size = panel_size, n_components = n_components,
+    runtime = runtime, outcome_label_state = "closed",
+    biological_outcomes_computed = FALSE
+  )
+  identity$cache_key <- paste0(
+    "mv05d1_sct_cell_fold_v1:",
+    digest::digest(identity, algo = "sha256", serialize = TRUE)
+  )
+  identity
+}
+
+mv05d1_prepare_cell_sources_v1 <- function(
+    matrices, panel, training_ids, fold_id, fit_scope_id, seed,
+    normalization_cache_keys, cohort = "mv05_candidate_v1") {
+  required_panel <- c("feature_id", "gene")
+  ids <- sort(names(matrices), method = "radix")
+  training_ids <- sort(unique(as.character(training_ids)), method = "radix")
+  if (!is.list(matrices) || is.null(names(matrices)) || anyDuplicated(names(matrices)) ||
+      !is.data.frame(panel) || !all(required_panel %in% names(panel)) ||
+      !all(training_ids %in% ids) || is.null(names(normalization_cache_keys)) ||
+      !identical(sort(names(normalization_cache_keys), method = "radix"), ids)) {
+    stop("MV5-D1 matrices, panel, or training identities are invalid.",
+         call. = FALSE)
+  }
+  matrices <- matrices[ids]
+  if (any(vapply(matrices[training_ids], function(value) {
+    !all(panel$feature_id %in% rownames(value))
+  }, logical(1L)))) {
+    stop("A training cache cannot support its training-derived panel.",
+         call. = FALSE)
+  }
+  training_selected <- lapply(matrices[training_ids], function(value) {
+    result <- as.matrix(value[panel$feature_id, , drop = FALSE])
+    rownames(result) <- panel$gene
+    result
+  })
+  training_pool <- do.call(cbind, training_selected)
+  center <- rowMeans(training_pool)
+  scale <- apply(training_pool, 1L, stats::sd)
+  if (any(!is.finite(center)) || any(!is.finite(scale)) ||
+      any(scale <= sqrt(.Machine$double.eps))) {
+    stop("MV5-D1 training-only standardization is invalid.", call. = FALSE)
+  }
+  missing_feature_counts <- vapply(matrices, function(value) {
+    sum(!panel$feature_id %in% rownames(value))
+  }, integer(1L))
+  if (any(missing_feature_counts[training_ids] != 0L)) {
+    stop("Training-derived features are unexpectedly absent from training.",
+         call. = FALSE)
+  }
+  standardized <- lapply(matrices, function(value) {
+    result <- matrix(
+      0, nrow = nrow(panel), ncol = ncol(value),
+      dimnames = list(panel$gene, colnames(value))
+    )
+    present <- panel$feature_id %in% rownames(value)
+    observed <- as.matrix(value[panel$feature_id[present], , drop = FALSE])
+    rownames(observed) <- panel$gene[present]
+    result[present, ] <- sweep(
+      sweep(observed, 1L, center[present], "-"),
+      1L, scale[present], "/"
+    )
+    result
+  })
+  standardization_identity <- list(
+    contract_id = "mv05d1_training_only_zscore_v1",
+    fold_id = fold_id, fit_scope_id = fit_scope_id,
+    representation = "sct_fold", seed = as.integer(seed),
+    training_ids = training_ids, panel = panel, center = center, scale = scale,
+    training_normalization_cache_keys = normalization_cache_keys[training_ids]
+  )
+  standardization_id <- paste0(
+    "mv05d1_training_only_zscore_v1:",
+    digest::digest(standardization_identity, algo = "sha256", serialize = TRUE)
+  )
+  cell_sources <- lapply(ids, function(sample_id) {
+    new_cell_projection_source(
+      standardized[[sample_id]], sample_id = sample_id, cohort = cohort,
+      representation = "sct_fold", fit_scope_id = fit_scope_id,
+      subsample_seed = seed, standardization_id = standardization_id
+    )
+  })
+  names(cell_sources) <- ids
+  training_sources <- lapply(training_ids, function(sample_id) {
+    new_dual_view_source(
+      standardized[[sample_id]], sample_id = sample_id, cohort = cohort,
+      representation = "sct_fold", fit_scope_id = fit_scope_id,
+      subsample_seed = seed, standardization_id = standardization_id
+    )
+  })
+  names(training_sources) <- training_ids
+  list(
+    cell_sources = cell_sources, training_sources = training_sources,
+    center = center, scale = scale, standardization_id = standardization_id,
+    missing_feature_counts = missing_feature_counts
+  )
+}
+
+mv05d1_new_cell_fold_record_v1 <- function(identity, payload) {
+  if (!is.list(identity) ||
+      !identical(identity$contract_id, "mv05d1_sct_cell_fold_identity_v1") ||
+      !grepl("^mv05d1_sct_cell_fold_v1:[0-9a-f]{64}$", identity$cache_key)) {
+    stop("identity is not a valid MV5-D1 cell-fold identity.", call. = FALSE)
+  }
+  record <- structure(
+    list(
+      contract_id = "mv05d1_sct_cell_fold_cache_v1",
+      identity = identity, payload = payload,
+      payload_sha256 = digest::digest(payload, algo = "sha256", serialize = TRUE),
+      cache_key = identity$cache_key, outcome_label_state = "closed",
+      biological_outcomes_computed = FALSE
+    ),
+    class = "scph_mv05d1_sct_cell_fold_cache_v1"
+  )
+  mv05d1_validate_cell_fold_record_v1(record)
+  record
+}
+
+mv05d1_validate_cell_fold_record_v1 <- function(record) {
+  if (!inherits(record, "scph_mv05d1_sct_cell_fold_cache_v1") ||
+      !is.list(record) ||
+      !identical(record$contract_id, "mv05d1_sct_cell_fold_cache_v1") ||
+      !identical(record$outcome_label_state, "closed") ||
+      !identical(record$biological_outcomes_computed, FALSE) ||
+      !identical(record$cache_key, record$identity$cache_key) ||
+      !identical(record$payload_sha256,
+                 digest::digest(record$payload, algo = "sha256", serialize = TRUE))) {
+    stop("MV5-D1 cell-fold cache payload or label boundary is stale.",
+         call. = FALSE)
+  }
+  identity <- record$identity
+  expected <- mv05d1_cell_fold_identity_v1(
+    identity$fold_id, identity$fit_scope_id, identity$held_out_study,
+    identity$seed, identity$training_ids, identity$query_ids,
+    identity$normalization_cache_keys, identity$candidate_manifest_sha256,
+    identity$fold_plan_sha256, identity$implementation_sha256,
+    identity$runtime, identity$panel_size, identity$n_components
+  )
+  payload <- record$payload
+  views <- payload$cell_views
+  required_payload <- c(
+    "contract_id", "panel", "center", "scale", "standardization_id",
+    "pca_model", "cell_views", "missing_feature_counts",
+    "downstream_execution"
+  )
+  forbidden <- c(
+    "gene_views", "cell_diagrams", "gene_diagrams", "landscapes",
+    "distances", "clustering", "integration", "outcomes"
+  )
+  fail <- function(detail) stop(
+    "MV5-D1 cell-fold payload violates the frozen contract: ", detail, ".",
+    call. = FALSE
+  )
+  if (!identical(expected, identity)) fail("identity recomputation")
+  if (!is.list(payload) || !all(required_payload %in% names(payload))) {
+    fail("required payload fields")
+  }
+  if (any(forbidden %in% names(payload))) fail("prohibited downstream fields")
+  if (!identical(payload$contract_id, "mv05d1_sct_cell_fold_payload_v1")) {
+    fail("payload contract ID")
+  }
+  if (!is.data.frame(payload$panel) || nrow(payload$panel) != identity$panel_size) {
+    fail("feature panel")
+  }
+  if (length(payload$center) != identity$panel_size ||
+      length(payload$scale) != identity$panel_size) {
+    fail("standardization parameters")
+  }
+  if (!is.integer(payload$missing_feature_counts) ||
+      !identical(sort(names(payload$missing_feature_counts), method = "radix"),
+                 sort(c(identity$training_ids, identity$query_ids), method = "radix")) ||
+      any(payload$missing_feature_counts < 0L) ||
+      any(payload$missing_feature_counts[identity$training_ids] != 0L)) {
+    fail("held-out missing-feature mapping")
+  }
+  if (!is.list(views) ||
+      !identical(sort(names(views), method = "radix"),
+                 sort(c(identity$training_ids, identity$query_ids), method = "radix"))) {
+    fail("cell-view sample axis")
+  }
+  if (!inherits(payload$pca_model, "scph_cell_pca_model_v1")) {
+    fail("PCA model class")
+  }
+  if (!identical(unname(payload$pca_model$fit_sample_ids),
+                 unname(identity$training_ids))) {
+    fail("PCA training sample axis")
+  }
+  if (payload$pca_model$n_components != identity$n_components) {
+    fail("PCA component count")
+  }
+  if (!identical(payload$pca_model$fit_scope_id, identity$fit_scope_id)) {
+    fail("PCA fit scope")
+  }
+  .validate_cell_pca_model(payload$pca_model)
+  invisible(lapply(views, function(view) {
+    validate_topology_view(view)
+    if (!identical(view$view_id, "cell_topology_v1") ||
+        !identical(view$fit_scope_id, identity$fit_scope_id) ||
+        view$subsample_seed != identity$seed ||
+        nrow(view$payload) != 384L ||
+        ncol(view$payload) != identity$n_components ||
+        !identical(view$transformations$coordinate_fit_cache_key,
+                   payload$pca_model$cache_key)) {
+      stop("An MV5-D1 cell view violates the fold identity.", call. = FALSE)
+    }
+    TRUE
+  }))
+  downstream <- payload$downstream_execution
+  required_zero <- c(
+    "ph_jobs", "landscape_jobs", "distance_jobs", "clustering_jobs",
+    "integration_jobs", "gene_view_jobs", "biological_outcome_jobs"
+  )
+  if (!is.list(downstream) || !all(required_zero %in% names(downstream)) ||
+      any(unlist(downstream[required_zero], use.names = FALSE) != 0)) {
+    stop("MV5-D1 cache crossed the required downstream stop boundary.",
+         call. = FALSE)
+  }
+  invisible(record)
+}
+
+mv05d1_build_cell_fold_record_v1 <- function(records, identity,
+                                              cohort = "mv05_candidate_v1") {
+  if (!is.list(records) || is.null(names(records)) ||
+      anyDuplicated(names(records)) ||
+      !identical(sort(names(records), method = "radix"),
+                 names(identity$normalization_cache_keys))) {
+    stop("MV5-D1 requires the exact named normalization-cache set.",
+         call. = FALSE)
+  }
+  records <- records[names(identity$normalization_cache_keys)]
+  invisible(lapply(records, mv05d0_validate_normalization_cache_record_v2))
+  observed_keys <- vapply(records, `[[`, character(1L), "cache_key")
+  if (!identical(observed_keys, identity$normalization_cache_keys) ||
+      any(vapply(records, function(record) {
+        record$identity$seed != identity$seed
+      }, logical(1L)))) {
+    stop("MV5-D1 normalization caches differ from the frozen identity.",
+         call. = FALSE)
+  }
+  matrices <- lapply(records, mv05d0_sct_matrix_from_cache_v1)
+  panel <- mv05c2_select_training_panel_v1(
+    matrices, identity$training_ids, panel_size = identity$panel_size
+  )
+  prepared <- mv05d1_prepare_cell_sources_v1(
+    matrices, panel, identity$training_ids, identity$fold_id,
+    identity$fit_scope_id, identity$seed, identity$normalization_cache_keys,
+    cohort = cohort
+  )
+  pca_model <- fit_cell_topology_pca(
+    prepared$training_sources, n_components = identity$n_components,
+    pca_seed = identity$seed
+  )
+  views <- lapply(prepared$cell_sources, function(source) {
+    coordinates <- t(source$matrix) %*% pca_model$rotation
+    construct_frozen_cell_topology_view(
+      source, coordinates, identity$coordinate_contract_id,
+      pca_model$cache_key
+    )
+  })
+  payload <- list(
+    contract_id = "mv05d1_sct_cell_fold_payload_v1",
+    panel = panel, center = prepared$center, scale = prepared$scale,
+    standardization_id = prepared$standardization_id,
+    pca_model = pca_model, cell_views = views,
+    missing_feature_counts = prepared$missing_feature_counts,
+    downstream_execution = list(
+      ph_jobs = 0L, landscape_jobs = 0L, distance_jobs = 0L,
+      clustering_jobs = 0L, integration_jobs = 0L, gene_view_jobs = 0L,
+      biological_outcome_jobs = 0L
+    )
+  )
+  mv05d1_new_cell_fold_record_v1(identity, payload)
+}
+
+mv05d1_cell_fold_cache_disposition_v1 <- function(path, expected_cache_key) {
+  path <- .mv05c2_string(path, "path")
+  expected_cache_key <- .mv05c2_string(expected_cache_key, "expected_cache_key")
+  if (!file.exists(path)) return("build_missing")
+  record <- tryCatch(readRDS(path), error = identity)
+  if (inherits(record, "error")) {
+    stop("Existing MV5-D1 fold cache is unreadable; refusing overwrite.",
+         call. = FALSE)
+  }
+  mv05d1_validate_cell_fold_record_v1(record)
+  if (!identical(record$cache_key, expected_cache_key)) {
+    stop("Existing MV5-D1 fold cache has a stale identity; refusing overwrite.",
+         call. = FALSE)
+  }
+  "reuse_validated"
+}
+
+mv05d1_validate_resource_metrics_v1 <- function(
+    metrics, expected_entries = 75L, elapsed_cap_seconds = 1800,
+    rss_cap_bytes = 8 * 1024^3, storage_cap_bytes = 40 * 1000^3) {
+  required <- c(
+    "fold_id", "seed", "disposition", "elapsed_seconds",
+    "peak_process_tree_rss_bytes", "private_cache_size_bytes",
+    "outcome_label_state", "biological_outcomes_computed",
+    "ph_jobs_executed", "landscape_jobs_executed",
+    "distance_jobs_executed", "clustering_jobs_executed",
+    "integration_jobs_executed", "gene_view_jobs_executed"
+  )
+  zero_fields <- c(
+    "ph_jobs_executed", "landscape_jobs_executed",
+    "distance_jobs_executed", "clustering_jobs_executed",
+    "integration_jobs_executed", "gene_view_jobs_executed"
+  )
+  if (!is.data.frame(metrics) || !all(required %in% names(metrics)) ||
+      nrow(metrics) != as.integer(expected_entries) ||
+      anyDuplicated(paste(metrics$fold_id, metrics$seed, sep = "\r")) ||
+      any(!metrics$disposition %in% c("built_atomic", "reuse_validated")) ||
+      any(metrics$elapsed_seconds > elapsed_cap_seconds) ||
+      any(metrics$peak_process_tree_rss_bytes > rss_cap_bytes) ||
+      sum(metrics$private_cache_size_bytes) > storage_cap_bytes ||
+      any(metrics$outcome_label_state != "closed") ||
+      any(as.logical(metrics$biological_outcomes_computed)) ||
+      any(as.matrix(metrics[zero_fields]) != 0)) {
+    stop("MV5-D1 fold metrics violate completion, scope, or resource gates.",
+         call. = FALSE)
+  }
+  invisible(metrics)
+}
+
+mv05d1_reproject_scenarios_v1 <- function(previous, actual_fold_hours) {
+  actual_fold_hours <- as.numeric(actual_fold_hours)
+  if (!is.data.frame(previous) ||
+      !all(c("scenario", "cached_sct_fold_worker_hours",
+             "projected_lower_bound_worker_hours", "disposition",
+             "outcome_label_state", "biological_outcomes_computed") %in%
+           names(previous)) ||
+      length(actual_fold_hours) != 1L || !is.finite(actual_fold_hours) ||
+      actual_fold_hours <= 0 || any(previous$outcome_label_state != "closed") ||
+      any(as.logical(previous$biological_outcomes_computed))) {
+    stop("Previous projection or actual fold time is invalid.", call. = FALSE)
+  }
+  result <- previous
+  resource_safe <- startsWith(result$scenario, "resource_safe_")
+  result$cached_sct_fold_worker_hours[resource_safe] <- actual_fold_hours
+  for (index in which(resource_safe)) {
+    components <- as.numeric(result[index, c(
+      "normalization_worker_hours", "cached_sct_fold_worker_hours",
+      "landscape_worker_hours", "integrated_reference_mapping_worker_hours"
+    )])
+    result$projected_lower_bound_worker_hours[[index]] <- sum(
+      components, na.rm = TRUE
+    )
+    result$cap_passes[[index]] <-
+      result$projected_lower_bound_worker_hours[[index]] <=
+      result$planning_cap_with_10_percent_reserve_hours[[index]]
+  }
+  result$contract_id <- "mv05d1_post_fold_resource_projection_v1"
+  result$disposition[result$scenario == "resource_safe_sct_cell_primary"] <-
+    "future_label_closed_cell_ph_stage_feasible_after_owner_review"
+  result$disposition[result$scenario == "resource_safe_sct_cell_gene"] <-
+    "deferred_gene_eligibility_and_scope_not_authorized"
+  result$disposition[result$scenario ==
+    "resource_safe_all_planned_views_lower_bound"] <-
+    "prohibited_integrated_mapping_unmeasured_and_scope_not_authorized"
+  result
 }
 
 mv05c2_prepare_sources_v1 <- function(

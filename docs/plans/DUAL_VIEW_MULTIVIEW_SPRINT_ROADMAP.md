@@ -4,7 +4,7 @@
 
 | Field | Value |
 |---|---|
-| Status | MV5-D0 stage 1 complete: 90 raw shards, 450 deterministic selections, 450 validated v2 SCT caches, and post-cache reprojection; downstream MV5-D and G-MV5 remain open |
+| Status | MV5-D1 complete: 75 independently validated label-closed SCT cell-fold caches and 6,750 typed coordinate views; production PH and G-MV5 remain open |
 | Date | 2026-08-05 |
 | Scope | Existing scPHcompare data; cell topology, gene topology, topological distances, clustering, and multiview fusion |
 | Primary scientific view | Cell topology |
@@ -102,7 +102,7 @@ An exploratory method enters the confirmatory set only through a recorded decisi
 | MV-02 | Implement orientation-safe view constructors and fixtures | MV-01 | G-MV2: contracts enforced by tests | `complete` — technical gate; no biological activation |
 | MV-03 | Generate corrected pilot H0/H1 diagrams and establish feasibility | MV-02 | G-MV3: eligible diagrams exist | `complete` — 132 eligible jobs; technical gate only |
 | MV-04 | Validate topological distances and production calculation | MV-03 | G-MV4: sample-distance matrices are correct and feasible | `complete` — immutable primary matrices; bounded sensitivity exclusions |
-| MV-05 | Compare clustering and matched non-topological baselines | MV-04; frozen statistical plan | G-MV5: fair single-view benchmark | `in_progress` — immutable folds, baseline fixtures, and synthetic inductive mapping pass; biological execution not started |
+| MV-05 | Compare clustering and matched non-topological baselines | MV-04; frozen statistical plan | G-MV5: fair single-view benchmark | `in_progress` — SCT cell retrieval predictions and matched baselines are immutable; label opening and endpoint evaluation next |
 | MV-06 | Test transparent multiview fusion and complementarity | MV-05 | G-MV6: fusion adds stable information or is rejected | `not_started` |
 | MV-07 | Robustness synthesis and full-run decision | MV-06 | G-MV7: freeze, revise, or stop before full rerun | `not_started` |
 
@@ -331,6 +331,70 @@ SCT cell-primary lower bound is 10.525 hours. Execution stopped before folds,
 PH, landscapes, distances, clustering, integration, or outcomes, so G-MV5
 remains open.
 
+MV5-D1 completed on 2026-08-07 with outcomes still closed. Feature selection,
+standardization, and PCA are strictly training-derived in each LOSO fold.
+Held-out absent selected features are mapped to the training mean (zero after
+z-scoring), which is constant across cells and cannot alter within-sample
+pairwise distances. Seventy-five fold-seed caches and 6,750 typed cell views
+independently validate with zero failures at 2.376 worker-hours, 1.95 GiB peak
+RSS, and 0.895 GB storage. The 8.510-hour SCT cell-primary value is only a
+known-components lower bound because production cell PH remains unmeasured.
+No PH, landscape, distance, clustering, integration, gene-view, or outcome job
+ran, so G-MV5 remains open.
+
+MV5-D2 bounded cell-PH profiling completed on 2026-08-07 with outcomes still
+closed. Thirty deterministic views cover all 15 folds, all five seeds,
+held-out/training roles, all nine folds with training-schema mapping, and six
+unmapped held-out controls. All full-view H0 diagrams equal their Euclidean MST
+oracles, five reruns are byte-identical, and ten reduced Ripserr/GUDHI H0/H1
+checks agree after explicit essential-H0 normalization. Full PH projects to
+6.752/7.135/10.187 worker-hours under median/P90/maximum assumptions; combined
+cell-primary totals are 15.262/15.645/18.697 hours, below the 21.6-hour planning
+cap. Full PH, landscapes, outcomes, and G-MV5 remain closed.
+
+MV5-D3 full cell-PH production completed on 2026-08-07 with outcomes still
+closed. All 75 fold-seed groups and 6,750 typed H0/H1 records independently
+validate; all 6,750 stored full-view MST checks and 75 fresh MST recomputations
+pass with zero recorded error. A separately executed 90-view group is object-
+and byte-identical, and immutable resume preserved the original records and
+checkpoint. Measured PH used 1.047 worker-hours, 273.1 MiB peak RSS, and
+196.3 MB storage. With the existing 3.572-hour landscape projection, the
+cell-primary total is 9.556 hours, leaving 12.044 hours below the planning cap.
+Landscapes, outcomes, and G-MV5 remain closed.
+
+MV5-D4 exact cell landscape distances completed on 2026-08-07 with outcomes
+still closed. The frozen query-to-training scope contains 35,350 biological
+pairs and 70,700 separate H0/H1 rows in 360 chunks. All 6,750 essential H0
+classes were excluded; every active level entered exact critical-pair segment
+integration. All rows, chunks, and groups independently validate, four complete
+eligible R-oracle checks pass within `1.42e-14`, and a fresh 850-row group has
+four byte-identical scientific files. A timing-embedded complete pass was
+rejected and replaced by timing-separated v3 with identical scientific fields
+for all 70,700 requests. Measured cell-primary precomputation is 7.150 hours,
+14.450 hours below the planning cap. Outcomes and G-MV5 remain closed.
+
+MV5-D5 label-closed cell retrieval-input assembly completed on 2026-08-08.
+The 75 immutable fold-seed bundles contain separate H0 and H1 rankings, a raw
+H0/H1 composite retained only as descriptive secondary output, the matched
+same-cell energy baseline, and the same-panel training-standardized pseudobulk
+context baseline. All 35,350 biological pairs and 176,750 method rows
+independently validate; 375/375 method groups complete with zero failures.
+Independent topology reproduction and 450 baseline oracle checks pass within
+`1.14e-13`; admission, resume, and public assembly are byte-stable. Because
+MV5-D4 contains no within-training topology pairs, no held-out-contaminated
+component scale was fitted and no 262,675-pair topology expansion was launched.
+Predictions are now immutable, but outcomes and G-MV5 remain closed.
+
+MV5-G full label-closed integrated-coordinate production completed on
+2026-08-09. All 75 fold-seed groups, 6,750 ordered coordinate views, and 450
+held-out mappings independently validate. One complete group repeated byte
+identically and the completed queue resumed with zero rebuilds. Measured
+coordinate production used 9.107 worker-hours, 3.077 GiB peak RSS, and 806.4 MB;
+the reserved total through integrated retrieval is 12.379 worker-hours and
+1.335 GB. A separate integrated cell-PH sprint is authorized, but no integrated
+PH, landscape, distance, outcome, clustering, gene-view, or fusion work ran, so
+G-MV5 remains open.
+
 - [ ] Both views use the same samples, splits, endpoints, and eligible clustering rules.
 - [ ] Baselines operate at the same sample-level unit.
 - [ ] No method is tuned preferentially using outcome labels.
@@ -443,7 +507,16 @@ Each sprint report must end with:
 
 ## 14. Immediate next action
 
-Review the completed MV5-D0 stage-1 gate. If approved, specify MV5-D1 as the
-label-closed SCT cell-primary fold stage using the frozen caches and existing
-query-to-training scope. Do not open outcomes or add gene topology, integration,
-complete-matrix clustering, or fusion to that authorization.
+MV5-G is complete. All 75 fixed-D1-panel label-closed integrated-coordinate
+groups passed independent validation, one complete group repeated byte
+identically, and a completed-queue resume rebuilt zero groups. Coordinate
+production measured 9.107 worker-hours, 806.4 MB, 3.077 GiB peak RSS, and
+790.95 seconds for the slowest group. The reserved total through retrieval is
+12.379 worker-hours and 1.335 GB, within all frozen caps.
+
+The immediate next action is a separately specified integrated cell-PH sprint:
+compute complete Euclidean Vietoris–Rips H0/H1 for the 6,750 accepted integrated
+cell views using the D3 record contract and correctness gates, validate and
+repeat the immutable output, then stop and reproject before landscapes. Do not
+run landscapes, distances, retrieval, outcomes, clustering, gene topology,
+fusion, new data, or manuscript claim promotion in that PH sprint.
