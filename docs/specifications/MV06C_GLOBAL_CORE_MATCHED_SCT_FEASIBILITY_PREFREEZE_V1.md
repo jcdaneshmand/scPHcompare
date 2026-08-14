@@ -114,7 +114,10 @@ An independent validator must not call the production panel selector. It must:
 - reject biological-label or private-value columns; and
 - confirm all prohibited execution counters remain zero.
 
-A clean run must reproduce every production output byte-for-byte.
+A clean run must reproduce every immutable scientific/decision output
+byte-for-byte. Measured elapsed time and RSS are written to a separate resource
+sidecar, excluded from scientific identities and the deterministic artifact
+manifest; both runs must independently pass the frozen resource caps.
 
 ## Decision rule and next boundary
 
