@@ -110,7 +110,11 @@ weight_summary <- stats::aggregate(
     minimum = min(value), median = stats::median(value), maximum = max(value)
   )
 )
-weight_values <- do.call(rbind, weight_summary$distance)
+weight_values <- weight_summary$distance
+if (!is.matrix(weight_values) || ncol(weight_values) != 3L) {
+  stop("Weight summary aggregation did not produce three frozen statistics.",
+       call. = FALSE)
+}
 weight_summary$minimum <- weight_values[, "minimum"]
 weight_summary$median <- weight_values[, "median"]
 weight_summary$maximum <- weight_values[, "maximum"]

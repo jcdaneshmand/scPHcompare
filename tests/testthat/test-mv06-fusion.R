@@ -90,6 +90,16 @@ test_that("MV6-A diagnostics retain the complete grid and components", {
     pairs$equal_weight_fusion,
     tolerance = 1e-15
   )
+
+  summary <- stats::aggregate(
+    distance ~ contract_id + stratum_id + weight_id + gene_weight + cell_weight,
+    data = weights,
+    FUN = function(value) c(
+      minimum = min(value), median = stats::median(value), maximum = max(value)
+    )
+  )
+  expect_true(is.matrix(summary$distance))
+  expect_identical(colnames(summary$distance), c("minimum", "median", "maximum"))
 })
 
 test_that("MV6-A refuses mismatched axes, incomplete weights, and degeneracy", {
