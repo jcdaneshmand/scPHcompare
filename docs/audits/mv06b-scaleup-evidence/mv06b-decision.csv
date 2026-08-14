@@ -1,0 +1,2 @@
+"contract_id","decision","complete_strict_representations","sct_incomplete_panel_views","sct_variance_unresolved_views","integrated_expression_undefined_views","ph_jobs_executed","landscape_jobs_executed","fusion_jobs_executed","biological_outcomes_computed","outcome_label_state","next_gate"
+"mv06b_scaleup_gate_decision_v1","stop_contract_revision_required",0,71,379,6750,0,0,0,FALSE,"closed","project_owner_selects_revised_gene_estimand_or_separate_view_disposition"

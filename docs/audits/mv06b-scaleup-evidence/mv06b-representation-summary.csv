@@ -1,0 +1,3 @@
+"contract_id","representation","groups","view_instances","training_views","query_views","exact_panel_views","incomplete_panel_views","missing_feature_instances","maximum_missing_features","affected_groups","variance_resolved_views","variance_unresolved_views","expression_undefined_views","strict_axis_complete","disposition"
+"mv06b_representation_structural_summary_v1","sct_fold",75,6750,6300,450,6679,71,111,4,31,6300,379,0,FALSE,"incomplete_query_panels_and_unresolved_query_variance"
+"mv06b_representation_structural_summary_v1","inductive_integration",75,6750,6300,450,6679,71,111,4,31,0,0,6750,FALSE,"accepted_artifacts_define_cell_coordinates_not_gene_expression"

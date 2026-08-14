@@ -1,0 +1,6 @@
+"contract_id","file","bytes","sha256"
+"mv06b_artifact_manifest_v1","mv06b-contract.csv",400,"e43e7e99e2f81b20c7e1e9d0985834229374f8fec457b058ce416ecd11b45ff3"
+"mv06b_artifact_manifest_v1","mv06b-group-inventory.csv",9301,"72917e668931c9d5693c1807ae92634c6aa5011488b98f426a3ca059059b72ff"
+"mv06b_artifact_manifest_v1","mv06b-representation-summary.csv",672,"d1cc8307235bea22e231d36ac85030264ed5cffd0d4d1a8cf7b0d694e2db6675"
+"mv06b_artifact_manifest_v1","mv06b-workload.csv",565,"8f674f73905113f863456692003c56629c3da9b4897a2843372bc0f32f5ed414"
+"mv06b_artifact_manifest_v1","mv06b-decision.csv",470,"3be3cb6932b6447e046a8c94b0833c97987332712dc512bf790d0d791eb1fa8e"

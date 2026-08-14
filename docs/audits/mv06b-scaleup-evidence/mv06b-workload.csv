@@ -1,0 +1,3 @@
+"contract_id","representation","view_instances","h0_h1_diagram_components","directed_query_training_pairs","dimension_pair_landscape_distances","training_fitted_component_scales","five_weight_fusion_pair_rows","runtime_projection_status"
+"mv06b_lower_bound_workload_inventory_v1","sct_fold",6750,13500,35350,70700,300,176750,"not_estimable_before_gene_contract_revision_and_bounded_profile"
+"mv06b_lower_bound_workload_inventory_v1","inductive_integration",6750,13500,35350,70700,300,176750,"not_estimable_before_gene_representation_definition_and_bounded_profile"
