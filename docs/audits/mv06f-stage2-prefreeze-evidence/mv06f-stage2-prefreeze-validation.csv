@@ -1,0 +1,7 @@
+"contract_id","category","passed","detail","outcome_label_state","biological_outcomes_computed"
+"mv06f_stage2_prefreeze_validation_v1","rebind_contract",TRUE,"queue/new implementation/Rust/resource roots validate","closed",FALSE
+"mv06f_stage2_prefreeze_validation_v1","parent_root",TRUE,"the accepted stage-one implementation root is preserved as parent","closed",FALSE
+"mv06f_stage2_prefreeze_validation_v1","stage2_axis",TRUE,"exactly the frozen remaining 74 groups retain execution order 2-75","closed",FALSE
+"mv06f_stage2_prefreeze_validation_v1","stage1_rebind_gate",TRUE,"stage two remains closed until remediated stage one passes","closed",FALSE
+"mv06f_stage2_prefreeze_validation_v1","serial_admission",TRUE,"one worker avoids unvalidated concurrency and retains live caps","closed",FALSE
+"mv06f_stage2_prefreeze_validation_v1","label_firewall",TRUE,"rebind and orchestration artifacts remain technical and label closed","closed",FALSE

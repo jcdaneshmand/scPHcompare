@@ -5,7 +5,7 @@
 | Field | Value |
 |---|---|
 | Status | Draft for owner and author-team review |
-| Version | 0.3.42 |
+| Version | 0.3.43 |
 | Created | 2026-08-03 |
 | Canonical repository | `jcdaneshmand/scPHcompare` |
 | Historical source repository | `jcdaneshmand/PH_ClusteringApp` |
@@ -578,7 +578,7 @@ Publish a durable, citable research artifact.
 ## WP-006 — Dual-view and multiview topology framework
 
 - **Phase:** 1, 4, 5, and 7
-- **Status:** MV6-F stage 1 passes its monitored maximum-group resource, clean-repeat, R/Persim oracle, and immutable-resume gates; the remaining 74 label-closed production groups are authorized before blocked fusion
+- **Status:** MV6-F stage-two rebind prefreeze passes after the P1 fixes changed the frozen implementation root; remediated stage one must reproduce the accepted scientific output before the remaining 74 groups can launch
 - **Scope:** Corrected cell topology, deliberately specified gene topology, H0/H1 landscapes and diagram distances, matched clustering/baselines, and staged cell/gene fusion.
 - **Scientific behavior change:** None until the MV-01 contract and subsequent implementation gates are approved.
 - **Acceptance:** Each view passes independent definition, correctness, eligibility, and feasibility gates before fusion; a frozen confirmatory configuration precedes any full biological rerun.
@@ -659,6 +659,7 @@ Publish a durable, citable research artifact.
 | D-055 | 2026-08-14 | Admit grouped Persim and the accepted Rust exact landscape kernel; prefer Rust only for explicit hash-verified private WSL production and retain grouped Persim as the canonical portable fallback | Both engines pass 20 R references, 180 cross-engine rows, 20 reverses, 40 self zeros, byte repeats, resume, and resource guards; maximum landscape projections are 42.814 h versus 0.873 h (49.015x) | MV6-E completes as `admit_both_with_rust_preferred_private`; authorize only a separately prefrozen MV6-F full matched source/PH/landscape production stage; public defaults, binary distribution, blocked fusion, outcomes, and G-MV6 remain closed |
 | D-056 | 2026-08-14 | Freeze the full matched dual-view production as 75 atomic fold-seed groups with streaming views, 13,500 typed PH jobs, 141,400 exact four-component Rust rows, no silent fallback, and staged admission | All input/Rust hashes pass; the queue independently reconstructs; 14 sources bind to one implementation root; 10/10 validations, 19/19 focused expectations, and 6/6 byte repeats pass with zero production | MV6-F prefreeze completes as `prefreeze_pass_stage1_only`; authorize only an externally monitored maximum-group run, repeat, oracles, and resume before the other 74 groups, blocked fusion, or outcomes |
 | D-057 | 2026-08-14 | Accept MV6-F maximum-group stage 1 and authorize only the remaining 74 frozen label-closed production groups under the unchanged atomic/resource/abort contract | Primary and repeat finish in 344.799/356.902 s at 3.045/3.107 GB peak process-tree RSS; 3/3 scientific artifacts repeat byte-identically; 5/5 resume identities remain unchanged; R and grouped Persim each pass 12/12 balanced cell/gene H0/H1 depth-stratified oracles with no level cap | MV6-F stage 1 completes as `pass_stage2_label_closed_only`; fusion, clustering, outcomes, public Rust adoption, release, and claims remain closed until stage 2 is complete and independently validated |
+| D-058 | 2026-08-14 | Rebind MV6-F to one remediated implementation root before stage two, because the accepted P1 integrity fixes changed two frozen dependencies and the runner correctly rejects mixed roots | The original queue/Rust identities remain fixed; a 23-file root `816186b9…a6584`, serial live-cap monitor, independent validator, 23/23 focused expectations, deterministic artifacts, and complete package-aware suite pass | Authorize only a remediated maximum-group reexecution, repeat, scientific equivalence, R/Persim oracle, and resume gate; the other 74 groups remain closed until that admission CSV passes |
 
 ## 9. Status dashboard
 
@@ -669,7 +670,7 @@ Publish a durable, citable research artifact.
 | 2. Reproducible baseline/repository health | Published main CI passes privacy, exact restore, package check, and installed realistic H0/H1 fixtures; clean-clone user route and complete policy review remain | G2 not evaluated |
 | 3. Literature/reference/figure audit | Initial literature sample only | G3 not evaluated |
 | 4. Redesign primary comparison | Prediction-locked retrieval, clustering, complete robustness panels, corrected matrices, and null/negative results have auditable evidence; author-level synthesis remains | G4 not evaluated |
-| 5. Expand methods | MV6-F maximum-group stage 1 passes resource, exact all-level landscape, repeat, R/Persim oracle, and resume gates; the remaining 74 label-closed groups are authorized next before blocked fusion | G5 not evaluated |
+| 5. Expand methods | MV6-F stage-two rebind is prospectively frozen after the P1 fixes changed the implementation root; remediated maximum-group equivalence is the only authorized execution before the remaining 74 groups | G5 not evaluated |
 | 6. Biological/practical validation | Not started | G6 not evaluated |
 | 7. Profile and optimize | Rust landscape kernel passed complete numerical equivalence and nonpublishing four-platform candidate CI; R remains canonical/default and distribution/adoption remains open | G7 not evaluated |
 | 8. Rewrite manuscript | Not started | G8 not evaluated |
@@ -679,6 +680,7 @@ Publish a durable, citable research artifact.
 
 | Version | Date | Summary |
 |---|---|---|
+| 0.3.43 | 2026-08-14 | Completed MV6-F stage-two rebind prefreeze: preserved the queue and Rust identities, bound the P1-remediated 23-file root, added a serial live-cap/checkpoint monitor and complete validator, passed deterministic/independent/focused/full-suite gates, and authorized only remediated stage-one equivalence |
 | 0.3.42 | 2026-08-14 | Completed MV6-F maximum-group stage 1: 180 dual-view PH records and 6,500 exact all-active-level landscape rows pass monitored caps, byte repeat, immutable resume, 12/12 R oracles, and 12/12 grouped-Persim oracles; authorized only the other 74 label-closed groups |
 | 0.3.41 | 2026-08-14 | Completed MV6-F production prefreeze: exact 75-group/13,500-PH/141,400-component queue, bound streaming atomic runner, Rust/input roots, ten fail-closed rules, 10/10 independent validations, 19/19 focused expectations, six byte-repeat files, and zero production before a stage-1-only gate |
 | 0.3.40 | 2026-08-14 | Completed MV6-E exact landscape acceleration admission: both grouped Persim and Rust pass R/cross-engine/invariant/determinism/resume/resource gates; Rust is preferred only for hash-verified private WSL production, reducing the maximum landscape projection to 0.873 worker-hours before a separate MV6-F production prefreeze |

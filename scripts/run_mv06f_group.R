@@ -43,7 +43,9 @@ mv06f_validate_queue_v1(queue)
 mv06f_validate_prefreeze_inputs_v1(candidate, folds, resources, panel_public)
 row <- queue[queue$group_id == group_id, , drop = FALSE]
 if (nrow(row) != 1L || nrow(contract) != 1L ||
-    contract$contract_id != "mv06f_production_prefreeze_v1" ||
+    !contract$contract_id %in% c(
+      "mv06f_production_prefreeze_v1", "mv06f_stage2_rebind_prefreeze_v1"
+    ) ||
     contract$queue_root_sha256 != mv06f_queue_root_v1(queue) ||
     !all(file.exists(sources$path)) ||
     !identical(tolower(unname(vapply(

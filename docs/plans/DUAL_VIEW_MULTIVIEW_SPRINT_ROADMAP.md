@@ -103,7 +103,7 @@ An exploratory method enters the confirmatory set only through a recorded decisi
 | MV-03 | Generate corrected pilot H0/H1 diagrams and establish feasibility | MV-02 | G-MV3: eligible diagrams exist | `complete` — 132 eligible jobs; technical gate only |
 | MV-04 | Validate topological distances and production calculation | MV-03 | G-MV4: sample-distance matrices are correct and feasible | `complete` — immutable primary matrices; bounded sensitivity exclusions |
 | MV-05 | Compare clustering and matched non-topological baselines | MV-04; frozen statistical plan | G-MV5: fair single-view benchmark | `completed` — MV5-S executes and independently validates the complete prediction-locked clustering outcome contract without method selection |
-| MV-06 | Test transparent multiview fusion and complementarity | MV-05 | G-MV6: fusion adds stable information or is rejected | `in_progress` — MV6-F maximum-group stage 1 passes resource, repeat, R/Persim oracle, and immutable-resume gates; the remaining 74 label-closed groups are authorized before blocked fusion |
+| MV-06 | Test transparent multiview fusion and complementarity | MV-05 | G-MV6: fusion adds stable information or is rejected | `in_progress` — MV6-F stage-two rebind is frozen after P1 remediation changed the implementation root; remediated maximum-group equivalence must pass before the remaining 74 groups |
 | MV-07 | Robustness synthesis and full-run decision | MV-06 | G-MV7: freeze, revise, or stop before full rerun | `not_started` — completed MV5 robustness panels are ready, but matched MV6-F production, blocked MV6 evaluation, and G-MV6 must precede dual-view synthesis |
 
 MV-01 through MV-04 are the immediate implementation sequence. MV-05 through MV-07 deliberately require valid upstream artifacts and a statistical plan.
@@ -464,7 +464,7 @@ Test whether cell and gene topology add complementary information rather than me
 
 If fusion does not reliably outperform the stronger component view, report the views separately. A negative fusion result does not invalidate either single-view analysis.
 
-### Current gate disposition (MV6-F stage 1)
+### Current gate disposition (MV6-F stage-two rebind prefreeze)
 
 MV6-E admits both exact all-active-level landscape candidates. Grouped Persim
 remains the portable canonical fallback; the accepted Rust library is preferred
@@ -473,14 +473,15 @@ canonical-R, cross-engine, reverse, self-zero, deterministic-repeat, resume,
 memory, and projected-time gates. The maximum landscape projections are 42.814
 worker-hours for grouped Persim and 0.873 worker-hours for Rust.
 
-MV6-F prospectively froze the complete matched global-core source, cell/gene
-PH, and landscape production stage with streaming, atomic artifacts, immutable
-resume, sampled R/Persim oracles, and zero outcome access. Its separately
-monitored 6,500-component maximum group now passes the clean repeat, resource,
-12/12 R-oracle, 12/12 grouped-Persim-oracle, and zero-rebuild resume gates. The
-remaining 74 frozen label-closed groups are authorized next. Blocked fusion,
-clustering, outcome access, and biological claims remain closed until complete
-stage-2 production and independent validation pass.
+MV6-F's maximum group passed its original resource, repeat, R/Persim oracle,
+and resume gates. The accepted post-merge P1 fixes then changed two members of
+the frozen implementation root, so mixed-root stage-two execution is now
+prohibited. A new 23-file remediated root and serial live-cap/checkpoint monitor
+are prospectively frozen. The immediate authorized action is to rerun the same
+maximum group under that root and prove exact scientific equivalence, clean
+repeat, R/Persim agreement, and immutable resume. The remaining 74 groups,
+blocked fusion, clustering, outcome access, and biological claims remain closed
+until the resulting admission gate passes.
 
 ## 11. MV-07 — Robustness synthesis and full-run decision
 
