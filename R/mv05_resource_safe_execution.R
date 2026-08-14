@@ -352,6 +352,47 @@ mv05d0_validate_resource_metrics_v1 <- function(
   invisible(metrics)
 }
 
+mv05d0_enforce_live_process_caps_v1 <- function(
+    process, elapsed_seconds, current_rss_bytes, peak_rss_bytes = 0,
+    elapsed_cap_seconds = 1800, rss_cap_bytes = 8 * 1024^3) {
+  values <- c(
+    elapsed_seconds = elapsed_seconds,
+    current_rss_bytes = current_rss_bytes,
+    peak_rss_bytes = peak_rss_bytes,
+    elapsed_cap_seconds = elapsed_cap_seconds,
+    rss_cap_bytes = rss_cap_bytes
+  )
+  if (any(lengths(list(
+    elapsed_seconds, current_rss_bytes, peak_rss_bytes,
+    elapsed_cap_seconds, rss_cap_bytes
+  )) != 1L) || any(!is.finite(values)) ||
+      any(values[c("elapsed_seconds", "current_rss_bytes", "peak_rss_bytes")] < 0) ||
+      any(values[c("elapsed_cap_seconds", "rss_cap_bytes")] <= 0) ||
+      !is.function(process$is_alive) || !is.function(process$kill_tree)) {
+    stop("Live process-cap inputs are invalid.", call. = FALSE)
+  }
+  peak_rss_bytes <- max(peak_rss_bytes, current_rss_bytes)
+  disposition <- NA_character_
+  if (elapsed_seconds > elapsed_cap_seconds) {
+    disposition <- "elapsed_cap_exceeded"
+  }
+  if (peak_rss_bytes > rss_cap_bytes) {
+    disposition <- "rss_cap_exceeded"
+  }
+  kill_requested <- FALSE
+  if (!is.na(disposition) && isTRUE(process$is_alive())) {
+    kill_requested <- tryCatch({
+      process$kill_tree()
+      TRUE
+    }, error = function(e) FALSE)
+  }
+  list(
+    peak_rss_bytes = peak_rss_bytes,
+    disposition = disposition,
+    kill_requested = kill_requested
+  )
+}
+
 mv05d0_count_matrix_sha256_v1 <- function(counts) {
   if ((!is.matrix(counts) && !inherits(counts, "Matrix")) ||
       is.null(rownames(counts)) || is.null(colnames(counts)) ||

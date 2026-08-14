@@ -13,7 +13,8 @@ mv02_matrix <- function() {
 }
 
 mv02_source <- function(x = mv02_matrix(), sample_id = "sample_a",
-                        seed = 20260805L) {
+                        seed = 20260805L,
+                        standardization_id = "fixture_standardization_v1") {
   new_dual_view_source(
     x = x,
     sample_id = sample_id,
@@ -21,7 +22,7 @@ mv02_source <- function(x = mv02_matrix(), sample_id = "sample_a",
     representation = "sct_whole",
     fit_scope_id = "fixture_fit_scope",
     subsample_seed = seed,
-    standardization_id = "fixture_standardization_v1",
+    standardization_id = standardization_id,
     contract_profile = "analytical_fixture",
     expected_genes = 4L,
     expected_cells = 5L,
@@ -118,6 +119,28 @@ test_that("source and PCA identities are deterministic and tamper-evident", {
   expect_error(
     construct_cell_topology_view(source_a, changed_axis),
     "cache identity is stale"
+  )
+})
+
+test_that("shared PCA requires one immutable standardization identity", {
+  source_a <- mv02_source(sample_id = "sample_a")
+  source_b <- mv02_source(
+    x = mv02_matrix() + c(0, 0.1, 0.2, 0.3),
+    sample_id = "sample_b",
+    standardization_id = "different_standardization_v1"
+  )
+  expect_error(
+    fit_cell_topology_pca(list(source_a, source_b)),
+    "share standardization_id"
+  )
+
+  model <- fit_cell_topology_pca(list(source_a))
+  differently_standardized <- mv02_source(
+    standardization_id = "different_standardization_v1"
+  )
+  expect_error(
+    construct_cell_topology_view(differently_standardized, model),
+    "incompatible with the shared PCA"
   )
 })
 
@@ -272,6 +295,13 @@ test_that("payload, metric, and axis tampering fail before PH", {
   changed_axis <- gene
   changed_axis$point_axis_role <- "cells"
   expect_error(validate_topology_view(changed_axis), "payload is inconsistent")
+
+  forged_eligibility <- gene
+  forged_eligibility$scientific_eligible <- TRUE
+  expect_error(
+    validate_topology_view(forged_eligibility),
+    "scientific eligibility disagrees"
+  )
 })
 
 test_that("legacy and corrected routes are visibly separate", {

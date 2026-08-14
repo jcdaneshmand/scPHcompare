@@ -94,6 +94,37 @@ write_provenance_csv <- function(x, path) {
   invisible(path)
 }
 
+verify_frozen_file_identity <- function(path, expected_size_bytes,
+                                        expected_sha256,
+                                        label = "Frozen file") {
+  path <- normalizePath(path, winslash = "/", mustWork = TRUE)
+  expected_size_bytes <- suppressWarnings(as.numeric(expected_size_bytes))
+  expected_sha256 <- tolower(as.character(expected_sha256))
+  if (length(expected_size_bytes) != 1L || !is.finite(expected_size_bytes) ||
+      expected_size_bytes < 0 || length(expected_sha256) != 1L ||
+      is.na(expected_sha256) ||
+      !grepl("^[0-9a-f]{64}$", expected_sha256)) {
+    stop(label, " has an invalid frozen size or SHA-256 identity.",
+         call. = FALSE)
+  }
+  actual_size_bytes <- unname(file.info(path)$size)
+  if (!identical(as.numeric(actual_size_bytes), expected_size_bytes)) {
+    stop(label, " size does not match its frozen identity.", call. = FALSE)
+  }
+  actual_sha256 <- digest::digest(
+    file = path, algo = "sha256", serialize = FALSE
+  )
+  if (!identical(actual_sha256, expected_sha256)) {
+    stop(label, " SHA-256 does not match its frozen identity.",
+         call. = FALSE)
+  }
+  invisible(list(
+    path = path,
+    size_bytes = actual_size_bytes,
+    sha256 = actual_sha256
+  ))
+}
+
 append_ph_attempts <- function(attempts, path) {
   if (is.null(attempts) || nrow(attempts) == 0L) {
     return(invisible(path))
