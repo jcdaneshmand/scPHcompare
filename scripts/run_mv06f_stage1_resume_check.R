@@ -43,7 +43,7 @@ snapshot <- function() data.frame(
 )
 before <- snapshot()
 status <- system2(Sys.which("Rscript"), c(
-  "--vanilla", "scripts/run_mv06f_group.R", args[1:11]
+  "--vanilla", "scripts/run_mv06f_group.R", shQuote(args[1:11])
 ))
 after <- snapshot()
 mv06f_validate_group_directory_v1(

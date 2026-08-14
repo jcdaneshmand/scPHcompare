@@ -14,7 +14,7 @@
 "mv06f_stage2_source_inventory_v1","scripts/run_mv06f_stage1_monitor.R",6544,"9bcd7a3cd4462683a151e224e1f994c088bc411b04cc8ff2f04100c5fb36f8a0","stage1_monitor","closed",FALSE
 "mv06f_stage2_source_inventory_v1","scripts/validate_mv06f_stage1_r_oracles.R",8877,"821e3076a8919bea315536e0a712a84bbea1e9c21bb5a31185e83f6e895e9d86","canonical_r_oracle","closed",FALSE
 "mv06f_stage2_source_inventory_v1","scripts/validate_mv06f_stage1_persim.py",4134,"1eb8d5b50147b9e166925ba4f96438cafb95bc5d103f4d3dc1800956b361983f","portable_persim_oracle","closed",FALSE
-"mv06f_stage2_source_inventory_v1","scripts/run_mv06f_stage1_resume_check.R",3077,"af4b0f3682381e45cb072e9d6a20b2f041e3afd3d85ff4549936d4a22add4120","immutable_resume_checker","closed",FALSE
+"mv06f_stage2_source_inventory_v1","scripts/run_mv06f_stage1_resume_check.R",3086,"7645b6f8847cfb1ae40d60d3f0196affacf28ea8238ba0790b8d07e24a624c17","immutable_resume_checker","closed",FALSE
 "mv06f_stage2_source_inventory_v1","scripts/build_mv06f_stage2_rebind_prefreeze.R",6635,"749c771d53999662cddcc5c75ea73a031abf7aa1d83ca108f1c5557c6d980294","stage2_prefreeze_builder","closed",FALSE
 "mv06f_stage2_source_inventory_v1","scripts/validate_mv06f_stage2_prefreeze.R",2853,"8a19db1c6ef2e9215ad1de02fe4cc58a219e4829037465f04dbae6197720c980","independent_stage2_prefreeze_validator","closed",FALSE
 "mv06f_stage2_source_inventory_v1","scripts/validate_mv06f_stage2_rebind.R",5323,"37033d244933221e13137e535bea9b9734061bd326465cae9f9cfb0337fe153a","rebind_validator","closed",FALSE
