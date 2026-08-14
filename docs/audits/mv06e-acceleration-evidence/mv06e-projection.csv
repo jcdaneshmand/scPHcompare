@@ -1,0 +1,5 @@
+"contract_id","engine_id","run_id","diagram_dimension_build_seconds","component_pair_seconds","group_overhead_seconds","projected_diagram_dimensions","projected_component_pairs","projected_groups","projected_worker_hours","peak_process_rss_bytes","outcome_label_state","biological_outcomes_computed"
+"mv06e_landscape_production_projection_v1","persim_0.3.8_mv05d4_exact_critical_pairs_v1","A",4.22459521617493,0.239262581350017,21.9232017020113,27000,141400,75,41.5388999909073,981184512,"closed",FALSE
+"mv06e_landscape_production_projection_v1","persim_0.3.8_mv05d4_exact_critical_pairs_v1","B",4.36298068172546,0.251464412438832,10.3019062350213,27000,141400,75,42.8139414702958,982118400,"closed",FALSE
+"mv06e_landscape_production_projection_v1","rust_scph_landscape_kernel_v1","A",0,0.0192166666666667,0.796,27000,141400,75,0.771371296296296,199958528,"closed",FALSE
+"mv06e_landscape_production_projection_v1","rust_scph_landscape_kernel_v1","B",0,0.0218055555555556,0.817,27000,141400,75,0.873494598765432,199917568,"closed",FALSE

@@ -103,8 +103,8 @@ An exploratory method enters the confirmatory set only through a recorded decisi
 | MV-03 | Generate corrected pilot H0/H1 diagrams and establish feasibility | MV-02 | G-MV3: eligible diagrams exist | `complete` — 132 eligible jobs; technical gate only |
 | MV-04 | Validate topological distances and production calculation | MV-03 | G-MV4: sample-distance matrices are correct and feasible | `complete` — immutable primary matrices; bounded sensitivity exclusions |
 | MV-05 | Compare clustering and matched non-topological baselines | MV-04; frozen statistical plan | G-MV5: fair single-view benchmark | `completed` — MV5-S executes and independently validates the complete prediction-locked clustering outcome contract without method selection |
-| MV-06 | Test transparent multiview fusion and complementarity | MV-05 | G-MV6: fusion adds stable information or is rejected | `in_progress` — MV6-D validates matched global-core sources and cell/gene PH; production is held at a targeted batched landscape acceleration gate before the full rerun or fusion |
-| MV-07 | Robustness synthesis and full-run decision | MV-06 | G-MV7: freeze, revise, or stop before full rerun | `not_started` — completed MV5 robustness panels are ready, but MV6-E landscape admission, matched production, and G-MV6 must precede dual-view synthesis |
+| MV-06 | Test transparent multiview fusion and complementarity | MV-05 | G-MV6: fusion adds stable information or is rejected | `in_progress` — MV6-E admits exact grouped Persim and hash-verified private Rust landscape execution below cap; MV6-F full matched-production prefreeze is next before blocked fusion |
+| MV-07 | Robustness synthesis and full-run decision | MV-06 | G-MV7: freeze, revise, or stop before full rerun | `not_started` — completed MV5 robustness panels are ready, but matched MV6-F production, blocked MV6 evaluation, and G-MV6 must precede dual-view synthesis |
 
 MV-01 through MV-04 are the immediate implementation sequence. MV-05 through MV-07 deliberately require valid upstream artifacts and a statistical plan.
 
@@ -463,6 +463,20 @@ Test whether cell and gene topology add complementary information rather than me
 ### Stop condition
 
 If fusion does not reliably outperform the stronger component view, report the views separately. A negative fusion result does not invalidate either single-view analysis.
+
+### Current gate disposition (MV6-E)
+
+MV6-E admits both exact all-active-level landscape candidates. Grouped Persim
+remains the portable canonical fallback; the accepted Rust library is preferred
+only for explicit SHA-verified private WSL production. Both candidates passed
+canonical-R, cross-engine, reverse, self-zero, deterministic-repeat, resume,
+memory, and projected-time gates. The maximum landscape projections are 42.814
+worker-hours for grouped Persim and 0.873 worker-hours for Rust.
+
+The immediate next action is MV6-F: prospectively freeze the complete matched
+global-core source, cell/gene PH, and landscape production stage with streaming,
+atomic artifacts, immutable resume, sampled R/Persim oracles, and zero outcome
+access. Blocked fusion remains closed until that production corpus validates.
 
 ## 11. MV-07 — Robustness synthesis and full-run decision
 
