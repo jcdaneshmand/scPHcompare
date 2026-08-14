@@ -85,7 +85,7 @@ compare_frame <- function(observed, expected, keys, tolerance = 1e-12) {
                           as.character(expected[[name]])))
     }
   }
-  TRUE
+  invisible(TRUE)
 }
 
 sources <- read_output("mv06a-source-inventory.csv")

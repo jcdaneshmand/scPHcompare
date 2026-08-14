@@ -1,0 +1,13 @@
+"contract_id","stratum_id","axis_id","pair_count","pearson","spearman","mean_absolute_difference"
+"mv06a_label_closed_fusion_feasibility_v1","bone__integrated","H0",6,0.110116347131439,0.314285714285714,0.532900472723981
+"mv06a_label_closed_fusion_feasibility_v1","bone__integrated","H1",6,0.681512427041489,0.657142857142857,0.323107312542513
+"mv06a_label_closed_fusion_feasibility_v1","bone__integrated","composite",6,-0.293742058964475,0.0285714285714286,0.354188480280387
+"mv06a_label_closed_fusion_feasibility_v1","bone__sct_whole","H0",6,-0.634147392969387,-0.657142857142857,0.425869098830475
+"mv06a_label_closed_fusion_feasibility_v1","bone__sct_whole","H1",6,-0.185806284370151,-0.257142857142857,0.174623078960142
+"mv06a_label_closed_fusion_feasibility_v1","bone__sct_whole","composite",6,-0.582392363536269,-0.542857142857143,0.287294913515418
+"mv06a_label_closed_fusion_feasibility_v1","large__sct_whole","H0",45,0.0958068610111882,0.158893280632411,0.704114193067169
+"mv06a_label_closed_fusion_feasibility_v1","large__sct_whole","H1",45,-0.142034605920694,-0.0894598155467721,0.558975887477375
+"mv06a_label_closed_fusion_feasibility_v1","large__sct_whole","composite",45,0.00357839295659192,0.08866930171278,0.613419921363472
+"mv06a_label_closed_fusion_feasibility_v1","large__seurat_integration","H0",45,0.0549575817360943,-0.000263504611330698,0.7495409732771
+"mv06a_label_closed_fusion_feasibility_v1","large__seurat_integration","H1",45,0.0151101808731514,0.0513833992094862,0.559226789888503
+"mv06a_label_closed_fusion_feasibility_v1","large__seurat_integration","composite",45,-0.0261529197078637,-0.0472990777338603,0.621522498991288

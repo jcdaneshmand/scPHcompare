@@ -5,7 +5,7 @@
 | Field | Value |
 |---|---|
 | Status | Draft for owner and author-team review |
-| Version | 0.3.35 |
+| Version | 0.3.36 |
 | Created | 2026-08-03 |
 | Canonical repository | `jcdaneshmand/scPHcompare` |
 | Historical source repository | `jcdaneshmand/PH_ClusteringApp` |
@@ -652,6 +652,7 @@ Publish a durable, citable research artifact.
 | D-048 | 2026-08-10 | Accept complete label-closed training-distance production while preserving separate exact all-active-level H0/H1 landscapes, representation-specific energy, shared pseudobulk, immutable source/unit identities, and zero downstream clustering/outcomes | All 150 groups, 4,565 units, 1,838,725 values, and 525 matrix components pass; 12/12 exact R oracles, 66/66 frozen repeat outputs plus one supplemental pseudobulk output, and all 4,565 immutable resume units pass; observed work is `12.044379` h with `492163072` B maximum RSS and `4570070656` B private root. The 1.278-GB output-focused prefreeze estimate omitted complete group-local interval staging, but a disclosed `6.011`-GB reserve forecast and final observed storage remain below 10 GiB | MV5-P complete; authorize only a separately scoped label-closed clustering-artifact sprint under the frozen MV5-N contract, stopping again before labels, ARI/NMI, or any biological/technical outcome |
 | D-049 | 2026-08-14 | Accept published `main` at `d0192d35` as the canonical audited continuation baseline while preserving all nine publication branches and keeping releases, binaries, DOI actions, defaults, new calculations, and manuscript claims closed | PRs #111-#119 merged in the authorized order; exact final tree `188e24a7`; main R run `31768108363` passed in 22m19s; private/excluded-artifact guard passed | Publication merge technically complete; phase gates still require their own scientific/owner dispositions |
 | D-050 | 2026-08-14 | Begin MV-06 only as a bounded label-closed four-stratum fusion feasibility sprint; require a separate matched gene-view scale-up/resource gate before blocked evaluation | MV-04 supplies matched cell/gene H0/H1 matrices for two 10-sample and two 4-sample strata, while the 90-sample MV-05 benchmark lacks full gene-view matrices | MV6-A authorized; blocked outcomes, advanced fusion, new data, defaults, claims, and release actions remain closed |
+| D-051 | 2026-08-14 | Accept MV6-A as technical evidence that corrected cell/gene pilot geometries are nondegenerate and nonredundant enough to justify a prospective scale-up/resource gate, without claiming utility | All eight source hashes, 16 scales, 102 pairs, 510 weight rows, 12 correlations, 84 neighbor rows, 44 matrix hashes, 12 independent categories, and 11 byte-identical repeat files pass; 10-sample composite correlations are near zero with limited neighbor overlap | MV6-B resource/eligibility inventory authorized; full gene calculation, blocked outcomes, advanced fusion, defaults, claims, and release remain closed |
 
 ## 9. Status dashboard
 
@@ -662,7 +663,7 @@ Publish a durable, citable research artifact.
 | 2. Reproducible baseline/repository health | Published main CI passes privacy, exact restore, package check, and installed realistic H0/H1 fixtures; clean-clone user route and complete policy review remain | G2 not evaluated |
 | 3. Literature/reference/figure audit | Initial literature sample only | G3 not evaluated |
 | 4. Redesign primary comparison | Prediction-locked retrieval, clustering, complete robustness panels, corrected matrices, and null/negative results have auditable evidence; author-level synthesis remains | G4 not evaluated |
-| 5. Expand methods | Cell benchmark and dual-view pilot are validated; MV-06 four-stratum label-closed fusion feasibility is next, while blocked fusion needs a matched full gene-view gate | G5 not evaluated |
+| 5. Expand methods | MV6-A shows technically nonredundant matched cell/gene pilot geometry; MV6-B must establish a full matched gene-view/resource path before blocked fusion evaluation | G5 not evaluated |
 | 6. Biological/practical validation | Not started | G6 not evaluated |
 | 7. Profile and optimize | Rust landscape kernel passed complete numerical equivalence and nonpublishing four-platform candidate CI; R remains canonical/default and distribution/adoption remains open | G7 not evaluated |
 | 8. Rewrite manuscript | Not started | G8 not evaluated |
@@ -672,6 +673,7 @@ Publish a durable, citable research artifact.
 
 | Version | Date | Summary |
 |---|---|---|
+| 0.3.36 | 2026-08-14 | Completed MV6-A four-stratum label-closed fusion feasibility: all frozen sources/components/weights/neighbor diagnostics independently reconstruct and repeat byte-identically; low pilot redundancy justifies a separate scale-up/resource gate but no biological or blocked claim |
 | 0.3.35 | 2026-08-14 | Reconciled the audited P01-P09 publication merge and exact main CI, corrected phase-dashboard drift, preserved the dissertation-aligned landscape contract, and authorized only a four-stratum label-closed MV6 fusion feasibility sprint before any larger matched gene-view or blocked evaluation |
 | 0.3.34 | 2026-08-10 | Completed MV5-P label-closed distance production: 150 groups, 4,565 units, 1,838,725 values, 525 complete matrices, 12 exact R oracles, two 33-output maximum-group repeats, supplemental pseudobulk repeat, all-unit zero-rebuild resume, observed cap reconciliation, and explicit correction of the output-focused storage underestimate without fitting clusters or opening labels |
 | 0.3.33 | 2026-08-10 | Completed MV5-O production prefreeze: bound 18 sources and four production implementations; froze 150 groups and 4,565 resumable units; added corrected 1.278-GB storage accounting, atomic/resume/abort rules, 12-oracle and maximum-group repeat plans; passed independent/repeat and real landscape-runner fixtures without executing production or outcomes |

@@ -139,6 +139,8 @@ This is an append-only audit log. Correct an earlier entry with a new row; do no
 
 | 2026-08-12 | MV5-AX / P2-02 / P4-08 / P7-01 / P7-02 / P7-03 | Codex with project-owner authorization | Same branch; complete accepted MV-04 manifest; existing data only | MV5-AX specification/report and `mv05ax-*` evidence | Verified complete corpus; froze larger matrix scope and scheduling-only two-process adaptive speedup; retained Rust as later strict-equivalence candidate | 8 strata; 56 diagrams; 204 pairs; 114 exact-only; 90 adaptive-H1; projected 6.02 worker-hours/3.01 concurrent wall-hours | MV5-AX complete; authorize MV5-AY complete corrected-matrix production; partitions remain closed |
 
+| 2026-08-14 | MV6-A / P5-02 / P5-03 / P7-01 | Codex under project-owner continuation authorization | Published base `d0192d35`; prefreeze `b17b8f9`; engine `42a411c`; identity/serialization corrections `cd0006e`/`31f1d42`; eight frozen MV-04 bundles; labels/outcomes closed | MV6-A specification, fusion implementation/tests, deterministic runner, independent validator, audit, and `docs/audits/mv06a-feasibility-evidence/` | Constructed four separately normalized cell/gene H0/H1 components, complete five-weight convex fusion grid, correlations, contributions, and deterministic neighbor overlap without selecting a result | 4 strata; 16 scales; 102 pairs; 510 weight rows; 12 correlations; 84 neighbor rows; 44 matrix hashes; 12 validation categories; 11/11 repeat files byte-identical; biological values/outcomes/clusters 0 | MV6-A technical feasibility accepted; MV6-B matched gene-view scale-up/resource gate next; blocked outcomes and advanced fusion remain closed |
+
 ## Entry requirements
 
 - Use an ISO date.

@@ -1,0 +1,2 @@
+"contract_id","accepted_base","fit_scope_id","stratum_count","source_count","scale_count","unordered_pair_count","weight_row_count","correlation_count","neighbor_row_count","matrix_hash_count","biological_values_read","endpoint_rows_computed","clusterings_computed","advanced_fusion_computed"
+"mv06a_label_closed_fusion_feasibility_v1","d0192d35a4ab52006aa83b0ad3b0ad6a19f066cb","mv06a_descriptive_all_pilot_samples",4,8,16,102,510,12,84,44,0,0,0,0

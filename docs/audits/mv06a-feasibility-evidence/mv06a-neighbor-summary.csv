@@ -1,0 +1,13 @@
+"contract_id","stratum_id","axis_id","k","mean_overlap_count","mean_jaccard","exact_neighbor_set_fraction"
+"mv06a_label_closed_fusion_feasibility_v1","bone__integrated","composite",3,3,1,1
+"mv06a_label_closed_fusion_feasibility_v1","bone__sct_whole","composite",3,3,1,1
+"mv06a_label_closed_fusion_feasibility_v1","large__sct_whole","composite",3,1.5,0.38,0.1
+"mv06a_label_closed_fusion_feasibility_v1","large__seurat_integration","composite",3,1.1,0.28,0.1
+"mv06a_label_closed_fusion_feasibility_v1","bone__integrated","H0",3,3,1,1
+"mv06a_label_closed_fusion_feasibility_v1","bone__sct_whole","H0",3,3,1,1
+"mv06a_label_closed_fusion_feasibility_v1","large__sct_whole","H0",3,1.7,0.46,0.2
+"mv06a_label_closed_fusion_feasibility_v1","large__seurat_integration","H0",3,1,0.22,0
+"mv06a_label_closed_fusion_feasibility_v1","bone__integrated","H1",3,3,1,1
+"mv06a_label_closed_fusion_feasibility_v1","bone__sct_whole","H1",3,3,1,1
+"mv06a_label_closed_fusion_feasibility_v1","large__sct_whole","H1",3,1.2,0.27,0
+"mv06a_label_closed_fusion_feasibility_v1","large__seurat_integration","H1",3,1.5,0.36,0
