@@ -358,7 +358,10 @@ fit_cell_topology_pca <- function(sources, n_components = NULL,
   sources <- sources[canonical_order]
   sample_ids <- sample_ids[canonical_order]
   reference <- sources[[1L]]
-  comparable_fields <- c("cohort", "representation", "fit_scope_id", "subsample_seed")
+  comparable_fields <- c(
+    "cohort", "representation", "fit_scope_id", "subsample_seed",
+    "standardization_id"
+  )
   for (field in comparable_fields) {
     values <- vapply(sources, function(source) as.character(source[[field]]), character(1L))
     if (length(unique(values)) != 1L) {
@@ -399,6 +402,7 @@ fit_cell_topology_pca <- function(sources, n_components = NULL,
     object_type = "cell_pca_model",
     contract_version = .dual_view_contract_version,
     contract_profile = reference$contract$profile,
+    standardization_id = reference$standardization_id,
     source_cache_keys = vapply(sources, `[[`, character(1L), "cache_key"),
     sample_ids = sample_ids,
     genes = rownames(rotation),
@@ -417,6 +421,7 @@ fit_cell_topology_pca <- function(sources, n_components = NULL,
       representation = reference$representation,
       fit_scope_id = reference$fit_scope_id,
       subsample_seed = reference$subsample_seed,
+      standardization_id = reference$standardization_id,
       fit_sample_ids = sample_ids,
       source_cache_keys = vapply(sources, `[[`, character(1L), "cache_key"),
       gene_ids = rownames(rotation),
@@ -442,6 +447,7 @@ fit_cell_topology_pca <- function(sources, n_components = NULL,
     object_type = "cell_pca_model",
     contract_version = .dual_view_contract_version,
     contract_profile = pca_model$contract$profile,
+    standardization_id = pca_model$standardization_id,
     source_cache_keys = pca_model$source_cache_keys,
     sample_ids = pca_model$fit_sample_ids,
     genes = pca_model$gene_ids,
@@ -542,7 +548,8 @@ construct_cell_topology_view <- function(source, pca_model,
       !identical(source$cohort, pca_model$cohort) ||
       !identical(source$representation, pca_model$representation) ||
       !identical(source$fit_scope_id, pca_model$fit_scope_id) ||
-      !identical(source$subsample_seed, pca_model$subsample_seed)) {
+      !identical(source$subsample_seed, pca_model$subsample_seed) ||
+      !identical(source$standardization_id, pca_model$standardization_id)) {
     stop("source is incompatible with the shared PCA model.", call. = FALSE)
   }
   n_components <- if (is.null(n_components)) pca_model$n_components else {
@@ -702,8 +709,18 @@ validate_topology_view <- function(view) {
   }
   allowed <- c("cell_topology_v1", "gene_topology_v1")
   if (!(view$view_id %in% allowed) ||
-      !identical(view$contract_version, .dual_view_contract_version)) {
+      !identical(view$contract_version, .dual_view_contract_version) ||
+      !(view$contract_profile %in% c("scientific", "analytical_fixture"))) {
     stop("Unknown or incompatible topology-view contract.", call. = FALSE)
+  }
+  expected_scientific_eligible <- identical(
+    view$contract_profile, "scientific"
+  )
+  if (!identical(view$scientific_eligible, expected_scientific_eligible)) {
+    stop(
+      "Topology-view scientific eligibility disagrees with its contract profile.",
+      call. = FALSE
+    )
   }
   if (anyNA(view$point_ids) || any(!nzchar(view$point_ids)) ||
       anyDuplicated(view$point_ids)) {

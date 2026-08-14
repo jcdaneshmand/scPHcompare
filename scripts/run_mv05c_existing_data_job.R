@@ -70,6 +70,21 @@ if (!held_out_study %in% sample_manifest$study) {
   stop("Held-out study is absent from the closed sample manifest.", call. = FALSE)
 }
 
+source_preflight_path <- file.path(
+  dirname(audit_dir), "mv05c-source-preflight-2026-08-06.csv"
+)
+source_preflight <- utils::read.csv(
+  source_preflight_path, stringsAsFactors = FALSE, check.names = FALSE
+)
+if (nrow(source_preflight) != 1L) {
+  stop("Private cache does not match the frozen source preflight.")
+}
+cache_identity <- verify_frozen_file_identity(
+  cache_path,
+  source_preflight$private_cache_size_bytes[[1L]],
+  source_preflight$private_cache_sha256[[1L]],
+  label = "Private source cache"
+)
 cache_started <- proc.time()[["elapsed"]]
 cache <- readRDS(cache_path)
 cache_seconds <- proc.time()[["elapsed"]] - cache_started
@@ -78,19 +93,6 @@ if (!identical(cache$contract_id, "mv05c_existing_data_raw_cache_v1") ||
   stop("Private source cache and closed sample manifest disagree.", call. = FALSE)
 }
 raw_samples <- cache$samples
-source_preflight_path <- file.path(
-  dirname(audit_dir), "mv05c-source-preflight-2026-08-06.csv"
-)
-source_preflight <- utils::read.csv(
-  source_preflight_path, stringsAsFactors = FALSE, check.names = FALSE
-)
-if (nrow(source_preflight) != 1L ||
-    source_preflight$private_cache_size_bytes[[1L]] !=
-      unname(file.info(cache_path)$size) ||
-    !grepl("^[0-9a-f]{64}$",
-           source_preflight$private_cache_sha256[[1L]])) {
-  stop("Private cache does not match the frozen source preflight.")
-}
 selected_rows <- cell_manifest[cell_manifest$seed == seed, , drop = FALSE]
 selected_cells <- split(selected_rows$cell_id, selected_rows$sample_id)
 if (!identical(sort(names(selected_cells)), sort(sample_manifest$sample_id)) ||
@@ -273,7 +275,7 @@ bundle <- list(
   fold_id = fold_id, fit_scope_id = fit_scope_id,
   held_out_study = held_out_study, seed = seed,
   training_sample_ids = training_ids, held_out_sample_ids = query_ids,
-  source_cache_sha256 = source_preflight$private_cache_sha256[[1L]],
+  source_cache_sha256 = cache_identity$sha256,
   sample_manifest_sha256 = digest::digest(
     file = sample_manifest_path, algo = "sha256", serialize = FALSE
   ),
