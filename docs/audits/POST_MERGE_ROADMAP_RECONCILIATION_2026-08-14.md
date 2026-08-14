@@ -81,6 +81,23 @@ New data remains deferred. Similarity Network Fusion, learned kernels,
 label-selected weights, combined-primary landscapes, package-default changes,
 manuscript claims, and release actions remain closed.
 
+## MV6-F continuation update
+
+Subsequent MV6-A through MV6-E gates established a viable fixed global-core
+gene panel and admitted the exact Rust landscape kernel for private,
+hash-verified production. MV6-F then froze 75 dual-view groups and passed its
+maximum-group repeat, independent R/Persim oracle, immutable-resume, and
+remediated-root equivalence gates.
+
+The first remaining stage-two group stopped safely at the original 8-GiB
+per-group ceiling, then completed atomically at 9,575,215,104 B under the
+separately prefrozen 12-GiB diagnosis. Decision D-061 therefore authorizes a
+serial 12-GiB execution-policy amendment for the unchanged 74-row queue. The
+scientific implementation root, H0/H1 landscape definition, runner, inputs,
+Rust library, labels, and downstream scope do not change. Production must stop
+at the first policy or artifact failure; fusion remains closed until complete
+production, independent validation, and immutable resume pass.
+
 ## Gate disposition
 
 | Question | Disposition |
