@@ -25,6 +25,9 @@
 #'   and will import it automatically when valid paths are detected.
 #' @param pipeline_metrics_file Optional path for the stage-level runtime and
 #'   process-RSS CSV. Defaults to `pipeline_stage_metrics.csv` in `results_dir`.
+#' @param corrected_landscape_control Optional explicit v1 control for additive,
+#'   versioned corrected-landscape artifacts. `NULL` (default) performs no
+#'   corrected-landscape work and preserves historical workflow behavior.
 #' @param ... Additional arguments passed to the underlying processing
 #'   functions.
 #'
@@ -46,6 +49,7 @@ run_unified_pipeline <- function(metadata_path,
                                  run_cross_iteration = FALSE,
                                  custom_iteration_inputs = NULL,
                                  pipeline_metrics_file = NULL,
+                                 corrected_landscape_control = NULL,
                                  ...) {
   pipeline_started_at <- Sys.time()
   pipeline_rss_before <- current_process_rss()
@@ -75,22 +79,35 @@ run_unified_pipeline <- function(metadata_path,
   )
   ph_results <- processing_stage$value
   timings <- rbind(timings, processing_stage$timing)
-  if (run_cluster || run_betti || run_cross_iteration) {
+  if (run_cluster || run_betti || run_cross_iteration ||
+      !is.null(corrected_landscape_control)) {
+    postprocessing_args <- c(list(
+      ph_results = ph_results,
+      results_dir = results_dir,
+      num_cores = num_cores,
+      run_cluster = run_cluster,
+      run_betti = run_betti,
+      run_cross_iteration = run_cross_iteration,
+      metadata_path = metadata_path,
+      SRA_col = ph_results$SRA_col,
+      Tissue_col = ph_results$Tissue_col,
+      Approach_col = ph_results$Approach_col,
+      custom_iteration_inputs = custom_iteration_inputs,
+      corrected_landscape_control = corrected_landscape_control
+    ), list(...))
+    corrected_only <- !is.null(corrected_landscape_control) &&
+      !run_cluster && !run_betti && !run_cross_iteration
+    if (corrected_only) {
+      postprocessing_args[c(
+        "run_standard_seurat_clustering", "run_kmeans_clustering",
+        "run_hierarchical_ph_clustering", "run_spectral_clustering",
+        "run_visualizations", "run_sample_level_heatmap"
+      )] <- rep(list(FALSE), 6L)
+    }
     postprocessing_stage <- time_stage(
       "postprocessing",
       tryCatch(
-        run_postprocessing_pipeline(ph_results,
-                                    results_dir = results_dir,
-                                    num_cores = num_cores,
-                                    run_cluster = run_cluster,
-                                    run_betti = run_betti,
-                                    run_cross_iteration = run_cross_iteration,
-                                    metadata_path = metadata_path,
-                                    SRA_col = ph_results$SRA_col,
-                                    Tissue_col = ph_results$Tissue_col,
-                                    Approach_col = ph_results$Approach_col,
-                                    custom_iteration_inputs = custom_iteration_inputs,
-                                    ...),
+        do.call(run_postprocessing_pipeline, postprocessing_args),
         error = function(e) {
           stop(
             sprintf("Post-processing pipeline failed: %s", conditionMessage(e)),
@@ -100,6 +117,10 @@ run_unified_pipeline <- function(metadata_path,
       )
     )
     timings <- rbind(timings, postprocessing_stage$timing)
+    if (!is.null(corrected_landscape_control) &&
+        !is.null(postprocessing_stage$value)) {
+      ph_results <- postprocessing_stage$value
+    }
   }
   pipeline_finished_at <- Sys.time()
   timings <- rbind(

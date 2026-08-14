@@ -901,10 +901,34 @@ clustering is rejected because 525,350 required within-training pairs are
 absent. Ranks, labels, outcomes, selection, clustering, and nested 256 remain
 zero.
 
-## 29. Change history
+## 29. MV5-AH prediction-locked nested-192 outcome evidence
+
+**Prediction lock:** All 282,800 nested-192 ranking rows were constructed and
+independently reconstructed across 150 groups with all 188 sources valid, then
+committed at `1a197a8` before tissue access. Clean prediction repeats reproduce
+the complete gzip and all 150 private ranking payloads; all 300 private files
+remain unchanged through resume.
+
+**Complete results:** Tissue-only execution produced 7,200 endpoint rows and
+all 24 fixed estimands. The four primary topology-increment MRR changes are
+integrated H0/H1 -0.01080/-0.01115 and SCT H0/H1 +0.00131/-0.01366. All four
+intervals cross zero and all Holm p-values equal 1.0. This is no detected
+change, not equivalence or default evidence.
+
+**Validation and correction:** Fifteen independent outcome categories
+reconstruct endpoints, baseline pairing, all aggregation, bootstrap/sign
+matrices, nulls, p-values, Holm adjustment, and private hashes. A resume-only
+inference-file rewrite was corrected prospectively at `41bc7c7`; fresh accepted
+runs preserve the same scientific values, reproduce 17 deterministic public
+ledgers plus 150 private outcomes and inference matrices, and leave all 301
+private paths/hashes/sizes/timestamps unchanged through resume. Clustering and
+nested 256 remain closed.
+
+## 30. Change history
 
 | Version | Date | Summary |
 |---|---|---|
+| 0.3.32 | 2026-08-11 | Completed the prediction-locked nested-192 retrieval analysis: independently reconstructed and committed 282,800 ranks before tissue access; executed 7,200 endpoint rows and all 24 fixed estimands; found small primary topology-increment MRR changes with all intervals crossing zero and Holm p=1 without equivalence claims; passed 10 prediction and 15 outcome validation categories; audited a resume-only inference-file correction; reproduced rankings, 17 outcome ledgers, 300 private payloads and inference matrices; and preserved all 300 prediction plus 301 outcome files through immutable resumes while keeping clustering and nested 256 closed |
 | 0.3.31 | 2026-08-11 | Completed the nested-192 retrieval-outcome prefreeze: bound 188 sources, proved exact 384-source identity for all 150 groups and exact pairing of all eight 282,800-row method axes, froze 24 complete-reporting estimands and four primary tests before label access, rejected clustering for 525,350 missing within-training pairs, passed eight criteria plus 12 independent categories, and reproduced 16/16 ledgers byte-for-byte while keeping ranks, labels, outcomes and nested 256 closed |
 | 0.3.30 | 2026-08-11 | Completed the exact 150-group label-closed nested-192 calculation in 1.233 worker-hours; clarified and reconstructed the SHA-256 nested-cell order, proved all 13,500 192-within-256 selections, matched 2,578,500 H0 MST deaths plus 60 H1, 60 landscape and 30 energy oracles, validated all 282,800 method rows, reproduced 16 group and 11 validator artifacts byte-for-byte, and preserved all 1,650 paths/hashes/sizes/timestamps while keeping ranks, labels, outcomes, clustering and nested 256 closed |
 | 0.3.29 | 2026-08-11 | Completed the post-cosine selection-resistant continuation gate: bound both complete result panels without slicing, preserved nested 192 as canonical position three, excluded nine subgroup/result selection inputs, authorized exactly 150 later label-closed groups under six-admission/two-full-precedent resource evidence, passed 10 independent categories and 11 byte repeats, and kept calculation, rankings, labels, outcomes, clustering, and nested 256 closed |

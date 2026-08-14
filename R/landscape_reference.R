@@ -60,7 +60,7 @@ landscape_reference_breakpoints <- function(intervals) {
 }
 
 landscape_reference_exact_dimension <- function(first, second, dimension,
-                                                exact_max_intervals = 200L) {
+                                                exact_max_intervals = 500L) {
   a <- landscape_reference_intervals(first, dimension)
   b <- landscape_reference_intervals(second, dimension)
   largest <- max(nrow(a), nrow(b))
@@ -117,40 +117,91 @@ landscape_reference_exact_dimension <- function(first, second, dimension,
   )
 }
 
+landscape_reference_integrate_partition <- function(
+    integrand, lower, upper, subdivisions, rel_tol, abs_tol,
+    integrate_fn = stats::integrate, split_depth = 0L,
+    max_split_depth = 20L) {
+  result <- tryCatch(
+    integrate_fn(
+      integrand, lower = lower, upper = upper,
+      subdivisions = subdivisions, rel.tol = rel_tol,
+      abs.tol = max(.Machine$double.eps, abs_tol),
+      stop.on.error = TRUE
+    ),
+    error = identity
+  )
+  if (!inherits(result, "error")) {
+    result$fallback_splits <- 0L
+    return(result)
+  }
+  if (!grepl("extremely bad integrand behaviour", conditionMessage(result),
+             fixed = TRUE) || split_depth >= max_split_depth) {
+    stop(result)
+  }
+  midpoint <- lower + (upper - lower) / 2
+  if (!is.finite(midpoint) || midpoint <= lower || midpoint >= upper) {
+    stop(result)
+  }
+  left <- landscape_reference_integrate_partition(
+    integrand, lower, midpoint, subdivisions, rel_tol, abs_tol / 2,
+    integrate_fn, split_depth + 1L, max_split_depth
+  )
+  right <- landscape_reference_integrate_partition(
+    integrand, midpoint, upper, subdivisions, rel_tol, abs_tol / 2,
+    integrate_fn, split_depth + 1L, max_split_depth
+  )
+  list(
+    value = left$value + right$value,
+    abs.error = left$abs.error + right$abs.error,
+    subdivisions = left$subdivisions + right$subdivisions,
+    fallback_splits = 1L + left$fallback_splits + right$fallback_splits
+  )
+}
+
 landscape_reference_adaptive_pass <- function(first, second, breaks,
                                               abs_tol, rel_tol,
                                               subdivisions) {
   if (length(breaks) < 2L) {
-    return(list(value = 0, absolute.error = 0, evaluations = 0L))
+    return(list(
+      value = 0, absolute.error = 0, evaluations = 0L,
+      pilot_value = 0, global_error_budget = abs_tol,
+      local_absolute_tolerance = abs_tol
+    ))
   }
   widths <- diff(breaks)
-  total_width <- sum(widths)
+  partition_count <- length(widths)
+  integrand <- function(location) {
+    vapply(location, function(point) {
+      landscape_reference_difference_squared(first, second, point)
+    }, numeric(1))
+  }
+  # The midpoint pilot allocates one global error budget; it is not used as
+  # the answer or as certification. Equal allocation avoids demanding
+  # near-machine precision from short partitions containing unresolved
+  # landscape-order crossings. The summed QUADPACK errors and an independent
+  # quarter-tolerance pass still certify the returned global integral.
+  midpoints <- (breaks[-length(breaks)] + breaks[-1L]) / 2
+  pilot_value <- sum(widths * integrand(midpoints))
+  global_error_budget <- max(abs_tol, rel_tol * abs(pilot_value))
+  local_abs_tol <- global_error_budget / partition_count
   value <- 0
   absolute.error <- 0
   evaluations <- 0L
   for (index in seq_along(widths)) {
-    local_abs_tol <- max(.Machine$double.eps,
-                         abs_tol * widths[[index]] / total_width)
-    integrand <- function(location) {
-      vapply(location, function(point) {
-        landscape_reference_difference_squared(first, second, point)
-      }, numeric(1))
-    }
-    result <- stats::integrate(
-      integrand,
-      lower = breaks[[index]],
-      upper = breaks[[index + 1L]],
-      subdivisions = subdivisions,
-      rel.tol = rel_tol,
-      abs.tol = local_abs_tol,
-      stop.on.error = TRUE
+    result <- landscape_reference_integrate_partition(
+      integrand, breaks[[index]], breaks[[index + 1L]],
+      subdivisions, rel_tol, local_abs_tol
     )
     value <- value + result$value
     absolute.error <- absolute.error + result$abs.error
     evaluations <- evaluations + result$subdivisions
   }
-  list(value = value, absolute.error = absolute.error,
-       evaluations = evaluations)
+  list(
+    value = value, absolute.error = absolute.error,
+    evaluations = evaluations, pilot_value = pilot_value,
+    global_error_budget = global_error_budget,
+    local_absolute_tolerance = local_abs_tol
+  )
 }
 
 landscape_reference_adaptive_dimension <- function(
@@ -173,20 +224,31 @@ landscape_reference_adaptive_dimension <- function(
     a, b, breaks, abs_tol / 4, rel_tol / 4, subdivisions
   )
   refinement_delta <- abs(fine$value - coarse$value)
-  achieved <- max(fine$absolute.error, refinement_delta)
+  # Conservatively combine the fine-pass quadrature estimate with the
+  # independent coarse/fine refinement delta; taking only their maximum would
+  # understate the joint numerical uncertainty.
+  achieved <- fine$absolute.error + refinement_delta
   threshold <- max(abs_tol, rel_tol * abs(fine$value))
   list(
     distance = sqrt(max(0, fine$value)),
     squared_distance = max(0, fine$value),
-    method = "adaptive_quadpack_partitioned_v1",
+    method = "adaptive_quadpack_partitioned_v2",
     exact = FALSE,
     requested_absolute_tolerance = abs_tol,
     requested_relative_tolerance = rel_tol,
     achieved_absolute_error_estimate = achieved,
+    error_estimate_policy = "fine_quadrature_error_plus_refinement_delta_v2",
     refinement_delta = refinement_delta,
     within_requested_tolerance = achieved <= threshold,
     integration_nodes = length(breaks),
     integration_subdivisions = fine$evaluations,
+    tolerance_allocation = "global_midpoint_pilot_equal_partition_v2",
+    coarse_pilot_squared_distance = coarse$pilot_value,
+    fine_pilot_squared_distance = fine$pilot_value,
+    coarse_global_error_budget = coarse$global_error_budget,
+    fine_global_error_budget = fine$global_error_budget,
+    coarse_summed_quadrature_error = coarse$absolute.error,
+    fine_summed_quadrature_error = fine$absolute.error,
     first_finite_intervals = nrow(a),
     second_finite_intervals = nrow(b)
   )
@@ -197,7 +259,7 @@ landscape_reference_provenance <- function(first, second, method,
                                            abs_tol, rel_tol) {
   list(
     specification = "full_l2_error_controlled_v1",
-    engine_version = "landscape_reference_v1",
+    engine_version = "landscape_reference_v2",
     method_requested = method,
     exact_max_intervals = as.integer(exact_max_intervals),
     absolute_tolerance = abs_tol,
@@ -235,7 +297,7 @@ landscape_reference_provenance <- function(first, second, method,
 #' @keywords internal
 landscape_reference_distance <- function(
     first, second, method = c("auto", "exact", "adaptive"),
-    exact_max_intervals = 200L, abs_tol = 1e-8, rel_tol = 1e-8,
+    exact_max_intervals = 500L, abs_tol = 1e-8, rel_tol = 1e-8,
     subdivisions = 200L) {
   method <- match.arg(method)
   if (length(exact_max_intervals) != 1L || is.na(exact_max_intervals) ||
