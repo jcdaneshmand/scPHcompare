@@ -139,7 +139,7 @@ Both engines must pass:
 
 The benchmark projects:
 
-- 13,500 diagram/dimension constructions if no reuse exists, or 13,500 staged
+- 27,000 diagram/dimension constructions if no reuse exists, or 27,000 staged
   diagram/dimensions amortized within 75 groups when caching is supported; and
 - 141,400 component-distance rows (35,350 pairs × cell/gene × H0/H1).
 
