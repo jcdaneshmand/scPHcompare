@@ -1,0 +1,11 @@
+"contract_id","rule_order","rule_id","action","automatic_retry","outcome_label_state","biological_outcomes_computed"
+"mv06f_abort_rule_v1",1,"input_hash_drift","stop_new_launches_preserve_validated_groups",FALSE,"closed",FALSE
+"mv06f_abort_rule_v1",2,"implementation_or_rust_drift","stop_new_launches_preserve_validated_groups",FALSE,"closed",FALSE
+"mv06f_abort_rule_v1",3,"label_firewall_breach","stop_new_launches_preserve_validated_groups",FALSE,"closed",FALSE
+"mv06f_abort_rule_v1",4,"queue_or_pair_axis_drift","stop_new_launches_preserve_validated_groups",FALSE,"closed",FALSE
+"mv06f_abort_rule_v1",5,"typed_ph_or_mst_failure","stop_new_launches_preserve_validated_groups",FALSE,"closed",FALSE
+"mv06f_abort_rule_v1",6,"kernel_or_numerical_failure","stop_new_launches_preserve_validated_groups",FALSE,"closed",FALSE
+"mv06f_abort_rule_v1",7,"partial_or_stale_group","stop_new_launches_preserve_validated_groups",FALSE,"closed",FALSE
+"mv06f_abort_rule_v1",8,"oracle_or_cross_engine_failure","stop_new_launches_preserve_validated_groups",FALSE,"closed",FALSE
+"mv06f_abort_rule_v1",9,"repeat_or_resume_failure","stop_new_launches_preserve_validated_groups",FALSE,"closed",FALSE
+"mv06f_abort_rule_v1",10,"resource_or_storage_cap_breach","stop_new_launches_preserve_validated_groups",FALSE,"closed",FALSE

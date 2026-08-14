@@ -1,0 +1,15 @@
+"contract_id","path","bytes","sha256","role","outcome_label_state","biological_outcomes_computed"
+"mv06f_source_inventory_v1","R/toy_baseline.R",8698,"7231cd35bd371db4a742bc61c8160ef1ca7ae186bb08c37cd91e06987268ab22","accepted_source_dependency","closed",FALSE
+"mv06f_source_inventory_v1","R/dual_view_topology.R",35679,"569ec50fad6d9edb2bdaa2be023a3178a86cc5098c19b4e821a0902b62060bce","accepted_typed_view_ph","closed",FALSE
+"mv06f_source_inventory_v1","R/mv03_pilot.R",7875,"a6606255359bf9bcd9ea769272624d55f0a3729fa970a75b2cc0caab29e8dc12","accepted_view_dependency","closed",FALSE
+"mv06f_source_inventory_v1","R/mv05_resource_safe_execution.R",54945,"109d1e539bdf65e0349c669c0a43391bc0abf70e9634ce2e6594f0fba2cad516","accepted_cache_dependency","closed",FALSE
+"mv06f_source_inventory_v1","R/mv06d_matched_profile.R",23800,"a8ef47fdc4d32386f79fd2411369d23b159f7c75782f00d869099c329def7f84","accepted_source_contract","closed",FALSE
+"mv06f_source_inventory_v1","R/mv06f_production.R",17876,"1b02dc4962eb12e5211e906472a875e9feaefe9a6746b9a91846b5c739ba63ea","mv06f_queue_and_group_contract","closed",FALSE
+"mv06f_source_inventory_v1","R/landscape_rust_prototype.R",5137,"4771ec396759dacaf36e860819b49978b37d8cc8d4224e54cc72b0077f8a5eb1","accepted_rust_shim","closed",FALSE
+"mv06f_source_inventory_v1","scripts/run_mv06d_source_entry.R",6319,"e7f388efc35b47a845ff312a655176cf3d0ec127bc0e7e5b6e22039d0545ee64","accepted_source_reference","closed",FALSE
+"mv06f_source_inventory_v1","scripts/run_mv06d_ph_entry.R",1725,"83f2c2060f82cc637add01b10b4102995939ec5c01a27c40c8c5822129fc9017","accepted_ph_reference","closed",FALSE
+"mv06f_source_inventory_v1","scripts/run_mv06e_rust_candidate.R",7968,"3a7e5331bf4063a1fed342a8c3dfeacc82783bfd2f93d22361598e2c32bd2ca6","accepted_acceleration_reference","closed",FALSE
+"mv06f_source_inventory_v1","scripts/run_mv06f_group.R",13813,"5a051b2e627c42260aa7587dc221950d357eaa45a706023c36db596c99f99915","mv06f_atomic_group_runner","closed",FALSE
+"mv06f_source_inventory_v1","scripts/build_mv06f_production_prefreeze.R",5690,"beccf05d7a7e3f5b8435c66798d3777950afdf5264ee1be31e0d909f5b54d6af","prefreeze_builder","closed",FALSE
+"mv06f_source_inventory_v1","scripts/validate_mv06f_production_prefreeze.R",6979,"dc963a4a9aad99a6ff434c461ee974cc69ac4a871b6709172e6c9f51ed56adce","independent_prefreeze_validator","closed",FALSE
+"mv06f_source_inventory_v1","tests/testthat/test-mv06f-production.R",8048,"5cd8db4debd19d960a82629dd8eff651a1650a5e61ebb132fb9446c3d664b68e","prefreeze_contract_tests","closed",FALSE

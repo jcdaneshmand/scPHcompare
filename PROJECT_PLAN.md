@@ -5,7 +5,7 @@
 | Field | Value |
 |---|---|
 | Status | Draft for owner and author-team review |
-| Version | 0.3.40 |
+| Version | 0.3.41 |
 | Created | 2026-08-03 |
 | Canonical repository | `jcdaneshmand/scPHcompare` |
 | Historical source repository | `jcdaneshmand/PH_ClusteringApp` |
@@ -578,7 +578,7 @@ Publish a durable, citable research artifact.
 ## WP-006 — Dual-view and multiview topology framework
 
 - **Phase:** 1, 4, 5, and 7
-- **Status:** MV6-E admits both exact landscape engines after canonical-R, cross-engine, determinism, resource, and resume gates; Rust is preferred only for explicit hash-verified private WSL production, and a separate MV6-F full matched-production prefreeze is required before blocked fusion
+- **Status:** MV6-F prospectively freezes and validates the complete 75-group matched cell/gene production queue and atomic runner; only the separately monitored maximum stage-1 group is authorized before the remaining 74 groups or blocked fusion
 - **Scope:** Corrected cell topology, deliberately specified gene topology, H0/H1 landscapes and diagram distances, matched clustering/baselines, and staged cell/gene fusion.
 - **Scientific behavior change:** None until the MV-01 contract and subsequent implementation gates are approved.
 - **Acceptance:** Each view passes independent definition, correctness, eligibility, and feasibility gates before fusion; a frozen confirmatory configuration precedes any full biological rerun.
@@ -657,6 +657,7 @@ Publish a durable, citable research artifact.
 | D-053 | 2026-08-14 | Pursue the owner-selected global-core direction with one label-closed, explicitly transductive technical 500-gene panel across all existing samples/seeds; retain training-only fold transforms and stop before PH | All 450 accepted caches verify; 2,536 unique genes pass presence/finite/nonconstant/technical rules, margin 2,036; seed top-500 overlap is 491–493 with rank correlations >0.999; independent validation passes 12/12 | MV6-C passes; authorize only a separately prefrozen bounded matched-SCT source/PH/landscape resource profile; full 6,750-view rerun, blocked fusion, outcomes, and G-MV6 remain closed |
 | D-054 | 2026-08-14 | Retain Option A and both topology orientations, but require production-style batched/streamed landscape acceleration before a full matched rerun; do not optimize PH | Five fold sources, 20 cell/gene PH records, ten all-level landscape pairs, 7/7 byte repeats, and 12/12 independent categories pass; maximum PH projections total 5.86 h while independent per-pair landscapes inflate the complete maximum to 837.83 h; prior grouped cell execution shows the projection is not intrinsic | MV6-D completes as `revise_for_targeted_acceleration`; authorize only a separately prefrozen MV6-E batched landscape admission/resource sprint; full rerun, fusion, outcomes, and G-MV6 remain closed |
 | D-055 | 2026-08-14 | Admit grouped Persim and the accepted Rust exact landscape kernel; prefer Rust only for explicit hash-verified private WSL production and retain grouped Persim as the canonical portable fallback | Both engines pass 20 R references, 180 cross-engine rows, 20 reverses, 40 self zeros, byte repeats, resume, and resource guards; maximum landscape projections are 42.814 h versus 0.873 h (49.015x) | MV6-E completes as `admit_both_with_rust_preferred_private`; authorize only a separately prefrozen MV6-F full matched source/PH/landscape production stage; public defaults, binary distribution, blocked fusion, outcomes, and G-MV6 remain closed |
+| D-056 | 2026-08-14 | Freeze the full matched dual-view production as 75 atomic fold-seed groups with streaming views, 13,500 typed PH jobs, 141,400 exact four-component Rust rows, no silent fallback, and staged admission | All input/Rust hashes pass; the queue independently reconstructs; 14 sources bind to one implementation root; 10/10 validations, 19/19 focused expectations, and 6/6 byte repeats pass with zero production | MV6-F prefreeze completes as `prefreeze_pass_stage1_only`; authorize only an externally monitored maximum-group run, repeat, oracles, and resume before the other 74 groups, blocked fusion, or outcomes |
 
 ## 9. Status dashboard
 
@@ -667,7 +668,7 @@ Publish a durable, citable research artifact.
 | 2. Reproducible baseline/repository health | Published main CI passes privacy, exact restore, package check, and installed realistic H0/H1 fixtures; clean-clone user route and complete policy review remain | G2 not evaluated |
 | 3. Literature/reference/figure audit | Initial literature sample only | G3 not evaluated |
 | 4. Redesign primary comparison | Prediction-locked retrieval, clustering, complete robustness panels, corrected matrices, and null/negative results have auditable evidence; author-level synthesis remains | G4 not evaluated |
-| 5. Expand methods | MV6-E admits exact batched landscape production: grouped Persim is the portable fallback and hash-verified Rust is preferred privately; the full matched workload now projects below cap, so MV6-F production prefreeze is next before blocked fusion | G5 not evaluated |
+| 5. Expand methods | MV6-F freezes the complete 75-group matched dual-view production and atomic Rust runner with exact workload/identity/resource gates; only maximum-group stage 1 is authorized next before stage 2 or blocked fusion | G5 not evaluated |
 | 6. Biological/practical validation | Not started | G6 not evaluated |
 | 7. Profile and optimize | Rust landscape kernel passed complete numerical equivalence and nonpublishing four-platform candidate CI; R remains canonical/default and distribution/adoption remains open | G7 not evaluated |
 | 8. Rewrite manuscript | Not started | G8 not evaluated |
@@ -677,6 +678,7 @@ Publish a durable, citable research artifact.
 
 | Version | Date | Summary |
 |---|---|---|
+| 0.3.41 | 2026-08-14 | Completed MV6-F production prefreeze: exact 75-group/13,500-PH/141,400-component queue, bound streaming atomic runner, Rust/input roots, ten fail-closed rules, 10/10 independent validations, 19/19 focused expectations, six byte-repeat files, and zero production before a stage-1-only gate |
 | 0.3.40 | 2026-08-14 | Completed MV6-E exact landscape acceleration admission: both grouped Persim and Rust pass R/cross-engine/invariant/determinism/resume/resource gates; Rust is preferred only for hash-verified private WSL production, reducing the maximum landscape projection to 0.873 worker-hours before a separate MV6-F production prefreeze |
 | 0.3.39 | 2026-08-14 | Completed MV6-D bounded matched-SCT profiling: five fold sources, 20 cell/gene PH records, ten all-level landscape pairs, exact stage-1 repeat, and independent validation pass; PH is inexpensive, while per-pair landscape execution triggers a targeted batched/streamed acceleration gate before production or fusion |
 | 0.3.38 | 2026-08-14 | Completed MV6-C global-core feasibility: all 450 accepted SCT caches verify, 2,536 genes satisfy the strict all-cache rule, the frozen 500-gene panel is stable across seeds and independently reconstructed, and only a bounded matched-SCT source/PH resource profile is authorized next |

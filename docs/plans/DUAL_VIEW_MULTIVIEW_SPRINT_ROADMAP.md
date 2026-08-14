@@ -103,7 +103,7 @@ An exploratory method enters the confirmatory set only through a recorded decisi
 | MV-03 | Generate corrected pilot H0/H1 diagrams and establish feasibility | MV-02 | G-MV3: eligible diagrams exist | `complete` — 132 eligible jobs; technical gate only |
 | MV-04 | Validate topological distances and production calculation | MV-03 | G-MV4: sample-distance matrices are correct and feasible | `complete` — immutable primary matrices; bounded sensitivity exclusions |
 | MV-05 | Compare clustering and matched non-topological baselines | MV-04; frozen statistical plan | G-MV5: fair single-view benchmark | `completed` — MV5-S executes and independently validates the complete prediction-locked clustering outcome contract without method selection |
-| MV-06 | Test transparent multiview fusion and complementarity | MV-05 | G-MV6: fusion adds stable information or is rejected | `in_progress` — MV6-E admits exact grouped Persim and hash-verified private Rust landscape execution below cap; MV6-F full matched-production prefreeze is next before blocked fusion |
+| MV-06 | Test transparent multiview fusion and complementarity | MV-05 | G-MV6: fusion adds stable information or is rejected | `in_progress` — MV6-F freezes the complete matched-production queue and atomic runner; the monitored maximum group must pass repeat/oracle/resume gates before the remaining groups or blocked fusion |
 | MV-07 | Robustness synthesis and full-run decision | MV-06 | G-MV7: freeze, revise, or stop before full rerun | `not_started` — completed MV5 robustness panels are ready, but matched MV6-F production, blocked MV6 evaluation, and G-MV6 must precede dual-view synthesis |
 
 MV-01 through MV-04 are the immediate implementation sequence. MV-05 through MV-07 deliberately require valid upstream artifacts and a statistical plan.
@@ -473,10 +473,12 @@ canonical-R, cross-engine, reverse, self-zero, deterministic-repeat, resume,
 memory, and projected-time gates. The maximum landscape projections are 42.814
 worker-hours for grouped Persim and 0.873 worker-hours for Rust.
 
-The immediate next action is MV6-F: prospectively freeze the complete matched
-global-core source, cell/gene PH, and landscape production stage with streaming,
-atomic artifacts, immutable resume, sampled R/Persim oracles, and zero outcome
-access. Blocked fusion remains closed until that production corpus validates.
+MV6-F now prospectively freezes the complete matched global-core source,
+cell/gene PH, and landscape production stage with streaming, atomic artifacts,
+immutable resume, sampled R/Persim oracles, and zero outcome access. The
+immediate next action is the separately monitored 6,500-component maximum-group
+stage 1, its clean repeat, oracle dossier, and zero-rebuild resume. The other 74
+groups and blocked fusion remain closed until that stage passes.
 
 ## 11. MV-07 — Robustness synthesis and full-run decision
 
