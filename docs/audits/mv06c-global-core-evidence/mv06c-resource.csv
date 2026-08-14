@@ -1,0 +1,2 @@
+"contract_id","elapsed_seconds","peak_process_rss_bytes","unique_source_bytes","source_bytes_hashed","source_bytes_deserialized","output_bytes","elapsed_cap_seconds","rss_cap_bytes","elapsed_cap_pass","rss_cap_pass"
+"mv06c_inventory_resource_v1",840.012,913883136,2991811724,5983623448,5983623448,100589,1800,8589934592,TRUE,TRUE

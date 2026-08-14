@@ -1,0 +1,2 @@
+"contract_id","prefreeze_commit","ledger_sha256","variance_floor","requested_panel_size","technical_feature_rule","harmonization_scope","outcome_label_state","biological_outcomes_computed"
+"mv06c_global_core_matched_sct_feasibility_v1","b52c857","73f757a91c202a8e38dfa746fc8816f8e272caf912c33b4b959ef55102c68308",2.22044604925031e-16,500,"technical_feature_rules_v1","all_existing_samples_and_seeds_label_closed_transductive_technical","closed",FALSE

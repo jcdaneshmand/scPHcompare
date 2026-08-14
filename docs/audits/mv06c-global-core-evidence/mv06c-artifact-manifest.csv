@@ -1,0 +1,8 @@
+"contract_id","file","bytes","sha256"
+"mv06c_artifact_manifest_v1","mv06c-contract.csv",451,"b7168a65d10d3f5459327256c94d7a914004c2ac77ae68d3e03b3c8f337692b4"
+"mv06c_artifact_manifest_v1","mv06c-source-summary.csv",404,"21a362087fe863da1a7f41c7baad13ad3e8eb947e66bd220d57b1e104a92038c"
+"mv06c_artifact_manifest_v1","mv06c-eligibility-summary.csv",432,"3efd9873c7f589a43f546234769fa07eca10ff5944f580125b0ddb10eff03a79"
+"mv06c_artifact_manifest_v1","mv06c-panel.csv",96728,"b3a5aff1a0bc01e871751fb9db0b3babfaf18835e68c5699346d8476d903d0ab"
+"mv06c_artifact_manifest_v1","mv06c-seed-stability.csv",644,"c148abf90faddf840faf8a1b459310aa5368897e28946c44e6a7c9f215d208ae"
+"mv06c_artifact_manifest_v1","mv06c-workload.csv",393,"56f48d5bf0c43c05c15483e74d0d2d60dbd135904f7e7b8eabdcdd5332c60132"
+"mv06c_artifact_manifest_v1","mv06c-decision.csv",630,"d0336d391bd39386f00c0d2071d98b6d47f0dc39b7683e3e1e0c8382273a4732"

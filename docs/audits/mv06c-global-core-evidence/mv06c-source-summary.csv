@@ -1,0 +1,2 @@
+"contract_id","ledger_sha256","source_set_sha256","records_verified","biological_samples","seeds","cells_per_record","union_features","common_features","outcome_label_state","biological_outcomes_computed"
+"mv06c_source_summary_v1","73f757a91c202a8e38dfa746fc8816f8e272caf912c33b4b959ef55102c68308","8723488b7bdd3b3d4716a7626e132039449275fd7f7afcbf2c139c4049eeb6fb",450,90,5,384,33914,2730,"closed",FALSE

@@ -5,7 +5,7 @@
 | Field | Value |
 |---|---|
 | Status | Draft for owner and author-team review |
-| Version | 0.3.37 |
+| Version | 0.3.38 |
 | Created | 2026-08-03 |
 | Canonical repository | `jcdaneshmand/scPHcompare` |
 | Historical source repository | `jcdaneshmand/PH_ClusteringApp` |
@@ -578,7 +578,7 @@ Publish a durable, citable research artifact.
 ## WP-006 — Dual-view and multiview topology framework
 
 - **Phase:** 1, 4, 5, and 7
-- **Status:** MV6-B complete at a prospective structural stop: the full blocked cell axis cannot be matched by the current strict gene-view contract without a new estimand; project-owner scope decision required before blocked fusion or MV-07 freeze
+- **Status:** MV6-C global-core feasibility passes: 2,536 genes satisfy the all-450-cache rule and a stable fixed 500-gene panel authorizes only a bounded matched-SCT source/PH resource profile before any full rerun
 - **Scope:** Corrected cell topology, deliberately specified gene topology, H0/H1 landscapes and diagram distances, matched clustering/baselines, and staged cell/gene fusion.
 - **Scientific behavior change:** None until the MV-01 contract and subsequent implementation gates are approved.
 - **Acceptance:** Each view passes independent definition, correctness, eligibility, and feasibility gates before fusion; a frozen confirmatory configuration precedes any full biological rerun.
@@ -654,6 +654,7 @@ Publish a durable, citable research artifact.
 | D-050 | 2026-08-14 | Begin MV-06 only as a bounded label-closed four-stratum fusion feasibility sprint; require a separate matched gene-view scale-up/resource gate before blocked evaluation | MV-04 supplies matched cell/gene H0/H1 matrices for two 10-sample and two 4-sample strata, while the 90-sample MV-05 benchmark lacks full gene-view matrices | MV6-A authorized; blocked outcomes, advanced fusion, new data, defaults, claims, and release actions remain closed |
 | D-051 | 2026-08-14 | Accept MV6-A as technical evidence that corrected cell/gene pilot geometries are nondegenerate and nonredundant enough to justify a prospective scale-up/resource gate, without claiming utility | All eight source hashes, 16 scales, 102 pairs, 510 weight rows, 12 correlations, 84 neighbor rows, 44 matrix hashes, 12 independent categories, and 11 byte-identical repeat files pass; 10-sample composite correlations are near zero with limited neighbor overlap | MV6-B resource/eligibility inventory authorized; full gene calculation, blocked outcomes, advanced fusion, defaults, claims, and release remain closed |
 | D-052 | 2026-08-14 | Stop MV6-B before gene PH or blocked fusion because neither accepted representation supplies a complete strict 6,750-instance matched gene axis; require the owner to select a revised gene estimand or explicitly narrow MV-06 to pilot-only gene/fusion evidence | All 150 accepted private records verify; SCT has 71 incomplete held-out views across 31/75 groups plus 379 unresolved held-out variance checks; MV5-G stores cell coordinates rather than an integrated gene-expression payload; 12/12 independent categories pass | G-MV6 remains open; global-core rerun or cell-focused disposition are the two recommended directions; MV6-05/MV6-06 and MV-07 freeze await owner input |
+| D-053 | 2026-08-14 | Pursue the owner-selected global-core direction with one label-closed, explicitly transductive technical 500-gene panel across all existing samples/seeds; retain training-only fold transforms and stop before PH | All 450 accepted caches verify; 2,536 unique genes pass presence/finite/nonconstant/technical rules, margin 2,036; seed top-500 overlap is 491–493 with rank correlations >0.999; independent validation passes 12/12 | MV6-C passes; authorize only a separately prefrozen bounded matched-SCT source/PH/landscape resource profile; full 6,750-view rerun, blocked fusion, outcomes, and G-MV6 remain closed |
 
 ## 9. Status dashboard
 
@@ -664,7 +665,7 @@ Publish a durable, citable research artifact.
 | 2. Reproducible baseline/repository health | Published main CI passes privacy, exact restore, package check, and installed realistic H0/H1 fixtures; clean-clone user route and complete policy review remain | G2 not evaluated |
 | 3. Literature/reference/figure audit | Initial literature sample only | G3 not evaluated |
 | 4. Redesign primary comparison | Prediction-locked retrieval, clustering, complete robustness panels, corrected matrices, and null/negative results have auditable evidence; author-level synthesis remains | G4 not evaluated |
-| 5. Expand methods | MV6-A shows technically nonredundant pilot geometry, but MV6-B found no complete strict matched gene axis: 71 held-out views are panel-incomplete and accepted integrated artifacts define only cell coordinates; owner must choose a global-core rerun or pilot-only fusion disposition | G5 not evaluated |
+| 5. Expand methods | MV6-C rescues the SCT dual-view path with a stable 500-gene all-cache global core (2,536 eligible; margin 2,036); a bounded matched source/PH resource profile is required before any full cell/gene rerun or blocked fusion | G5 not evaluated |
 | 6. Biological/practical validation | Not started | G6 not evaluated |
 | 7. Profile and optimize | Rust landscape kernel passed complete numerical equivalence and nonpublishing four-platform candidate CI; R remains canonical/default and distribution/adoption remains open | G7 not evaluated |
 | 8. Rewrite manuscript | Not started | G8 not evaluated |
@@ -674,6 +675,7 @@ Publish a durable, citable research artifact.
 
 | Version | Date | Summary |
 |---|---|---|
+| 0.3.38 | 2026-08-14 | Completed MV6-C global-core feasibility: all 450 accepted SCT caches verify, 2,536 genes satisfy the strict all-cache rule, the frozen 500-gene panel is stable across seeds and independently reconstructed, and only a bounded matched-SCT source/PH resource profile is authorized next |
 | 0.3.37 | 2026-08-14 | Completed MV6-B prospective scale-up gate at a structural stop: 150 accepted records verify, 71/450 held-out views across 31/75 groups lack the full frozen panel, integrated artifacts contain no corrected gene-expression payload, and blocked fusion/MV-07 freeze now require an explicit owner estimand decision |
 | 0.3.36 | 2026-08-14 | Completed MV6-A four-stratum label-closed fusion feasibility: all frozen sources/components/weights/neighbor diagnostics independently reconstruct and repeat byte-identically; low pilot redundancy justifies a separate scale-up/resource gate but no biological or blocked claim |
 | 0.3.35 | 2026-08-14 | Reconciled the audited P01-P09 publication merge and exact main CI, corrected phase-dashboard drift, preserved the dissertation-aligned landscape contract, and authorized only a four-stratum label-closed MV6 fusion feasibility sprint before any larger matched gene-view or blocked evaluation |
