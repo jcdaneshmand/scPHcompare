@@ -1,0 +1,16 @@
+"contract_id","component","scenario","measured_units","projected_units","per_unit_seconds","projected_worker_hours","outcome_label_state","biological_outcomes_computed"
+"mv06d_full_matched_sct_projection_v1","fold_source_pca","observed_median",5,75,123.982713222504,2.58297319213549,"closed",FALSE
+"mv06d_full_matched_sct_projection_v1","fold_source_pca","observed_p90",5,75,125.518018960953,2.61495872835318,"closed",FALSE
+"mv06d_full_matched_sct_projection_v1","fold_source_pca","observed_maximum",5,75,125.518018960953,2.61495872835318,"closed",FALSE
+"mv06d_full_matched_sct_projection_v1","cell_ph","observed_median",10,6750,1.04188334941864,1.95353128015995,"closed",FALSE
+"mv06d_full_matched_sct_projection_v1","cell_ph","observed_p90",10,6750,1.05824944972992,1.9842177182436,"closed",FALSE
+"mv06d_full_matched_sct_projection_v1","cell_ph","observed_maximum",10,6750,1.05837035179138,1.98444440960884,"closed",FALSE
+"mv06d_full_matched_sct_projection_v1","gene_ph","observed_median",10,6750,1.04600274562836,1.96125514805317,"closed",FALSE
+"mv06d_full_matched_sct_projection_v1","gene_ph","observed_p90",10,6750,1.79192065397898,3.35985122621059,"closed",FALSE
+"mv06d_full_matched_sct_projection_v1","gene_ph","observed_maximum",10,6750,2.06787467002869,3.87726500630379,"closed",FALSE
+"mv06d_full_matched_sct_projection_v1","cell_landscape_pair","observed_median",5,35350,5.66411066055298,55.6184199584855,"closed",FALSE
+"mv06d_full_matched_sct_projection_v1","cell_landscape_pair","observed_p90",5,35350,8.24894165992737,81.0000243551201,"closed",FALSE
+"mv06d_full_matched_sct_projection_v1","cell_landscape_pair","observed_maximum",5,35350,8.24894165992737,81.0000243551201,"closed",FALSE
+"mv06d_full_matched_sct_projection_v1","gene_landscape_pair","observed_median",5,35350,28.1128668785095,276.052734487587,"closed",FALSE
+"mv06d_full_matched_sct_projection_v1","gene_landscape_pair","observed_p90",5,35350,76.2111885547638,748.351532058583,"closed",FALSE
+"mv06d_full_matched_sct_projection_v1","gene_landscape_pair","observed_maximum",5,35350,76.2111885547638,748.351532058583,"closed",FALSE

@@ -162,6 +162,21 @@ execute_fold <- function(fold_rows, repeat_mode = FALSE) {
     source_record$payload$views, function(pair) as.numeric(object.size(
       pair$gene_topology_v1)), numeric(1L)
   ))
+  shared_record <- source_record
+  shared_record$payload$views <- NULL
+  unit$shared_serialized_bytes <- length(serialize(
+    shared_record, NULL, version = 3
+  ))
+  unit$cell_view_serialized_bytes <- sum(vapply(
+    source_record$payload$views, function(pair) length(serialize(
+      pair$cell_topology_v1, NULL, version = 3
+    )), integer(1L)
+  ))
+  unit$gene_view_serialized_bytes <- sum(vapply(
+    source_record$payload$views, function(pair) length(serialize(
+      pair$gene_topology_v1, NULL, version = 3
+    )), integer(1L)
+  ))
   ph <- list()
   for (role in c("held_out", "training")) {
     for (view_id in c("cell_topology_v1", "gene_topology_v1")) {
@@ -352,13 +367,9 @@ if (nrow(projection)) utils::write.csv(
 storage_projection <- data.frame()
 projected_storage <- NA_real_
 if (full_complete) {
-  mean_cell_view <- mean(source_metrics$cell_view_object_bytes / 2)
-  mean_gene_view <- mean(source_metrics$gene_view_object_bytes / 2)
-  mean_shared <- mean(pmax(
-    0, source_metrics$shared_and_two_pair_bytes -
-      source_metrics$cell_view_object_bytes -
-      source_metrics$gene_view_object_bytes
-  ))
+  mean_cell_view <- mean(source_metrics$cell_view_serialized_bytes / 2)
+  mean_gene_view <- mean(source_metrics$gene_view_serialized_bytes / 2)
+  mean_shared <- mean(source_metrics$shared_serialized_bytes)
   components <- c(
     fold_shared = 75 * mean_shared,
     cell_views = 6750 * mean_cell_view,
@@ -375,7 +386,7 @@ if (full_complete) {
   storage_projection <- data.frame(
     contract_id = "mv06d_private_storage_projection_v1",
     component = names(components), projected_bytes = unname(components),
-    projection_basis = "bounded_mean_serialized_or_object_size_v1",
+    projection_basis = "bounded_mean_serialized_bytes_v2",
     outcome_label_state = "closed", biological_outcomes_computed = FALSE,
     stringsAsFactors = FALSE
   )

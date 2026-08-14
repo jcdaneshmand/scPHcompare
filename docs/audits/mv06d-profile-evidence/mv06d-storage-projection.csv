@@ -1,0 +1,8 @@
+"contract_id","component","projected_bytes","projection_basis","outcome_label_state","biological_outcomes_computed"
+"mv06d_private_storage_projection_v1","fold_shared",15818700,"bounded_mean_serialized_bytes_v2","closed",FALSE
+"mv06d_private_storage_projection_v1","cell_views",877925250,"bounded_mean_serialized_bytes_v2","closed",FALSE
+"mv06d_private_storage_projection_v1","gene_views",6961389750,"bounded_mean_serialized_bytes_v2","closed",FALSE
+"mv06d_private_storage_projection_v1","cell_ph",181335375,"bounded_mean_serialized_bytes_v2","closed",FALSE
+"mv06d_private_storage_projection_v1","gene_ph",309142575,"bounded_mean_serialized_bytes_v2","closed",FALSE
+"mv06d_private_storage_projection_v1","cell_landscape_pairs",190819300,"bounded_mean_serialized_bytes_v2","closed",FALSE
+"mv06d_private_storage_projection_v1","gene_landscape_pairs",202124230,"bounded_mean_serialized_bytes_v2","closed",FALSE
