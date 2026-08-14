@@ -44,14 +44,17 @@ g_ledger <- utils::read.csv(
   g_ledger_path, stringsAsFactors = FALSE, check.names = FALSE
 )
 forbidden <- c("tissue", "approach", "outcome", "endpoint", "class", "label")
+permitted_zero_or_state_columns <- c(
+  "outcome_label_state", "label_transfer_jobs_executed"
+)
 if (nrow(d1_ledger) != 75L || nrow(g_ledger) != 75L ||
     any(vapply(names(d1_ledger), function(x) {
       any(startsWith(tolower(x), forbidden)) &&
-        !x %in% c("outcome_label_state")
+        !x %in% permitted_zero_or_state_columns
     }, logical(1L))) ||
     any(vapply(names(g_ledger), function(x) {
       any(startsWith(tolower(x), forbidden)) &&
-        !x %in% c("outcome_label_state")
+        !x %in% permitted_zero_or_state_columns
     }, logical(1L))) ||
     any(d1_ledger$outcome_label_state != "closed") ||
     any(g_ledger$outcome_label_state != "closed")) {
