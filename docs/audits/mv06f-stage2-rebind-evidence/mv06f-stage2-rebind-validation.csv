@@ -1,0 +1,9 @@
+"contract_id","category","passed","detail","outcome_label_state","biological_outcomes_computed"
+"mv06f_stage2_rebind_validation_v1","old_and_new_group_contracts",TRUE,"old and remediated stage-one directories validate under their roots","closed",FALSE
+"mv06f_stage2_rebind_validation_v1","manifest_scientific_equivalence",TRUE,"sample/view roles, diagram hashes, and interval counts are identical","closed",FALSE
+"mv06f_stage2_rebind_validation_v1","diagram_numeric_equivalence",TRUE,"all 180 H0/H1 topology diagram matrices are byte-value identical","closed",FALSE
+"mv06f_stage2_rebind_validation_v1","distance_exact_equivalence",TRUE,"all 6,500 exact all-active-level component rows are identical","closed",FALSE
+"mv06f_stage2_rebind_validation_v1","new_root_clean_repeat",TRUE,"three remediated scientific artifacts repeat byte-identically","closed",FALSE
+"mv06f_stage2_rebind_validation_v1","new_root_r_oracles",TRUE,"12 balanced cell/gene H0/H1 R oracles pass","closed",FALSE
+"mv06f_stage2_rebind_validation_v1","new_root_persim_oracles",TRUE,"12 balanced cell/gene H0/H1 grouped-Persim oracles pass","closed",FALSE
+"mv06f_stage2_rebind_validation_v1","new_root_immutable_resume",TRUE,"five remediated stage-one files survive zero-rebuild resume","closed",FALSE

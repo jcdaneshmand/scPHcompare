@@ -1,0 +1,4 @@
+"contract_id","artifact","primary_sha256","repeat_sha256","primary_bytes","repeat_bytes","passed","outcome_label_state","biological_outcomes_computed"
+"mv06f_stage1_scientific_repeat_v1","diagrams.rds","25e9780dc76b0da2fb9e2d503247eb0c6fb915d2d665b41cebc982e69ef0c832","25e9780dc76b0da2fb9e2d503247eb0c6fb915d2d665b41cebc982e69ef0c832",7484632,7484632,TRUE,"closed",FALSE
+"mv06f_stage1_scientific_repeat_v1","diagram-manifest.csv","7a1828fb2aac8315577da0b8812c59660deef159eaeaad4c89a1c41d42f15f5f","7a1828fb2aac8315577da0b8812c59660deef159eaeaad4c89a1c41d42f15f5f",63070,63070,TRUE,"closed",FALSE
+"mv06f_stage1_scientific_repeat_v1","distances.csv","776bf94392cb6c37a0fdc9243032f1f007ea580d497252bc4cb172ece1dd6a4c","776bf94392cb6c37a0fdc9243032f1f007ea580d497252bc4cb172ece1dd6a4c",2797261,2797261,TRUE,"closed",FALSE
