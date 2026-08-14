@@ -126,9 +126,10 @@ for (stratum_index in seq_along(strata)) {
     input_dir, paste0(stratum_id, "__gene_topology_v1.rds")
   ))
   stopifnot(
-    identical(cell$method_id, "cell_topology_v1"),
-    identical(gene$method_id, "gene_topology_v1"),
-    identical(cell$stratum_id, gene$stratum_id),
+    identical(cell$method_id, "full_l2_exact_critical_pairs_v1"),
+    identical(gene$method_id, "full_l2_exact_critical_pairs_v1"),
+    identical(cell$stratum_id, paste0(stratum_id, "__cell_topology_v1")),
+    identical(gene$stratum_id, paste0(stratum_id, "__gene_topology_v1")),
     identical(cell$sample_ids, gene$sample_ids),
     identical(sort(cell$sample_ids, method = "radix"), cell$sample_ids)
   )

@@ -32,11 +32,13 @@ mv06_test_bundles <- function() {
   ), ids)
   list(
     cell = new_mv04_distance_bundle(
-      cell_h0, cell_h1, "fixture", "cell_topology_v1",
+      cell_h0, cell_h1, "fixture__cell_topology_v1",
+      "full_l2_exact_critical_pairs_v1",
       paste0("cell-", ids)
     ),
     gene = new_mv04_distance_bundle(
-      gene_h0, gene_h1, "fixture", "gene_topology_v1",
+      gene_h0, gene_h1, "fixture__gene_topology_v1",
+      "full_l2_exact_critical_pairs_v1",
       paste0("gene-", ids)
     )
   )

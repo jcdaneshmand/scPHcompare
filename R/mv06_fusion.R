@@ -6,10 +6,13 @@
   paste0("gene_weight_", sprintf("%03d", as.integer(round(100 * weight))))
 }
 
-.mv06_validate_bundle <- function(bundle, expected_method_id) {
+.mv06_validate_bundle <- function(bundle, expected_view_id) {
+  expected_suffix <- paste0("__", expected_view_id)
   if (!inherits(bundle, "scph_mv04_distance_bundle_v1") ||
       !identical(bundle$contract_id, "mv04_topological_distance_bundle_v1") ||
-      !identical(bundle$method_id, expected_method_id) ||
+      !identical(bundle$method_id, "full_l2_exact_critical_pairs_v1") ||
+      !is.character(bundle$stratum_id) || length(bundle$stratum_id) != 1L ||
+      !endsWith(bundle$stratum_id, expected_suffix) ||
       !is.character(bundle$sample_ids) || length(bundle$sample_ids) < 3L ||
       anyNA(bundle$sample_ids) || any(!nzchar(bundle$sample_ids)) ||
       anyDuplicated(bundle$sample_ids) ||
@@ -26,7 +29,14 @@
     stop("bundle H0/H1 sample axes do not match its declared sample IDs.",
          call. = FALSE)
   }
-  list(H0 = h0, H1 = h1)
+  list(
+    H0 = h0,
+    H1 = h1,
+    base_stratum_id = substr(
+      bundle$stratum_id, 1L,
+      nchar(bundle$stratum_id) - nchar(expected_suffix)
+    )
+  )
 }
 
 mv06_fit_fusion_components_v1 <- function(
@@ -35,7 +45,7 @@ mv06_fit_fusion_components_v1 <- function(
     gene_weights = c(0, 0.25, 0.5, 0.75, 1)) {
   cell <- .mv06_validate_bundle(cell_bundle, "cell_topology_v1")
   gene <- .mv06_validate_bundle(gene_bundle, "gene_topology_v1")
-  if (!identical(cell_bundle$stratum_id, gene_bundle$stratum_id) ||
+  if (!identical(cell$base_stratum_id, gene$base_stratum_id) ||
       !identical(cell_bundle$sample_ids, gene_bundle$sample_ids) ||
       !identical(dimnames(cell$H0), dimnames(gene$H0))) {
     stop("cell and gene bundles must have one identical stratum/sample axis.",
@@ -83,7 +93,7 @@ mv06_fit_fusion_components_v1 <- function(
 
   identity <- list(
     contract_id = "mv06a_label_closed_fusion_feasibility_v1",
-    stratum_id = cell_bundle$stratum_id,
+    stratum_id = cell$base_stratum_id,
     sample_ids = cell_bundle$sample_ids,
     fit_scope_id = fit_scope_id,
     fit_sample_ids = fit_sample_ids,
