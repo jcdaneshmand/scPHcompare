@@ -5,7 +5,7 @@
 | Field | Value |
 |---|---|
 | Status | Draft evidence baseline; findings require verification before manuscript use |
-| Version | 0.3.9 |
+| Version | 0.3.12 |
 | Created | 2026-08-03 |
 | Canonical project | `jcdaneshmand/scPHcompare` |
 | Evidence owner | Jonah Daneshmand |
@@ -474,6 +474,8 @@ The original editorial decision and reviewer reports have now been recovered. Be
 
 | Version | Date | Summary |
 |---|---|---|
+| 0.3.12 | 2026-08-10 | Completed the MV5-N label-closed clustering and resource gate: froze training-only PAM and deterministic held-out assignment, retained the dissertation-aligned exact all-active-level H0/H1 landscape definition, reproduced the complete training-pair scope, passed bounded independent exact admissions and matched baselines, and kept full production and all outcomes closed |
+| 0.3.11 | 2026-08-09 | Completed 6,750 corrected integrated cells-as-observations H0/H1 records with independent identity/file/diagram validation, stored and fresh MST evidence, exact complete-group repeat, immutable resume, and measured authorization for dissertation-aligned exact all-active-level integrated landscapes |
 | 0.3.10 | 2026-08-09 | Completed all 75 fixed-D1-panel label-closed integrated coordinate groups: 6,750 views and 450 mappings passed 675 independent checks, exact complete-group repeat, zero-rebuild resume, and cap-passing measured reprojection; integrated cell PH is separately authorized but not executed |
 | 0.3.9 | 2026-08-06 | Completed MV5-A/MV5-B immutable outcome-label-closed LOSO manifests, exact matched-baseline implementations and fixtures, and deterministic synthetic Seurat reference mapping; advanced only to MV5-C feasibility |
 | 0.3.8 | 2026-08-06 | Froze the prospective MV-05 sample-level LOSO benchmark, matched baselines, label firewall, clustering/uncertainty/multiplicity rules, existing-data feasibility, and transductive-integration exclusion without computing outcomes |
