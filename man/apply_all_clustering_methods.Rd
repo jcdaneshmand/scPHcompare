@@ -23,23 +23,31 @@ apply_all_clustering_methods(
 \arguments{
 \item{seurat_obj}{Seurat object with PCA embeddings and metadata.}
 
-\item{dataset_name}{Name of the dataset/iteration (used for column prefixes).}
+\item{dataset_name}{Name of the dataset/iteration (used for column
+prefixes).}
 
-\item{assay}{Assay to set as \code{DefaultAssay()} during clustering.}
+\item{assay}{Assay to set as `DefaultAssay()` during clustering.}
 
-\item{bdm_matrix}{Bottleneck distance matrix used for PH clustering and spectral clustering (optional).}
+\item{bdm_matrix}{Bottleneck distance matrix used for PH clustering
+and spectral clustering (optional).}
 
-\item{sdm_matrix}{Spectral distance matrix used for PH clustering and spectral clustering (optional).}
+\item{sdm_matrix}{Spectral distance matrix used for PH clustering and
+spectral clustering (optional).}
 
-\item{landscape_matrix}{Landscape distance matrix used for PH clustering and spectral clustering (optional).}
+\item{landscape_matrix}{Landscape distance matrix used for PH
+clustering and spectral clustering (optional).}
 
-\item{run_kmeans_clustering}{Logical, run k-means clustering if \code{TRUE}.}
+\item{run_kmeans_clustering}{Logical, run k-means clustering if
+`TRUE`.}
 
-\item{run_hierarchical_ph_clustering}{Logical, run hierarchical clustering on PH-derived distances if \code{TRUE}.}
+\item{run_hierarchical_ph_clustering}{Logical, run hierarchical
+clustering on PH-derived distances if `TRUE`.}
 
-\item{run_spectral_clustering}{Logical, run spectral clustering if \code{TRUE}.}
+\item{run_spectral_clustering}{Logical, run spectral clustering if
+`TRUE`.}
 
-\item{hierarchical_methods}{Character vector of linkage methods passed to \code{hclust()}.}
+\item{hierarchical_methods}{Character vector of linkage methods passed
+to `hclust()`.}
 
 \item{SRA_col}{Metadata column containing sample identifiers.}
 
@@ -49,18 +57,18 @@ apply_all_clustering_methods(
 }
 \value{
 The input Seurat object with additional metadata columns for
-each clustering strategy. When hierarchical clustering is run, the
-\verb{@misc$hierarchical_trees} slot stores the dendrograms per dataset
-and distance matrix.
+  each clustering strategy. When hierarchical clustering is run, the
+  `@misc$hierarchical_trees` slot stores the dendrograms per dataset
+  and distance matrix.
 }
 \description{
 Runs the package's standard clustering methods (k-means, hierarchical
 clustering on PH-derived distance matrices and spectral clustering)
 and stores the resulting labels in the Seurat metadata. Column names
-follow the pattern \verb{<method>_<matrix>_<dataset>_<group>} where
-\verb{<matrix>} is \code{bdm}, \code{sdm} or \code{landscape}, \verb{<dataset>} is the
-lower‑case \code{dataset_name} and \verb{<group>} indicates the grouping variable
-used (\code{tissue}, \code{sra}, or \code{approach}). Hierarchical clustering columns
+follow the pattern `<method>_<matrix>_<dataset>_<group>` where
+`<matrix>` is `bdm`, `sdm` or `landscape`, `<dataset>` is the
+lower‑case `dataset_name` and `<group>` indicates the grouping variable
+used (`tissue`, `sra`, or `approach`). Hierarchical clustering columns
 additionally include the linkage method
-(\code{hierarchical_cluster_<matrix>_ph_<dataset>_<group>_<method>}).
+(`hierarchical_cluster_<matrix>_ph_<dataset>_<group>_<method>`).
 }

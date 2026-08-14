@@ -33,7 +33,15 @@ update_progress_log <- function(log_file, job_id, status, threshold = NA) {
   )
 
   tryCatch({
-    write.table(log_entry, file = log_file, sep = ",", append = TRUE, col.names = !file.exists(log_file), row.names = FALSE)
+    log_exists <- file.exists(log_file)
+    write.table(
+      log_entry,
+      file = log_file,
+      sep = ",",
+      append = log_exists,
+      col.names = !log_exists,
+      row.names = FALSE
+    )
     log_message(paste("Logged progress for job", job_id, "with threshold:", threshold, "Status:", status))
   },
     error = function(e) {
@@ -488,7 +496,12 @@ CreateSpectralDistanceMatrixFromPD <- function(
 # Modified function to process the expression list and track the best threshold for each dataset
 # Function to process a list of datasets with tiered thresholds for complex datasets
 process_expression_list_with_monitoring <- function(expr_list, DIM, log_message, max_cores, memory_threshold,
-                                                    log_file, results_file, batch_size = 64, timeout_datasets = NULL) {
+                                                    log_file, results_file, batch_size = 64, timeout_datasets = NULL,
+                                                    cohort = "dataset", representation = "unknown",
+                                                    attempt_log_file = NULL,
+                                                    poll_interval = 0.25,
+                                                    progress_log_interval = 60,
+                                                    max_time_per_iteration = 20 * 24 * 3600) {
   # Load intermediate results and identify unfinished jobs initially
   load_res <- load_intermediate_results_and_identify_unfinished_jobs(results_file, log_file, expr_list, log_message)
   PD_list <- load_res$PD_list
@@ -509,8 +522,20 @@ process_expression_list_with_monitoring <- function(expr_list, DIM, log_message,
   for (batch in batches) {
     log_message(paste("Processing batch:", paste(batch, collapse = ", ")))
     batch_results <- process_batch_of_datasets(batch, expr_list, DIM, log_message, max_cores, memory_threshold,
-                                               results_file, PD_list, log_file, timeout_datasets
+                                               results_file, PD_list, log_file, timeout_datasets,
+                                               cohort = cohort, representation = representation,
+                                               poll_interval = poll_interval,
+                                               progress_log_interval = progress_log_interval,
+                                               max_time_per_iteration = max_time_per_iteration
     )
+
+    if (!is.null(attempt_log_file)) {
+      attempts <- lapply(batch_results, function(x) x$attempt)
+      attempts <- attempts[!vapply(attempts, is.null, logical(1))]
+      if (length(attempts) > 0L) {
+        append_ph_attempts(do.call(rbind, attempts), attempt_log_file)
+      }
+    }
 
     # Update PD_list and threshold_tracker based on the results from process_batch_of_datasets
     for (i in seq_along(batch)) {
@@ -571,18 +596,27 @@ extract_thresholds_from_log <- function(log_file, log_message = message) {
 
 # Update the process_batch_of_datasets function to include a check for completed jobs before reprocessing
 process_batch_of_datasets <- function(batch_indices, expr_list, DIM, log_message, max_cores, memory_threshold,
-                                      results_file, PD_list, log_file, timeout_datasets = NULL) {
+                                      results_file, PD_list, log_file, timeout_datasets = NULL,
+                                      cohort = "dataset", representation = "unknown",
+                                      poll_interval = 0.25,
+                                      progress_log_interval = 60,
+                                      max_time_per_iteration = 20 * 24 * 3600) {
 
   log_message(paste("Starting parallel processing for batch with", length(batch_indices), "datasets."))
 
   # Parallel processing for each dataset in the batch
   results <- mclapply(seq_along(batch_indices), function(i) {
     global_job_id <- batch_indices[i] # Get the global job index
+    sample_id <- names(expr_list)[global_job_id]
+    if (length(sample_id) == 0L || is.na(sample_id) || !nzchar(sample_id)) {
+      sample_id <- as.character(global_job_id)
+    }
+    attempt_number <- next_ph_attempt_number(log_file, global_job_id)
 
     # Check if the job is already completed using the new is_job_completed function
     if (is_job_completed(global_job_id, PD_list, log_file)) {
       log_message(paste("Skipping dataset", global_job_id, "as it is already completed."))
-      return(list(PD = PD_list[[as.character(global_job_id)]], threshold = NA)) # Skip and return already completed PD
+      return(list(PD = PD_list[[as.character(global_job_id)]], threshold = NA, attempt = NULL)) # Skip and return already completed PD
     }
 
     log_message(paste("Processing dataset", global_job_id))
@@ -596,18 +630,54 @@ process_batch_of_datasets <- function(batch_indices, expr_list, DIM, log_message
           memory_threshold = memory_threshold,
           timeout_datasets = timeout_datasets,
           results_file = results_file, # Ensure results_file is passed here
-          log_file = log_file
+          log_file = log_file,
+          sample_id = sample_id,
+          cohort = cohort,
+          representation = representation,
+          poll_interval = poll_interval,
+          progress_log_interval = progress_log_interval,
+          max_time_per_iteration = max_time_per_iteration,
+          persist_shared = FALSE
         )
     },
       error = function(e) {
         log_message(paste("Error in processing dataset", global_job_id, ":", e$message))
-        return(list(PD = NULL, threshold = NULL)) # Return NULL if there is an error
+        now <- Sys.time()
+        attempt <- new_ph_attempt(
+          cohort = cohort,
+          representation = representation,
+          sample_id = sample_id,
+          job_id = global_job_id,
+          attempt = attempt_number,
+          threshold = NA_real_,
+          input_dimensions = dim(expr_list[[global_job_id]]),
+          started_at = now,
+          finished_at = now,
+          status = "parent_error",
+          error_message = conditionMessage(e)
+        )
+        return(list(PD = NULL, threshold = NULL, attempt = attempt)) # Return NULL if there is an error
       }
     )
 
     # Return the result from process_and_monitor
-    return(list(PD = result$PD, threshold = result$threshold))
+    return(list(PD = result$PD, threshold = result$threshold, attempt = result$attempt))
   }, mc.cores = min(length(batch_indices), max_cores)) # Parallel processing
+
+  # Workers must not update the same RDS/CSV concurrently. Commit their results
+  # in stable batch order in the parent after all workers have returned.
+  for (i in seq_along(batch_indices)) {
+    global_job_id <- batch_indices[[i]]
+    worker_result <- results[[i]]
+    if (!is.null(worker_result$PD) && NROW(worker_result$PD) > 0L) {
+      save_intermediate_results(results_file, global_job_id, worker_result$PD)
+      update_progress_log(
+        log_file, global_job_id, "completed", worker_result$threshold
+      )
+    } else {
+      update_progress_log(log_file, global_job_id, "failed", NA_real_)
+    }
+  }
 
   # Return the processed results for the current batch
   return(results)
@@ -653,22 +723,61 @@ is_job_completed <- function(job_id, PD_list, log_file) {
 #' @param DIM Dimension for PH computation.
 #' @param log_message Function for logging messages.
 #' @param memory_threshold Reserved for future memory checks.
-#' @param max_time_per_iteration Maximum runtime in seconds (default 12 hours).
+#' @param max_time_per_iteration Maximum runtime in seconds (default 20 days).
+#' @param poll_interval Seconds between subprocess status and process-tree
+#'   memory samples. Process-aware waiting returns as soon as the child exits.
+#' @param progress_log_interval Minimum seconds between elapsed-time log entries.
 #' @param timeout_datasets Vector of dataset indices that previously timed out.
+#' @param results_file Path to the intermediate persistence-diagram file.
+#' @param log_file Path to the legacy progress log.
+#' @param temp_dataset_dir Directory for subprocess input and output files.
+#' @param sample_id Stable sample identifier corresponding to `i`.
+#' @param cohort Cohort label written to structured attempt provenance.
+#' @param representation Expression representation written to attempt provenance.
+#' @param persist_shared If `TRUE`, write shared intermediate and progress files
+#'   in this process. Parallel batch workers set this to `FALSE` so their parent
+#'   can serialize shared-file updates without races.
 #'
 #' @return A list with
 #' \describe{
 #'   \item{PD}{The persistence diagram matrix or `NULL` if no valid result was produced.}
 #'   \item{threshold}{The threshold used for the PH run, or `NULL` on failure.}
+#'   \item{attempt}{A one-row structured provenance record for this attempt.}
 #' }
 # Function to process and monitor a single dataset for Persistent Homology (PH) calculation
 process_and_monitor <- function(expr_matrix, i, DIM, log_message, memory_threshold,
-                                max_time_per_iteration = 20 * 24 * 3600, # 10*24 hours
+                                max_time_per_iteration = 20 * 24 * 3600,
+                                poll_interval = 0.25,
+                                progress_log_interval = 60,
                                 timeout_datasets = NULL,
                                 results_file = NULL,
                                 log_file = NULL,
-                                temp_dataset_dir = "temp_datasets_sct_whole") {
+                                temp_dataset_dir = "temp_datasets_sct_whole",
+                                sample_id = as.character(i),
+                                cohort = "dataset",
+                                representation = "unknown",
+                                persist_shared = TRUE) {
+  started_at <- Sys.time()
+  threshold_used <- NA_real_
+  attempt_number <- next_ph_attempt_number(log_file, i)
+  memory_samples <- 0L
+  monitor_peak_rss_bytes <- NA_real_
+  child_peak_rss_bytes <- NA_real_
+  descendant_peak_rss_bytes <- NA_real_
+  process_tree_peak_rss_bytes <- NA_real_
+  process_tree_peak_count <- 0L
   tryCatch({
+    if (length(poll_interval) != 1L || is.na(poll_interval) || poll_interval <= 0) {
+      stop("poll_interval must be a positive number of seconds.")
+    }
+    if (length(progress_log_interval) != 1L || is.na(progress_log_interval) ||
+        !is.numeric(progress_log_interval) || progress_log_interval <= 0) {
+      stop("progress_log_interval must be a positive number of seconds.")
+    }
+    if (length(max_time_per_iteration) != 1L || is.na(max_time_per_iteration) ||
+        !is.numeric(max_time_per_iteration) || max_time_per_iteration <= 0) {
+      stop("max_time_per_iteration must be a positive number of seconds.")
+    }
     is_timeout <- i %in% timeout_datasets
     if (is_timeout) {
       # log_message(paste("Dataset", i, "is marked as timed out. Setting initial threshold based on maximum of non-zero values."))
@@ -683,23 +792,23 @@ process_and_monitor <- function(expr_matrix, i, DIM, log_message, memory_thresho
       pcs <- prcomp(expr_matrix, center = TRUE, scale. = TRUE)$x[, seq_len(DIM)]
 
       # 2. choose k for the kNN (e.g. 10)
-      k_nn <- 100
+      k_nn <- bounded_knn_k(nrow(pcs), requested_k = 100L)
 
-      # 3. compute the k‐th nearest neighbor distances
+      # 3. compute the k-th nearest neighbor distances
       knn_info <- FNN::get.knn(pcs, k = k_nn)
 
-      # 4. extract each point’s distance to its k-th neighbor
+      # 4. extract each point's distance to its k-th neighbor
       kth_dists <- knn_info$nn.dist[, k_nn]
 
       # after getting your k-th neighbor distances
       kth_dists_nonzero <- kth_dists[kth_dists > 0]
       if (length(kth_dists_nonzero) == 0) {
-        stop("All k-NN distances are zero—check for duplicates or increase DIM/k.")
+        stop("All k-NN distances are zero--check for duplicates or increase DIM/k.")
       }
       # 5. pick your threshold as the median (or another percentile)
       ideal_thresh <- quantile(kth_dists_nonzero, 0.9)
 
-      log_message(paste("Auto‐selected threshold (k =", k_nn, "90th Percentile):", round(ideal_thresh, 3)))
+      log_message(paste("Auto-selected threshold (k =", k_nn, "90th Percentile):", round(ideal_thresh, 3)))
 
       # 6. decide on your increment strategy
       threshold_increment <- ideal_thresh * 0.1 # e.g. 10% of that local scale
@@ -713,6 +822,7 @@ process_and_monitor <- function(expr_matrix, i, DIM, log_message, memory_thresho
       threshold_increment <- 50
       log_message(paste("Dataset", i, "has an initial threshold of -1 (infinite)."))
     }
+    threshold_used <- as.numeric(current_threshold)
 
     best_PD <- NULL
 
@@ -727,6 +837,9 @@ process_and_monitor <- function(expr_matrix, i, DIM, log_message, memory_thresho
     log_message(paste("Dataset", i, "saved to", dataset_file))
 
     pd_file <- file.path(temp_dataset_dir, paste0("PD_", i, "_", current_threshold, ".rds"))
+    if (file.exists(pd_file)) {
+      unlink(pd_file)
+    }
 
     ph_job <- processx::process$new(
       "Rscript",
@@ -736,44 +849,146 @@ process_and_monitor <- function(expr_matrix, i, DIM, log_message, memory_thresho
         "dataset <- as.matrix(dataset);",
         "PD <- ripserr::vietoris_rips(dataset = dataset, max_dim = ", DIM, ", threshold = ", current_threshold, ", return_format = 'mat');",
         "saveRDS(PD, '", pd_file, "')",
-        "}, error = function(e) { message('Error:', e$message) })",
+        "}, error = function(e) { message('Error:', conditionMessage(e)); quit(save='no', status=1) })",
         ";quit(save='no')"
       )),
       stdout = "|", stderr = "|"
     )
 
     start_time <- Sys.time()
+    timed_out <- FALSE
     log_message(paste("PH process for dataset", i, "started with PID:", ph_job$get_pid()))
+    last_progress_log <- start_time
+    record_memory_sample <- function() {
+      monitor_rss <- current_process_rss()
+      tree <- sample_process_tree_rss(ph_job$get_pid())
+      if (is.finite(monitor_rss)) {
+        monitor_peak_rss_bytes <<- if (is.finite(monitor_peak_rss_bytes)) {
+          max(monitor_peak_rss_bytes, monitor_rss)
+        } else monitor_rss
+      }
+      if (is.finite(tree$root_rss_bytes)) {
+        child_peak_rss_bytes <<- if (is.finite(child_peak_rss_bytes)) {
+          max(child_peak_rss_bytes, tree$root_rss_bytes)
+        } else tree$root_rss_bytes
+      }
+      if (is.finite(tree$descendant_rss_bytes)) {
+        descendant_peak_rss_bytes <<- if (is.finite(descendant_peak_rss_bytes)) {
+          max(descendant_peak_rss_bytes, tree$descendant_rss_bytes)
+        } else tree$descendant_rss_bytes
+      }
+      if (is.finite(tree$tree_rss_bytes)) {
+        process_tree_peak_rss_bytes <<- if (is.finite(process_tree_peak_rss_bytes)) {
+          max(process_tree_peak_rss_bytes, tree$tree_rss_bytes)
+        } else tree$tree_rss_bytes
+      }
+      if (tree$process_count > 0L) {
+        memory_samples <<- memory_samples + 1L
+        process_tree_peak_count <<- max(process_tree_peak_count, tree$process_count)
+      }
+      invisible(NULL)
+    }
 
     while (ph_job$is_alive()) {
-      Sys.sleep(60)
-      elapsed_time <- as.numeric(difftime(Sys.time(), start_time, units = "secs"))
-      log_message(paste("Elapsed time for dataset", i, "PH calculation:", round(elapsed_time), "seconds"))
-
-      if (elapsed_time > max_time_per_iteration) {
+      record_memory_sample()
+      now <- Sys.time()
+      elapsed_time <- as.numeric(difftime(now, start_time, units = "secs"))
+      if (elapsed_time >= max_time_per_iteration) {
         log_message(paste("Timeout exceeded for dataset", i, "at threshold:", current_threshold, "- killing process."))
+        timed_out <- TRUE
         ph_job$kill()
         break
       }
+      if (as.numeric(difftime(now, last_progress_log, units = "secs")) >= progress_log_interval) {
+        log_message(paste("Elapsed time for dataset", i, "PH calculation:", round(elapsed_time), "seconds"))
+        last_progress_log <- now
+      }
+      wait_seconds <- min(poll_interval, max_time_per_iteration - elapsed_time)
+      try(ph_job$wait(timeout = max(1L, ceiling(wait_seconds * 1000))), silent = TRUE)
+    }
+    record_memory_sample()
+
+    try(ph_job$wait(timeout = 1000), silent = TRUE)
+    child_stdout <- tryCatch(ph_job$read_all_output_lines(), error = function(e) character())
+    child_stderr <- tryCatch(ph_job$read_all_error_lines(), error = function(e) character())
+    exit_status <- tryCatch(ph_job$get_exit_status(), error = function(e) NA_integer_)
+    if (is.null(exit_status)) {
+      exit_status <- NA_integer_
     }
 
     if (file.exists(pd_file)) {
       best_PD <- readRDS(pd_file)
     }
 
+    pd_written <- file.exists(pd_file)
+    finished_at <- Sys.time()
+
     if (!is.null(best_PD) && nrow(best_PD) > 0) {
-      save_intermediate_results(results_file = results_file, job_id = i, best_PD = best_PD)
-      update_progress_log(log_file, i, "completed", current_threshold)
-      return(list(PD = best_PD, threshold = current_threshold))
+      if (persist_shared) {
+        save_intermediate_results(results_file = results_file, job_id = i, best_PD = best_PD)
+        update_progress_log(log_file, i, "completed", current_threshold)
+      }
+      attempt <- new_ph_attempt(
+        cohort, representation, sample_id, i, attempt_number,
+        current_threshold, dim(expr_matrix), started_at, finished_at,
+        exit_status = exit_status, timed_out = timed_out,
+        pd_written = pd_written, status = "completed",
+        poll_interval_seconds = poll_interval,
+        memory_samples = memory_samples,
+        monitor_peak_rss_bytes = monitor_peak_rss_bytes,
+        child_peak_rss_bytes = child_peak_rss_bytes,
+        descendant_peak_rss_bytes = descendant_peak_rss_bytes,
+        process_tree_peak_rss_bytes = process_tree_peak_rss_bytes,
+        process_tree_peak_count = process_tree_peak_count
+      )
+      return(list(PD = best_PD, threshold = current_threshold, attempt = attempt))
     } else {
-      update_progress_log(log_file, i, "failed", current_threshold)
-      return(list(PD = NULL, threshold = NULL))
+      if (persist_shared) {
+        update_progress_log(log_file, i, "failed", current_threshold)
+      }
+      failure_status <- if (timed_out) {
+        "ph_timeout"
+      } else if (!is.na(exit_status) && exit_status != 0L) {
+        "ph_child_error"
+      } else {
+        "ph_empty_output"
+      }
+      diagnostic <- c(child_stderr, child_stdout)
+      attempt <- new_ph_attempt(
+        cohort, representation, sample_id, i, attempt_number,
+        current_threshold, dim(expr_matrix), started_at, finished_at,
+        exit_status = exit_status, timed_out = timed_out,
+        pd_written = pd_written, status = failure_status,
+        error_message = diagnostic,
+        poll_interval_seconds = poll_interval,
+        memory_samples = memory_samples,
+        monitor_peak_rss_bytes = monitor_peak_rss_bytes,
+        child_peak_rss_bytes = child_peak_rss_bytes,
+        descendant_peak_rss_bytes = descendant_peak_rss_bytes,
+        process_tree_peak_rss_bytes = process_tree_peak_rss_bytes,
+        process_tree_peak_count = process_tree_peak_count
+      )
+      return(list(PD = NULL, threshold = NULL, attempt = attempt))
     }
 
   }, error = function(e) {
     log_message(paste("Unexpected error in processing dataset", i, ":", e$message))
-    update_progress_log(log_file, i, "error", threshold = NA)
-    return(list(PD = NULL, threshold = NULL))
+    if (persist_shared) {
+      update_progress_log(log_file, i, "error", threshold = NA)
+    }
+    attempt <- new_ph_attempt(
+      cohort, representation, sample_id, i, attempt_number,
+      threshold_used, dim(expr_matrix), started_at, Sys.time(),
+      status = "parent_error", error_message = conditionMessage(e),
+      poll_interval_seconds = poll_interval,
+      memory_samples = memory_samples,
+      monitor_peak_rss_bytes = monitor_peak_rss_bytes,
+      child_peak_rss_bytes = child_peak_rss_bytes,
+      descendant_peak_rss_bytes = descendant_peak_rss_bytes,
+      process_tree_peak_rss_bytes = process_tree_peak_rss_bytes,
+      process_tree_peak_count = process_tree_peak_count
+    )
+    return(list(PD = NULL, threshold = NULL, attempt = attempt))
   })
 }
 

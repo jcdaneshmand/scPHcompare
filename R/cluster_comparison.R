@@ -240,8 +240,8 @@ if (num_collected_plots > 0) {
   if (verbose) log_message("\n--- Arranging and saving final plot. ---")
   plots_arranged <- Reduce(`/`, plots_for_grid)
   final_combined_plot <- plots_arranged +
-    plot_annotation(tag_levels = 'A') +
-    plot_layout(guides = 'collect') &
+    patchwork::plot_annotation(tag_levels = 'A') +
+    patchwork::plot_layout(guides = 'collect') &
     theme(
       legend.position     = 'top',
       legend.direction    = 'horizontal',

@@ -20,5 +20,5 @@ Full path to the cache file.
 Constructs a file path for caching computed Betti curves.
 }
 \examples{
-generate_cache_filename("toy", "abc", tempdir())
+scPHcompare:::generate_cache_filename("toy", "abc", tempdir())
 }

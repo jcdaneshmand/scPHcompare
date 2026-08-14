@@ -4,10 +4,7 @@
 \alias{compute_landscape_curve}
 \title{Compute aggregated landscape curve}
 \usage{
-compute_landscape_curve(
-  landscape_obj,
-  grid = seq(0, 1, length.out = grid_points)
-)
+compute_landscape_curve(landscape_obj, grid = seq(0, 1, length.out = 500))
 }
 \arguments{
 \item{landscape_obj}{Landscape object with components `dim0` and `dim1`.}
@@ -22,5 +19,5 @@ Compute aggregated landscape curve
 }
 \examples{
 land <- list(dim0 = c(0,1,0), dim1 = c(0,0,0))
-compute_landscape_curve(land, seq(0, 1, length.out = 3))
+scPHcompare:::compute_landscape_curve(land, seq(0, 1, length.out = 3))
 }

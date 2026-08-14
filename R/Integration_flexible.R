@@ -181,9 +181,9 @@ perform_integration <- function(
       return(sct_assay)
     }
     keep <- c("data", "counts", "scale.data")
-    layer_names <- names(SeuratObject::Layers(sct_assay))
+    layer_names <- SeuratObject::Layers(sct_assay)
     for (ly in setdiff(layer_names, keep)) {
-      sct_assay <- SeuratObject::RemoveLayer(sct_assay, ly)
+      SeuratObject::LayerData(sct_assay, layer = ly) <- NULL
     }
     sct_assay
   }

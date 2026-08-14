@@ -20,11 +20,19 @@ test_that("run_unified_pipeline returns list structure", {
   readr::write_csv(metadata, tmp)
 
   mockr::with_mock(process_datasets_PH = mock_pipeline, {
-    result <- run_unified_pipeline(tmp)
+    result <- run_unified_pipeline(tmp, results_dir = tempfile("results_"))
   })
 
   expect_type(result, "list")
-  expect_named(result, names(fake_results))
+  expect_named(result, c(names(fake_results), "provenance"))
+  expect_true(file.exists(result$provenance$pipeline_metrics_file))
+  expect_equal(
+    result$provenance$pipeline_metrics$stage,
+    c("metadata_load", "ph_processing", "pipeline_total")
+  )
+  expect_true(all(c(
+    "rss_before_bytes", "rss_after_bytes", "rss_delta_bytes"
+  ) %in% names(result$provenance$pipeline_metrics)))
 })
 
 test_that("run_unified_pipeline creates results_dir and triggers post processing", {

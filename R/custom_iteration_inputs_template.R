@@ -12,7 +12,7 @@ load_custom_iteration_inputs_template <- function() {
   if (!nzchar(template_path) || !file.exists(template_path)) {
     return(NULL)
   }
-  env <- new.env(parent = emptyenv())
+  env <- new.env(parent = baseenv())
   sys.source(template_path, envir = env)
   candidate_names <- c("custom_iteration_inputs_template", "custom_iteration_inputs")
   for (name in candidate_names) {
@@ -51,7 +51,7 @@ import_custom_iteration_inputs <- function(custom_iteration_inputs) {
     if (!file.exists(custom_iteration_inputs)) {
       stop(sprintf("Custom iteration input file does not exist: %s", custom_iteration_inputs))
     }
-    env <- new.env(parent = emptyenv())
+    env <- new.env(parent = baseenv())
     sys.source(custom_iteration_inputs, envir = env)
     candidate_names <- c("custom_iteration_inputs", "custom_iteration_inputs_template")
     for (name in candidate_names) {

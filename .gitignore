@@ -1,0 +1,13 @@
+# Confidential editorial correspondence and private manuscript materials.
+docs/private/
+
+# Local scholarly source documents; retain locally but do not publish in Git.
+docs/Dissertation_SubmissionReady_October.pdf
+docs/Jonah-BioRxiv_v2.pdf
+
+# Runtime sample-flow and PH-attempt records are run artifacts. Preserve them
+# with a release manifest when needed, but do not commit ad hoc local runs.
+provenance/
+
+# Local dependency restores and other disposable validation workspaces.
+tmp/

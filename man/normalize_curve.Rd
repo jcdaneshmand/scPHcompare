@@ -18,5 +18,5 @@ Numeric vector representing the normalized curve.
 Scales a curve so that its values sum to one, guarding against division by zero.
 }
 \examples{
-normalize_curve(c(1, 2, 3), 3)
+scPHcompare:::normalize_curve(c(1, 2, 3), 3)
 }

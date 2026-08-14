@@ -1,0 +1,101 @@
+name: R package CI
+
+"on":
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: r-package-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 180
+    env:
+      RENV_PATHS_LIBRARY: ${{ github.workspace }}/../scphcompare-renv-library
+      RENV_CONFIG_AUTOLOADER_ENABLED: "TRUE"
+      R_KEEP_PKG_SOURCE: yes
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Reject private or excluded artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          forbidden="$(git ls-files | grep -E '(^docs/private/|\.pdf$|^example_run\.r$)' || true)"
+          if [[ -n "${forbidden}" ]]; then
+            printf 'Excluded artifacts are tracked:\n%s\n' "${forbidden}" >&2
+            exit 1
+          fi
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "4.4.1"
+          use-public-rspm: true
+
+      - name: Install locked R system prerequisites
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends \
+            libcurl4-openssl-dev \
+            libglpk-dev \
+            libgmp3-dev \
+            libhdf5-dev \
+            pandoc
+
+      - name: Cache exact renv library
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.RENV_PATHS_LIBRARY }}
+          key: ${{ runner.os }}-r-4.4.1-renv-${{ hashFiles('renv.lock', 'renv/activate.R') }}
+          restore-keys: |
+            ${{ runner.os }}-r-4.4.1-renv-
+
+      - name: Restore and verify locked dependencies
+        shell: bash
+        run: |
+          Rscript scripts/restore_locked_dependencies.R \
+            --project=. \
+            --library="${RENV_PATHS_LIBRARY}" \
+            --report=dependency-bootstrap-manifest.csv
+          printf 'R_LIBS=%s\n' "${RENV_PATHS_LIBRARY}" >> "${GITHUB_ENV}"
+          printf 'R_LIBS_USER=%s\n' "${RENV_PATHS_LIBRARY}" >> "${GITHUB_ENV}"
+          printf 'RENV_CONFIG_AUTOLOADER_ENABLED=FALSE\n' >> "${GITHUB_ENV}"
+
+      - name: Build and check package
+        shell: bash
+        run: |
+          set -euo pipefail
+          R CMD build .
+          package_tarball="$(find . -maxdepth 1 -name 'scPHcompare_*.tar.gz' -print -quit)"
+          test -n "${package_tarball}"
+          R CMD check --no-manual "${package_tarball}"
+
+      - name: Install checked source and run realistic H0 and H1 fixtures
+        shell: bash
+        run: |
+          set -euo pipefail
+          R CMD INSTALL --no-multiarch .
+          Rscript scripts/run_realistic_fixture.R realistic-fixture-h0-ci 20260805 0
+          Rscript scripts/run_realistic_fixture.R realistic-fixture-h1-ci 20260805 1
+
+      - name: Upload synthetic audit evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: realistic-fixture-evidence
+          if-no-files-found: error
+          retention-days: 14
+          path: |
+            dependency-bootstrap-manifest.csv
+            realistic-fixture-*-ci/realistic_fixture_manifest.csv
+            realistic-fixture-*-ci/run/provenance/*.csv
+            realistic-fixture-*-ci/run/results/pipeline_stage_metrics.csv

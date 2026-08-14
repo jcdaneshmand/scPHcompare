@@ -135,8 +135,13 @@ load_sparse_matrices <- function(file_paths) {
 
 # Compute persistence diagrams for a list of expression matrices
 compute_ph_batch <- function(expr_list, DIM, log_message, dataset_suffix, prefix,
-                             max_cores = 6, memory_threshold = 0.25) {
-  process_expression_list_with_monitoring(
+                             max_cores = 6, memory_threshold = 0.25,
+                             cohort = "dataset", attempt_log_file = NULL,
+                             strict_reconciliation = TRUE,
+                             poll_interval = 0.25,
+                             progress_log_interval = 60,
+                             max_time_per_iteration = 20 * 24 * 3600) {
+  result <- process_expression_list_with_monitoring(
     expr_list = expr_list,
     DIM = DIM,
     log_message = log_message,
@@ -144,8 +149,40 @@ compute_ph_batch <- function(expr_list, DIM, log_message, dataset_suffix, prefix
     memory_threshold = memory_threshold,
     log_file = paste0("progress_log", prefix, dataset_suffix, ".csv"),
     results_file = paste0("intermediate_results", prefix, dataset_suffix, ".rds"),
-    timeout_datasets = NULL
+    timeout_datasets = NULL,
+    cohort = cohort,
+    representation = sub("^_", "", prefix),
+    attempt_log_file = attempt_log_file,
+    poll_interval = poll_interval,
+    progress_log_interval = progress_log_interval,
+    max_time_per_iteration = max_time_per_iteration
   )
+
+  eligible_ids <- names(expr_list)
+  if (is.null(eligible_ids) || any(!nzchar(eligible_ids))) {
+    stop("Expression-list entries must have stable sample names for provenance.", call. = FALSE)
+  }
+  if (length(result$PD_list) > length(eligible_ids)) {
+    stop("PH result list contains more entries than the eligible sample set.", call. = FALSE)
+  }
+  if (length(result$PD_list) < length(eligible_ids)) {
+    length(result$PD_list) <- length(eligible_ids)
+  }
+  names(result$PD_list) <- eligible_ids
+  valid <- vapply(result$PD_list, function(x) !is.null(x) && NROW(x) > 0L, logical(1))
+  completed_ids <- eligible_ids[valid]
+  failed_ids <- eligible_ids[!valid]
+  assert_sample_reconciliation(
+    input_ids = eligible_ids,
+    excluded_ids = character(),
+    eligible_ids = eligible_ids,
+    completed_ids = completed_ids,
+    failed_ids = failed_ids,
+    strict_completion = strict_reconciliation
+  )
+  result$completed_ids <- completed_ids
+  result$failed_ids <- failed_ids
+  result
 }
 
 # Save persistence diagram results to disk

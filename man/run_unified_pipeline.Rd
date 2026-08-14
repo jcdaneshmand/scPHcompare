@@ -13,6 +13,7 @@ run_unified_pipeline(
   run_betti = FALSE,
   run_cross_iteration = FALSE,
   custom_iteration_inputs = NULL,
+  pipeline_metrics_file = NULL,
   ...
 )
 }
@@ -25,9 +26,9 @@ run_unified_pipeline(
 
 \item{integration_methods}{Character vector of integration methods to apply
 when processing datasets. Use "seurat" to produce the Seurat integration
-iteration, "harmony" to produce the Harmony iteration, or supply both to run
-them side by side (raw and SCT iterations are always generated alongside the
-chosen integration outputs).}
+iteration, "harmony" to produce the Harmony iteration, or supply both to
+run them side by side (raw and SCT iterations are always generated
+alongside the chosen integration outputs).}
 
 \item{run_cluster}{If `TRUE`, run clustering comparisons during
 post-processing.}
@@ -37,14 +38,15 @@ post-processing.}
 \item{run_cross_iteration}{If `TRUE`, perform cross-iteration analyses.}
 
 \item{custom_iteration_inputs}{Optional named list mapping iteration labels or
-prefixes to lists with `seurat_object_path`, `ph_list_path`, `bdm_matrix_path`,
-`sdm_matrix_path`, `landscape_list_path`, and
-`landscape_l2_distance_matrix_path` entries, or a path to an R script that
-defines such a list. When provided, matching iterations load the supplied
-objects before recomputing only the missing matrices and clustering outputs. If
-`NULL`, the function looks for a populated template at
-`inst/extdata/custom_iteration_inputs_template.R` and will import it
-automatically when valid paths are detected.}
+prefixes to lists with `seurat_object_path` and `ph_list_path` entries, or a
+path to an R script that defines such a list. When provided, matching
+iterations load the supplied Seurat objects and PH lists before recomputing
+distance matrices and clustering outputs. If `NULL`, the function looks for
+a populated template at `inst/extdata/custom_iteration_inputs_template.R`
+and will import it automatically when valid paths are detected.}
+
+\item{pipeline_metrics_file}{Optional path for the stage-level runtime and
+process-RSS CSV. Defaults to `pipeline_stage_metrics.csv` in `results_dir`.}
 
 \item{...}{Additional arguments passed to the underlying processing
 functions.}

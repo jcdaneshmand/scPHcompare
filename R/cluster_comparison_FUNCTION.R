@@ -50,9 +50,9 @@ enhanced_cluster_comparison_with_pvals <- function(
 
   # -- Silhouette setup --
   if (include_silhouette) {
-    log_message_verbose("Setting up silhouette distance matrix…")
+    log_message_verbose("Setting up silhouette distance matrix...")
     if (!"pca" %in% names(seurat_obj@reductions)) {
-      stop("PCA reduction not found—needed for silhouette.")
+      stop("PCA reduction not found--needed for silhouette.")
     }
     emb <- Embeddings(seurat_obj, "pca")[, 1:10, drop = FALSE]
     dist_mat <- dist(emb)
@@ -60,7 +60,7 @@ enhanced_cluster_comparison_with_pvals <- function(
   }
 
   # -- Define clustering method names (now *complete*) --
-  log_message_verbose("Defining original clustering methods…")
+  log_message_verbose("Defining original clustering methods...")
   dataset_lower <- gsub("\\s+", "_", tolower(dataset_name))
 
   # seurat has no suffix by default
@@ -102,7 +102,7 @@ enhanced_cluster_comparison_with_pvals <- function(
   ))
 
   # -- Expand seurat_cluster into three suffixes --
-  log_message_verbose("Expanding seurat_cluster methods to include _sra/_tissue/_approach…")
+  log_message_verbose("Expanding seurat_cluster methods to include _sra/_tissue/_approach...")
   final_methods <- c()
   for (meth in original_methods) {
     if (!meth %in% colnames(seurat_obj@meta.data)) next
@@ -216,7 +216,7 @@ enhanced_cluster_comparison_with_pvals <- function(
   }
 
   # -- Compute real vs random metrics --
-  log_message_verbose("Beginning metric computation loop…")
+  log_message_verbose("Beginning metric computation loop...")
   raw_comparison <- data.frame()
   for (method in final_methods) {
     log_message_verbose(sprintf("Processing method: %s", method))
@@ -501,7 +501,7 @@ enhanced_cluster_comparison_with_pvals <- function(
                               levels = unique(paste0(Method, "\n(Ref=", ReferenceCol, ")"))))
 
   # -- 1) Normalized bar chart --
-  log_message_verbose("Plotting normalized bar chart…")
+  log_message_verbose("Plotting normalized bar chart...")
   p_bar <- ggplot(norm_long, aes(x = MethodRef, y = Normalized, fill = Metric)) +
     geom_vline(xintercept = seq(1.5, length(unique(norm_long$MethodRef)) - 0.5, by = 1),
                color = "grey40") +
@@ -523,7 +523,7 @@ enhanced_cluster_comparison_with_pvals <- function(
   grid.newpage()
 
   # -- 2) Bubble chart --
-  log_message_verbose("Plotting bubble chart…")
+  log_message_verbose("Plotting bubble chart...")
   p_bubble <- ggplot(norm_long, aes(x = Metric, y = MethodRef, size = Normalized, color = p_adj)) +
     geom_point(alpha = 0.8) + geom_text(aes(label = annot), vjust = -2, size = 3.5) +
     scale_color_gradient(low = "red", high = "blue") +
@@ -542,7 +542,7 @@ enhanced_cluster_comparison_with_pvals <- function(
   grid.newpage()
 
   # -- 3) Observed vs Random bar chart --
-  log_message_verbose("Plotting Observed vs Random chart…")
+  log_message_verbose("Plotting Observed vs Random chart...")
   obs_rand <- norm_long %>%
     dplyr::select(MethodRef, Metric, Observed, RandMean, annot) %>%
     pivot_longer(c(Observed, RandMean), names_to = "Type", values_to = "Value")

@@ -52,7 +52,7 @@ Generates null effect size and Kolmogorov-Smirnov statistics by bootstrapping
 random group assignments of persistence diagrams.
 }
 \examples{
-compute_null_stats(list(), list(), seq(0, 1, length.out = 5), c(0),
+scPHcompare:::compute_null_stats(list(), list(), seq(0, 1, length.out = 5), c(0),
                   dataset_name = "toy", base_sigma = 0.1,
                   grid_points = 5, tau_max = 1, results_folder = tempdir(),
                   verbose = FALSE, num_cores = 1)

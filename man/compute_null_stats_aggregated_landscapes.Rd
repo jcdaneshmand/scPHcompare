@@ -33,7 +33,7 @@ List with null effect and KS statistics.
 Bootstrap null stats for aggregated landscapes
 }
 \examples{
-compute_null_stats_aggregated_landscapes(list(matrix(c(0,0,1), ncol=3)),
+scPHcompare:::compute_null_stats_aggregated_landscapes(list(matrix(c(0,0,1), ncol=3)),
                                         list(list(dim0=c(0,1), dim1=c(0,0))),
                                         c(0,1))
 }

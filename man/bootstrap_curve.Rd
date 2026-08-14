@@ -48,6 +48,6 @@ List with mean, lower, upper Betti curves and individual curves.
 Generates bootstrapped Betti curves for a list of persistence diagrams.
 }
 \examples{
-bootstrap_curve(list(matrix(c(0,0,1), ncol = 3)), 0, "grp", "toy",
+scPHcompare:::bootstrap_curve(list(matrix(c(0,0,1), ncol = 3)), 0, "grp", "toy",
                 10, 1, 0.1, 5, results_folder = tempdir(), num_cores = 1)
 }

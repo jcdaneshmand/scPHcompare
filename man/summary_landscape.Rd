@@ -4,7 +4,7 @@
 \alias{summary_landscape}
 \title{Summarise a persistence landscape}
 \usage{
-summary_landscape(landscape_obj, grid = seq(0, 1, length.out = grid_points))
+summary_landscape(landscape_obj, grid = seq(0, 1, length.out = 500))
 }
 \arguments{
 \item{landscape_obj}{List with components `dim0` and `dim1`.}
@@ -19,5 +19,5 @@ Computes the area under the aggregated landscape curve.
 }
 \examples{
 land <- list(dim0 = c(0, 1, 0), dim1 = c(0, 0, 0))
-summary_landscape(land, seq(0, 1, length.out = 3))
+scPHcompare:::summary_landscape(land, seq(0, 1, length.out = 3))
 }

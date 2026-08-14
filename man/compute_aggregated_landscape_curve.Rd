@@ -6,7 +6,7 @@
 \usage{
 compute_aggregated_landscape_curve(
   landscape_list_group,
-  grid = seq(0, 1, length.out = grid_points)
+  grid = seq(0, 1, length.out = 500)
 )
 }
 \arguments{
@@ -21,6 +21,6 @@ Mean aggregated landscape curve.
 Aggregate multiple landscape curves
 }
 \examples{
-compute_aggregated_landscape_curve(list(list(dim0 = c(0,1), dim1 = c(0,0))),
+scPHcompare:::compute_aggregated_landscape_curve(list(list(dim0 = c(0,1), dim1 = c(0,0))),
                                   seq(0, 1, length.out = 3))
 }

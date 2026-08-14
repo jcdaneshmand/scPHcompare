@@ -24,5 +24,5 @@ Validates that the Euler curve matches the alternating sum of Betti curves acros
 \examples{
 euler <- list(mean = c(1, 0))
 betti <- list(list(mean = c(1, 0)))
-check_betti_euler_consistency(euler, betti, 0, c(0, 1))
+scPHcompare:::check_betti_euler_consistency(euler, betti, 0, c(0, 1))
 }
