@@ -2,7 +2,11 @@
 args <- commandArgs(trailingOnly = TRUE)
 if (length(args) != 2L) stop("Usage: validate_mv05au_corrected_consumer_prefreeze.R EVIDENCE_DIR OUTPUT_CSV")
 e <- normalizePath(args[[1]], mustWork = TRUE); output <- normalizePath(args[[2]], mustWork = FALSE)
-setwd("/mnt/e/Repositories/Jonah/PH Pipeline Repo/scPHcompare")
+script_arg <- grep("^--file=", commandArgs(trailingOnly = FALSE), value = TRUE)
+if (length(script_arg) != 1L) stop("Unable to resolve the repository root.")
+setwd(normalizePath(file.path(
+  dirname(gsub("~+~", " ", sub("^--file=", "", script_arg[[1L]]), fixed = TRUE)), ".."
+), mustWork = TRUE))
 read_e <- function(id) utils::read.csv(file.path(e, paste0("mv05au-", id,
   "-2026-08-12.csv")), stringsAsFactors = FALSE, check.names = FALSE)
 checks <- list(); record <- function(id, pass, evidence) {

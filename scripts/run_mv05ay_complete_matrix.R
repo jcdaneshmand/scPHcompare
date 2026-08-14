@@ -1,7 +1,9 @@
 #!/usr/bin/env Rscript
 args<-commandArgs(trailingOnly=TRUE);if(length(args)!=2L)stop("Usage: run_mv05ay_complete_matrix.R OUTPUT_DIR STRATUM_ID")
 out<-normalizePath(args[[1]],mustWork=FALSE);id<-args[[2]];dir.create(out,recursive=TRUE,showWarnings=FALSE)
-setwd("/mnt/e/Repositories/Jonah/PH Pipeline Repo/scPHcompare");pkgload::load_all(".",quiet=TRUE)
+script_arg<-grep("^--file=",commandArgs(trailingOnly=FALSE),value=TRUE)
+if(length(script_arg)!=1L)stop("Unable to resolve the repository root.")
+setwd(normalizePath(file.path(dirname(gsub("~+~"," ",sub("^--file=","",script_arg[[1L]]),fixed=TRUE)),".."),mustWork=TRUE));pkgload::load_all(".",quiet=TRUE)
 m<-utils::read.csv("docs/audits/mv04-input-diagram-manifest-2026-08-05.csv",stringsAsFactors=FALSE);x<-m[m$stratum_id==id,];x<-x[order(x$diagram_id,method="radix"),]
 if(!nrow(x))stop("Unknown stratum")
 objs<-lapply(x$result_file,readRDS);diagrams<-setNames(lapply(objs,`[[`,"diagram"),x$diagram_id)

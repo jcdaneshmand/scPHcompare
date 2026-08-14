@@ -6,14 +6,27 @@ authors:
   - given-names: "Jonah"
     family-names: "Daneshmand"
     email: "jcdaneshmand@users.noreply.github.com"
+  - given-names: "Julia H."
+    family-names: "Chariker"
+  - given-names: "Akshitkumar"
+    family-names: "Mistry"
+  - given-names: "Eric C."
+    family-names: "Rouchka"
 license: "MIT"
-date-released: 2025-08-05
+date-released: 2025-07-29
 preferred-citation:
   type: article
   title: "Impact of Integration on Persistent Homology Clustering and Biological Signal Detection in scRNA-seq Data"
   authors:
     - given-names: "Jonah"
       family-names: "Daneshmand"
+    - given-names: "Julia H."
+      family-names: "Chariker"
+    - given-names: "Akshitkumar"
+      family-names: "Mistry"
+    - given-names: "Eric C."
+      family-names: "Rouchka"
   year: 2025
-  url: "https://doi.org/placeholder"
-  notes: "Placeholder for forthcoming publication link."
+  doi: "10.1101/2025.07.24.666637"
+  url: "https://doi.org/10.1101/2025.07.24.666637"
+  notes: "bioRxiv preprint; revised manuscript in preparation."

@@ -1137,3 +1137,70 @@ cost remains below the frozen wall and 2-GiB caps. Partitions remain closed.
 Next is MV5-AZ: inventory and prospectively freeze label-closed matched-axis
 stability/resampling, including a numerical-equivalence speed gate before any
 additional high-depth gene calculation.
+
+MV5-AZ accepts a label-closed prefreeze without selecting `k`. MV03's five
+seeds/two samples are technical-reproducibility evidence; MV05C's five-seed
+six-sample folds are method/equivalence references with incomplete current-view
+coverage; MV5-AY's complete corrected axes have one seed. The primary target is
+therefore four large ten-sample panels on five identical seed axes. A future
+launch would add 160 diagrams and 720 pairs, including 360 high-depth gene-H1
+pairs. PAM stability is frozen as ten pairwise seed ARIs with delete-one-seed
+jackknife SE and smallest-k-within-one-SE selection, separately for H0/H1.
+MV5-BA may benchmark corrected Persim equivalence and speed; added seeds,
+partitions, labels, outcomes, fusion, and Rust implementation remain closed.
+
+MV5-BA rejects corrected Persim as a production replacement while retaining it
+as an independent oracle. All three analytical fixtures and 12/12 H0/H1
+results on six prospectively selected worst-depth gene pairs pass, with maximum
+squared-distance error `3.93e-13`. Retaining all diagrams or one large stratum
+breaches the 2-GiB cap; pair-bounded retention completes at 1.96 GB. On the
+matched panel, R's median is 295.515 seconds versus 370.556 seconds for Persim,
+a candidate speedup of only 0.797x; Persim is slower on every pair. The frozen
+Rust throughput trigger is therefore satisfied. Next is MV5-BB Rust-kernel
+prefreeze only; implementation, added seeds, and partitions remain closed.
+
+MV5-BB freezes a pair-bounded, one-dimension Rust squared-L2 kernel behind a
+versioned C ABI, with R retaining validation, H0/H1 separation, provenance,
+certification, artifacts, public APIs, and unconditional fallback. The ladder
+contains 443 equivalence results; prototype gates require >=3x matched median
+speedup, no slower pair, <=1 GiB RSS, deterministic clean builds, memory-safety
+checks, forced fallback, and package checks with Rust absent/present. A
+prototype cannot authorize production adoption. No Rust toolchain is currently
+installed, so MV5-BC requires owner authorization to obtain a pinned toolchain.
+Added seeds and partitions remain closed.
+
+MV5-BC accepts the bounded Rust prototype without authorizing production use.
+The isolated pinned Rust 1.97.1 build has no external crates and repeats its
+shared-library hash across clean builds. Exact all-level H0/H1 squared-L2
+equivalence passes 3/3 analytical fixtures, 20/20 tractable R references, and
+12/12 frozen worst-depth certificates. The six matched pairs are all faster,
+with median 643.19x speedup, and whole-run peak RSS is 240,254,976 bytes. The C
+boundary passes ASan/UBSan; complete source suites and exact-index checks pass
+with the optional library absent and present. R remains canonical and owns
+validation, provenance, public APIs, and fallback; the crate is excluded from
+R source builds. Next is MV5-BD, the complete Tier D/E equivalence and separate
+production-adoption gate. Defaults, added seeds, partitions, labels, and
+outcomes remain closed.
+
+MV5-BD accepts complete numerical equivalence while deferring production
+adoption. All 318 exact and 90 adaptive-certified accepted dimension results
+pass; maximum squared errors are 7.28e-11 and 3.69e-12, respectively. All 408
+reverse calculations are bit-identical, all 112 self-distances are exactly
+zero, normalized clean runs repeat, and peak RSS is 245,452,800 bytes. The
+remaining blocker is engineering distribution, not landscape science: only the
+Linux build/runtime is certified, while Windows/macOS builds, platform artifact
+provenance/selection, and installed-package release behavior remain untested.
+Next is MV5-BE cross-platform build and distribution prefreeze. R remains
+canonical; Rust stays excluded and default-off; added seeds and partitions
+remain closed.
+
+MV5-BE accepts a cross-platform distribution prefreeze without implementing or
+publishing anything. The R source package stays R-canonical, Rust-free,
+Cargo-free, offline at install/load, and default `engine = "r"`. A separate
+opt-in accelerator release would require immutable, attested, checksum-bound
+artifacts for Linux x86-64, Windows x86-64, macOS ARM64, and macOS x86-64;
+unsupported or failed targets use R. Private scientific data never enters CI.
+The current Ubuntu-only workflow and package files remain unchanged. Next is
+MV5-BF nonpublishing cross-platform CI certification only; release publication,
+downloader/runtime integration, Rust production adoption, added seeds, and
+partitions remain closed.

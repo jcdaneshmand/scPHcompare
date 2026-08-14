@@ -6,7 +6,11 @@ if (length(args) != 3L) {
 }
 builds <- normalizePath(args[1:2], mustWork = TRUE)
 output_csv <- normalizePath(args[[3L]], mustWork = FALSE)
-setwd("/mnt/e/Repositories/Jonah/PH Pipeline Repo/scPHcompare")
+script_arg <- grep("^--file=", commandArgs(trailingOnly = FALSE), value = TRUE)
+if (length(script_arg) != 1L) stop("Unable to resolve the repository root.")
+setwd(normalizePath(file.path(
+  dirname(gsub("~+~", " ", sub("^--file=", "", script_arg[[1L]]), fixed = TRUE)), ".."
+), mustWork = TRUE))
 pkgload::load_all(".", quiet = TRUE)
 
 read_build <- function(build, id) utils::read.csv(file.path(

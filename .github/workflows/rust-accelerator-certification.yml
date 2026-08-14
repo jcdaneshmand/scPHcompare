@@ -1,0 +1,292 @@
+name: Rust accelerator candidate certification
+
+"on":
+  pull_request:
+    paths:
+      - ".github/workflows/rust-accelerator-certification.yml"
+      - ".Rbuildignore"
+      - "DESCRIPTION"
+      - "R/landscape_rust_prototype.R"
+      - "renv.lock"
+      - "renv/**"
+      - "rust/scph_landscape_kernel/**"
+      - "scripts/mv05bf_*"
+      - "scripts/restore_locked_dependencies.R"
+      - "tests/native/mv05bc_ffi_sanitizer.c"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: rust-accelerator-certification-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  native-candidate:
+    name: ${{ matrix.name }}
+    needs: no-release-guard
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: linux-x86-64
+            runner: ubuntu-22.04
+            target: x86_64-unknown-linux-gnu
+            library: libscph_landscape_kernel.so
+            candidate: scph-landscape-kernel-v1_x86_64-unknown-linux-gnu.so
+          - name: windows-x86-64
+            runner: windows-2022
+            target: x86_64-pc-windows-msvc
+            library: scph_landscape_kernel.dll
+            candidate: scph-landscape-kernel-v1_x86_64-pc-windows-msvc.dll
+          - name: macos-arm64
+            runner: macos-14
+            target: aarch64-apple-darwin
+            library: libscph_landscape_kernel.dylib
+            candidate: scph-landscape-kernel-v1_aarch64-apple-darwin.dylib
+          - name: macos-x86-64
+            runner: macos-15-intel
+            target: x86_64-apple-darwin
+            library: libscph_landscape_kernel.dylib
+            candidate: scph-landscape-kernel-v1_x86_64-apple-darwin.dylib
+    env:
+      RUST_TOOLCHAIN: "1.97.1"
+      RUST_MANIFEST: rust/scph_landscape_kernel/Cargo.toml
+      RUST_TARGET_DIR: rust/scph_landscape_kernel/target
+      EVIDENCE_DIR: rust-candidate-evidence
+      RENV_CONFIG_AUTOLOADER_ENABLED: "TRUE"
+      RENV_PATHS_LIBRARY: ${{ github.workspace }}/../scphcompare-renv-${{ matrix.target }}
+      R_KEEP_PKG_SOURCE: yes
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+          sparse-checkout: |
+            .Rbuildignore
+            .Rprofile
+            .github/workflows/rust-accelerator-certification.yml
+            DESCRIPTION
+            LICENSE
+            NAMESPACE
+            README.md
+            R
+            inst
+            man
+            renv
+            renv.lock
+            rust
+            scripts
+            tests
+          sparse-checkout-cone-mode: false
+
+      - uses: r-lib/actions/setup-r@d3c5be51b12e724e68f33216ca3c148b66d5f0b6 # v2
+        with:
+          r-version: "4.4.1"
+          use-public-rspm: true
+
+      - name: Install locked R system prerequisites on Linux
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends \
+            libcurl4-openssl-dev \
+            libglpk-dev \
+            libgmp3-dev \
+            libhdf5-dev \
+            pandoc
+
+      - name: Cache exact locked R library
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: ${{ env.RENV_PATHS_LIBRARY }}
+          key: ${{ runner.os }}-${{ runner.arch }}-r-4.4.1-renv-${{ hashFiles('renv.lock', 'renv/activate.R', 'scripts/restore_locked_dependencies.R') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ runner.arch }}-r-4.4.1-renv-
+
+      - name: Restore and verify exact locked R dependencies
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path $env:EVIDENCE_DIR | Out-Null
+          Rscript scripts/restore_locked_dependencies.R `
+            "--project=." `
+            "--library=$env:RENV_PATHS_LIBRARY" `
+            "--report=$env:EVIDENCE_DIR/dependency-bootstrap-manifest.csv"
+          if ($LASTEXITCODE -ne 0) { throw "Exact locked R dependency restore failed" }
+          "R_LIBS=$env:RENV_PATHS_LIBRARY" |
+            Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          "R_LIBS_USER=$env:RENV_PATHS_LIBRARY" |
+            Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          "RENV_CONFIG_AUTOLOADER_ENABLED=FALSE" |
+            Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+      - name: Install and verify pinned Rust toolchain
+        shell: pwsh
+        run: |
+          rustup toolchain install $env:RUST_TOOLCHAIN --profile minimal --component rustfmt,clippy
+          rustup default $env:RUST_TOOLCHAIN
+          $identity = rustc +$env:RUST_TOOLCHAIN -vV
+          $identity
+          if (-not ($identity -match "release: 1\.97\.1")) {
+            throw "Unexpected Rust release identity"
+          }
+          if (-not ($identity -match "host: ${{ matrix.target }}")) {
+            throw "Rust host does not match the native matrix target"
+          }
+          cargo +$env:RUST_TOOLCHAIN -vV
+
+      - name: Configure reproducible Windows link inputs
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          "RUSTFLAGS=-C link-arg=/Brepro -C link-arg=/PDBALTPATH:%_PDB%" |
+            Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+      - name: Test, lint, and make clean build A
+        shell: pwsh
+        run: |
+          cargo +$env:RUST_TOOLCHAIN fmt --manifest-path $env:RUST_MANIFEST -- --check
+          cargo +$env:RUST_TOOLCHAIN test --manifest-path $env:RUST_MANIFEST --locked
+          cargo +$env:RUST_TOOLCHAIN clippy --manifest-path $env:RUST_MANIFEST --locked --all-targets -- -D warnings
+          cargo +$env:RUST_TOOLCHAIN build --manifest-path $env:RUST_MANIFEST --release --locked
+          $library = Join-Path "$env:RUST_TARGET_DIR/release" "${{ matrix.library }}"
+          if (-not (Test-Path -LiteralPath $library)) { throw "Missing release library" }
+          New-Item -ItemType Directory -Force -Path $env:EVIDENCE_DIR | Out-Null
+          (Get-FileHash -Algorithm SHA256 -LiteralPath $library).Hash.ToLowerInvariant() |
+            Set-Content -NoNewline (Join-Path $env:EVIDENCE_DIR "clean-build-a.sha256")
+
+      - name: Make clean build B and require byte identity
+        shell: pwsh
+        run: |
+          cargo +$env:RUST_TOOLCHAIN clean --manifest-path $env:RUST_MANIFEST
+          cargo +$env:RUST_TOOLCHAIN build --manifest-path $env:RUST_MANIFEST --release --locked
+          $library = Join-Path "$env:RUST_TARGET_DIR/release" "${{ matrix.library }}"
+          $first = Get-Content -Raw (Join-Path $env:EVIDENCE_DIR "clean-build-a.sha256")
+          $second = (Get-FileHash -Algorithm SHA256 -LiteralPath $library).Hash.ToLowerInvariant()
+          if ($first -ne $second) { throw "Clean release builds are not byte-identical" }
+          $second | Set-Content -NoNewline (Join-Path $env:EVIDENCE_DIR "clean-build-b.sha256")
+          Copy-Item -LiteralPath $library -Destination (Join-Path $env:EVIDENCE_DIR "${{ matrix.candidate }}")
+
+      - name: Native C ABI harness (Linux and macOS)
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          set -euo pipefail
+          library_dir="$PWD/${RUST_TARGET_DIR}/release"
+          cc -std=c11 -Wall -Wextra -Werror \
+            -I rust/scph_landscape_kernel/include \
+            tests/native/mv05bc_ffi_sanitizer.c \
+            -L "${library_dir}" -lscph_landscape_kernel \
+            -Wl,-rpath,"${library_dir}" -lm -o "${EVIDENCE_DIR}/ffi-harness"
+          "${EVIDENCE_DIR}/ffi-harness"
+          if [[ "${RUNNER_OS}" == "Linux" ]]; then
+            ldd "${library_dir}/${{ matrix.library }}" > "${EVIDENCE_DIR}/native-dependencies-raw.txt"
+          else
+            otool -L "${library_dir}/${{ matrix.library }}" > "${EVIDENCE_DIR}/native-dependencies-raw.txt"
+          fi
+
+      - name: Native C ABI harness (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          ./scripts/mv05bf_run_windows_harness.ps1 `
+            -Library "$env:RUST_TARGET_DIR/release/${{ matrix.library }}" `
+            -EvidenceDirectory $env:EVIDENCE_DIR
+
+      - name: Normalize native dependency inventory
+        shell: pwsh
+        run: |
+          python scripts/mv05bg_normalize_dependencies.py `
+            --platform $env:RUNNER_OS `
+            --input (Join-Path $env:EVIDENCE_DIR "native-dependencies-raw.txt") `
+            --output (Join-Path $env:EVIDENCE_DIR "native-dependencies.txt")
+
+      - name: R analytical, corruption, and fallback fixtures
+        shell: pwsh
+        run: |
+          $library = Join-Path "$env:RUST_TARGET_DIR/release" "${{ matrix.library }}"
+          Rscript scripts/mv05bf_rust_ci_fixture.R $library (Join-Path $env:EVIDENCE_DIR "r-fixtures.csv")
+
+      - name: Check exact R source package with accelerator absent and present
+        shell: pwsh
+        run: |
+          $rExecutable = Get-Command R -CommandType Application -ErrorAction Stop |
+            Select-Object -First 1 -ExpandProperty Source
+          $env:R_LIBS_USER = $env:RENV_PATHS_LIBRARY
+          & $rExecutable CMD build .
+          if ($LASTEXITCODE -ne 0) { throw "R CMD build failed" }
+          $tarball = (Get-ChildItem -File "scPHcompare_*.tar.gz" | Select-Object -First 1).FullName
+          if (-not $tarball) { throw "R source tarball is missing" }
+          $library = (Resolve-Path (Join-Path "$env:RUST_TARGET_DIR/release" "${{ matrix.library }}")).Path
+          foreach ($mode in @("absent", "present")) {
+            $checkRoot = Join-Path $env:EVIDENCE_DIR "package-check-$mode"
+            New-Item -ItemType Directory -Path $checkRoot | Out-Null
+            if ($mode -eq "present") {
+              $env:SCPH_RUST_LANDSCAPE_LIB = $library
+            } else {
+              Remove-Item Env:SCPH_RUST_LANDSCAPE_LIB -ErrorAction SilentlyContinue
+            }
+            Push-Location $checkRoot
+            & $rExecutable CMD check --no-manual --no-build-vignettes $tarball
+            $status = $LASTEXITCODE
+            Pop-Location
+            if ($status -ne 0) { throw "R CMD check failed in $mode mode" }
+            $log = Get-ChildItem -Path $checkRoot -Filter "00check.log" -Recurse | Select-Object -First 1
+            if (-not $log) { throw "R check log is missing in $mode mode" }
+            Copy-Item -LiteralPath $log.FullName -Destination (Join-Path $env:EVIDENCE_DIR "r-check-$mode.log")
+          }
+          Remove-Item Env:SCPH_RUST_LANDSCAPE_LIB -ErrorAction SilentlyContinue
+
+      - name: Build candidate manifest
+        shell: pwsh
+        run: |
+          python scripts/mv05bf_build_candidate_manifest.py `
+            --target "${{ matrix.target }}" `
+            --runner "${{ matrix.runner }}" `
+            --library (Join-Path $env:EVIDENCE_DIR "${{ matrix.candidate }}") `
+            --dependencies (Join-Path $env:EVIDENCE_DIR "native-dependencies.txt") `
+            --fixtures (Join-Path $env:EVIDENCE_DIR "r-fixtures.csv") `
+            --r-check-absent (Join-Path $env:EVIDENCE_DIR "r-check-absent.log") `
+            --r-check-present (Join-Path $env:EVIDENCE_DIR "r-check-present.log") `
+            --output (Join-Path $env:EVIDENCE_DIR "candidate-manifest.csv")
+
+      - name: Upload short-lived candidate evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: rust-candidate-${{ matrix.target }}
+          if-no-files-found: warn
+          retention-days: 7
+          path: rust-candidate-evidence/
+
+  no-release-guard:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+          sparse-checkout: .github/workflows/rust-accelerator-certification.yml
+          sparse-checkout-cone-mode: false
+      - name: Prove workflow is nonpublishing and private-data closed
+        shell: bash
+        run: |
+          set -euo pipefail
+          workflow=.github/workflows/rust-accelerator-certification.yml
+          candidate_section="${RUNNER_TEMP}/rust-candidate-workflow-prefix.yml"
+          sed '/^  no-release-guard:/,$d' "${workflow}" > "${candidate_section}"
+          ! grep -Eq '(^|/)release-action|gh release|create-release|contents: write' "${candidate_section}"
+          ! grep -Eq 'tmp/mv05|private-|docs/private|\.rds|\.pdf' "${candidate_section}"
+          forbidden="$(git ls-files | grep -E '(^docs/private/|\.pdf$|^example_run\.r$|^tmp/|^rust-candidate-evidence/)' || true)"
+          if [[ -n "${forbidden}" ]]; then
+            printf 'Forbidden tracked candidate input:\n%s\n' "${forbidden}" >&2
+            exit 1
+          fi
+          unexpected="$(find . -path ./.git -prune -o -type f \( -iname '*.pdf' -o -iname '*.rds' \) -print)"
+          if [[ -n "${unexpected}" ]]; then
+            printf 'Unexpected binary document/data in sparse worktree:\n%s\n' "${unexpected}" >&2
+            exit 1
+          fi

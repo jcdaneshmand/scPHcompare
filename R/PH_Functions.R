@@ -841,17 +841,24 @@ process_and_monitor <- function(expr_matrix, i, DIM, log_message, memory_thresho
       unlink(pd_file)
     }
 
-    ph_job <- processx::process$new(
-      "Rscript",
-      c("-e", paste0(
+    ph_child_expression <- paste0(
+        "args <- commandArgs(trailingOnly = TRUE);",
         "tryCatch({",
-        "dataset <- readRDS('", dataset_file, "');",
+        "dataset <- readRDS(args[[1L]]);",
         "dataset <- as.matrix(dataset);",
-        "PD <- ripserr::vietoris_rips(dataset = dataset, max_dim = ", DIM, ", threshold = ", current_threshold, ", return_format = 'mat');",
-        "saveRDS(PD, '", pd_file, "')",
+        "max_dim <- as.integer(args[[3L]]);",
+        "threshold <- as.numeric(args[[4L]]);",
+        "PD <- ripserr::vietoris_rips(dataset = dataset, max_dim = max_dim, threshold = threshold, return_format = 'mat');",
+        "saveRDS(PD, args[[2L]])",
         "}, error = function(e) { message('Error:', conditionMessage(e)); quit(save='no', status=1) })",
         ";quit(save='no')"
-      )),
+      )
+    ph_job <- processx::process$new(
+      "Rscript",
+      c(
+        "-e", ph_child_expression,
+        dataset_file, pd_file, as.character(DIM), as.character(current_threshold)
+      ),
       stdout = "|", stderr = "|"
     )
 
