@@ -1,0 +1,6 @@
+"contract_id","stage","elapsed_cap_seconds","rss_cap_bytes","storage_cap_bytes","cap_policy","atomic_write","immutable_resume","partial_state_publishable"
+"mv07e_resource_and_resume_contract_v1","mv07f_raw_child",1800,8589934592,,"stop_child",TRUE,TRUE,FALSE
+"mv07e_resource_and_resume_contract_v1","mv07f_sct_child",1800,8589934592,,"stop_child",TRUE,TRUE,FALSE
+"mv07e_resource_and_resume_contract_v1","mv07f_aggregate",14400,8589934592,4294967296,"stop_before_publish",TRUE,TRUE,FALSE
+"mv07e_resource_and_resume_contract_v1","mv07g_sentinel",,8589934592,,"set_from_measured_mv07f_then_stop_or_authorize",TRUE,TRUE,FALSE
+"mv07e_resource_and_resume_contract_v1","mv07h_full_ph_landscape",,,,"set_only_after_mv07g_measured_projection",TRUE,TRUE,FALSE

@@ -1,0 +1,2 @@
+"contract_id","samples","seeds","unordered_pairs_per_seed","biological_pairs_per_view","views","homology_dimensions","component_distance_rows","cross_seed_pairs","pair_identity"
+"mv07e_pair_scope_v1",124,5,7626,38130,2,2,152520,FALSE,"lexicographic_sample_a_less_than_sample_b_within_seed"

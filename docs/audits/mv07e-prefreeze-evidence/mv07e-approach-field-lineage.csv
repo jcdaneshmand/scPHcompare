@@ -1,0 +1,4 @@
+"contract_id","field","origin","generation","matches_public_124","disagreements_public_124","scientific_status"
+"mv07e_approach_field_lineage_v1","Approach.x","historical filtered Seurat metadata","expression heuristic using feature count mitochondrial fraction and UMI count",108,16,"prohibited"
+"mv07e_approach_field_lineage_v1","Approach.y","public candidate metadata joined by sample ID","declared source metadata",124,0,"authoritative"
+"mv07e_approach_field_lineage_v1","canonical_approach","public candidate metadata with accession confirmation for conflicts","deterministic provenance policy",124,0,"authoritative"

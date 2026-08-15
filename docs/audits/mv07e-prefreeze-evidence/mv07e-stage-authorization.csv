@@ -1,0 +1,6 @@
+"contract_id","stage","authorized_now","permitted_work","prerequisite"
+"mv07e_stage_authorization_v1","MV7-F",TRUE,"34 raw shards and 170 SCT caches only","MV7-E independent validation"
+"mv07e_stage_authorization_v1","post-MV7-F-panel",TRUE,"availability-only 620-cache global-core panel fit and exact panel lock","MV7-F complete validation"
+"mv07e_stage_authorization_v1","MV7-G",FALSE,"six-sample five-seed typed-view and PH sentinel after exact panel lock","exact 124-panel independent validation"
+"mv07e_stage_authorization_v1","MV7-H",FALSE,"full topology and landscapes after MV7-G resource gate","MV7-G measured resource authorization"
+"mv07e_stage_authorization_v1","MV7-I",FALSE,"descriptive evaluation after immutable distance completion","MV7-H independent validation and label-access prefreeze"

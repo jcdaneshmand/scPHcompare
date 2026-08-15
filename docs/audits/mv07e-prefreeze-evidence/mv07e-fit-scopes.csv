@@ -1,0 +1,6 @@
+"contract_id","fit_scope_order","fit_scope_id","seed","fit_samples","fit_cells","panel_genes","pca_components","standardization_scope","pca_scope","transductive","comparison_to_loso_transform","labels_used_for_fit"
+"mv07e_global_descriptive_fit_scope_v1",1,"mv07e_full124_seed_20260805",20260805,124,47616,500,30,"all_124_equal_depth_cells_within_seed","all_124_equal_depth_cells_within_seed",TRUE,"prohibited_as_same_estimand",FALSE
+"mv07e_global_descriptive_fit_scope_v1",2,"mv07e_full124_seed_20260806",20260806,124,47616,500,30,"all_124_equal_depth_cells_within_seed","all_124_equal_depth_cells_within_seed",TRUE,"prohibited_as_same_estimand",FALSE
+"mv07e_global_descriptive_fit_scope_v1",3,"mv07e_full124_seed_20260807",20260807,124,47616,500,30,"all_124_equal_depth_cells_within_seed","all_124_equal_depth_cells_within_seed",TRUE,"prohibited_as_same_estimand",FALSE
+"mv07e_global_descriptive_fit_scope_v1",4,"mv07e_full124_seed_20260808",20260808,124,47616,500,30,"all_124_equal_depth_cells_within_seed","all_124_equal_depth_cells_within_seed",TRUE,"prohibited_as_same_estimand",FALSE
+"mv07e_global_descriptive_fit_scope_v1",5,"mv07e_full124_seed_20260809",20260809,124,47616,500,30,"all_124_equal_depth_cells_within_seed","all_124_equal_depth_cells_within_seed",TRUE,"prohibited_as_same_estimand",FALSE

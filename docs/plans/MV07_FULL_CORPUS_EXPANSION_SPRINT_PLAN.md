@@ -1,7 +1,7 @@
 # MV7 full-corpus expansion sprint plan
 
 Date: 2026-08-15
-Status: prospective; MV7-D complete, later calculation not authorized
+Status: active; MV7-D and MV7-E complete, MV7-F upstream production authorized
 
 ## Goal
 
@@ -40,7 +40,7 @@ Deliverables:
 Gate result: upstream extension is feasible; expanded caches, PH, landscapes,
 and outcomes remain closed.
 
-## MV7-E — metadata provenance and descriptive estimand prefreeze
+## MV7-E — metadata provenance and descriptive estimand prefreeze (complete)
 
 Purpose: make the 124-sample cell/gene objects mathematically comparable before
 building them.
@@ -68,6 +68,14 @@ Tasks:
 Acceptance: exact sample/seed/panel/fit-scope manifests; no PH; independent
 validation; owner input only if the panel-availability fallback or provenance
 evidence presents a genuinely different scientific choice.
+
+Gate result: all 16 approach conflicts resolve to the public/`Approach.y`
+value. The primary 90 are all scRNA-seq, so the previous mixed-approach
+diagnostic is superseded as not estimable. Thirty-three added samples contain
+the full accepted panel; `SRA701877_SRS3279688` lacks one feature (`KLF2`), so
+the prospectively specified 124-sample global-core fallback is mandatory.
+MV7-F is authorized only to create the 34 raw and 170 SCT caches. The exact
+124-derived panel must be frozen in a post-MV7-F evidence commit before MV7-G.
 
 ## MV7-F — omitted-34 upstream production
 

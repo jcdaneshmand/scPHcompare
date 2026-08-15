@@ -1,0 +1,2 @@
+"contract_id","decision","next_stage","raw_shards_authorized","sct_caches_authorized","final_panel_selection_authorized_after_sct","pca_authorized","ph_authorized","landscape_authorized","clustering_authorized","outcomes_authorized","label_access_authorized","primary_90_recalculation_authorized","external_data_authorized","owner_input_required"
+"mv07e_prefreeze_decision_v1","authorize_mv07f_upstream_only_then_finalize_124_panel","MV7-F",34,170,TRUE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE

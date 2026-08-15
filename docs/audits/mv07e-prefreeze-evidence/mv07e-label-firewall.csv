@@ -1,0 +1,6 @@
+"contract_id","stage","allowed_identity","prohibited_inputs","labels_may_select","labels_may_stop","label_access_state"
+"mv07e_label_firewall_v1","mv07f_upstream","sample_id;seed;cache_identity;feature_identity","tissue;study;approach;biological_outcomes;prior_topology_results",FALSE,FALSE,"closed"
+"mv07e_label_firewall_v1","panel_fit","sample_id;seed;cache_identity;feature_identity","tissue;study;approach;biological_outcomes;prior_topology_results",FALSE,FALSE,"closed"
+"mv07e_label_firewall_v1","standardization_pca","sample_id;seed;cache_identity;feature_identity","tissue;study;approach;biological_outcomes;prior_topology_results",FALSE,FALSE,"closed"
+"mv07e_label_firewall_v1","typed_view_ph","sample_id;seed;cache_identity;feature_identity","tissue;study;approach;biological_outcomes;prior_topology_results",FALSE,FALSE,"closed"
+"mv07e_label_firewall_v1","landscape_distance","sample_id;seed;cache_identity;feature_identity","tissue;study;approach;biological_outcomes;prior_topology_results",FALSE,FALSE,"closed"

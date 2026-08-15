@@ -1,0 +1,2 @@
+"contract_id","affected_result","primary_samples","primary_scrna","primary_snrna","primary_mixed_approach_studies","corrected_disposition","original_approach_result_status","topology_or_landscape_recalculation_required","study_tissue_cell_count_results_affected","causal_technology_claim_authorized"
+"mv07e_mv07b_approach_correction_v1","MV7-B mixed-study approach association only",90,90,0,0,"not_estimable_zero_mixed_approach_studies","superseded_metadata_field_error",FALSE,FALSE,FALSE

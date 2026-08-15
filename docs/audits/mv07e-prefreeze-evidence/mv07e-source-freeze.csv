@@ -1,0 +1,13 @@
+"contract_id","source_id","artifact_locator","sha256","bytes","accepted_head","private_source"
+"mv07e_source_freeze_v1","candidate_metadata","inst/extdata/inputs/metadata_MultiTissueAnalysis.csv","ca608488e474ff825f571e76ec13b1fab7e25132e0bbc4f4ebd9f0e994df02b4",19948,"4e1feea0f6bea626a44ffc39911ed8deb9c844f4",FALSE
+"mv07e_source_freeze_v1","retained_metadata","private:historical_joined_metadata_cellcounts.csv","e2b6f1e7d7dc05ba8e80627aad4ea1677c3b718a844397acd06596d7e22a18d0",33255,"4e1feea0f6bea626a44ffc39911ed8deb9c844f4",TRUE
+"mv07e_source_freeze_v1","reconciliation","docs/audits/mv07d-prefreeze-evidence/mv07d-sample-reconciliation.csv","ff448cab8dc056d5a7c89fce7cde75f0844cb8c8d6a990195308e5322693afe0",32276,"4e1feea0f6bea626a44ffc39911ed8deb9c844f4",FALSE
+"mv07e_source_freeze_v1","accepted_panel","docs/audits/mv06c-global-core-evidence/mv06c-panel.csv","b3a5aff1a0bc01e871751fb9db0b3babfaf18835e68c5699346d8476d903d0ab",96728,"4e1feea0f6bea626a44ffc39911ed8deb9c844f4",FALSE
+"mv07e_source_freeze_v1","accession_evidence","inst/extdata/inputs/mv07e_approach_accession_evidence.csv","fd19947f7813a536f9180d4cbf73228b4c000505700a1f3ff534e011db36d227",4183,"4e1feea0f6bea626a44ffc39911ed8deb9c844f4",FALSE
+"mv07e_source_freeze_v1","historical_heuristic","private:historical_Ph_Pipeline_Part_1_V5.R","0e045cd3553295670f49a81351d9c0658c311eca13183393dbe341a24c78ddd6",47096,"4e1feea0f6bea626a44ffc39911ed8deb9c844f4",TRUE
+"mv07e_source_freeze_v1","helper","R/mv07e_full_corpus_prefreeze.R","618169b9edd1a82e6970e97e65f5c3f51298649747c2ac916e4806d9024f82af",13379,"4e1feea0f6bea626a44ffc39911ed8deb9c844f4",FALSE
+"mv07e_source_freeze_v1","builder","scripts/build_mv07e_full_corpus_prefreeze.R","709457592866f0f71d4cc2e5bb226b0242f433df4ff9e4da5a1d5e028d4bdaa1",11906,"4e1feea0f6bea626a44ffc39911ed8deb9c844f4",FALSE
+"mv07e_source_freeze_v1","validator","scripts/validate_mv07e_full_corpus_prefreeze.R","3cf3f03c891a4d05d59531041f2ce15a3ecb9d25e5f474382c521e9dcb3375c7",10569,"4e1feea0f6bea626a44ffc39911ed8deb9c844f4",FALSE
+"mv07e_source_freeze_v1","repeat_validator","scripts/validate_mv07e_prefreeze_repeat.R","2d82642e3c0c2f3150398221e58db5dd8b3fc3605e1528a60d2dd6f437b9a4c5",1899,"4e1feea0f6bea626a44ffc39911ed8deb9c844f4",FALSE
+"mv07e_source_freeze_v1","tests","tests/testthat/test-mv07e-full-corpus-prefreeze.R","fcdbb2664691235c4dd7095c7e34209296cda2dfab903995920f7bf287d98dff",2300,"4e1feea0f6bea626a44ffc39911ed8deb9c844f4",FALSE
+"mv07e_source_freeze_v1","specification","docs/specifications/MV07E_METADATA_PROVENANCE_AND_FULL124_ESTIMAND_PREFREEZE_V1.md","0b24e31f1d0095b86984fd11cf675c4f8b93d9f4b07fc0826fb7f790ac183a69",5704,"4e1feea0f6bea626a44ffc39911ed8deb9c844f4",FALSE
