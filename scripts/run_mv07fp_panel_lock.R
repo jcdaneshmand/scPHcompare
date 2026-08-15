@@ -7,7 +7,7 @@ args<-commandArgs(trailingOnly=TRUE);if(length(args)!=6L)stop("usage: run_mv07fp
 prefreeze<-args[[1]];primary_cache<-args[[2]];added_cache<-args[[3]];old_panel_path<-args[[4]];output<-args[[5]];expected_head<-tolower(trimws(args[[6]]))
 head<-tolower(trimws(system2("git",c("rev-parse","HEAD"),stdout=TRUE)));if(!identical(head,expected_head))stop("MV7-FP exact HEAD mismatch.")
 if(dir.exists(output)&&length(list.files(output,all.files=TRUE,no..=TRUE)))stop("Output must be empty.")
-source("R/provenance_utils.R");source("R/toy_baseline.R");source("R/dual_view_topology.R");source("R/mv05_resource_safe_execution.R");source("R/mv06_global_core_gate.R")
+source("R/provenance_utils.R");source("R/toy_baseline.R");source("R/dual_view_topology.R");source("R/mv03_pilot.R");source("R/mv05_resource_safe_execution.R");source("R/mv06_global_core_gate.R")
 sha<-function(p)digest::digest(file=p,algo="sha256",serialize=FALSE);rss<-function()as.numeric(ps::ps_memory_info(ps::ps_handle())[["rss"]])
 manifest<-read.csv(file.path(prefreeze,"mv07fp-cache-manifest.csv"),stringsAsFactors=FALSE,check.names=FALSE);caps<-read.csv(file.path(prefreeze,"mv07fp-resource-caps.csv"),stringsAsFactors=FALSE)
 freeze<-read.csv(file.path(prefreeze,"mv07fp-source-freeze.csv"),stringsAsFactors=FALSE,check.names=FALSE)

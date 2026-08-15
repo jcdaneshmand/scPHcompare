@@ -4,7 +4,7 @@ options(warn=2)
 for(p in c("digest","Matrix"))if(!requireNamespace(p,quietly=TRUE))stop(p," required.")
 args<-commandArgs(trailingOnly=TRUE);if(length(args)!=5L)stop("usage: validate_mv07fp_panel_lock.R PREFREEZE PRIMARY_CACHE ADDED_CACHE EVIDENCE OUTPUT")
 prefreeze<-args[[1]];primary_cache<-args[[2]];added_cache<-args[[3]];evidence<-args[[4]];output<-args[[5]]
-source("R/toy_baseline.R");source("R/dual_view_topology.R");source("R/mv05_resource_safe_execution.R")
+source("R/toy_baseline.R");source("R/dual_view_topology.R");source("R/mv03_pilot.R");source("R/mv05_resource_safe_execution.R")
 sha<-function(p)digest::digest(file=p,algo="sha256",serialize=FALSE);readp<-function(n)read.csv(file.path(evidence,n),stringsAsFactors=FALSE,check.names=FALSE)
 manifest<-read.csv(file.path(prefreeze,"mv07fp-cache-manifest.csv"),stringsAsFactors=FALSE,check.names=FALSE);paths<-ifelse(manifest$source_tier=="primary90",file.path(primary_cache,manifest$private_cache_file),file.path(added_cache,manifest$private_cache_file))
 base<-NULL;presence<-NULL;variances<-NULL;union_features<-character();cache_ok<-logical(nrow(manifest))
