@@ -513,6 +513,31 @@ rankings. Production is still closed: the general runner must first reproduce
 the accepted maximum group's training distances, scales, and rankings
 byte-for-byte under the same live caps.
 
+#### Superseding completion update (2026-08-15)
+
+MV6-F and MV6-G computation is now complete across all 75 fold-seed groups.
+The corrected corpus contains 262,675 training-only biological pairs,
+1,050,700 cell/gene H0/H1 component rows, 300 training medians, and 318,150
+immutable ranking rows for nine fixed methods. Complete scientific validation
+passes 7/7 and all 445 public artifacts survive hash/byte/mtime immutable
+resume; the earlier stage-only paragraphs above are retained as execution
+history and no longer describe the active gate.
+
+MV6-H prediction root `c752408f...f4fd` binds all 75 group identities and 375
+group files, every method/endpoint/contrast/inference contract, the exact
+future outcome implementation, and the authoritative metadata hash without
+opening the metadata file. Independent validation reconstructs all 4,050
+canonical query-method rank sequences and passes 13/13 categories; a clean
+rebuild reproduces 9/9 lock artifacts byte-for-byte.
+
+Equal cell/gene fusion (`fusion_gene_weight_050`) remains the sole primary
+fusion and must be compared with both `cell_composite` and `gene_composite` in
+the fixed two-contrast MRR family. The next authorized action is exact-commit
+blocked outcome execution with a receipt written before metadata read,
+followed by independent reconstruction. Advanced fusion, clustering, defaults,
+release, and claims remain closed. The fixed global panel remains explicitly
+transductive at the label-free technical-selection level.
+
 ## 11. MV-07 — Robustness synthesis and full-run decision
 
 ### Objective

@@ -1,0 +1,9 @@
+"contract_id","source_id","artifact_locator","sha256","bytes","implementation_commit","labels_opened","outcomes_computed"
+"mv06h_implementation_manifest_v1","outcome_engine","R/mv06h_fusion_outcome.R","e04265af0177cc6858d96e32d6f7c3a430ae126d009a9440538e80ffda9d1cd3",23267,"f2b8da4c1f8fc5d5f2d62a8088c9a24b260bf74a",FALSE,FALSE
+"mv06h_implementation_manifest_v1","upstream_contract_engine","R/mv06g_fusion_prefreeze.R","c5344d25dd3c52ecebc9acdbcb23402aa97d50cb855a4a9f75d09b5af1657d73",4131,"f2b8da4c1f8fc5d5f2d62a8088c9a24b260bf74a",FALSE,FALSE
+"mv06h_implementation_manifest_v1","builder","scripts/build_mv06h_prediction_prefreeze.R","48f294a51b2b54d893aed3963ac77783ec0f5c066f34243fd2e6e6611543e064",13295,"f2b8da4c1f8fc5d5f2d62a8088c9a24b260bf74a",FALSE,FALSE
+"mv06h_implementation_manifest_v1","independent_validator","scripts/validate_mv06h_prediction_prefreeze.R","0e03b84accf100a067dd007b4e9821d1a0df2dc3e72bcd0b0097975f1be39deb",9678,"f2b8da4c1f8fc5d5f2d62a8088c9a24b260bf74a",FALSE,FALSE
+"mv06h_implementation_manifest_v1","repeat_validator","scripts/validate_mv06h_prediction_prefreeze_repeat.R","a5ec1e2382da6123f7ee8571d8b55790fdae95b867c982545c829488fd1fe9ab",1889,"f2b8da4c1f8fc5d5f2d62a8088c9a24b260bf74a",FALSE,FALSE
+"mv06h_implementation_manifest_v1","outcome_runner","scripts/run_mv06h_fusion_outcomes.R","f3b348fdd27d32065f38140d87745a0d4ad193df7c56bda74e82ec8cabf9f655",7554,"f2b8da4c1f8fc5d5f2d62a8088c9a24b260bf74a",FALSE,FALSE
+"mv06h_implementation_manifest_v1","specification","docs/specifications/MV06H_BLOCKED_FUSION_OUTCOME_PREFREEZE_SPECIFICATION_V1.md","3d555d730f29387f6715121ddb154c1484be1caf64d0abbdbd8ef378d763f388",3637,"f2b8da4c1f8fc5d5f2d62a8088c9a24b260bf74a",FALSE,FALSE
+"mv06h_implementation_manifest_v1","focused_tests","tests/testthat/test-mv06h-fusion-outcome-prefreeze.R","a3c3747e45dc1e1fb9f08877f4793a2eb7d3be5ae064385a35b6cc5979726020",5689,"f2b8da4c1f8fc5d5f2d62a8088c9a24b260bf74a",FALSE,FALSE

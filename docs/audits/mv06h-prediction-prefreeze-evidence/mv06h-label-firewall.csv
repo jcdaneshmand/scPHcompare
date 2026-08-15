@@ -1,0 +1,11 @@
+"contract_id","rule_id","rule","required","state","labels_opened","outcomes_computed"
+"mv06h_label_firewall_v1","MV6H-FW-01","prediction_group_manifest_complete_before_metadata_read",TRUE,"closed_pending_durable_prediction_commit",FALSE,FALSE
+"mv06h_label_firewall_v1","MV6H-FW-02","prediction_manifest_and_validation_committed_before_metadata_read",TRUE,"closed_pending_durable_prediction_commit",FALSE,FALSE
+"mv06h_label_firewall_v1","MV6H-FW-03","outcome_runner_writes_lock_receipt_before_metadata_read",TRUE,"closed_pending_durable_prediction_commit",FALSE,FALSE
+"mv06h_label_firewall_v1","MV6H-FW-04","metadata_sha256_must_match_authoritative_value",TRUE,"closed_pending_durable_prediction_commit",FALSE,FALSE
+"mv06h_label_firewall_v1","MV6H-FW-05","no_post_label_scaling_or_reranking",TRUE,"closed_pending_durable_prediction_commit",FALSE,FALSE
+"mv06h_label_firewall_v1","MV6H-FW-06","no_weight_method_endpoint_or_tissue_selection",TRUE,"closed_pending_durable_prediction_commit",FALSE,FALSE
+"mv06h_label_firewall_v1","MV6H-FW-07","five_seeds_averaged_within_sample_not_independent",TRUE,"closed_pending_durable_prediction_commit",FALSE,FALSE
+"mv06h_label_firewall_v1","MV6H-FW-08","heldout_study_blocking_preserved",TRUE,"closed_pending_durable_prediction_commit",FALSE,FALSE
+"mv06h_label_firewall_v1","MV6H-FW-09","source_hashes_rechecked_after_outcomes",TRUE,"closed_pending_durable_prediction_commit",FALSE,FALSE
+"mv06h_label_firewall_v1","MV6H-FW-10","advanced_fusion_clustering_defaults_release_and_claims_remain_closed",TRUE,"closed_pending_durable_prediction_commit",FALSE,FALSE

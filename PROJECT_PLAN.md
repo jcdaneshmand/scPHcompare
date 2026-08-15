@@ -578,7 +578,7 @@ Publish a durable, citable research artifact.
 ## WP-006 — Dual-view and multiview topology framework
 
 - **Phase:** 1, 4, 5, and 7
-- **Status:** MV6-F is complete; MV6-G clean production, independent 75-group validation, and 445-file immutable resume pass; prediction-manifest prefreeze is next and labels remain closed
+- **Status:** MV6-F/MV6-G computation is complete; MV6-H prediction lock passes 13/13 independent and 9/9 byte-repeat gates with labels closed; fixed blocked outcome execution is next
 - **Scope:** Corrected cell topology, deliberately specified gene topology, H0/H1 landscapes and diagram distances, matched clustering/baselines, and staged cell/gene fusion.
 - **Scientific behavior change:** None until the MV-01 contract and subsequent implementation gates are approved.
 - **Acceptance:** Each view passes independent definition, correctness, eligibility, and feasibility gates before fusion; a frozen confirmatory configuration precedes any full biological rerun.
@@ -680,6 +680,7 @@ Publish a durable, citable research artifact.
 | D-076 | 2026-08-15 | Authorize a clean MV6-G 74-group restart under corrected scientific root `8b0a1e42…cec0c` and execution root `deb03fbc…f745` | The rebuilt policy retains exact workload and 12-GiB/1,800-s/5-GiB/12-worker-hour caps; 10/10 independent categories, 3/3 byte repeats, 10/10 completion-focused expectations, 15/15 production-focused expectations, and the 1,601-test complete suite pass; active production state is empty | Execute all 74 groups from clean state with one worker/no retry, stop on first failure, then require independent 75-group validation and a separately committed 445-file immutable-resume pass |
 | D-077 | 2026-08-15 | Accept corrected-root MV6-G complete production and independent 75-group validation, while keeping prediction lock and labels closed pending immutable resume | All 74 restart groups complete in 5.823640 worker-hours at 186,503,168-B peak RSS and 531,251,838-B final private state; the accepted sentinel plus restart corpus reconstructs 262,675 training pairs, 1,050,700 component rows, 35,350 query pairs, and 318,150 rankings; 7/7 complete checks pass; bounded cross-device publication and validation-queue schema remediations changed no scientific artifact | Authorize only the prefrozen 445-file immutable-resume checker; require hash/byte/mtime preservation before prediction-manifest prefreeze or any label access |
 | D-078 | 2026-08-15 | Close MV6-G computation after the prefrozen complete-corpus immutable-resume pass and advance only to prospective prediction-manifest prefreeze | The unchanged completion driver reused 74/74 groups; all 445 bound artifacts retained identical SHA-256, byte size, and modification time; the checker exited zero in 387.3 seconds with labels closed and no biological outcomes | Authorize a separately committed prediction/outcome manifest and independent validation before any metadata read; fusion evaluation, clustering interpretation, and claims remain closed |
+| D-079 | 2026-08-15 | Accept the MV6-H complete prediction lock and authorize only its fixed blocked outcome evaluation after the lock becomes durable | Root `c752408f…f4fd` binds 75 groups, 375 group files, 318,150 rankings, nine methods, two endpoints, two primary MRR contrasts, and all inference/implementation identities; independent validation passes 13/13, repeat 9/9, focused tests 21/21, and full suite 1,580 pass/4 established skips; metadata was hash-bound but never opened | Commit the lock, then execute at that exact commit with receipt-before-read and post-label rehash; advanced fusion, clustering, defaults, release, and claims remain closed |
 
 ## 9. Status dashboard
 
@@ -690,7 +691,7 @@ Publish a durable, citable research artifact.
 | 2. Reproducible baseline/repository health | Published main CI passes privacy, exact restore, package check, and installed realistic H0/H1 fixtures; clean-clone user route and complete policy review remain | G2 not evaluated |
 | 3. Literature/reference/figure audit | Initial literature sample only | G3 not evaluated |
 | 4. Redesign primary comparison | Prediction-locked retrieval, clustering, complete robustness panels, corrected matrices, and null/negative results have auditable evidence; author-level synthesis remains | G4 not evaluated |
-| 5. Expand methods | MV6-F is complete; MV6-G clean production, 7/7 complete-corpus validation, and 445/445 immutable resume pass; prediction-manifest prefreeze is next with labels closed | G5 not evaluated |
+| 5. Expand methods | MV6-F/MV6-G computation is complete; MV6-H durable prediction lock passes 13/13 independent and 9/9 byte-repeat gates; fixed blocked outcome execution is next | G5 not evaluated |
 | 6. Biological/practical validation | Not started | G6 not evaluated |
 | 7. Profile and optimize | Rust landscape kernel passed complete numerical equivalence and nonpublishing four-platform candidate CI; R remains canonical/default and distribution/adoption remains open | G7 not evaluated |
 | 8. Rewrite manuscript | Not started | G8 not evaluated |
@@ -700,6 +701,7 @@ Publish a durable, citable research artifact.
 
 | Version | Date | Summary |
 |---|---|---|
+| 0.3.64 | 2026-08-15 | Froze and independently validated the complete MV6-H prediction lock over 75 groups and 318,150 rankings; all nine lock artifacts repeat byte-identically, metadata remains unopened, and only exact-commit blocked outcome execution is authorized |
 | 0.3.63 | 2026-08-15 | Closed MV6-G computation after all 445 accepted corpus artifacts passed SHA-256, byte-size, and mtime preservation under the unchanged resume driver; authorized only prediction-manifest prefreeze before label access |
 | 0.3.62 | 2026-08-15 | Completed clean corrected-root MV6-G production in 5.823640 worker-hours and passed independent 75-group validation 7/7; retained closed labels pending the 445-file immutable-resume gate |
 | 0.3.61 | 2026-08-15 | Rebuilt and admitted corrected-root MV6-G serial execution at root `deb03fbc…f745` after independent, byte-repeat, focused, and 1,601-test gates; authorized a clean 74-group restart |

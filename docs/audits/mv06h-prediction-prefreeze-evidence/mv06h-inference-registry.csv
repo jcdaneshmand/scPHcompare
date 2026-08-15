@@ -1,0 +1,2 @@
+"contract_id","bootstrap_replicates","bootstrap_seed","bootstrap_unit","randomization_replicates","randomization_seed","randomization_unit","randomization_sidedness","multiplicity","independent_unit","technical_seed_policy","minimum_study_blocks","labels_opened","outcomes_computed"
+"mv06h_inference_registry_v1",2000,20260815,"tissue_stratified_held_out_study_block",9999,20260816,"paired_held_out_study_block_sign_flip","two_sided","Holm_two_F1_MRR","held_out_biological_sample_blocked_by_study","average_five_seeds_within_biological_sample",4,FALSE,FALSE

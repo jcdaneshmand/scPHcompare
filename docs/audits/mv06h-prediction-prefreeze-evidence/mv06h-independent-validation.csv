@@ -1,0 +1,14 @@
+"contract_id","validation_id","passed","evidence","independent_production_helper_called","labels_opened","outcomes_computed"
+"mv06h_prediction_prefreeze_independent_validation_v1","public_lock_hash_graph",TRUE,"8_of_8_manifest_hashes_match_lock",FALSE,FALSE,FALSE
+"mv06h_prediction_prefreeze_independent_validation_v1","committed_upstream_source_hashes",TRUE,"11_internal_plus_1_external_binding",FALSE,FALSE,FALSE
+"mv06h_prediction_prefreeze_independent_validation_v1","implementation_source_hashes",TRUE,"8_of_8",FALSE,FALSE,FALSE
+"mv06h_prediction_prefreeze_independent_validation_v1","complete_group_axis",TRUE,"75_groups_15_folds_5_seeds",FALSE,FALSE,FALSE
+"mv06h_prediction_prefreeze_independent_validation_v1","all_group_artifact_hashes",TRUE,"375_of_375_group_files",FALSE,FALSE,FALSE
+"mv06h_prediction_prefreeze_independent_validation_v1","complete_ranking_row_axis",TRUE,"318150_rows_4050_query_method_groups",FALSE,FALSE,FALSE
+"mv06h_prediction_prefreeze_independent_validation_v1","independent_canonical_rank_order",TRUE,"distance_then_canonical_training_sample_id",FALSE,FALSE,FALSE
+"mv06h_prediction_prefreeze_independent_validation_v1","method_panel_and_primary",TRUE,"9_methods_primary_F050",FALSE,FALSE,FALSE
+"mv06h_prediction_prefreeze_independent_validation_v1","endpoint_and_contrast_family",TRUE,"MRR_primary_1NN_supportive_two_F1_comparators",FALSE,FALSE,FALSE
+"mv06h_prediction_prefreeze_independent_validation_v1","blocked_inference_seeds",TRUE,"bootstrap_2000_seed_20260815_signflip_9999_seed_20260816",FALSE,FALSE,FALSE
+"mv06h_prediction_prefreeze_independent_validation_v1","external_metadata_not_opened",TRUE,"hash_only_no_metadata_path_or_read",FALSE,FALSE,FALSE
+"mv06h_prediction_prefreeze_independent_validation_v1","label_firewall",TRUE,"10_of_10_closed",FALSE,FALSE,FALSE
+"mv06h_prediction_prefreeze_independent_validation_v1","advanced_fusion_and_clustering_closed",TRUE,"both_false",FALSE,FALSE,FALSE
