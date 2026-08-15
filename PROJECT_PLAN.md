@@ -5,7 +5,7 @@
 | Field | Value |
 |---|---|
 | Status | Draft for owner and author-team review |
-| Version | 0.3.61 |
+| Version | 0.3.66 |
 | Created | 2026-08-03 |
 | Canonical repository | `jcdaneshmand/scPHcompare` |
 | Historical source repository | `jcdaneshmand/PH_ClusteringApp` |
@@ -682,6 +682,7 @@ Publish a durable, citable research artifact.
 | D-078 | 2026-08-15 | Close MV6-G computation after the prefrozen complete-corpus immutable-resume pass and advance only to prospective prediction-manifest prefreeze | The unchanged completion driver reused 74/74 groups; all 445 bound artifacts retained identical SHA-256, byte size, and modification time; the checker exited zero in 387.3 seconds with labels closed and no biological outcomes | Authorize a separately committed prediction/outcome manifest and independent validation before any metadata read; fusion evaluation, clustering interpretation, and claims remain closed |
 | D-079 | 2026-08-15 | Accept the MV6-H complete prediction lock and authorize only its fixed blocked outcome evaluation after the lock becomes durable | Root `c752408f…f4fd` binds 75 groups, 375 group files, 318,150 rankings, nine methods, two endpoints, two primary MRR contrasts, and all inference/implementation identities; independent validation passes 13/13, repeat 9/9, focused tests 21/21, and full suite 1,580 pass/4 established skips; metadata was hash-bound but never opened | Commit the lock, then execute at that exact commit with receipt-before-read and post-label rehash; advanced fusion, clustering, defaults, release, and claims remain closed |
 | D-080 | 2026-08-15 | Close G-MV6 with equal-weight fusion rejected and carry cell/gene topology forward as separate views | Exact-commit blocked evaluation gives F0.5−cell MRR −0.01019 [−0.06484, 0.03601], raw p 0.835/Holm 1, and F0.5−gene +0.02686 [−0.08472, 0.08101], raw p 0.561/Holm 1; the required both-positive rule fails; independent validation passes 15/15 and all 13 outcome artifacts repeat byte-identically | Do not admit advanced/learned/tissue-specific fusion or select descriptive F0.25 despite its observed lead; advance to MV-07 robustness/confounding synthesis with complete negative reporting |
+| D-081 | 2026-08-15 | Begin MV-07 with a selection-resistant evidence map and run existing-artifact confounding diagnostics before any new PH or data | Twenty-three immutable scientific/implementation sources rehash; 14 robustness and 10 confounding axes are classified; the corrected all-active-level H0/H1 landscape contract is unchanged; independent validation passes 10/10 and all 10 synthesis artifacts repeat byte-identically | Authorize only a separately committed MV7-B no-new-PH influence, retained-cell-count, and approach-stratification prefreeze; gene-panel/metric reruns, external data, method selection, defaults, and claim promotion remain closed |
 
 ## 9. Status dashboard
 
@@ -691,7 +692,7 @@ Publish a durable, citable research artifact.
 | 1. Scientific/implementation audit | Corrected landscape contract and orientation-safe cell/gene definitions validated; historical diagrams invalidated; consolidated claim/author review remains | G1 not evaluated |
 | 2. Reproducible baseline/repository health | Published main CI passes privacy, exact restore, package check, and installed realistic H0/H1 fixtures; clean-clone user route and complete policy review remain | G2 not evaluated |
 | 3. Literature/reference/figure audit | Initial literature sample only | G3 not evaluated |
-| 4. Redesign primary comparison | Prediction-locked retrieval, clustering, complete robustness panels, corrected matrices, and null/negative results have auditable evidence; author-level synthesis remains | G4 not evaluated |
+| 4. Redesign primary comparison | Prediction-locked retrieval, clustering, complete cell robustness panels, corrected matrices, and null/negative results have auditable evidence; MV7-A maps remaining gene-view and confounding gaps without outcome selection | G4 not evaluated |
 | 5. Expand methods | MV-06 complete: equal-weight fusion fails the both-component rule; outcome validation 15/15 and repeat 13/13 pass; cell and gene views continue separately into MV-07 | G-MV6 closed negative; G5 not evaluated |
 | 6. Biological/practical validation | Not started | G6 not evaluated |
 | 7. Profile and optimize | Rust landscape kernel passed complete numerical equivalence and nonpublishing four-platform candidate CI; R remains canonical/default and distribution/adoption remains open | G7 not evaluated |
@@ -702,6 +703,7 @@ Publish a durable, citable research artifact.
 
 | Version | Date | Summary |
 |---|---|---|
+| 0.3.66 | 2026-08-15 | Completed MV7-A selection-resistant evidence mapping: preserved the corrected landscape contract, classified 14 robustness and 10 confounding axes, reconciled measured compute, and authorized only a no-new-PH MV7-B prefreeze before gene reruns or external data |
 | 0.3.65 | 2026-08-15 | Executed and independently validated exact-commit MV6-H blocked outcomes; equal fusion failed the required both-positive MRR rule, so G-MV6 closes negative, advanced fusion is rejected, and cell/gene views advance separately to MV-07 |
 | 0.3.64 | 2026-08-15 | Froze and independently validated the complete MV6-H prediction lock over 75 groups and 318,150 rankings; all nine lock artifacts repeat byte-identically, metadata remains unopened, and only exact-commit blocked outcome execution is authorized |
 | 0.3.63 | 2026-08-15 | Closed MV6-G computation after all 445 accepted corpus artifacts passed SHA-256, byte-size, and mtime preservation under the unchanged resume driver; authorized only prediction-manifest prefreeze before label access |

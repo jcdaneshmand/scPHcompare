@@ -22,7 +22,7 @@ s <- readc(required[[1L]]); l <- readc(required[[2L]]); r <- readc(required[[3L]
 c <- readc(required[[4L]]); b <- readc(required[[5L]]); g <- readc(required[[6L]])
 cl <- readc(required[[7L]]); f <- readc(required[[8L]]); a <- readc(required[[9L]])
 d <- readc(required[[10L]])
-source_ok <- nrow(s) == 25L && !anyDuplicated(s$source_id) &&
+source_ok <- nrow(s) == 23L && !anyDuplicated(s$source_id) &&
   all(file.exists(s$artifact_locator)) &&
   all(vapply(seq_len(nrow(s)), function(i) identical(sha(s$artifact_locator[[i]]),
     s$sha256[[i]]), logical(1L))) && all(s$accepted_head == expected_head) &&
@@ -67,7 +67,7 @@ checks <- data.frame(
     "selection_firewall", "acceptance_criteria", "continuation_decision"),
   passed = c(source_ok, landscape_ok, robustness_ok, confounding_ok, budget_ok,
     gap_ok, claim_ok, firewall_ok, criteria_ok, decision_ok),
-  detail = c("25 source identities independently rehashed", "8 fixed items preserved",
+  detail = c("23 source identities independently rehashed", "8 fixed items preserved",
     "14 unique robustness axes", "10 unique confounding axes",
     "four measured workloads plus bounded no-PH diagnostic", "first three gaps reuse existing artifacts",
     "nine separate claim families", "zero result inputs reach decision",

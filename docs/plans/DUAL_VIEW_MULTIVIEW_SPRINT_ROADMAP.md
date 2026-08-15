@@ -104,7 +104,7 @@ An exploratory method enters the confirmatory set only through a recorded decisi
 | MV-04 | Validate topological distances and production calculation | MV-03 | G-MV4: sample-distance matrices are correct and feasible | `complete` — immutable primary matrices; bounded sensitivity exclusions |
 | MV-05 | Compare clustering and matched non-topological baselines | MV-04; frozen statistical plan | G-MV5: fair single-view benchmark | `completed` — MV5-S executes and independently validates the complete prediction-locked clustering outcome contract without method selection |
 | MV-06 | Test transparent multiview fusion and complementarity | MV-05 | G-MV6: fusion adds stable information or is rejected | `complete_negative` — exact-commit blocked evaluation rejects equal-weight fusion under the required both-component MRR rule; advanced fusion is closed |
-| MV-07 | Robustness synthesis and full-run decision | MV-06 | G-MV7: freeze, revise, or stop before full rerun | `in_progress` — synthesize the completed MV5 robustness panels and separate cell/gene MV6 evidence without selecting fusion weights post outcome |
+| MV-07 | Robustness synthesis and full-run decision | MV-06 | G-MV7: freeze, revise, or stop before full rerun | `in_progress` — MV7-A evidence map complete; MV7-B no-new-PH influence/confounding prefreeze is next |
 
 MV-01 through MV-04 are the immediate implementation sequence. MV-05 through MV-07 deliberately require valid upstream artifacts and a statistical plan.
 
@@ -580,6 +580,24 @@ Decide whether the dual-view framework is ready for a full existing-data run, re
 - [ ] Existing data are sufficient, or the new-data trigger is documented.
 - [ ] Cell, gene, and fusion claims have separate evidence boundaries.
 - [ ] Author-team decision is recorded.
+
+### MV7-A evidence-map disposition (2026-08-15)
+
+MV7-A independently rehashes 23 immutable scientific/implementation sources and classifies 14 robustness plus 10
+confounding axes. The corrected landscape contract remains all finite positive
+intervals, all consecutive active levels, separate H0/H1, and exact or
+error-controlled squared-L2 with no universal grid or cap. Cell depth,
+cell-coordinate count, cell metric, five-seed replication, H0/H1 separation,
+cell integration comparison, and secondary cell clustering already have
+bounded evidence. Gene-panel size, gene metric, integrated gene topology,
+outlier influence, and composition remain narrower or missing.
+
+The structural decision consumes zero numerical result rows. Independent
+validation passes 10/10 and all 10 synthesis artifacts repeat byte-for-byte.
+Only MV7-B prefreeze is authorized: reuse locked sample-level outcomes and
+metadata for leave-one-study/tissue influence, retained-cell-count association,
+and sequencing-approach stratification. New PH, new data, method/weight
+selection, advanced fusion, defaults, and claim promotion remain closed.
 
 ## 12. Required artifact layout
 
