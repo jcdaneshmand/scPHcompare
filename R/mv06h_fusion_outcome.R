@@ -82,7 +82,7 @@ mv06h_verify_prediction_lock_v1 <- function(lock_dir) {
     inference = "mv06h-inference-registry.csv",
     firewall = "mv06h-label-firewall.csv"
   )
-  paths <- file.path(lock_dir, files)
+  paths <- stats::setNames(file.path(lock_dir, unname(files)), names(files))
   lock_path <- file.path(lock_dir, "mv06h-prediction-lock.csv")
   if (any(!file.exists(paths)) || !file.exists(lock_path)) {
     stop("MV6-H prediction-lock evidence is incomplete.", call. = FALSE)

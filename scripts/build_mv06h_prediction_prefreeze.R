@@ -229,9 +229,10 @@ names_map <- c(
   contrasts = "mv06h-contrast-registry.csv",
   inference = "mv06h-inference-registry.csv",
   firewall = "mv06h-label-firewall.csv")
-for (name in names(tables)) atomic(tables[[name]], file.path(audit_dir,
-                                                              names_map[[name]]))
-hashes <- vapply(file.path(audit_dir, names_map), sha, character(1L))
+output_paths <- stats::setNames(
+  file.path(audit_dir, unname(names_map)), names(names_map))
+for (name in names(tables)) atomic(tables[[name]], output_paths[[name]])
+hashes <- vapply(output_paths, sha, character(1L))
 lock <- data.frame(
   contract_id = "mv06h_prediction_lock_v1", implementation_commit = head,
   groups_sha256 = hashes[["groups"]], sources_sha256 = hashes[["sources"]],

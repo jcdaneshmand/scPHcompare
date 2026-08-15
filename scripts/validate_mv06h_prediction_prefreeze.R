@@ -28,7 +28,7 @@ files <- c(
   contrasts = "mv06h-contrast-registry.csv",
   inference = "mv06h-inference-registry.csv",
   firewall = "mv06h-label-firewall.csv")
-paths <- file.path(audit_dir, files)
+paths <- stats::setNames(file.path(audit_dir, unname(files)), names(files))
 lock_path <- file.path(audit_dir, "mv06h-prediction-lock.csv")
 if (any(!file.exists(paths)) || !file.exists(lock_path)) {
   stop("MV6-H prediction prefreeze evidence is incomplete.", call. = FALSE)
