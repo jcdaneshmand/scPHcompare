@@ -144,6 +144,14 @@ source_paths <- c(candidate_metadata = candidate_path,
 if (any(!file.exists(source_paths))) stop("MV7-E source freeze is incomplete.")
 private <- names(source_paths) %in% c("retained_metadata", "historical_heuristic")
 locators <- unname(source_paths)
+public_locators <- c(
+  candidate_metadata = "inst/extdata/inputs/metadata_MultiTissueAnalysis.csv",
+  reconciliation =
+    "docs/audits/mv07d-prefreeze-evidence/mv07d-sample-reconciliation.csv",
+  accepted_panel = "docs/audits/mv06c-global-core-evidence/mv06c-panel.csv",
+  accession_evidence =
+    "inst/extdata/inputs/mv07e_approach_accession_evidence.csv")
+locators[match(names(public_locators), names(source_paths))] <- public_locators
 locators[names(source_paths) == "retained_metadata"] <-
   "private:historical_joined_metadata_cellcounts.csv"
 locators[names(source_paths) == "historical_heuristic"] <-

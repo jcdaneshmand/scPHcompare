@@ -36,6 +36,7 @@ stages <- x[[15L]]; criteria <- x[[16L]]; decision <- x[[17L]]
 
 public_sources <- s[!truth(s$private_source), , drop = FALSE]
 source_ok <- nrow(s) == 12L && all(s$accepted_head == expected_head) &&
+  !any(grepl("^/|^[A-Za-z]:", public_sources$artifact_locator)) &&
   all(file.exists(public_sources$artifact_locator)) &&
   all(vapply(seq_len(nrow(public_sources)), function(i)
     sha(public_sources$artifact_locator[[i]]) == public_sources$sha256[[i]], logical(1L))) &&
