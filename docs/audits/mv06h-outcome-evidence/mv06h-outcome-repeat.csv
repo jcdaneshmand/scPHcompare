@@ -1,0 +1,14 @@
+"contract_id","artifact","first_sha256","second_sha256","first_bytes","second_bytes","byte_identical"
+"mv06h_outcome_repeat_v1","mv06h-bootstrap-audit.csv","7e39da160c705eabe57181c05eac501e72c3e7dd084c8768b345ba2c3a96c99e","7e39da160c705eabe57181c05eac501e72c3e7dd084c8768b345ba2c3a96c99e",562,562,TRUE
+"mv06h_outcome_repeat_v1","mv06h-decision.csv","37aa0d659669c6cf0306b02cc045e8f6e82498fb28a2fe7b65f3ea364fde7ab6","37aa0d659669c6cf0306b02cc045e8f6e82498fb28a2fe7b65f3ea364fde7ab6",474,474,TRUE
+"mv06h_outcome_repeat_v1","mv06h-label-open-receipt.csv","dad867172862947dfa4ecb840f8517bb7c17ed11bf8a7e897d25882996eaa624","dad867172862947dfa4ecb840f8517bb7c17ed11bf8a7e897d25882996eaa624",532,532,TRUE
+"mv06h_outcome_repeat_v1","mv06h-label-source-provenance.csv","e74eb8cf92cc998dc2d162b3763642c9de0bcb438833733f4dcef9b813dfe4a0","e74eb8cf92cc998dc2d162b3763642c9de0bcb438833733f4dcef9b813dfe4a0",382,382,TRUE
+"mv06h_outcome_repeat_v1","mv06h-method-intervals.csv","f45561c5b4560aca5670c01511f9ee1d0797c29070bd0b78f7eb4f4581f8f515","f45561c5b4560aca5670c01511f9ee1d0797c29070bd0b78f7eb4f4581f8f515",3015,3015,TRUE
+"mv06h_outcome_repeat_v1","mv06h-method-summaries.csv","db4f868172322beb78649fdec6d3648adf06734b6ba382a9dd11995522cbddda","db4f868172322beb78649fdec6d3648adf06734b6ba382a9dd11995522cbddda",912,912,TRUE
+"mv06h_outcome_repeat_v1","mv06h-prediction-postcheck.csv","7f9853276e1af70c8a7d9cad82082f218e16123d6d478ef65af2ad9b47f2b2e9","7f9853276e1af70c8a7d9cad82082f218e16123d6d478ef65af2ad9b47f2b2e9",19522,19522,TRUE
+"mv06h_outcome_repeat_v1","mv06h-primary-contrasts.csv","2d529cf83b26d8cf3411998cc2f9b6f6a3d350e7a1258572e312f3ddf0f03437","2d529cf83b26d8cf3411998cc2f9b6f6a3d350e7a1258572e312f3ddf0f03437",821,821,TRUE
+"mv06h_outcome_repeat_v1","mv06h-production-summary.csv","cfee6b58e7c5abaac317ee1338ad4e97af39f397de5640f9699a596ad215387b","cfee6b58e7c5abaac317ee1338ad4e97af39f397de5640f9699a596ad215387b",449,449,TRUE
+"mv06h_outcome_repeat_v1","mv06h-query-method-outcomes.csv","236441f647e171b8351c93aafb1651d122e9098fb5f5d72bf7b098490b730278","236441f647e171b8351c93aafb1651d122e9098fb5f5d72bf7b098490b730278",1326793,1326793,TRUE
+"mv06h_outcome_repeat_v1","mv06h-randomization-audit.csv","a614df1af413fa7cfb258a3b981929d13106595bad35f3dfdfcd7873fa146067","a614df1af413fa7cfb258a3b981929d13106595bad35f3dfdfcd7873fa146067",723,723,TRUE
+"mv06h_outcome_repeat_v1","mv06h-sample-method-summaries.csv","0558d2522379ef9852cb135ab46af664221d21879d185e7e476e0130da72159f","0558d2522379ef9852cb135ab46af664221d21879d185e7e476e0130da72159f",91699,91699,TRUE
+"mv06h_outcome_repeat_v1","mv06h-tissue-method-summaries.csv","e8d1f5c93e61e3ab9e640f669a58042e27618f69f5c668c0ea1c03e555f5e2e6","e8d1f5c93e61e3ab9e640f669a58042e27618f69f5c668c0ea1c03e555f5e2e6",4358,4358,TRUE

@@ -1,0 +1,3 @@
+"contract_id","endpoint_id","bootstrap_replicates","bootstrap_seed","tissues","study_blocks","replicate_matrix_sha256","resampling_unit","seeds_treated_as_independent"
+"mv06h_bootstrap_audit_v1","cross_study_tissue_mrr_v1",2000,20260815,5,15,"1020a1de1a09c666b2051af18be15d100329907de4b2cbcbd450602e5a12cde6","tissue_stratified_held_out_study_block",FALSE
+"mv06h_bootstrap_audit_v1","cross_study_tissue_1nn_balanced_accuracy_v1",2000,20260815,5,15,"0a96aa7b70c289bf6661650d4f724a469d8cabcfd5fd1fc6afba3506ab2eeebf","tissue_stratified_held_out_study_block",FALSE

@@ -1,0 +1,10 @@
+"contract_id","method_id","macro_mean_reciprocal_rank","macro_one_nn_balanced_accuracy","tissues","samples"
+"mv06h_method_macro_summary_v1","cell_H0",0.382503190645286,0.261503013115916,5,90
+"mv06h_method_macro_summary_v1","cell_H1",0.394815782514648,0.279984639016897,5,90
+"mv06h_method_macro_summary_v1","gene_H0",0.323862341361017,0.209293394777266,5,90
+"mv06h_method_macro_summary_v1","gene_H1",0.321119144264636,0.20479735318445,5,90
+"mv06h_method_macro_summary_v1","cell_composite",0.406486883943495,0.30376225924613,5,90
+"mv06h_method_macro_summary_v1","fusion_gene_weight_025",0.417908159898971,0.330420654614203,5,90
+"mv06h_method_macro_summary_v1","fusion_gene_weight_050",0.396292622607877,0.310818858560794,5,90
+"mv06h_method_macro_summary_v1","fusion_gene_weight_075",0.379471887604688,0.283993855606759,5,90
+"mv06h_method_macro_summary_v1","gene_composite",0.369429627143311,0.262672811059908,5,90

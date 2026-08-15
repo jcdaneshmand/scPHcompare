@@ -1,0 +1,16 @@
+"contract_id","validation_id","passed","rows_checked","maximum_absolute_difference","evidence","independent_production_helper_called"
+"mv06h_outcome_independent_validation_v1","durable_prediction_lock_receipt",TRUE,1,0,"lock_commit=42dc894a6e69a09e8c7bdd3bf0c2f46ac7b9f865",FALSE
+"mv06h_outcome_independent_validation_v1","authoritative_metadata_hash_schema",TRUE,124,0,"124_rows_90_candidates_15_studies",FALSE
+"mv06h_outcome_independent_validation_v1","complete_prediction_hash_postcheck",TRUE,75,0,"75_of_75_ranking_hashes",FALSE
+"mv06h_outcome_independent_validation_v1","independent_LOSO_label_join",TRUE,318150,0,"query_heldout_training_exclusion_exact",FALSE
+"mv06h_outcome_independent_validation_v1","query_MRR_and_1NN_reconstruction",TRUE,4050,0,"4050_of_4050",FALSE
+"mv06h_outcome_independent_validation_v1","five_seed_sample_aggregation",TRUE,810,4.9960036108132e-16,"5_seeds_within_each_of_810_sample_methods",FALSE
+"mv06h_outcome_independent_validation_v1","equal_tissue_macro_aggregation",TRUE,45,4.44089209850063e-16,"45_tissue_methods_9_equal_five_tissue_macros",FALSE
+"mv06h_outcome_independent_validation_v1","blocked_bootstrap_matrix",TRUE,4000,0,"two_2000_replicate_matrices_reproduced_by_hash",FALSE
+"mv06h_outcome_independent_validation_v1","all_method_intervals",TRUE,18,4.9960036108132e-16,"18_of_18",FALSE
+"mv06h_outcome_independent_validation_v1","two_primary_MRR_contrasts",TRUE,2,5.55111512312578e-17,"F050_minus_cell_and_F050_minus_gene",FALSE
+"mv06h_outcome_independent_validation_v1","paired_sign_matrix_and_nulls",TRUE,19998,0,"9999_by_15_sign_matrix_and_two_null_hashes",FALSE
+"mv06h_outcome_independent_validation_v1","Holm_two_test_family",TRUE,2,0,"two_raw_and_Holm_adjusted_p_values",FALSE
+"mv06h_outcome_independent_validation_v1","no_refit_rerank_or_selection",TRUE,1,0,"all_zero",FALSE
+"mv06h_outcome_independent_validation_v1","advanced_fusion_and_clustering_closed",TRUE,1,0,"both_false",FALSE
+"mv06h_outcome_independent_validation_v1","prespecified_negative_disposition",TRUE,1,0,"no_reliable_outperformance_report_views_separately",FALSE

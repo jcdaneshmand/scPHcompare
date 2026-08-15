@@ -1,0 +1,2 @@
+"contract_id","lock_commit","prediction_lock_sha256","prediction_manifest_root_sha256","metadata_expected_sha256","predictions_loaded_and_hash_verified","receipt_written_before_metadata_hash_or_read","labels_opened","outcomes_computed"
+"mv06h_label_open_receipt_v1","42dc894a6e69a09e8c7bdd3bf0c2f46ac7b9f865","21e445b4167ec7b870d34da127301956afe2dcaacdcb2dd461b2a2a822566605","c752408f064800d4539b475455e5bca7e9fcb010019e90a1fc261824c865f4fd","e2b6f1e7d7dc05ba8e80627aad4ea1677c3b718a844397acd06596d7e22a18d0",TRUE,TRUE,FALSE,FALSE

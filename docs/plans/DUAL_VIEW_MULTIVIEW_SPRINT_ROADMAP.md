@@ -103,8 +103,8 @@ An exploratory method enters the confirmatory set only through a recorded decisi
 | MV-03 | Generate corrected pilot H0/H1 diagrams and establish feasibility | MV-02 | G-MV3: eligible diagrams exist | `complete` — 132 eligible jobs; technical gate only |
 | MV-04 | Validate topological distances and production calculation | MV-03 | G-MV4: sample-distance matrices are correct and feasible | `complete` — immutable primary matrices; bounded sensitivity exclusions |
 | MV-05 | Compare clustering and matched non-topological baselines | MV-04; frozen statistical plan | G-MV5: fair single-view benchmark | `completed` — MV5-S executes and independently validates the complete prediction-locked clustering outcome contract without method selection |
-| MV-06 | Test transparent multiview fusion and complementarity | MV-05 | G-MV6: fusion adds stable information or is rejected | `in_progress` — MV6-F complete production/resume and MV6-G prospective fusion prefreeze pass; only the maximum-group label-closed scale/ranking sentinel is authorized |
-| MV-07 | Robustness synthesis and full-run decision | MV-06 | G-MV7: freeze, revise, or stop before full rerun | `not_started` — completed MV5 robustness panels are ready, but matched MV6-F production, blocked MV6 evaluation, and G-MV6 must precede dual-view synthesis |
+| MV-06 | Test transparent multiview fusion and complementarity | MV-05 | G-MV6: fusion adds stable information or is rejected | `complete_negative` — exact-commit blocked evaluation rejects equal-weight fusion under the required both-component MRR rule; advanced fusion is closed |
+| MV-07 | Robustness synthesis and full-run decision | MV-06 | G-MV7: freeze, revise, or stop before full rerun | `in_progress` — synthesize the completed MV5 robustness panels and separate cell/gene MV6 evidence without selecting fusion weights post outcome |
 
 MV-01 through MV-04 are the immediate implementation sequence. MV-05 through MV-07 deliberately require valid upstream artifacts and a statistical plan.
 
@@ -537,6 +537,21 @@ blocked outcome execution with a receipt written before metadata read,
 followed by independent reconstruction. Advanced fusion, clustering, defaults,
 release, and claims remain closed. The fixed global panel remains explicitly
 transductive at the label-free technical-selection level.
+
+#### G-MV6 outcome disposition (2026-08-15)
+
+The exact-commit blocked evaluation is complete and independently validates
+15/15 categories; all 13 production artifacts repeat byte-for-byte. Equal
+fusion minus the cell composite is `-0.01019` MRR (95% interval
+`[-0.06484, 0.03601]`, Holm `p = 1`) and equal fusion minus the gene composite
+is `+0.02686` (`[-0.08472, 0.08101]`, Holm `p = 1`). The required both-positive
+rule fails.
+
+G-MV6 therefore closes with fusion rejected. Cell and gene topology continue
+as separate views. Advanced/learned fusion, tissue-specific weights, and
+outcome-driven selection of the descriptively higher `fusion_gene_weight_025`
+are prohibited. MV-07 robustness/confounding synthesis is the active next
+stage.
 
 ## 11. MV-07 — Robustness synthesis and full-run decision
 

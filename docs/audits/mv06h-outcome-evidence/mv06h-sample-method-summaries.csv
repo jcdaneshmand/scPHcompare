@@ -1,0 +1,811 @@
+"contract_id","method_id","query_sample_id","query_tissue","held_out_study","mean_reciprocal_rank","one_nn_balanced_accuracy","seeds"
+"mv06h_sample_method_summary_v1","cell_H0","SRA550660_SRS2089635","pbmc","SRA550660",1,1,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA550660_SRS2089636","pbmc","SRA550660",1,1,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA550660_SRS2089637","pbmc","SRA550660",1,1,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA550660_SRS2089638","pbmc","SRA550660",1,1,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA550660_SRS2089639","pbmc","SRA550660",1,1,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA621638_SRS2610283","bone marrow","SRA621638",0.55,0.2,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA621638_SRS2610285","bone marrow","SRA621638",0.9,0.8,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA628554_SRS2664364","pbmc","SRA628554",0.7,0.4,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA628554_SRS2664365","pbmc","SRA628554",1,1,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA645804_SRS2823404","testis","SRA645804",0.9,0.8,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA645804_SRS2823405","testis","SRA645804",0.9,0.8,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA645804_SRS2823406","testis","SRA645804",0.766666666666667,0.6,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA645804_SRS2823407","testis","SRA645804",0.511904761904762,0.4,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA645804_SRS2823408","testis","SRA645804",0.0925727866904337,0,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA645804_SRS2823409","testis","SRA645804",1,1,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA645804_SRS2823410","testis","SRA645804",0.766666666666667,0.6,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA645804_SRS2823411","testis","SRA645804",0.441666666666667,0.2,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA645804_SRS2823412","testis","SRA645804",0.7,0.4,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA645804_SRS3572594","testis","SRA645804",1,1,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA667709_SRS3065426","testis","SRA667709",0.573333333333333,0.4,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA667709_SRS3065427","testis","SRA667709",0.628571428571429,0.4,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA667709_SRS3065428","testis","SRA667709",0.263333333333333,0,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA667709_SRS3065429","testis","SRA667709",1,1,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA667709_SRS3065430","testis","SRA667709",0.545238095238095,0.4,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA667709_SRS3065431","testis","SRA667709",0.728571428571429,0.6,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA703206_SRS3296611","colon","SRA703206",0.0298884915540885,0,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA703206_SRS3296612","colon","SRA703206",0.069498556998557,0,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA703206_SRS3296613","colon","SRA703206",0.6,0.2,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA703206_SRS3296614","colon","SRA703206",0.9,0.8,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA713577_SRS3363004","pbmc","SRA713577",0.416666666666667,0,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA716608_SRS3391629","liver","SRA716608",0.0145515709070696,0,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA716608_SRS3391630","liver","SRA716608",0.0154964893726686,0,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA716608_SRS3391631","liver","SRA716608",0.0140519576526925,0,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA716608_SRS3391632","liver","SRA716608",0.0754711954711955,0,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA716608_SRS3391633","liver","SRA716608",0.0142501413711024,0,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA728025_SRS3454421","colon","SRA728025",0.0918997668997669,0,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA728025_SRS3454422","colon","SRA728025",0.466666666666667,0.2,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA728025_SRS3454423","colon","SRA728025",0.202222222222222,0,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA728025_SRS3454424","colon","SRA728025",0.5,0,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA728025_SRS3454425","colon","SRA728025",0.161111111111111,0,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA728025_SRS3454426","colon","SRA728025",0.273333333333333,0,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA728025_SRS3454427","colon","SRA728025",0.222222222222222,0,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA728025_SRS3454428","colon","SRA728025",0.123566433566434,0,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA728025_SRS3454430","colon","SRA728025",0.180793650793651,0,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA740174_SRS3548780","bone marrow","SRA740174",0.176515151515152,0,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA740174_SRS3548781","bone marrow","SRA740174",0.280555555555556,0,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA740174_SRS3548782","bone marrow","SRA740174",0.144365079365079,0,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA740174_SRS3548783","bone marrow","SRA740174",0.113419913419913,0,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA749327_SRS3693910","pbmc","SRA749327",0.148717948717949,0,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA749327_SRS3693911","pbmc","SRA749327",0.733333333333333,0.6,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA749327_SRS3693912","pbmc","SRA749327",1,1,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA749327_SRS3693913","pbmc","SRA749327",1,1,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA760933_SRS3693061","liver","SRA760933",0.0277949377949378,0,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA779509_SRS3805245","bone marrow","SRA779509",0.54,0.2,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA779509_SRS3805246","bone marrow","SRA779509",0.0569888444888445,0,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA779509_SRS3805247","bone marrow","SRA779509",0.0424755244755245,0,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA779509_SRS3805248","bone marrow","SRA779509",0.0411711766494375,0,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA779509_SRS3805249","bone marrow","SRA779509",0.0451889483065954,0,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA779509_SRS3805250","bone marrow","SRA779509",0.0473766233766234,0,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA779509_SRS3805251","bone marrow","SRA779509",0.138888888888889,0,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA779509_SRS3805252","bone marrow","SRA779509",0.119102564102564,0,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA779509_SRS3805253","bone marrow","SRA779509",0.236363636363636,0,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA779509_SRS3805254","bone marrow","SRA779509",0.203888888888889,0,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA779509_SRS3805255","bone marrow","SRA779509",0.253419913419913,0,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA779509_SRS3805256","bone marrow","SRA779509",0.575,0.4,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA779509_SRS3805257","bone marrow","SRA779509",0.227142857142857,0,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA779509_SRS3805258","bone marrow","SRA779509",0.3202331002331,0.2,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA779509_SRS3805259","bone marrow","SRA779509",0.143888888888889,0,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA779509_SRS3805260","bone marrow","SRA779509",0.0536147186147186,0,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA779509_SRS3805261","bone marrow","SRA779509",0.0826190476190476,0,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA779509_SRS3805262","bone marrow","SRA779509",0.104126984126984,0,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA779509_SRS3805263","bone marrow","SRA779509",0.16576635924462,0,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA779509_SRS3805264","bone marrow","SRA779509",0.102598039215686,0,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA779509_SRS3805265","bone marrow","SRA779509",0.0667112299465241,0,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA779509_SRS3805266","bone marrow","SRA779509",0.191515151515151,0,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA779509_SRS3805267","bone marrow","SRA779509",0.0465899800682409,0,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA779509_SRS3805268","bone marrow","SRA779509",0.148571428571429,0,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA779509_SRS3805269","bone marrow","SRA779509",0.137619047619048,0,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA784242_SRS3822680","testis","SRA784242",0.393181818181818,0.2,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA784242_SRS3822682","testis","SRA784242",0.241666666666667,0,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA784242_SRS3822683","testis","SRA784242",0.193030303030303,0,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA784242_SRS3822686","testis","SRA784242",0.397619047619048,0.2,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA826293_SRS4181123","testis","SRA826293",0.0683561670975859,0,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA826293_SRS4181124","testis","SRA826293",0.706666666666667,0.6,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA826293_SRS4181125","testis","SRA826293",0.0534057402865452,0,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA826293_SRS4181126","testis","SRA826293",0.262836134453782,0.2,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA826293_SRS4181127","testis","SRA826293",0.666666666666667,0.4,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA826293_SRS4181128","testis","SRA826293",0.55,0.4,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA826293_SRS4181129","testis","SRA826293",0.616666666666667,0.4,5
+"mv06h_sample_method_summary_v1","cell_H0","SRA826293_SRS4181130","testis","SRA826293",0.616666666666667,0.4,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA550660_SRS2089635","pbmc","SRA550660",0.74,0.6,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA550660_SRS2089636","pbmc","SRA550660",1,1,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA550660_SRS2089637","pbmc","SRA550660",1,1,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA550660_SRS2089638","pbmc","SRA550660",0.85,0.8,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA550660_SRS2089639","pbmc","SRA550660",1,1,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA621638_SRS2610283","bone marrow","SRA621638",0.257051282051282,0,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA621638_SRS2610285","bone marrow","SRA621638",0.866666666666667,0.8,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA628554_SRS2664364","pbmc","SRA628554",0.6,0.2,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA628554_SRS2664365","pbmc","SRA628554",1,1,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA645804_SRS2823404","testis","SRA645804",0.8,0.6,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA645804_SRS2823405","testis","SRA645804",0.6,0.2,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA645804_SRS2823406","testis","SRA645804",0.6,0.2,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA645804_SRS2823407","testis","SRA645804",0.495238095238095,0.2,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA645804_SRS2823408","testis","SRA645804",0.245,0,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA645804_SRS2823409","testis","SRA645804",0.84,0.8,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA645804_SRS2823410","testis","SRA645804",0.9,0.8,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA645804_SRS2823411","testis","SRA645804",0.566666666666667,0.2,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA645804_SRS2823412","testis","SRA645804",0.268571428571429,0,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA645804_SRS3572594","testis","SRA645804",1,1,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA667709_SRS3065426","testis","SRA667709",0.9,0.8,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA667709_SRS3065427","testis","SRA667709",0.6,0.4,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA667709_SRS3065428","testis","SRA667709",0.666666666666667,0.4,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA667709_SRS3065429","testis","SRA667709",0.428571428571429,0.2,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA667709_SRS3065430","testis","SRA667709",0.9,0.8,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA667709_SRS3065431","testis","SRA667709",0.9,0.8,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA703206_SRS3296611","colon","SRA703206",0.0255763088537479,0,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA703206_SRS3296612","colon","SRA703206",0.0621547619047619,0,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA703206_SRS3296613","colon","SRA703206",1,1,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA703206_SRS3296614","colon","SRA703206",0.866666666666667,0.8,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA713577_SRS3363004","pbmc","SRA713577",0.458333333333333,0.2,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA716608_SRS3391629","liver","SRA716608",0.0205100027929734,0,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA716608_SRS3391630","liver","SRA716608",0.018209635783612,0,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA716608_SRS3391631","liver","SRA716608",0.0187321905701484,0,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA716608_SRS3391632","liver","SRA716608",0.0315510999721526,0,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA716608_SRS3391633","liver","SRA716608",0.0182974596751142,0,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA728025_SRS3454421","colon","SRA728025",0.0570634920634921,0,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA728025_SRS3454422","colon","SRA728025",0.0878399378399378,0,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA728025_SRS3454423","colon","SRA728025",0.278300865800866,0.2,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA728025_SRS3454424","colon","SRA728025",0.72,0.6,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA728025_SRS3454425","colon","SRA728025",0.176515151515152,0,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA728025_SRS3454426","colon","SRA728025",0.466666666666667,0,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA728025_SRS3454427","colon","SRA728025",0.263333333333333,0,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA728025_SRS3454428","colon","SRA728025",0.146388888888889,0,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA728025_SRS3454430","colon","SRA728025",0.153571428571429,0,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA740174_SRS3548780","bone marrow","SRA740174",0.0687312687312687,0,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA740174_SRS3548781","bone marrow","SRA740174",0.0709313725490196,0,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA740174_SRS3548782","bone marrow","SRA740174",0.062799043062201,0,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA740174_SRS3548783","bone marrow","SRA740174",0.0566783067742147,0,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA749327_SRS3693910","pbmc","SRA749327",0.406666666666667,0.2,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA749327_SRS3693911","pbmc","SRA749327",0.616666666666667,0.4,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA749327_SRS3693912","pbmc","SRA749327",1,1,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA749327_SRS3693913","pbmc","SRA749327",0.9,0.8,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA760933_SRS3693061","liver","SRA760933",0.0673459667267717,0,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA779509_SRS3805245","bone marrow","SRA779509",0.43,0.2,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA779509_SRS3805246","bone marrow","SRA779509",0.0540404723196714,0,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA779509_SRS3805247","bone marrow","SRA779509",0.039939485739728,0,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA779509_SRS3805248","bone marrow","SRA779509",0.0614423536439665,0,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA779509_SRS3805249","bone marrow","SRA779509",0.0368400671459142,0,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA779509_SRS3805250","bone marrow","SRA779509",0.0610503978779841,0,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA779509_SRS3805251","bone marrow","SRA779509",0.168333333333333,0,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA779509_SRS3805252","bone marrow","SRA779509",0.0562555260831123,0,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA779509_SRS3805253","bone marrow","SRA779509",0.194761904761905,0,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA779509_SRS3805254","bone marrow","SRA779509",0.245238095238095,0,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA779509_SRS3805255","bone marrow","SRA779509",0.136473429951691,0,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA779509_SRS3805256","bone marrow","SRA779509",0.187460317460317,0,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA779509_SRS3805257","bone marrow","SRA779509",0.23040404040404,0,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA779509_SRS3805258","bone marrow","SRA779509",0.443563218390805,0.4,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA779509_SRS3805259","bone marrow","SRA779509",0.0778922227198089,0,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA779509_SRS3805260","bone marrow","SRA779509",0.0618993528445861,0,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA779509_SRS3805261","bone marrow","SRA779509",0.137142857142857,0,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA779509_SRS3805262","bone marrow","SRA779509",0.232467532467532,0,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA779509_SRS3805263","bone marrow","SRA779509",0.179090909090909,0,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA779509_SRS3805264","bone marrow","SRA779509",0.0509945432142229,0,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA779509_SRS3805265","bone marrow","SRA779509",0.0455546265328874,0,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA779509_SRS3805266","bone marrow","SRA779509",0.223333333333333,0,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA779509_SRS3805267","bone marrow","SRA779509",0.0584761904761905,0,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA779509_SRS3805268","bone marrow","SRA779509",0.203566433566434,0,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA779509_SRS3805269","bone marrow","SRA779509",0.224534161490683,0,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA784242_SRS3822680","testis","SRA784242",1,1,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA784242_SRS3822682","testis","SRA784242",0.45,0.2,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA784242_SRS3822683","testis","SRA784242",1,1,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA784242_SRS3822686","testis","SRA784242",0.525,0.4,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA826293_SRS4181123","testis","SRA826293",0.323333333333333,0.2,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA826293_SRS4181124","testis","SRA826293",0.8,0.6,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA826293_SRS4181125","testis","SRA826293",0.086470473970474,0,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA826293_SRS4181126","testis","SRA826293",0.461363636363636,0.4,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA826293_SRS4181127","testis","SRA826293",0.633333333333333,0.4,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA826293_SRS4181128","testis","SRA826293",0.7,0.4,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA826293_SRS4181129","testis","SRA826293",0.766666666666667,0.6,5
+"mv06h_sample_method_summary_v1","cell_H1","SRA826293_SRS4181130","testis","SRA826293",0.68,0.6,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA550660_SRS2089635","pbmc","SRA550660",0.9,0.8,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA550660_SRS2089636","pbmc","SRA550660",1,1,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA550660_SRS2089637","pbmc","SRA550660",0.473333333333333,0.2,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA550660_SRS2089638","pbmc","SRA550660",0.766666666666667,0.6,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA550660_SRS2089639","pbmc","SRA550660",0.8,0.6,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA621638_SRS2610283","bone marrow","SRA621638",0.666666666666667,0.4,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA621638_SRS2610285","bone marrow","SRA621638",0.273333333333333,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA628554_SRS2664364","pbmc","SRA628554",0.18,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA628554_SRS2664365","pbmc","SRA628554",0.18,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA645804_SRS2823404","testis","SRA645804",0.0552460723419803,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA645804_SRS2823405","testis","SRA645804",0.0532840307840308,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA645804_SRS2823406","testis","SRA645804",0.0574260826892406,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA645804_SRS2823407","testis","SRA645804",0.9,0.8,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA645804_SRS2823408","testis","SRA645804",1,1,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA645804_SRS2823409","testis","SRA645804",0.7,0.6,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA645804_SRS2823410","testis","SRA645804",1,1,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA645804_SRS2823411","testis","SRA645804",1,1,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA645804_SRS2823412","testis","SRA645804",1,1,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA645804_SRS3572594","testis","SRA645804",1,1,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA667709_SRS3065426","testis","SRA667709",0.9,0.8,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA667709_SRS3065427","testis","SRA667709",0.38,0.2,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA667709_SRS3065428","testis","SRA667709",0.35,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA667709_SRS3065429","testis","SRA667709",0.9,0.8,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA667709_SRS3065430","testis","SRA667709",0.583333333333333,0.4,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA667709_SRS3065431","testis","SRA667709",0.483333333333333,0.2,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA703206_SRS3296611","colon","SRA703206",0.0173348551180118,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA703206_SRS3296612","colon","SRA703206",0.0163969680944826,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA703206_SRS3296613","colon","SRA703206",0.0167288167530572,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA703206_SRS3296614","colon","SRA703206",0.0167796610169492,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA713577_SRS3363004","pbmc","SRA713577",1,1,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA716608_SRS3391629","liver","SRA716608",0.0300241989616878,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA716608_SRS3391630","liver","SRA716608",0.0193823660151135,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA716608_SRS3391631","liver","SRA716608",0.134518814518815,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA716608_SRS3391632","liver","SRA716608",0.074655248133509,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA716608_SRS3391633","liver","SRA716608",0.0173665827338656,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA728025_SRS3454421","colon","SRA728025",0.0299985145573381,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA728025_SRS3454422","colon","SRA728025",0.0256951134999916,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA728025_SRS3454423","colon","SRA728025",0.0266447216447216,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA728025_SRS3454424","colon","SRA728025",0.0262241188556978,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA728025_SRS3454425","colon","SRA728025",0.0317427365323721,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA728025_SRS3454426","colon","SRA728025",0.0282030834662414,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA728025_SRS3454427","colon","SRA728025",0.0325148312940304,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA728025_SRS3454428","colon","SRA728025",0.0323487971384327,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA728025_SRS3454430","colon","SRA728025",0.0291427791427791,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA740174_SRS3548780","bone marrow","SRA740174",0.766666666666667,0.6,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA740174_SRS3548781","bone marrow","SRA740174",0.423333333333333,0.2,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA740174_SRS3548782","bone marrow","SRA740174",0.5,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA740174_SRS3548783","bone marrow","SRA740174",0.356666666666667,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA749327_SRS3693910","pbmc","SRA749327",1,1,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA749327_SRS3693911","pbmc","SRA749327",0.616666666666667,0.4,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA749327_SRS3693912","pbmc","SRA749327",0.4,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA749327_SRS3693913","pbmc","SRA749327",1,1,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA760933_SRS3693061","liver","SRA760933",0.48,0.2,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA779509_SRS3805245","bone marrow","SRA779509",0.157142857142857,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA779509_SRS3805246","bone marrow","SRA779509",0.296666666666667,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA779509_SRS3805247","bone marrow","SRA779509",0.122002801120448,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA779509_SRS3805248","bone marrow","SRA779509",0.0975224775224775,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA779509_SRS3805249","bone marrow","SRA779509",0.0653968253968254,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA779509_SRS3805250","bone marrow","SRA779509",0.173333333333333,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA779509_SRS3805251","bone marrow","SRA779509",0.0447016751364577,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA779509_SRS3805252","bone marrow","SRA779509",0.197852147852148,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA779509_SRS3805253","bone marrow","SRA779509",0.28,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA779509_SRS3805254","bone marrow","SRA779509",0.423333333333333,0.2,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA779509_SRS3805255","bone marrow","SRA779509",0.107864357864358,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA779509_SRS3805256","bone marrow","SRA779509",0.566666666666667,0.4,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA779509_SRS3805257","bone marrow","SRA779509",0.144047619047619,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA779509_SRS3805258","bone marrow","SRA779509",0.103806173186978,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA779509_SRS3805259","bone marrow","SRA779509",0.0946969696969697,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA779509_SRS3805260","bone marrow","SRA779509",0.446666666666667,0.2,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA779509_SRS3805261","bone marrow","SRA779509",0.205555555555556,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA779509_SRS3805262","bone marrow","SRA779509",0.0428701733049559,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA779509_SRS3805263","bone marrow","SRA779509",0.323809523809524,0.2,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA779509_SRS3805264","bone marrow","SRA779509",0.0675980392156863,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA779509_SRS3805265","bone marrow","SRA779509",0.143162393162393,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA779509_SRS3805266","bone marrow","SRA779509",0.168571428571429,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA779509_SRS3805267","bone marrow","SRA779509",0.373809523809524,0.2,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA779509_SRS3805268","bone marrow","SRA779509",0.333333333333333,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA779509_SRS3805269","bone marrow","SRA779509",0.119194139194139,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA784242_SRS3822680","testis","SRA784242",0.466666666666667,0.2,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA784242_SRS3822682","testis","SRA784242",0.418571428571429,0.2,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA784242_SRS3822683","testis","SRA784242",0.6,0.2,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA784242_SRS3822686","testis","SRA784242",0.8,0.6,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA826293_SRS4181123","testis","SRA826293",0.0303466386554622,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA826293_SRS4181124","testis","SRA826293",0.0368660968660969,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA826293_SRS4181125","testis","SRA826293",0.0310728250244379,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA826293_SRS4181126","testis","SRA826293",0.0307142857142857,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA826293_SRS4181127","testis","SRA826293",0.151904761904762,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA826293_SRS4181128","testis","SRA826293",0.433333333333333,0,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA826293_SRS4181129","testis","SRA826293",0.9,0.8,5
+"mv06h_sample_method_summary_v1","gene_H0","SRA826293_SRS4181130","testis","SRA826293",0.131349206349206,0,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA550660_SRS2089635","pbmc","SRA550660",1,1,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA550660_SRS2089636","pbmc","SRA550660",0.9,0.8,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA550660_SRS2089637","pbmc","SRA550660",0.616666666666667,0.4,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA550660_SRS2089638","pbmc","SRA550660",0.866666666666667,0.8,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA550660_SRS2089639","pbmc","SRA550660",0.358571428571429,0.2,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA621638_SRS2610283","bone marrow","SRA621638",0.866666666666667,0.8,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA621638_SRS2610285","bone marrow","SRA621638",0.523333333333333,0.4,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA628554_SRS2664364","pbmc","SRA628554",1,1,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA628554_SRS2664365","pbmc","SRA628554",1,1,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA645804_SRS2823404","testis","SRA645804",0.263333333333333,0,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA645804_SRS2823405","testis","SRA645804",0.533333333333333,0.2,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA645804_SRS2823406","testis","SRA645804",0.7,0.6,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA645804_SRS2823407","testis","SRA645804",0.9,0.8,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA645804_SRS2823408","testis","SRA645804",0.84,0.8,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA645804_SRS2823409","testis","SRA645804",0.766666666666667,0.6,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA645804_SRS2823410","testis","SRA645804",0.8,0.6,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA645804_SRS2823411","testis","SRA645804",0.7,0.4,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA645804_SRS2823412","testis","SRA645804",0.391666666666667,0.2,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA645804_SRS3572594","testis","SRA645804",0.628571428571429,0.4,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA667709_SRS3065426","testis","SRA667709",0.35,0,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA667709_SRS3065427","testis","SRA667709",0.24047619047619,0,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA667709_SRS3065428","testis","SRA667709",0.9,0.8,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA667709_SRS3065429","testis","SRA667709",0.583333333333333,0.4,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA667709_SRS3065430","testis","SRA667709",0.473333333333333,0.2,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA667709_SRS3065431","testis","SRA667709",0.42,0.2,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA703206_SRS3296611","colon","SRA703206",0.267777777777778,0,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA703206_SRS3296612","colon","SRA703206",0.0411904761904762,0,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA703206_SRS3296613","colon","SRA703206",0.0359270394374759,0,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA703206_SRS3296614","colon","SRA703206",0.0255269514713644,0,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA713577_SRS3363004","pbmc","SRA713577",0.866666666666667,0.8,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA716608_SRS3391629","liver","SRA716608",0.0297746426778685,0,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA716608_SRS3391630","liver","SRA716608",0.0234137497350017,0,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA716608_SRS3391631","liver","SRA716608",0.0498626373626374,0,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA716608_SRS3391632","liver","SRA716608",0.0288411452927582,0,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA716608_SRS3391633","liver","SRA716608",0.0198750579007504,0,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA728025_SRS3454421","colon","SRA728025",0.118272642390289,0,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA728025_SRS3454422","colon","SRA728025",0.0485766045548654,0,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA728025_SRS3454423","colon","SRA728025",0.0533834586466165,0,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA728025_SRS3454424","colon","SRA728025",0.0514905356081827,0,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA728025_SRS3454425","colon","SRA728025",0.0625445632798574,0,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA728025_SRS3454426","colon","SRA728025",0.328571428571429,0.2,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA728025_SRS3454427","colon","SRA728025",0.0567354661162711,0,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA728025_SRS3454428","colon","SRA728025",0.0633766233766234,0,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA728025_SRS3454430","colon","SRA728025",0.0477432712215321,0,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA740174_SRS3548780","bone marrow","SRA740174",0.334848484848485,0,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA740174_SRS3548781","bone marrow","SRA740174",0.0707814407814408,0,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA740174_SRS3548782","bone marrow","SRA740174",0.398333333333333,0.2,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA740174_SRS3548783","bone marrow","SRA740174",0.098010878010878,0,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA749327_SRS3693910","pbmc","SRA749327",0.566666666666667,0.2,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA749327_SRS3693911","pbmc","SRA749327",0.342460317460317,0.2,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA749327_SRS3693912","pbmc","SRA749327",0.473333333333333,0.2,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA749327_SRS3693913","pbmc","SRA749327",0.866666666666667,0.8,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA760933_SRS3693061","liver","SRA760933",0.175910931174089,0,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA779509_SRS3805245","bone marrow","SRA779509",0.11790404040404,0,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA779509_SRS3805246","bone marrow","SRA779509",0.402222222222222,0.2,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA779509_SRS3805247","bone marrow","SRA779509",0.595238095238095,0.4,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA779509_SRS3805248","bone marrow","SRA779509",0.666666666666667,0.4,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA779509_SRS3805249","bone marrow","SRA779509",0.120793650793651,0,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA779509_SRS3805250","bone marrow","SRA779509",0.59,0.4,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA779509_SRS3805251","bone marrow","SRA779509",0.0494945697577277,0,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA779509_SRS3805252","bone marrow","SRA779509",0.220555555555556,0,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA779509_SRS3805253","bone marrow","SRA779509",0.205555555555556,0,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA779509_SRS3805254","bone marrow","SRA779509",0.170555555555556,0,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA779509_SRS3805255","bone marrow","SRA779509",0.0770028011204482,0,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA779509_SRS3805256","bone marrow","SRA779509",0.256666666666667,0,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA779509_SRS3805257","bone marrow","SRA779509",0.193888888888889,0,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA779509_SRS3805258","bone marrow","SRA779509",0.102619047619048,0,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA779509_SRS3805259","bone marrow","SRA779509",0.0861904761904762,0,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA779509_SRS3805260","bone marrow","SRA779509",0.497619047619048,0.4,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA779509_SRS3805261","bone marrow","SRA779509",0.510622710622711,0.4,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA779509_SRS3805262","bone marrow","SRA779509",0.0438324043106652,0,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA779509_SRS3805263","bone marrow","SRA779509",0.6,0.4,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA779509_SRS3805264","bone marrow","SRA779509",0.0863888888888889,0,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA779509_SRS3805265","bone marrow","SRA779509",0.142137862137862,0,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA779509_SRS3805266","bone marrow","SRA779509",0.178030303030303,0,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA779509_SRS3805267","bone marrow","SRA779509",0.138888888888889,0,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA779509_SRS3805268","bone marrow","SRA779509",0.315793650793651,0.2,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA779509_SRS3805269","bone marrow","SRA779509",0.410622710622711,0.2,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA784242_SRS3822680","testis","SRA784242",0.0884199134199134,0,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA784242_SRS3822682","testis","SRA784242",0.108181818181818,0,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA784242_SRS3822683","testis","SRA784242",0.175,0,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA784242_SRS3822686","testis","SRA784242",0.213888888888889,0,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA826293_SRS4181123","testis","SRA826293",0.126111111111111,0,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA826293_SRS4181124","testis","SRA826293",0.220238095238095,0,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA826293_SRS4181125","testis","SRA826293",0.0781283422459893,0,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA826293_SRS4181126","testis","SRA826293",0.0965151515151515,0,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA826293_SRS4181127","testis","SRA826293",0.485238095238095,0.4,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA826293_SRS4181128","testis","SRA826293",0.363333333333333,0.2,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA826293_SRS4181129","testis","SRA826293",0.08812435500516,0,5
+"mv06h_sample_method_summary_v1","gene_H1","SRA826293_SRS4181130","testis","SRA826293",0.445238095238095,0.2,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA550660_SRS2089635","pbmc","SRA550660",1,1,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA550660_SRS2089636","pbmc","SRA550660",1,1,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA550660_SRS2089637","pbmc","SRA550660",1,1,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA550660_SRS2089638","pbmc","SRA550660",1,1,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA550660_SRS2089639","pbmc","SRA550660",1,1,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA621638_SRS2610283","bone marrow","SRA621638",0.28,0,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA621638_SRS2610285","bone marrow","SRA621638",1,1,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA628554_SRS2664364","pbmc","SRA628554",0.5,0,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA628554_SRS2664365","pbmc","SRA628554",1,1,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA645804_SRS2823404","testis","SRA645804",0.6,0.2,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA645804_SRS2823405","testis","SRA645804",0.7,0.4,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA645804_SRS2823406","testis","SRA645804",0.666666666666667,0.4,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA645804_SRS2823407","testis","SRA645804",0.528888888888889,0.4,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA645804_SRS2823408","testis","SRA645804",0.0941219891219891,0,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA645804_SRS2823409","testis","SRA645804",1,1,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA645804_SRS2823410","testis","SRA645804",0.9,0.8,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA645804_SRS2823411","testis","SRA645804",0.528571428571429,0.2,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA645804_SRS2823412","testis","SRA645804",0.9,0.8,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA645804_SRS3572594","testis","SRA645804",1,1,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA667709_SRS3065426","testis","SRA667709",0.8,0.6,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA667709_SRS3065427","testis","SRA667709",0.43,0.2,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA667709_SRS3065428","testis","SRA667709",0.9,0.8,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA667709_SRS3065429","testis","SRA667709",0.74,0.6,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA667709_SRS3065430","testis","SRA667709",0.8,0.6,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA667709_SRS3065431","testis","SRA667709",0.8,0.6,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA703206_SRS3296611","colon","SRA703206",0.03328136517765,0,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA703206_SRS3296612","colon","SRA703206",0.072319245082403,0,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA703206_SRS3296613","colon","SRA703206",1,1,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA703206_SRS3296614","colon","SRA703206",1,1,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA713577_SRS3363004","pbmc","SRA713577",0.633333333333333,0.4,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA716608_SRS3391629","liver","SRA716608",0.0160392929827092,0,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA716608_SRS3391630","liver","SRA716608",0.0161671130598738,0,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA716608_SRS3391631","liver","SRA716608",0.0155403828197946,0,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA716608_SRS3391632","liver","SRA716608",0.0678433494609965,0,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA716608_SRS3391633","liver","SRA716608",0.0157379695006622,0,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA728025_SRS3454421","colon","SRA728025",0.0832634032634033,0,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA728025_SRS3454422","colon","SRA728025",0.165793650793651,0,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA728025_SRS3454423","colon","SRA728025",0.116031746031746,0,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA728025_SRS3454424","colon","SRA728025",1,1,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA728025_SRS3454425","colon","SRA728025",0.135622710622711,0,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA728025_SRS3454426","colon","SRA728025",0.44,0.2,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA728025_SRS3454427","colon","SRA728025",0.16,0,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA728025_SRS3454428","colon","SRA728025",0.136904761904762,0,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA728025_SRS3454430","colon","SRA728025",0.172222222222222,0,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA740174_SRS3548780","bone marrow","SRA740174",0.0832434026242076,0,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA740174_SRS3548781","bone marrow","SRA740174",0.0922655122655123,0,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA740174_SRS3548782","bone marrow","SRA740174",0.0772893772893773,0,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA740174_SRS3548783","bone marrow","SRA740174",0.0610576351752822,0,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA749327_SRS3693910","pbmc","SRA749327",0.233333333333333,0,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA749327_SRS3693911","pbmc","SRA749327",0.9,0.8,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA749327_SRS3693912","pbmc","SRA749327",1,1,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA749327_SRS3693913","pbmc","SRA749327",1,1,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA760933_SRS3693061","liver","SRA760933",0.0409294184076793,0,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA779509_SRS3805245","bone marrow","SRA779509",0.833333333333333,0.8,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA779509_SRS3805246","bone marrow","SRA779509",0.0367417351232218,0,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA779509_SRS3805247","bone marrow","SRA779509",0.0353608518124647,0,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA779509_SRS3805248","bone marrow","SRA779509",0.036996266823853,0,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA779509_SRS3805249","bone marrow","SRA779509",0.0387060755336617,0,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA779509_SRS3805250","bone marrow","SRA779509",0.0353875734943588,0,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA779509_SRS3805251","bone marrow","SRA779509",0.144848484848485,0,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA779509_SRS3805252","bone marrow","SRA779509",0.0529505582137161,0,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA779509_SRS3805253","bone marrow","SRA779509",0.27469696969697,0.2,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA779509_SRS3805254","bone marrow","SRA779509",0.146356421356421,0,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA779509_SRS3805255","bone marrow","SRA779509",0.177651696129957,0,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA779509_SRS3805256","bone marrow","SRA779509",0.366666666666667,0,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA779509_SRS3805257","bone marrow","SRA779509",0.230622710622711,0,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA779509_SRS3805258","bone marrow","SRA779509",0.454689754689755,0.4,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA779509_SRS3805259","bone marrow","SRA779509",0.0872359013535484,0,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA779509_SRS3805260","bone marrow","SRA779509",0.0407469342251951,0,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA779509_SRS3805261","bone marrow","SRA779509",0.0512449392712551,0,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA779509_SRS3805262","bone marrow","SRA779509",0.13,0,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA779509_SRS3805263","bone marrow","SRA779509",0.0925,0,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA779509_SRS3805264","bone marrow","SRA779509",0.069859649122807,0,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA779509_SRS3805265","bone marrow","SRA779509",0.0457424330055909,0,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA779509_SRS3805266","bone marrow","SRA779509",0.177777777777778,0,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA779509_SRS3805267","bone marrow","SRA779509",0.0392027746810356,0,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA779509_SRS3805268","bone marrow","SRA779509",0.218571428571429,0,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA779509_SRS3805269","bone marrow","SRA779509",0.165555555555556,0,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA784242_SRS3822680","testis","SRA784242",0.533333333333333,0.2,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA784242_SRS3822682","testis","SRA784242",0.5,0.2,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA784242_SRS3822683","testis","SRA784242",0.64,0.4,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA784242_SRS3822686","testis","SRA784242",0.55,0.4,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA826293_SRS4181123","testis","SRA826293",0.126753246753247,0,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA826293_SRS4181124","testis","SRA826293",0.9,0.8,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA826293_SRS4181125","testis","SRA826293",0.0657644110275689,0,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA826293_SRS4181126","testis","SRA826293",0.301515151515152,0.2,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA826293_SRS4181127","testis","SRA826293",0.566666666666667,0.2,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA826293_SRS4181128","testis","SRA826293",0.606666666666667,0.4,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA826293_SRS4181129","testis","SRA826293",0.7,0.4,5
+"mv06h_sample_method_summary_v1","cell_composite","SRA826293_SRS4181130","testis","SRA826293",0.506666666666667,0.2,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA550660_SRS2089635","pbmc","SRA550660",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA550660_SRS2089636","pbmc","SRA550660",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA550660_SRS2089637","pbmc","SRA550660",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA550660_SRS2089638","pbmc","SRA550660",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA550660_SRS2089639","pbmc","SRA550660",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA621638_SRS2610283","bone marrow","SRA621638",0.296666666666667,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA621638_SRS2610285","bone marrow","SRA621638",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA628554_SRS2664364","pbmc","SRA628554",0.5,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA628554_SRS2664365","pbmc","SRA628554",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA645804_SRS2823404","testis","SRA645804",0.8,0.6,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA645804_SRS2823405","testis","SRA645804",0.866666666666667,0.8,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA645804_SRS2823406","testis","SRA645804",0.8,0.6,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA645804_SRS2823407","testis","SRA645804",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA645804_SRS2823408","testis","SRA645804",0.456666666666667,0.2,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA645804_SRS2823409","testis","SRA645804",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA645804_SRS2823410","testis","SRA645804",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA645804_SRS2823411","testis","SRA645804",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA645804_SRS2823412","testis","SRA645804",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA645804_SRS3572594","testis","SRA645804",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA667709_SRS3065426","testis","SRA667709",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA667709_SRS3065427","testis","SRA667709",0.866666666666667,0.8,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA667709_SRS3065428","testis","SRA667709",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA667709_SRS3065429","testis","SRA667709",0.9,0.8,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA667709_SRS3065430","testis","SRA667709",0.9,0.8,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA667709_SRS3065431","testis","SRA667709",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA703206_SRS3296611","colon","SRA703206",0.0216043439319301,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA703206_SRS3296612","colon","SRA703206",0.0346831129889601,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA703206_SRS3296613","colon","SRA703206",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA703206_SRS3296614","colon","SRA703206",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA713577_SRS3363004","pbmc","SRA713577",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA716608_SRS3391629","liver","SRA716608",0.0183545827373777,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA716608_SRS3391630","liver","SRA716608",0.0177503371310514,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA716608_SRS3391631","liver","SRA716608",0.0162499370861909,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA716608_SRS3391632","liver","SRA716608",0.0703151260504202,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA716608_SRS3391633","liver","SRA716608",0.0166356242962226,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA728025_SRS3454421","colon","SRA728025",0.0551825802784882,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA728025_SRS3454422","colon","SRA728025",0.0784313725490196,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA728025_SRS3454423","colon","SRA728025",0.0721703296703297,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA728025_SRS3454424","colon","SRA728025",0.533333333333333,0.2,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA728025_SRS3454425","colon","SRA728025",0.109848484848485,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA728025_SRS3454426","colon","SRA728025",0.217460317460317,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA728025_SRS3454427","colon","SRA728025",0.0922222222222222,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA728025_SRS3454428","colon","SRA728025",0.0953846153846154,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA728025_SRS3454430","colon","SRA728025",0.0904040404040404,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA740174_SRS3548780","bone marrow","SRA740174",0.126748251748252,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA740174_SRS3548781","bone marrow","SRA740174",0.105336134453782,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA740174_SRS3548782","bone marrow","SRA740174",0.11258658008658,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA740174_SRS3548783","bone marrow","SRA740174",0.0746929824561404,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA749327_SRS3693910","pbmc","SRA749327",0.366666666666667,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA749327_SRS3693911","pbmc","SRA749327",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA749327_SRS3693912","pbmc","SRA749327",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA749327_SRS3693913","pbmc","SRA749327",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA760933_SRS3693061","liver","SRA760933",0.0453748006379585,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA779509_SRS3805245","bone marrow","SRA779509",0.65,0.4,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA779509_SRS3805246","bone marrow","SRA779509",0.056479969978422,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA779509_SRS3805247","bone marrow","SRA779509",0.0406666666666667,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA779509_SRS3805248","bone marrow","SRA779509",0.0408088578088578,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA779509_SRS3805249","bone marrow","SRA779509",0.0440766045548654,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA779509_SRS3805250","bone marrow","SRA779509",0.0446132723112128,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA779509_SRS3805251","bone marrow","SRA779509",0.0803521478521479,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA779509_SRS3805252","bone marrow","SRA779509",0.0685682738314317,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA779509_SRS3805253","bone marrow","SRA779509",0.315238095238095,0.2,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA779509_SRS3805254","bone marrow","SRA779509",0.200793650793651,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA779509_SRS3805255","bone marrow","SRA779509",0.191081871345029,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA779509_SRS3805256","bone marrow","SRA779509",0.5,0.2,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA779509_SRS3805257","bone marrow","SRA779509",0.229848484848485,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA779509_SRS3805258","bone marrow","SRA779509",0.296899766899767,0.2,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA779509_SRS3805259","bone marrow","SRA779509",0.0750339366515837,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA779509_SRS3805260","bone marrow","SRA779509",0.051991341991342,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA779509_SRS3805261","bone marrow","SRA779509",0.0889957264957265,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA779509_SRS3805262","bone marrow","SRA779509",0.0683351735983315,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA779509_SRS3805263","bone marrow","SRA779509",0.0909401709401709,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA779509_SRS3805264","bone marrow","SRA779509",0.0654176201372998,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA779509_SRS3805265","bone marrow","SRA779509",0.054715264096069,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA779509_SRS3805266","bone marrow","SRA779509",0.273333333333333,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA779509_SRS3805267","bone marrow","SRA779509",0.0442194616977226,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA779509_SRS3805268","bone marrow","SRA779509",0.55,0.2,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA779509_SRS3805269","bone marrow","SRA779509",0.0878399378399378,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA784242_SRS3822680","testis","SRA784242",0.44,0.2,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA784242_SRS3822682","testis","SRA784242",0.230793650793651,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA784242_SRS3822683","testis","SRA784242",0.388888888888889,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA784242_SRS3822686","testis","SRA784242",0.383181818181818,0.2,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA826293_SRS4181123","testis","SRA826293",0.0856227106227106,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA826293_SRS4181124","testis","SRA826293",0.186666666666667,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA826293_SRS4181125","testis","SRA826293",0.0640937657114128,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA826293_SRS4181126","testis","SRA826293",0.143090243090243,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA826293_SRS4181127","testis","SRA826293",0.9,0.8,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA826293_SRS4181128","testis","SRA826293",0.6,0.2,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA826293_SRS4181129","testis","SRA826293",0.7,0.4,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_025","SRA826293_SRS4181130","testis","SRA826293",0.9,0.8,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA550660_SRS2089635","pbmc","SRA550660",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA550660_SRS2089636","pbmc","SRA550660",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA550660_SRS2089637","pbmc","SRA550660",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA550660_SRS2089638","pbmc","SRA550660",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA550660_SRS2089639","pbmc","SRA550660",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA621638_SRS2610283","bone marrow","SRA621638",0.323333333333333,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA621638_SRS2610285","bone marrow","SRA621638",0.766666666666667,0.6,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA628554_SRS2664364","pbmc","SRA628554",0.5,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA628554_SRS2664365","pbmc","SRA628554",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA645804_SRS2823404","testis","SRA645804",0.9,0.8,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA645804_SRS2823405","testis","SRA645804",0.8,0.6,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA645804_SRS2823406","testis","SRA645804",0.8,0.6,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA645804_SRS2823407","testis","SRA645804",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA645804_SRS2823408","testis","SRA645804",0.766666666666667,0.6,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA645804_SRS2823409","testis","SRA645804",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA645804_SRS2823410","testis","SRA645804",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA645804_SRS2823411","testis","SRA645804",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA645804_SRS2823412","testis","SRA645804",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA645804_SRS3572594","testis","SRA645804",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA667709_SRS3065426","testis","SRA667709",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA667709_SRS3065427","testis","SRA667709",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA667709_SRS3065428","testis","SRA667709",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA667709_SRS3065429","testis","SRA667709",0.9,0.8,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA667709_SRS3065430","testis","SRA667709",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA667709_SRS3065431","testis","SRA667709",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA703206_SRS3296611","colon","SRA703206",0.0187501147018987,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA703206_SRS3296612","colon","SRA703206",0.0202564064087173,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA703206_SRS3296613","colon","SRA703206",0.373333333333333,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA703206_SRS3296614","colon","SRA703206",0.44,0.2,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA713577_SRS3363004","pbmc","SRA713577",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA716608_SRS3391629","liver","SRA716608",0.0236819036557713,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA716608_SRS3391630","liver","SRA716608",0.0201171393487142,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA716608_SRS3391631","liver","SRA716608",0.0214732410446696,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA716608_SRS3391632","liver","SRA716608",0.0689189376603564,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA716608_SRS3391633","liver","SRA716608",0.0178638602776534,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA728025_SRS3454421","colon","SRA728025",0.0429031113813723,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA728025_SRS3454422","colon","SRA728025",0.0428088578088578,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA728025_SRS3454423","colon","SRA728025",0.0432186234817814,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA728025_SRS3454424","colon","SRA728025",0.0782417582417582,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA728025_SRS3454425","colon","SRA728025",0.0635299787931367,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA728025_SRS3454426","colon","SRA728025",0.0676913786696395,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA728025_SRS3454427","colon","SRA728025",0.0676691729323308,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA728025_SRS3454428","colon","SRA728025",0.0584746625923096,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA728025_SRS3454430","colon","SRA728025",0.0526825802784882,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA740174_SRS3548780","bone marrow","SRA740174",0.233333333333333,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA740174_SRS3548781","bone marrow","SRA740174",0.150606060606061,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA740174_SRS3548782","bone marrow","SRA740174",0.165396825396825,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA740174_SRS3548783","bone marrow","SRA740174",0.102413600891862,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA749327_SRS3693910","pbmc","SRA749327",0.9,0.8,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA749327_SRS3693911","pbmc","SRA749327",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA749327_SRS3693912","pbmc","SRA749327",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA749327_SRS3693913","pbmc","SRA749327",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA760933_SRS3693061","liver","SRA760933",0.0563211639170718,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA779509_SRS3805245","bone marrow","SRA779509",0.44,0.2,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA779509_SRS3805246","bone marrow","SRA779509",0.112669172932331,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA779509_SRS3805247","bone marrow","SRA779509",0.0535795370779891,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA779509_SRS3805248","bone marrow","SRA779509",0.0612972988932068,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA779509_SRS3805249","bone marrow","SRA779509",0.0504774637127578,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA779509_SRS3805250","bone marrow","SRA779509",0.116071428571429,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA779509_SRS3805251","bone marrow","SRA779509",0.0544945697577277,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA779509_SRS3805252","bone marrow","SRA779509",0.100223285486443,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA779509_SRS3805253","bone marrow","SRA779509",0.328888888888889,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA779509_SRS3805254","bone marrow","SRA779509",0.272222222222222,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA779509_SRS3805255","bone marrow","SRA779509",0.154960317460317,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA779509_SRS3805256","bone marrow","SRA779509",0.54,0.2,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA779509_SRS3805257","bone marrow","SRA779509",0.215384615384615,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA779509_SRS3805258","bone marrow","SRA779509",0.113279857397504,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA779509_SRS3805259","bone marrow","SRA779509",0.0760786435786436,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA779509_SRS3805260","bone marrow","SRA779509",0.110612895876054,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA779509_SRS3805261","bone marrow","SRA779509",0.205,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA779509_SRS3805262","bone marrow","SRA779509",0.0468457468457468,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA779509_SRS3805263","bone marrow","SRA779509",0.258571428571429,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA779509_SRS3805264","bone marrow","SRA779509",0.0611612364243943,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA779509_SRS3805265","bone marrow","SRA779509",0.0696929824561403,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA779509_SRS3805266","bone marrow","SRA779509",0.283333333333333,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA779509_SRS3805267","bone marrow","SRA779509",0.0692564745196324,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA779509_SRS3805268","bone marrow","SRA779509",0.483333333333333,0.2,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA779509_SRS3805269","bone marrow","SRA779509",0.136237373737374,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA784242_SRS3822680","testis","SRA784242",0.566666666666667,0.4,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA784242_SRS3822682","testis","SRA784242",0.0882319434951014,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA784242_SRS3822683","testis","SRA784242",0.216666666666667,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA784242_SRS3822686","testis","SRA784242",0.101621989121989,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA826293_SRS4181123","testis","SRA826293",0.0626960784313726,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA826293_SRS4181124","testis","SRA826293",0.104273504273504,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA826293_SRS4181125","testis","SRA826293",0.0521637426900585,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA826293_SRS4181126","testis","SRA826293",0.0733333333333333,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA826293_SRS4181127","testis","SRA826293",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA826293_SRS4181128","testis","SRA826293",0.5,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA826293_SRS4181129","testis","SRA826293",0.566666666666667,0.2,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_050","SRA826293_SRS4181130","testis","SRA826293",0.9,0.8,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA550660_SRS2089635","pbmc","SRA550660",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA550660_SRS2089636","pbmc","SRA550660",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA550660_SRS2089637","pbmc","SRA550660",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA550660_SRS2089638","pbmc","SRA550660",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA550660_SRS2089639","pbmc","SRA550660",0.9,0.8,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA621638_SRS2610283","bone marrow","SRA621638",0.483333333333333,0.2,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA621638_SRS2610285","bone marrow","SRA621638",0.666666666666667,0.4,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA628554_SRS2664364","pbmc","SRA628554",0.7,0.4,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA628554_SRS2664365","pbmc","SRA628554",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA645804_SRS2823404","testis","SRA645804",0.533333333333333,0.2,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA645804_SRS2823405","testis","SRA645804",0.466666666666667,0.2,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA645804_SRS2823406","testis","SRA645804",0.383333333333333,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA645804_SRS2823407","testis","SRA645804",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA645804_SRS2823408","testis","SRA645804",0.9,0.8,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA645804_SRS2823409","testis","SRA645804",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA645804_SRS2823410","testis","SRA645804",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA645804_SRS2823411","testis","SRA645804",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA645804_SRS2823412","testis","SRA645804",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA645804_SRS3572594","testis","SRA645804",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA667709_SRS3065426","testis","SRA667709",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA667709_SRS3065427","testis","SRA667709",0.7,0.4,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA667709_SRS3065428","testis","SRA667709",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA667709_SRS3065429","testis","SRA667709",0.8,0.6,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA667709_SRS3065430","testis","SRA667709",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA667709_SRS3065431","testis","SRA667709",0.9,0.8,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA703206_SRS3296611","colon","SRA703206",0.020915870621753,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA703206_SRS3296612","colon","SRA703206",0.0178888942186553,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA703206_SRS3296613","colon","SRA703206",0.0290116724520749,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA703206_SRS3296614","colon","SRA703206",0.0273239687055477,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA713577_SRS3363004","pbmc","SRA713577",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA716608_SRS3391629","liver","SRA716608",0.0273655028546333,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA716608_SRS3391630","liver","SRA716608",0.0198878784135709,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA716608_SRS3391631","liver","SRA716608",0.0453015873015873,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA716608_SRS3391632","liver","SRA716608",0.0574568909351518,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA716608_SRS3391633","liver","SRA716608",0.0178058870617854,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA728025_SRS3454421","colon","SRA728025",0.0407679277244495,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA728025_SRS3454422","colon","SRA728025",0.0337495304635264,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA728025_SRS3454423","colon","SRA728025",0.0348743386243386,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA728025_SRS3454424","colon","SRA728025",0.0368590203106332,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA728025_SRS3454425","colon","SRA728025",0.0447965367965368,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA728025_SRS3454426","colon","SRA728025",0.0454743677375256,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA728025_SRS3454427","colon","SRA728025",0.0470085292282089,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA728025_SRS3454428","colon","SRA728025",0.0446955947863389,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA728025_SRS3454430","colon","SRA728025",0.0387469342251951,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA740174_SRS3548780","bone marrow","SRA740174",0.7,0.4,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA740174_SRS3548781","bone marrow","SRA740174",0.218888888888889,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA740174_SRS3548782","bone marrow","SRA740174",0.35,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA740174_SRS3548783","bone marrow","SRA740174",0.216666666666667,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA749327_SRS3693910","pbmc","SRA749327",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA749327_SRS3693911","pbmc","SRA749327",0.666666666666667,0.4,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA749327_SRS3693912","pbmc","SRA749327",0.706666666666667,0.6,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA749327_SRS3693913","pbmc","SRA749327",0.9,0.8,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA760933_SRS3693061","liver","SRA760933",0.095,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA779509_SRS3805245","bone marrow","SRA779509",0.183888888888889,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA779509_SRS3805246","bone marrow","SRA779509",0.355555555555556,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA779509_SRS3805247","bone marrow","SRA779509",0.3,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA779509_SRS3805248","bone marrow","SRA779509",0.291515151515152,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA779509_SRS3805249","bone marrow","SRA779509",0.0693302775655717,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA779509_SRS3805250","bone marrow","SRA779509",0.3,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA779509_SRS3805251","bone marrow","SRA779509",0.044047619047619,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA779509_SRS3805252","bone marrow","SRA779509",0.213566433566434,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA779509_SRS3805253","bone marrow","SRA779509",0.356666666666667,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA779509_SRS3805254","bone marrow","SRA779509",0.207460317460317,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA779509_SRS3805255","bone marrow","SRA779509",0.12508658008658,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA779509_SRS3805256","bone marrow","SRA779509",0.525,0.2,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA779509_SRS3805257","bone marrow","SRA779509",0.161904761904762,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA779509_SRS3805258","bone marrow","SRA779509",0.086038961038961,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA779509_SRS3805259","bone marrow","SRA779509",0.089344070961718,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA779509_SRS3805260","bone marrow","SRA779509",0.286904761904762,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA779509_SRS3805261","bone marrow","SRA779509",0.341666666666667,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA779509_SRS3805262","bone marrow","SRA779509",0.041695652173913,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA779509_SRS3805263","bone marrow","SRA779509",0.386666666666667,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA779509_SRS3805264","bone marrow","SRA779509",0.0610714285714286,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA779509_SRS3805265","bone marrow","SRA779509",0.0981139122315593,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA779509_SRS3805266","bone marrow","SRA779509",0.381904761904762,0.2,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA779509_SRS3805267","bone marrow","SRA779509",0.209848484848485,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA779509_SRS3805268","bone marrow","SRA779509",0.54,0.4,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA779509_SRS3805269","bone marrow","SRA779509",0.266666666666667,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA784242_SRS3822680","testis","SRA784242",0.475,0.2,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA784242_SRS3822682","testis","SRA784242",0.10540560888387,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA784242_SRS3822683","testis","SRA784242",0.128914027149321,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA784242_SRS3822686","testis","SRA784242",0.0787179487179487,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA826293_SRS4181123","testis","SRA826293",0.0508128770542958,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA826293_SRS4181124","testis","SRA826293",0.0693302775655717,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA826293_SRS4181125","testis","SRA826293",0.0470791108205296,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA826293_SRS4181126","testis","SRA826293",0.0514905356081827,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA826293_SRS4181127","testis","SRA826293",1,1,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA826293_SRS4181128","testis","SRA826293",0.9,0.8,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA826293_SRS4181129","testis","SRA826293",0.311904761904762,0,5
+"mv06h_sample_method_summary_v1","fusion_gene_weight_075","SRA826293_SRS4181130","testis","SRA826293",0.9,0.8,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA550660_SRS2089635","pbmc","SRA550660",1,1,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA550660_SRS2089636","pbmc","SRA550660",0.9,0.8,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA550660_SRS2089637","pbmc","SRA550660",1,1,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA550660_SRS2089638","pbmc","SRA550660",0.866666666666667,0.8,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA550660_SRS2089639","pbmc","SRA550660",0.9,0.8,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA621638_SRS2610283","bone marrow","SRA621638",0.566666666666667,0.2,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA621638_SRS2610285","bone marrow","SRA621638",0.583333333333333,0.4,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA628554_SRS2664364","pbmc","SRA628554",1,1,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA628554_SRS2664365","pbmc","SRA628554",1,1,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA645804_SRS2823404","testis","SRA645804",0.102565571683219,0,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA645804_SRS2823405","testis","SRA645804",0.0884004884004884,0,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA645804_SRS2823406","testis","SRA645804",0.0994444444444444,0,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA645804_SRS2823407","testis","SRA645804",1,1,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA645804_SRS2823408","testis","SRA645804",1,1,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA645804_SRS2823409","testis","SRA645804",1,1,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA645804_SRS2823410","testis","SRA645804",1,1,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA645804_SRS2823411","testis","SRA645804",1,1,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA645804_SRS2823412","testis","SRA645804",0.9,0.8,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA645804_SRS3572594","testis","SRA645804",1,1,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA667709_SRS3065426","testis","SRA667709",0.866666666666667,0.8,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA667709_SRS3065427","testis","SRA667709",0.363333333333333,0.2,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA667709_SRS3065428","testis","SRA667709",1,1,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA667709_SRS3065429","testis","SRA667709",0.766666666666667,0.6,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA667709_SRS3065430","testis","SRA667709",0.516666666666667,0.2,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA667709_SRS3065431","testis","SRA667709",0.466666666666667,0.2,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA703206_SRS3296611","colon","SRA703206",0.0263352230844491,0,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA703206_SRS3296612","colon","SRA703206",0.0180050301236742,0,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA703206_SRS3296613","colon","SRA703206",0.0186842602166974,0,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA703206_SRS3296614","colon","SRA703206",0.0179431083310822,0,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA713577_SRS3363004","pbmc","SRA713577",0.9,0.8,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA716608_SRS3391629","liver","SRA716608",0.0297170645446508,0,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA716608_SRS3391630","liver","SRA716608",0.0213788335847159,0,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA716608_SRS3391631","liver","SRA716608",0.0846897546897547,0,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA716608_SRS3391632","liver","SRA716608",0.0436912989544569,0,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA716608_SRS3391633","liver","SRA716608",0.01792663476874,0,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA728025_SRS3454421","colon","SRA728025",0.0389092389092389,0,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA728025_SRS3454422","colon","SRA728025",0.0305050505050505,0,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA728025_SRS3454423","colon","SRA728025",0.0321728440592538,0,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA728025_SRS3454424","colon","SRA728025",0.0312394957983193,0,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA728025_SRS3454425","colon","SRA728025",0.0390529889828628,0,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA728025_SRS3454426","colon","SRA728025",0.0397212931995541,0,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA728025_SRS3454427","colon","SRA728025",0.0426403596403596,0,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA728025_SRS3454428","colon","SRA728025",0.0407364906663644,0,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA728025_SRS3454430","colon","SRA728025",0.0325717427733557,0,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA740174_SRS3548780","bone marrow","SRA740174",0.8,0.6,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA740174_SRS3548781","bone marrow","SRA740174",0.366666666666667,0.2,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA740174_SRS3548782","bone marrow","SRA740174",0.8,0.6,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA740174_SRS3548783","bone marrow","SRA740174",0.616666666666667,0.4,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA749327_SRS3693910","pbmc","SRA749327",1,1,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA749327_SRS3693911","pbmc","SRA749327",0.516666666666667,0.2,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA749327_SRS3693912","pbmc","SRA749327",0.388888888888889,0.2,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA749327_SRS3693913","pbmc","SRA749327",0.8,0.6,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA760933_SRS3693061","liver","SRA760933",0.456666666666667,0.2,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA779509_SRS3805245","bone marrow","SRA779509",0.129126984126984,0,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA779509_SRS3805246","bone marrow","SRA779509",0.533333333333333,0.2,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA779509_SRS3805247","bone marrow","SRA779509",0.345238095238095,0,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA779509_SRS3805248","bone marrow","SRA779509",0.366666666666667,0,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA779509_SRS3805249","bone marrow","SRA779509",0.116666666666667,0,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA779509_SRS3805250","bone marrow","SRA779509",0.566666666666667,0.4,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA779509_SRS3805251","bone marrow","SRA779509",0.0450085292282089,0,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA779509_SRS3805252","bone marrow","SRA779509",0.447222222222222,0.2,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA779509_SRS3805253","bone marrow","SRA779509",0.333333333333333,0,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA779509_SRS3805254","bone marrow","SRA779509",0.296666666666667,0,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA779509_SRS3805255","bone marrow","SRA779509",0.118737373737374,0,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA779509_SRS3805256","bone marrow","SRA779509",0.488888888888889,0.2,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA779509_SRS3805257","bone marrow","SRA779509",0.200793650793651,0,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA779509_SRS3805258","bone marrow","SRA779509",0.107051282051282,0,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA779509_SRS3805259","bone marrow","SRA779509",0.113279857397504,0,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA779509_SRS3805260","bone marrow","SRA779509",0.666666666666667,0.4,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA779509_SRS3805261","bone marrow","SRA779509",0.353333333333333,0,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA779509_SRS3805262","bone marrow","SRA779509",0.0409017713365539,0,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA779509_SRS3805263","bone marrow","SRA779509",0.625,0.4,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA779509_SRS3805264","bone marrow","SRA779509",0.0733333333333333,0,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA779509_SRS3805265","bone marrow","SRA779509",0.2402331002331,0,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA779509_SRS3805266","bone marrow","SRA779509",0.25,0,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA779509_SRS3805267","bone marrow","SRA779509",0.366666666666667,0,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA779509_SRS3805268","bone marrow","SRA779509",0.323333333333333,0,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA779509_SRS3805269","bone marrow","SRA779509",0.388333333333333,0.2,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA784242_SRS3822680","testis","SRA784242",0.340384615384615,0.2,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA784242_SRS3822682","testis","SRA784242",0.259285714285714,0,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA784242_SRS3822683","testis","SRA784242",0.343333333333333,0.2,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA784242_SRS3822686","testis","SRA784242",0.223181818181818,0,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA826293_SRS4181123","testis","SRA826293",0.048143704121965,0,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA826293_SRS4181124","testis","SRA826293",0.0569945697577277,0,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA826293_SRS4181125","testis","SRA826293",0.0465527950310559,0,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA826293_SRS4181126","testis","SRA826293",0.0470228805011414,0,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA826293_SRS4181127","testis","SRA826293",0.191904761904762,0,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA826293_SRS4181128","testis","SRA826293",0.516666666666667,0.2,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA826293_SRS4181129","testis","SRA826293",0.215555555555556,0,5
+"mv06h_sample_method_summary_v1","gene_composite","SRA826293_SRS4181130","testis","SRA826293",0.180793650793651,0,5

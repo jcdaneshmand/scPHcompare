@@ -1,0 +1,2 @@
+"contract_id","source_file","source_sha256","source_samples","source_studies","candidate_samples","candidate_studies","eligible_tissues","label_open_boundary","labels_used_for_upstream_fit"
+"mv06h_frozen_label_source_v1","joined_metadata_cellcounts.csv","e2b6f1e7d7dc05ba8e80627aad4ea1677c3b718a844397acd06596d7e22a18d0",124,18,90,15,5,"after_committed_mv06h_prediction_lock",FALSE

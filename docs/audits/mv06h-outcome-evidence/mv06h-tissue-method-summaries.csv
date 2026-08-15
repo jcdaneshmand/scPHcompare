@@ -1,0 +1,46 @@
+"contract_id","method_id","query_tissue","mean_reciprocal_rank","one_nn_balanced_accuracy","samples","studies"
+"mv06h_tissue_method_summary_v1","cell_H0","bone marrow",0.201797340052352,0.0580645161290323,31,3
+"mv06h_tissue_method_summary_v1","cell_H0","colon",0.293938650412927,0.0923076923076923,13,2
+"mv06h_tissue_method_summary_v1","cell_H0","liver",0.0269360487616111,0,6,2
+"mv06h_tissue_method_summary_v1","cell_H0","pbmc",0.833226495726496,0.75,12,4
+"mv06h_tissue_method_summary_v1","cell_H0","testis",0.556617418273044,0.407142857142857,28,4
+"mv06h_tissue_method_summary_v1","cell_H1","bone marrow",0.16850363693757,0.0451612903225806,31,3
+"mv06h_tissue_method_summary_v1","cell_H1","colon",0.331082884777303,0.2,13,2
+"mv06h_tissue_method_summary_v1","cell_H1","liver",0.0291077259201287,0,6,2
+"mv06h_tissue_method_summary_v1","cell_H1","pbmc",0.797638888888889,0.683333333333333,12,4
+"mv06h_tissue_method_summary_v1","cell_H1","testis",0.647745776049347,0.471428571428571,28,4
+"mv06h_tissue_method_summary_v1","gene_H0","bone marrow",0.260847462814742,0.0774193548387097,31,3
+"mv06h_tissue_method_summary_v1","gene_H0","colon",0.0253657690087774,0,13,2
+"mv06h_tissue_method_summary_v1","gene_H0","liver",0.125991201727165,0.0333333333333333,6,2
+"mv06h_tissue_method_summary_v1","gene_H0","pbmc",0.693055555555556,0.55,12,4
+"mv06h_tissue_method_summary_v1","gene_H0","testis",0.514051717698843,0.385714285714286,28,4
+"mv06h_tissue_method_summary_v1","gene_H1","bone marrow",0.292621432133015,0.141935483870968,31,3
+"mv06h_tissue_method_summary_v1","gene_H1","colon",0.0923936029725201,0.0153846153846154,13,2
+"mv06h_tissue_method_summary_v1","gene_H1","liver",0.0546130273571842,0,6,2
+"mv06h_tissue_method_summary_v1","gene_H1","pbmc",0.738141534391534,0.616666666666667,12,4
+"mv06h_tissue_method_summary_v1","gene_H1","testis",0.427826124468926,0.25,28,4
+"mv06h_tissue_method_summary_v1","cell_composite","bone marrow",0.179912981266585,0.0774193548387097,31,3
+"mv06h_tissue_method_summary_v1","cell_composite","colon",0.347341469622965,0.246153846153846,13,2
+"mv06h_tissue_method_summary_v1","cell_composite","liver",0.0287095877052859,0,6,2
+"mv06h_tissue_method_summary_v1","cell_composite","pbmc",0.855555555555556,0.766666666666667,12,4
+"mv06h_tissue_method_summary_v1","cell_composite","testis",0.620914825567081,0.428571428571429,28,4
+"mv06h_tissue_method_summary_v1","fusion_gene_weight_025","bone marrow",0.191170330461986,0.0709677419354839,31,3
+"mv06h_tissue_method_summary_v1","fusion_gene_weight_025","colon",0.261594211774749,0.169230769230769,13,2
+"mv06h_tissue_method_summary_v1","fusion_gene_weight_025","liver",0.0307800679898702,0,6,2
+"mv06h_tissue_method_summary_v1","fusion_gene_weight_025","pbmc",0.905555555555556,0.833333333333333,12,4
+"mv06h_tissue_method_summary_v1","fusion_gene_weight_025","testis",0.700440633712692,0.578571428571429,28,4
+"mv06h_tissue_method_summary_v1","fusion_gene_weight_050","bone marrow",0.198561997635148,0.0387096774193548,31,3
+"mv06h_tissue_method_summary_v1","fusion_gene_weight_050","colon",0.105350767586433,0.0153846153846154,13,2
+"mv06h_tissue_method_summary_v1","fusion_gene_weight_050","liver",0.0347293743173728,0,6,2
+"mv06h_tissue_method_summary_v1","fusion_gene_weight_050","pbmc",0.95,0.9,12,4
+"mv06h_tissue_method_summary_v1","fusion_gene_weight_050","testis",0.692820973500429,0.6,28,4
+"mv06h_tissue_method_summary_v1","fusion_gene_weight_075","bone marrow",0.276112898111248,0.0580645161290323,31,3
+"mv06h_tissue_method_summary_v1","fusion_gene_weight_075","colon",0.0355471681457526,0,13,2
+"mv06h_tissue_method_summary_v1","fusion_gene_weight_075","liver",0.0438029577611215,0,6,2
+"mv06h_tissue_method_summary_v1","fusion_gene_weight_075","pbmc",0.906111111111111,0.833333333333333,12,4
+"mv06h_tissue_method_summary_v1","fusion_gene_weight_075","testis",0.635785302894208,0.528571428571429,28,4
+"mv06h_tissue_method_summary_v1","gene_composite","bone marrow",0.36354242221249,0.141935483870968,31,3
+"mv06h_tissue_method_summary_v1","gene_composite","colon",0.0314243943300202,0,13,2
+"mv06h_tissue_method_summary_v1","gene_composite","liver",0.109011708868164,0.0333333333333333,6,2
+"mv06h_tissue_method_summary_v1","gene_composite","pbmc",0.856018518518519,0.766666666666667,12,4
+"mv06h_tissue_method_summary_v1","gene_composite","testis",0.487151091787363,0.371428571428571,28,4

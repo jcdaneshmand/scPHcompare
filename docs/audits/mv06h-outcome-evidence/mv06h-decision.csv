@@ -1,0 +1,2 @@
+"contract_id","primary_method_id","comparators","both_primary_MRR_contrasts_positive","both_primary_MRR_contrasts_Holm_le_0_05","disposition","advanced_fusion_authorized","clustering_authorized","outcome_driven_selection_executed","labels_opened_after_prediction_lock","outcomes_computed"
+"mv06h_blocked_fusion_decision_v1","fusion_gene_weight_050","cell_composite;gene_composite",FALSE,FALSE,"no_reliable_outperformance_report_views_separately",FALSE,FALSE,FALSE,TRUE,TRUE

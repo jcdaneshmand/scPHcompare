@@ -1,0 +1,3 @@
+"contract_id","family_id","method_id","comparator_id","randomization_replicates","randomization_seed","study_blocks","sign_matrix_sha256","null_distribution_sha256","two_sided","exact_zero_p_value_possible"
+"mv06h_randomization_audit_v1","mv06g_F1_primary_mrr","fusion_gene_weight_050","cell_composite",9999,20260816,15,"834de490f5ea66e51f0fe2e3c158a66fd68a1e24950f64b4d3318ddcfcefdbfd","197fd176b651c8f60752669f6a09af5998156fb568cfb3a6ee03f35cef427aeb",TRUE,FALSE
+"mv06h_randomization_audit_v1","mv06g_F1_primary_mrr","fusion_gene_weight_050","gene_composite",9999,20260816,15,"834de490f5ea66e51f0fe2e3c158a66fd68a1e24950f64b4d3318ddcfcefdbfd","dcb0173dbbbaa195425ba959632a1656f4e57617357de9a9dd3b533ed953ff3d",TRUE,FALSE
