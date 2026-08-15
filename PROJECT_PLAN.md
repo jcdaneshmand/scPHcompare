@@ -5,7 +5,7 @@
 | Field | Value |
 |---|---|
 | Status | Draft for owner and author-team review |
-| Version | 0.3.46 |
+| Version | 0.3.47 |
 | Created | 2026-08-03 |
 | Canonical repository | `jcdaneshmand/scPHcompare` |
 | Historical source repository | `jcdaneshmand/PH_ClusteringApp` |
@@ -663,6 +663,7 @@ Publish a durable, citable research artifact.
 | D-059 | 2026-08-14 | Admit the exact remaining 74 MV6-F groups under the corrected remediated root and serial fail-closed monitor | Primary/repeat finish in 337.429/349.147 s at 3.100/3.030 GB peak tree RSS; 180 diagrams and 6,500 landscape rows are scientifically identical to the parent root; 3/3 byte repeats, R 12/12, Persim 12/12, resume 5/5, and 8/8 rebind categories pass | Stage two is authorized label-closed only; fusion, clustering, outcomes, public Rust adoption, release, and claims remain closed until complete-production validation and resume pass |
 | D-060 | 2026-08-14 | Stop stage two after the first pending group breaches the frozen 8-GiB RSS cap; preserve the failure and prefreeze one unchanged-runner diagnosis at the already reserved 12-GiB aggregate ceiling | Group order 2 reached 8,747,204,608 B after 228.451 s and was killed with no published artifact; no later group launched; the exact monitor/runner/queue/root/Rust identities are bound and automatic retry remains false | Authorize only the one-group 12-GiB diagnostic after quarantining partial state; if it fails, optimize/profile PH before further production; H1 and all scientific scope remain unchanged |
 | D-061 | 2026-08-14 | Accept the exact-group resource diagnosis and replace the 8-GiB per-group execution ceiling with a separately bound serial 12-GiB policy for the unchanged 74-row stage-two queue | The diagnosed group completed atomically in 423.050 s at 9,575,215,104 B peak process-tree RSS; its full directory validates under the unchanged queue `f5471633…10bb5`, implementation root `5a1258e8…8d292`, scientific runner, and Rust library `51d3fca4…160d`; the prospective policy reproduces all 74 rows in exact order, binds its driver/monitor, retains one worker/no retry/1,800-s/10-GiB storage caps, and keeps labels and all downstream jobs closed | Authorize serial stage-two execution only; stop at the first group above 12 GiB or any contract/artifact failure; complete-production validation, immutable resume, fusion, clustering, outcomes, and claims remain closed |
+| D-062 | 2026-08-14 | Accept complete MV6-F label-closed production under the serial 12-GiB policy, while requiring a separately committed whole-corpus immutable-resume gate before fusion | All 74 stage-two rows completed or were validated reuse; actual monitored work was 21,538.531 s (5.983 h), peak RSS was 9,575,215,104 B, 11 groups exceeded the former 8-GiB ceiling, and retained private state was 624,237,551 B; the original monitor validated/reused 74/74 rows; an independent validator passed 6/6 categories across 75 groups, 35,350 biological pairs, 141,400 component rows, and balanced cell/gene H0/H1 totals | Authorize only the prefrozen 375-artifact plus canonical-metrics immutable-resume check; fusion, clustering, labels, outcomes, defaults, release, and claims remain closed until it passes |
 
 ## 9. Status dashboard
 
@@ -673,7 +674,7 @@ Publish a durable, citable research artifact.
 | 2. Reproducible baseline/repository health | Published main CI passes privacy, exact restore, package check, and installed realistic H0/H1 fixtures; clean-clone user route and complete policy review remain | G2 not evaluated |
 | 3. Literature/reference/figure audit | Initial literature sample only | G3 not evaluated |
 | 4. Redesign primary comparison | Prediction-locked retrieval, clustering, complete robustness panels, corrected matrices, and null/negative results have auditable evidence; author-level synthesis remains | G4 not evaluated |
-| 5. Expand methods | The exact first large stage-two group completed at 9.575 GB under an unchanged-science 12-GiB diagnosis; a bound serial 12-GiB policy now authorizes the frozen 74-row queue while blocked fusion and all outcomes remain closed | G5 not evaluated |
+| 5. Expand methods | MV6-F complete dual-view production now validates across 75 groups, 35,350 pairs, and 141,400 exact cell/gene H0/H1 component rows; a whole-corpus immutable-resume gate is prefrozen while blocked fusion and all outcomes remain closed | G5 not evaluated |
 | 6. Biological/practical validation | Not started | G6 not evaluated |
 | 7. Profile and optimize | Rust landscape kernel passed complete numerical equivalence and nonpublishing four-platform candidate CI; R remains canonical/default and distribution/adoption remains open | G7 not evaluated |
 | 8. Rewrite manuscript | Not started | G8 not evaluated |
@@ -683,6 +684,7 @@ Publish a durable, citable research artifact.
 
 | Version | Date | Summary |
 |---|---|---|
+| 0.3.47 | 2026-08-14 | Completed all MV6-F stage-two production under the serial 12-GiB policy; 74/74 canonical reuse metrics and 6/6 independent complete-production categories pass across 75 groups, and only a committed 375-artifact immutable-resume check is authorized next |
 | 0.3.46 | 2026-08-14 | Accepted the successful 9.575-GB exact-group diagnosis and prefroze a separately hash-bound serial 12-GiB policy for all 74 unchanged MV6-F stage-two rows, with no scientific-root change, no retry, and downstream work still closed |
 | 0.3.45 | 2026-08-14 | Preserved the first stage-two group's fail-closed 8.747-GB RSS stop and prefroze exactly one unchanged-science 12-GiB diagnostic under the existing serial aggregate allowance; no later group or downstream job launched |
 | 0.3.44 | 2026-08-14 | Admitted MV6-F stage two after the corrected root reproduced all 180 diagrams and 6,500 landscape rows scientifically, repeated 3/3 artifacts byte-identically, passed 12/12 R and 12/12 Persim oracles plus 5/5 immutable resume and 8/8 rebind checks |

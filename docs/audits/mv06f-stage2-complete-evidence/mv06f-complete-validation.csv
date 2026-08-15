@@ -1,0 +1,7 @@
+"contract_id","category","passed","detail","outcome_label_state","biological_outcomes_computed"
+"mv06f_complete_validation_v1","all_group_directories",TRUE,"75/75 remediated-root group directories validate","closed",FALSE
+"mv06f_complete_validation_v1","complete_workload",TRUE,"35,350 biological pairs and 141,400 component rows reconstruct","closed",FALSE
+"mv06f_complete_validation_v1","unique_pair_axis",TRUE,"all component pair identities are globally unique","closed",FALSE
+"mv06f_complete_validation_v1","balanced_component_totals",TRUE,"35,350 rows exist for each cell/gene by H0/H1 component","closed",FALSE
+"mv06f_complete_validation_v1","stage2_resource_metrics",TRUE,"74/74 stage-two resource rows complete or validated reuse","closed",FALSE
+"mv06f_complete_validation_v1","label_and_downstream_firewall",TRUE,"labels remain closed and fusion/clustering/outcome counts remain zero","closed",FALSE

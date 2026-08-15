@@ -98,6 +98,13 @@ Rust library, labels, and downstream scope do not change. Production must stop
 at the first policy or artifact failure; fusion remains closed until complete
 production, independent validation, and immutable resume pass.
 
+That execution subsequently completed all 74 stage-two rows. The original
+monitor validated reuse for 74/74 rows, and the independent completion gate
+passed 6/6 categories across all 75 groups, 35,350 biological pairs, and
+141,400 balanced cell/gene H0/H1 component rows. Decision D-062 authorizes only
+the separately committed whole-corpus immutable-resume check next; blocked
+fusion and all outcome-bearing work remain closed.
+
 ## Gate disposition
 
 | Question | Disposition |
