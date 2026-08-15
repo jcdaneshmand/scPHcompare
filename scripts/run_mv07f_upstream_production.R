@@ -23,6 +23,7 @@ source("R/toy_baseline.R")
 source("R/dual_view_topology.R")
 source("R/mv05_resource_safe_execution.R")
 source("R/mv07f_upstream_production.R")
+source("R/mv07f_validation_utils.R")
 sha <- function(path) digest::digest(file = path, algo = "sha256", serialize = FALSE)
 head <- tolower(trimws(system2("git", c("rev-parse", "HEAD"), stdout = TRUE)))
 ancestor <- system2("git", c("merge-base", "--is-ancestor", prefreeze_head, head),
@@ -62,7 +63,9 @@ receipt <- data.frame(
 receipt_path <- file.path(dirs[["receipts"]], paste0(head, ".csv"))
 if (file.exists(receipt_path)) {
   old <- read.csv(receipt_path, stringsAsFactors = FALSE, check.names = FALSE)
-  if (!identical(old, receipt)) stop("Existing execution receipt drifted.")
+  if (!mv07f_provenance_record_matches_v1(old, receipt)) {
+    stop("Existing execution receipt drifted.")
+  }
 } else {
   write_provenance_csv(receipt, receipt_path)
 }
