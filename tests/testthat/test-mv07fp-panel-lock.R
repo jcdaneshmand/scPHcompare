@@ -19,3 +19,13 @@ test_that("MV7-FP combines the exact 450 plus 170 cache axis", {
   expect_true(all(table(result$seed) == 124L))
   expect_equal(mv07fp_resource_caps_v1()$elapsed_cap_seconds, 2700)
 })
+
+test_that("MV7-FP variance calculation is sparse-safe and unchanged", {
+  dense <- matrix(c(0, 1, 2, 3, 0, 4, 1, 1), nrow = 2L)
+  sparse <- Matrix::Matrix(dense, sparse = TRUE)
+
+  expect_equal(.mv03_row_variance(sparse), .mv03_row_variance(dense),
+               tolerance = 1e-14)
+  expect_equal(.mv03_row_variance(dense), apply(dense, 1L, stats::var),
+               tolerance = 1e-14)
+})

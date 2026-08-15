@@ -36,8 +36,13 @@ mv03_feature_category <- function(gene_ids) {
   if (count < 2L) {
     return(rep(NA_real_, nrow(value)))
   }
-  means <- rowMeans(value)
-  centered_ss <- rowSums(value * value) - count * means * means
+  if (inherits(value, "Matrix")) {
+    means <- Matrix::rowMeans(value)
+    centered_ss <- Matrix::rowSums(value * value) - count * means * means
+  } else {
+    means <- rowMeans(value)
+    centered_ss <- rowSums(value * value) - count * means * means
+  }
   pmax(as.numeric(centered_ss) / (count - 1), 0)
 }
 
