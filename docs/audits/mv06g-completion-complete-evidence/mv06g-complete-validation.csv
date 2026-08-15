@@ -1,0 +1,8 @@
+"contract_id","category","passed","outcome_label_state","biological_outcomes_computed"
+"mv06g_complete_validation_v1","all_groups",TRUE,"closed",FALSE
+"mv06g_complete_validation_v1","training_workload",TRUE,"closed",FALSE
+"mv06g_complete_validation_v1","query_workload",TRUE,"closed",FALSE
+"mv06g_complete_validation_v1","four_scales_per_group",TRUE,"closed",FALSE
+"mv06g_complete_validation_v1","serial_metrics",TRUE,"closed",FALSE
+"mv06g_complete_validation_v1","label_and_outcome_firewall",TRUE,"closed",FALSE
+"mv06g_complete_validation_v1","no_partial_state",TRUE,"closed",FALSE
