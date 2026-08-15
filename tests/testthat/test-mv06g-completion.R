@@ -43,7 +43,9 @@ testthat::test_that("MV6-G completion metric remains label closed", {
     cumulative_private_bytes = 1, scientific_group_complete = TRUE,
     scientific_implementation_root_sha256 = strrep("a", 64L),
     execution_implementation_root_sha256 = strrep("b", 64L),
-    rust_library_sha256 = strrep("c", 64L), outcome_label_state = "closed",
+    rust_library_sha256 = strrep("c", 64L),
+    runner_stdout_sha256 = strrep("d", 64L),
+    runner_stderr_sha256 = strrep("e", 64L), outcome_label_state = "closed",
     biological_outcomes_computed = FALSE, fusion_evaluations = 0L,
     outcome_jobs = 0L
   )

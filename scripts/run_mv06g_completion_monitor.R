@@ -67,6 +67,13 @@ partials <- list.files(group_output, pattern = paste0("^", safe,
 if (length(partials)) stop(
   "MV6-G completion partial state requires quarantine.", call. = FALSE
 )
+log_dir <- file.path(private_root, "runner-logs")
+dir.create(log_dir, recursive = TRUE, showWarnings = FALSE)
+stdout_log <- file.path(log_dir, paste0(safe, ".stdout.log"))
+stderr_log <- file.path(log_dir, paste0(safe, ".stderr.log"))
+if (file.exists(stdout_log) || file.exists(stderr_log)) stop(
+  "MV6-G completion runner logs require quarantine.", call. = FALSE
+)
 tree_rss <- function(pid) {
   root <- tryCatch(ps::ps_handle(pid), error = function(error) NULL)
   if (is.null(root)) return(0)
@@ -89,7 +96,7 @@ runner_args <- c(
 )
 started <- Sys.time(); peak <- 0; failure <- NA_character_
 process <- processx::process$new(Sys.which("Rscript"), runner_args,
-  stdout = "|", stderr = "|", cleanup_tree = TRUE
+  stdout = stdout_log, stderr = stderr_log, cleanup_tree = TRUE
 )
 while (process$is_alive()) {
   Sys.sleep(0.25)
@@ -122,6 +129,10 @@ metric <- data.frame(
   execution_implementation_root_sha256 =
     policy$execution_implementation_root_sha256,
   rust_library_sha256 = policy$rust_library_sha256,
+  runner_stdout_sha256 = .mv06f_sha256(stdout_log),
+  runner_stderr_sha256 = .mv06f_sha256(stderr_log),
+  runner_stderr_tail = paste(tail(readLines(stderr_log, warn = FALSE), 20L),
+                             collapse = " | "),
   outcome_label_state = "closed", biological_outcomes_computed = FALSE,
   fusion_evaluations = 0L, outcome_jobs = 0L, stringsAsFactors = FALSE
 )

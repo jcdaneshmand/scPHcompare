@@ -34,7 +34,7 @@ fusion panel changes no landscape definition.
 | Identity | SHA-256 |
 |---|---|
 | Accepted scientific implementation | `9bf8614d8e2dbdfce43792e74f08620712674c8830770c7c8d70b1fea432a71c` |
-| Serial execution implementation | `38440b861a04af17e641635a5cf93e4f44bb465c5d3c72edfa864439ee020091` |
+| Serial execution implementation | `0c75e854e4ae7677630ea2102d9eb73aa9e7c048df54fe79a54e7da8047bee2b` |
 | Rust library | `51d3fca4808c6620c46c7b1100ddfad4753af02d37f87ec3eb278008846b160d` |
 | Parent queue root | `f5471633e21d229eeabecadf12989dece2a3a7ab5b5d09f4584b0c3b6410bb5d` |
 | Accepted rebind evidence | `3bc9ac4aa0f2f1b58d166086c4057b853398d1a15047d51906ded7aa7716e771` |
@@ -45,15 +45,16 @@ The independent prefreeze validator passes 10/10 categories. A clean rebuild
 reproduces policy, queue, and source inventory byte-for-byte (3/3). The
 focused completion suite passes 7/7 expectations. The package-aware complete
 suite passes 1,592 expectations with zero failures and two established skips
-in 202.2 seconds.
+in 198.5 seconds. The current root includes private child stdout/stderr capture
+and binds both log hashes into every resource metric.
 
 | Evidence | SHA-256 |
 |---|---|
-| Completion policy | `5061a85916c47be2721407c49d067ab0496d846d23f2fd341d36663760a703cb` |
+| Completion policy | `4f9201e71355d9a311eb13e1710e0115bd6275e0fb069e77005472b2977a42df` |
 | Completion queue | `dc74ebbfa0feeb56712229ece3b73bafb622ed105da2de008ef2e0bd6f878486` |
-| Completion source inventory | `bb39428b8e2616203333544adb7952ac772731b4708b0c99a8dd6198447ac2c3` |
+| Completion source inventory | `17a459d1b4aa49396a2ae65cb24d3c8344a5f837500e9229b40b188273ddaba9` |
 | Independent validation | `fb75cc859ff44f7181b07247683c9937f726a1180a033ee68ea4560a338034fb` |
-| Byte-repeat ledger | `2c4531d1022c8fef1735adbb89336f7c2a8b4a9f3a02db62cef522cbd075eb7a` |
+| Byte-repeat ledger | `5ca9a6264df713ff47c8d8b3fbdfccf40abc791e5c310f39e9845337ce53ca36` |
 
 ## Authorized next action
 

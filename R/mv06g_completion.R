@@ -111,6 +111,7 @@ mv06g_validate_completion_metric_v1 <- function(metric, queue_row, policy) {
     "cumulative_private_bytes", "scientific_group_complete",
     "scientific_implementation_root_sha256",
     "execution_implementation_root_sha256", "rust_library_sha256",
+    "runner_stdout_sha256", "runner_stderr_sha256",
     "outcome_label_state", "biological_outcomes_computed",
     "fusion_evaluations", "outcome_jobs"
   )
@@ -129,6 +130,8 @@ mv06g_validate_completion_metric_v1 <- function(metric, queue_row, policy) {
       metric$execution_implementation_root_sha256 !=
         policy$execution_implementation_root_sha256 ||
       metric$rust_library_sha256 != policy$rust_library_sha256 ||
+      !grepl("^[0-9a-f]{64}$", metric$runner_stdout_sha256) ||
+      !grepl("^[0-9a-f]{64}$", metric$runner_stderr_sha256) ||
       metric$outcome_label_state != "closed" ||
       as.logical(metric$biological_outcomes_computed) ||
       metric$fusion_evaluations != 0L || metric$outcome_jobs != 0L) {
