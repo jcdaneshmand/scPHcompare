@@ -507,6 +507,12 @@ depth strata; and all five files survive immutable resume. The conservative
 committed serial policy for the unchanged remaining 74 label-closed groups may
 proceed next.
 
+The dynamic 65–89-training-sample runner is now prospectively bound at root
+`9bf8614d…2a71c` with the exact remaining 260,595 training pairs and 303,525
+rankings. Production is still closed: the general runner must first reproduce
+the accepted maximum group's training distances, scales, and rankings
+byte-for-byte under the same live caps.
+
 ## 11. MV-07 — Robustness synthesis and full-run decision
 
 ### Objective
