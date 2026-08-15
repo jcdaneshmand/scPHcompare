@@ -1,0 +1,2 @@
+"contract_id","artifacts","files_exist","content_hashes_equal","hash_mismatches","byte_sizes_equal","byte_mismatches","strict_named_identity","content_identity_after_unname","caches_mutated"
+"mv07f_cache_manifest_diagnostic_v1",204,TRUE,TRUE,0,TRUE,0,FALSE,TRUE,FALSE
