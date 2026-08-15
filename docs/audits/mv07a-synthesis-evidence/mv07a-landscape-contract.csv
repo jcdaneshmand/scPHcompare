@@ -1,0 +1,9 @@
+"contract_id","item","required_state","preserved","changed_by_mv07a"
+"mv07a_landscape_contract_v1","finite_intervals","all_finite_positive_persistence_intervals",TRUE,FALSE
+"mv07a_landscape_contract_v1","essential_h0","exclude_infinite_interval",TRUE,FALSE
+"mv07a_landscape_contract_v1","level_policy","all_consecutive_active_levels",TRUE,FALSE
+"mv07a_landscape_contract_v1","integration","exact_or_error_controlled_squared_l2_on_dimension_support",TRUE,FALSE
+"mv07a_landscape_contract_v1","dimension_policy","h0_h1_separate",TRUE,FALSE
+"mv07a_landscape_contract_v1","grid_policy","no_universal_fixed_grid",TRUE,FALSE
+"mv07a_landscape_contract_v1","level_cap_policy","no_universal_level_cap",TRUE,FALSE
+"mv07a_landscape_contract_v1","composite_policy","unweighted_h0_h1_euclidean_composite_descriptive_only",TRUE,FALSE

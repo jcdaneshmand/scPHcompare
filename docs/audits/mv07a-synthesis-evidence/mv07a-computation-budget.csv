@@ -1,0 +1,6 @@
+"contract_id","workload","measured_or_projected","worker_or_wall_hours","peak_rss_bytes","retained_or_public_bytes","new_ph","resource_disposition"
+"mv07a_computation_budget_v1","mv05ay_eight_strata_corrected_matrices","measured",5.29034444444444,945364992,,TRUE,"completed_under_frozen_caps"
+"mv07a_computation_budget_v1","mv05s_cell_clustering_outcomes","measured",0.0902777777777778,740687872,6532590,FALSE,"completed_under_frozen_caps"
+"mv07a_computation_budget_v1","mv06f_dual_view_pair_generation","measured",5.98292527777778,9575215104,624237551,TRUE,"completed_under_amended_12g_cap"
+"mv07a_computation_budget_v1","mv06g_ranking_generation","measured",5.82364027777778,186503168,531251838,FALSE,"completed_under_frozen_caps"
+"mv07a_computation_budget_v1","mv07b_no_new_ph_diagnostics","bounded_projection",0.25,1073741824,104857600,FALSE,"low_cost_reuse_existing_csvs"

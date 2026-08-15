@@ -1,0 +1,9 @@
+"contract_id","prohibited_input","present_in_source_corpus","consumed_by_continuation_decision"
+"mv07a_selection_firewall_v1","estimate",TRUE,FALSE
+"mv07a_selection_firewall_v1","confidence_interval",TRUE,FALSE
+"mv07a_selection_firewall_v1","p_value",TRUE,FALSE
+"mv07a_selection_firewall_v1","method_rank",TRUE,FALSE
+"mv07a_selection_firewall_v1","tissue_rank",TRUE,FALSE
+"mv07a_selection_firewall_v1","winner",TRUE,FALSE
+"mv07a_selection_firewall_v1","outcome_selected_weight",TRUE,FALSE
+"mv07a_selection_firewall_v1","outcome_selected_view",TRUE,FALSE

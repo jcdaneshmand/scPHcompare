@@ -1,0 +1,2 @@
+"contract_id","decision","authorized_next_sprint","selection_basis","numerical_result_rows_consumed","new_ph_authorized","new_data_authorized","method_or_weight_selection_authorized","advanced_fusion_authorized","default_change_authorized","manuscript_claim_promotion_authorized","author_team_gate_reached","prefreeze_only"
+"mv07a_continuation_decision_v1","authorize_no_new_ph_confounding_prefreeze_only","MV7-B","prerequisite_order_and_existing_artifact_reuse_only",0,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,TRUE

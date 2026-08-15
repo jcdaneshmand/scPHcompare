@@ -1,0 +1,11 @@
+"contract_id","artifact","primary_sha256","repeat_sha256","primary_bytes","repeat_bytes","identical"
+"mv07a_byte_repeat_v1","mv07a-source-freeze.csv","0dd10342d9e5b41634a666029b9ccb3d91b15d3a5797f9f315d588b3316c93dc","0dd10342d9e5b41634a666029b9ccb3d91b15d3a5797f9f315d588b3316c93dc",5483,5483,TRUE
+"mv07a_byte_repeat_v1","mv07a-landscape-contract.csv","da27df612739be559eb522f48de4162293e7f6cb5fc87fe07ee014f16363501c","da27df612739be559eb522f48de4162293e7f6cb5fc87fe07ee014f16363501c",819,819,TRUE
+"mv07a_byte_repeat_v1","mv07a-robustness-coverage.csv","623c64a249cf68ff465c16d5f344b2031cd617b80b1eb84c7530c5d86c38832a","623c64a249cf68ff465c16d5f344b2031cd617b80b1eb84c7530c5d86c38832a",2805,2805,TRUE
+"mv07a_byte_repeat_v1","mv07a-confounding-coverage.csv","e00cca51a093c2eb1870fdad8df9d97de73d985dd63b68f0840fa677177e9901","e00cca51a093c2eb1870fdad8df9d97de73d985dd63b68f0840fa677177e9901",2062,2062,TRUE
+"mv07a_byte_repeat_v1","mv07a-computation-budget.csv","97f5beddc2dafba11c4104ff5242e63ebe1e7f775e07274c803d02ebeda17130","97f5beddc2dafba11c4104ff5242e63ebe1e7f775e07274c803d02ebeda17130",877,877,TRUE
+"mv07a_byte_repeat_v1","mv07a-evidence-gap-registry.csv","66eb346faeb6e5c745e10b743b595fdf3948e4ee0cd6bbae6f6529723d67030a","66eb346faeb6e5c745e10b743b595fdf3948e4ee0cd6bbae6f6529723d67030a",920,920,TRUE
+"mv07a_byte_repeat_v1","mv07a-claim-boundaries.csv","ab8d287c74aafa268a65a63200df945a37ba6e1baee2d38022e877a1261bc1d7","ab8d287c74aafa268a65a63200df945a37ba6e1baee2d38022e877a1261bc1d7",1366,1366,TRUE
+"mv07a_byte_repeat_v1","mv07a-selection-firewall.csv","ab860ef27f37ef0804fc6f486dcc89332aaea47c2bbd744987e9fb2b8d86486f","ab860ef27f37ef0804fc6f486dcc89332aaea47c2bbd744987e9fb2b8d86486f",554,554,TRUE
+"mv07a_byte_repeat_v1","mv07a-acceptance-criteria.csv","1a8fad4766fa2ed4e1b60c05a3035e2b74f8b2e07233bf2944b62e0c751842fd","1a8fad4766fa2ed4e1b60c05a3035e2b74f8b2e07233bf2944b62e0c751842fd",1002,1002,TRUE
+"mv07a_byte_repeat_v1","mv07a-decision.csv","95f059212b649b7dec243f476cd94ed559ebfd978f9a4ebcf2cc260e1903b4cf","95f059212b649b7dec243f476cd94ed559ebfd978f9a4ebcf2cc260e1903b4cf",517,517,TRUE

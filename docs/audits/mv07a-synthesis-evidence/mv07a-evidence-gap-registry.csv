@@ -1,0 +1,7 @@
+"contract_id","prerequisite_order","gap_id","next_sprint_eligible","requires_new_ph","decision_basis","result_value_used_for_priority"
+"mv07a_gap_registry_v1",1,"existing_outcome_influence",TRUE,FALSE,"reuse_locked_sample_level_outcomes_and_block_structure",FALSE
+"mv07a_gap_registry_v1",2,"retained_cell_count_association",TRUE,FALSE,"reuse_authoritative_metadata_without_recomputing_topology",FALSE
+"mv07a_gap_registry_v1",3,"approach_stratification",TRUE,FALSE,"reuse_authoritative_metadata_with_identifiability_limits",FALSE
+"mv07a_gap_registry_v1",4,"gene_panel_size_sensitivity",FALSE,TRUE,"defer_until_no_new_ph_diagnostics_and_claim_need_are known",FALSE
+"mv07a_gap_registry_v1",5,"gene_metric_sensitivity",FALSE,TRUE,"defer_until_no_new_ph_diagnostics_and_claim_need_are known",FALSE
+"mv07a_gap_registry_v1",6,"external_validation",FALSE,TRUE,"trigger_only_for_named_estimand_unresolved_by_existing_data",FALSE

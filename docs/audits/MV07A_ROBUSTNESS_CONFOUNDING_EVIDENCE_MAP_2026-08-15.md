@@ -70,12 +70,19 @@ desire for a larger dataset.
 
 ## Reproducibility
 
-- prospective implementation commit: to be bound by the final source freeze;
+- prospective implementation commit:
+  `41869c62e1a459bf178fa83c7b90ded93393acd0`;
 - 23/23 source files exist and were independently rehashed;
 - independent validation: 10/10 categories pass;
 - repeat: 10/10 production artifacts are byte-identical;
-- source-freeze, decision, validation, and repeat hashes are bound after the
-  exact-commit build.
+- source-freeze SHA-256:
+  `0dd10342d9e5b41634a666029b9ccb3d91b15d3a5797f9f315d588b3316c93dc`;
+- decision SHA-256:
+  `95f059212b649b7dec243f476cd94ed559ebfd978f9a4ebcf2cc260e1903b4cf`;
+- independent-validation SHA-256:
+  `19848172d967564879c43b308b5ffbf83d08fb28dbd80411770c09a2d280fc64`;
+- repeat-ledger SHA-256:
+  `98c495b137dff2e658f862556b916e297de143884302693d460881205ddcd3c0`.
 
 ## Decision table
 
