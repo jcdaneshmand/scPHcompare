@@ -1,0 +1,8 @@
+"category","passed"
+"full_macro",TRUE
+"delete_study",TRUE
+"delete_tissue",TRUE
+"contrast_influence",TRUE
+"retained_cell_bootstrap",TRUE
+"mixed_approach_bootstrap",TRUE
+"decision_boundary",TRUE

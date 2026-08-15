@@ -1,0 +1,2 @@
+"contract_id","samples","studies","tissues","scrna","snrna","mixed_approach_studies","min_retained_cells","median_retained_cells","max_retained_cells","library_size_available","cell_type_composition_available"
+"mv07b_design_inventory_v1",90,15,5,80,10,3,421,2676,9071,FALSE,FALSE

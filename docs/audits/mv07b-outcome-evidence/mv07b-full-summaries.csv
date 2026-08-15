@@ -1,0 +1,13 @@
+"method_id","endpoint_id","estimate"
+"cell_H0","mean_reciprocal_rank",0.382503190645286
+"cell_H0","one_nn_balanced_accuracy",0.261503013115916
+"cell_H1","mean_reciprocal_rank",0.394815782514648
+"cell_H1","one_nn_balanced_accuracy",0.279984639016897
+"gene_H0","mean_reciprocal_rank",0.323862341361017
+"gene_H0","one_nn_balanced_accuracy",0.209293394777266
+"gene_H1","mean_reciprocal_rank",0.321119144264636
+"gene_H1","one_nn_balanced_accuracy",0.20479735318445
+"cell_composite","mean_reciprocal_rank",0.406486883943495
+"cell_composite","one_nn_balanced_accuracy",0.30376225924613
+"gene_composite","mean_reciprocal_rank",0.369429627143311
+"gene_composite","one_nn_balanced_accuracy",0.262672811059908

@@ -1,0 +1,6 @@
+"flag_id","triggered","consequence"
+"large_study_influence",TRUE,"narrow_claims_not_select_methods"
+"large_tissue_influence",TRUE,"narrow_claims_not_select_methods"
+"contrast_sign_instability",TRUE,"narrow_claims_not_select_methods"
+"retained_cell_association",FALSE,"narrow_claims_not_select_methods"
+"approach_association",FALSE,"narrow_claims_not_select_methods"

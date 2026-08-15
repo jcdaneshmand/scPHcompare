@@ -104,7 +104,7 @@ An exploratory method enters the confirmatory set only through a recorded decisi
 | MV-04 | Validate topological distances and production calculation | MV-03 | G-MV4: sample-distance matrices are correct and feasible | `complete` — immutable primary matrices; bounded sensitivity exclusions |
 | MV-05 | Compare clustering and matched non-topological baselines | MV-04; frozen statistical plan | G-MV5: fair single-view benchmark | `completed` — MV5-S executes and independently validates the complete prediction-locked clustering outcome contract without method selection |
 | MV-06 | Test transparent multiview fusion and complementarity | MV-05 | G-MV6: fusion adds stable information or is rejected | `complete_negative` — exact-commit blocked evaluation rejects equal-weight fusion under the required both-component MRR rule; advanced fusion is closed |
-| MV-07 | Robustness synthesis and full-run decision | MV-06 | G-MV7: freeze, revise, or stop before full rerun | `in_progress` — MV7-A evidence map complete; MV7-B no-new-PH influence/confounding prefreeze is next |
+| MV-07 | Robustness synthesis and full-run decision | MV-06 | G-MV7: freeze, revise, or stop before full rerun | `in_progress` — MV7-A map and MV7-B diagnostics complete; MV7-C claim/data-sufficiency synthesis is next |
 
 MV-01 through MV-04 are the immediate implementation sequence. MV-05 through MV-07 deliberately require valid upstream artifacts and a statistical plan.
 
@@ -598,6 +598,19 @@ Only MV7-B prefreeze is authorized: reuse locked sample-level outcomes and
 metadata for leave-one-study/tissue influence, retained-cell-count association,
 and sequencing-approach stratification. New PH, new data, method/weight
 selection, advanced fusion, defaults, and claim promotion remain closed.
+
+### MV7-B diagnostic disposition (2026-08-15)
+
+MV7-B passes 7/7 independent reconstruction categories and 12/12 byte-repeat
+checks. Study and tissue influence exceed the fixed 0.05 threshold. The
+cell-minus-gene composite MRR contrast changes sign when study `SRA716608` or
+colon is deleted. Retained-cell and mixed-study approach flags do not trigger,
+but their intervals are broad and do not establish absence of confounding.
+
+The next action is MV7-C existing-data synthesis. It must narrow relative-view
+claims, retain the negative fusion result, document unavailable library-size
+and cell-type-composition controls, and present a data/compute decision to the
+author team. Gene-panel/metric reruns and new data remain closed.
 
 ## 12. Required artifact layout
 

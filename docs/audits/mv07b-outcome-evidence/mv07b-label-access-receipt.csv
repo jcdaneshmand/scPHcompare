@@ -1,0 +1,2 @@
+"contract_id","execution_head","prefreeze_source_sha256","metadata_expected_sha256","receipt_written_before_metadata_parse","new_ph","landscape","distance","ranking"
+"mv07b_label_access_receipt_v1","758780adec641f23d62e5b322224bfdf9e679ba9","3ea86ea9230ff1b4fe2c9ddda3bef81dbd64c9d707fa7efe740d1f78ae22e6ac","e2b6f1e7d7dc05ba8e80627aad4ea1677c3b718a844397acd06596d7e22a18d0",TRUE,FALSE,FALSE,FALSE,FALSE

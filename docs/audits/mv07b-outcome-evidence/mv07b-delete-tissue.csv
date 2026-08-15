@@ -1,0 +1,61 @@
+"method_id","endpoint_id","deleted_tissue","estimate","change_from_full"
+"cell_H0","mean_reciprocal_rank","bone marrow",0.427679653293519,0.0451764626482335
+"cell_H0","mean_reciprocal_rank","colon",0.404644325703376,0.0221411350580897
+"cell_H0","mean_reciprocal_rank","liver",0.471394976116205,0.0888917854709187
+"cell_H0","mean_reciprocal_rank","pbmc",0.269822364374984,-0.112680826270302
+"cell_H0","mean_reciprocal_rank","testis",0.338974633738346,-0.0435285569069395
+"cell_H0","one_nn_balanced_accuracy","bone marrow",0.312362637362637,0.050859624246721
+"cell_H0","one_nn_balanced_accuracy","colon",0.303801843317972,0.042298830202056
+"cell_H0","one_nn_balanced_accuracy","liver",0.326878766394895,0.0653757532789791
+"cell_H0","one_nn_balanced_accuracy","pbmc",0.139378766394895,-0.122124246721021
+"cell_H0","one_nn_balanced_accuracy","testis",0.225093052109181,-0.0364099610067352
+"cell_H1","mean_reciprocal_rank","bone marrow",0.451393818908917,0.0565780363942695
+"cell_H1","mean_reciprocal_rank","colon",0.410749006948984,0.0159332244343361
+"cell_H1","mean_reciprocal_rank","liver",0.486242796663277,0.0914270141486297
+"cell_H1","mean_reciprocal_rank","pbmc",0.294110005921087,-0.10070577659356
+"cell_H1","mean_reciprocal_rank","testis",0.331583284130973,-0.063232498383675
+"cell_H1","one_nn_balanced_accuracy","bone marrow",0.338690476190476,0.0587058371735791
+"cell_H1","one_nn_balanced_accuracy","colon",0.299980798771121,0.0199961597542243
+"cell_H1","one_nn_balanced_accuracy","liver",0.349980798771121,0.0699961597542243
+"cell_H1","one_nn_balanced_accuracy","pbmc",0.179147465437788,-0.100837173579109
+"cell_H1","one_nn_balanced_accuracy","testis",0.232123655913978,-0.0478609831029186
+"gene_H0","mean_reciprocal_rank","bone marrow",0.339616060997585,0.0157537196365686
+"gene_H0","mean_reciprocal_rank","colon",0.398486484449076,0.0746241430880598
+"gene_H0","mean_reciprocal_rank","liver",0.37333012626948,0.0494677849084629
+"gene_H0","mean_reciprocal_rank","pbmc",0.231564037812382,-0.0922983035486347
+"gene_H0","mean_reciprocal_rank","testis",0.27631499727656,-0.0475473440844565
+"gene_H0","one_nn_balanced_accuracy","bone marrow",0.242261904761905,0.032968509984639
+"gene_H0","one_nn_balanced_accuracy","colon",0.261616743471582,0.0523233486943165
+"gene_H0","one_nn_balanced_accuracy","liver",0.253283410138249,0.0439900153609831
+"gene_H0","one_nn_balanced_accuracy","pbmc",0.124116743471582,-0.0851766513056836
+"gene_H0","one_nn_balanced_accuracy","testis",0.165188172043011,-0.044105222734255
+"gene_H1","mean_reciprocal_rank","bone marrow",0.328243572297541,0.00712442803290525
+"gene_H1","mean_reciprocal_rank","colon",0.378300529587665,0.057181385323029
+"gene_H1","mean_reciprocal_rank","liver",0.387745673491499,0.066626529226863
+"gene_H1","mean_reciprocal_rank","pbmc",0.216863546732911,-0.104255597531725
+"gene_H1","mean_reciprocal_rank","testis",0.294442399213563,-0.0266767450510725
+"gene_H1","one_nn_balanced_accuracy","bone marrow",0.220512820512821,0.0157154673283705
+"gene_H1","one_nn_balanced_accuracy","colon",0.252150537634409,0.0473531844499586
+"gene_H1","one_nn_balanced_accuracy","liver",0.255996691480562,0.0511993382961125
+"gene_H1","one_nn_balanced_accuracy","pbmc",0.101830024813896,-0.102967328370554
+"gene_H1","one_nn_balanced_accuracy","testis",0.193496691480562,-0.0113006617038875
+"cell_composite","mean_reciprocal_rank","bone marrow",0.463130359612722,0.0566434756692273
+"cell_composite","mean_reciprocal_rank","colon",0.421273237523627,0.0147863535801324
+"cell_composite","mean_reciprocal_rank","liver",0.500931208003047,0.0944443240595522
+"cell_composite","mean_reciprocal_rank","pbmc",0.294219716040479,-0.112267167903015
+"cell_composite","mean_reciprocal_rank","testis",0.352879898537598,-0.0536069854058966
+"cell_composite","one_nn_balanced_accuracy","bone marrow",0.360347985347985,0.0565857261018552
+"cell_composite","one_nn_balanced_accuracy","colon",0.318164362519201,0.0144021032730711
+"cell_composite","one_nn_balanced_accuracy","liver",0.379702824057663,0.0759405648115326
+"cell_composite","one_nn_balanced_accuracy","pbmc",0.188036157390996,-0.115726101855134
+"cell_composite","one_nn_balanced_accuracy","testis",0.272559966914806,-0.0312022923313245
+"gene_composite","mean_reciprocal_rank","bone marrow",0.370901428376016,0.00147180123270524
+"gene_composite","mean_reciprocal_rank","colon",0.453930935346634,0.0845013082033227
+"gene_composite","mean_reciprocal_rank","liver",0.434534106712098,0.0651044795687867
+"gene_composite","mean_reciprocal_rank","pbmc",0.247782404299509,-0.121647222843802
+"gene_composite","mean_reciprocal_rank","testis",0.339999260982298,-0.0294303661610129
+"gene_composite","one_nn_balanced_accuracy","bone marrow",0.292857142857143,0.030184331797235
+"gene_composite","one_nn_balanced_accuracy","colon",0.328341013824885,0.0656682027649769
+"gene_composite","one_nn_balanced_accuracy","liver",0.320007680491551,0.0573348694316436
+"gene_composite","one_nn_balanced_accuracy","pbmc",0.136674347158218,-0.12599846390169
+"gene_composite","one_nn_balanced_accuracy","testis",0.235483870967742,-0.0271889400921659
