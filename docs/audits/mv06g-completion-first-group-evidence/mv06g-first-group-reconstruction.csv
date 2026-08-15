@@ -1,0 +1,2 @@
+"contract_id","group_id","training_pairs","training_component_rows","scales","query_pairs","ranking_rows","ranking_blocks","maximum_scale_error","maximum_formula_error","tolerance","elapsed_seconds","peak_process_tree_rss_bytes","private_bytes","outcome_label_state","biological_outcomes_computed"
+"mv06g_completion_first_group_reconstruction_v1","mv06f_group_v1:1fdd87ee5e65ad31c7f286b5b15dc9e13314d98d6ca81e353781a52bde5bbac7",2080,8320,4,1625,14625,225,3.5527136788005e-15,9.32587340685131e-15,1.74545957798079e-13,218.503362417221,168214528,8064797,"closed",FALSE

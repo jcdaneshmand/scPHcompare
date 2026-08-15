@@ -1,0 +1,8 @@
+"contract_id","category","passed","outcome_label_state","biological_outcomes_computed"
+"mv06g_completion_first_group_validation_v1","atomic_group_identity",TRUE,"closed",FALSE
+"mv06g_completion_first_group_validation_v1","training_workload",TRUE,"closed",FALSE
+"mv06g_completion_first_group_validation_v1","scale_reconstruction",TRUE,"closed",FALSE
+"mv06g_completion_first_group_validation_v1","ranking_formula_reconstruction",TRUE,"closed",FALSE
+"mv06g_completion_first_group_validation_v1","rank_reconstruction",TRUE,"closed",FALSE
+"mv06g_completion_first_group_validation_v1","resource_contract",TRUE,"closed",FALSE
+"mv06g_completion_first_group_validation_v1","label_firewall",TRUE,"closed",FALSE
