@@ -51,3 +51,15 @@ This checker is a validation utility outside the already fixed scientific
 implementation root. It cannot change the queue, diagrams, H0/H1 landscape
 definition, Rust binary, labels, or downstream scope. Fusion, clustering,
 outcomes, defaults, release, and claims remain closed until the gate passes.
+
+## Resume result
+
+The committed checker reran the original monitor successfully and compared 376
+rows: 375 group artifacts plus the canonical resource metrics. SHA-256, byte
+size, and modification time were unchanged for 376/376 rows. No group rebuilt,
+no partial directory appeared, and labels/downstream counters remained closed
+and zero. The resume evidence SHA-256 is
+`2742cca6c6abdb0ef41dcea255824d807e2eb630b59344b469ea4eef91d701bb`.
+
+MV6-F is therefore complete. Only a separately committed, label-closed MV6-G
+fusion prefreeze may proceed next; outcome evaluation remains closed.

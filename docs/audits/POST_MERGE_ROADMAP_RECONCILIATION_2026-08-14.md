@@ -105,6 +105,13 @@ passed 6/6 categories across all 75 groups, 35,350 biological pairs, and
 the separately committed whole-corpus immutable-resume check next; blocked
 fusion and all outcome-bearing work remain closed.
 
+The committed whole-corpus resume checker then reran the original monitor and
+preserved SHA-256, byte size, and modification time for all 375 scientific
+group artifacts plus the canonical metrics. Decision D-063 closes MV6-F and
+authorizes only a separately prospective, label-closed MV6-G fusion prefreeze;
+no outcome may be opened until its component, scaling, weight, blocked-null,
+multiplicity, and label-firewall contracts are committed and validated.
+
 ## Gate disposition
 
 | Question | Disposition |
