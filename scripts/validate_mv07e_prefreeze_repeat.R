@@ -7,7 +7,7 @@ if (length(args) != 3L) {
   stop("usage: validate_mv07e_prefreeze_repeat.R PRIMARY_DIR REPEAT_DIR OUTPUT",
        call. = FALSE)
 }
-primary <- args[[1L]]; repeat <- args[[2L]]; output <- args[[3L]]
+primary <- args[[1L]]; repeated <- args[[2L]]; output <- args[[3L]]
 files <- c("mv07e-source-freeze.csv", "mv07e-accession-resolution.csv",
   "mv07e-approach-field-lineage.csv", "mv07e-canonical-approach.csv",
   "mv07e-approach-correction.csv", "mv07e-panel-availability.csv",
@@ -16,7 +16,7 @@ files <- c("mv07e-source-freeze.csv", "mv07e-accession-resolution.csv",
   "mv07e-landscape-contract.csv", "mv07e-resource-resume-contract.csv",
   "mv07e-label-firewall.csv", "mv07e-stage-authorization.csv",
   "mv07e-acceptance-criteria.csv", "mv07e-decision.csv")
-paths_a <- file.path(primary, files); paths_b <- file.path(repeat, files)
+paths_a <- file.path(primary, files); paths_b <- file.path(repeated, files)
 if (any(!file.exists(c(paths_a, paths_b))) || file.exists(output)) {
   stop("Repeat inputs are incomplete or output exists.", call. = FALSE)
 }
