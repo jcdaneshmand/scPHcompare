@@ -1,0 +1,7 @@
+"method_order","method_id","view","dimension"
+1,"cell_H0","cell","H0"
+2,"cell_H1","cell","H1"
+3,"gene_H0","gene","H0"
+4,"gene_H1","gene","H1"
+5,"cell_composite","cell","H0_H1_descriptive"
+6,"gene_composite","gene","H0_H1_descriptive"

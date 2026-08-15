@@ -1,0 +1,5 @@
+"flag","threshold","requires_interval_excludes_zero","consequence"
+"delete_change",0.05,FALSE,"narrow_claims_not_select_methods"
+"contrast_sign",0,FALSE,"narrow_claims_not_select_methods"
+"cell_count",0.3,TRUE,"narrow_claims_not_select_methods"
+"approach",0.1,TRUE,"narrow_claims_not_select_methods"

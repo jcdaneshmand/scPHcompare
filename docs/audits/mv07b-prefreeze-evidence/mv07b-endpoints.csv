@@ -1,0 +1,3 @@
+"endpoint_order","endpoint_id","role","bounded_0_1"
+1,"mean_reciprocal_rank","primary_diagnostic",TRUE
+2,"one_nn_balanced_accuracy","supportive_diagnostic",TRUE
