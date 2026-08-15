@@ -1,0 +1,2 @@
+"contract_id","artifacts","hash_mismatches","byte_mismatches","manifest_hash_mismatches","exact_mtime_comparison_mismatches","maximum_absolute_mtime_delta_seconds","mtime_tolerance_seconds","mtimes_within_tolerance","receipt_bytes_identical","cache_mutated"
+"mv07f_resume_diagnostic_v1",204,0,0,0,198,5.00679016113281e-06,1e-04,TRUE,TRUE,FALSE

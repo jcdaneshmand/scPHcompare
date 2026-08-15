@@ -1,0 +1,8 @@
+"contract_id","source_id","artifact_locator","sha256","bytes","accepted_head","private_source"
+"mv07f_resume_amendment_source_freeze_v1","corrected_runner","scripts/run_mv07f_upstream_production.R","fa9c863112bfd8c9dcb0c2e879ce21e978f09678b4ce9016bf75fdcc8e5ad256",15954,"79a2a13ab0bd1d913adf0cc2c9c8f6b4d78fd2f7",FALSE
+"mv07f_resume_amendment_source_freeze_v1","corrected_resume_validator","scripts/validate_mv07f_immutable_resume.R","f305240c5c13c5f7cb2ba5e08847aa5f05ecc1665889698ce246b7c8db4cd2b4",2069,"79a2a13ab0bd1d913adf0cc2c9c8f6b4d78fd2f7",FALSE
+"mv07f_resume_amendment_source_freeze_v1","validation_helper","R/mv07f_validation_utils.R","a7ad656d4b7315df3ab04ae741801e8bcf36df6228bfbcd0f98c46a49d091081",1397,"79a2a13ab0bd1d913adf0cc2c9c8f6b4d78fd2f7",FALSE
+"mv07f_resume_amendment_source_freeze_v1","amendment_builder","scripts/build_mv07f_resume_amendment.R","6656b01f650a35747575991671dbd1d8de3ab369da6fdd58a166602d0dcad5d6",5854,"79a2a13ab0bd1d913adf0cc2c9c8f6b4d78fd2f7",FALSE
+"mv07f_resume_amendment_source_freeze_v1","validation_test","tests/testthat/test-mv07f-validation-utils.R","a9f367d866fd35d255aea87987f8284703cb99669a7be00477e290dcc7761adf",1162,"79a2a13ab0bd1d913adf0cc2c9c8f6b4d78fd2f7",FALSE
+"mv07f_resume_amendment_source_freeze_v1","production_manifest","docs/audits/mv07f-production-evidence/mv07f-cache-manifest.csv","13bc242d2710836b2c3006eee57404bcb53e07b589baf0e6bc246ba0ace534e2",50155,"79a2a13ab0bd1d913adf0cc2c9c8f6b4d78fd2f7",FALSE
+"mv07f_resume_amendment_source_freeze_v1","production_summary","docs/audits/mv07f-production-evidence/mv07f-production-summary.csv","beb5e4f8d876ddcc2db52d3dc7135d23724d65b17e088c45075664d72ba23759",391,"79a2a13ab0bd1d913adf0cc2c9c8f6b4d78fd2f7",FALSE
