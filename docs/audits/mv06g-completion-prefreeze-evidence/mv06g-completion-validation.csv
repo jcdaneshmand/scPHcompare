@@ -1,0 +1,11 @@
+"contract_id","category","passed","outcome_label_state","biological_outcomes_computed"
+"mv06g_completion_prefreeze_validation_v1","rebind_admission",TRUE,"closed",FALSE
+"mv06g_completion_prefreeze_validation_v1","queue_axis",TRUE,"closed",FALSE
+"mv06g_completion_prefreeze_validation_v1","training_workload",TRUE,"closed",FALSE
+"mv06g_completion_prefreeze_validation_v1","query_workload",TRUE,"closed",FALSE
+"mv06g_completion_prefreeze_validation_v1","resource_contract",TRUE,"closed",FALSE
+"mv06g_completion_prefreeze_validation_v1","scientific_identity",TRUE,"closed",FALSE
+"mv06g_completion_prefreeze_validation_v1","execution_identity",TRUE,"closed",FALSE
+"mv06g_completion_prefreeze_validation_v1","serial_fail_closed",TRUE,"closed",FALSE
+"mv06g_completion_prefreeze_validation_v1","label_firewall",TRUE,"closed",FALSE
+"mv06g_completion_prefreeze_validation_v1","zero_production",TRUE,"closed",FALSE

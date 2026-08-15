@@ -5,7 +5,7 @@
 | Field | Value |
 |---|---|
 | Status | Draft for owner and author-team review |
-| Version | 0.3.54 |
+| Version | 0.3.55 |
 | Created | 2026-08-03 |
 | Canonical repository | `jcdaneshmand/scPHcompare` |
 | Historical source repository | `jcdaneshmand/PH_ClusteringApp` |
@@ -578,7 +578,7 @@ Publish a durable, citable research artifact.
 ## WP-006 — Dual-view and multiview topology framework
 
 - **Phase:** 1, 4, 5, and 7
-- **Status:** MV6-F dual-view production is complete; MV6-G's general scale/ranking runner passed its maximum-group byte-equivalence and live-resource gate, and only a separately prefrozen serial completion may proceed
+- **Status:** MV6-F dual-view production is complete; MV6-G's dynamic runner and separately hash-bound serial completion/resume layer pass prefreeze, authorizing only the remaining 74 label-closed groups
 - **Scope:** Corrected cell topology, deliberately specified gene topology, H0/H1 landscapes and diagram distances, matched clustering/baselines, and staged cell/gene fusion.
 - **Scientific behavior change:** None until the MV-01 contract and subsequent implementation gates are approved.
 - **Acceptance:** Each view passes independent definition, correctness, eligibility, and feasibility gates before fusion; a frozen confirmatory configuration precedes any full biological rerun.
@@ -671,6 +671,7 @@ Publish a durable, citable research artifact.
 | D-067 | 2026-08-15 | Accept the clean corrected-root MV6-G maximum-group sentinel and authorize only a separately prefrozen serial label-closed completion policy | Primary/repeat complete in 221.397/227.835 s at 166.314/166.302 MB peak RSS; 3/3 scientific artifacts repeat byte-identically; all four scales and 14,625 formulas/ranks reconstruct; R and Persim pass 12/12 depth-stratified cell/gene H0/H1 oracles spanning 19–1,856 active levels; 10/10 categories and 5/5 immutable resume pass; conservative total projection is 4.747 h and ~0.605 GB | MV6-G stage one completes as `pass_stage2_label_closed_only`; prefreeze the unchanged remaining 74 groups before execution; metadata, outcomes, advanced fusion, clustering, and claims remain closed |
 | D-068 | 2026-08-15 | Freeze a dynamic MV6-G group runner for the 65–89-training-sample range, but authorize only maximum-group byte equivalence before serial production | The exact remaining workload is 74 groups, 260,595 training pairs, 1,042,380 component rows, 33,725 query pairs, and 303,525 rankings; root `9bf8614d…2a71c` binds eight sources; 9/9 categories and 3/3 prefreeze repeats pass under unchanged caps and label firewall | Execute only the accepted maximum group through the general runner and require 3/3 scientific byte identity plus resource pass; remaining production and labels stay closed |
 | D-069 | 2026-08-15 | Admit the dynamic MV6-G runner after exact maximum-group rebind, while keeping the remaining 74 groups closed until a prospective serial execution/resume policy is committed | The monitored general runner exited zero in 226.340 seconds at 169,119,744 B peak RSS and 8,064,620 B private output; `training-distances.csv`, `scales.csv`, and `rankings.csv` reproduce the accepted sentinel byte-for-byte with labels closed and zero outcome/fusion jobs | Prefreeze the serial driver, aggregate caps, complete validator, and immutable-resume checker next; do not launch remaining production until that gate passes |
+| D-070 | 2026-08-15 | Authorize the remaining 74 MV6-G groups only through a separately hash-bound serial driver with complete-corpus and immutable-resume gates | Execution root `38440b86…0091` preserves scientific root `9bf8614d…2a71c`; exact workload and 12-GiB/1,800-s/5-GiB/12-worker-hour caps pass 10/10 independent categories, 3/3 byte repeats, 7/7 focused expectations, and the 1,592-test complete suite; production state is empty | Execute in exact order with one worker and no retry; stop on the first failed cap/identity/artifact; then require 75-group validation and a separately committed 445-file immutable-resume pass before opening labels |
 
 ## 9. Status dashboard
 
@@ -681,7 +682,7 @@ Publish a durable, citable research artifact.
 | 2. Reproducible baseline/repository health | Published main CI passes privacy, exact restore, package check, and installed realistic H0/H1 fixtures; clean-clone user route and complete policy review remain | G2 not evaluated |
 | 3. Literature/reference/figure audit | Initial literature sample only | G3 not evaluated |
 | 4. Redesign primary comparison | Prediction-locked retrieval, clustering, complete robustness panels, corrected matrices, and null/negative results have auditable evidence; author-level synthesis remains | G4 not evaluated |
-| 5. Expand methods | MV6-F complete dual-view production and immutable resume pass; MV6-G's training-only scales, nine nonselective rankings, blocked endpoints/inference, label firewall, and dynamic runner pass the maximum-group sentinel; only a separately prefrozen serial completion may proceed | G5 not evaluated |
+| 5. Expand methods | MV6-F is complete; MV6-G's dynamic runner and serial 74-group completion/resume policy pass prefreeze with labels closed; complete production, corpus validation, and immutable resume are next | G5 not evaluated |
 | 6. Biological/practical validation | Not started | G6 not evaluated |
 | 7. Profile and optimize | Rust landscape kernel passed complete numerical equivalence and nonpublishing four-platform candidate CI; R remains canonical/default and distribution/adoption remains open | G7 not evaluated |
 | 8. Rewrite manuscript | Not started | G8 not evaluated |
@@ -691,6 +692,7 @@ Publish a durable, citable research artifact.
 
 | Version | Date | Summary |
 |---|---|---|
+| 0.3.55 | 2026-08-15 | Prefroze the separately hash-bound MV6-G serial completion, complete validator, and 445-file resume checker under exact workload and aggregate caps; authorized only the remaining 74 label-closed groups |
 | 0.3.54 | 2026-08-15 | Admitted the dynamic MV6-G runner after its monitored maximum-group rebind reproduced all three accepted scientific artifacts byte-for-byte; authorized only a separately prefrozen serial completion and immutable-resume policy |
 | 0.3.53 | 2026-08-15 | Prefroze the dynamic MV6-G complete-production runner and exact 74-group workload, while authorizing only a monitored maximum-group three-artifact equivalence gate before any remaining group |
 | 0.3.52 | 2026-08-15 | Accepted the corrected-root MV6-G maximum-group sentinel after byte repeat, independent scale/rank reconstruction, 12/12 R and 12/12 Persim oracles, resource/projection gates, and 5/5 immutable resume; only a separately prefrozen 74-group label-closed completion policy may proceed |
