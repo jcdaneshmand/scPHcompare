@@ -15,7 +15,7 @@ remain closed.
 | Parent prefreeze commit | `95d7615` |
 | Parent contract | `f72326c0411c6c954ffb570fbf3e019adb7b09f82b74cd96984409e762077f8b` |
 | MV6-F queue root | `f5471633e21d229eeabecadf12989dece2a3a7ab5b5d09f4584b0c3b6410bb5d` |
-| Stage-one implementation root | `883bbe327b2aa0905bc3c3e97d0eb81eda478da8143e44c508715a19c66a16e2` |
+| Stage-one implementation root | `6a76a11d1b211fcf89fddcd67b7591161619950023420c0bfccbbdc65b76ce82` |
 | Source diagrams | `25e9780dc76b0da2fb9e2d503247eb0c6fb915d2d665b41cebc982e69ef0c832` |
 | Source query distances | `776bf94392cb6c37a0fdc9243032f1f007ea580d497252bc4cb172ece1dd6a4c` |
 | Rust library | `51d3fca4808c6620c46c7b1100ddfad4753af02d37f87ec3eb278008846b160d` |
@@ -70,18 +70,35 @@ After primary and clean repeat, the committed validators must require:
 
 ## Prefreeze validation
 
-All 11 independent launch categories pass, the focused suite passes 17
+All 11 independent launch categories pass, the focused suite passes 19
 expectations, the Python oracle script parses, and a clean rebuild reproduces
 both generated launch artifacts byte-for-byte. The package-aware suite passes
-1,574 tests with zero failures or warnings and two established skips in 166.3
+1,576 tests with zero failures or warnings and two established skips in 164.9
 seconds.
 
 | Evidence | SHA-256 |
 |---|---|
-| Launch contract | `7644c8024d7deeeec775ea8ee9edad48a4a6f68a936d9bfb0c60135c1ea5f5d8` |
-| Source inventory | `3269236b450bcbd69cad88544d959e788e795327140c8eab5cfdd1d2d53f1c3d` |
+| Launch contract | `53a99e7bed397101d602e38b65d9b6689c882411cfc9f37f5f08e3f0a686a26d` |
+| Source inventory | `05fda40f7a37a2b39d05fec88cda2da0b271c1b4e342bdb6f1dc4dd7c44551c9` |
 | 11-category validation | `b3a67d9320401eda11acecb06f0d8c9e4f5a01a4a1279bfc36395528a36c686d` |
-| Two-artifact byte repeat | `df2a4434703b2dbcda0b8e16085d769cc8f2e06366ead073df81906dd226fbfd` |
+| Two-artifact byte repeat | `1039c3b2f3d1aa309d56b65ea226be173e749344ff2146b0ae131ad326194e8e` |
+
+## Resume-portability correction
+
+The first primary/repeat calculation under root `883bbe32…16e2` passed its
+scientific, resource, repeat, scale/ranking reconstruction, and R/Persim gates.
+The immutable-resume checker then passed an unquoted Rust-library path through
+`system2()`, so the child saw the wrong argument count and exited before
+validating reuse. All five before/after hashes, byte sizes, and modification
+times remained identical. Those outputs are quarantined as scientifically
+valid but root-superseded attempt evidence.
+
+The checker now uses `processx::run()` with an argument vector, and a focused
+regression requires that safe route. No scientific runner, formula, source
+artifact, landscape definition, cap, or output schema changed. The corrected
+ten-source root above was independently rebuilt, passed 11/11 categories and
+2/2 byte repeat, passed the full 1,576-test suite, and must be committed before
+a clean sentinel reexecution.
 
 The only authorized next action is the monitored primary sentinel followed by
 one clean repeat and the frozen admission gates.

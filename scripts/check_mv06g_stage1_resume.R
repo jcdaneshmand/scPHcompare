@@ -1,6 +1,10 @@
 #!/usr/bin/env Rscript
 
 options(warn = 2)
+if (!requireNamespace("processx", quietly = TRUE)) {
+  stop("processx is required for MV6-G stage-one resume checking.",
+       call. = FALSE)
+}
 args <- commandArgs(trailingOnly = TRUE)
 if (length(args) != 9L) {
   stop("usage: check_mv06g_stage1_resume.R QUEUE PARENT_CONTRACT ",
@@ -36,7 +40,10 @@ before <- data.frame(
   stringsAsFactors = FALSE
 )
 command_args <- c("--vanilla", "scripts/run_mv06g_stage1_group.R", args[1:8])
-status <- system2(Sys.which("Rscript"), command_args)
+child <- processx::run(
+  Sys.which("Rscript"), command_args, echo = FALSE, error_on_status = FALSE
+)
+status <- child$status
 mv06g_validate_stage1_group_v1(directory, stage, parent, launch,
                                source_group)
 after <- data.frame(

@@ -79,3 +79,12 @@ testthat::test_that("MV6-G stage-one implementation inventory is exact", {
   testthat::expect_identical(anyDuplicated(paths), 0L)
   testthat::expect_true(all(file.exists(testthat::test_path("..", "..", paths))))
 })
+
+testthat::test_that("MV6-G resume uses argument-safe child execution", {
+  checker <- readLines(
+    testthat::test_path("..", "..", "scripts", "check_mv06g_stage1_resume.R"),
+    warn = FALSE
+  )
+  testthat::expect_true(any(grepl("processx::run", checker, fixed = TRUE)))
+  testthat::expect_false(any(grepl("system2(", checker, fixed = TRUE)))
+})

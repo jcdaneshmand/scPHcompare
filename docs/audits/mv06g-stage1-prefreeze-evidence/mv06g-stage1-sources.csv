@@ -7,5 +7,5 @@
 "mv06g_stage1_source_inventory_v1","scripts/run_mv06g_stage1_monitor.R","507d0f4b97605e1c1958a92434389c42fc2f1d2160dbff28bf2a7e2557dac51c"
 "mv06g_stage1_source_inventory_v1","scripts/validate_mv06g_stage1.R","19db5253841cdd0495918f2ecabb9db47bc7d762b35f0311ea47ab0082bab462"
 "mv06g_stage1_source_inventory_v1","scripts/validate_mv06g_stage1_persim.py","a3da8a3899e7acef25134d6a14350b7781b0736003c19f9b4b66e6ec76b42977"
-"mv06g_stage1_source_inventory_v1","scripts/check_mv06g_stage1_resume.R","7c8d4477fad80e3e7380468e2011315fb7f70bd24896561763417de9d33f1ea2"
-"mv06g_stage1_source_inventory_v1","tests/testthat/test-mv06g-stage1.R","222c747281a3df6f5adf0e54c54ad69d142e688887f5c1a0b067112badb51864"
+"mv06g_stage1_source_inventory_v1","scripts/check_mv06g_stage1_resume.R","03e113b8a563b4c153ff388db095a8ce58f8f0b333c632198a3ca078fdd0162a"
+"mv06g_stage1_source_inventory_v1","tests/testthat/test-mv06g-stage1.R","f86bcab362740868551e3aa701f50c2f636bfce20760468f80e918775117e723"

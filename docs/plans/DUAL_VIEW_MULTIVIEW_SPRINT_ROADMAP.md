@@ -483,13 +483,20 @@ label-closed scale/ranking sentinel may run next. Full scale production,
 metadata reading, outcomes, advanced fusion, clustering, and claims remain
 closed.
 
-The sentinel launch is separately prefrozen at implementation root
-`883bbe32…16e2`. It consumes accepted diagrams without rerunning PH, computes
+The sentinel launch is separately prefrozen at corrected implementation root
+`6a76a11d…ce82`. It consumes accepted diagrams without rerunning PH, computes
 2,080 training pairs across four components, fits four training medians, and
 builds all nine rankings. Primary/repeat execution is limited to one worker,
 1,800 seconds, 12 GiB RSS, 5 GiB private storage, and no retry; full production
 requires independent scale/formula reconstruction, 12 R and 12 Persim oracles,
 byte repeat, a projection below 12 worker-hours, and immutable resume.
+
+An earlier root completed primary/repeat and every scientific/oracle gate, but
+its resume checker mishandled the spaced Rust-library path before the child
+could validate reuse. The five artifacts remained hash-, byte-, and
+mtime-identical. That attempt is quarantined; the corrected argument-vector
+checker and regression are prospectively rebound before a complete clean
+rerun. No scientific or landscape code changed.
 
 ## 11. MV-07 — Robustness synthesis and full-run decision
 
