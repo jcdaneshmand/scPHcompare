@@ -41,4 +41,3 @@ test_that("MV7-D expansion gate cannot authorize missing sources", {
   expect_error(mv07d_expansion_gate_v1(samples, sentinels, coverage),
                "structural expansion gate")
 })
-

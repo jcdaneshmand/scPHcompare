@@ -1,6 +1,6 @@
 # MV7-D full-corpus reconciliation and omitted-source feasibility audit
 
-Date: 2026-08-15  
+Date: 2026-08-15
 Status: complete; prospective full-corpus expansion plan only
 
 ## Outcome
@@ -125,4 +125,3 @@ SCT caches be built.
 - Source/SCT feasibility independent categories: 9/9 pass.
 - Complete package source-test suite: exit zero with two established optional
   skips and no failures or warnings.
-- Git diff whitespace check: pass.

@@ -1,6 +1,6 @@
 # MV7 full-corpus expansion sprint plan
 
-Date: 2026-08-15  
+Date: 2026-08-15
 Status: prospective; MV7-D complete, later calculation not authorized
 
 ## Goal
