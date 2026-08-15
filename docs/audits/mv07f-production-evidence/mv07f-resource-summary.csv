@@ -1,0 +1,2 @@
+"contract_id","raw_worker_seconds","sct_worker_seconds","total_worker_seconds","peak_process_tree_rss_bytes","unique_cache_storage_bytes","aggregate_elapsed_cap_seconds","rss_cap_bytes","storage_cap_bytes","resource_gate_passed"
+"mv07f_resource_summary_v1",917.069485664368,6034.98034691811,6952.04983258247,1697538048,1618456042,14400,8589934592,4294967296,TRUE

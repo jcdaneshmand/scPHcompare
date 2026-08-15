@@ -1,7 +1,7 @@
 # MV7 full-corpus expansion sprint plan
 
 Date: 2026-08-15
-Status: active; MV7-D and MV7-E complete, MV7-F upstream production authorized
+Status: active; MV7-D through MV7-F complete, exact 124-derived panel lock next
 
 ## Goal
 
@@ -77,7 +77,7 @@ the prospectively specified 124-sample global-core fallback is mandatory.
 MV7-F is authorized only to create the 34 raw and 170 SCT caches. The exact
 124-derived panel must be frozen in a post-MV7-F evidence commit before MV7-G.
 
-## MV7-F — omitted-34 upstream production
+## MV7-F — omitted-34 upstream production (complete)
 
 Purpose: extend only the already validated raw/SCT layer.
 
@@ -95,6 +95,15 @@ from measured production before MV7-G.
 Acceptance: 34/34 and 170/170 independent identity/content validation, one
 byte-exact representative repeat, zero partial state, immutable resume, and an
 updated measured resource projection.
+
+Gate result: all 34 raw shards, 170 SCT caches, and 170 deterministic
+selections pass. The accepted run used 6,952.050 worker-seconds, peaked at
+1,697,538,048 bytes RSS, and stored 1,618,456,042 private bytes. Independent
+validation passed 9/9 categories; the clean representative raw and SCT caches
+were byte-identical; 204/204 cache hashes, sizes, and mtimes passed the amended
+immutable gate. Two strict-comparison false negatives were corrected and
+retained in separate amendment evidence with zero cache mismatch or mutation.
+Authorize only the exact 124-derived global-core panel lock before MV7-G.
 
 ## MV7-G — typed-view and PH sentinel gate
 
