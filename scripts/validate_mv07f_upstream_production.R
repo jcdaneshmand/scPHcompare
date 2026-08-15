@@ -13,6 +13,7 @@ prefreeze <- args[[1L]]; private_root <- args[[2L]]; production <- args[[3L]]
 output <- args[[4L]]
 source("R/provenance_utils.R"); source("R/toy_baseline.R")
 source("R/dual_view_topology.R"); source("R/mv05_resource_safe_execution.R")
+source("R/mv07f_validation_utils.R")
 sha <- function(path) digest::digest(file = path, algo = "sha256", serialize = FALSE)
 truth <- function(x) if (is.logical(x)) !is.na(x) & x else
   tolower(trimws(as.character(x))) == "true"
@@ -68,9 +69,12 @@ selection_ok <- nrow(selection) == 170L &&
   !any(truth(selection$biological_outcomes_computed))
 paths <- c(file.path(private_root, "raw", raw$private_cache_file),
            file.path(private_root, "sct", sct$private_cache_file))
+actual_manifest_sha <- vapply(paths, sha, character(1L))
+actual_manifest_bytes <- as.numeric(file.info(paths)$size)
 manifest_ok <- nrow(manifest) == 204L && all(file.exists(paths)) &&
-  identical(manifest$private_cache_sha256, vapply(paths, sha, character(1L))) &&
-  identical(as.numeric(manifest$private_cache_bytes), as.numeric(file.info(paths)$size))
+  mv07f_manifest_matches_v1(
+    manifest$private_cache_sha256, actual_manifest_sha,
+    manifest$private_cache_bytes, actual_manifest_bytes)
 partial <- c(setdiff(list.files(file.path(private_root, "raw")), raw$private_cache_file),
              setdiff(list.files(file.path(private_root, "sct")), sct$private_cache_file))
 resource_ok <- nrow(resource) == 1L && truth(resource$resource_gate_passed) &&
@@ -89,7 +93,7 @@ provenance_ok <- nrow(provenance) == 1L && truth(provenance$receipt_before_sourc
 queue_ok <- nrow(queue) == 204L && sum(queue$stage == "raw") == 34L &&
   sum(queue$stage == "sct") == 170L
 checks <- data.frame(
-  contract_id = "mv07f_upstream_independent_validation_v1",
+  contract_id = "mv07f_upstream_independent_validation_v2",
   category = c("queue_axis", "raw_cache_content", "sct_cache_content",
     "selection_identity", "cache_manifest", "partial_state", "resource_gate",
     "production_summary", "execution_provenance"),
