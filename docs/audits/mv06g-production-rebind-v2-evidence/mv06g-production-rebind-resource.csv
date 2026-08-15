@@ -1,0 +1,2 @@
+"contract_id","group_id","disposition","exit_status","elapsed_seconds","peak_process_tree_rss_bytes","private_root_bytes","complete","production_implementation_root_sha256","outcome_label_state","biological_outcomes_computed","fusion_evaluations","outcome_jobs"
+"mv06g_production_rebind_metric_v1","mv06f_group_v1:fbed6ad04f8243313ed439ecb5f29ddd43326a478d9b60fb21ff84be70b6ebf1","completed",0,207.572932481766,162803712,8064620,TRUE,"8b0a1e42d9e46234edb847bcab82a2e770a47f3934d21f2a81c352c74c9cec0c","closed",FALSE,0,0

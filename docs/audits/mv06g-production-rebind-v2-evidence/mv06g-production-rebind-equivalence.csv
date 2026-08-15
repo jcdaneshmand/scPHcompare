@@ -1,0 +1,4 @@
+"contract_id","artifact","accepted_sha256","rebound_sha256","sha256_identical","accepted_bytes","rebound_bytes","bytes_identical","outcome_label_state","biological_outcomes_computed","resource_pass"
+"mv06g_production_rebind_equivalence_v1","training-distances.csv","a97f38c82dacfb86380aafc9cec0406ffa110079b5046b2e9a9db473d24ba095","a97f38c82dacfb86380aafc9cec0406ffa110079b5046b2e9a9db473d24ba095",TRUE,3479133,3479133,TRUE,"closed",FALSE,TRUE
+"mv06g_production_rebind_equivalence_v1","scales.csv","e5458c6875990ec9349d2baac61aeccc6e5aa21c13d0b1970d3d015e031afac4","e5458c6875990ec9349d2baac61aeccc6e5aa21c13d0b1970d3d015e031afac4",TRUE,1095,1095,TRUE,"closed",FALSE,TRUE
+"mv06g_production_rebind_equivalence_v1","rankings.csv","ee84d39d3f9c6db359406a741cc205d7d14bfa95cd5e5a77ab856335481f5dd7","ee84d39d3f9c6db359406a741cc205d7d14bfa95cd5e5a77ab856335481f5dd7",TRUE,4582599,4582599,TRUE,"closed",FALSE,TRUE
