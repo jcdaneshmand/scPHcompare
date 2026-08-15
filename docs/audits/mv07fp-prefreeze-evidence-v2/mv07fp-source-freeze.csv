@@ -1,0 +1,17 @@
+"contract_id","source_id","artifact_locator","sha256","bytes","accepted_head","private_source"
+"mv07fp_source_freeze_v1","mv07e_decision","docs/audits/mv07e-prefreeze-evidence/mv07e-decision.csv","89494bb07a0affb08fd0189ded8d6aab1331e29dc17d70b5a3ff7cac8e9cdea5",507,"e23413ced14260c96defef247d12339cf2dcbdad",FALSE
+"mv07fp_source_freeze_v1","mv07f_summary","docs/audits/mv07f-production-evidence/mv07f-production-summary.csv","beb5e4f8d876ddcc2db52d3dc7135d23724d65b17e088c45075664d72ba23759",391,"e23413ced14260c96defef247d12339cf2dcbdad",FALSE
+"mv07fp_source_freeze_v1","mv07f_validation","docs/audits/mv07f-production-evidence/mv07f-independent-validation.csv","afccb4036893a80b2ddda5649ff6372c6647ba39ee34760c7681ee4e2ba980e2",911,"e23413ced14260c96defef247d12339cf2dcbdad",FALSE
+"mv07fp_source_freeze_v1","mv07f_resume","docs/audits/mv07f-production-evidence/mv07f-immutable-resume.csv","82c1bd6c0baf2cfab28830362ca39484d0285786e3050ea62cb1d2a9c5e6476b",345,"e23413ced14260c96defef247d12339cf2dcbdad",FALSE
+"mv07fp_source_freeze_v1","primary_ledger","historical_mv05d0_sct_cache_resources_v2","73f757a91c202a8e38dfa746fc8816f8e272caf912c33b4b959ef55102c68308",245046,"e23413ced14260c96defef247d12339cf2dcbdad",TRUE
+"mv07fp_source_freeze_v1","accepted_panel","docs/audits/mv06c-global-core-evidence/mv06c-panel.csv","b3a5aff1a0bc01e871751fb9db0b3babfaf18835e68c5699346d8476d903d0ab",96728,"e23413ced14260c96defef247d12339cf2dcbdad",FALSE
+"mv07fp_source_freeze_v1","selector","R/mv06_global_core_gate.R","a548e95ebda6c057e71b1b3fd22766c30dff06e77a8a1aa4477c44b4b04cab8c",6559,"e23413ced14260c96defef247d12339cf2dcbdad",FALSE
+"mv07fp_source_freeze_v1","variance_helper","R/mv03_pilot.R","a6606255359bf9bcd9ea769272624d55f0a3729fa970a75b2cc0caab29e8dc12",7875,"e23413ced14260c96defef247d12339cf2dcbdad",FALSE
+"mv07fp_source_freeze_v1","helper","R/mv07fp_panel_lock.R","b3e3cedd8ff97cdf3954d9f5e38e464821e4c6f66a49cde8a6e9c1114ebebe4d",3093,"e23413ced14260c96defef247d12339cf2dcbdad",FALSE
+"mv07fp_source_freeze_v1","builder","scripts/build_mv07fp_panel_prefreeze.R","5d70d4cc9b0a281bbe5381827c6deba36e24597860437c5bd512c207638221cd",5589,"e23413ced14260c96defef247d12339cf2dcbdad",FALSE
+"mv07fp_source_freeze_v1","validator","scripts/validate_mv07fp_panel_prefreeze.R","a528b864bcc8fe954361fc8d962998e09f22042972c128b5c083798d105c2fcc",2536,"e23413ced14260c96defef247d12339cf2dcbdad",FALSE
+"mv07fp_source_freeze_v1","runner","scripts/run_mv07fp_panel_lock.R","b590d180f3dfe8a1213fdb9834523084ec0b78b7ff4c3d661e20cf62d1f07a93",6547,"e23413ced14260c96defef247d12339cf2dcbdad",FALSE
+"mv07fp_source_freeze_v1","production_validator","scripts/validate_mv07fp_panel_lock.R","7451339ebcac858d0e11b7a993a99190bc5a9544f4312451454d260b501334bd",5784,"e23413ced14260c96defef247d12339cf2dcbdad",FALSE
+"mv07fp_source_freeze_v1","tests","tests/testthat/test-mv07fp-panel-lock.R","f8b2d262bb92d894fd881926fac9bb18428a71633b61b2fcf044dcef3a490b0f",1206,"e23413ced14260c96defef247d12339cf2dcbdad",FALSE
+"mv07fp_source_freeze_v1","selector_tests","tests/testthat/test-mv06-global-core-gate.R","379dbf53dd40099a7c5cbb0df38b0ef9a85b5cb757b40ed963d43d7f81fbacb8",2489,"e23413ced14260c96defef247d12339cf2dcbdad",FALSE
+"mv07fp_source_freeze_v1","specification","docs/specifications/MV07FP_FULL124_GLOBAL_CORE_PANEL_LOCK_PREFREEZE_V1.md","4bf3fcb199ecdb35fd0f14c6414cc586f525773e42706a3b9fdfb77f8a422703",1975,"e23413ced14260c96defef247d12339cf2dcbdad",FALSE
