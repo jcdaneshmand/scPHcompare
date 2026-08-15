@@ -1,0 +1,2 @@
+"contract_id","decision","cache_records","panel_size","pca_authorized","ph_authorized","landscape_authorized","labels_authorized","outcomes_authorized","next_gate"
+"mv07fp_prefreeze_decision_v1","authorize_one_streamed_620_cache_panel_lock",620,500,FALSE,FALSE,FALSE,FALSE,FALSE,"MV7-G_typed_view_PH_sentinel_prefreeze"
