@@ -1,0 +1,8 @@
+"contract_id","category","passed","detail"
+"mv07fp_prefreeze_validation_v1","source_freeze",TRUE,"15 exact sources"
+"mv07fp_prefreeze_validation_v1","cache_axis",TRUE,"124 by five axis"
+"mv07fp_prefreeze_validation_v1","cache_identity",TRUE,"620 hashes and sizes"
+"mv07fp_prefreeze_validation_v1","contract",TRUE,"panel only"
+"mv07fp_prefreeze_validation_v1","resource_caps",TRUE,"2700s 8GiB"
+"mv07fp_prefreeze_validation_v1","acceptance",TRUE,"7 of 7"
+"mv07fp_prefreeze_validation_v1","decision",TRUE,"one inventory"

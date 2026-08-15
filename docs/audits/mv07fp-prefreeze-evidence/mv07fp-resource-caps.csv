@@ -1,0 +1,2 @@
+"contract_id","elapsed_cap_seconds","rss_cap_bytes","panel_size","cache_records","stop_policy","basis"
+"mv07fp_resource_caps_v1",2700,8589934592,500,620,"stop_without_panel_authorization","MV6-C measured 840s scaled by source bytes with greater than 2x margin"

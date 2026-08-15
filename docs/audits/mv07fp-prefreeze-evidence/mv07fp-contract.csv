@@ -1,0 +1,2 @@
+"contract_id","samples","seeds","cache_records","cells_per_cache","panel_size","algorithm","samples_per_seed","transductive","outcome_label_state","panel_jobs_authorized","pca_jobs_authorized","ph_jobs_authorized","landscape_jobs_authorized","outcome_jobs_authorized"
+"mv07fp_panel_prefreeze_v1",124,5,620,384,500,"mv06c_global_core_panel_v1",124,TRUE,"closed",1,0,0,0,0
