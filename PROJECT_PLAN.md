@@ -5,7 +5,7 @@
 | Field | Value |
 |---|---|
 | Status | Draft for owner and author-team review |
-| Version | 0.3.60 |
+| Version | 0.3.61 |
 | Created | 2026-08-03 |
 | Canonical repository | `jcdaneshmand/scPHcompare` |
 | Historical source repository | `jcdaneshmand/PH_ClusteringApp` |
@@ -578,7 +578,7 @@ Publish a durable, citable research artifact.
 ## WP-006 — Dual-view and multiview topology framework
 
 - **Phase:** 1, 4, 5, and 7
-- **Status:** MV6-F dual-view production is complete; MV6-G corrected scientific root `8b0a1e42…cec0c` reproduces the accepted sentinel byte-for-byte and now authorizes only a rebuilt serial-completion prefreeze
+- **Status:** MV6-F dual-view production is complete; MV6-G corrected scientific and serial roots pass equivalence and re-prefreeze, authorizing a clean 74-group label-closed restart
 - **Scope:** Corrected cell topology, deliberately specified gene topology, H0/H1 landscapes and diagram distances, matched clustering/baselines, and staged cell/gene fusion.
 - **Scientific behavior change:** None until the MV-01 contract and subsequent implementation gates are approved.
 - **Acceptance:** Each view passes independent definition, correctness, eligibility, and feasibility gates before fusion; a frozen confirmatory configuration precedes any full biological rerun.
@@ -677,6 +677,7 @@ Publish a durable, citable research artifact.
 | D-073 | 2026-08-15 | Accept the corrected execution-order-2 MV6-G group and authorize the remaining exact serial queue | The group completed atomically in 218.503 s at 168,214,528 B peak RSS; 2,080 training pairs, 8,320 component rows, four scales, 1,625 query pairs, and 14,625 rankings validate; independent scale/formula errors are `3.553e-15`/`9.326e-15` below `1.745e-13`; 7/7 categories and the label firewall pass | Run orders 3–75 serially with validated reuse of order 2 and no retry; then stop for independent 75-group validation and a separately committed immutable-resume gate |
 | D-074 | 2026-08-15 | Stop after nine complete MV6-G groups when execution order 11 exposes a stale pre-sort block-index invariant; preserve all state and require corrected-root equivalence before restarting | The stopped group exits at the final ranking-axis check after 311.165 s and 184,246,272 B RSS; read-only reconstruction shows 81/81 blocks pass before sorting and falsely fail after stale indices are applied; the correction only rebuilds blocks after canonical sorting, with 72/81-sample regressions; root `8b0a1e42…cec0c` passes 9/9 prefreeze, 3/3 repeat, 15 focused, and 1,601 complete tests | Existing nine groups are quarantined and not reused; authorize only a clean maximum-group three-artifact byte-equivalence rebind before any production restart; labels and outcomes remain closed |
 | D-075 | 2026-08-15 | Admit the corrected rank-block scientific root after maximum-group byte equivalence, while keeping production closed pending a rebuilt completion policy | Root `8b0a1e42…cec0c` completes the accepted sentinel in 207.573 s at 162,803,712 B RSS and reproduces training distances, scales, and rankings byte-for-byte (3/3); labels and all downstream counters remain closed/zero | Rebuild the serial completion policy against the corrected root, require its independent/repeat/focused/full-suite gates, and do not reuse the quarantined nine-group attempt |
+| D-076 | 2026-08-15 | Authorize a clean MV6-G 74-group restart under corrected scientific root `8b0a1e42…cec0c` and execution root `deb03fbc…f745` | The rebuilt policy retains exact workload and 12-GiB/1,800-s/5-GiB/12-worker-hour caps; 10/10 independent categories, 3/3 byte repeats, 10/10 completion-focused expectations, 15/15 production-focused expectations, and the 1,601-test complete suite pass; active production state is empty | Execute all 74 groups from clean state with one worker/no retry, stop on first failure, then require independent 75-group validation and a separately committed 445-file immutable-resume pass |
 
 ## 9. Status dashboard
 
@@ -687,7 +688,7 @@ Publish a durable, citable research artifact.
 | 2. Reproducible baseline/repository health | Published main CI passes privacy, exact restore, package check, and installed realistic H0/H1 fixtures; clean-clone user route and complete policy review remain | G2 not evaluated |
 | 3. Literature/reference/figure audit | Initial literature sample only | G3 not evaluated |
 | 4. Redesign primary comparison | Prediction-locked retrieval, clustering, complete robustness panels, corrected matrices, and null/negative results have auditable evidence; author-level synthesis remains | G4 not evaluated |
-| 5. Expand methods | MV6-F is complete; MV6-G's corrected scientific root passes maximum-group byte equivalence; a fresh serial-completion prefreeze is required before restarting all 74 groups | G5 not evaluated |
+| 5. Expand methods | MV6-F is complete; MV6-G corrected scientific/serial roots pass rebind and re-prefreeze, authorizing a clean 74-group label-closed restart before complete-corpus and resume gates | G5 not evaluated |
 | 6. Biological/practical validation | Not started | G6 not evaluated |
 | 7. Profile and optimize | Rust landscape kernel passed complete numerical equivalence and nonpublishing four-platform candidate CI; R remains canonical/default and distribution/adoption remains open | G7 not evaluated |
 | 8. Rewrite manuscript | Not started | G8 not evaluated |
@@ -697,6 +698,7 @@ Publish a durable, citable research artifact.
 
 | Version | Date | Summary |
 |---|---|---|
+| 0.3.61 | 2026-08-15 | Rebuilt and admitted corrected-root MV6-G serial execution at root `deb03fbc…f745` after independent, byte-repeat, focused, and 1,601-test gates; authorized a clean 74-group restart |
 | 0.3.60 | 2026-08-15 | Admitted corrected MV6-G root `8b0a1e42…cec0c` after the maximum-group sentinel reproduced all three accepted scientific artifacts byte-for-byte; authorized only serial-completion re-prefreeze |
 | 0.3.59 | 2026-08-15 | Preserved MV6-G's nine complete groups and rank-axis stop, diagnosed stale pre-sort indices at 81 training samples, corrected post-sort block validation at root `8b0a1e42…cec0c`, and authorized only maximum-group byte equivalence before restart |
 | 0.3.58 | 2026-08-15 | Accepted the schema-corrected MV6-G first group after atomic completion, cap pass, and independent reconstruction of four scales, all nine formulas, and deterministic ranks; authorized the remaining 73 serial groups |

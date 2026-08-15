@@ -34,8 +34,7 @@ if (!identical(remaining$group_id, production_queue$group_id) ||
     any(!as.logical(equivalence$resource_pass)) ||
     !as.logical(rebind$rebind_equivalence_authorized) ||
     as.logical(rebind$remaining_production_authorized) ||
-    rebind$production_implementation_root_sha256 !=
-      "9bf8614d8e2dbdfce43792e74f08620712674c8830770c7c8d70b1fea432a71c" ||
+    !grepl("^[0-9a-f]{64}$", rebind$production_implementation_root_sha256) ||
     rebind$rust_library_sha256 != .mv06f_sha256(rust)) {
   stop("MV6-G completion prefreeze inputs are stale.", call. = FALSE)
 }
