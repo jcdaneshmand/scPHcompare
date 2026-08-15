@@ -498,6 +498,15 @@ mtime-identical. That attempt is quarantined; the corrected argument-vector
 checker and regression are prospectively rebound before a complete clean
 rerun. No scientific or landscape code changed.
 
+The clean corrected-root sentinel now passes completely: primary/repeat finish
+in 221.397/227.835 seconds at about 166 MB peak process-tree RSS; three
+scientific artifacts repeat byte-identically; all four training scales and all
+14,625 formulas/ranks reconstruct; R and Persim each pass 12/12 cell/gene H0/H1
+depth strata; and all five files survive immutable resume. The conservative
+75-group projection is 4.747 worker-hours and about 0.605 GB. Only a separately
+committed serial policy for the unchanged remaining 74 label-closed groups may
+proceed next.
+
 ## 11. MV-07 — Robustness synthesis and full-run decision
 
 ### Objective

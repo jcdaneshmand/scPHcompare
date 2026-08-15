@@ -1,0 +1,4 @@
+"contract_id","artifact","primary_sha256","repeat_sha256","primary_bytes","repeat_bytes","passed","outcome_label_state","biological_outcomes_computed"
+"mv06g_stage1_scientific_repeat_v1","training-distances.csv","a97f38c82dacfb86380aafc9cec0406ffa110079b5046b2e9a9db473d24ba095","a97f38c82dacfb86380aafc9cec0406ffa110079b5046b2e9a9db473d24ba095",3479133,3479133,TRUE,"closed",FALSE
+"mv06g_stage1_scientific_repeat_v1","scales.csv","e5458c6875990ec9349d2baac61aeccc6e5aa21c13d0b1970d3d015e031afac4","e5458c6875990ec9349d2baac61aeccc6e5aa21c13d0b1970d3d015e031afac4",1095,1095,TRUE,"closed",FALSE
+"mv06g_stage1_scientific_repeat_v1","rankings.csv","ee84d39d3f9c6db359406a741cc205d7d14bfa95cd5e5a77ab856335481f5dd7","ee84d39d3f9c6db359406a741cc205d7d14bfa95cd5e5a77ab856335481f5dd7",4582599,4582599,TRUE,"closed",FALSE

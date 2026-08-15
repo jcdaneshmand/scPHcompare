@@ -1,0 +1,5 @@
+"contract_id","component_id","observed_scale","reconstructed_scale","absolute_error","acceptance_tolerance","passed","outcome_label_state","biological_outcomes_computed"
+"mv06g_stage1_scale_reconstruction_v1","cell_H0",30.4780478412656,30.4780478412656,0,6.76748609180002e-13,TRUE,"closed",FALSE
+"mv06g_stage1_scale_reconstruction_v1","cell_H1",1.40300829721247,1.40300829721247,0,3.11530423061084e-14,TRUE,"closed",FALSE
+"mv06g_stage1_scale_reconstruction_v1","gene_H0",1.39737575116798,1.39737575116797,5.10702591327572e-15,3.10279746599912e-14,TRUE,"closed",FALSE
+"mv06g_stage1_scale_reconstruction_v1","gene_H1",0.0301507224656368,0.0301507224656368,0,2.22044604925031e-14,TRUE,"closed",FALSE

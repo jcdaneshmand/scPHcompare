@@ -5,7 +5,7 @@
 | Field | Value |
 |---|---|
 | Status | Draft for owner and author-team review |
-| Version | 0.3.51 |
+| Version | 0.3.52 |
 | Created | 2026-08-03 |
 | Canonical repository | `jcdaneshmand/scPHcompare` |
 | Historical source repository | `jcdaneshmand/PH_ClusteringApp` |
@@ -668,6 +668,7 @@ Publish a durable, citable research artifact.
 | D-064 | 2026-08-14 | Freeze complete-corpus fusion around training-only median component scales, nine fixed rankings, equal cell/gene fusion as the sole primary, two comparator contrasts, blocked inference, and a prediction-before-label firewall | The accepted 75-group corpus reconstructs 262,675 training pairs, 1,050,700 component rows, 300 scales, and 318,150 query rankings; implementation root `ab7039f1…31db` binds five sources; 12/12 independent categories, 16/16 focused expectations, and 10/10 byte repeats pass under queue root `f5471633…10bb5`; labels and downstream jobs remain zero | MV6-G prefreeze completes as `prefreeze_pass_stage1_training_scale_sentinel_only`; authorize only the maximum-group label-closed scale/ranking sentinel under 1,800-s, 12-GiB, 5-GiB, one-worker, no-retry caps before full production |
 | D-065 | 2026-08-14 | Bind the maximum-group MV6-G sentinel to one atomic scientific runner, external resource monitor, independent formula/scale reconstruction, R/Persim oracles, clean repeat, and immutable resume before execution | Ten sources form stage-one root `883bbe32…16e2`; exact scope is 2,080 training pairs, 8,320 component rows, four scales, 1,625 query pairs, and 14,625 rankings; 11/11 launch categories, 17/17 focused expectations, Python parsing, and 2/2 launch byte repeats pass; production remains zero | Authorize monitored primary plus one clean repeat only; full label-closed production remains closed until every numerical, deterministic, resource/projection, and resume gate passes |
 | D-066 | 2026-08-15 | Invalidate the first MV6-G launch root after its resume checker mishandles a spaced WSL path; preserve unchanged attempt artifacts and bind an argument-safe `processx` correction before reexecution | Attempt-one primary/repeat and all scientific/oracle gates pass, but the resume child exits on argument count before reuse validation; all five hashes/bytes/mtimes remain unchanged; corrected root `6a76a11d…ce82` changes only the checker plus its regression and passes 11/11 launch categories and 2/2 byte repeat | Quarantine attempt one; authorize a clean primary/repeat rerun under the corrected root and require the complete original admission ladder again; full production and labels remain closed |
+| D-067 | 2026-08-15 | Accept the clean corrected-root MV6-G maximum-group sentinel and authorize only a separately prefrozen serial label-closed completion policy | Primary/repeat complete in 221.397/227.835 s at 166.314/166.302 MB peak RSS; 3/3 scientific artifacts repeat byte-identically; all four scales and 14,625 formulas/ranks reconstruct; R and Persim pass 12/12 depth-stratified cell/gene H0/H1 oracles spanning 19–1,856 active levels; 10/10 categories and 5/5 immutable resume pass; conservative total projection is 4.747 h and ~0.605 GB | MV6-G stage one completes as `pass_stage2_label_closed_only`; prefreeze the unchanged remaining 74 groups before execution; metadata, outcomes, advanced fusion, clustering, and claims remain closed |
 
 ## 9. Status dashboard
 
@@ -688,6 +689,7 @@ Publish a durable, citable research artifact.
 
 | Version | Date | Summary |
 |---|---|---|
+| 0.3.52 | 2026-08-15 | Accepted the corrected-root MV6-G maximum-group sentinel after byte repeat, independent scale/rank reconstruction, 12/12 R and 12/12 Persim oracles, resource/projection gates, and 5/5 immutable resume; only a separately prefrozen 74-group label-closed completion policy may proceed |
 | 0.3.51 | 2026-08-15 | Preserved the first MV6-G sentinel's successful scientific gates but invalidated its launch root after the resume checker mishandled a spaced WSL path; rebound an argument-safe checker and regression at root `6a76a11d…ce82` before clean reexecution |
 | 0.3.50 | 2026-08-14 | Prefroze MV6-G maximum-group execution under a ten-source implementation root with atomic output, 12-GiB/1,800-s/5-GiB caps, independent scale/ranking reconstruction, R/Persim oracles, clean repeat, and immutable resume; only primary and repeat sentinel runs are authorized |
 | 0.3.49 | 2026-08-14 | Completed MV6-G complete-corpus fusion prefreeze: accepted queue root preserved; 262,675 training pairs, 1,050,700 component rows, 300 training-only scales, nine fixed rankings, blocked inference, and a strict prediction-before-label firewall pass independent validation and byte repeat; only the maximum-group sentinel is authorized next |

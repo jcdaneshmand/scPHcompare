@@ -1,0 +1,2 @@
+"contract_id","expected_rows","observed_rows","maximum_absolute_error","maximum_acceptance_tolerance","all_distances_pass","all_ranks_pass","methods","outcome_label_state","biological_outcomes_computed"
+"mv06g_stage1_ranking_reconstruction_v1",14625,14625,1.46549439250521e-14,7.09043311028688e-14,TRUE,TRUE,9,"closed",FALSE

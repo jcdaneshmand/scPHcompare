@@ -1,0 +1,13 @@
+"pair_id","component_id","view_id","homology_dimension","first_sample_id","second_sample_id","first_finite_intervals","second_finite_intervals","selection_stratum","outcome_label_state","biological_outcomes_computed"
+"mv06g_training_pair_v1:0028500aa0a8ffaadfbc97589db2cf21da553a7351488b092125043ab92a14c3","cell_H0","cell_topology_v1","H0","SRA728025_SRS3454430","SRA749327_SRS3693912",383,383,"minimum_depth","closed",FALSE
+"mv06g_training_pair_v1:7aa29fd87027596019eb4e813a7b875d8920f887b3bc89638dd569734bdecdcb","cell_H0","cell_topology_v1","H0","SRA784242_SRS3822680","SRA826293_SRS4181123",383,383,"median_depth","closed",FALSE
+"mv06g_training_pair_v1:ffe88819bc1338f80d44c66ed19650ef2785c17892884ba6afd7332aeaeb5fd7","cell_H0","cell_topology_v1","H0","SRA628554_SRS2664365","SRA645804_SRS2823408",383,383,"maximum_depth","closed",FALSE
+"mv06g_training_pair_v1:642b4c713f25653a271f2f022c06830b5fda6104dafc9c86bb1df9e9f29c2cce","cell_H1","cell_topology_v1","H1","SRA645804_SRS2823408","SRA645804_SRS2823412",150,190,"minimum_depth","closed",FALSE
+"mv06g_training_pair_v1:9d26d9af42725ff71ff662cc0a691a8aaa612cbd6a4fe775b3ae52ee04733aa1","cell_H1","cell_topology_v1","H1","SRA728025_SRS3454427","SRA749327_SRS3693912",264,359,"median_depth","closed",FALSE
+"mv06g_training_pair_v1:ecbb0f21a8d923a4dd389e4055dd43abe0276d2100c2e3a321636873e6c7bde9","cell_H1","cell_topology_v1","H1","SRA621638_SRS2610285","SRA628554_SRS2664365",476,476,"maximum_depth","closed",FALSE
+"mv06g_training_pair_v1:0004bcd3da3fb482aed997d12b3ca99c7156f3587e688b3b2d4c219168d9bb5f","gene_H0","gene_topology_v1","H0","SRA645804_SRS2823406","SRA716608_SRS3391631",499,499,"minimum_depth","closed",FALSE
+"mv06g_training_pair_v1:7ecdde037275d7c667af7e31c50a6c87a26c96b1bd0fe03d2fd9e6b3e7a514fb","gene_H0","gene_topology_v1","H0","SRA550660_SRS2089635","SRA716608_SRS3391631",499,499,"median_depth","closed",FALSE
+"mv06g_training_pair_v1:fffc950deb3b78f6d3a01fd012b766a4133c101588e13061b4df1f7ba22ff48e","gene_H0","gene_topology_v1","H0","SRA826293_SRS4181123","SRA826293_SRS4181125",499,499,"maximum_depth","closed",FALSE
+"mv06g_training_pair_v1:bd63ece46ce4170c0b4e8178e59ec0c64a2ff414997c7c64c24648e1c48fb962","gene_H1","gene_topology_v1","H1","SRA645804_SRS2823410","SRA645804_SRS3572594",111,128,"minimum_depth","closed",FALSE
+"mv06g_training_pair_v1:eea870aa17ee91374d716eb9480ce4377ec9967f7636899dbe5946af854c14e9","gene_H1","gene_topology_v1","H1","SRA667709_SRS3065426","SRA749327_SRS3693913",301,1518,"median_depth","closed",FALSE
+"mv06g_training_pair_v1:c1ab349177dc3186fa415a49abc6d724f4dc7e367cae1af68a798e8c7e6bc948","gene_H1","gene_topology_v1","H1","SRA628554_SRS2664364","SRA628554_SRS2664365",3165,2531,"maximum_depth","closed",FALSE

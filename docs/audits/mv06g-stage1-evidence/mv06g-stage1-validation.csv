@@ -1,0 +1,11 @@
+"category","passed","contract_id","projected_worker_hours","outcome_label_state","biological_outcomes_computed"
+"source_and_implementation_identity",TRUE,"mv06g_stage1_independent_validation_v1",4.74655313789844,"closed",FALSE
+"primary_artifacts",TRUE,"mv06g_stage1_independent_validation_v1",4.74655313789844,"closed",FALSE
+"repeat_artifacts",TRUE,"mv06g_stage1_independent_validation_v1",4.74655313789844,"closed",FALSE
+"scientific_byte_repeat",TRUE,"mv06g_stage1_independent_validation_v1",4.74655313789844,"closed",FALSE
+"training_scale_reconstruction",TRUE,"mv06g_stage1_independent_validation_v1",4.74655313789844,"closed",FALSE
+"ranking_reconstruction",TRUE,"mv06g_stage1_independent_validation_v1",4.74655313789844,"closed",FALSE
+"r_oracles",TRUE,"mv06g_stage1_independent_validation_v1",4.74655313789844,"closed",FALSE
+"resource_caps",TRUE,"mv06g_stage1_independent_validation_v1",4.74655313789844,"closed",FALSE
+"full_projection",TRUE,"mv06g_stage1_independent_validation_v1",4.74655313789844,"closed",FALSE
+"label_and_downstream_firewall",TRUE,"mv06g_stage1_independent_validation_v1",4.74655313789844,"closed",FALSE
