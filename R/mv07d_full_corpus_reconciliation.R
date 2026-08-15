@@ -46,11 +46,18 @@ mv07d_reconcile_samples_v1 <- function(candidates, retained, accepted_ids) {
   result <- result[match(candidate$sample_id, result$sample_id), , drop = FALSE]
   retained_flag <- !is.na(result$post_qc_cells)
   if (any(result$study[retained_flag] != result$study_retained[retained_flag]) ||
-      any(result$tissue[retained_flag] != result$tissue_retained[retained_flag]) ||
-      any(result$approach[retained_flag] != result$approach_retained[retained_flag])) {
-    stop("Retained metadata conflicts with the public candidate identity.",
+      any(result$tissue[retained_flag] != result$tissue_retained[retained_flag])) {
+    stop("Retained study/tissue metadata conflicts with the public candidate identity.",
          call. = FALSE)
   }
+  result$approach_public <- result$approach
+  result$approach_historical_retained <- result$approach_retained
+  result$approach_metadata_conflict <- retained_flag &
+    result$approach_public != result$approach_historical_retained
+  # Continue the accepted analysis convention for retained samples while
+  # preserving the public value and disagreement explicitly.
+  result$approach <- ifelse(retained_flag, result$approach_historical_retained,
+                            result$approach_public)
   excluded <- data.frame(
     sample_id = c("SRA850958_SRS4386092", "SRA850958_SRS4386091",
                   "SRA850958_SRS4386107"),
@@ -84,6 +91,8 @@ mv07d_reconcile_samples_v1 <- function(candidates, retained, accepted_ids) {
     ifelse(result$corrected_primary_90, "primary_and_descriptive",
            "descriptive_only"))
   keep <- c("candidate_order", "sample_id", "study", "tissue", "approach",
+            "approach_public", "approach_historical_retained",
+            "approach_metadata_conflict",
             "post_qc_cells", "historical_min_cells", "historical_retained_124",
             "historical_ph_output_expected", "corrected_primary_90",
             "corrected_descriptive_124", "threshold_sensitivity_only",

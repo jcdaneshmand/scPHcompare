@@ -71,7 +71,8 @@ source_coverage <- data.frame(
                   "existing_private_source_complete",
                   "accepted_primary_90_complete"),
   stringsAsFactors = FALSE)
-artifact_coverage <- samples[c("sample_id", "study", "tissue", "post_qc_cells",
+artifact_coverage <- samples[c("sample_id", "study", "tissue", "approach",
+  "approach_public", "approach_historical_retained", "approach_metadata_conflict", "post_qc_cells",
   "corpus_class", "candidate_sparse_rdata_found", "individual_seurat_rds_found",
   "corrected_artifact_status", "outcome_use")]
 
@@ -96,13 +97,14 @@ trace <- data.frame(
   changed_by_mv07d = FALSE, stringsAsFactors = FALSE)
 
 gaps <- data.frame(
-  contract_id = "mv07d_gap_register_v1", gap_order = 1:6,
-  gap_id = c("omitted_source_sct_feasibility", "descriptive_cell_fit_scope",
+  contract_id = "mv07d_gap_register_v1", gap_order = 1:7,
+  gap_id = c("approach_metadata_provenance", "omitted_source_sct_feasibility", "descriptive_cell_fit_scope",
     "descriptive_gene_panel_fit_scope", "omitted_34_corrected_ph",
     "full_124_descriptive_outcomes", "below_250_threshold_sensitivity"),
-  current_state = c("authorized_six_sentinels", "not_frozen", "not_frozen",
+  current_state = c("16_disagreements_flagged", "authorized_six_sentinels", "not_frozen", "not_frozen",
     "not_authorized", "not_authorized", "not_authorized"),
-  prerequisite = c("prospective_depth_extreme_manifest",
+  prerequisite = c("accession_level_source_audit_before_approach_claims",
+    "prospective_depth_extreme_manifest",
     "source_sct_feasibility_pass", "source_sct_feasibility_pass",
     "cell_and_gene_fit_scopes_frozen", "complete_corrected_124_artifacts",
     "separate_reduced_depth_and_stability_contract"),
@@ -142,10 +144,10 @@ source_freeze$artifact_locator[source_freeze$source_id == "candidate_metadata"] 
 source_freeze$private_source[source_freeze$source_id == "candidate_metadata"] <- FALSE
 
 criteria <- data.frame(
-  contract_id = "mv07d_acceptance_criteria_v1", criterion_order = 1:10,
+  contract_id = "mv07d_acceptance_criteria_v1", criterion_order = 1:11,
   criterion_id = c("candidate_axis_127", "retained_axis_124", "primary_axis_90",
     "single_study_omission_34", "below_threshold_3", "source_coverage_complete",
-    "sentinel_panel_frozen", "landscape_contract_preserved",
+    "sentinel_panel_frozen", "approach_disagreements_explicit", "landscape_contract_preserved",
     "no_expanded_outcome", "separate_estimand_populations"),
   passed = c(nrow(samples) == 127L, sum(samples$historical_retained_124) == 124L,
     sum(samples$corrected_primary_90) == 90L,
@@ -153,13 +155,15 @@ criteria <- data.frame(
     sum(samples$threshold_sensitivity_only) == 3L,
     all(source_coverage$expected_samples == source_coverage$observed_samples),
     nrow(sentinels) == 6L && !any(sentinels$ph_authorized),
+    sum(samples$approach_metadata_conflict) == 16L,
     nrow(landscape) == 8L && !any(landscape$changed_by_mv07d),
     !decision$omitted_34_outcome_authorized,
     nrow(populations) == 5L && !anyDuplicated(populations$population_id)),
   evidence = c("127 public candidates", "124 post-QC retained", "90 accepted queries",
     "12 pancreatic plus 16 prostate plus 6 substantia nigra",
     "166 169 and 197 post-QC cells", "127 sparse 127 Seurat 90 corrected",
-    "minimum and maximum depth per omitted tissue", "eight fixed items",
+    "minimum and maximum depth per omitted tissue", "16 retained metadata conflicts retained",
+    "eight fixed items",
     "source and SCT feasibility only", "five explicit populations"),
   stringsAsFactors = FALSE)
 if (!all(criteria$passed)) stop("MV7-D acceptance criteria failed.", call. = FALSE)
@@ -179,4 +183,3 @@ outputs <- list(
   "mv07d-decision.csv" = decision)
 for (name in names(outputs)) write_once(outputs[[name]], name)
 message("MV7-D prefreeze complete: 127 -> 124 -> 90; six source/SCT sentinels authorized")
-

@@ -28,6 +28,14 @@ bounded source/SCT feasibility check for samples omitted from the primary
 The separate 25-sample GSE120221 bone-marrow validation cohort remains a
 technical validation population and is not part of the 127/124/90 flow.
 
+Study and tissue fields agree between the public candidate metadata and the
+historical retained ledger. Approach labels disagree for 16 retained samples
+(14 public scRNA/historical snRNA and two public snRNA/historical scRNA). The
+reconciliation preserves both values and flags every disagreement. It carries
+the historical retained value forward solely to remain consistent with the
+accepted MV7-B confounding diagnostic; no technology claim may use these rows
+until an accession-level source audit resolves the provenance.
+
 ## Prospective six-sample feasibility panel
 
 The panel contains the minimum- and maximum-post-QC-depth sample within each of
@@ -79,6 +87,8 @@ definition without modification:
   present locally; the 90 accepted corrected sample identities are complete.
 - The six-sample feasibility panel is deterministic and prospectively frozen.
 - The revised landscape contract is carried forward unchanged.
+- All 16 approach-label disagreements are explicit rather than silently
+  resolved.
 - Independent validation passes before the bounded feasibility run begins.
 
 ## Gate

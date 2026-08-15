@@ -39,7 +39,8 @@ axis_ok <- nrow(x) == 127L && !anyDuplicated(x$sample_id) &&
   sum(truth(x$corrected_primary_90)) == 90L &&
   sum(truth(x$corrected_descriptive_124)) == 124L &&
   sum(truth(x$threshold_sensitivity_only)) == 3L &&
-  sum(x$corpus_class == "single_study_tissue_descriptive_only") == 34L
+  sum(x$corpus_class == "single_study_tissue_descriptive_only") == 34L &&
+  sum(truth(x$approach_metadata_conflict)) == 16L
 tissue_expected <- c("bone marrow" = 31L, "colon" = 13L, "liver" = 6L,
   "pancreatic islets" = 12L, "pbmc" = 12L, "prostate" = 16L,
   "substantia nigra" = 9L, "testis" = 28L)
@@ -61,9 +62,9 @@ landscape_ok <- nrow(l) == 8L && all(truth(l$applies_to_full_corpus_expansion)) 
         "no_universal_fixed_grid", "no_universal_level_cap") %in% l$required_state)
 trace_ok <- nrow(r) == 8L && !any(truth(r$changed_by_mv07d)) &&
   "bounded_knn" %in% r$rule_id
-gap_ok <- nrow(g) == 6L && identical(g$gap_order, 1:6) &&
+gap_ok <- nrow(g) == 7L && identical(g$gap_order, 1:7) &&
   !any(truth(g$can_change_primary_90_result))
-criteria_ok <- nrow(q) == 10L && all(truth(q$passed))
+criteria_ok <- nrow(q) == 11L && all(truth(q$passed))
 decision_ok <- nrow(d) == 1L &&
   d$decision == "authorize_six_sample_source_sct_feasibility_only" &&
   !truth(d$primary_90_recalculation_authorized) &&
@@ -82,8 +83,8 @@ checks <- data.frame(
     "eight tissues and five multi-study primary tissues",
     "five non-interchangeable populations", "127 existing source pairs and 90 corrected",
     "six depth-extreme sentinels at 384 cells", "eight fixed landscape requirements",
-    "eight code and design rules", "six prospectively ordered gaps",
-    "10 of 10 criteria pass", "source/SCT sentinel feasibility only"),
+    "eight code and design rules", "seven prospectively ordered gaps",
+    "11 of 11 criteria pass", "source/SCT sentinel feasibility only"),
   stringsAsFactors = FALSE)
 if (!all(checks$passed)) stop("MV7-D independent validation failed: ",
   paste(checks$category[!checks$passed], collapse = ", "), call. = FALSE)
@@ -91,4 +92,3 @@ if (file.exists(output)) stop("Refusing to overwrite: ", output, call. = FALSE)
 write.table(checks, output, sep = ",", row.names = FALSE, col.names = TRUE,
             quote = TRUE, na = "")
 message("MV7-D independent validation: 11/11 categories pass")
-
