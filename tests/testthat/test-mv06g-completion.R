@@ -8,6 +8,18 @@ testthat::test_that("MV6-G completion source inventory is exact", {
   testthat::expect_true(all(file.exists(testthat::test_path("..", "..", paths))))
 })
 
+testthat::test_that("MV6-G completion adds the admitted runner pair alias", {
+  workload <- data.frame(query_biological_pairs = c(65L, 80L))
+  result <- mv06g_add_runner_schema_v1(workload)
+  testthat::expect_identical(result$biological_pairs,
+                             result$query_biological_pairs)
+  workload$biological_pairs <- c(65L, 79L)
+  testthat::expect_error(mv06g_add_runner_schema_v1(workload),
+                         "lacks the runner pair axis")
+  testthat::expect_error(mv06g_add_runner_schema_v1(data.frame(x = 1L)),
+                         "lacks the runner pair axis")
+})
+
 testthat::test_that("MV6-G completion guard fails every frozen cap", {
   policy <- data.frame(
     elapsed_cap_seconds_per_group = 1800,

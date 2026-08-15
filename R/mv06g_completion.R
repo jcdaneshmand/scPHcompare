@@ -20,6 +20,21 @@ mv06g_safe_group_name_v1 <- function(value) {
   gsub("[^A-Za-z0-9_.-]", "_", value)
 }
 
+mv06g_add_runner_schema_v1 <- function(workload) {
+  if (!is.data.frame(workload) ||
+      !"query_biological_pairs" %in% names(workload) ||
+      any(!is.finite(workload$query_biological_pairs)) ||
+      any(workload$query_biological_pairs <= 0) ||
+      ("biological_pairs" %in% names(workload) &&
+       !identical(as.integer(workload$biological_pairs),
+                  as.integer(workload$query_biological_pairs)))) {
+    stop("MV6-G completion workload lacks the runner pair axis.",
+         call. = FALSE)
+  }
+  workload$biological_pairs <- as.integer(workload$query_biological_pairs)
+  workload
+}
+
 mv06g_completion_root_v1 <- function(sources) {
   if (!is.data.frame(sources) || nrow(sources) != 9L ||
       !identical(sources$path, mv06g_completion_source_paths_v1()) ||
@@ -54,6 +69,9 @@ mv06g_validate_completion_policy_v1 <- function(
       !is.data.frame(queue) || nrow(queue) != 74L ||
       !identical(as.integer(queue$execution_order), 2:75) ||
       anyDuplicated(queue$group_id) ||
+      !"biological_pairs" %in% names(queue) ||
+      !identical(as.integer(queue$biological_pairs),
+                 as.integer(queue$query_biological_pairs)) ||
       policy$parent_rebind_policy_sha256 !=
         unique(rebind_policy$.file_sha256) ||
       policy$rebind_equivalence_sha256 !=

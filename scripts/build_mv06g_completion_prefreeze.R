@@ -26,6 +26,7 @@ root <- digest::digest(stats::setNames(sources$sha256, sources$path),
 remaining <- queue[queue$execution_order != 1L, , drop = FALSE]
 remaining <- remaining[order(remaining$execution_order), , drop = FALSE]
 rownames(remaining) <- NULL
+remaining <- mv06g_add_runner_schema_v1(remaining)
 if (!identical(remaining$group_id, production_queue$group_id) ||
     nrow(equivalence) != 3L ||
     any(!as.logical(equivalence$sha256_identical)) ||

@@ -36,7 +36,11 @@ checks <- data.frame(
     nrow(equivalence) == 3L && all(equivalence$sha256_identical) &&
       all(equivalence$bytes_identical) && all(equivalence$resource_pass),
     identical(queue$group_id, expected$group_id) &&
-      identical(as.integer(queue$execution_order), 2:75),
+      identical(as.integer(queue$execution_order), 2:75) &&
+      identical(as.integer(queue$biological_pairs),
+                as.integer(queue$query_biological_pairs)) &&
+      identical(as.integer(queue$biological_pairs),
+                as.integer(expected$query_biological_pairs)),
     sum(queue$training_biological_pairs) == 260595L &&
       sum(queue$training_component_rows) == 1042380L,
     sum(queue$query_biological_pairs) == 33725L &&

@@ -25,6 +25,8 @@ row <- queue[queue$group_id == args[[11L]], , drop = FALSE]
 source_group <- source_groups[source_groups$group_id == args[[11L]],
                               , drop = FALSE]
 if (nrow(row) != 1L || nrow(source_group) != 1L ||
+    !identical(as.integer(row$biological_pairs),
+               as.integer(row$query_biological_pairs)) ||
     !as.logical(policy$remaining_production_authorized) ||
     policy$scientific_implementation_root_sha256 !=
       rebind$production_implementation_root_sha256 ||

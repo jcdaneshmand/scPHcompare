@@ -34,7 +34,7 @@ fusion panel changes no landscape definition.
 | Identity | SHA-256 |
 |---|---|
 | Accepted scientific implementation | `9bf8614d8e2dbdfce43792e74f08620712674c8830770c7c8d70b1fea432a71c` |
-| Serial execution implementation | `0c75e854e4ae7677630ea2102d9eb73aa9e7c048df54fe79a54e7da8047bee2b` |
+| Serial execution implementation | `97ffd5767514dfb0d54627ce13f9b6e784583eff83d4ed588fbc1e4a5c053b38` |
 | Rust library | `51d3fca4808c6620c46c7b1100ddfad4753af02d37f87ec3eb278008846b160d` |
 | Parent queue root | `f5471633e21d229eeabecadf12989dece2a3a7ab5b5d09f4584b0c3b6410bb5d` |
 | Accepted rebind evidence | `3bc9ac4aa0f2f1b58d166086c4057b853398d1a15047d51906ded7aa7716e771` |
@@ -44,17 +44,17 @@ fusion panel changes no landscape definition.
 The independent prefreeze validator passes 10/10 categories. A clean rebuild
 reproduces policy, queue, and source inventory byte-for-byte (3/3). The
 focused completion suite passes 7/7 expectations. The package-aware complete
-suite passes 1,592 expectations with zero failures and two established skips
-in 198.5 seconds. The current root includes private child stdout/stderr capture
+suite passes 1,595 expectations with zero failures and two established skips
+in 194.0 seconds. The current root includes private child stdout/stderr capture
 and binds both log hashes into every resource metric.
 
 | Evidence | SHA-256 |
 |---|---|
-| Completion policy | `4f9201e71355d9a311eb13e1710e0115bd6275e0fb069e77005472b2977a42df` |
-| Completion queue | `dc74ebbfa0feeb56712229ece3b73bafb622ed105da2de008ef2e0bd6f878486` |
-| Completion source inventory | `17a459d1b4aa49396a2ae65cb24d3c8344a5f837500e9229b40b188273ddaba9` |
+| Completion policy | `59aa63bb77372e26a4222534129642e8a1fe8132b6529b36debbe5061b96b0f6` |
+| Completion queue | `5176f7659be8319e033a5431508bb25329047d0242ff50a1d0c65ad66480cf3f` |
+| Completion source inventory | `07c3af26933ca6894918c3156f4f8b4dea64f5c6124776c96c78db5df0718287` |
 | Independent validation | `fb75cc859ff44f7181b07247683c9937f726a1180a033ee68ea4560a338034fb` |
-| Byte-repeat ledger | `5ca9a6264df713ff47c8d8b3fbdfccf40abc791e5c310f39e9845337ce53ca36` |
+| Byte-repeat ledger | `ac4d383c986559300aa0af802e5b4235667355676076b8adc0cbaf97eba620ec` |
 
 ## Authorized next action
 
