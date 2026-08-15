@@ -35,7 +35,7 @@ landscape <- x[[12L]]; resource <- x[[13L]]; firewall <- x[[14L]]
 stages <- x[[15L]]; criteria <- x[[16L]]; decision <- x[[17L]]
 
 public_sources <- s[!truth(s$private_source), , drop = FALSE]
-source_ok <- nrow(s) == 11L && all(s$accepted_head == expected_head) &&
+source_ok <- nrow(s) == 12L && all(s$accepted_head == expected_head) &&
   all(file.exists(public_sources$artifact_locator)) &&
   all(vapply(seq_len(nrow(public_sources)), function(i)
     sha(public_sources$artifact_locator[[i]]) == public_sources$sha256[[i]], logical(1L))) &&
@@ -150,7 +150,7 @@ checks <- data.frame(
   passed = c(source_ok, accession_ok, canonical_ok, lineage_ok, correction_ok,
     availability_ok, panel_ok, axis_ok, fit_ok, topology_ok, pair_ok, landscape_ok,
     resource_ok, firewall_ok, stage_ok, criteria_ok, decision_ok),
-  detail = c("11 exact source identities", "16 official GEO rows resolve 14 cell and 2 nuclei",
+  detail = c("12 exact source identities", "16 official GEO rows resolve 14 cell and 2 nuclei",
     "124 canonical labels with 16 conflicts resolved", "Approach.x prohibited and y authoritative",
     "90 primary samples all scRNA so mixed-approach effect not estimable",
     "34 sources reopened; one exact missing KLF2 feature", "fixed global-core 124 fallback",

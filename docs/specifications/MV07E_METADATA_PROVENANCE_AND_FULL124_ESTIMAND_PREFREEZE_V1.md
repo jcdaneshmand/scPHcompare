@@ -102,3 +102,7 @@ was triggered by availability, the exact 124-derived panel must be frozen in a
 separate post-MV7-F evidence commit before MV7-G. PCA, PH, landscapes,
 clustering, outcomes, external data, default changes, and primary-90
 recalculation remain closed.
+
+An independent validator must reopen all 34 sparse sources and reconstruct the
+availability result without calling the production helper. A clean exact-commit
+build must reproduce all 17 builder artifacts byte-for-byte.
