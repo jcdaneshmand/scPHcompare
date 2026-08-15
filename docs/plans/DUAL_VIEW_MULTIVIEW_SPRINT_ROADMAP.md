@@ -104,7 +104,7 @@ An exploratory method enters the confirmatory set only through a recorded decisi
 | MV-04 | Validate topological distances and production calculation | MV-03 | G-MV4: sample-distance matrices are correct and feasible | `complete` — immutable primary matrices; bounded sensitivity exclusions |
 | MV-05 | Compare clustering and matched non-topological baselines | MV-04; frozen statistical plan | G-MV5: fair single-view benchmark | `completed` — MV5-S executes and independently validates the complete prediction-locked clustering outcome contract without method selection |
 | MV-06 | Test transparent multiview fusion and complementarity | MV-05 | G-MV6: fusion adds stable information or is rejected | `complete_negative` — exact-commit blocked evaluation rejects equal-weight fusion under the required both-component MRR rule; advanced fusion is closed |
-| MV-07 | Robustness synthesis and full-run decision | MV-06 | G-MV7: freeze, revise, or stop before full rerun | `in_progress` — MV7-A map and MV7-B diagnostics complete; MV7-C claim/data-sufficiency synthesis is next |
+| MV-07 | Robustness synthesis and full-run decision | MV-06 | G-MV7: freeze, revise, or stop before full rerun | `owner_author_team_decision_required` — MV7-C recommends methods-focused drafting before more PH; external validation is conditional on claim ambition |
 
 MV-01 through MV-04 are the immediate implementation sequence. MV-05 through MV-07 deliberately require valid upstream artifacts and a statistical plan.
 
@@ -611,6 +611,17 @@ The next action is MV7-C existing-data synthesis. It must narrow relative-view
 claims, retain the negative fusion result, document unavailable library-size
 and cell-type-composition controls, and present a data/compute decision to the
 author team. Gene-panel/metric reruns and new data remain closed.
+
+### MV7-C synthesis disposition (2026-08-15)
+
+Existing data are sufficient for a methods-focused paper centered on the
+corrected landscape contract, dual-view framework, reproducible computation,
+negative fusion result, and heterogeneous blocked benchmark. They are not
+sufficient for external-generalization, causal technology, or universal
+relative-view claims. The recommended next step is manuscript/figure claim
+mapping before more PH. If the author team instead requires generalization, a
+prospective external-dataset audit has higher value than a broad same-corpus
+parameter search. G-MV7 now requires owner and author-team direction.
 
 ## 12. Required artifact layout
 

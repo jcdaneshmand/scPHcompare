@@ -5,7 +5,7 @@
 | Field | Value |
 |---|---|
 | Status | Draft for owner and author-team review |
-| Version | 0.3.67 |
+| Version | 0.3.68 |
 | Created | 2026-08-03 |
 | Canonical repository | `jcdaneshmand/scPHcompare` |
 | Historical source repository | `jcdaneshmand/PH_ClusteringApp` |
@@ -684,6 +684,7 @@ Publish a durable, citable research artifact.
 | D-080 | 2026-08-15 | Close G-MV6 with equal-weight fusion rejected and carry cell/gene topology forward as separate views | Exact-commit blocked evaluation gives F0.5−cell MRR −0.01019 [−0.06484, 0.03601], raw p 0.835/Holm 1, and F0.5−gene +0.02686 [−0.08472, 0.08101], raw p 0.561/Holm 1; the required both-positive rule fails; independent validation passes 15/15 and all 13 outcome artifacts repeat byte-identically | Do not admit advanced/learned/tissue-specific fusion or select descriptive F0.25 despite its observed lead; advance to MV-07 robustness/confounding synthesis with complete negative reporting |
 | D-081 | 2026-08-15 | Begin MV-07 with a selection-resistant evidence map and run existing-artifact confounding diagnostics before any new PH or data | Twenty-three immutable scientific/implementation sources rehash; 14 robustness and 10 confounding axes are classified; the corrected all-active-level H0/H1 landscape contract is unchanged; independent validation passes 10/10 and all 10 synthesis artifacts repeat byte-identically | Authorize only a separately committed MV7-B no-new-PH influence, retained-cell-count, and approach-stratification prefreeze; gene-panel/metric reruns, external data, method selection, defaults, and claim promotion remain closed |
 | D-082 | 2026-08-15 | Narrow comparative cell-versus-gene claims after fixed no-new-PH influence/confounding diagnostics | The composite MRR contrast changes sign after deleting study SRA716608 or colon; study and tissue influence exceed 0.05, while retained-cell and mixed-study approach flags do not trigger; independent validation passes 7/7 and all 12 production artifacts repeat byte-identically | Advance to MV7-C existing-data synthesis; do not select a view, infer causal technology effects, authorize gene reruns/new data, or promote manuscript claims before the author gate |
+| D-083 | 2026-08-15 | Treat existing data as sufficient for a methods-focused paper but insufficient for external-generalization or causal technology claims | MV7-C reconciles corrected landscapes, complete cell robustness, conditional gene evidence, negative fusion, and material study/tissue influence into ten explicit claim boundaries and four expansion options | Set G-MV7 to owner/author-team decision required; recommend manuscript/figure claim mapping before more PH, or a prospective external-data audit if generalization is the chosen ambition |
 
 ## 9. Status dashboard
 
@@ -704,6 +705,7 @@ Publish a durable, citable research artifact.
 
 | Version | Date | Summary |
 |---|---|---|
+| 0.3.68 | 2026-08-15 | Completed MV7-C claim/data-sufficiency synthesis and author dossier; recommend a methods-focused manuscript before more PH, while reserving external validation for a consciously chosen generalization claim and requiring author-team approval |
 | 0.3.67 | 2026-08-15 | Completed MV7-B no-new-PH diagnostics: study/tissue influence and cell-versus-gene sign instability require narrower comparative claims, while retained-cell and approach flags do not trigger; advance to MV7-C synthesis without authorizing reruns or new data |
 | 0.3.66 | 2026-08-15 | Completed MV7-A selection-resistant evidence mapping: preserved the corrected landscape contract, classified 14 robustness and 10 confounding axes, reconciled measured compute, and authorized only a no-new-PH MV7-B prefreeze before gene reruns or external data |
 | 0.3.65 | 2026-08-15 | Executed and independently validated exact-commit MV6-H blocked outcomes; equal fusion failed the required both-positive MRR rule, so G-MV6 closes negative, advanced fusion is rejected, and cell/gene views advance separately to MV-07 |
