@@ -1,0 +1,4 @@
+"contract_id","source_kind","expected_samples","observed_samples","public_path_disclosed","disposition"
+"mv07d_source_coverage_v1","candidate_sparse_rdata",127,127,FALSE,"existing_private_source_complete"
+"mv07d_source_coverage_v1","individual_seurat_rds",127,127,FALSE,"existing_private_source_complete"
+"mv07d_source_coverage_v1","accepted_corrected_artifacts",90,90,TRUE,"accepted_primary_90_complete"

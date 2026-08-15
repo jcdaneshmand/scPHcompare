@@ -1,0 +1,9 @@
+"contract_id","rule_order","rule_id","implementation","corpus_effect","changed_by_mv07d"
+"mv07d_code_rule_trace_v1",1,"candidate_axis","inst/extdata/inputs/metadata_MultiTissueAnalysis.csv","127 candidates",FALSE
+"mv07d_code_rule_trace_v1",2,"post_qc_minimum","R/PH_Calculation.R process_datasets_PH MIN_CELLS=250","three samples below 250",FALSE
+"mv07d_code_rule_trace_v1",3,"keep_mask","R/PH_Calculation.R post_qc_cells >= MIN_CELLS","124 samples retained before PH",FALSE
+"mv07d_code_rule_trace_v1",4,"exclusion_reason","R/provenance_utils.R excluded_post_qc_min_cells","explicit pre-PH disposition",FALSE
+"mv07d_code_rule_trace_v1",5,"bounded_knn","R/PH_Functions.R bounded_knn_k","small point clouds no longer request invalid k=100",FALSE
+"mv07d_code_rule_trace_v1",6,"primary_tissue_eligibility","docs/specifications/MV05_STATISTICAL_BENCHMARK_PLAN_V1.md section 4","90 samples across five multi-study tissues",FALSE
+"mv07d_code_rule_trace_v1",7,"landscape_levels","R/landscape_distance.R all consecutive active levels","no universal level cap",FALSE
+"mv07d_code_rule_trace_v1",8,"landscape_distance","R/landscape_distance.R exact/error-controlled squared-L2","H0 and H1 remain separate",FALSE

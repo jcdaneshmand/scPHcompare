@@ -1,0 +1,8 @@
+"contract_id","gap_order","gap_id","current_state","prerequisite","can_change_primary_90_result"
+"mv07d_gap_register_v1",1,"approach_metadata_provenance","16_disagreements_flagged","accession_level_source_audit_before_approach_claims",FALSE
+"mv07d_gap_register_v1",2,"omitted_source_sct_feasibility","authorized_six_sentinels","prospective_depth_extreme_manifest",FALSE
+"mv07d_gap_register_v1",3,"descriptive_cell_fit_scope","not_frozen","source_sct_feasibility_pass",FALSE
+"mv07d_gap_register_v1",4,"descriptive_gene_panel_fit_scope","not_frozen","source_sct_feasibility_pass",FALSE
+"mv07d_gap_register_v1",5,"omitted_34_corrected_ph","not_authorized","cell_and_gene_fit_scopes_frozen",FALSE
+"mv07d_gap_register_v1",6,"full_124_descriptive_outcomes","not_authorized","complete_corrected_124_artifacts",FALSE
+"mv07d_gap_register_v1",7,"below_250_threshold_sensitivity","not_authorized","separate_reduced_depth_and_stability_contract",FALSE

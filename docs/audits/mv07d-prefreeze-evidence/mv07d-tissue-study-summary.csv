@@ -1,0 +1,9 @@
+"contract_id","tissue","candidate_samples","retained_samples","retained_studies","primary_samples","primary_cross_study_eligible","descriptive_eligible"
+"mv07d_tissue_study_summary_v1","bone marrow",31,31,3,31,TRUE,TRUE
+"mv07d_tissue_study_summary_v1","colon",13,13,2,13,TRUE,TRUE
+"mv07d_tissue_study_summary_v1","liver",6,6,2,6,TRUE,TRUE
+"mv07d_tissue_study_summary_v1","pancreatic islets",12,12,1,0,FALSE,TRUE
+"mv07d_tissue_study_summary_v1","pbmc",12,12,4,12,TRUE,TRUE
+"mv07d_tissue_study_summary_v1","prostate",16,16,1,0,FALSE,TRUE
+"mv07d_tissue_study_summary_v1","substantia nigra",9,6,1,0,FALSE,TRUE
+"mv07d_tissue_study_summary_v1","testis",28,28,4,28,TRUE,TRUE
