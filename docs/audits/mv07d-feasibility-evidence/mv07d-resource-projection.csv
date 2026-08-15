@@ -1,0 +1,4 @@
+"contract_id","workload","observed_units","target_units","observed_seconds","projected_seconds","projected_worker_hours","observed_storage_bytes","projected_storage_bytes","projection_method","authorized_by_mv07d"
+"mv07d_resource_projection_v1","individual_source_to_raw_shard","6","34","138.161539077759","782.9153881073","0.217476496696472","65650937","372021976.333333","linear_mean_from_six_tissue_depth_extremes","FALSE"
+"mv07d_resource_projection_v1","one_seed_sct_to_five_seed_extension","6","170","119.561692476272","3387.58128682772","0.940994801896588","36360528","1030214960","linear_mean_from_six_tissue_depth_extremes","FALSE"
+"mv07d_resource_projection_v1","combined_upstream_extension","12","204","257.723231554031","4170.49667493502","1.15847129859306","102011465","1402236936.33333","sum_of_raw_34_and_sct_170_projections","FALSE"

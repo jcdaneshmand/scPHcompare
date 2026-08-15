@@ -1,7 +1,7 @@
 "contract_id","source_id","artifact_locator","sha256","bytes","accepted_head","private_source"
 "mv07d_source_freeze_v1","candidate_metadata","inst/extdata/inputs/metadata_MultiTissueAnalysis.csv","ca608488e474ff825f571e76ec13b1fab7e25132e0bbc4f4ebd9f0e994df02b4",19948,"f2588655ff4bf0ab6deb7c96316c93d3a93b3093",FALSE
 "mv07d_source_freeze_v1","retained_metadata","private:historical_retained_metadata","e2b6f1e7d7dc05ba8e80627aad4ea1677c3b718a844397acd06596d7e22a18d0",33255,"f2588655ff4bf0ab6deb7c96316c93d3a93b3093",TRUE
-"mv07d_source_freeze_v1","accepted_90_evidence","/mnt/e/Repositories/Jonah/PH_ClusteringApp/_worktrees/scphcompare-mv06/docs/audits/mv06h-outcome-evidence/mv06h-sample-method-summaries.csv","0558d2522379ef9852cb135ab46af664221d21879d185e7e476e0130da72159f",91699,"f2588655ff4bf0ab6deb7c96316c93d3a93b3093",FALSE
+"mv07d_source_freeze_v1","accepted_90_evidence","docs/audits/mv06h-outcome-evidence/mv06h-sample-method-summaries.csv","0558d2522379ef9852cb135ab46af664221d21879d185e7e476e0130da72159f",91699,"f2588655ff4bf0ab6deb7c96316c93d3a93b3093",FALSE
 "mv07d_source_freeze_v1","phase0_trace","docs/audits/phase-0/BIORXIV_V2_RECONSTRUCTION_TRACE.md","f5a99c3aa4337a674d57a3b6d63ed3fae7e913ca6d9b56b86846834de74a15f9",7361,"f2588655ff4bf0ab6deb7c96316c93d3a93b3093",FALSE
 "mv07d_source_freeze_v1","statistical_plan","docs/specifications/MV05_STATISTICAL_BENCHMARK_PLAN_V1.md","be07bd0d292efcd70fb225e2c547b60dee73dadf8061274dbea8d33a0c9295bf",19946,"f2588655ff4bf0ab6deb7c96316c93d3a93b3093",FALSE
 "mv07d_source_freeze_v1","landscape_specification","docs/specifications/PERSISTENCE_LANDSCAPE_SPECIFICATION_V1.md","941b2bfd246d1766d544d97d23d571513c9d3c79ab76471b991b61efdeb0fddb",11589,"f2588655ff4bf0ab6deb7c96316c93d3a93b3093",FALSE

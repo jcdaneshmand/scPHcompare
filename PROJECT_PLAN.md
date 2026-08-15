@@ -5,7 +5,7 @@
 | Field | Value |
 |---|---|
 | Status | Draft for owner and author-team review |
-| Version | 0.3.68 |
+| Version | 0.3.69 |
 | Created | 2026-08-03 |
 | Canonical repository | `jcdaneshmand/scPHcompare` |
 | Historical source repository | `jcdaneshmand/PH_ClusteringApp` |
@@ -685,6 +685,7 @@ Publish a durable, citable research artifact.
 | D-081 | 2026-08-15 | Begin MV-07 with a selection-resistant evidence map and run existing-artifact confounding diagnostics before any new PH or data | Twenty-three immutable scientific/implementation sources rehash; 14 robustness and 10 confounding axes are classified; the corrected all-active-level H0/H1 landscape contract is unchanged; independent validation passes 10/10 and all 10 synthesis artifacts repeat byte-identically | Authorize only a separately committed MV7-B no-new-PH influence, retained-cell-count, and approach-stratification prefreeze; gene-panel/metric reruns, external data, method selection, defaults, and claim promotion remain closed |
 | D-082 | 2026-08-15 | Narrow comparative cell-versus-gene claims after fixed no-new-PH influence/confounding diagnostics | The composite MRR contrast changes sign after deleting study SRA716608 or colon; study and tissue influence exceed 0.05, while retained-cell and mixed-study approach flags do not trigger; independent validation passes 7/7 and all 12 production artifacts repeat byte-identically | Advance to MV7-C existing-data synthesis; do not select a view, infer causal technology effects, authorize gene reruns/new data, or promote manuscript claims before the author gate |
 | D-083 | 2026-08-15 | Treat existing data as sufficient for a methods-focused paper but insufficient for external-generalization or causal technology claims | MV7-C reconciles corrected landscapes, complete cell robustness, conditional gene evidence, negative fusion, and material study/tissue influence into ten explicit claim boundaries and four expansion options | Set G-MV7 to owner/author-team decision required; recommend manuscript/figure claim mapping before more PH, or a prospective external-data audit if generalization is the chosen ambition |
+| D-084 | 2026-08-15 | Separate “full data” by estimand: keep the corrected 90-sample cross-study benchmark primary, admit the 34 retained single-study samples only to a prospectively specified 124-sample descriptive topology analysis, and retain the three below-250 candidates as a separate threshold sensitivity | The complete flow is 127 candidates, three explicit pre-PH exclusions, 124 retained, and 90 primary samples; all 34 descriptive-only samples support 384 cells and six depth-extreme source/SCT sentinels pass independently, while 16 approach labels disagree across metadata sources | Advance to MV7-E metadata-provenance and descriptive-fit prefreeze; do not recalculate the primary 90, run expanded PH/outcomes, change the landscape contract, or admit the three low-cell samples without later gates |
 
 ## 9. Status dashboard
 
@@ -705,6 +706,7 @@ Publish a durable, citable research artifact.
 
 | Version | Date | Summary |
 |---|---|---|
+| 0.3.69 | 2026-08-15 | Completed MV7-D full-corpus reconciliation: resolved 127 candidates into 124 corrected-descriptive and 90 primary samples, demonstrated 6/6 omitted-source/SCT feasibility, exposed 16 approach-label provenance conflicts, preserved the landscape contract, and added a prospective MV7-E–MV7-J expansion plan before any new PH |
 | 0.3.68 | 2026-08-15 | Completed MV7-C claim/data-sufficiency synthesis and author dossier; recommend a methods-focused manuscript before more PH, while reserving external validation for a consciously chosen generalization claim and requiring author-team approval |
 | 0.3.67 | 2026-08-15 | Completed MV7-B no-new-PH diagnostics: study/tissue influence and cell-versus-gene sign instability require narrower comparative claims, while retained-cell and approach flags do not trigger; advance to MV7-C synthesis without authorizing reruns or new data |
 | 0.3.66 | 2026-08-15 | Completed MV7-A selection-resistant evidence mapping: preserved the corrected landscape contract, classified 14 robustness and 10 confounding axes, reconciled measured compute, and authorized only a no-new-PH MV7-B prefreeze before gene reruns or external data |
