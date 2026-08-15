@@ -47,3 +47,13 @@ test_that("MV6-C future workload remains bounded and unauthorized", {
   expect_equal(workload$five_weight_fusion_pair_rows, 176750L)
   expect_false(workload$execution_authorized)
 })
+
+test_that("MV6-C selector supports the unchanged 124-sample axis", {
+  features <- paste0("G", 1:4)
+  seeds <- rep(20260805:20260809, each = 124L)
+  variances <- matrix(rep(4:1, length(seeds)), nrow = 4L)
+  result <- mv06c_build_global_core_panel_v1(
+    features, variances, seeds, panel_size = 2L, samples_per_seed = 124L)
+  expect_identical(result$panel$feature_id, c("G1", "G2"))
+  expect_true(all(result$seed_stability$cache_count == 124L))
+})

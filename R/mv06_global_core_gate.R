@@ -8,17 +8,22 @@
 #'
 #' @keywords internal
 mv06c_build_global_core_panel_v1 <- function(feature_ids, variances, seeds,
-                                              panel_size = 500L) {
+                                              panel_size = 500L,
+                                              samples_per_seed = 90L) {
   feature_ids <- as.character(feature_ids)
   seeds <- as.integer(seeds)
   panel_size <- as.integer(panel_size)
+  samples_per_seed <- as.integer(samples_per_seed)
   if (!is.matrix(variances) || !is.numeric(variances) ||
       nrow(variances) != length(feature_ids) ||
       ncol(variances) != length(seeds) ||
       !length(feature_ids) || anyNA(feature_ids) || any(!nzchar(feature_ids)) ||
       anyDuplicated(feature_ids) || anyNA(seeds) ||
       !identical(sort(unique(seeds)), 20260805:20260809) ||
-      any(tabulate(match(seeds, 20260805:20260809), nbins = 5L) != 90L) ||
+      length(samples_per_seed) != 1L || is.na(samples_per_seed) ||
+      samples_per_seed < 1L ||
+      any(tabulate(match(seeds, 20260805:20260809), nbins = 5L) !=
+          samples_per_seed) ||
       length(panel_size) != 1L || is.na(panel_size) || panel_size < 2L) {
     stop("MV6-C feature, variance, seed, or panel axes are invalid.",
          call. = FALSE)
