@@ -1,0 +1,8 @@
+"contract_id","category","passed","detail"
+"mv07f_prefreeze_independent_validation_v1","source_freeze",TRUE,"19 public-safe source identities"
+"mv07f_prefreeze_independent_validation_v1","private_source_coverage",TRUE,"34 unique private sources"
+"mv07f_prefreeze_independent_validation_v1","exact_queue",TRUE,"34 raw and 170 SCT jobs"
+"mv07f_prefreeze_independent_validation_v1","resource_caps",TRUE,"1800s 8GiB child and aggregate gates"
+"mv07f_prefreeze_independent_validation_v1","repeat_target",TRUE,"lexicographic first sample at final seed"
+"mv07f_prefreeze_independent_validation_v1","acceptance_criteria",TRUE,"10 of 10 criteria"
+"mv07f_prefreeze_independent_validation_v1","decision_gate",TRUE,"serial upstream only"

@@ -1,0 +1,2 @@
+"contract_id","decision","raw_jobs","sct_jobs","workers","retries","validated_reuse_allowed","partial_publication_allowed","panel_fit_authorized","pca_authorized","ph_authorized","landscape_authorized","labels_authorized","outcomes_authorized","next_gate"
+"mv07f_prefreeze_decision_v1","authorize_serial_atomic_upstream_production_only",34,170,1,0,TRUE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,"post_MV7F_exact_124_panel_lock"

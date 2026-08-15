@@ -1,0 +1,2 @@
+"contract_id","expected_samples","uniquely_located_samples","source_root_published","source_paths_published","source_binding_policy","expression_values_published"
+"mv07f_source_coverage_v1",34,34,FALSE,FALSE,"hash_each_source_during_raw_child_before_cache",FALSE

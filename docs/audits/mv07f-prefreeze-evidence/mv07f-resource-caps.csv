@@ -1,0 +1,5 @@
+"contract_id","scope","elapsed_cap_seconds","rss_cap_bytes","storage_cap_bytes","stop_policy","safety_basis"
+"mv07f_resource_caps_v1","raw_child",1800,8589934592,,"kill_child_and_stop","MV7-D depth-extreme source profile"
+"mv07f_resource_caps_v1","sct_child",1800,8589934592,,"kill_child_and_stop","MV7-D depth-extreme SCT profile"
+"mv07f_resource_caps_v1","aggregate_worker",14400,8589934592,,"stop_before_publication","greater_than_3x_linear_projection"
+"mv07f_resource_caps_v1","aggregate_storage",,,4294967296,"stop_before_publication","greater_than_2x_linear_projection"

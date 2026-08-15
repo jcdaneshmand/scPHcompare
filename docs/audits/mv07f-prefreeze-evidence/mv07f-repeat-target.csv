@@ -1,0 +1,2 @@
+"contract_id","sample_id","seed","selection_basis","required_comparisons","resource_selection_role"
+"mv07f_representative_repeat_target_v1","SRA701877_SRS3279684",20260809,"lexicographically_first_added_sample_last_frozen_seed","raw_counts_identity;selected_cell_identity;sct_payload_identity;cache_bytes","determinism_not_worst_case"
