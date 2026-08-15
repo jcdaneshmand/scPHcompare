@@ -5,7 +5,7 @@
 | Field | Value |
 |---|---|
 | Status | Draft for owner and author-team review |
-| Version | 0.3.49 |
+| Version | 0.3.50 |
 | Created | 2026-08-03 |
 | Canonical repository | `jcdaneshmand/scPHcompare` |
 | Historical source repository | `jcdaneshmand/PH_ClusteringApp` |
@@ -666,6 +666,7 @@ Publish a durable, citable research artifact.
 | D-062 | 2026-08-14 | Accept complete MV6-F label-closed production under the serial 12-GiB policy, while requiring a separately committed whole-corpus immutable-resume gate before fusion | All 74 stage-two rows completed or were validated reuse; actual monitored work was 21,538.531 s (5.983 h), peak RSS was 9,575,215,104 B, 11 groups exceeded the former 8-GiB ceiling, and retained private state was 624,237,551 B; the original monitor validated/reused 74/74 rows; an independent validator passed 6/6 categories across 75 groups, 35,350 biological pairs, 141,400 component rows, and balanced cell/gene H0/H1 totals | Authorize only the prefrozen 375-artifact plus canonical-metrics immutable-resume check; fusion, clustering, labels, outcomes, defaults, release, and claims remain closed until it passes |
 | D-063 | 2026-08-14 | Accept MV6-F whole-corpus immutable resume and close matched dual-view production before any fusion design | The committed checker reran the original canonical monitor and preserved SHA-256, byte size, and modification time for all 375 scientific group artifacts plus the canonical metrics (376/376 rows); no group rebuilt, no partial state appeared, and labels/downstream jobs remained closed | MV6-F is complete; authorize only a separately committed complete-corpus label-closed MV6-G fusion prefreeze that fixes components, fold-local scaling, weight panel, blocked estimands, nulls, multiplicity, and label firewall before opening outcomes |
 | D-064 | 2026-08-14 | Freeze complete-corpus fusion around training-only median component scales, nine fixed rankings, equal cell/gene fusion as the sole primary, two comparator contrasts, blocked inference, and a prediction-before-label firewall | The accepted 75-group corpus reconstructs 262,675 training pairs, 1,050,700 component rows, 300 scales, and 318,150 query rankings; implementation root `ab7039f1…31db` binds five sources; 12/12 independent categories, 16/16 focused expectations, and 10/10 byte repeats pass under queue root `f5471633…10bb5`; labels and downstream jobs remain zero | MV6-G prefreeze completes as `prefreeze_pass_stage1_training_scale_sentinel_only`; authorize only the maximum-group label-closed scale/ranking sentinel under 1,800-s, 12-GiB, 5-GiB, one-worker, no-retry caps before full production |
+| D-065 | 2026-08-14 | Bind the maximum-group MV6-G sentinel to one atomic scientific runner, external resource monitor, independent formula/scale reconstruction, R/Persim oracles, clean repeat, and immutable resume before execution | Ten sources form stage-one root `883bbe32…16e2`; exact scope is 2,080 training pairs, 8,320 component rows, four scales, 1,625 query pairs, and 14,625 rankings; 11/11 launch categories, 17/17 focused expectations, Python parsing, and 2/2 launch byte repeats pass; production remains zero | Authorize monitored primary plus one clean repeat only; full label-closed production remains closed until every numerical, deterministic, resource/projection, and resume gate passes |
 
 ## 9. Status dashboard
 
@@ -686,6 +687,7 @@ Publish a durable, citable research artifact.
 
 | Version | Date | Summary |
 |---|---|---|
+| 0.3.50 | 2026-08-14 | Prefroze MV6-G maximum-group execution under a ten-source implementation root with atomic output, 12-GiB/1,800-s/5-GiB caps, independent scale/ranking reconstruction, R/Persim oracles, clean repeat, and immutable resume; only primary and repeat sentinel runs are authorized |
 | 0.3.49 | 2026-08-14 | Completed MV6-G complete-corpus fusion prefreeze: accepted queue root preserved; 262,675 training pairs, 1,050,700 component rows, 300 training-only scales, nine fixed rankings, blocked inference, and a strict prediction-before-label firewall pass independent validation and byte repeat; only the maximum-group sentinel is authorized next |
 | 0.3.48 | 2026-08-14 | Closed MV6-F after the committed whole-corpus resume gate preserved SHA-256, bytes, and mtimes for 375 scientific artifacts plus canonical metrics; authorized only prospective label-closed MV6-G fusion prefreeze next |
 | 0.3.47 | 2026-08-14 | Completed all MV6-F stage-two production under the serial 12-GiB policy; 74/74 canonical reuse metrics and 6/6 independent complete-production categories pass across 75 groups, and only a committed 375-artifact immutable-resume check is authorized next |

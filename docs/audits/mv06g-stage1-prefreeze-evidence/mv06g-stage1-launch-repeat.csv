@@ -1,0 +1,3 @@
+"contract_id","artifact","canonical_sha256","repeat_sha256","sha256_unchanged","canonical_bytes","repeat_bytes","bytes_unchanged","outcome_label_state","biological_outcomes_computed"
+"mv06g_stage1_launch_repeat_v1","mv06g-stage1-launch.csv","7644c8024d7deeeec775ea8ee9edad48a4a6f68a936d9bfb0c60135c1ea5f5d8","7644c8024d7deeeec775ea8ee9edad48a4a6f68a936d9bfb0c60135c1ea5f5d8",TRUE,1561,1561,TRUE,"closed",FALSE
+"mv06g_stage1_launch_repeat_v1","mv06g-stage1-sources.csv","3269236b450bcbd69cad88544d959e788e795327140c8eab5cfdd1d2d53f1c3d","3269236b450bcbd69cad88544d959e788e795327140c8eab5cfdd1d2d53f1c3d",TRUE,1439,1439,TRUE,"closed",FALSE

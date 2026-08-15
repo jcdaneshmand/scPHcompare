@@ -1,0 +1,12 @@
+"category","passed","contract_id","outcome_label_state","biological_outcomes_computed"
+"parent_identity",TRUE,"mv06g_stage1_launch_validation_v1","closed",FALSE
+"maximum_group_identity",TRUE,"mv06g_stage1_launch_validation_v1","closed",FALSE
+"source_artifacts",TRUE,"mv06g_stage1_launch_validation_v1","closed",FALSE
+"workload",TRUE,"mv06g_stage1_launch_validation_v1","closed",FALSE
+"training_scale_rule",TRUE,"mv06g_stage1_launch_validation_v1","closed",FALSE
+"ranking_contract",TRUE,"mv06g_stage1_launch_validation_v1","closed",FALSE
+"oracle_plan",TRUE,"mv06g_stage1_launch_validation_v1","closed",FALSE
+"resource_contract",TRUE,"mv06g_stage1_launch_validation_v1","closed",FALSE
+"implementation_identity",TRUE,"mv06g_stage1_launch_validation_v1","closed",FALSE
+"label_firewall",TRUE,"mv06g_stage1_launch_validation_v1","closed",FALSE
+"stage1_only",TRUE,"mv06g_stage1_launch_validation_v1","closed",FALSE
