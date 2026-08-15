@@ -1,0 +1,2 @@
+"contract_id","bootstrap_replicates","bootstrap_seed","bootstrap_unit","randomization_replicates","randomization_seed","randomization_unit","interval","primary_adjustment","minimum_independent_study_blocks"
+"mv06g_blocked_inference_plan_v1",2000,20260815,"tissue_stratified_heldout_study_block",9999,20260816,"paired_heldout_study_block_sign_flip","percentile_2.5_97.5_type7","Holm_across_two_MRR_contrasts",4

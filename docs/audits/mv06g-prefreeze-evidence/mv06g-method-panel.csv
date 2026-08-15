@@ -1,0 +1,10 @@
+"method_order","method_id","method_role","gene_weight","formula_id","selected_from_outcomes"
+1,"cell_H0","component_descriptive",,"normalized_cell_H0",FALSE
+2,"cell_H1","component_descriptive",,"normalized_cell_H1",FALSE
+3,"gene_H0","component_descriptive",,"normalized_gene_H0",FALSE
+4,"gene_H1","component_descriptive",,"normalized_gene_H1",FALSE
+5,"cell_composite","component_comparator",0,"mean_normalized_cell_H0_H1",FALSE
+6,"fusion_gene_weight_025","weight_sensitivity",0.25,"convex_cell_gene_composites_w025",FALSE
+7,"fusion_gene_weight_050","fusion_primary",0.5,"convex_cell_gene_composites_w050",FALSE
+8,"fusion_gene_weight_075","weight_sensitivity",0.75,"convex_cell_gene_composites_w075",FALSE
+9,"gene_composite","component_comparator",1,"mean_normalized_gene_H0_H1",FALSE

@@ -1,0 +1,3 @@
+"contract_id","stage","groups","maximum_workers","elapsed_cap_seconds_per_group","peak_process_tree_rss_cap_bytes","private_storage_cap_bytes","complete_worker_cap_seconds","automatic_retry","authorized"
+"mv06g_resource_plan_v1","stage_1_maximum_group",1,1,1800,12884901888,5368709120,43200,FALSE,TRUE
+"mv06g_resource_plan_v1","stage_2_complete_if_admitted",74,1,1800,12884901888,5368709120,43200,FALSE,FALSE

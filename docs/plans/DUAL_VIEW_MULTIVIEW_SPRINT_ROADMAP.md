@@ -103,7 +103,7 @@ An exploratory method enters the confirmatory set only through a recorded decisi
 | MV-03 | Generate corrected pilot H0/H1 diagrams and establish feasibility | MV-02 | G-MV3: eligible diagrams exist | `complete` — 132 eligible jobs; technical gate only |
 | MV-04 | Validate topological distances and production calculation | MV-03 | G-MV4: sample-distance matrices are correct and feasible | `complete` — immutable primary matrices; bounded sensitivity exclusions |
 | MV-05 | Compare clustering and matched non-topological baselines | MV-04; frozen statistical plan | G-MV5: fair single-view benchmark | `completed` — MV5-S executes and independently validates the complete prediction-locked clustering outcome contract without method selection |
-| MV-06 | Test transparent multiview fusion and complementarity | MV-05 | G-MV6: fusion adds stable information or is rejected | `in_progress` — stage two stopped safely at the first pending group's 8-GiB RSS breach; one 12-GiB unchanged-runner diagnosis is prefrozen before any later group |
+| MV-06 | Test transparent multiview fusion and complementarity | MV-05 | G-MV6: fusion adds stable information or is rejected | `in_progress` — MV6-F complete production/resume and MV6-G prospective fusion prefreeze pass; only the maximum-group label-closed scale/ranking sentinel is authorized |
 | MV-07 | Robustness synthesis and full-run decision | MV-06 | G-MV7: freeze, revise, or stop before full rerun | `not_started` — completed MV5 robustness panels are ready, but matched MV6-F production, blocked MV6 evaluation, and G-MV6 must precede dual-view synthesis |
 
 MV-01 through MV-04 are the immediate implementation sequence. MV-05 through MV-07 deliberately require valid upstream artifacts and a statistical plan.
@@ -464,23 +464,24 @@ Test whether cell and gene topology add complementary information rather than me
 
 If fusion does not reliably outperform the stronger component view, report the views separately. A negative fusion result does not invalidate either single-view analysis.
 
-### Current gate disposition (MV6-F resource exception prefreeze)
+### Current gate disposition (MV6-G fusion prefreeze)
 
-MV6-E admits both exact all-active-level landscape candidates. Grouped Persim
-remains the portable canonical fallback; the accepted Rust library is preferred
-only for explicit SHA-verified private WSL production. Both candidates passed
-canonical-R, cross-engine, reverse, self-zero, deterministic-repeat, resume,
-memory, and projected-time gates. The maximum landscape projections are 42.814
-worker-hours for grouped Persim and 0.873 worker-hours for Rust.
+MV6-F is complete across all 75 fold-seed groups and its 376-file immutable
+resume gate. MV6-G now freezes 262,675 training-only biological pairs,
+1,050,700 cell/gene H0/H1 component rows, 300 fold-seed-component median
+scales, nine fixed nonselective rankings, and 318,150 query ranking rows.
+Equal cell/gene fusion is the sole primary fusion and must beat both the cell
+and gene composites under the frozen blocked MRR family; individual components
+and intermediate weights are descriptive sensitivities.
 
-MV6-F's remediated maximum group passed every admission gate, but the first
-pending seed-specific group reached 8.747 GB process-tree RSS and was killed at
-the prospective 8-GiB cap before publishing an artifact. No later group ran.
-Exactly one unchanged-science diagnostic is prefrozen at the existing 12-GiB
-aggregate ceiling, with the partial state quarantined and automatic retry still
-prohibited. H1, all active landscape levels, the queue, runner, Rust kernel,
-labels, and downstream boundaries remain unchanged. Later production and
-blocked fusion stay closed until this resource diagnosis passes.
+The accepted queue identity, all source-group hashes, endpoints, inference,
+resource stages, and prediction-before-label firewall pass 12/12 independent
+categories and 10/10 byte-repeat artifacts. The fixed global gene panel remains
+explicitly transductive at the label-free technical-selection level; fold
+transforms and component scales are training-only. Only the maximum-group
+label-closed scale/ranking sentinel may run next. Full scale production,
+metadata reading, outcomes, advanced fusion, clustering, and claims remain
+closed.
 
 ## 11. MV-07 — Robustness synthesis and full-run decision
 

@@ -1,0 +1,3 @@
+"contrast_order","family_id","endpoint_id","method_id","comparator_id","null_hypothesis","direction_required","randomization","multiplicity","fusion_benefit_requires_both"
+1,"mv06g_F1_primary_mrr","cross_study_tissue_mrr_v1","fusion_gene_weight_050","cell_composite","paired_macro_difference_equals_zero","positive","two_sided_paired_heldout_study_block_sign_flip","Holm_across_two_primary_MRR_contrasts",TRUE
+2,"mv06g_F1_primary_mrr","cross_study_tissue_mrr_v1","fusion_gene_weight_050","gene_composite","paired_macro_difference_equals_zero","positive","two_sided_paired_heldout_study_block_sign_flip","Holm_across_two_primary_MRR_contrasts",TRUE

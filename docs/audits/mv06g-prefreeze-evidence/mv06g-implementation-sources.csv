@@ -1,0 +1,6 @@
+"path","sha256"
+"R/mv06g_fusion_prefreeze.R","c5344d25dd3c52ecebc9acdbcb23402aa97d50cb855a4a9f75d09b5af1657d73"
+"scripts/build_mv06g_fusion_prefreeze.R","de203355e54f2e41d210b78fb8683f724cb8faacd2ab34060a9cbd9dbb988994"
+"scripts/validate_mv06g_fusion_prefreeze.R","fadf168bee2f8b74d43f7b23565f29767da1785c6257e8192eaec752a91ae9ec"
+"scripts/validate_mv06g_fusion_prefreeze_repeat.R","9fbc32b66642bd3d4cf8e60c25cbdcdf52bf1f160c391fee7241d6f9d74f03bd"
+"tests/testthat/test-mv06g-fusion-prefreeze.R","cad935eb2242cfa329e8ab83e718e98e5bcd400a4d5ca49585f018279d84c124"

@@ -1,0 +1,3 @@
+"endpoint_order","endpoint_id","role","aggregation","inferential_unit"
+1,"cross_study_tissue_mrr_v1","primary","seed_within_sample_then_sample_within_tissue_then_equal_tissue_macro","held_out_biological_sample_blocked_by_study"
+2,"cross_study_tissue_1nn_balanced_accuracy_v1","supportive","seed_within_sample_then_sample_within_tissue_then_equal_tissue_macro","held_out_biological_sample_blocked_by_study"
