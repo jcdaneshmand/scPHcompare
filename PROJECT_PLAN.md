@@ -5,7 +5,7 @@
 | Field | Value |
 |---|---|
 | Status | Draft for owner and author-team review |
-| Version | 0.3.58 |
+| Version | 0.3.59 |
 | Created | 2026-08-03 |
 | Canonical repository | `jcdaneshmand/scPHcompare` |
 | Historical source repository | `jcdaneshmand/PH_ClusteringApp` |
@@ -578,7 +578,7 @@ Publish a durable, citable research artifact.
 ## WP-006 — Dual-view and multiview topology framework
 
 - **Phase:** 1, 4, 5, and 7
-- **Status:** MV6-F dual-view production is complete; MV6-G's schema-corrected first production group passes independent scale/formula/rank validation, authorizing the remaining 73 serial groups
+- **Status:** MV6-F dual-view production is complete; MV6-G stopped after nine groups on a false stale-index rank invariant, and corrected scientific root `8b0a1e42…cec0c` authorizes only maximum-group equivalence rebind
 - **Scope:** Corrected cell topology, deliberately specified gene topology, H0/H1 landscapes and diagram distances, matched clustering/baselines, and staged cell/gene fusion.
 - **Scientific behavior change:** None until the MV-01 contract and subsequent implementation gates are approved.
 - **Acceptance:** Each view passes independent definition, correctness, eligibility, and feasibility gates before fusion; a frozen confirmatory configuration precedes any full biological rerun.
@@ -675,6 +675,7 @@ Publish a durable, citable research artifact.
 | D-071 | 2026-08-15 | Preserve the first MV6-G production failure and rebind only the execution monitor to retain child stdout/stderr before one diagnostic rerun | Execution order 2 exited 1 after 211.699 s at 169,197,568 B with no scientific output or cap breach; all source records contain finite H0 and H1; old pipes discarded the child error; corrected execution root `0c75e854…ee2b` preserves scientific root `9bf8614d…2a71c`, binds both log hashes, and again passes 10/10 validation, 3/3 repeat, 7/7 focused, and 1,592-test complete gates | Authorize exactly one unchanged first-group diagnostic rerun; no later group may launch until the captured cause is assessed and a prospective continuation decision is committed |
 | D-072 | 2026-08-15 | Classify the reproduced first-group failure as an execution-queue schema mismatch and add an exact parent-runner pair-count alias without changing scientific code | Captured stderr identifies an `NA` expected-pair guard; the MV6-G workload supplies `query_biological_pairs` while the admitted runner consumes `biological_pairs`; root `97ffd576…3b38` makes them exact integers and enforces equality in builder, policy, independent validator, monitor, and regression tests; 10/10 categories, 3/3 repeats, 10/10 focused, and the 1,595-test suite pass | Authorize one clean execution-order-2 rerun; require complete scientific validation before authorizing execution orders 3–75; labels and outcomes remain closed |
 | D-073 | 2026-08-15 | Accept the corrected execution-order-2 MV6-G group and authorize the remaining exact serial queue | The group completed atomically in 218.503 s at 168,214,528 B peak RSS; 2,080 training pairs, 8,320 component rows, four scales, 1,625 query pairs, and 14,625 rankings validate; independent scale/formula errors are `3.553e-15`/`9.326e-15` below `1.745e-13`; 7/7 categories and the label firewall pass | Run orders 3–75 serially with validated reuse of order 2 and no retry; then stop for independent 75-group validation and a separately committed immutable-resume gate |
+| D-074 | 2026-08-15 | Stop after nine complete MV6-G groups when execution order 11 exposes a stale pre-sort block-index invariant; preserve all state and require corrected-root equivalence before restarting | The stopped group exits at the final ranking-axis check after 311.165 s and 184,246,272 B RSS; read-only reconstruction shows 81/81 blocks pass before sorting and falsely fail after stale indices are applied; the correction only rebuilds blocks after canonical sorting, with 72/81-sample regressions; root `8b0a1e42…cec0c` passes 9/9 prefreeze, 3/3 repeat, 15 focused, and 1,601 complete tests | Existing nine groups are quarantined and not reused; authorize only a clean maximum-group three-artifact byte-equivalence rebind before any production restart; labels and outcomes remain closed |
 
 ## 9. Status dashboard
 
@@ -685,7 +686,7 @@ Publish a durable, citable research artifact.
 | 2. Reproducible baseline/repository health | Published main CI passes privacy, exact restore, package check, and installed realistic H0/H1 fixtures; clean-clone user route and complete policy review remain | G2 not evaluated |
 | 3. Literature/reference/figure audit | Initial literature sample only | G3 not evaluated |
 | 4. Redesign primary comparison | Prediction-locked retrieval, clustering, complete robustness panels, corrected matrices, and null/negative results have auditable evidence; author-level synthesis remains | G4 not evaluated |
-| 5. Expand methods | MV6-F is complete; MV6-G's corrected first production group passes independent reconstruction, and the remaining 73 serial label-closed groups are authorized before complete-corpus and resume gates | G5 not evaluated |
+| 5. Expand methods | MV6-F is complete; MV6-G's nine-group attempt is preserved after a false stale-index rank stop; corrected scientific root awaits maximum-group byte-equivalence before a clean production restart | G5 not evaluated |
 | 6. Biological/practical validation | Not started | G6 not evaluated |
 | 7. Profile and optimize | Rust landscape kernel passed complete numerical equivalence and nonpublishing four-platform candidate CI; R remains canonical/default and distribution/adoption remains open | G7 not evaluated |
 | 8. Rewrite manuscript | Not started | G8 not evaluated |
@@ -695,6 +696,7 @@ Publish a durable, citable research artifact.
 
 | Version | Date | Summary |
 |---|---|---|
+| 0.3.59 | 2026-08-15 | Preserved MV6-G's nine complete groups and rank-axis stop, diagnosed stale pre-sort indices at 81 training samples, corrected post-sort block validation at root `8b0a1e42…cec0c`, and authorized only maximum-group byte equivalence before restart |
 | 0.3.58 | 2026-08-15 | Accepted the schema-corrected MV6-G first group after atomic completion, cap pass, and independent reconstruction of four scales, all nine formulas, and deterministic ranks; authorized the remaining 73 serial groups |
 | 0.3.57 | 2026-08-15 | Captured MV6-G's first-group error as a `query_biological_pairs`/`biological_pairs` queue mismatch, added and independently enforced the exact runner alias at root `97ffd576…3b38`, and authorized one clean group rerun |
 | 0.3.56 | 2026-08-15 | Preserved MV6-G's cap-passing first-group child failure, verified nonempty H0/H1 source diagrams, rebound private child-log capture at execution root `0c75e854…ee2b`, and authorized exactly one diagnostic rerun before later groups |

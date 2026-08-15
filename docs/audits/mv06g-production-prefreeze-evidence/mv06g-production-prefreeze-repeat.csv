@@ -1,4 +1,4 @@
 "contract_id","artifact","canonical_sha256","repeat_sha256","sha256_unchanged","canonical_bytes","repeat_bytes","bytes_unchanged","outcome_label_state","biological_outcomes_computed"
-"mv06g_production_prefreeze_repeat_v1","mv06g-production-policy.csv","33e818cba4d6fbf18abd99f0a861221c0a4a1cea2f8bacf095f0e9280bf07c32","33e818cba4d6fbf18abd99f0a861221c0a4a1cea2f8bacf095f0e9280bf07c32",TRUE,1189,1189,TRUE,"closed",FALSE
-"mv06g_production_prefreeze_repeat_v1","mv06g-production-sources.csv","8cd75d7c24c38eff852f86d69704bf97f2637a31992383c48d8fab0988dfbe5f","8cd75d7c24c38eff852f86d69704bf97f2637a31992383c48d8fab0988dfbe5f",TRUE,1211,1211,TRUE,"closed",FALSE
+"mv06g_production_prefreeze_repeat_v1","mv06g-production-policy.csv","91ccd518c30280226e6a0dd7ceff93706893b123327f4f8e353900001b5b6507","91ccd518c30280226e6a0dd7ceff93706893b123327f4f8e353900001b5b6507",TRUE,1189,1189,TRUE,"closed",FALSE
+"mv06g_production_prefreeze_repeat_v1","mv06g-production-sources.csv","2de1ede178b4ccd064b54604b4f332c3cc972b3864ba95654a9f2678b451e212","2de1ede178b4ccd064b54604b4f332c3cc972b3864ba95654a9f2678b451e212",TRUE,1211,1211,TRUE,"closed",FALSE
 "mv06g_production_prefreeze_repeat_v1","mv06g-production-queue.csv","dc74ebbfa0feeb56712229ece3b73bafb622ed105da2de008ef2e0bd6f878486","dc74ebbfa0feeb56712229ece3b73bafb622ed105da2de008ef2e0bd6f878486",TRUE,16602,16602,TRUE,"closed",FALSE

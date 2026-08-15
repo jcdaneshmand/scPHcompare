@@ -119,6 +119,8 @@ mv06g_build_group_rankings_v1 <- function(query_distances, scales,
                              rankings$rank, rankings$training_sample_id,
                              method = "radix"), , drop = FALSE]
   rownames(rankings) <- NULL
+  blocks <- split(seq_len(nrow(rankings)), paste(rankings$query_sample_id,
+                                                 rankings$method_id, sep = "\r"))
   expected_blocks <- expected_query_pairs / expected_training_samples * 9L
   if (nrow(rankings) != 9L * expected_query_pairs ||
       length(blocks) != expected_blocks ||
