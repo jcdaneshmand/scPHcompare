@@ -323,6 +323,31 @@ testthat::test_that("MV7-I prefreeze requires independent repeat validation", {
                          fixed = TRUE)
 })
 
+testthat::test_that("MV7-I production reconstructs matrices before labels", {
+  entry_path <- testthat::test_path(
+    "..", "..", "scripts", "run_mv07i_label_closed_entry.R")
+  monitor_path <- testthat::test_path(
+    "..", "..", "scripts", "run_mv07i_label_closed_monitor.R")
+  entry <- paste(readLines(entry_path, warn = FALSE), collapse = "\n")
+  monitor <- paste(readLines(monitor_path, warn = FALSE), collapse = "\n")
+  testthat::expect_match(entry, "nrow(queue) != 20L", fixed = TRUE)
+  testthat::expect_match(entry, "expected$distances_sha256", fixed = TRUE)
+  testthat::expect_match(entry, "length(sample_ids) != 124L", fixed = TRUE)
+  testthat::expect_match(entry, "mv05q_combine_h0_h1_v1", fixed = TRUE)
+  testthat::expect_match(entry, "stats::mad, constant = 1", fixed = TRUE)
+  testthat::expect_match(entry, "mv05n_fit_five_seed_partitions_v1",
+                         fixed = TRUE)
+  testthat::expect_match(entry, "mv05_select_stable_k_v1", fixed = TRUE)
+  testthat::expect_match(entry, "mv05n_average_partition_v1", fixed = TRUE)
+  testthat::expect_match(entry, "jackknife_se", fixed = TRUE)
+  testthat::expect_match(entry, "labels_loaded = FALSE", fixed = TRUE)
+  testthat::expect_match(monitor, "elapsed_cap_exceeded", fixed = TRUE)
+  testthat::expect_match(monitor, "rss_cap_exceeded", fixed = TRUE)
+  testthat::expect_match(monitor, "preserves a prior failure", fixed = TRUE)
+  testthat::expect_match(monitor, "Reused immutable MV7-I resource checkpoint",
+                         fixed = TRUE)
+})
+
 testthat::test_that("MV7-H GUDHI fallback preserves an exact gene diagram", {
   testthat::skip_if_not_installed("TDA")
   x <- matrix(
