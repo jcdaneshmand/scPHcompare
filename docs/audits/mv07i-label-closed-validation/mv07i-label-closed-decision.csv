@@ -1,0 +1,2 @@
+"contract_id","decision","checks_passed","checks_total","private_results_published","labels_authorized","outcomes_authorized","claims_authorized","outcome_label_state","biological_outcomes_computed"
+"mv07i_label_closed_validation_decision_v1","authorize_MV7I_outcome_prefreeze_only",13,13,FALSE,FALSE,FALSE,FALSE,"closed",FALSE

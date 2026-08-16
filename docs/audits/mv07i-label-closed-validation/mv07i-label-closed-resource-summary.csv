@@ -1,0 +1,3 @@
+"contract_id","disposition","exit_status","elapsed_seconds","peak_process_tree_rss_bytes","elapsed_cap_seconds","rss_cap_bytes","artifact_bytes","outcome_label_state","biological_outcomes_computed","labels_loaded","outcomes_computed","run_role"
+"mv07i_label_closed_resource_v1","completed",0,46.6218717098236,147791872,3600,4294967296,25952976,"closed",FALSE,FALSE,FALSE,"production"
+"mv07i_label_closed_resource_v1","completed",0,49.394896030426,147828736,3600,4294967296,25952976,"closed",FALSE,FALSE,FALSE,"deterministic_repeat"

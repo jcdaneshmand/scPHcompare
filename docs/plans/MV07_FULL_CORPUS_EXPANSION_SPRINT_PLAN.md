@@ -321,6 +321,18 @@ independent validator pass 13/13; 11/11 artifacts rebuild byte-identically.
 Authorize label-closed matrix/clustering production only. See
 `docs/audits/MV07I_DESCRIPTIVE_PREFREEZE_2026-08-16.md`.
 
+Label-closed production closure: all 20 validated landscape groups were
+hash-checked and reconstructed into 30 seed-specific matrices across the six
+frozen representations. Production generated the frozen 270 PAM candidates
+and 30 selected-k average-linkage sensitivities in 46.622 seconds at less than
+148 MB peak RSS. A clean repeat generated all seven scientific artifacts
+byte-identically. Independent reconstruction and refitting pass 13/13,
+including complete pair/H1 summaries, all PAM stability calculations,
+selected partitions, the label firewall, and immutable resume. Private result
+artifacts remain unpublished. Authorize only a separate MV7-I outcome
+prefreeze before any metadata association is computed. See
+`docs/audits/MV07I_LABEL_CLOSED_PRODUCTION_CLOSURE_2026-08-16.md`.
+
 ## MV7-J — manuscript claim map, literature update, and figures
 
 Only after MV7-I should the result-dependent claim map become final. Link every
