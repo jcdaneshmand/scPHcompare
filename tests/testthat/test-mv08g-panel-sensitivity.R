@@ -186,3 +186,51 @@ test_that("MV8-G PH validation opens only a landscape prefreeze", {
   expect_match(text, "landscape_jobs_authorized = 0L", fixed = TRUE)
   expect_match(text, "hca_fastq_download_authorized = FALSE", fixed = TRUE)
 })
+
+test_that("MV8-G landscape prefreeze retains all levels and exact oracles", {
+  path <- testthat::test_path("..", "..", "scripts",
+                              "build_mv08g_landscape_prefreeze.R")
+  text <- paste(readLines(path, warn = FALSE), collapse = "\n")
+  expect_match(text, "within475_rows = 152520L", fixed = TRUE)
+  expect_match(text, "matched_shift_rows = 2480L", fixed = TRUE)
+  expect_match(text, "all_active_levels;exact_squared_L2;no_grid;no_level_cap",
+               fixed = TRUE)
+  expect_match(text, "within475_repeat_groups = 4L", fixed = TRUE)
+  expect_match(text, "matched_shift_repeat_groups = 4L", fixed = TRUE)
+  expect_match(text, "r_oracles = 12L", fixed = TRUE)
+  expect_match(text, "persim_oracles = 12L", fixed = TRUE)
+  expect_match(text, "maximum_component_interval_depth", fixed = TRUE)
+})
+
+test_that("MV8-G landscape monitor is bounded, resumable, and zero-retry", {
+  path <- testthat::test_path("..", "..", "scripts",
+                              "run_mv08g_landscape_monitor.R")
+  text <- paste(readLines(path, warn = FALSE), collapse = "\n")
+  expect_match(text, "elapsed_cap_exceeded", fixed = TRUE)
+  expect_match(text, "rss_cap_exceeded", fixed = TRUE)
+  expect_match(text, "process$kill_tree()", fixed = TRUE)
+  expect_match(text, "Unowned MV8-G landscape group", fixed = TRUE)
+  expect_match(text, "aggregate_storage_cap_bytes", fixed = TRUE)
+  expect_match(text, "byte_identical", fixed = TRUE)
+  expect_match(text,
+    "landscapes_complete_await_independent_R_Persim_validation", fixed = TRUE)
+})
+
+test_that("MV8-G landscape validation requires R and corrected Persim", {
+  r_path <- testthat::test_path("..", "..", "scripts",
+                                "validate_mv08g_landscapes.R")
+  py_path <- testthat::test_path("..", "..", "scripts",
+                                 "validate_mv08g_persim_oracles.py")
+  r_text <- paste(readLines(r_path, warn = FALSE), collapse = "\n")
+  py_text <- paste(readLines(py_path, warn = FALSE), collapse = "\n")
+  expect_match(r_text, "landscape_reference_exact_dimension", fixed = TRUE)
+  expect_match(r_text, "landscape_reference_adaptive_dimension", fixed = TRUE)
+  expect_match(r_text, "validate_mv08g_persim_oracles.py", fixed = TRUE)
+  expect_match(r_text, "any(!truth(distances$all_active_levels))", fixed = TRUE)
+  expect_match(r_text,
+    "landscapes_exact_authorize_comparison_execution_prefreeze_only",
+    fixed = TRUE)
+  expect_match(py_text, "engine.landscape_distance", fixed = TRUE)
+  expect_match(py_text, "len(output) != 12", fixed = TRUE)
+  expect_match(py_text, '"all_active_levels": "TRUE"', fixed = TRUE)
+})
