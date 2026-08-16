@@ -242,8 +242,18 @@ projection$projected_private_bytes <- c(
   mean_source_bytes * 5 * source_factor,
   mean_cell_bytes * 620, mean_gene_bytes * 620)
 aggregate_elapsed <- sum(primary$elapsed_seconds) + sum(repeated$elapsed_seconds)
-private_files <- list.files(private_root, recursive = TRUE, full.names = TRUE,
-                            all.files = TRUE, no.. = TRUE)
+private_files <- c(
+  list.files(file.path(private_root, "source"), recursive = TRUE,
+             full.names = TRUE, all.files = TRUE, no.. = TRUE),
+  list.files(file.path(private_root, "ph"), recursive = TRUE,
+             full.names = TRUE, all.files = TRUE, no.. = TRUE),
+  list.files(file.path(private_root, "logs"), recursive = TRUE,
+             full.names = TRUE, all.files = TRUE, no.. = TRUE),
+  list.files(file.path(private_root, "repeat"), recursive = TRUE,
+             full.names = TRUE, all.files = TRUE, no.. = TRUE),
+  file.path(private_root, c("metrics.csv", "repeat-metrics.csv"))
+)
+private_files <- unique(private_files[file.exists(private_files)])
 private_files <- private_files[file.info(private_files)$isdir %in% FALSE]
 private_bytes <- sum(file.info(private_files)$size)
 aggregate_cap <- caps[caps$stage == "aggregate",]
