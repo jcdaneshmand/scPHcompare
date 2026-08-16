@@ -1,0 +1,2 @@
+"contract_id","decision","stress_groups_complete","remaining_groups_authorized","r_oracle_checks","analytic_oracle_checks","clustering_jobs","label_jobs","outcome_jobs","outcome_label_state","biological_outcomes_computed"
+"mv07h_landscape_stress_validation_decision_v1","authorize_remaining_19_MV7H_landscape_groups_serially",1,19,3,1,0,0,0,"closed",FALSE

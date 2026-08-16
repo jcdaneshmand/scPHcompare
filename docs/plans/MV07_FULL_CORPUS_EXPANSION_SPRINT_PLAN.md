@@ -240,6 +240,16 @@ unchanged, and the focused MV7-H suite passes. Authorize one clean validator
 rerun from a new private v3 oracle root; the remaining groups stay closed. See
 `docs/audits/MV07H_LANDSCAPE_STRESS_VALIDATOR_PORTABILITY_REBIND_2026-08-16.md`.
 
+Landscape-stress closure: the frozen seed-20260807 gene-H1 group completed all
+7,626 pairs twice with byte-identical distance output. Primary and repeat runs
+took 663.772 and 659.259 seconds and peaked below 206 MB RSS. Independent
+validation passes 8/8, including three prospective depth-stratified R oracles,
+the analytical oracle, and immutable resume. The clean public decision
+authorizes the remaining 19 frozen groups serially. Dimension combination,
+clustering, labels, outcomes, and claims remain closed pending complete-corpus
+validation. See
+`docs/audits/MV07H_LANDSCAPE_STRESS_CLOSURE_2026-08-16.md`.
+
 ## MV7-I — descriptive topology and clustering evaluation
 
 Purpose: use all eight tissues without overstating what the three single-study

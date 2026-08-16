@@ -1,0 +1,4 @@
+"contract_id","file","sha256_equal","bytes_equal","mtime_equal","maximum_mtime_delta_seconds"
+"mv07h_landscape_stress_immutable_resume_v1","distances.csv",TRUE,TRUE,TRUE,0
+"mv07h_landscape_stress_immutable_resume_v1","metrics.csv",TRUE,TRUE,TRUE,0
+"mv07h_landscape_stress_immutable_resume_v1","status.csv",TRUE,TRUE,TRUE,0

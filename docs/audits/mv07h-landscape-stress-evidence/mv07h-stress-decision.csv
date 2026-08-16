@@ -1,0 +1,2 @@
+"contract_id","decision","group_id","component_rows","remaining_groups_authorized","clustering_jobs","label_jobs","outcome_jobs","outcome_label_state","biological_outcomes_computed"
+"mv07h_landscape_stress_decision_v1","stress_complete_await_independent_validation","mv07h_landscape_group_v1:eb7602ef5b12f26de930bf1af58d988e216d373f2881b593c68e3ce3e44e94aa",7626,0,0,0,0,"closed",FALSE

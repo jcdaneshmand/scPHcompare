@@ -1,0 +1,4 @@
+"pair_id","first_sample_id","second_sample_id","first_finite_intervals","second_finite_intervals","selection_stratum"
+"mv07h_pair_v1:ed48e136a22849dff9254b5806c770dc5d4caf29dbab5c9853e4118393de160a","SRA645804_SRS2823410","SRA645804_SRS3572594",107,135,"minimum_depth"
+"mv07h_pair_v1:a449bef5db6bd5ffb541c1fde6e5b210ff39670fae1f2dc84d2bc06f5c3c4fac","SRA701877_SRS3279685","SRA850958_SRS4386109",773,1459,"median_depth"
+"mv07h_pair_v1:733ea06cdbdddd3d31e80b81feab3ef7f1c38d23919016e5c386e42880b5681c","SRA628554_SRS2664364","SRA850958_SRS4386101",3172,2635,"maximum_depth"
