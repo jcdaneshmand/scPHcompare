@@ -1,0 +1,2 @@
+"contract_id","decision","source_jobs","typed_views","ph_jobs","sentinel_equivalence_checks","repeat_artifacts","ripserr_selected_records","gudhi_fallback_records","rss_triggered_fallbacks","aggregate_elapsed_seconds","aggregate_elapsed_cap_seconds","private_bytes","private_storage_cap_bytes","landscape_jobs","clustering_jobs","label_jobs","outcome_jobs","outcome_label_state","biological_outcomes_computed"
+"mv07h_full_ph_decision_v1","full_PH_complete_await_independent_validation",5,1240,1240,60,15,1238,2,2,18980.1267504692,172800,1082955320,4294967296,0,0,0,0,"closed",FALSE

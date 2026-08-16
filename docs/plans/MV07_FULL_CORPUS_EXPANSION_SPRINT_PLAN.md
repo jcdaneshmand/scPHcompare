@@ -188,9 +188,10 @@ checks with all scientific queues unchanged. Use only
 Resource gate: the v4 run completed all five source bundles and 15 PH records,
 then one 500-gene H1 job exceeded the 8 GiB Ripserr cap without publishing an
 output. Exact GUDHI completed that view below 6.66 GiB and matched a full heavy
-Ripserr diagram interval-for-interval in H0 and H1. Production is paused pending
-owner approval of a Ripserr-primary, GUDHI-on-resource-failure amendment with a
-separate 12 GiB cap, explicit engine provenance, and fallback repeat gates.
+Ripserr diagram interval-for-interval in H0 and H1. At that gate, production
+was paused pending owner approval of a Ripserr-primary,
+GUDHI-on-resource-failure amendment with a separate 12 GiB cap, explicit
+engine provenance, and fallback repeat gates.
 
 Owner authorization and prefreeze closure: the Ripserr-primary/GUDHI
 RSS-fallback policy is approved and frozen at implementation `936acf4`. A real
@@ -199,6 +200,17 @@ suite passes 1,704 expectations; and the self-contained amendment passes 12/12
 independent plus 33/33 repeat checks. Resume only from
 `docs/audits/mv07h-fallback-prefreeze-evidence/`; landscapes remain closed
 until the completed mixed-engine PH corpus independently validates.
+
+Full-PH closure: all five source bundles and 1,240 cell/gene PH records are
+complete. Ripserr supplied 1,238 selected records and exact GUDHI supplied two
+gene-side resource fallbacks. Independent validation passes 12/12, including
+20/20 fresh cross-engine checks at maximum absolute error 0 and 15/15
+byte-identical repeats. Whole-stage immutable resume passes 7/7 across 3,802
+files with zero hash, size, mtime, or axis change. The audited missing-source
+repeat recovery is preserved in the attempt evidence and described in
+`docs/audits/MV07H_FULL_PH_CLOSURE_2026-08-16.md`. Authorize only the frozen
+seed-20260807 gene-H1 7,626-pair landscape stress group; the other 19 groups
+and all clustering, labels, outcomes, combinations, and claims remain closed.
 
 ## MV7-I — descriptive topology and clustering evaluation
 

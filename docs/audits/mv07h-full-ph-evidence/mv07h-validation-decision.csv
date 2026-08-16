@@ -1,0 +1,2 @@
+"contract_id","decision","source_jobs","typed_views","ph_jobs","cross_engine_checks","repeat_artifacts","ripserr_selected_records","gudhi_fallback_records","landscape_groups_authorized","landscape_groups_closed","clustering_jobs","label_jobs","outcome_jobs","outcome_label_state","biological_outcomes_computed"
+"mv07h_full_ph_validation_decision_v1","authorize_one_MV7H_landscape_stress_group",5,1240,1240,20,15,1238,2,1,19,0,0,0,"closed",FALSE
