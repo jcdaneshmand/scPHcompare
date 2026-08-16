@@ -369,6 +369,20 @@ Run a current literature/reference audit in this stage and decide whether an
 external dataset is necessary for a named generalization claim. New data remain
 deferred unless that explicit evidence-gap gate passes.
 
+Completion: MV7-J fixes 16 bounded claim families, eight main and three
+supplementary figures, nine legacy-method corrections, 12 generalized
+scientific requirements, and 11 current primary-source literature positions.
+All 15,252 H1-contribution rows, 20 H0/composite partition comparisons, 30
+PAM/average comparisons, 54 stability rows, and 120 descriptive outcome units
+were independently reconstructed. The 14/14 builder, 17/17 validator, and all
+18 byte-identical repeat files pass. The legacy first-level/100-grid combined
+landscape is retired; the corrected all-active-level, separate-H0/H1 contract
+is the only manuscript primary definition. Existing data are sufficient for a
+methods-focused descriptive paper but not for four named external claims.
+Authorize corrected figure implementation and a read-only external-dataset
+admission audit only; no data download or new PH is authorized. See
+`docs/audits/MV07J_CLAIM_FIGURE_LITERATURE_MAP_2026-08-16.md`.
+
 ## Optional MV7-K — below-250 threshold sensitivity
 
 This is not part of the main sequence. If manuscript review shows that the

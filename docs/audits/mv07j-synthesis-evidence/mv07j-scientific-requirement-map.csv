@@ -1,0 +1,13 @@
+"contract_id","requirement_order","requirement_id","requirement","current_disposition","next_action","confidential_source_text_included"
+"mv07j_scientific_requirement_map_v1",1,"R01","clarify_dataset_level_versus_cell_level_clustering","resolved_in_method_contract","render_F1",FALSE
+"mv07j_scientific_requirement_map_v1",2,"R02","define_integration_versus_harmonization","resolved_in_terminology_plan","manuscript_glossary",FALSE
+"mv07j_scientific_requirement_map_v1",3,"R03","broaden_integration_context","literature_context_complete_computation_scope_limited","cite_scIB_CONCORD_and_state_scope",FALSE
+"mv07j_scientific_requirement_map_v1",4,"R04","address_point_metric_dependence","partially_resolved_cell_only","report_primary90_cosine_sensitivity_and_gene_gap",FALSE
+"mv07j_scientific_requirement_map_v1",5,"R05","address_clustering_algorithm_dependence","resolved_for_PAM_and_average_only","render_F7_and_state_scope",FALSE
+"mv07j_scientific_requirement_map_v1",6,"R06","address_outlier_sensitivity","unresolved_named_robustness_gap","prospective_no_new_PH_or_robust_PH_sensitivity_decision",FALSE
+"mv07j_scientific_requirement_map_v1",7,"R07","avoid_abstract_loop_biology","resolved_as_prohibited_claim","replace_legacy_language",FALSE
+"mv07j_scientific_requirement_map_v1",8,"R08","distinguish_batch_detection_from_correction","resolved_as_claim_boundary","replace_legacy_language",FALSE
+"mv07j_scientific_requirement_map_v1",9,"R09","show_complete_readable_figures","planned_in_figure_map","render_F1_to_F8",FALSE
+"mv07j_scientific_requirement_map_v1",10,"R10","ensure_comparable_coordinate_spaces","resolved_in_corrected_coordinate_contract","retain_fixed_axis_checks",FALSE
+"mv07j_scientific_requirement_map_v1",11,"R11","distinguish_technical_from_biological_signal","resolved_as_nonidentifiability_boundary","show_F2_and_limit_causal_words",FALSE
+"mv07j_scientific_requirement_map_v1",12,"R12","establish_external_generalization_only_with_external_data","requires_prospective_external_validation","read_only_external_dataset_admission_audit",FALSE

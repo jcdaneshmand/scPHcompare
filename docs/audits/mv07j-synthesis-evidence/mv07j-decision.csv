@@ -1,0 +1,2 @@
+"contract_id","decision","checks_passed","checks_total","methods_focused_existing_data_sufficient","external_generalization_sufficient","new_data_download_authorized","new_ph_authorized","manuscript_submission_authorized","claims_promoted_to_confirmatory","confidential_review_published"
+"mv07j_decision_v1","authorize_corrected_figure_implementation_and_read_only_external_dataset_audit",14,14,TRUE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE

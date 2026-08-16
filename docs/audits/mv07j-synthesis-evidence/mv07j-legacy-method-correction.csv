@@ -1,0 +1,10 @@
+"contract_id","correction_order","legacy_item","corrected_item","disposition","public_source","confidential_text_included"
+"mv07j_legacy_method_correction_v1",1,"first_landscape_level_only","all_consecutive_active_levels","retire_and_replace","legacy_manuscript_audit",FALSE
+"mv07j_legacy_method_correction_v1",2,"uniform_grid_100","no_primary_fixed_grid","retire_and_replace","legacy_manuscript_audit",FALSE
+"mv07j_legacy_method_correction_v1",3,"pointwise_H0_H1_L2_curve","separate_exact_or_error_controlled_squared_L2_distances","retire_and_replace","legacy_manuscript_audit",FALSE
+"mv07j_legacy_method_correction_v1",4,"combined_only_reporting","H0_H1_separate_with_secondary_composite","retire_and_replace","legacy_manuscript_audit",FALSE
+"mv07j_legacy_method_correction_v1",5,"label_predefined_cluster_count","label_free_five_seed_stability_rule","retire_and_replace","legacy_manuscript_audit",FALSE
+"mv07j_legacy_method_correction_v1",6,"Ward_on_arbitrary_dissimilarity","PAM_primary_average_linkage_sensitivity","retire_and_replace","legacy_manuscript_audit",FALSE
+"mv07j_legacy_method_correction_v1",7,"independently_fitted_PCA_comparison","fixed_comparable_coordinate_contracts","retire_and_replace","legacy_manuscript_audit",FALSE
+"mv07j_legacy_method_correction_v1",8,"PH_removes_batch_effects","PH_describes_geometry_and_does_not_correct_batch","retire_and_replace","legacy_manuscript_audit",FALSE
+"mv07j_legacy_method_correction_v1",9,"H1_equals_biological_cycle","H1_loop_is_mathematical_only_without_validation","retire_and_replace","legacy_manuscript_audit",FALSE

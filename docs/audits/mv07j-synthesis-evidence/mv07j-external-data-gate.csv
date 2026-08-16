@@ -1,0 +1,7 @@
+"contract_id","claim","current_data_sufficient","external_data_required","current_disposition","next_authorized_action","new_data_download_authorized","new_ph_authorized"
+"mv07j_external_data_gate_v1","corrected_method_definition",TRUE,FALSE,"supported","figure_and_methods_draft",FALSE,FALSE
+"mv07j_external_data_gate_v1","existing_corpus_descriptive_structure",TRUE,FALSE,"supported_with_confounding_limits","figure_and_results_draft",FALSE,FALSE
+"mv07j_external_data_gate_v1","unseen_study_or_tissue_generalization",FALSE,TRUE,"not_supported","read_only_dataset_admission_audit",FALSE,FALSE
+"mv07j_external_data_gate_v1","external_cell_gene_complementarity",FALSE,TRUE,"not_supported","read_only_dataset_admission_audit",FALSE,FALSE
+"mv07j_external_data_gate_v1","integration_method_superiority",FALSE,TRUE,"not_supported","read_only_dataset_admission_audit",FALSE,FALSE
+"mv07j_external_data_gate_v1","inductive_gene_panel_robustness",FALSE,TRUE,"not_supported","read_only_dataset_admission_audit",FALSE,FALSE

@@ -1,0 +1,5 @@
+"contract_id","person_order","person","retained_in_author_team_registry","final_author_order_confirmed","final_credit_roles_confirmed","manuscript_approval_required","note"
+"mv07j_credit_checklist_v1",1,"Jonah Daneshmand",TRUE,FALSE,FALSE,TRUE,"project_owner_and_primary_analysis"
+"mv07j_credit_checklist_v1",2,"Julia H. Chariker",TRUE,FALSE,FALSE,TRUE,"legacy_manuscript_coauthor"
+"mv07j_credit_checklist_v1",3,"Akshitkumar Mistry",TRUE,FALSE,FALSE,TRUE,"must_receive_credit_per_owner_instruction"
+"mv07j_credit_checklist_v1",4,"Eric C. Rouchka",TRUE,FALSE,FALSE,TRUE,"must_receive_credit_per_owner_instruction"
