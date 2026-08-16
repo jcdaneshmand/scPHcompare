@@ -30,7 +30,7 @@ base_files <- sort(list.files(base_dir, pattern = "[.]csv$", full.names = TRUE),
                    method = "radix")
 gate_files <- sort(list.files(gate_dir, pattern = "[.]csv$", full.names = TRUE),
                    method = "radix")
-if (length(base_files) != 18L || length(gate_files) != 4L) {
+if (length(base_files) != 19L || length(gate_files) != 4L) {
   stop("MV7-H fallback source evidence file set differs.")
 }
 base_acceptance <- read.csv(file.path(base_dir, "mv07h-acceptance.csv"),
@@ -192,7 +192,7 @@ acceptance <- data.frame(
                "landscape_invariance", "label_firewall"),
   passed = TRUE,
   detail = c("project owner approved exact fallback and 12 GiB cap",
-             "18 exact v4 prefreeze artifacts", "one Ripserr RSS failure",
+             "19 exact v4 prefreeze artifacts", "one Ripserr RSS failure",
              "full 500-gene H0 H1 maximum error zero",
              "gene only after RSS cap; one GUDHI attempt",
              "nine exact implementation sources", "21 exact attempt receipts",

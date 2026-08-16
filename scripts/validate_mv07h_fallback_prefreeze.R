@@ -28,7 +28,7 @@ base_files <- sort(list.files(base_dir, pattern = "[.]csv$", full.names = TRUE),
                    method = "radix")
 gate_files <- sort(list.files(gate_dir, pattern = "[.]csv$", full.names = TRUE),
                    method = "radix")
-base_equal <- length(base_files) == 18L && all(vapply(base_files, function(path) {
+base_equal <- length(base_files) == 19L && all(vapply(base_files, function(path) {
   copied <- file.path(dir, basename(path))
   file.exists(copied) && sha(copied) == sha(path) &&
     file.info(copied)$size == file.info(path)$size
@@ -67,7 +67,7 @@ checks <- data.frame(
       policy$fallback_engine == "TDA_ripsDiag_GUDHI" &&
       policy$eligible_primary_disposition == "rss_cap_exceeded" &&
       policy$fallback_rss_cap_bytes == 12 * 1024^3,
-    nrow(freeze) == 31L && all(freeze$accepted_head == expected_head) &&
+    nrow(freeze) == 32L && all(freeze$accepted_head == expected_head) &&
       all(vapply(seq_len(nrow(freeze)), function(index) {
         path <- freeze$artifact_locator[[index]]
         file.exists(path) && sha(path) == freeze$sha256[[index]] &&
@@ -85,9 +85,9 @@ checks <- data.frame(
     all(truth(acceptance$passed)) && decision$decision ==
       "authorize_resume_full_PH_with_exact_resource_fallback" &&
       decision$landscape_jobs_authorized == 0L),
-  detail = c("exact implementation commit", "18 byte-identical v4 files",
+  detail = c("exact implementation commit", "19 byte-identical v4 files",
              "four byte-identical resource-gate files", "owner approved",
-             "gene RSS-only exact fallback at 12 GiB", "31 frozen sources",
+             "gene RSS-only exact fallback at 12 GiB", "32 frozen sources",
              "21 exact receipts", "20 exact resumable artifacts",
              "failed output absent", "landscape definition unchanged",
              "labels outcomes clustering claims closed", "resume PH only"),
