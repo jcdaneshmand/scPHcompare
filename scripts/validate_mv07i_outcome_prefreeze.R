@@ -55,7 +55,7 @@ prefreeze_checks <- read_csv(evidence_paths[[12L]])
 prefreeze_decision <- read_csv(evidence_paths[[13L]])
 
 manifest_hashes <- vapply(input_manifest$path, sha256, character(1L))
-input_hash_match <- identical(tolower(manifest_hashes),
+input_hash_match <- identical(tolower(unname(manifest_hashes)),
                               tolower(input_manifest$sha256)) &&
   identical(as.numeric(file.info(input_manifest$path)$size),
             as.numeric(input_manifest$bytes))
