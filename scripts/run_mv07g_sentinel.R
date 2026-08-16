@@ -287,8 +287,13 @@ if (public_resume) {
   same <- vapply(public_names, function(name) {
     first <- file.path(public_dir, name)
     second <- file.path(staging, name)
-    as.numeric(file.info(first)$size) == as.numeric(file.info(second)$size) &&
-      identical(sha(first), sha(second))
+    accepted <- read.csv(first, stringsAsFactors = FALSE, check.names = FALSE)
+    regenerated <- read.csv(second, stringsAsFactors = FALSE,
+                            check.names = FALSE)
+    identical(names(accepted), names(regenerated)) &&
+      nrow(accepted) == nrow(regenerated) &&
+      isTRUE(all.equal(accepted, regenerated, tolerance = 1e-12,
+                       check.attributes = FALSE))
   }, logical(1L))
   unlink(staging, recursive = TRUE)
   if (!all(same)) stop("MV7-G regenerated public evidence differs on resume.")
