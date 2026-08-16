@@ -268,6 +268,15 @@ using interval burden only, without labels or distance values. Commit
 independent validation. See
 `docs/audits/MV07H_LANDSCAPE_COMPLETION_PREFREEZE_2026-08-16.md`.
 
+Complete-oracle v4 rebind: the first full validator failed closed on QUADPACK's
+`roundoff error was detected` wording and wrote no public decision. Commit
+`aca6716` recognizes the common roundoff-error stem while retaining recursive
+error-budget bisection, fatal unrelated errors, and the original tolerances.
+The exact frozen cell-H1 pair now passes with `1.053326e-10` Rust/R error below
+its `1.062933e-09` certified bound, and the canonical suite remains clean.
+Authorize only a clean rerun of the unchanged complete validator. See
+`docs/audits/MV07H_LANDSCAPE_COMPLETE_ORACLE_V4_REBIND_2026-08-16.md`.
+
 ## MV7-I — descriptive topology and clustering evaluation
 
 Purpose: use all eight tissues without overstating what the three single-study
