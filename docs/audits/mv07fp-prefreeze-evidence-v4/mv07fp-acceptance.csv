@@ -1,0 +1,8 @@
+"contract_id","category","passed"
+"mv07fp_prefreeze_acceptance_v1","source_freeze",TRUE
+"mv07fp_prefreeze_acceptance_v1","cache_axis",TRUE
+"mv07fp_prefreeze_acceptance_v1","cache_hashes",TRUE
+"mv07fp_prefreeze_acceptance_v1","mv07f_closure",TRUE
+"mv07fp_prefreeze_acceptance_v1","resource_caps",TRUE
+"mv07fp_prefreeze_acceptance_v1","label_firewall",TRUE
+"mv07fp_prefreeze_acceptance_v1","panel_only",TRUE
