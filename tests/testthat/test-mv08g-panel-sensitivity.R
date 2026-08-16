@@ -234,3 +234,44 @@ test_that("MV8-G landscape validation requires R and corrected Persim", {
   expect_match(py_text, "len(output) != 12", fixed = TRUE)
   expect_match(py_text, '"all_active_levels": "TRUE"', fixed = TRUE)
 })
+
+test_that("MV8-G comparison prefreeze fixes complete label-free scope", {
+  path <- testthat::test_path("..", "..", "scripts",
+                              "build_mv08g_comparison_prefreeze.R")
+  text <- paste(readLines(path, warn = FALSE), collapse = "\n")
+  expect_match(text, "candidate_partition_rows = 2L * 4L * 5L * 9L * 124L",
+               fixed = TRUE)
+  expect_match(text, "fixed_partition_rows = 2L * 4L * 5L * 2L * 124L",
+               fixed = TRUE)
+  expect_match(text, "0.95, 0.80, 0.80", fixed = TRUE)
+  expect_match(text, "authorize_one_label_closed_comparison_job", fixed = TRUE)
+  expect_match(text, "hca_fastq_download_authorized = FALSE", fixed = TRUE)
+})
+
+test_that("MV8-G comparison execution is bounded and fail-closed", {
+  path <- testthat::test_path("..", "..", "scripts",
+                              "run_mv08g_comparison_monitor.R")
+  text <- paste(readLines(path, warn = FALSE), collapse = "\n")
+  expect_match(text, "elapsed_cap_exceeded", fixed = TRUE)
+  expect_match(text, "rss_cap_exceeded", fixed = TRUE)
+  expect_match(text, "storage_cap_exceeded", fixed = TRUE)
+  expect_match(text, "process$kill_tree()", fixed = TRUE)
+  expect_match(text, "Unowned or partial MV8-G comparison output", fixed = TRUE)
+  expect_match(text, "comparison_complete_await_independent_reconstruction",
+               fixed = TRUE)
+})
+
+test_that("MV8-G comparison validation independently refits every partition", {
+  path <- testthat::test_path("..", "..", "scripts",
+                              "validate_mv08g_comparison.R")
+  text <- paste(readLines(path, warn = FALSE), collapse = "\n")
+  expect_match(text, "nrow(candidates), nrow(stability)", fixed = TRUE)
+  expect_match(text, "mv05n_pam_partition_v1", fixed = TRUE)
+  expect_match(text, "mv05n_average_partition_v1", fixed = TRUE)
+  expect_match(text, "mv05_select_stable_k_v1", fixed = TRUE)
+  expect_match(text, "complete k=2:10 PAM agreement", fixed = TRUE)
+  expect_match(text, "mv08g_harmonization_class_v1", fixed = TRUE)
+  expect_match(text, "comparison_exact_ready_for_raw_read_owner_decision",
+               fixed = TRUE)
+  expect_match(text, "raw_reprocessing_authorized = FALSE", fixed = TRUE)
+})
