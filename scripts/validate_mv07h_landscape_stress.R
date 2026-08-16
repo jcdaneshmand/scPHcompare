@@ -137,10 +137,11 @@ before$path <- file.path(primary_dir, before$file)
 before$sha256 <- vapply(before$path, .mv07h_sha256, character(1L))
 before$bytes <- as.numeric(file.info(before$path)$size)
 before$mtime <- as.numeric(file.info(before$path)$mtime)
-resume_status <- system2(Sys.which("Rscript"), c(
+resume_args <- c(
   "--vanilla", "scripts/run_mv07h_landscape_group.R", prefreeze, ph_root,
   rust, row$group_id, file.path(private_root, "landscape"),
-  contract$implementation_root_sha256))
+  contract$implementation_root_sha256)
+resume_status <- system2(Sys.which("Rscript"), shQuote(resume_args))
 after_sha <- vapply(before$path, .mv07h_sha256, character(1L))
 after_bytes <- as.numeric(file.info(before$path)$size)
 after_mtime <- as.numeric(file.info(before$path)$mtime)

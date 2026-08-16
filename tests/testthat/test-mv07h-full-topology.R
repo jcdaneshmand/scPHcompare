@@ -199,6 +199,14 @@ testthat::test_that("MV7-H landscape PH keys retain sample identity", {
   testthat::expect_match(text, "ph_keys[[second_id]]", fixed = TRUE)
 })
 
+testthat::test_that("MV7-H stress resume quotes subprocess arguments", {
+  path <- testthat::test_path(
+    "..", "..", "scripts", "validate_mv07h_landscape_stress.R")
+  text <- paste(readLines(path, warn = FALSE), collapse = "\n")
+  testthat::expect_match(text, "resume_args <- c(", fixed = TRUE)
+  testthat::expect_match(text, "shQuote(resume_args)", fixed = TRUE)
+})
+
 testthat::test_that("MV7-H GUDHI fallback preserves an exact gene diagram", {
   testthat::skip_if_not_installed("TDA")
   x <- matrix(
