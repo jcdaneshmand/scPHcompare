@@ -1,0 +1,3 @@
+"contract_id","metric_order","metric_id","definition","implementation_contract","p_value_authorized","multiplicity_family","degenerate_policy","association_computed"
+"mv07i_outcome_metric_registry_v1",1,"adjusted_rand_index","Hubert_Arabie_complete_contingency_table","mv05s_adjusted_rand_index_v1",FALSE,"none_complete_reporting","retain_not_identifiable_never_replace",FALSE
+"mv07i_outcome_metric_registry_v1",2,"normalized_mutual_information_max","mutual_information_divided_by_maximum_partition_entropy","mv05s_nmi_max_v1",FALSE,"none_complete_reporting","retain_not_identifiable_never_replace",FALSE

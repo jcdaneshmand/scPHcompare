@@ -1,0 +1,2 @@
+"contract_id","decision","checks_passed","checks_total","associations_computed","claims_authorized","method_selection_authorized"
+"mv07i_outcome_prefreeze_validation_decision_v1","authorize_MV7I_descriptive_outcome_execution_only",15,15,FALSE,FALSE,FALSE

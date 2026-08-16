@@ -1,0 +1,2 @@
+"contract_id","maximum_workers","elapsed_cap_seconds","process_tree_rss_cap_bytes","evaluation_units","expected_seed_metric_rows","private_atomic_artifacts","deterministic_repeat_required","immutable_resume_required","independent_recomputation_required","association_computed"
+"mv07i_outcome_resource_resume_v1",1,900,2147483648,120,600,TRUE,TRUE,TRUE,TRUE,FALSE

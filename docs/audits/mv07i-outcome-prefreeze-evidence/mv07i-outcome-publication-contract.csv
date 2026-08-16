@@ -1,0 +1,7 @@
+"contract_id","artifact","publication_state","may_contain_label_values","may_contain_sample_ids","complete_reporting_required","association_computed"
+"mv07i_outcome_publication_contract_v1","seed_metrics","public_after_validation",FALSE,FALSE,TRUE,FALSE
+"mv07i_outcome_publication_contract_v1","unit_summaries","public_after_validation",FALSE,FALSE,TRUE,FALSE
+"mv07i_outcome_publication_contract_v1","contingency_long","private",TRUE,FALSE,TRUE,FALSE
+"mv07i_outcome_publication_contract_v1","sample_metadata_join","private",TRUE,TRUE,TRUE,FALSE
+"mv07i_outcome_publication_contract_v1","artifact_manifest","public_after_validation",FALSE,FALSE,TRUE,FALSE
+"mv07i_outcome_publication_contract_v1","resource_summary","public_after_validation",FALSE,FALSE,TRUE,FALSE

@@ -1,0 +1,2 @@
+"contract_id","decision","checks_passed","checks_total","evaluation_units","expected_seed_metric_rows","labels_joined_to_clusters_now","associations_computed_now","labels_authorized_for_next_stage","outcomes_authorized_for_next_stage","claims_authorized","method_selection_authorized","external_data_authorized"
+"mv07i_outcome_prefreeze_decision_v1","authorize_MV7I_descriptive_outcome_execution_only",15,15,120,600,FALSE,FALSE,TRUE,TRUE,FALSE,FALSE,FALSE

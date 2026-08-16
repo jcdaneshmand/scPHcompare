@@ -333,6 +333,18 @@ artifacts remain unpublished. Authorize only a separate MV7-I outcome
 prefreeze before any metadata association is computed. See
 `docs/audits/MV07I_LABEL_CLOSED_PRODUCTION_CLOSURE_2026-08-16.md`.
 
+Descriptive-outcome prefreeze: the validated immutable partitions support five
+scheduled population/label endpoints across six representations, two
+algorithms, and two metrics: 120 fixed units and 600 seed rows. ARI and
+max-normalized mutual information are reported completely with five-seed
+technical summaries and no p-values or ranking. The primary-90 approach
+endpoint is structurally non-estimable because all 90 samples are scRNA-seq;
+the full-124 six-sample snRNA-seq category is perfectly nested in substantia
+nigra/SRA850958 and cannot support a technology-effect claim. Builder and
+independent validator pass 15/15, and all 13 artifacts repeat byte-identically.
+Authorize only the fixed descriptive outcome execution. See
+`docs/audits/MV07I_DESCRIPTIVE_OUTCOME_PREFREEZE_2026-08-16.md`.
+
 ## MV7-J — manuscript claim map, literature update, and figures
 
 Only after MV7-I should the result-dependent claim map become final. Link every

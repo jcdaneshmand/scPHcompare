@@ -1,0 +1,3 @@
+"contract_id","population_order","population_id","samples","membership_source","partition_policy","scientific_role","confirmatory","external_generalization"
+"mv07i_outcome_population_registry_v1",1,"full124_descriptive",124,"corrected_descriptive_124_TRUE","immutable_full124_partition","all_eight_tissue_description",FALSE,FALSE
+"mv07i_outcome_population_registry_v1",2,"primary90_context_restriction",90,"corrected_primary_90_TRUE","immutable_full124_partition_restricted_no_refit","five_tissue_cross_study_context_only",FALSE,FALSE

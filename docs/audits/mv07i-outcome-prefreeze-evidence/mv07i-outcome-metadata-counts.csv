@@ -1,0 +1,50 @@
+"contract_id","population_id","label_axis","label_value","samples","structural_only","cluster_metadata_join_executed","association_computed"
+"mv07i_outcome_metadata_count_v1","full124_descriptive","tissue","liver",6,TRUE,FALSE,FALSE
+"mv07i_outcome_metadata_count_v1","full124_descriptive","tissue","substantia nigra",6,TRUE,FALSE,FALSE
+"mv07i_outcome_metadata_count_v1","full124_descriptive","tissue","pancreatic islets",12,TRUE,FALSE,FALSE
+"mv07i_outcome_metadata_count_v1","full124_descriptive","tissue","pbmc",12,TRUE,FALSE,FALSE
+"mv07i_outcome_metadata_count_v1","full124_descriptive","tissue","colon",13,TRUE,FALSE,FALSE
+"mv07i_outcome_metadata_count_v1","full124_descriptive","tissue","prostate",16,TRUE,FALSE,FALSE
+"mv07i_outcome_metadata_count_v1","full124_descriptive","tissue","testis",28,TRUE,FALSE,FALSE
+"mv07i_outcome_metadata_count_v1","full124_descriptive","tissue","bone marrow",31,TRUE,FALSE,FALSE
+"mv07i_outcome_metadata_count_v1","full124_descriptive","study","SRA713577",1,TRUE,FALSE,FALSE
+"mv07i_outcome_metadata_count_v1","full124_descriptive","study","SRA760933",1,TRUE,FALSE,FALSE
+"mv07i_outcome_metadata_count_v1","full124_descriptive","study","SRA621638",2,TRUE,FALSE,FALSE
+"mv07i_outcome_metadata_count_v1","full124_descriptive","study","SRA628554",2,TRUE,FALSE,FALSE
+"mv07i_outcome_metadata_count_v1","full124_descriptive","study","SRA703206",4,TRUE,FALSE,FALSE
+"mv07i_outcome_metadata_count_v1","full124_descriptive","study","SRA740174",4,TRUE,FALSE,FALSE
+"mv07i_outcome_metadata_count_v1","full124_descriptive","study","SRA749327",4,TRUE,FALSE,FALSE
+"mv07i_outcome_metadata_count_v1","full124_descriptive","study","SRA784242",4,TRUE,FALSE,FALSE
+"mv07i_outcome_metadata_count_v1","full124_descriptive","study","SRA550660",5,TRUE,FALSE,FALSE
+"mv07i_outcome_metadata_count_v1","full124_descriptive","study","SRA716608",5,TRUE,FALSE,FALSE
+"mv07i_outcome_metadata_count_v1","full124_descriptive","study","SRA667709",6,TRUE,FALSE,FALSE
+"mv07i_outcome_metadata_count_v1","full124_descriptive","study","SRA850958",6,TRUE,FALSE,FALSE
+"mv07i_outcome_metadata_count_v1","full124_descriptive","study","SRA826293",8,TRUE,FALSE,FALSE
+"mv07i_outcome_metadata_count_v1","full124_descriptive","study","SRA728025",9,TRUE,FALSE,FALSE
+"mv07i_outcome_metadata_count_v1","full124_descriptive","study","SRA645804",10,TRUE,FALSE,FALSE
+"mv07i_outcome_metadata_count_v1","full124_descriptive","study","SRA701877",12,TRUE,FALSE,FALSE
+"mv07i_outcome_metadata_count_v1","full124_descriptive","study","SRA742961",16,TRUE,FALSE,FALSE
+"mv07i_outcome_metadata_count_v1","full124_descriptive","study","SRA779509",25,TRUE,FALSE,FALSE
+"mv07i_outcome_metadata_count_v1","full124_descriptive","canonical_approach","snRNA-seq",6,TRUE,FALSE,FALSE
+"mv07i_outcome_metadata_count_v1","full124_descriptive","canonical_approach","scRNA-seq",118,TRUE,FALSE,FALSE
+"mv07i_outcome_metadata_count_v1","primary90_context_restriction","tissue","liver",6,TRUE,FALSE,FALSE
+"mv07i_outcome_metadata_count_v1","primary90_context_restriction","tissue","pbmc",12,TRUE,FALSE,FALSE
+"mv07i_outcome_metadata_count_v1","primary90_context_restriction","tissue","colon",13,TRUE,FALSE,FALSE
+"mv07i_outcome_metadata_count_v1","primary90_context_restriction","tissue","testis",28,TRUE,FALSE,FALSE
+"mv07i_outcome_metadata_count_v1","primary90_context_restriction","tissue","bone marrow",31,TRUE,FALSE,FALSE
+"mv07i_outcome_metadata_count_v1","primary90_context_restriction","study","SRA713577",1,TRUE,FALSE,FALSE
+"mv07i_outcome_metadata_count_v1","primary90_context_restriction","study","SRA760933",1,TRUE,FALSE,FALSE
+"mv07i_outcome_metadata_count_v1","primary90_context_restriction","study","SRA621638",2,TRUE,FALSE,FALSE
+"mv07i_outcome_metadata_count_v1","primary90_context_restriction","study","SRA628554",2,TRUE,FALSE,FALSE
+"mv07i_outcome_metadata_count_v1","primary90_context_restriction","study","SRA703206",4,TRUE,FALSE,FALSE
+"mv07i_outcome_metadata_count_v1","primary90_context_restriction","study","SRA740174",4,TRUE,FALSE,FALSE
+"mv07i_outcome_metadata_count_v1","primary90_context_restriction","study","SRA749327",4,TRUE,FALSE,FALSE
+"mv07i_outcome_metadata_count_v1","primary90_context_restriction","study","SRA784242",4,TRUE,FALSE,FALSE
+"mv07i_outcome_metadata_count_v1","primary90_context_restriction","study","SRA550660",5,TRUE,FALSE,FALSE
+"mv07i_outcome_metadata_count_v1","primary90_context_restriction","study","SRA716608",5,TRUE,FALSE,FALSE
+"mv07i_outcome_metadata_count_v1","primary90_context_restriction","study","SRA667709",6,TRUE,FALSE,FALSE
+"mv07i_outcome_metadata_count_v1","primary90_context_restriction","study","SRA826293",8,TRUE,FALSE,FALSE
+"mv07i_outcome_metadata_count_v1","primary90_context_restriction","study","SRA728025",9,TRUE,FALSE,FALSE
+"mv07i_outcome_metadata_count_v1","primary90_context_restriction","study","SRA645804",10,TRUE,FALSE,FALSE
+"mv07i_outcome_metadata_count_v1","primary90_context_restriction","study","SRA779509",25,TRUE,FALSE,FALSE
+"mv07i_outcome_metadata_count_v1","primary90_context_restriction","canonical_approach","scRNA-seq",90,TRUE,FALSE,FALSE
