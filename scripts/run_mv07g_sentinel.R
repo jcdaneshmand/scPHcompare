@@ -18,7 +18,16 @@ public_dir <- args[[5]]
 expected_head <- tolower(trimws(args[[6]]))
 head <- tolower(trimws(system2("git", c("rev-parse", "HEAD"), stdout = TRUE)))
 if (!identical(head, expected_head)) stop("MV7-G exact HEAD mismatch.")
-if (dir.exists(public_dir)) stop("MV7-G public output must not already exist.")
+public_names <- c(
+  "mv07g-source-metrics.csv", "mv07g-ph-metrics.csv",
+  "mv07g-repeat-validation.csv", "mv07g-full-ph-projection.csv",
+  "mv07g-decision.csv"
+)
+public_resume <- dir.exists(public_dir)
+if (public_resume &&
+    !all(file.exists(file.path(public_dir, public_names)))) {
+  stop("MV7-G public resume state is incomplete or ambiguous.")
+}
 source("R/toy_baseline.R")
 source("R/dual_view_topology.R")
 source("R/mv07g_sentinel.R")
@@ -274,8 +283,19 @@ write.csv(projection, file.path(staging, "mv07g-full-ph-projection.csv"),
           row.names = FALSE, na = "")
 write.csv(decision, file.path(staging, "mv07g-decision.csv"),
           row.names = FALSE, na = "")
-if (!file.rename(staging, public_dir)) {
+if (public_resume) {
+  same <- vapply(public_names, function(name) {
+    first <- file.path(public_dir, name)
+    second <- file.path(staging, name)
+    as.numeric(file.info(first)$size) == as.numeric(file.info(second)$size) &&
+      identical(sha(first), sha(second))
+  }, logical(1L))
+  unlink(staging, recursive = TRUE)
+  if (!all(same)) stop("MV7-G regenerated public evidence differs on resume.")
+  message("MV7-G immutable resume complete; public evidence unchanged")
+} else if (!file.rename(staging, public_dir)) {
   unlink(staging, recursive = TRUE)
   stop("Failed to atomically publish MV7-G public evidence.")
+} else {
+  message("MV7-G sentinel production complete; independent validation required")
 }
-message("MV7-G sentinel production complete; independent validation required")
