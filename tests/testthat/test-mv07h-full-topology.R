@@ -122,6 +122,43 @@ testthat::test_that("MV7-H exact fallback policy is narrow and label closed", {
     mv07h_validate_ph_fallback_policy_v1(changed), "differs")
 })
 
+testthat::test_that("MV7-H dynamic fallback repeats receive seed sources", {
+  axis <- mv07h_sample_seed_axis_v1(mv07h_manifest_fixture())
+  sources <- mv07h_source_queue_v1(axis)
+  ph <- mv07h_ph_queue_v1(axis)
+  fallback <- ph[ph$seed %in% c(20260805, 20260806) &
+    ph$view_id == "gene_topology_v1",, drop = FALSE]
+  rows <- mv07h_fallback_repeat_source_rows_v1(
+    fallback, sources, existing_repeat_seeds = 20260805)
+  testthat::expect_identical(as.integer(rows$seed), 20260806L)
+  testthat::expect_equal(nrow(mv07h_fallback_repeat_source_rows_v1(
+    fallback, sources, existing_repeat_seeds = c(20260805, 20260806))), 0L)
+  testthat::expect_error(mv07h_fallback_repeat_source_rows_v1(
+    fallback, sources[sources$seed != 20260806,, drop = FALSE], 20260805),
+    "lacks one source")
+})
+
+testthat::test_that("MV7-H repeat recovery is missing-source specific", {
+  metric <- data.frame(
+    disposition = "failed", exit_status = 1L, elapsed_seconds = 0.5,
+    stringsAsFactors = FALSE)
+  source <- "tmp/root/repeat/source/mv07h__20260806__source.rds"
+  stderr <- paste("cannot open compressed file", shQuote(source),
+                  "probable reason 'No such file or directory'")
+  testthat::expect_true(mv07h_missing_repeat_source_recovery_eligible_v1(
+    metric, stderr, source, FALSE))
+  testthat::expect_true(mv07h_missing_repeat_source_recovery_eligible_v1(
+    metric, gsub("/", "\\", stderr, fixed = TRUE), source, FALSE))
+  testthat::expect_false(mv07h_missing_repeat_source_recovery_eligible_v1(
+    metric, stderr, source, TRUE))
+  metric$elapsed_seconds <- 6
+  testthat::expect_false(mv07h_missing_repeat_source_recovery_eligible_v1(
+    metric, stderr, source, FALSE))
+  metric$elapsed_seconds <- 0.5
+  testthat::expect_false(mv07h_missing_repeat_source_recovery_eligible_v1(
+    metric, "scientific computation failed", source, FALSE))
+})
+
 testthat::test_that("MV7-H GUDHI fallback preserves an exact gene diagram", {
   testthat::skip_if_not_installed("TDA")
   x <- matrix(

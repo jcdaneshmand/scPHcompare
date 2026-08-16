@@ -209,6 +209,41 @@ run_fallback_unit <- function(row, repeat_mode = FALSE) {
   }
   result
 }
+run_fallback_repeat_unit <- function(row) {
+  ledger <- read_ledger(file.path(private_root,
+                                  "repeat-fallback-metrics.csv"))
+  original_job_id <- paste0("repeat__", row$job_id)
+  recovery_suffix <- "__recovery_after_missing_repeat_source_v1"
+  recovery_job_id <- paste0(original_job_id, recovery_suffix)
+  recovery_row <- row
+  recovery_row$job_id <- paste0(row$job_id, recovery_suffix)
+  recovery_hit <- if (nrow(ledger)) {
+    ledger[ledger$job_id == recovery_job_id,, drop = FALSE]
+  } else data.frame()
+  if (nrow(recovery_hit)) return(run_fallback_unit(recovery_row, TRUE))
+
+  original_hit <- if (nrow(ledger)) {
+    ledger[ledger$job_id == original_job_id,, drop = FALSE]
+  } else data.frame()
+  source_path <- file.path(private_root, "repeat", "source",
+                           paste0("mv07h__", row$seed, "__source.rds"))
+  output <- file.path(private_root, "repeat", row$output_file)
+  stem <- gsub("[^A-Za-z0-9_.-]", "_", original_job_id)
+  stderr_path <- file.path(private_root, "repeat", "fallback", "logs",
+                           paste0(stem, "__stderr.txt"))
+  stderr_text <- if (file.exists(stderr_path)) {
+    paste(readLines(stderr_path, warn = FALSE), collapse = "\n")
+  } else ""
+  if (nrow(original_hit) &&
+      mv07h_missing_repeat_source_recovery_eligible_v1(
+        original_hit, stderr_text, source_path, file.exists(output))) {
+    if (!file.exists(source_path)) {
+      stop("MV7-H fallback repeat recovery source is still absent.")
+    }
+    return(run_fallback_unit(recovery_row, TRUE))
+  }
+  run_fallback_unit(row, TRUE)
+}
 run_unit <- function(row, repeat_mode = FALSE) {
   primary <- run_attempt(row, repeat_mode = repeat_mode, fallback = FALSE)
   if (primary$disposition == "completed") return(primary)
@@ -242,11 +277,28 @@ fallback_job_ids <- primary_ph$job_id[
 fallback_repeat_queue <- ph_queue[
   ph_queue$job_id %in% setdiff(fallback_job_ids,
                                default_repeat_queue$job_id),, drop = FALSE]
+fallback_repeat_source_rows <- mv07h_fallback_repeat_source_rows_v1(
+  fallback_repeat_queue, source_queue, existing_repeat_seeds = repeat_seed)
+fallback_repeat_sources <- if (nrow(fallback_repeat_source_rows)) do.call(
+  rbind, lapply(seq_len(nrow(fallback_repeat_source_rows)), function(index) {
+    run_unit(fallback_repeat_source_rows[index, , drop = FALSE], TRUE)
+  })) else primary_source[FALSE,, drop = FALSE]
+if (nrow(fallback_repeat_source_rows)) for (
+    index in seq_len(nrow(fallback_repeat_source_rows))) {
+  row <- fallback_repeat_source_rows[index, , drop = FALSE]
+  original <- file.path(private_root, row$output_file)
+  repeated_source <- file.path(private_root, "repeat", row$output_file)
+  if (.mv07h_sha256(original) != .mv07h_sha256(repeated_source) ||
+      file.info(original)$size != file.info(repeated_source)$size) {
+    stop("MV7-H fallback support source repeat is not byte-identical.")
+  }
+}
 fallback_repeated <- if (nrow(fallback_repeat_queue)) do.call(rbind, lapply(
-  seq_len(nrow(fallback_repeat_queue)), function(index) run_fallback_unit(
-    fallback_repeat_queue[index, , drop = FALSE], repeat_mode = TRUE
-  ))) else primary_ph[FALSE,, drop = FALSE]
-repeated <- rbind(repeat_source, repeat_ph, fallback_repeated)
+  seq_len(nrow(fallback_repeat_queue)), function(index) {
+    run_fallback_repeat_unit(fallback_repeat_queue[index, , drop = FALSE])
+  })) else primary_ph[FALSE,, drop = FALSE]
+repeated <- rbind(repeat_source, repeat_ph, fallback_repeat_sources,
+                  fallback_repeated)
 repeat_queue <- unique(rbind(
   default_repeat_queue,
   fallback_repeat_queue[c("job_id", "output_file")]

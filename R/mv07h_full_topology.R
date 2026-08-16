@@ -494,3 +494,46 @@ mv07h_finite_intervals_v1 <- function(record, homology_dimension) {
   value[order(value[, "birth"], -value[, "death"], method = "radix"),,
         drop = FALSE]
 }
+
+mv07h_fallback_repeat_source_rows_v1 <- function(
+    fallback_repeat_queue, source_queue, existing_repeat_seeds = integer()) {
+  if (!is.data.frame(fallback_repeat_queue) ||
+      !is.data.frame(source_queue) ||
+      !("seed" %in% names(fallback_repeat_queue)) ||
+      !("seed" %in% names(source_queue)) ||
+      anyNA(fallback_repeat_queue$seed) || anyNA(source_queue$seed) ||
+      anyDuplicated(source_queue$seed)) {
+    stop("MV7-H fallback repeat source queues are malformed.", call. = FALSE)
+  }
+  fallback_seeds <- sort(unique(as.integer(fallback_repeat_queue$seed)),
+                         method = "radix")
+  needed <- setdiff(fallback_seeds, as.integer(existing_repeat_seeds))
+  if (!length(needed)) return(source_queue[FALSE,, drop = FALSE])
+  rows <- source_queue[as.integer(source_queue$seed) %in% needed,, drop = FALSE]
+  if (nrow(rows) != length(needed) ||
+      !setequal(as.integer(rows$seed), needed)) {
+    stop("MV7-H fallback repeat seed lacks one source queue row.",
+         call. = FALSE)
+  }
+  rows[match(needed, as.integer(rows$seed)),, drop = FALSE]
+}
+
+mv07h_missing_repeat_source_recovery_eligible_v1 <- function(
+    metric, stderr_text, expected_source_path, output_exists = FALSE) {
+  if (!is.data.frame(metric) || nrow(metric) != 1L ||
+      !all(c("disposition", "exit_status", "elapsed_seconds") %in%
+           names(metric)) || length(stderr_text) != 1L ||
+      length(expected_source_path) != 1L || length(output_exists) != 1L) {
+    return(FALSE)
+  }
+  text <- chartr("\\", "/", as.character(stderr_text))
+  source <- chartr("\\", "/", as.character(expected_source_path))
+  identical(as.character(metric$disposition[[1L]]), "failed") &&
+    identical(as.integer(metric$exit_status[[1L]]), 1L) &&
+    is.finite(as.numeric(metric$elapsed_seconds[[1L]])) &&
+    as.numeric(metric$elapsed_seconds[[1L]]) >= 0 &&
+    as.numeric(metric$elapsed_seconds[[1L]]) <= 5 &&
+    !isTRUE(output_exists) &&
+    grepl("No such file or directory", text, fixed = TRUE) &&
+    grepl(source, text, fixed = TRUE)
+}
