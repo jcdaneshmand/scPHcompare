@@ -31,6 +31,25 @@ testthat::test_that("MV8-B explicitly includes the separate all-bone-marrow coho
   testthat::expect_true(incumbent$gene_view_requested)
 })
 
+testthat::test_that("MV8-B classifies the incumbent and independent candidates honestly", {
+  facts_path <- testthat::test_path("..", "..", "docs", "audits",
+    "mv08b-dataset-source-facts-v1.csv")
+  facts <- utils::read.csv(facts_path, stringsAsFactors = FALSE,
+                           check.names = FALSE)
+  incumbent <- facts[facts$candidate_id == "existing_gse120221_25", ]
+  preferred <- facts[facts$candidate_id ==
+    "hca_hematopoietic_immune_cell_atlas", ]
+  testthat::expect_equal(nrow(facts), 6L)
+  testthat::expect_false(anyDuplicated(facts$candidate_id) > 0L)
+  testthat::expect_identical(incumbent$known_accession_overlap, 25L)
+  testthat::expect_identical(incumbent$independent_donors, 0L)
+  testthat::expect_identical(incumbent$disposition,
+    "technical_reprocessing_only")
+  testthat::expect_identical(preferred$disposition,
+    "preferred_pending_download_authorization")
+  testthat::expect_false(tolower(trimws(preferred$unresolved_fields)) == "none")
+})
+
 testthat::test_that("MV8-B preserves the corrected landscape and view contract", {
   spec_path <- testthat::test_path("..", "..", "docs", "specifications",
     "MV08B_READ_ONLY_DATASET_ADMISSION_AUDIT_PREFREEZE_V1.md")
