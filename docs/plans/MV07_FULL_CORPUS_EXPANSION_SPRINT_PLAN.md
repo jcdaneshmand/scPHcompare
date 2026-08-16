@@ -174,7 +174,16 @@ Execution rebind: a prelaunch heterogeneous repeat-queue row-bind defect was
 corrected at `cbc75a4` before any MV7-H job ran. The v2 prefreeze retains all 14
 scientific/configuration artifacts byte-for-byte, including the exact PH and
 landscape queues, and again passes 14/14 independent plus 16/16 repeat checks.
-Use only `docs/audits/mv07h-prefreeze-evidence-v2/` for execution identity.
+That v2 identity is retained as history and superseded by the source-axis
+rebind below.
+
+Source-axis rebind: the first v2 source unit failed before publishing any source
+or PH output because two guards treated redundant vector names as scientific
+axis content. The corrected guards retain exact ordered-value and type checks;
+a real 124-sample/248-view reconstruction passed and reproduced all 12 accepted
+sentinel views. The v4 prefreeze passes 14/14 independent and 17/17 repeat
+checks with all scientific queues unchanged. Use only
+`docs/audits/mv07h-prefreeze-evidence-v4/` for execution identity.
 
 ## MV7-I — descriptive topology and clustering evaluation
 
