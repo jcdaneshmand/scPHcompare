@@ -259,6 +259,28 @@ testthat::test_that("MV7-H completion selection stays label and distance blind",
                          fixed = TRUE)
 })
 
+testthat::test_that("MV7-H complete validation covers the full landscape", {
+  path <- testthat::test_path(
+    "..", "..", "scripts", "validate_mv07h_landscape_complete.R")
+  text <- paste(readLines(path, warn = FALSE), collapse = "\n")
+  testthat::expect_match(text, "sum(inventory$component_rows) == 152520L",
+                         fixed = TRUE)
+  testthat::expect_match(text, "rep(38130L, 4L)", fixed = TRUE)
+  testthat::expect_match(text, "length(all_pair_ids) == 152520L",
+                         fixed = TRUE)
+  testthat::expect_match(text, "nrow(oracles) == 4L", fixed = TRUE)
+  testthat::expect_match(text, "four components covered by byte-identical",
+                         fixed = TRUE)
+  testthat::expect_match(text, "shQuote(resume_args)", fixed = TRUE)
+  testthat::expect_match(text, "all_active_levels", fixed = TRUE)
+  testthat::expect_match(text, "level_cap_applied", fixed = TRUE)
+  testthat::expect_match(text,
+                         "authorize_MV7I_descriptive_prefreeze_only",
+                         fixed = TRUE)
+  testthat::expect_match(text, "dimension_combination_jobs = 0L",
+                         fixed = TRUE)
+})
+
 testthat::test_that("MV7-H GUDHI fallback preserves an exact gene diagram", {
   testthat::skip_if_not_installed("TDA")
   x <- matrix(
