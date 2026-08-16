@@ -156,3 +156,33 @@ test_that("MV8-G comparison publishes reconstructable label-free evidence", {
   expect_match(text, "hca_fastq_download_authorized = FALSE", fixed = TRUE)
   expect_match(text, "raw_reprocessing_authorized = FALSE", fixed = TRUE)
 })
+
+test_that("MV8-G PH prefreeze and monitor enforce the approved fallback", {
+  builder <- paste(readLines(testthat::test_path("..", "..", "scripts",
+    "build_mv08g_ph_prefreeze.R"), warn = FALSE), collapse = "\n")
+  monitor <- paste(readLines(testthat::test_path("..", "..", "scripts",
+    "run_mv08g_ph_monitor.R"), warn = FALSE), collapse = "\n")
+  expect_match(builder, "eligible_primary_disposition = \"rss_cap_exceeded\"",
+               fixed = TRUE)
+  expect_match(builder, "fallback_rss_cap_bytes = 12 * 1024^3", fixed = TRUE)
+  expect_match(builder, "ph_repeat_jobs = 4L", fixed = TRUE)
+  expect_match(builder,
+    "authorize_1240_PH_jobs_and_four_selected_engine_repeats", fixed = TRUE)
+  expect_match(monitor, "row$view_id != \"gene_topology_v1\"", fixed = TRUE)
+  expect_match(monitor, "primary$disposition != \"rss_cap_exceeded\"",
+               fixed = TRUE)
+  expect_match(monitor, "process$kill_tree()", fixed = TRUE)
+  expect_match(monitor, "byte_identical = exact", fixed = TRUE)
+})
+
+test_that("MV8-G PH validation opens only a landscape prefreeze", {
+  path <- testthat::test_path("..", "..", "scripts", "validate_mv08g_ph.R")
+  text <- paste(readLines(path, warn = FALSE), collapse = "\n")
+  expect_match(text, "finite_h0 != length(view$point_ids) - 1L", fixed = TRUE)
+  expect_match(text, "record$h0_mst_oracle$maximum_absolute_error", fixed = TRUE)
+  expect_match(text, "fallback_policy_exact", fixed = TRUE)
+  expect_match(text,
+    "full_PH_exact_authorize_landscape_execution_prefreeze_only", fixed = TRUE)
+  expect_match(text, "landscape_jobs_authorized = 0L", fixed = TRUE)
+  expect_match(text, "hca_fastq_download_authorized = FALSE", fixed = TRUE)
+})
