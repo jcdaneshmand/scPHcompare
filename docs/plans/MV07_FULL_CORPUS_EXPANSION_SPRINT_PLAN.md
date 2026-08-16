@@ -231,6 +231,15 @@ clean. Authorize only a clean independent-validation rerun; the remaining 19
 groups remain closed pending 8/8 validation. See
 `docs/audits/MV07H_LANDSCAPE_STRESS_ORACLE_REBIND_2026-08-16.md`.
 
+Validator-portability rebind: the reference-v3 validation completed all three
+R oracles and the analytical fixture, then failed closed because its immutable
+resume subprocess did not quote the Rust-library path containing spaces. No
+public decision was written. Commit `0539857` quotes every runner argument; a
+direct real-artifact diagnostic now reuses the group with all hashes and mtimes
+unchanged, and the focused MV7-H suite passes. Authorize one clean validator
+rerun from a new private v3 oracle root; the remaining groups stay closed. See
+`docs/audits/MV07H_LANDSCAPE_STRESS_VALIDATOR_PORTABILITY_REBIND_2026-08-16.md`.
+
 ## MV7-I — descriptive topology and clustering evaluation
 
 Purpose: use all eight tissues without overstating what the three single-study
