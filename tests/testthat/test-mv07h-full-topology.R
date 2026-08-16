@@ -346,6 +346,24 @@ testthat::test_that("MV7-I production reconstructs matrices before labels", {
   testthat::expect_match(monitor, "preserves a prior failure", fixed = TRUE)
   testthat::expect_match(monitor, "Reused immutable MV7-I resource checkpoint",
                          fixed = TRUE)
+  testthat::expect_match(monitor, "hash-drifted artifacts", fixed = TRUE)
+})
+
+testthat::test_that("MV7-I production requires independent full validation", {
+  path <- testthat::test_path(
+    "..", "..", "scripts", "validate_mv07i_label_closed.R")
+  text <- paste(readLines(path, warn = FALSE), collapse = "\n")
+  testthat::expect_match(text, "source_hash_and_pair_axis", fixed = TRUE)
+  testthat::expect_match(text, "matrix_reconstruction", fixed = TRUE)
+  testthat::expect_match(text, "candidate_pam_partitions", fixed = TRUE)
+  testthat::expect_match(text, "stability_and_k_selection", fixed = TRUE)
+  testthat::expect_match(text, "deterministic_repeat", fixed = TRUE)
+  testthat::expect_match(text, "immutable_resume", fixed = TRUE)
+  testthat::expect_match(text, "label_firewall", fixed = TRUE)
+  testthat::expect_match(text, "authorize_MV7I_outcome_prefreeze_only",
+                         fixed = TRUE)
+  testthat::expect_match(text, "private_results_published = FALSE",
+                         fixed = TRUE)
 })
 
 testthat::test_that("MV7-H GUDHI fallback preserves an exact gene diagram", {

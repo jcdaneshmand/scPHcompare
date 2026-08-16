@@ -1,7 +1,7 @@
 #!/usr/bin/env Rscript
 
 options(warn = 2)
-for (package in c("processx", "ps")) {
+for (package in c("processx", "ps", "digest")) {
   if (!requireNamespace(package, quietly = TRUE)) stop(package, " required.")
 }
 args <- commandArgs(trailingOnly = TRUE)
@@ -37,6 +37,28 @@ if (file.exists(metrics_path)) {
   if (!file.exists(status_path) ||
       read_csv(status_path)$completion_state != "complete") {
     stop("MV7-I successful resource checkpoint has stale artifacts.")
+  }
+  status <- read_csv(status_path)
+  named_files <- c(
+    matrix_bundle = "matrix-bundle.rds",
+    pair_summary = "pair-seed-summary.csv",
+    h1_summary = "h1-contribution-summary.csv",
+    candidate_partitions = "candidate-pam-partitions.csv",
+    stability = "stability-summary.csv",
+    selected_partitions = "selected-partitions.csv",
+    provenance = "provenance.csv")
+  paths <- file.path(private_root, "artifacts", named_files)
+  expected_hashes <- unname(unlist(status[paste0(
+    names(named_files), "_sha256")], use.names = FALSE))
+  if (!all(file.exists(paths))) {
+    stop("MV7-I successful resource checkpoint has missing artifacts.")
+  }
+  observed_hashes <- vapply(paths, function(path) {
+    digest::digest(file = path, algo = "sha256", serialize = FALSE)
+  }, character(1L))
+  if (!identical(tolower(unname(observed_hashes)),
+                 tolower(expected_hashes))) {
+    stop("MV7-I successful resource checkpoint has hash-drifted artifacts.")
   }
   message("Reused immutable MV7-I resource checkpoint and artifacts.")
   quit(save = "no", status = 0L)
