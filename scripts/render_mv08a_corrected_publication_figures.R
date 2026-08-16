@@ -292,12 +292,18 @@ for (view in c("cell", "gene")) {
 ecdf <- do.call(rbind, ecdf_rows)
 med <- aggregate(median ~ view_id, h1, stats::median)
 names(med) <- c("view", "median")
+med$label_y <- c(cell = .43, gene = .58)[med$view]
+med$label <- sprintf("%s median %.3f%%",
+  ifelse(med$view == "cell", "Cell", "Gene"), 100 * med$median)
 distribution <- ggplot2::ggplot(ecdf,
   ggplot2::aes(contribution, cumulative_fraction, color = view)) +
   ggplot2::geom_line(linewidth = .9) +
   ggplot2::geom_vline(data = med, ggplot2::aes(xintercept = median, color = view),
     linetype = "22", linewidth = .55) +
-  ggplot2::scale_x_log10(labels = scales::label_percent(accuracy = .01)) +
+  ggplot2::geom_label(data = med, ggplot2::aes(x = median, y = label_y,
+    label = label, color = view), inherit.aes = FALSE, fill = "white",
+    label.size = .25, size = 2.85, show.legend = FALSE) +
+  ggplot2::scale_x_log10(labels = function(x) sprintf("%.3g%%", 100 * x)) +
   ggplot2::scale_y_continuous(labels = scales::label_percent()) +
   ggplot2::scale_color_manual(values = view_cols,
     labels = c(cell = "Cell view", gene = "Gene view")) +
@@ -310,10 +316,18 @@ hc$algorithm <- ifelse(hc$algorithm_id == "pam_stability_k_v1", "PAM", "Average 
 hc$view <- factor(hc$view_id, levels = c("cell", "gene"),
   labels = c("Cell view", "Gene view"))
 hc$seed_label <- sub("2026", "", hc$seed)
+exception <- hc[!hc$exact_partition, , drop = FALSE]
+exception$exception_label <- sprintf("Cell seed %s\nARI %.3f",
+  exception$seed_label, exception$adjusted_rand_index)
 concordance <- ggplot2::ggplot(hc,
   ggplot2::aes(seed_label, adjusted_rand_index, color = view, shape = algorithm)) +
   ggplot2::geom_hline(yintercept = 1, color = grey, linewidth = .35) +
   ggplot2::geom_point(size = 2.6) +
+  ggplot2::geom_label(data = exception,
+    ggplot2::aes(x = seed_label, y = adjusted_rand_index,
+      label = exception_label, color = view), inherit.aes = FALSE,
+    nudge_y = .12, fill = "white", label.size = .25, size = 2.85,
+    show.legend = FALSE) +
   ggplot2::facet_wrap(~algorithm, ncol = 1) +
   ggplot2::scale_color_manual(values = c("Cell view" = teal, "Gene view" = purple)) +
   ggplot2::scale_shape_manual(values = c(PAM = 16, `Average linkage` = 17)) +
@@ -342,17 +356,23 @@ f5 <- ggplot2::ggplot(stab,
   ggplot2::geom_ribbon(ggplot2::aes(ymin = pmax(0, mean_stability - jackknife_se),
     ymax = pmin(1, mean_stability + jackknife_se), fill = representation_id),
     alpha = .13, color = NA) +
+  ggplot2::geom_line(ggplot2::aes(y = one_se_threshold), color = grey,
+    linetype = "33", linewidth = .5) +
   ggplot2::geom_line(linewidth = .65) + ggplot2::geom_point(size = 1.6) +
+  ggplot2::geom_point(data = stab[stab$k == stab$selected_k, , drop = FALSE],
+    shape = 21, fill = "white", stroke = .8, size = 3,
+    show.legend = FALSE) +
   ggplot2::geom_vline(xintercept = 2, linetype = "22", color = dark, linewidth = .45) +
   ggplot2::facet_wrap(~representation, ncol = 3) +
   ggplot2::scale_color_manual(values = rep_cols, guide = "none") +
   ggplot2::scale_fill_manual(values = rep_cols, guide = "none") +
   ggplot2::scale_x_continuous(breaks = 2:10) +
-  ggplot2::scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, .2)) +
+  ggplot2::scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, .2),
+    labels = scales::label_number(accuracy = .1)) +
   ggplot2::labs(title = "Label-free five-seed cluster stability",
     subtitle = "All six representations selected the smallest k within one SE of maximum stability",
     x = "Candidate cluster count k", y = "Mean pairwise seed ARI",
-    caption = "Ribbon: delete-one-seed jackknife SE. Dashed line: selected k=2. No metadata labels were used.") +
+    caption = "Ribbon: delete-one-seed jackknife SE. Horizontal dotted line: one-SE threshold; vertical dashed line and open point: selected k=2. No metadata labels were used.") +
   theme_pub(9)
 write_csv(stab, file.path(output_dir, "data", "f5-complete-stability.csv"))
 save_pair(f5, "figure-5-label-free-stability", 12, 8,
@@ -381,6 +401,7 @@ f6 <- ggplot2::ggplot(out, ggplot2::aes(representation, axis, fill = seed_mean))
   ggplot2::scale_fill_steps2(low = "#C94C4C", mid = "#F7F7F7", high = navy,
     midpoint = .08, limits = c(-.08, .30),
     breaks = c(-.05, 0, .05, .10, .15, .20, .25),
+    labels = scales::label_number(accuracy = .01),
     oob = scales::squish, name = "Seed mean") +
   ggplot2::labs(title = "Complete descriptive cluster–metadata alignment",
     subtitle = "All 120 prespecified units; values are five-seed mean ± technical jackknife SE",

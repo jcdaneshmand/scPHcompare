@@ -34,6 +34,10 @@ testthat::test_that("MV8-A publishes complete figure families without selection"
   testthat::expect_match(text, "All 120 prespecified units", fixed = TRUE)
   testthat::expect_match(text, "No p-values or rankings", fixed = TRUE)
   testthat::expect_match(text, "favorable winner", fixed = TRUE)
+  testthat::expect_match(text, "one_se_threshold", fixed = TRUE)
+  testthat::expect_match(text, "Cell seed %s", fixed = TRUE)
+  testthat::expect_match(text, "scale_fill_steps2", fixed = TRUE)
+  testthat::expect_match(text, "seed = 20260816L", fixed = TRUE)
   testthat::expect_match(text, "figure8_status = \"deferred_cross_stage_estimand\"",
     fixed = TRUE)
 })
