@@ -1,0 +1,2 @@
+"contract_id","decision","checks_passed","checks_total","complete_results_published","p_values_computed","method_selection_authorized","claims_authorized"
+"mv07i_outcome_validation_decision_v1","authorize_MV7J_claim_map_and_figure_planning_only",15,15,TRUE,FALSE,FALSE,FALSE

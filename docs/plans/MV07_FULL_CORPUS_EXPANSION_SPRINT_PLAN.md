@@ -345,6 +345,17 @@ independent validator pass 15/15, and all 13 artifacts repeat byte-identically.
 Authorize only the fixed descriptive outcome execution. See
 `docs/audits/MV07I_DESCRIPTIVE_OUTCOME_PREFREEZE_2026-08-16.md`.
 
+Descriptive-outcome closure: all 600 seed metrics, 120 five-seed summaries,
+and 5,620 private contingency cells are complete. Production and repeat took
+4.206 and 5.779 seconds at less than 80 MB peak RSS; all six artifacts repeat
+byte-identically. Independent reconstruction passes 15/15, including exact
+metadata authority, every ARI/max-NMI value, every summary and contingency,
+public-schema privacy, resource caps, and immutable resume. The validated
+pattern is modest and descriptive, with material algorithm and
+tissue/study/approach confounding limits; no p-values or outcome-driven
+selection were used. Authorize MV7-J claim-map and figure planning only. See
+`docs/audits/MV07I_DESCRIPTIVE_OUTCOME_CLOSURE_2026-08-16.md`.
+
 ## MV7-J — manuscript claim map, literature update, and figures
 
 Only after MV7-I should the result-dependent claim map become final. Link every

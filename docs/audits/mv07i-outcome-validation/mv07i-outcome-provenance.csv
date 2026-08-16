@@ -1,0 +1,2 @@
+"contract_id","selected_partition_sha256","metadata_samples","evaluation_units","seed_metric_rows","contingency_rows","structural_nonestimable_endpoints","p_values_computed","method_selection_executed","historical_heuristic_approach_used","outcomes_computed"
+"mv07i_outcome_provenance_v1","e20eeac218821bc23f9d3d5c4d41d612c4c5a04c8b04be093fbb1713c3414695",124,120,600,5620,1,FALSE,FALSE,FALSE,TRUE

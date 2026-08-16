@@ -1,0 +1,7 @@
+"contract_id","artifact","filename","production_sha256","repeat_sha256","byte_identical","bytes","public_content"
+"mv07i_outcome_artifact_manifest_v1","metadata_join","metadata-join.csv","bca1512f1f6da0ce006c4a6e8b82e2e329b706e0d2f7606133f7984956b9450a","bca1512f1f6da0ce006c4a6e8b82e2e329b706e0d2f7606133f7984956b9450a",TRUE,17462,FALSE
+"mv07i_outcome_artifact_manifest_v1","contingency","contingency-long.csv","4f5a0b89a52f6b5ef254e1330e35a7b645a76505f1810a679d1567fe43c9bd72","4f5a0b89a52f6b5ef254e1330e35a7b645a76505f1810a679d1567fe43c9bd72",TRUE,996982,FALSE
+"mv07i_outcome_artifact_manifest_v1","seed_metrics","seed-metrics.csv","933af6974642666227c56518725efee92ff6befa49d070bc759f3ce8bd4ead05","933af6974642666227c56518725efee92ff6befa49d070bc759f3ce8bd4ead05",TRUE,197026,TRUE
+"mv07i_outcome_artifact_manifest_v1","unit_summaries","unit-summaries.csv","4dccd420f79490413bcf9e12750c03558e3b33e202a90b4eefb3ffdc2188c777","4dccd420f79490413bcf9e12750c03558e3b33e202a90b4eefb3ffdc2188c777",TRUE,46821,TRUE
+"mv07i_outcome_artifact_manifest_v1","structural_status","structural-status.csv","6a15b08ecb273fad9c4292c30063acf9b53caf663ada51b12cb76e79d112f295","6a15b08ecb273fad9c4292c30063acf9b53caf663ada51b12cb76e79d112f295",TRUE,365,TRUE
+"mv07i_outcome_artifact_manifest_v1","provenance","provenance.csv","4d44dd733f9fdcb382384d1d63ea9a9a35839439abe64b4ba1c5928d9fb36638","4d44dd733f9fdcb382384d1d63ea9a9a35839439abe64b4ba1c5928d9fb36638",TRUE,398,TRUE
