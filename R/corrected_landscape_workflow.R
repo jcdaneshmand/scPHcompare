@@ -326,7 +326,7 @@ produce_corrected_landscape_artifacts_v1 <- function(
     sample_ids = names(diagrams),
     diagram_sha256 = plan$summaries$diagram_sha256,
     scientific_contract = .scph_landscape_contract_id_v1,
-    engine_version = "landscape_reference_v2"
+    engine_version = "landscape_reference_v3"
   )
   input_sha <- digest::digest(input_identity, algo = "sha256", serialize = TRUE)
   artifact_dir <- file.path(results_dir, "corrected_landscape_v1", paste0(
@@ -461,7 +461,7 @@ produce_corrected_landscape_artifacts_v1 <- function(
     contract_id = "scph_corrected_landscape_provenance_v1",
     input_set_sha256 = input_sha, matrix_cache_key = matrix_object$cache_key,
     scientific_contract = .scph_landscape_contract_id_v1,
-    engine_version = "landscape_reference_v2", method = "auto",
+    engine_version = "landscape_reference_v3", method = "auto",
     exact_max_intervals = 500L, abs_tol = 1e-8, rel_tol = 1e-8,
     subdivisions = 200L, level_policy = "all_consecutive_active_levels",
     dimension_policy = "H0_H1_separate_combined_descriptive",

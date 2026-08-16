@@ -107,6 +107,15 @@ test_that("adaptive reference agrees with exact and records error control", {
   expect_true(all(vapply(
     adaptive$dimensions, `[[`, character(1), "error_estimate_policy"
   ) == "fine_quadrature_error_plus_refinement_delta_v2"))
+  expect_true(all(vapply(
+    adaptive$dimensions, `[[`, character(1), "partition_failure_policy"
+  ) == "recursive_bisection_bad_integrand_or_roundoff_v3"))
+  expect_true(all(vapply(
+    adaptive$dimensions, `[[`, numeric(1), "coarse_fallback_splits"
+  ) >= 0))
+  expect_true(all(vapply(
+    adaptive$dimensions, `[[`, numeric(1), "fine_fallback_splits"
+  ) >= 0))
   expect_true(all(vapply(adaptive$dimensions, function(value) {
     isTRUE(all.equal(
       value$achieved_absolute_error_estimate,
@@ -131,49 +140,15 @@ test_that("streamed all-level values agree with the established TDA evaluator", 
 test_that("auto method respects the exact guard without changing defaults", {
   many <- do.call(rbind, lapply(seq_len(5L), function(index) {
     c(0, index / 10, 2 + index / 10)
-}))
-
-test_that("adaptive partition fallback bisects without loosening error budget", {
-  calls <- 0L
-  forced_failure <- function(f, lower, upper, subdivisions, rel.tol, abs.tol,
-                             stop.on.error) {
-    calls <<- calls + 1L
-    if (upper - lower > 0.5) {
-      stop("extremely bad integrand behaviour", call. = FALSE)
-    }
-    list(
-      value = (upper ^ 2 - lower ^ 2) / 2,
-      abs.error = abs.tol / 2,
-      subdivisions = 1L
-    )
-  }
-  result <- landscape_reference_integrate_partition(
-    function(x) x, 0, 1, subdivisions = 200L, rel_tol = 1e-8,
-    abs_tol = 1e-8, integrate_fn = forced_failure
-  )
-  expect_equal(result$value, 0.5, tolerance = 0)
-  expect_lte(result$abs.error, 1e-8)
-  expect_identical(result$subdivisions, 2L)
-  expect_identical(result$fallback_splits, 1L)
-  expect_identical(calls, 3L)
-})
-
-test_that("adaptive partition fallback does not mask unrelated failures", {
-  unrelated_failure <- function(...) stop("different failure", call. = FALSE)
-  expect_error(
-    landscape_reference_integrate_partition(
-      function(x) x, 0, 1, subdivisions = 200L, rel_tol = 1e-8,
-      abs_tol = 1e-8, integrate_fn = unrelated_failure
-    ),
-    "different failure"
-  )
-})
+  }))
   empty <- matrix(numeric(), nrow = 0L, ncol = 3L)
   result <- landscape_reference_distance(
     many, empty, method = "auto", exact_max_intervals = 2L
   )
   expect_identical(result$dimensions$H0$method,
-                   "adaptive_quadpack_partitioned_v2")
+                   "adaptive_quadpack_partitioned_v3")
+  expect_identical(result$provenance$engine_version,
+                   "landscape_reference_v3")
   expect_false(result$provenance$activated_as_scientific_default)
   expect_identical(result$provenance$specification,
                    "full_l2_error_controlled_v1")
@@ -184,5 +159,47 @@ test_that("adaptive partition fallback does not mask unrelated failures", {
       many, empty, method = "exact", exact_max_intervals = 2L
     ),
     "guard exceeded"
+  )
+})
+
+test_that("adaptive partition fallback bisects recoverable failures", {
+  messages <- c(
+    "extremely bad integrand behaviour",
+    "roundoff error is detected in the extrapolation table"
+  )
+  for (message in messages) {
+    calls <- 0L
+    forced_failure <- function(f, lower, upper, subdivisions, rel.tol, abs.tol,
+                               stop.on.error) {
+      calls <<- calls + 1L
+      if (upper - lower > 0.5) {
+        stop(message, call. = FALSE)
+      }
+      list(
+        value = (upper ^ 2 - lower ^ 2) / 2,
+        abs.error = abs.tol / 2,
+        subdivisions = 1L
+      )
+    }
+    result <- landscape_reference_integrate_partition(
+      function(x) x, 0, 1, subdivisions = 200L, rel_tol = 1e-8,
+      abs_tol = 1e-8, integrate_fn = forced_failure
+    )
+    expect_equal(result$value, 0.5, tolerance = 0)
+    expect_lte(result$abs.error, 1e-8)
+    expect_identical(result$subdivisions, 2L)
+    expect_identical(result$fallback_splits, 1L)
+    expect_identical(calls, 3L)
+  }
+})
+
+test_that("adaptive partition fallback does not mask unrelated failures", {
+  unrelated_failure <- function(...) stop("different failure", call. = FALSE)
+  expect_error(
+    landscape_reference_integrate_partition(
+      function(x) x, 0, 1, subdivisions = 200L, rel_tol = 1e-8,
+      abs_tol = 1e-8, integrate_fn = unrelated_failure
+    ),
+    "different failure"
   )
 })

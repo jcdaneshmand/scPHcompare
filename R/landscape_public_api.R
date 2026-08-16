@@ -235,7 +235,7 @@ persistence_landscape_distance <- function(
       legacy_reproduction = mode != "scientific",
       existing_workflow_default_changed = FALSE,
       engine_version = if (mode == "scientific") {
-        "landscape_reference_v2"
+        "landscape_reference_v3"
       } else "legacy_k1_unit_grid_v0"
     ),
     runtime = list(elapsed_seconds = unname(

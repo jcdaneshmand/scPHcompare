@@ -134,8 +134,11 @@ landscape_reference_integrate_partition <- function(
     result$fallback_splits <- 0L
     return(result)
   }
-  if (!grepl("extremely bad integrand behaviour", conditionMessage(result),
-             fixed = TRUE) || split_depth >= max_split_depth) {
+  recoverable <- any(vapply(
+    c("extremely bad integrand behaviour", "roundoff error is detected"),
+    grepl, logical(1), x = conditionMessage(result), fixed = TRUE
+  ))
+  if (!recoverable || split_depth >= max_split_depth) {
     stop(result)
   }
   midpoint <- lower + (upper - lower) / 2
@@ -165,7 +168,7 @@ landscape_reference_adaptive_pass <- function(first, second, breaks,
     return(list(
       value = 0, absolute.error = 0, evaluations = 0L,
       pilot_value = 0, global_error_budget = abs_tol,
-      local_absolute_tolerance = abs_tol
+      local_absolute_tolerance = abs_tol, fallback_splits = 0L
     ))
   }
   widths <- diff(breaks)
@@ -187,6 +190,7 @@ landscape_reference_adaptive_pass <- function(first, second, breaks,
   value <- 0
   absolute.error <- 0
   evaluations <- 0L
+  fallback_splits <- 0L
   for (index in seq_along(widths)) {
     result <- landscape_reference_integrate_partition(
       integrand, breaks[[index]], breaks[[index + 1L]],
@@ -195,12 +199,14 @@ landscape_reference_adaptive_pass <- function(first, second, breaks,
     value <- value + result$value
     absolute.error <- absolute.error + result$abs.error
     evaluations <- evaluations + result$subdivisions
+    fallback_splits <- fallback_splits + result$fallback_splits
   }
   list(
     value = value, absolute.error = absolute.error,
     evaluations = evaluations, pilot_value = pilot_value,
     global_error_budget = global_error_budget,
-    local_absolute_tolerance = local_abs_tol
+    local_absolute_tolerance = local_abs_tol,
+    fallback_splits = fallback_splits
   )
 }
 
@@ -232,7 +238,7 @@ landscape_reference_adaptive_dimension <- function(
   list(
     distance = sqrt(max(0, fine$value)),
     squared_distance = max(0, fine$value),
-    method = "adaptive_quadpack_partitioned_v2",
+    method = "adaptive_quadpack_partitioned_v3",
     exact = FALSE,
     requested_absolute_tolerance = abs_tol,
     requested_relative_tolerance = rel_tol,
@@ -242,6 +248,10 @@ landscape_reference_adaptive_dimension <- function(
     within_requested_tolerance = achieved <= threshold,
     integration_nodes = length(breaks),
     integration_subdivisions = fine$evaluations,
+    partition_failure_policy =
+      "recursive_bisection_bad_integrand_or_roundoff_v3",
+    coarse_fallback_splits = coarse$fallback_splits,
+    fine_fallback_splits = fine$fallback_splits,
     tolerance_allocation = "global_midpoint_pilot_equal_partition_v2",
     coarse_pilot_squared_distance = coarse$pilot_value,
     fine_pilot_squared_distance = fine$pilot_value,
@@ -259,7 +269,7 @@ landscape_reference_provenance <- function(first, second, method,
                                            abs_tol, rel_tol) {
   list(
     specification = "full_l2_error_controlled_v1",
-    engine_version = "landscape_reference_v2",
+    engine_version = "landscape_reference_v3",
     method_requested = method,
     exact_max_intervals = as.integer(exact_max_intervals),
     absolute_tolerance = abs_tol,
