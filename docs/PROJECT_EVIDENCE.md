@@ -138,8 +138,12 @@ The dissertation asks whether PH can:
 
 ### Homogeneous collection
 
-- GSE120221, 25 bone-marrow samples.
-- Used as a technical/homogeneity check.
+- GSE120221, 25 separately processed bone-marrow libraries from 20 donors.
+- MV8-B accession closure proves these are the same 25 `SRA779509` libraries
+  already present in the 124-sample corpus, not an independent external set.
+- Retained as a cell-view technical/reprocessing check. Its primary frozen
+  gene view is non-estimable because the historical axis retains 467/500
+  panel genes.
 - The topological clustering evaluation sets `k=25`, matching the number of samples.
 
 ### Quality control

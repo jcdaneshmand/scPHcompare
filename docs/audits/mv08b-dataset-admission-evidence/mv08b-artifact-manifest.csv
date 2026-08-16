@@ -1,0 +1,8 @@
+"contract_id","filename","sha256","bytes","contains_expression_values","contains_private_paths","contains_confidential_review_text","accepted_head"
+"mv08b_artifact_manifest_v1","mv08b-source-manifest.csv","3a1866ac7b75e8fe50585f60049d7f049eb5d1e7dec5ca1bb4b5a76c72fbb476",2084,FALSE,FALSE,FALSE,"7229f08032e4dddaaf8106c61778b736aa273d59"
+"mv08b_artifact_manifest_v1","mv08b-gse120221-overlap-map.csv","d4ff22b2ac32e56aca7ad09aee8e76bc039a8412f882d520a51f4b8c09643860",4767,FALSE,FALSE,FALSE,"7229f08032e4dddaaf8106c61778b736aa273d59"
+"mv08b_artifact_manifest_v1","mv08b-gse120221-source-compatibility.csv","f0a882246866b8a67455331d31b231a4f38e133e29075b1649097a375211cdf9",4120,FALSE,FALSE,FALSE,"7229f08032e4dddaaf8106c61778b736aa273d59"
+"mv08b_artifact_manifest_v1","mv08b-gse120221-overlap-summary.csv","b284db9402768518bae875a617956237c004c77ccac61b23bfcedc7e98d72b17",521,FALSE,FALSE,FALSE,"7229f08032e4dddaaf8106c61778b736aa273d59"
+"mv08b_artifact_manifest_v1","mv08b-candidate-admission-audit.csv","5273e3c818e11e3c9de69b0d4b930adb363c5153e824dfbbc591a1c2878dba52",14378,FALSE,FALSE,FALSE,"7229f08032e4dddaaf8106c61778b736aa273d59"
+"mv08b_artifact_manifest_v1","mv08b-landscape-continuation-contract.csv","922eb47f0404421f999a6f0ab23afe735f1016c42737af6be134ce266f3d0ea6",1081,FALSE,FALSE,FALSE,"7229f08032e4dddaaf8106c61778b736aa273d59"
+"mv08b_artifact_manifest_v1","mv08b-decision.csv","2827f1ea462acccc93adf3f9a46e9326dfc805f1ec5d135ed6e3d34c14abee1d",420,FALSE,FALSE,FALSE,"7229f08032e4dddaaf8106c61778b736aa273d59"

@@ -1,0 +1,2 @@
+"contract_id","validation_libraries","main_sra779509_libraries","exact_accession_overlaps","official_submission","official_study","official_bioproject","validation_min_post_qc_cells","main_min_post_qc_cells","fixed_depth_eligible_libraries","libraries_with_shared_barcodes","minimum_validation_panel_genes","minimum_main_panel_genes","independent_external_validation","technical_reprocessing_validation"
+"mv08b_gse120221_overlap_summary_v1",25,25,25,"SRA779509","SRP162214","PRJNA492227",789,874,25,25,467,500,FALSE,TRUE

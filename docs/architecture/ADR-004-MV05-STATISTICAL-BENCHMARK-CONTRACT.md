@@ -18,9 +18,11 @@ spans studies, and its transformations were fit over all pilot samples.
 
 The existing large-cohort metadata contains 124 samples. Five tissues occur in
 at least two studies, yielding a prospective 90-sample, 15-study candidate set.
-The separate 25-sample bone-marrow cohort contains one study and can support
-only within-study technical approach diagnostics. Current Seurat integration
-is transductive because it jointly calls `FindIntegrationAnchors()` and
+The separately processed 25-library bone-marrow analysis contains one study
+and can support only same-library technical diagnostics. MV8-B later proved
+that all 25 libraries already occur in the 124-sample corpus, so this path is
+not an independent cohort. Current Seurat integration is transductive because
+it jointly calls `FindIntegrationAnchors()` and
 `IntegrateData()` and has no audited held-out query mapping path.
 
 ## Decision

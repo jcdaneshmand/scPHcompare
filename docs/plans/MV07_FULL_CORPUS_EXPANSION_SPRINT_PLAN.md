@@ -20,8 +20,10 @@ coverage into unsupported cross-study generalization.
 - H0 and H1 remain separate and use all-active-level exact or error-controlled
   landscapes with no universal grid or level cap.
 - The 34 samples may enter only after a label-closed contract is durable.
-- The three below-250 samples and the separate 25-sample validation cohort do
-  not enter the 124-sample analysis.
+- The three below-250 samples do not enter the 124-sample analysis. The
+  separately stored 25-library GSE120221 validation processing path does not
+  add observations: MV8-B later proved that those same 25 libraries are
+  already among the 124 retained samples.
 - No new dataset is needed for this sequence.
 
 ## MV7-D — corpus reconciliation and source/SCT feasibility (complete)

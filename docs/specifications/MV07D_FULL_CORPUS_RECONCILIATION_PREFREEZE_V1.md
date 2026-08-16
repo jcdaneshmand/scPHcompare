@@ -25,8 +25,10 @@ bounded source/SCT feasibility check for samples omitted from the primary
 5. The three below-250 samples are a separate threshold-sensitivity population.
    They cannot satisfy the fixed 384-cell contract and are not admitted here.
 
-The separate 25-sample GSE120221 bone-marrow validation cohort remains a
-technical validation population and is not part of the 127/124/90 flow.
+The separately stored 25-library GSE120221 bone-marrow processing path remains
+a technical validation population. MV8-B later established that its 25
+biological libraries are the same `SRA779509` libraries already inside the
+127/124 flow; it is not an additional independent cohort.
 
 Study and tissue fields agree between the public candidate metadata and the
 historical retained ledger. Approach labels disagree for 16 retained samples

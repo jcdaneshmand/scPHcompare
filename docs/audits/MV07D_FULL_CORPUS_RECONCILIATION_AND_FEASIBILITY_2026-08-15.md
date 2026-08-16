@@ -32,7 +32,7 @@ threshold-sensitivity population.
 | Corrected primary cross-study | 90 | Accepted blocked tissue-retrieval estimand |
 | Corrected full-corpus descriptive | 124 | Prospective topology, distances, and clustering without cross-study claims for single-study tissues |
 | Below-threshold sensitivity | 3 | Separate reduced-depth feasibility/stability question only |
-| GSE120221 validation | 25 | Separate bone-marrow technical cohort; outside the 127/124/90 flow |
+| GSE120221 validation processing | 25 | Separate historical processing path; MV8-B later proved exact overlap with 25 `SRA779509` libraries already inside the 124-sample flow, so it is technical rather than independent validation |
 
 The complete one-row-per-candidate ledger is
 `mv07d-prefreeze-evidence/mv07d-sample-reconciliation.csv`.

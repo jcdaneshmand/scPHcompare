@@ -105,8 +105,10 @@ final rerender passed the same 11/11 independent checks.
 
 Proceed to the read-only external-dataset admission audit. The audit must
 include the separate 25-sample GSE120221 bone-marrow technical-validation
-cohort as a named first candidate, distinct from the 31 bone-marrow samples in
-the heterogeneous cohort and outside the 127/124/90 flow. It should assess
+processing path as a named first candidate and test whether it is biologically
+independent of the 31 bone-marrow rows in the heterogeneous cohort. MV8-B
+subsequently proved exact overlap with 25 retained `SRA779509` libraries. It
+should assess
 observation independence, accession overlap, metadata provenance, raw-input
 availability, cell-view compatibility, fixed-gene-panel overlap, H0/H1
 estimands, and resource requirements before any new calculation.

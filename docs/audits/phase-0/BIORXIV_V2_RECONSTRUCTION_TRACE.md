@@ -54,7 +54,13 @@ Historical `PH Pipeline V5.R` and current `R/PH_Calculation.R` both apply the sa
 
 Historical `filtered_cells.csv` contains 124 samples. The three rows present in the 127-row public metadata but absent from that retained set are `SRS4386092`, `SRS4386091`, and `SRS4386107`. Dated pipeline logs identify them as `SRA850958_SRS4386092`, `SRA850958_SRS4386091`, and `SRA850958_SRS4386107`, with 169, 197, and 166 post-QC cells respectively. Each was explicitly skipped before PH. Final Raw, SCT Individual, SCT Whole, and Integrated PH lists each contain 124 named, non-null outputs.
 
-The 31 bone-marrow rows are part of the heterogeneous 127-row metadata and are not the external validation cohort. Historical `data/GSE120221/Sparse_RData` contains 25 validation inputs; its pre- and post-filter tables each contain 25 samples, and all four final validation PH lists contain 25 named, non-null outputs. The validation flow is therefore 25-to-25, not 31-to-25.
+The heterogeneous 127-row metadata contains 31 bone-marrow rows. Historical
+`data/GSE120221/Sparse_RData` contains 25 separately processed validation
+inputs; its pre- and post-filter tables each contain 25 samples, and all four
+final validation PH lists contain 25 named, non-null outputs. MV8-B later
+closed their public accessions and proved that these are exactly the 25
+`SRA779509` libraries already among the 31 bone-marrow rows. The historical
+processing flow is 25-to-25, but it is not an independent external cohort.
 
 The code-first provenance implementation is recorded in [`../PROVENANCE_INSTRUMENTATION_2026-08-04.md`](../PROVENANCE_INSTRUMENTATION_2026-08-04.md). Exact historical evidence remains preserved in the local lineage repository rather than copying large artifacts here.
 
