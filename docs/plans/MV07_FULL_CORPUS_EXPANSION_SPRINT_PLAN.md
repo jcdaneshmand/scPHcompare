@@ -259,6 +259,15 @@ remains closed. Private production is authorized in the existing v2 stress
 root; public evidence waits for independent complete-corpus validation. See
 `docs/audits/MV07H_REMAINING_LANDSCAPE_LAUNCH_FREEZE_2026-08-16.md`.
 
+Completion-validation prefreeze: all 20 groups and 152,520 component rows are
+present. Total charged landscape time is 3,652.144/23,232.367 seconds, peak RSS
+is below 205 MB, and private storage is below 95 MB. The 8/8 prefreeze selects
+three non-stress repeats and one maximum-depth numerical oracle per component
+using interval burden only, without labels or distance values. Commit
+`90f9798` authorizes only those three repeats, followed by complete-corpus
+independent validation. See
+`docs/audits/MV07H_LANDSCAPE_COMPLETION_PREFREEZE_2026-08-16.md`.
+
 ## MV7-I — descriptive topology and clustering evaluation
 
 Purpose: use all eight tissues without overstating what the three single-study
