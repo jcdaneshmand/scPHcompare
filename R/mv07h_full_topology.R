@@ -537,3 +537,20 @@ mv07h_missing_repeat_source_recovery_eligible_v1 <- function(
     grepl("No such file or directory", text, fixed = TRUE) &&
     grepl(source, text, fixed = TRUE)
 }
+
+mv07h_completed_fallback_owns_output_v1 <- function(
+    fallback_metrics, job_id, output_sha256, output_bytes) {
+  required <- c("job_id", "disposition", "output_sha256", "output_bytes")
+  if (!is.data.frame(fallback_metrics) ||
+      !all(required %in% names(fallback_metrics)) || length(job_id) != 1L ||
+      length(output_sha256) != 1L || length(output_bytes) != 1L) {
+    return(FALSE)
+  }
+  hit <- fallback_metrics[
+    fallback_metrics$job_id == as.character(job_id) &
+      fallback_metrics$disposition == "completed",, drop = FALSE]
+  nrow(hit) == 1L &&
+    identical(as.character(hit$output_sha256[[1L]]),
+              as.character(output_sha256)) &&
+    identical(as.numeric(hit$output_bytes[[1L]]), as.numeric(output_bytes))
+}

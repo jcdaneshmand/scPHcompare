@@ -95,6 +95,23 @@ run_attempt <- function(row, repeat_mode = FALSE, fallback = FALSE) {
   output <- file.path(private_root, prefix, row$output_file)
   hit <- if (nrow(ledger)) ledger[ledger$job_id == job_id, , drop = FALSE] else
     data.frame()
+  if (!fallback && nrow(hit) == 1L &&
+      hit$disposition == "rss_cap_exceeded") {
+    fallback_ledger_name <- if (repeat_mode) {
+      "repeat-fallback-metrics.csv"
+    } else "fallback-metrics.csv"
+    fallback_ledger <- read_ledger(file.path(private_root,
+                                             fallback_ledger_name))
+    fallback_owns_output <- file.exists(output) &&
+      mv07h_completed_fallback_owns_output_v1(
+        fallback_ledger, job_id, .mv07h_sha256(output),
+        as.numeric(file.info(output)$size))
+    if (!file.exists(output) || fallback_owns_output) {
+      return(augment_metric(hit, if (row$stage == "source_views") {
+        "source_reconstruction"
+      } else "ripserr", "primary", ""))
+    }
+  }
   if (file.exists(output) || nrow(hit)) {
     completed <- if (nrow(hit)) hit[hit$disposition == "completed",,
                                     drop = FALSE] else data.frame()
@@ -107,12 +124,6 @@ run_attempt <- function(row, repeat_mode = FALSE, fallback = FALSE) {
         completed, engine,
         if (fallback) "exact_resource_fallback" else "primary",
         if (fallback) "rss_cap_exceeded" else ""))
-    }
-    if (!file.exists(output) && !fallback && nrow(hit) == 1L &&
-        hit$disposition == "rss_cap_exceeded") {
-      return(augment_metric(hit, if (row$stage == "source_views") {
-        "source_reconstruction"
-      } else "ripserr", "primary", ""))
     }
     if (!file.exists(output) && fallback && nrow(hit) == 1L &&
         hit$disposition != "completed") {

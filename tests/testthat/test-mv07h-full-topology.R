@@ -159,6 +159,23 @@ testthat::test_that("MV7-H repeat recovery is missing-source specific", {
     metric, "scientific computation failed", source, FALSE))
 })
 
+testthat::test_that("MV7-H mixed-engine resume proves output ownership", {
+  metrics <- data.frame(
+    job_id = c("job_a", "job_b"), disposition = "completed",
+    output_sha256 = c("abc", "def"), output_bytes = c(10, 20),
+    stringsAsFactors = FALSE)
+  testthat::expect_true(mv07h_completed_fallback_owns_output_v1(
+    metrics, "job_a", "abc", 10))
+  testthat::expect_false(mv07h_completed_fallback_owns_output_v1(
+    metrics, "job_a", "changed", 10))
+  duplicate <- rbind(metrics, metrics[1,, drop = FALSE])
+  testthat::expect_false(mv07h_completed_fallback_owns_output_v1(
+    duplicate, "job_a", "abc", 10))
+  metrics$disposition[[1L]] <- "failed"
+  testthat::expect_false(mv07h_completed_fallback_owns_output_v1(
+    metrics, "job_a", "abc", 10))
+})
+
 testthat::test_that("MV7-H GUDHI fallback preserves an exact gene diagram", {
   testthat::skip_if_not_installed("TDA")
   x <- matrix(
