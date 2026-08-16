@@ -95,7 +95,8 @@ mv08b_source_axis_summary <- function(validation_path, main_path, panel_genes) {
   main_barcodes <- unique(mv08b_normalize_barcodes(colnames(main)))
   shared_barcodes <- intersect(validation_barcodes, main_barcodes)
   validation_genes <- unique(as.character(rownames(validation)))
-  main_genes <- unique(sub("-ENSG[0-9]+\\..*$", "", as.character(rownames(main))))
+  main_genes <- unique(sub("[-_]ENSG[0-9]+\\..*$", "",
+                           as.character(rownames(main))))
   data.frame(
     validation_source_cells = length(validation_barcodes),
     main_source_cells = length(main_barcodes),
@@ -218,8 +219,11 @@ mv08b_main <- function() {
 
   facts <- facts[match(registry$candidate_id, facts$candidate_id), , drop = FALSE]
   candidate_audit <- cbind(registry, facts[setdiff(names(facts), "candidate_id")])
-  candidate_audit$all_hard_gates_resolved <-
+  candidate_audit$preferred_by_read_only_audit <-
     candidate_audit$disposition == "preferred_pending_download_authorization"
+  candidate_audit$all_hard_gates_resolved <-
+    candidate_audit$preferred_by_read_only_audit &
+    tolower(trimws(candidate_audit$unresolved_fields)) == "none"
   candidate_audit$download_authorized <- FALSE
   candidate_audit$new_ph_authorized <- FALSE
   candidate_audit$landscape_contract <-
@@ -285,7 +289,35 @@ mv08b_main <- function() {
     final_author_roles_decided = FALSE,
     stringsAsFactors = FALSE)
 
+  source_paths <- c(input_paths,
+    "docs/audits/mv07h-full-ph-evidence/mv07h-ph-metrics.csv",
+    "docs/audits/mv07h-full-ph-evidence/mv07h-source-metrics.csv")
+  source_manifest <- data.frame(
+    contract_id = "mv08b_source_manifest_v1",
+    source_order = seq_along(source_paths),
+    source_id = c("main_metadata", "validation_metadata", "ncbi_runinfo",
+      "frozen_panel", "candidate_registry", "candidate_facts",
+      "mv07h_ph_metrics", "mv07h_source_metrics"),
+    locator = c("private_local_metadata_not_published",
+      "private_local_metadata_not_published",
+      "https://trace.ncbi.nlm.nih.gov/Traces/sra-db-be/runinfo?acc=SRP162214",
+      "docs/audits/mv07fp-panel-evidence/mv07fp-panel.csv",
+      "docs/specifications/mv08b-dataset-candidate-registry-v1.csv",
+      "docs/audits/mv08b-dataset-source-facts-v1.csv",
+      "docs/audits/mv07h-full-ph-evidence/mv07h-ph-metrics.csv",
+      "docs/audits/mv07h-full-ph-evidence/mv07h-source-metrics.csv"),
+    sha256 = vapply(source_paths, function(path)
+      digest::digest(file = path, algo = "sha256", serialize = FALSE),
+      character(1L)),
+    bytes = as.numeric(file.info(source_paths)$size),
+    access_class = c("private_hash_only", "private_hash_only",
+      "official_public_metadata", rep("public_repository", 5L)),
+    contains_expression_values = FALSE,
+    accepted_head = expected_head,
+    stringsAsFactors = FALSE)
+
   outputs <- list(
+    "mv08b-source-manifest.csv" = source_manifest,
     "mv08b-gse120221-overlap-map.csv" = mapping,
     "mv08b-gse120221-source-compatibility.csv" = compatibility,
     "mv08b-gse120221-overlap-summary.csv" = summary,
@@ -309,4 +341,3 @@ mv08b_main <- function() {
 }
 
 if (sys.nframe() == 0L) mv08b_main()
-

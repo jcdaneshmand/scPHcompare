@@ -17,7 +17,7 @@ truth <- function(x) if (is.logical(x)) !is.na(x) & x else
   tolower(trimws(as.character(x))) == "true"
 sha <- function(path) digest::digest(file = path, algo = "sha256",
                                      serialize = FALSE)
-required <- c("mv08b-gse120221-overlap-map.csv",
+required <- c("mv08b-source-manifest.csv", "mv08b-gse120221-overlap-map.csv",
   "mv08b-gse120221-source-compatibility.csv",
   "mv08b-gse120221-overlap-summary.csv",
   "mv08b-candidate-admission-audit.csv",
@@ -27,14 +27,20 @@ if (any(!file.exists(file.path(production_dir, required))) ||
     any(!file.exists(file.path(repeat_dir, required)))) {
   stop("MV8-B production or repeat output is incomplete.", call. = FALSE)
 }
-mapping <- readc(file.path(production_dir, required[[1L]]))
-compatibility <- readc(file.path(production_dir, required[[2L]]))
-summary <- readc(file.path(production_dir, required[[3L]]))
-candidates <- readc(file.path(production_dir, required[[4L]]))
-landscape <- readc(file.path(production_dir, required[[5L]]))
-decision <- readc(file.path(production_dir, required[[6L]]))
-manifest <- readc(file.path(production_dir, required[[7L]]))
+sources <- readc(file.path(production_dir, required[[1L]]))
+mapping <- readc(file.path(production_dir, required[[2L]]))
+compatibility <- readc(file.path(production_dir, required[[3L]]))
+summary <- readc(file.path(production_dir, required[[4L]]))
+candidates <- readc(file.path(production_dir, required[[5L]]))
+landscape <- readc(file.path(production_dir, required[[6L]]))
+decision <- readc(file.path(production_dir, required[[7L]]))
+manifest <- readc(file.path(production_dir, required[[8L]]))
 
+source_manifest_ok <- nrow(sources) == 8L && !anyDuplicated(sources$source_id) &&
+  all(sources$accepted_head == expected_head) &&
+  !any(truth(sources$contains_expression_values)) &&
+  all(nchar(sources$sha256) == 64L) && all(sources$bytes > 0) &&
+  !any(grepl("/mnt/|E:\\\\Repositories", sources$locator, ignore.case = TRUE))
 mapping_ok <- nrow(mapping) == 25L && !anyDuplicated(mapping$srs) &&
   !anyDuplicated(mapping$gsm) && all(truth(mapping$exact_accession_overlap)) &&
   !any(truth(mapping$independent_external_library)) &&
@@ -82,7 +88,7 @@ decision_ok <- nrow(decision) == 1L &&
   !truth(decision$manuscript_claim_promoted) &&
   !truth(decision$confidential_material_published) &&
   !truth(decision$final_author_roles_decided)
-manifest_ok <- nrow(manifest) == 6L && !anyDuplicated(manifest$filename) &&
+manifest_ok <- nrow(manifest) == 7L && !anyDuplicated(manifest$filename) &&
   all(manifest$accepted_head == expected_head) &&
   all(vapply(seq_len(nrow(manifest)), function(i) {
     path <- file.path(production_dir, manifest$filename[[i]])
@@ -103,19 +109,20 @@ privacy_ok <- !grepl("/mnt/|E:\\\\Repositories|pasted-text|Dear Dr Rouchka|revie
 
 checks <- data.frame(
   contract_id = "mv08b_independent_validation_v1",
-  check = c("exact_accession_overlap", "local_source_compatibility",
+  check = c("source_manifest", "exact_accession_overlap", "local_source_compatibility",
     "gse120221_summary", "candidate_admission", "landscape_contract",
     "decision_boundary", "artifact_manifest", "byte_identical_repeat",
     "privacy_and_confidentiality"),
-  passed = c(mapping_ok, source_ok, summary_ok, candidate_ok, landscape_ok,
+  passed = c(source_manifest_ok, mapping_ok, source_ok, summary_ok, candidate_ok, landscape_ok,
     decision_ok, manifest_ok, repeat_ok, privacy_ok),
-  detail = c("25 official GSM/BioSample/SRS/SRR mappings close to SRA779509",
+  detail = c("eight frozen input sources hashed without publishing private paths",
+    "25 official GSM/BioSample/SRS/SRR mappings close to SRA779509",
     "25 local source pairs share barcodes and retain the fixed panel/depth",
     "separate processing retained but external independence rejected",
     "six frozen candidates have explicit view and estimand dispositions",
     "all active levels and separate H0/H1 remain immutable",
     "stops before expression download, PH, claims, or author decisions",
-    "six production artifacts independently rehashed",
+    "seven production artifacts independently rehashed",
     "production and repeat bundles are byte-identical",
     "no private path, PDF, expression value, or confidential review text"),
   stringsAsFactors = FALSE)
@@ -127,4 +134,3 @@ utils::write.table(checks, validation_output, sep = ",", row.names = FALSE,
                    col.names = TRUE, quote = TRUE, na = "", qmethod = "double")
 cat("MV8-B independent validation passed:", nrow(checks), "/", nrow(checks),
     "\n")
-
