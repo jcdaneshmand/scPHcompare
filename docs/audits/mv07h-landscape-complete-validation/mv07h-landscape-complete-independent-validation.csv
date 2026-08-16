@@ -1,0 +1,14 @@
+"contract_id","category","passed","detail","outcome_label_state","biological_outcomes_computed"
+"mv07h_landscape_complete_independent_validation_v1","prefreeze_identity",TRUE,"frozen 20-group/152,520-row completion contract","closed",FALSE
+"mv07h_landscape_complete_independent_validation_v1","complete_group_axis",TRUE,"20/20 hash- and content-verified group directories","closed",FALSE
+"mv07h_landscape_complete_independent_validation_v1","complete_component_rows",TRUE,"152,520 H0/H1 component rows","closed",FALSE
+"mv07h_landscape_complete_independent_validation_v1","pair_axes",TRUE,"all canonical 124-sample pair axes","closed",FALSE
+"mv07h_landscape_complete_independent_validation_v1","distance_contract",TRUE,"finite nonnegative exact all-level squared-L2 rows","closed",FALSE
+"mv07h_landscape_complete_independent_validation_v1","component_balance",TRUE,"38,130 rows per cell/gene H0/H1 component","closed",FALSE
+"mv07h_landscape_complete_independent_validation_v1","rust_identity",TRUE,"accepted Rust SHA-256 and engine version","closed",FALSE
+"mv07h_landscape_complete_independent_validation_v1","resource_caps",TRUE,"per-group and total measured caps pass","closed",FALSE
+"mv07h_landscape_complete_independent_validation_v1","scientific_repeats",TRUE,"four components covered by byte-identical repeats","closed",FALSE
+"mv07h_landscape_complete_independent_validation_v1","r_reference_oracles",TRUE,"four frozen maximum-depth R oracles","closed",FALSE
+"mv07h_landscape_complete_independent_validation_v1","analytic_oracle",TRUE,"closed-form H1 Rust oracle","closed",FALSE
+"mv07h_landscape_complete_independent_validation_v1","immutable_resume",TRUE,"61 production/checkpoint files unchanged","closed",FALSE
+"mv07h_landscape_complete_independent_validation_v1","label_downstream_firewall",TRUE,"dimension combination, clustering, labels and outcomes remain closed","closed",FALSE

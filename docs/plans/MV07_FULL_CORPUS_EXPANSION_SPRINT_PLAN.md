@@ -277,6 +277,15 @@ its `1.062933e-09` certified bound, and the canonical suite remains clean.
 Authorize only a clean rerun of the unchanged complete validator. See
 `docs/audits/MV07H_LANDSCAPE_COMPLETE_ORACLE_V4_REBIND_2026-08-16.md`.
 
+Full-landscape closure: all 20 groups and 152,520 component rows are complete.
+Total charged landscape time is 3,652.144/23,232.367 seconds, peak RSS is below
+205 MB, and production groups occupy 90,201,469 bytes. Independent validation
+passes 13/13: all axes/contracts/hashes, four component repeats, four frozen
+maximum-depth R oracles, the analytical oracle, resource caps, and 61-file
+immutable resume pass. H0/H1 remain separate and labels/downstream work remain
+closed. Authorize only MV7-I descriptive prefreeze. See
+`docs/audits/MV07H_FULL_LANDSCAPE_CLOSURE_2026-08-16.md`.
+
 ## MV7-I — descriptive topology and clustering evaluation
 
 Purpose: use all eight tissues without overstating what the three single-study
