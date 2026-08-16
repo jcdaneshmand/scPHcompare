@@ -85,3 +85,15 @@ testthat::test_that("MV7-H repeat receipt axis normalizes source and PH schemas"
   testthat::expect_equal(nrow(normalized), 3L)
   testthat::expect_equal(anyDuplicated(normalized$job_id), 0L)
 })
+
+testthat::test_that("MV7-H ordered axes ignore redundant names only", {
+  expected <- c("sample_a", "sample_b", "sample_c")
+  named <- stats::setNames(expected, expected)
+  testthat::expect_true(mv07h_ordered_axis_identical_v1(named, expected))
+  testthat::expect_false(mv07h_ordered_axis_identical_v1(
+    named, rev(expected)))
+  testthat::expect_false(mv07h_ordered_axis_identical_v1(
+    named, factor(expected)))
+  testthat::expect_identical(
+    mv07h_canonical_sample_axis_v1(rev(named)), expected)
+})

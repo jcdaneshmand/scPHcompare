@@ -38,7 +38,8 @@ parent <- readRDS(parent_path)
 mv07g_validate_source_record_v1(parent)
 if (parent$identity$seed != seed ||
     !identical(parent$identity$panel_sha256, unique(panel$panel_sha256)) ||
-    !identical(parent$pca_model$fit_sample_ids, part$sample_id)) {
+    !mv07h_ordered_axis_identical_v1(parent$pca_model$fit_sample_ids,
+                                     part$sample_id)) {
   stop("MV7-H parent transform differs from the exact seed axis.")
 }
 paths <- ifelse(

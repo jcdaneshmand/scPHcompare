@@ -3,6 +3,14 @@
 .mv07h_seeds <- 20260805:20260809
 .mv07h_views <- c("cell_topology_v1", "gene_topology_v1")
 .mv07h_dimensions <- c("H0", "H1")
+
+mv07h_ordered_axis_identical_v1 <- function(left, right) {
+  identical(unname(left), unname(right))
+}
+
+mv07h_canonical_sample_axis_v1 <- function(sample_ids) {
+  unname(sort(sample_ids, method = "radix"))
+}
 .mv07h_forbidden_fields <- c(
   "tissue", "approach", "endpoint", "outcome", "class", "label",
   "cluster", "ari", "nmi"
@@ -214,7 +222,8 @@ mv07h_pair_id_v1 <- function(seed, first_sample_id, second_sample_id, view_id,
 
 mv07h_new_source_record_v1 <- function(parent, views) {
   mv07g_validate_source_record_v1(parent)
-  sample_ids <- sort(parent$pca_model$fit_sample_ids, method = "radix")
+  sample_ids <- mv07h_canonical_sample_axis_v1(
+    parent$pca_model$fit_sample_ids)
   if (!is.list(views) || !identical(names(views), sample_ids)) {
     stop("MV7-H requires all 124 ordered typed-view pairs.", call. = FALSE)
   }
