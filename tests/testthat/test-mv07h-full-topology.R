@@ -402,6 +402,27 @@ testthat::test_that("MV7-I outcome prefreeze fixes complete descriptive scope", 
     "authorize_MV7I_descriptive_outcome_execution_only", fixed = TRUE)
 })
 
+testthat::test_that("MV7-I outcome execution follows the frozen queue", {
+  entry_path <- testthat::test_path(
+    "..", "..", "scripts", "run_mv07i_outcome_entry.R")
+  monitor_path <- testthat::test_path(
+    "..", "..", "scripts", "run_mv07i_outcome_monitor.R")
+  entry <- paste(readLines(entry_path, warn = FALSE), collapse = "\n")
+  monitor <- paste(readLines(monitor_path, warn = FALSE), collapse = "\n")
+  testthat::expect_match(entry, "nrow(queue) != 120L", fixed = TRUE)
+  testthat::expect_match(entry, "mv05s_metric_v1", fixed = TRUE)
+  testthat::expect_match(entry, "mv05s_jackknife_se_v1", fixed = TRUE)
+  testthat::expect_match(entry, "nrow(seed_metrics) != 600L", fixed = TRUE)
+  testthat::expect_match(entry, "historical_heuristic_approach_used = FALSE",
+                         fixed = TRUE)
+  testthat::expect_match(entry, "p_value_computed = FALSE", fixed = TRUE)
+  testthat::expect_match(entry, "method_selection_executed = FALSE",
+                         fixed = TRUE)
+  testthat::expect_match(monitor, "hash-drifted artifacts", fixed = TRUE)
+  testthat::expect_match(monitor, "elapsed_cap_exceeded", fixed = TRUE)
+  testthat::expect_match(monitor, "rss_cap_exceeded", fixed = TRUE)
+})
+
 testthat::test_that("MV7-H GUDHI fallback preserves an exact gene diagram", {
   testthat::skip_if_not_installed("TDA")
   x <- matrix(
