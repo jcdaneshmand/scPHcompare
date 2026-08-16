@@ -1,0 +1,2 @@
+"contract_id","seed","sentinel_samples","views","deterministic_subset","homology_dimensions","expected_checks","primary_engine","corroborating_engine","maximum_absolute_error_tolerance","biological_interpretation"
+"mv07g_cross_engine_contract_v1",20260805,6,"cell_topology_v1;gene_topology_v1","first_32_ordered_points_per_view","H0;H1",24,"ripserr","TDA_ripsDiag_GUDHI",1e-06,FALSE

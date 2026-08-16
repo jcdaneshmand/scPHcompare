@@ -1,0 +1,2 @@
+"contract_id","samples","seeds","global_fit_jobs","global_fit_samples_per_seed","global_fit_cells_per_seed","panel_genes","pca_components","typed_views","ph_jobs","homology_dimensions","filtration","threshold","field","cross_engine_checks","representative_repeat_artifacts","full_projection_worker_hours_cap","full_projection_private_bytes_cap","outcome_label_state","biological_outcomes_computed"
+"mv07g_typed_view_ph_sentinel_prefreeze_v1",6,5,5,124,47616,500,30,60,60,"H0;H1","complete_vietoris_rips",-1,2,24,13,24,8589934592,"closed",FALSE

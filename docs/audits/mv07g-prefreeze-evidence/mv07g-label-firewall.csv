@@ -1,0 +1,2 @@
+"contract_id","allowed_execution_inputs","sentinel_design_labels_used_at_execution","labels_may_select","labels_may_stop","landscape_jobs","distance_jobs","clustering_jobs","label_jobs","outcome_jobs","label_access_state"
+"mv07g_label_firewall_v1","frozen_sample_id;seed;cache_identity;feature_identity;panel_identity",FALSE,FALSE,FALSE,0,0,0,0,0,"closed"
