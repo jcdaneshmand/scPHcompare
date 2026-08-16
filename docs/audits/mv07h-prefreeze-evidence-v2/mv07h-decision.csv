@@ -1,0 +1,2 @@
+"contract_id","decision","source_jobs_authorized","ph_jobs_authorized","landscape_groups_authorized","landscape_groups_closed","clustering_jobs_authorized","label_jobs_authorized","outcome_jobs_authorized","next_gate"
+"mv07h_prefreeze_decision_v1","authorize_full_source_PH_then_one_landscape_stress_group",5,1240,1,19,0,0,0,"independent_full_PH_then_stress_repeat_R_oracle_resume"

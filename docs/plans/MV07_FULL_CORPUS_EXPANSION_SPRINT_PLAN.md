@@ -170,6 +170,12 @@ selected seed-20260807 gene-H1 7,626-pair stress group. The other 19 landscape
 groups, dimension combination, clustering, labels, outcomes, and claims remain
 closed pending the stress repeat/R-oracle/resource/resume gate.
 
+Execution rebind: a prelaunch heterogeneous repeat-queue row-bind defect was
+corrected at `cbc75a4` before any MV7-H job ran. The v2 prefreeze retains all 14
+scientific/configuration artifacts byte-for-byte, including the exact PH and
+landscape queues, and again passes 14/14 independent plus 16/16 repeat checks.
+Use only `docs/audits/mv07h-prefreeze-evidence-v2/` for execution identity.
+
 ## MV7-I — descriptive topology and clustering evaluation
 
 Purpose: use all eight tissues without overstating what the three single-study
