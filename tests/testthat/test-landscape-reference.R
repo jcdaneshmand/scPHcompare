@@ -109,7 +109,7 @@ test_that("adaptive reference agrees with exact and records error control", {
   ) == "fine_quadrature_error_plus_refinement_delta_v2"))
   expect_true(all(vapply(
     adaptive$dimensions, `[[`, character(1), "partition_failure_policy"
-  ) == "recursive_bisection_bad_integrand_or_roundoff_v3"))
+  ) == "recursive_bisection_bad_integrand_or_roundoff_v4"))
   expect_true(all(vapply(
     adaptive$dimensions, `[[`, numeric(1), "coarse_fallback_splits"
   ) >= 0))
@@ -146,9 +146,9 @@ test_that("auto method respects the exact guard without changing defaults", {
     many, empty, method = "auto", exact_max_intervals = 2L
   )
   expect_identical(result$dimensions$H0$method,
-                   "adaptive_quadpack_partitioned_v3")
+                   "adaptive_quadpack_partitioned_v4")
   expect_identical(result$provenance$engine_version,
-                   "landscape_reference_v3")
+                   "landscape_reference_v4")
   expect_false(result$provenance$activated_as_scientific_default)
   expect_identical(result$provenance$specification,
                    "full_l2_error_controlled_v1")
@@ -165,7 +165,8 @@ test_that("auto method respects the exact guard without changing defaults", {
 test_that("adaptive partition fallback bisects recoverable failures", {
   messages <- c(
     "extremely bad integrand behaviour",
-    "roundoff error is detected in the extrapolation table"
+    "roundoff error is detected in the extrapolation table",
+    "roundoff error was detected"
   )
   for (message in messages) {
     calls <- 0L
