@@ -39,3 +39,25 @@ testthat::test_that("MV8-C preserves structural and scientific gates", {
   testthat::expect_match(spec, "No current-sprint outcome authorizes an expression download",
     fixed = TRUE)
 })
+
+testthat::test_that("MV8-C acquisition is metadata-only by construction", {
+  fetch_path <- testthat::test_path("..", "..", "scripts",
+    "fetch_mv08c_hca_metadata.ps1")
+  builder_path <- testthat::test_path("..", "..", "scripts",
+    "build_mv08c_hca_admission_dossier.R")
+  validator_path <- testthat::test_path("..", "..", "scripts",
+    "validate_mv08c_hca_admission_dossier.R")
+  fetch <- paste(readLines(fetch_path, warn = FALSE), collapse = "\n")
+  builder <- paste(readLines(builder_path, warn = FALSE), collapse = "\n")
+  validator <- paste(readLines(validator_path, warn = FALSE), collapse = "\n")
+  testthat::expect_match(fetch, "compact TSV contains metadata, not expression data",
+    fixed = TRUE)
+  testthat::expect_false(grepl("repository/files", fetch, fixed = TRUE))
+  testthat::expect_match(fetch, "expression_download_authorized", fixed = TRUE)
+  testthat::expect_match(validator, "202770089", fixed = TRUE)
+  testthat::expect_match(builder, "distance_rows <- 8L * 124L * 5L * 2L * 2L",
+    fixed = TRUE)
+  testthat::expect_match(builder, "all_consecutive_active_levels", fixed = TRUE)
+  testthat::expect_match(validator, "production and repeat fifteen-file dossiers",
+    fixed = TRUE)
+})
