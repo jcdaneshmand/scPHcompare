@@ -224,6 +224,23 @@ mv08b_main <- function() {
   candidate_audit$all_hard_gates_resolved <-
     candidate_audit$preferred_by_read_only_audit &
     tolower(trimws(candidate_audit$unresolved_fields)) == "none"
+  candidate_audit$observed_local_validation_panel_genes <- NA_integer_
+  candidate_audit$observed_local_main_panel_genes <- NA_integer_
+  incumbent <- candidate_audit$candidate_id == "existing_gse120221_25"
+  candidate_audit$observed_local_validation_panel_genes[incumbent] <-
+    min(compatibility$validation_panel_genes)
+  candidate_audit$observed_local_main_panel_genes[incumbent] <-
+    min(compatibility$main_panel_genes)
+  candidate_audit$cell_view_admission[incumbent] <-
+    "admit for same-library cell-view technical reprocessing only"
+  candidate_audit$gene_view_admission[incumbent] <-
+    if (min(compatibility$validation_panel_genes) == 500L &&
+        min(compatibility$main_panel_genes) == 500L) {
+      "admit for same-library gene-view technical reprocessing only"
+    } else {
+      paste("non-estimable under the frozen 500-gene primary contract;",
+            "a separate pre-outcome sensitivity contract is required")
+    }
   candidate_audit$download_authorized <- FALSE
   candidate_audit$new_ph_authorized <- FALSE
   candidate_audit$landscape_contract <-

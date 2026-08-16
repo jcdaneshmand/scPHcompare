@@ -45,6 +45,10 @@ testthat::test_that("MV8-B classifies the incumbent and independent candidates h
   testthat::expect_identical(incumbent$independent_donors, 0L)
   testthat::expect_identical(incumbent$disposition,
     "technical_reprocessing_only")
+  testthat::expect_match(incumbent$cell_view_admission,
+    "cell-view technical reprocessing", fixed = TRUE)
+  testthat::expect_match(incumbent$gene_view_admission,
+    "non-estimable under the frozen 500-gene", fixed = TRUE)
   testthat::expect_identical(preferred$disposition,
     "preferred_pending_download_authorization")
   testthat::expect_false(tolower(trimws(preferred$unresolved_fields)) == "none")

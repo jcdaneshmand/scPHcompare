@@ -50,19 +50,31 @@ mapping_ok <- nrow(mapping) == 25L && !anyDuplicated(mapping$srs) &&
 source_ok <- nrow(compatibility) == 25L &&
   all(truth(compatibility$fixed_384_cell_depth_eligible)) &&
   all(compatibility$shared_cell_barcodes > 0L) &&
-  all(compatibility$validation_panel_genes == 500L) &&
+  all(compatibility$validation_panel_genes == 467L) &&
   all(compatibility$main_panel_genes == 500L) &&
   !any(truth(compatibility$expression_values_exported))
 summary_ok <- nrow(summary) == 1L &&
   summary$exact_accession_overlaps == 25L &&
   summary$fixed_depth_eligible_libraries == 25L &&
   summary$libraries_with_shared_barcodes == 25L &&
+  summary$minimum_validation_panel_genes == 467L &&
+  summary$minimum_main_panel_genes == 500L &&
   !truth(summary$independent_external_validation) &&
   truth(summary$technical_reprocessing_validation)
 candidate_ok <- nrow(candidates) == 6L &&
   sum(candidates$disposition == "preferred_pending_download_authorization") == 1L &&
   candidates$disposition[candidates$candidate_id == "existing_gse120221_25"] ==
     "technical_reprocessing_only" &&
+  candidates$observed_local_validation_panel_genes[
+    candidates$candidate_id == "existing_gse120221_25"] == 467L &&
+  candidates$observed_local_main_panel_genes[
+    candidates$candidate_id == "existing_gse120221_25"] == 500L &&
+  grepl("cell-view technical reprocessing",
+    candidates$cell_view_admission[
+      candidates$candidate_id == "existing_gse120221_25"], fixed = TRUE) &&
+  grepl("non-estimable under the frozen 500-gene",
+    candidates$gene_view_admission[
+      candidates$candidate_id == "existing_gse120221_25"], fixed = TRUE) &&
   all(candidates$known_accession_overlap[
     candidates$candidate_id == "existing_gse120221_25"] == 25L) &&
   !any(truth(candidates$selection_outcomes_opened)) &&
@@ -117,7 +129,7 @@ checks <- data.frame(
     decision_ok, manifest_ok, repeat_ok, privacy_ok),
   detail = c("eight frozen input sources hashed without publishing private paths",
     "25 official GSM/BioSample/SRS/SRR mappings close to SRA779509",
-    "25 local source pairs share barcodes and retain the fixed panel/depth",
+    "25 local pairs share barcodes and pass depth; validation retains 467/500 frozen genes",
     "separate processing retained but external independence rejected",
     "six frozen candidates have explicit view and estimand dispositions",
     "all active levels and separate H0/H1 remain immutable",
