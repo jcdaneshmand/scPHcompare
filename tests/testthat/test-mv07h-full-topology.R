@@ -176,6 +176,19 @@ testthat::test_that("MV7-H mixed-engine resume proves output ownership", {
     metrics, "job_a", "abc", 10))
 })
 
+testthat::test_that("MV7-H immutable resume covers private and public state", {
+  path <- testthat::test_path(
+    "..", "..", "scripts", "validate_mv07h_immutable_resume.R")
+  text <- paste(readLines(path, warn = FALSE), collapse = "\n")
+  testthat::expect_match(text, "recursive = TRUE", fixed = TRUE)
+  testthat::expect_match(text, "all.files = TRUE", fixed = TRUE)
+  testthat::expect_match(text, "mv07h-ph-engine-attempts.csv", fixed = TRUE)
+  testthat::expect_match(text, "mv07h-validation-decision.csv", fixed = TRUE)
+  testthat::expect_match(text, "private_mtimes", fixed = TRUE)
+  testthat::expect_match(text, "public_mtimes", fixed = TRUE)
+  testthat::expect_match(text, "Refusing overwrite", fixed = TRUE)
+})
+
 testthat::test_that("MV7-H GUDHI fallback preserves an exact gene diagram", {
   testthat::skip_if_not_installed("TDA")
   x <- matrix(
