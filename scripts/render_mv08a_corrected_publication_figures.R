@@ -378,9 +378,10 @@ f6 <- ggplot2::ggplot(out, ggplot2::aes(representation, axis, fill = seed_mean))
   ggplot2::geom_text(ggplot2::aes(label = display), size = 2.85, color = dark,
                      lineheight = .82) +
   ggplot2::facet_grid(population + algorithm ~ metric, scales = "free_y", space = "free_y") +
-  ggplot2::scale_fill_gradient2(low = "#C94C4C", mid = "#F7F7F7", high = navy,
-    midpoint = .08, limits = c(-.08, .30), oob = scales::squish,
-    name = "Seed mean") +
+  ggplot2::scale_fill_steps2(low = "#C94C4C", mid = "#F7F7F7", high = navy,
+    midpoint = .08, limits = c(-.08, .30),
+    breaks = c(-.05, 0, .05, .10, .15, .20, .25),
+    oob = scales::squish, name = "Seed mean") +
   ggplot2::labs(title = "Complete descriptive cluster–metadata alignment",
     subtitle = "All 120 prespecified units; values are five-seed mean ± technical jackknife SE",
     x = NULL, y = NULL,
@@ -404,7 +405,8 @@ f7 <- ggplot2::ggplot(alg,
   ggplot2::geom_boxplot(outlier.shape = NA, width = .5, color = dark, fill = NA,
     linewidth = .45) +
   ggplot2::geom_point(ggplot2::aes(color = seed_label),
-    position = ggplot2::position_jitter(width = .09, height = 0), size = 2.1) +
+    position = ggplot2::position_jitter(width = .09, height = 0,
+      seed = 20260816L), size = 2.1) +
   ggplot2::facet_wrap(~view, scales = "free_x", nrow = 1) +
   ggplot2::scale_color_manual(values = c(navy, teal, orange, rust, purple),
     labels = function(x) sub("2026", "", x)) +
