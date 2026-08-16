@@ -1,0 +1,4 @@
+"contract_id","artifact_kind","expected_count","live_count","exact_hash_identity","action"
+"mv08f_existing_comparator_status_v1","source_bundle",5,5,TRUE,"reuse_immutable"
+"mv08f_existing_comparator_status_v1","ph_record",1240,1240,TRUE,"reuse_immutable"
+"mv08f_existing_comparator_status_v1","landscape_group",20,20,TRUE,"reuse_immutable"

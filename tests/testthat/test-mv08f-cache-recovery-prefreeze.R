@@ -32,3 +32,25 @@ testthat::test_that("MV8-F builder preserves the label and landscape boundary", 
     "validator = \"scripts/validate_mv08f_cache_recovery_prefreeze.R\"",
     fixed = TRUE)
 })
+
+testthat::test_that("MV8-F published prefreeze evidence is independently closed", {
+  evidence <- testthat::test_path("..", "..", "docs", "audits",
+    "mv08f-recovery-prefreeze-evidence")
+  axis <- utils::read.csv(file.path(evidence, "mv08f-recovery-axis.csv"),
+    stringsAsFactors = FALSE, check.names = FALSE)
+  decision <- utils::read.csv(file.path(evidence, "mv08f-decision.csv"),
+    stringsAsFactors = FALSE, check.names = FALSE)
+  validation <- utils::read.csv(file.path(evidence,
+    "mv08f-independent-validation.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  testthat::expect_equal(nrow(axis), 450L)
+  testthat::expect_equal(length(unique(axis$sample_id)), 90L)
+  testthat::expect_equal(as.integer(table(axis$seed)), rep(90L, 5L))
+  testthat::expect_equal(decision$raw_jobs_authorized, 90L)
+  testthat::expect_equal(decision$sct_jobs_authorized, 450L)
+  testthat::expect_false(decision$panel475_source_authorized)
+  testthat::expect_false(decision$ph_authorized)
+  testthat::expect_false(decision$hca_fastq_download_authorized)
+  testthat::expect_equal(nrow(validation), 10L)
+  testthat::expect_true(all(validation$passed))
+})

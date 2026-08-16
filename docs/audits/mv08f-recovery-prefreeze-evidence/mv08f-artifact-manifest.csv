@@ -1,0 +1,9 @@
+"contract_id","file","bytes","sha256","contains_expression","contains_cell_barcode","contains_absolute_private_path"
+"mv08f_recovery_prefreeze_artifact_manifest_v1","mv08f-recovery-axis.csv",211827,"f03ab4a6c54fe55310ec8bd287e05bca7faa54e7e7f396913c336654d96ba039",FALSE,FALSE,FALSE
+"mv08f_recovery_prefreeze_artifact_manifest_v1","mv08f-source-coverage.csv",244,"b18a2a244d0caab6a4b1d08949dc24728e1e65acd5a98f092c6d47e684cb398f",FALSE,FALSE,FALSE
+"mv08f_recovery_prefreeze_artifact_manifest_v1","mv08f-live-cache-status.csv",285,"e0af96aede2700662a4ed6ce51a39561a93dd25ec4a5c986261b7efc9b1152fb",FALSE,FALSE,FALSE
+"mv08f_recovery_prefreeze_artifact_manifest_v1","mv08f-runtime-identity.csv",271,"31f19b2b49ca3f546e800bbb025e5cc1ecbd6c374281878b9f028052994a6afc",FALSE,FALSE,FALSE
+"mv08f_recovery_prefreeze_artifact_manifest_v1","mv08f-existing-comparator-status.csv",340,"950a2bdd831c08237e57c16d634c681122f9f2e946fcaa0016723c098c6323ab",FALSE,FALSE,FALSE
+"mv08f_recovery_prefreeze_artifact_manifest_v1","mv08f-resource-caps.csv",334,"ebd4e510f9e8bd60ab96d2fc48f49cce46a1b516e0f338c2fed1499a95e71508",FALSE,FALSE,FALSE
+"mv08f_recovery_prefreeze_artifact_manifest_v1","mv08f-source-freeze.csv",3479,"96b4ae7dc418cd5c7947be7f01dfef92cc2c8124886f47107e331c1d1a0fda01",FALSE,FALSE,FALSE
+"mv08f_recovery_prefreeze_artifact_manifest_v1","mv08f-decision.csv",477,"ec46e68f44e51e446edbf3851cd5688201c6f419d1efdf5b76ecbdd18416cc0c",FALSE,FALSE,FALSE

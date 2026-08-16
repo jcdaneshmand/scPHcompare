@@ -1,0 +1,4 @@
+"contract_id","scope","elapsed_cap_seconds","rss_cap_bytes","storage_cap_bytes","maximum_workers","automatic_retry"
+"mv08f_recovery_resource_caps_v1","raw_child",1800,8589934592,,2,FALSE
+"mv08f_recovery_resource_caps_v1","sct_child",1800,8589934592,,2,FALSE
+"mv08f_recovery_resource_caps_v1","aggregate_storage",,,42949672960,2,FALSE

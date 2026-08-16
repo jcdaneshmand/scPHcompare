@@ -1,0 +1,2 @@
+"contract_id","expected_samples","uniquely_located_sources","minimum_post_qc_cells","maximum_post_qc_cells","source_root_published","source_paths_published","labels_present"
+"mv08f_primary90_source_coverage_v1",90,90,421,9071,FALSE,FALSE,FALSE

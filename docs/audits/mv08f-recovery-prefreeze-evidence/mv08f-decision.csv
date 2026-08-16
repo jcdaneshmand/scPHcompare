@@ -1,0 +1,2 @@
+"contract_id","decision","raw_jobs_authorized","sct_jobs_authorized","exact_manifest_validation_required","panel475_source_authorized","ph_authorized","landscape_authorized","clustering_authorized","hca_fastq_download_authorized","label_access_authorized","outcome_jobs_authorized","next_gate"
+"mv08f_recovery_prefreeze_decision_v1","authorize_primary90_cache_reconstruction_only",90,450,TRUE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,0,"MV8-F_cache_recovery_independent_validation"
