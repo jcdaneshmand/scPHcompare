@@ -1,0 +1,3 @@
+"contract_id","probe","sample_id","view_id","points","h0_intervals","h1_intervals","h0_mst_max_error","finite_positive_h1","elapsed_seconds","peak_process_tree_rss_bytes","rss_cap_bytes","passed"
+"mv07h_gudhi_feasibility_v1","failed_ripserr_view","SRA628554_SRS2664364","gene_topology_v1",500,499,3222,0,TRUE,404.0908,6650802176,12884901888,TRUE
+"mv07h_gudhi_feasibility_v1","completed_ripserr_heavy_view","SRA621638_SRS2610285","gene_topology_v1",500,499,2221,0,TRUE,399.5434,6514917376,12884901888,TRUE

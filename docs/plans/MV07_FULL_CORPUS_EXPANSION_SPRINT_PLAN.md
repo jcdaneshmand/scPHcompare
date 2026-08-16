@@ -185,6 +185,13 @@ sentinel views. The v4 prefreeze passes 14/14 independent and 17/17 repeat
 checks with all scientific queues unchanged. Use only
 `docs/audits/mv07h-prefreeze-evidence-v4/` for execution identity.
 
+Resource gate: the v4 run completed all five source bundles and 15 PH records,
+then one 500-gene H1 job exceeded the 8 GiB Ripserr cap without publishing an
+output. Exact GUDHI completed that view below 6.66 GiB and matched a full heavy
+Ripserr diagram interval-for-interval in H0 and H1. Production is paused pending
+owner approval of a Ripserr-primary, GUDHI-on-resource-failure amendment with a
+separate 12 GiB cap, explicit engine provenance, and fallback repeat gates.
+
 ## MV7-I — descriptive topology and clustering evaluation
 
 Purpose: use all eight tissues without overstating what the three single-study

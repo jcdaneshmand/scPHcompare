@@ -1,0 +1,5 @@
+"contract_id","option","recommended","scientific_definition_change","expected_effect","status"
+"mv07h_engine_policy_decision_v1","ripserr_primary_gudhi_exact_resource_fallback",TRUE,FALSE,"preserve exact complete VR H0 H1 while allowing hard gene views to finish under a separate 12 GiB cap","requires_owner_approval"
+"mv07h_engine_policy_decision_v1","raise_ripserr_cap_only",FALSE,FALSE,"may finish this view but has no demonstrated upper memory bound for later views","not_recommended"
+"mv07h_engine_policy_decision_v1","gudhi_for_all_gene_views",FALSE,FALSE,"uniform exact engine but approximately 30-fold slower on the compared completed view","not_recommended"
+"mv07h_engine_policy_decision_v1","reduce_or_omit_gene_H1",FALSE,TRUE,"lower compute by changing a central dissertation-aligned estimand","reject_without_new_scientific_decision"
