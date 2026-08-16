@@ -177,6 +177,10 @@ seed_expected <- do.call(rbind, seed_rows); rownames(seed_expected) <- NULL
 summary_expected <- do.call(rbind, summary_rows); rownames(summary_expected) <- NULL
 contingency_expected <- do.call(rbind, contingency_rows)
 rownames(contingency_expected) <- NULL
+contingency_expected$cluster <- type.convert(
+  as.character(contingency_expected$cluster), as.is = TRUE)
+contingency_expected$label_value <- as.character(
+  contingency_expected$label_value)
 nonestimable <- endpoints[
   endpoints$execution_status == "structurally_not_estimable_single_class", ]
 structural_expected <- data.frame(
