@@ -20,6 +20,8 @@ panel <- readc("mv07g-panel.csv")
 manifest <- readc("mv07g-cache-manifest.csv")
 axis <- readc("mv07g-sentinel-axis.csv")
 queue <- readc("mv07g-queue.csv")
+queue$sample_id[!nzchar(queue$sample_id)] <- NA_character_
+queue$view_id[!nzchar(queue$view_id)] <- NA_character_
 caps <- readc("mv07g-resource-caps.csv")
 cross <- readc("mv07g-cross-engine-contract.csv")
 firewall <- readc("mv07g-label-firewall.csv")
