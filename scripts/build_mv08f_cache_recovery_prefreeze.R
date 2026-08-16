@@ -195,6 +195,7 @@ source_files <- c(
   sct_queue = "scripts/run_mv05d0_sct_cache_queue.R",
   sct_entry = "scripts/run_mv05d0_sct_cache_entry.R",
   builder = "scripts/build_mv08f_cache_recovery_prefreeze.R",
+  validator = "scripts/validate_mv08f_cache_recovery_prefreeze.R",
   specification = "docs/specifications/MV08F_REFERENCE_CACHE_RECOVERY_PREFREEZE_V1.md",
   tests = "tests/testthat/test-mv08f-cache-recovery-prefreeze.R")
 if (any(!file.exists(source_files))) stop("MV8-F source freeze incomplete.")

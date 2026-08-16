@@ -28,4 +28,7 @@ testthat::test_that("MV8-F builder preserves the label and landscape boundary", 
     fixed = TRUE)
   testthat::expect_match(builder, "label_access_authorized = FALSE",
     fixed = TRUE)
+  testthat::expect_match(builder,
+    "validator = \"scripts/validate_mv08f_cache_recovery_prefreeze.R\"",
+    fixed = TRUE)
 })
