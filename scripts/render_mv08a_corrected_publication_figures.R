@@ -136,7 +136,7 @@ f1 <- ggplot2::ggplot() +
       linetype = secondary), color = grey, linewidth = .55,
     arrow = grid::arrow(length = grid::unit(2.2, "mm"), type = "closed")) +
   ggplot2::geom_label(data = nodes, ggplot2::aes(x, y, label = label, fill = role),
-    color = dark, size = 3.1, linewidth = .3,
+    color = dark, size = 3.1, label.size = .3,
     label.padding = grid::unit(.16, "lines")) +
   ggplot2::scale_fill_manual(values = role_fill, guide = "none") +
   ggplot2::scale_linetype_manual(values = c(`FALSE` = "solid", `TRUE` = "22"),
@@ -179,7 +179,7 @@ cohort_plot <- ggplot2::ggplot() +
     ggplot2::aes(x, y, xend = xend, yend = yend, linetype = style),
     color = grey, arrow = grid::arrow(length = grid::unit(2, "mm"))) +
   ggplot2::geom_label(data = cohort, ggplot2::aes(x, y, label = label, fill = kind),
-    size = 3.2, linewidth = .3, color = dark) +
+    size = 3.2, label.size = .3, color = dark) +
   ggplot2::scale_fill_manual(values = c(all = pale, retained = "#DDEAF2",
     primary = "#DDF2EE", added = "#F7E5DA", excluded = "#F3F4F6"), guide = "none") +
   ggplot2::scale_linetype_identity() + ggplot2::coord_cartesian(xlim = c(.3, 7.7),
