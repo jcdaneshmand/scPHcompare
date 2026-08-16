@@ -250,6 +250,15 @@ clustering, labels, outcomes, and claims remain closed pending complete-corpus
 validation. See
 `docs/audits/MV07H_LANDSCAPE_STRESS_CLOSURE_2026-08-16.md`.
 
+Remaining-landscape launch freeze: commit `797075f` adds a resumable serial
+monitor for exactly the 19 authorized stage-two groups. It enforces the frozen
+per-group 3,600-second/12-GiB limits and the original 23,232.367-second total
+landscape budget, validates every completed group before atomic checkpointing,
+and refuses automatic retry after failure. The label and downstream firewall
+remains closed. Private production is authorized in the existing v2 stress
+root; public evidence waits for independent complete-corpus validation. See
+`docs/audits/MV07H_REMAINING_LANDSCAPE_LAUNCH_FREEZE_2026-08-16.md`.
+
 ## MV7-I — descriptive topology and clustering evaluation
 
 Purpose: use all eight tissues without overstating what the three single-study
