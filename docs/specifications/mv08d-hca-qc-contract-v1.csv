@@ -1,0 +1,11 @@
+"contract_id","rule_order","rule_id","axis","operator","threshold","source","post_observation_change_allowed"
+"mv08d_hca_legacy_qc_v1",1,"gene_expression_only","feature","feature_type_exact","Gene Expression","10x/HCA structure",FALSE
+"mv08d_hca_legacy_qc_v1",2,"entry_min_features","cell","detected_features_gte",200,"Seurat CreateSeuratObject default min.features",FALSE
+"mv08d_hca_legacy_qc_v1",3,"entry_min_cells","feature","detected_entry_cells_gte",3,"Seurat CreateSeuratObject default min.cells",FALSE
+"mv08d_hca_legacy_qc_v1",4,"explicit_min_features","cell","nFeature_RNA_gte",500,"R/PH_Calculation.R",FALSE
+"mv08d_hca_legacy_qc_v1",5,"explicit_max_features","cell","nFeature_RNA_lte",9000,"R/PH_Calculation.R",FALSE
+"mv08d_hca_legacy_qc_v1",6,"explicit_max_mito","cell","percent_mito_lte",20,"R/PH_Calculation.R",FALSE
+"mv08d_hca_legacy_qc_v1",7,"explicit_min_ribo","cell","percent_ribo_gt",5,"R/PH_Calculation.R",FALSE
+"mv08d_hca_legacy_qc_v1",8,"final_min_cells","feature","detected_post_qc_cells_gt",3,"R/PH_Calculation.R",FALSE
+"mv08d_hca_legacy_qc_v1",9,"matched_cell_depth","biological_unit","post_qc_cells_gte",384,"dual-view topology contract",FALSE
+"mv08d_hca_legacy_qc_v1",10,"ordered_panel_retention","feature_panel","mapped_and_final_retained_eq",500,"MV7-FP/MV7-H panel contract",FALSE
