@@ -337,11 +337,14 @@ immutable_resume <- identical(resume_exit, 0L) &&
 
 firewall_frames <- list(pair_summary, h1_summary, candidate_partitions,
                         stability, selected_partitions, provenance)
-prohibited_pattern <- "tissue|study|approach|condition|diagnos|disease|sex|age"
+prohibited_pattern <- paste0(
+  "(^|_)(tissue|study|approach|condition|diagnosis|diagnostic|disease|sex|age)",
+  "($|_)")
 label_firewall <- bundle$outcome_label_state == "closed" &&
   !as.logical(bundle$biological_outcomes_computed) &&
   all(vapply(firewall_frames, function(value) {
-    !any(grepl(prohibited_pattern, names(value), ignore.case = TRUE)) &&
+    !any(grepl(prohibited_pattern, names(value), ignore.case = TRUE,
+               perl = TRUE)) &&
       all(value$outcome_label_state == "closed") &&
       !any(as.logical(value$biological_outcomes_computed))
   }, logical(1L)))

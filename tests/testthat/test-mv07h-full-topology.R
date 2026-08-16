@@ -366,6 +366,18 @@ testthat::test_that("MV7-I production requires independent full validation", {
                          fixed = TRUE)
 })
 
+testthat::test_that("MV7-I firewall name matching respects field boundaries", {
+  pattern <- paste0(
+    "(^|_)(tissue|study|approach|condition|diagnosis|diagnostic|disease|sex|age)",
+    "($|_)")
+  testthat::expect_false(grepl(
+    pattern, "selected_average_linkage_fits", ignore.case = TRUE, perl = TRUE))
+  testthat::expect_true(grepl(
+    pattern, "tissue_id", ignore.case = TRUE, perl = TRUE))
+  testthat::expect_true(grepl(
+    pattern, "sample_age", ignore.case = TRUE, perl = TRUE))
+})
+
 testthat::test_that("MV7-H GUDHI fallback preserves an exact gene diagram", {
   testthat::skip_if_not_installed("TDA")
   x <- matrix(
