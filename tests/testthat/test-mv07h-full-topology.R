@@ -423,6 +423,20 @@ testthat::test_that("MV7-I outcome execution follows the frozen queue", {
   testthat::expect_match(monitor, "rss_cap_exceeded", fixed = TRUE)
 })
 
+testthat::test_that("MV7-I outcomes require independent complete validation", {
+  path <- testthat::test_path(
+    "..", "..", "scripts", "validate_mv07i_outcomes.R")
+  text <- paste(readLines(path, warn = FALSE), collapse = "\n")
+  testthat::expect_match(text, "all 600 ARI/max-NMI", fixed = TRUE)
+  testthat::expect_match(text, "private_contingencies", fixed = TRUE)
+  testthat::expect_match(text, "deterministic_repeat", fixed = TRUE)
+  testthat::expect_match(text, "immutable_resume", fixed = TRUE)
+  testthat::expect_match(text, "public_schema_firewall", fixed = TRUE)
+  testthat::expect_match(text, "no_pvalue_or_selection", fixed = TRUE)
+  testthat::expect_match(text,
+    "authorize_MV7J_claim_map_and_figure_planning_only", fixed = TRUE)
+})
+
 testthat::test_that("MV7-H GUDHI fallback preserves an exact gene diagram", {
   testthat::skip_if_not_installed("TDA")
   x <- matrix(
