@@ -207,6 +207,29 @@ testthat::test_that("MV7-H stress resume quotes subprocess arguments", {
   testthat::expect_match(text, "shQuote(resume_args)", fixed = TRUE)
 })
 
+testthat::test_that("MV7-H remaining landscapes retain the frozen gates", {
+  path <- testthat::test_path(
+    "..", "..", "scripts", "run_mv07h_remaining_landscapes.R")
+  text <- paste(readLines(path, warn = FALSE), collapse = "\n")
+  testthat::expect_match(text, 'queue\\$stage == "stage_2"')
+  testthat::expect_match(
+    text, "authorize_remaining_19_MV7H_landscape_groups_serially",
+    fixed = TRUE)
+  testthat::expect_match(text, 'nrow(stage2) != 19L', fixed = TRUE)
+  testthat::expect_match(text, 'queue\\$workers != 1L')
+  testthat::expect_match(text, 'queue\\$retries != 0L')
+  testthat::expect_match(text, 'processx::process$new', fixed = TRUE)
+  testthat::expect_match(text, 'group_elapsed_cap_exceeded', fixed = TRUE)
+  testthat::expect_match(text, 'group_rss_cap_exceeded', fixed = TRUE)
+  testthat::expect_match(text, 'total_landscape_worker_cap_exceeded',
+                         fixed = TRUE)
+  testthat::expect_match(text, 'write_checkpoint(metrics)', fixed = TRUE)
+  testthat::expect_match(text, 'preserves a prior failure and refuses retry',
+                         fixed = TRUE)
+  testthat::expect_match(text, 'outcome_label_state = "closed"', fixed = TRUE)
+  testthat::expect_match(text, 'clustering_jobs = 0L', fixed = TRUE)
+})
+
 testthat::test_that("MV7-H GUDHI fallback preserves an exact gene diagram", {
   testthat::skip_if_not_installed("TDA")
   x <- matrix(
