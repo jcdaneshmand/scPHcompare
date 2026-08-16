@@ -1,0 +1,2 @@
+"contract_id","decision","panel_sha256","selected_panel_size","eligible_unique_canonical_genes","eligibility_margin","pca_jobs","ph_jobs","landscape_jobs","label_jobs","outcome_jobs"
+"mv07fp_panel_decision_v1","lock_exact_124_panel_and_authorize_MV7G_prefreeze","48e881ee753893bfaecd7101fc16fbcb552dd30a2a791fedfc7204d7b322a32e",500,2205,1705,0,0,0,0,0

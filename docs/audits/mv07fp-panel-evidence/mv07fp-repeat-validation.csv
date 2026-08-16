@@ -1,0 +1,8 @@
+"contract_id","file","original_bytes","repeat_bytes","bytes_equal","original_sha256","repeat_sha256","sha256_equal"
+"mv07fp_repeat_validation_v1","mv07fp-source-summary.csv",262,262,TRUE,"bea6eed61867ab040e84469db9ef0af3b9c7813552bdc3245fa95334576905bf","bea6eed61867ab040e84469db9ef0af3b9c7813552bdc3245fa95334576905bf",TRUE
+"mv07fp_repeat_validation_v1","mv07fp-eligibility.csv",432,432,TRUE,"f68acb83becf07df522b772bf3e13b2ad8ec2038af95e68f5f2f5cb2feb5228e","f68acb83becf07df522b772bf3e13b2ad8ec2038af95e68f5f2f5cb2feb5228e",TRUE
+"mv07fp_repeat_validation_v1","mv07fp-panel.csv",97166,97166,TRUE,"fe22220dc89deafd3c84714434a73ce8243c4d3e15d1eeb43cd51f5e6170b69b","fe22220dc89deafd3c84714434a73ce8243c4d3e15d1eeb43cd51f5e6170b69b",TRUE
+"mv07fp_repeat_validation_v1","mv07fp-seed-stability.csv",647,647,TRUE,"568dfbbfff527c7a0db230eabc9d9f38b6be7c1ae06040bc2a982ab825d5c8e8","568dfbbfff527c7a0db230eabc9d9f38b6be7c1ae06040bc2a982ab825d5c8e8",TRUE
+"mv07fp_repeat_validation_v1","mv07fp-panel-comparison.csv",398,398,TRUE,"5501df84dd4e904df67bb1c414645d02c683a5dfa9a52c0ebbbd1c2f5ea9c6e7","5501df84dd4e904df67bb1c414645d02c683a5dfa9a52c0ebbbd1c2f5ea9c6e7",TRUE
+"mv07fp_repeat_validation_v1","mv07fp-decision.csv",353,353,TRUE,"ee52caacf371e2a9a5da34af27984f3efe4ea7b2106a09bedd4866e8d2413a81","ee52caacf371e2a9a5da34af27984f3efe4ea7b2106a09bedd4866e8d2413a81",TRUE
+"mv07fp_repeat_validation_v1","mv07fp-artifact-manifest.csv",798,798,TRUE,"7e4dbdb71e82cc995e6e49ec9544914812a74e01e17f3ba7d95c016b351cf9f3","7e4dbdb71e82cc995e6e49ec9544914812a74e01e17f3ba7d95c016b351cf9f3",TRUE

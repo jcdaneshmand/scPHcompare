@@ -1,0 +1,2 @@
+"contract_id","old_panel_sha256","new_panel_sha256","old_panel_size","new_panel_size","feature_overlap","feature_jaccard","same_order","selection_basis"
+"mv07fp_panel_comparison_v1","7be22cdb9056fed427c78d58be2b19e258c7c6807e6f7ac3900bd1bfa1d19eb8","48e881ee753893bfaecd7101fc16fbcb552dd30a2a791fedfc7204d7b322a32e",500,500,465,0.869158878504673,FALSE,"availability_and_within_cache_variance_only"

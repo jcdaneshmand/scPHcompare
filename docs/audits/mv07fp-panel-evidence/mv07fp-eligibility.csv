@@ -1,0 +1,2 @@
+"contract_id","common_features","retained_category_features","technical_category_features","nonfinite_any_cache_features","nonpositive_any_cache_features","eligible_features_before_canonical_deduplication","duplicate_canonical_features_removed","eligible_unique_canonical_genes","requested_panel_size","selected_panel_size","eligibility_margin"
+"mv06c_global_core_eligibility_summary_v1",2388,2262,126,0,58,2205,0,2205,500,500,1705

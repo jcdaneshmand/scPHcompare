@@ -1,0 +1,6 @@
+"contract_id","category","passed","detail"
+"mv07fp_seed_stability_validation_v1","cache_content",TRUE,"620 payloads"
+"mv07fp_seed_stability_validation_v1","global_panel",TRUE,"exact ordered 500"
+"mv07fp_seed_stability_validation_v1","seed_axes",TRUE,"five by 124"
+"mv07fp_seed_stability_validation_v1","seed_exact_metrics",TRUE,"counts and overlaps"
+"mv07fp_seed_stability_validation_v1","seed_numeric_metrics",TRUE,"Jaccard and Spearman at 1e-14"

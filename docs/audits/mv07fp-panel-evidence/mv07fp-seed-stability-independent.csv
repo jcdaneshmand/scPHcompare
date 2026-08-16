@@ -1,0 +1,6 @@
+"contract_id","seed","cache_count","eligible_unique_genes","seed_top_panel_size","overlap_with_global_panel","jaccard_with_global_panel","spearman_global_vs_seed_candidate_ranks"
+"mv07fp_seed_stability_independent_v1",20260805,124,2240,500,494,0.976284584980237,0.999312191784726
+"mv07fp_seed_stability_independent_v1",20260806,124,2242,500,495,0.98019801980198,0.999318282585112
+"mv07fp_seed_stability_independent_v1",20260807,124,2247,500,492,0.968503937007874,0.999330922532286
+"mv07fp_seed_stability_independent_v1",20260808,124,2245,500,494,0.976284584980237,0.999312691850497
+"mv07fp_seed_stability_independent_v1",20260809,124,2242,500,494,0.976284584980237,0.99923716072302

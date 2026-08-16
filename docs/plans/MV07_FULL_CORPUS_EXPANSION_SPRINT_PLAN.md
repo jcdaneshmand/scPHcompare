@@ -105,6 +105,21 @@ immutable gate. Two strict-comparison false negatives were corrected and
 retained in separate amendment evidence with zero cache mismatch or mutation.
 Authorize only the exact 124-derived global-core panel lock before MV7-G.
 
+## MV7-FP — exact full-124 global-core panel lock (complete)
+
+Purpose: freeze one label-closed 500-gene technical-harmonization panel from
+the complete 124-sample, five-seed SCT corpus before any expanded PCA or PH.
+
+Gate result: the streamed 620-cache inventory verified all inputs and selected
+an exact 500-gene panel from 2,205 eligible unique canonical genes (margin
+1,705). The canonical panel SHA-256 is
+`48e881ee753893bfaecd7101fc16fbcb552dd30a2a791fedfc7204d7b322a32e`.
+It overlaps the accepted 90-sample panel at 465/500 features. The accepted run
+used 986.152 seconds and 463,958,016 bytes peak RSS. Independent reconstruction
+passed 9/9, deterministic repeat passed 7/7 artifacts, and supplemental
+seed-stability reconstruction passed 5/5. Jobs outside the single authorized
+panel inventory remained zero. Authorize only MV7-G prefreeze.
+
 ## MV7-G — typed-view and PH sentinel gate
 
 Purpose: validate the newly frozen global descriptive transform and both
