@@ -71,3 +71,17 @@ testthat::test_that("MV7-H manifest and label gates fail closed", {
   manifest$outcome_label_state[[1L]] <- "open"
   testthat::expect_error(mv07h_sample_seed_axis_v1(manifest), "differs")
 })
+
+testthat::test_that("MV7-H repeat receipt axis normalizes source and PH schemas", {
+  axis <- mv07h_sample_seed_axis_v1(mv07h_manifest_fixture())
+  source <- mv07h_source_queue_v1(axis)
+  ph <- mv07h_ph_queue_v1(axis)
+  sentinels <- sort(unique(axis$sample_id))[[1L]]
+  normalized <- rbind(
+    source[source$seed == 20260805, c("job_id", "output_file")],
+    ph[ph$seed == 20260805 & ph$sample_id == sentinels,
+       c("job_id", "output_file")]
+  )
+  testthat::expect_equal(nrow(normalized), 3L)
+  testthat::expect_equal(anyDuplicated(normalized$job_id), 0L)
+})

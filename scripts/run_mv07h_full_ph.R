@@ -171,7 +171,10 @@ repeat_ph_queue <- ph_queue[ph_queue$seed == repeat_seed &
 repeat_ph <- do.call(rbind, lapply(seq_len(nrow(repeat_ph_queue)),
   function(index) run_unit(repeat_ph_queue[index, , drop = FALSE], TRUE)))
 repeated <- rbind(repeat_source, repeat_ph)
-repeat_queue <- rbind(repeat_source_row, repeat_ph_queue)
+repeat_queue <- rbind(
+  repeat_source_row[c("job_id", "output_file")],
+  repeat_ph_queue[c("job_id", "output_file")]
+)
 repeat_validation <- do.call(rbind, lapply(seq_len(nrow(repeat_queue)),
   function(index) {
     row <- repeat_queue[index, , drop = FALSE]
