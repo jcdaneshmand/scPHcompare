@@ -1,0 +1,11 @@
+"contract_id","step_order","step","current_state","resume_receipt","stop_condition","expression_download_required","outcome_access_required"
+"mv08c_hca_execution_plan_v1",1,"owner_review","next","mv08c decision row","owner declines or changes scope",FALSE,FALSE
+"mv08c_hca_execution_plan_v1",2,"exact_eight_file_download","not_authorized","one receipt per exact file","file identity changed",TRUE,FALSE
+"mv08c_hca_execution_plan_v1",3,"byte_and_sha256_verification","not_authorized","verified byte/checksum ledger","byte count or checksum mismatch",FALSE,FALSE
+"mv08c_hca_execution_plan_v1",4,"structural_h5_inspection","not_authorized","shape/type/axis ledger","ambiguous or invalid matrix structure",FALSE,FALSE
+"mv08c_hca_execution_plan_v1",5,"identifier_and_500_gene_gate","not_authorized","ordered feature mapping ledger","unstable IDs or any frozen gene absent",FALSE,FALSE
+"mv08c_hca_execution_plan_v1",6,"384_cell_gate","not_authorized","per-donor QC depth ledger","any donor below 384 usable cells",FALSE,FALSE
+"mv08c_hca_execution_plan_v1",7,"immutable_reference_projection","not_authorized","transform and coordinate hashes","reference transform cannot be reused without refit",FALSE,FALSE
+"mv08c_hca_execution_plan_v1",8,"separate_cell_gene_ph","not_authorized","per-view PH records","timeout, memory, engine, or repeat failure",FALSE,FALSE
+"mv08c_hca_execution_plan_v1",9,"all_level_h0_h1_landscape_distances","not_authorized","chunk manifests and component distances","distance or repeat mismatch",FALSE,FALSE
+"mv08c_hca_execution_plan_v1",10,"label_opened_retrieval_evaluation","not_authorized","prediction lock and endpoint ledger","label firewall or prediction lock failure",FALSE,TRUE

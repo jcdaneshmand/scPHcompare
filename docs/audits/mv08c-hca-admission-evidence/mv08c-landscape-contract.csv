@@ -1,0 +1,12 @@
+"contract_id","item_order","item","required_state","current_state","external_data_may_change"
+"mv08c_hca_landscape_contract_v1",1,"comparison_unit_sample",TRUE,TRUE,FALSE
+"mv08c_hca_landscape_contract_v1",2,"cell_view_observations_cells",TRUE,TRUE,FALSE
+"mv08c_hca_landscape_contract_v1",3,"gene_view_observations_fixed_500_genes",TRUE,TRUE,FALSE
+"mv08c_hca_landscape_contract_v1",4,"finite_positive_intervals",TRUE,TRUE,FALSE
+"mv08c_hca_landscape_contract_v1",5,"essential_H0_excluded",TRUE,TRUE,FALSE
+"mv08c_hca_landscape_contract_v1",6,"all_consecutive_active_levels",TRUE,TRUE,FALSE
+"mv08c_hca_landscape_contract_v1",7,"H0_H1_separate",TRUE,TRUE,FALSE
+"mv08c_hca_landscape_contract_v1",8,"squared_L2_exact_or_error_controlled",TRUE,TRUE,FALSE
+"mv08c_hca_landscape_contract_v1",9,"no_universal_grid",TRUE,TRUE,FALSE
+"mv08c_hca_landscape_contract_v1",10,"no_universal_level_cap",TRUE,TRUE,FALSE
+"mv08c_hca_landscape_contract_v1",11,"streamed_or_chunked_execution",TRUE,TRUE,FALSE

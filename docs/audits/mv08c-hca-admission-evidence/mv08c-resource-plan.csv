@@ -1,0 +1,7 @@
+"contract_id","plan_order","stage","unit_count","unit","planned_bytes","current_authorized","resource_gate"
+"mv08c_hca_resource_plan_v1",1,"metadata_complete",5,"metadata inputs",,TRUE,"complete"
+"mv08c_hca_resource_plan_v1",2,"future_exact_file_download",8,"H5 files",202770089,FALSE,"2 GiB exact-payload cap"
+"mv08c_hca_resource_plan_v1",3,"future_structural_gate",8,"H5 files",202770089,FALSE,"sequential bounded inspection"
+"mv08c_hca_resource_plan_v1",4,"future_query_projection",40,"donor-seeds",,FALSE,"immutable 500-gene and 30-PC transform"
+"mv08c_hca_resource_plan_v1",5,"future_ph",80,"view-level PH jobs",,FALSE,"Ripserr primary; exact GUDHI fallback under 12 GiB"
+"mv08c_hca_resource_plan_v1",6,"future_landscape_distance",19840,"query-reference component distances",,FALSE,"streamed/chunked exact or error-controlled squared-L2"

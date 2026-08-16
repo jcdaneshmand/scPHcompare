@@ -1,0 +1,5 @@
+"contract_id","component_order","component_id","entity_type","entity_count","donor_count_per_entity","selected_cell_scope","primary_eligible","disposition","outcome_or_topology_used"
+"mv08c_hca_component_accountability_v1",1,"primary_one_donor_whole_marrow","sample",8,"1","whole marrow mononuclear cells",TRUE,"metadata_admitted_structural_pending",FALSE
+"mv08c_hca_component_accountability_v1",2,"excluded_eight_donor_whole_marrow_pools","sample",16,"8","whole marrow mononuclear cells",FALSE,"excluded_pooled_donors",FALSE
+"mv08c_hca_component_accountability_v1",3,"excluded_selected_marrow_hematopoietic_cells","sample",63,"1","selected marrow hematopoietic cells",FALSE,"excluded_composition_restricted",FALSE
+"mv08c_hca_component_accountability_v1",4,"excluded_aggregate_marrow_h5ad","file",1,"multiple_or_aggregated","mixed genetic pools and controls",FALSE,"excluded_aggregated_matrix",FALSE

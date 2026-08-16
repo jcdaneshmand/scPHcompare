@@ -1,0 +1,11 @@
+"contract_id","gate_order","gate","cell_view_state","gene_view_state","hard_gate","current_sprint_passed","failure_action","expression_values_opened"
+"mv08c_hca_view_gates_v1",1,"eight_independent_units","pass_metadata","pass_metadata",TRUE,TRUE,"block cohort",FALSE
+"mv08c_hca_view_gates_v1",2,"count_file_identity","pass_metadata","pass_metadata",TRUE,TRUE,"block file",FALSE
+"mv08c_hca_view_gates_v1",3,"shared_frozen_500_gene_source","required","required",TRUE,TRUE,"block both views",FALSE
+"mv08c_hca_view_gates_v1",4,"stable_feature_mapping","pending_structural_download","pending_structural_download",TRUE,FALSE,"block both views",FALSE
+"mv08c_hca_view_gates_v1",5,"all_500_ordered_genes","pending_structural_download","pending_structural_download",TRUE,FALSE,"block both views",FALSE
+"mv08c_hca_view_gates_v1",6,"minimum_384_usable_cells","pending_structural_download","pending_structural_download",TRUE,FALSE,"block both views",FALSE
+"mv08c_hca_view_gates_v1",7,"reference_transform_reuse","pending_transform_validation","pending_transform_validation",TRUE,FALSE,"block external projection",FALSE
+"mv08c_hca_view_gates_v1",8,"cell_30pc_coordinates","pending_calculation","not_applicable",TRUE,FALSE,"block cell view",FALSE
+"mv08c_hca_view_gates_v1",9,"gene_pearson_chord_coordinates","not_applicable","pending_calculation",TRUE,FALSE,"block gene view",FALSE
+"mv08c_hca_view_gates_v1",10,"landscape_definition","pass_contract","pass_contract",TRUE,TRUE,"block both views",FALSE

@@ -1335,3 +1335,23 @@ The current Ubuntu-only workflow and package files remain unchanged. Next is
 MV5-BF nonpublishing cross-platform CI certification only; release publication,
 downloader/runtime integration, Rust production adoption, added seeds, and
 partitions remain closed.
+
+### MV8-C independent HCA validation checkpoint
+
+MV8-C completes the metadata-only admission and compute dossier for HCA project
+`cc95ff89-2e68-4a08-a234-480eca21ce79`. The frozen primary cohort is exactly
+eight one-donor whole-bone-marrow mononuclear H5 count files totaling
+202,770,089 bytes. Sixteen eight-donor pools, 63 composition-selected marrow
+samples, and the aggregate matrix are excluded. The official query replay,
+production/repeat dossier, and independent validator all reproduce
+byte-identically; no expression payload or outcome was opened.
+
+The next sprint is MV8-D only after owner authorization: sequential exact-file
+download, checksum verification, H5-axis/type inspection, frozen-QC usable-cell
+depth, ordered 500-gene coverage, and immutable reference-projection admission.
+Any missing gene or sub-384 donor blocks both primary views. No PCA, PH,
+landscape, distance, clustering, endpoint, or claim may proceed until the
+structural/QC ledger passes. If later admitted, the bounded queue remains 80
+view-level PH jobs and 19,840 separate cell-H0/cell-H1/gene-H0/gene-H1
+query-to-reference distances under the all-active-level, grid-free,
+exact/error-controlled landscape contract.

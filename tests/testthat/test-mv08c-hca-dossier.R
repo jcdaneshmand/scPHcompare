@@ -61,3 +61,38 @@ testthat::test_that("MV8-C acquisition is metadata-only by construction", {
   testthat::expect_match(validator, "production and repeat fifteen-file dossiers",
     fixed = TRUE)
 })
+
+testthat::test_that("MV8-C published evidence stops at structural admission", {
+  evidence <- testthat::test_path("..", "..", "docs", "audits",
+    "mv08c-hca-admission-evidence")
+  files <- utils::read.csv(file.path(evidence,
+    "mv08c-primary-file-manifest.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  units <- utils::read.csv(file.path(evidence,
+    "mv08c-primary-unit-ledger.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  components <- utils::read.csv(file.path(evidence,
+    "mv08c-component-accountability.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  resource <- utils::read.csv(file.path(evidence,
+    "mv08c-resource-summary.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  decision <- utils::read.csv(file.path(evidence, "mv08c-decision.csv"),
+    stringsAsFactors = FALSE, check.names = FALSE)
+  validation <- utils::read.csv(file.path(evidence,
+    "mv08c-independent-validation.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  testthat::expect_equal(nrow(files), 8L)
+  testthat::expect_equal(length(unique(units$donor_document_sha256)), 8L)
+  testthat::expect_identical(as.integer(components$entity_count),
+    c(8L, 16L, 63L, 1L))
+  testthat::expect_equal(resource$total_payload_bytes, 202770089)
+  testthat::expect_equal(resource$ph_jobs, 80L)
+  testthat::expect_equal(resource$query_reference_component_distances, 19840L)
+  testthat::expect_identical(decision$disposition,
+    "metadata_closed_download_candidate")
+  testthat::expect_false(decision$external_expression_download_authorized)
+  testthat::expect_false(
+    decision$new_pca_ph_landscape_distance_clustering_authorized)
+  testthat::expect_true(all(validation$passed))
+})

@@ -1,0 +1,6 @@
+"contract_id","term_order","item","state","locator","obligation","recorded_before_download"
+"mv08c_hca_access_terms_v1",1,"project_access_state","access_granted; project metadata NRES","https://explore.data.humancellatlas.org/projects/cc95ff89-2e68-4a08-a234-480eca21ce79","honor current project access status and portal terms",TRUE
+"mv08c_hca_access_terms_v1",2,"dataset_license","CC BY 4.0","https://creativecommons.org/licenses/by/4.0/","attribute source, link license, and indicate modifications",TRUE
+"mv08c_hca_access_terms_v1",3,"data_use_agreement","recorded","https://data.humancellatlas.org/about/data-use-agreement","apply the dataset license and release policy",TRUE
+"mv08c_hca_access_terms_v1",4,"data_release_policy","recorded","https://www.humancellatlas.org/data-release-policy/","respect data-generator publication interests and local requirements",TRUE
+"mv08c_hca_access_terms_v1",5,"manifest_payload_definition","compact TSV is metadata, not data payload","https://data.humancellatlas.org/guides/quick-start-guide","do not treat or publish the compact manifest as expression data",TRUE
