@@ -21,6 +21,10 @@ clustering, and outcome labels remain closed. Public output may contain the
 ordered panel and aggregate eligibility/stability summaries, never expression
 values, per-cache variances/ranks, cell IDs, or private paths.
 
+The ordered-panel SHA-256 uses a canonical row-name-free payload containing
+only integer `panel_order`, character `feature_id`, and character `gene`, so
+the digest is reproducible from the public ordered-panel fields.
+
 The inventory has one 2,700-second and 8-GiB process cap. It must validate all
 620 cache hashes and payload identities, run in one streaming pass, pass an
 independent reconstruction, and reproduce deterministic outputs byte-for-byte.

@@ -4,6 +4,17 @@
   })
 }
 
+.mv06c_panel_sha256 <- function(panel) {
+  payload <- data.frame(
+    panel_order = as.integer(panel$panel_order),
+    feature_id = as.character(panel$feature_id),
+    gene = as.character(panel$gene),
+    stringsAsFactors = FALSE
+  )
+  rownames(payload) <- NULL
+  digest::digest(payload, algo = "sha256", serialize = TRUE)
+}
+
 #' Build the frozen MV6-C global-core panel from aggregate variances
 #'
 #' @keywords internal
@@ -132,10 +143,7 @@ mv06c_build_global_core_panel_v1 <- function(feature_ids, variances, seeds,
   list(
     panel = panel, candidates = retained, eligibility = eligibility,
     seed_stability = seed_stability, decision = decision,
-    panel_sha256 = digest::digest(
-      panel[c("panel_order", "feature_id", "gene")],
-      algo = "sha256", serialize = TRUE
-    )
+    panel_sha256 = .mv06c_panel_sha256(panel)
   )
 }
 

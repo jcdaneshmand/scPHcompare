@@ -57,3 +57,18 @@ test_that("MV6-C selector supports the unchanged 124-sample axis", {
   expect_identical(result$panel$feature_id, c("G1", "G2"))
   expect_true(all(result$seed_stability$cache_count == 124L))
 })
+
+test_that("MV6-C panel digest ignores hidden row names", {
+  panel <- data.frame(
+    panel_order = 1:2,
+    feature_id = c("A-ENSG1", "B-ENSG2"),
+    gene = c("A", "B"),
+    stringsAsFactors = FALSE,
+    row.names = c("17", "29")
+  )
+  changed <- panel
+  rownames(changed) <- c("1", "2")
+
+  expect_identical(.mv06c_panel_sha256(panel),
+                   .mv06c_panel_sha256(changed))
+})
