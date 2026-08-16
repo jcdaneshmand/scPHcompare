@@ -1,0 +1,6 @@
+"contract_id","stage","elapsed_cap_seconds","rss_cap_bytes","storage_cap_bytes","workers","retries","atomic_write"
+"mv07h_resource_caps_v1","source_views",1800,8589934592,,1,0,TRUE
+"mv07h_resource_caps_v1","cell_ph",600,4294967296,,1,0,TRUE
+"mv07h_resource_caps_v1","gene_ph",1800,8589934592,,1,0,TRUE
+"mv07h_resource_caps_v1","landscape_group",3600,12884901888,,1,0,TRUE
+"mv07h_resource_caps_v1","aggregate",172800,12884901888,4294967296,1,0,TRUE

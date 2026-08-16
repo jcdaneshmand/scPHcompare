@@ -1,0 +1,3 @@
+"contract_id","sample_id","view_id","homology_dimension","ripserr_intervals","gudhi_intervals","maximum_absolute_error","tolerance","passed"
+"mv07h_full_engine_equivalence_v1","SRA621638_SRS2610285","gene_topology_v1","H0",499,499,0,0.000001,TRUE
+"mv07h_full_engine_equivalence_v1","SRA621638_SRS2610285","gene_topology_v1","H1",2221,2221,0,0.000001,TRUE

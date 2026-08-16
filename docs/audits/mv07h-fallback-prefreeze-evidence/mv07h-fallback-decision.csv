@@ -1,0 +1,2 @@
+"contract_id","decision","existing_source_artifacts_reused","existing_ph_artifacts_reused","ph_jobs_remaining","fallback_attempts_per_eligible_failure","fallback_repeat_required","landscape_jobs_authorized","clustering_jobs_authorized","label_jobs_authorized","outcome_jobs_authorized","next_gate"
+"mv07h_fallback_prefreeze_decision_v1","authorize_resume_full_PH_with_exact_resource_fallback",5,15,1225,1,TRUE,0,0,0,0,"complete_full_PH_repeat_independent_validation"

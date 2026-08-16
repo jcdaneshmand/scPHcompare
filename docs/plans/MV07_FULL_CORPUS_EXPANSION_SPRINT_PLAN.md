@@ -192,6 +192,14 @@ Ripserr diagram interval-for-interval in H0 and H1. Production is paused pending
 owner approval of a Ripserr-primary, GUDHI-on-resource-failure amendment with a
 separate 12 GiB cap, explicit engine provenance, and fallback repeat gates.
 
+Owner authorization and prefreeze closure: the Ripserr-primary/GUDHI
+RSS-fallback policy is approved and frozen at implementation `936acf4`. A real
+production-format hard-view record and repeat are byte-identical; the complete
+suite passes 1,704 expectations; and the self-contained amendment passes 12/12
+independent plus 33/33 repeat checks. Resume only from
+`docs/audits/mv07h-fallback-prefreeze-evidence/`; landscapes remain closed
+until the completed mixed-engine PH corpus independently validates.
+
 ## MV7-I — descriptive topology and clustering evaluation
 
 Purpose: use all eight tissues without overstating what the three single-study

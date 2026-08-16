@@ -1,0 +1,2 @@
+"contract_id","allowed_trigger","forbidden_trigger","labels_may_select_engine","labels_may_stop","landscapes_open","clustering_open","labels_open","outcomes_open","claims_open","outcome_label_state"
+"mv07h_fallback_label_firewall_v1","primary_ripserr_rss_cap_exceeded","diagram_content;landscape;cluster;label;outcome;claim",FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,"closed"

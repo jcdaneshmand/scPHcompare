@@ -1,0 +1,2 @@
+"contract_id","r_version","ripserr_version","tda_version","rust_library_sha256","rust_engine_version","omp_threads","openblas_threads","mkl_threads"
+"mv07h_runtime_v1","4.4.1","0.3.0","1.9.4","51d3fca4808c6620c46c7b1100ddfad4753af02d37f87ec3eb278008846b160d",1,1,1,1
