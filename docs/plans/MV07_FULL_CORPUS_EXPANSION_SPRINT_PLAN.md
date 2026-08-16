@@ -212,6 +212,13 @@ repeat recovery is preserved in the attempt evidence and described in
 seed-20260807 gene-H1 7,626-pair landscape stress group; the other 19 groups
 and all clustering, labels, outcomes, combinations, and claims remain closed.
 
+Stress-runner rebind: the first stress launch failed before pairwise distance
+calculation because the PH-cache-key vector lacked the sample-ID names already
+present on the interval list. No landscape or public output was published. The
+identity-only correction is commit `b573d83`; the failed v1 receipt is retained,
+and only a clean v2 private-root launch is authorized. See
+`docs/audits/MV07H_LANDSCAPE_STRESS_RUNNER_REBIND_2026-08-16.md`.
+
 ## MV7-I — descriptive topology and clustering evaluation
 
 Purpose: use all eight tissues without overstating what the three single-study
