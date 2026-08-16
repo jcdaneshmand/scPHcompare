@@ -43,8 +43,10 @@ named_files <- c(
   stability = "stability-summary.csv",
   selected_partitions = "selected-partitions.csv",
   provenance = "provenance.csv")
-production_paths <- file.path(production_root, "artifacts", named_files)
-repeat_paths <- file.path(repeat_root, "artifacts", named_files)
+production_paths <- stats::setNames(
+  file.path(production_root, "artifacts", named_files), names(named_files))
+repeat_paths <- stats::setNames(
+  file.path(repeat_root, "artifacts", named_files), names(named_files))
 production_status_path <- file.path(production_root, "artifacts", "status.csv")
 repeat_status_path <- file.path(repeat_root, "artifacts", "status.csv")
 required_paths <- c(production_paths, repeat_paths, production_status_path,
