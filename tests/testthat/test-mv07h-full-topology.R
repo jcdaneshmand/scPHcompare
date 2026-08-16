@@ -378,6 +378,30 @@ testthat::test_that("MV7-I firewall name matching respects field boundaries", {
     pattern, "sample_age", ignore.case = TRUE, perl = TRUE))
 })
 
+testthat::test_that("MV7-I outcome prefreeze fixes complete descriptive scope", {
+  builder_path <- testthat::test_path(
+    "..", "..", "scripts", "build_mv07i_outcome_prefreeze.R")
+  validator_path <- testthat::test_path(
+    "..", "..", "scripts", "validate_mv07i_outcome_prefreeze.R")
+  builder <- paste(readLines(builder_path, warn = FALSE), collapse = "\n")
+  validator <- paste(readLines(validator_path, warn = FALSE), collapse = "\n")
+  testthat::expect_match(builder, "primary90_context_restriction", fixed = TRUE)
+  testthat::expect_match(builder, "structurally_not_estimable_single_class",
+                         fixed = TRUE)
+  testthat::expect_match(builder, "normalized_mutual_information_max",
+                         fixed = TRUE)
+  testthat::expect_match(builder, "nrow(queue) == 120L", fixed = TRUE)
+  testthat::expect_match(builder, "expected_seed_metric_rows == 600L",
+                         fixed = TRUE)
+  testthat::expect_match(builder, "p_value_authorized = FALSE", fixed = TRUE)
+  testthat::expect_match(builder, "labels_joined_to_clusters_now = FALSE",
+                         fixed = TRUE)
+  testthat::expect_match(validator, "approach_nesting", fixed = TRUE)
+  testthat::expect_match(validator, "byte_identical_repeat", fixed = TRUE)
+  testthat::expect_match(validator,
+    "authorize_MV7I_descriptive_outcome_execution_only", fixed = TRUE)
+})
+
 testthat::test_that("MV7-H GUDHI fallback preserves an exact gene diagram", {
   testthat::skip_if_not_installed("TDA")
   x <- matrix(
