@@ -219,6 +219,18 @@ identity-only correction is commit `b573d83`; the failed v1 receipt is retained,
 and only a clean v2 private-root launch is authorized. See
 `docs/audits/MV07H_LANDSCAPE_STRESS_RUNNER_REBIND_2026-08-16.md`.
 
+Reference-oracle rebind: the v2 stress production and repeat completed all
+7,626 gene-H1 pairs byte-identically, but the first independent validator
+failed closed on a QUADPACK roundoff diagnostic and published no validation
+decision. Reference engine v3 handles only the recognized bad-integrand and
+roundoff diagnostics through recursive bisection while preserving the global
+error budget; unrelated failures remain fatal. The frozen median- and
+maximum-depth production pairs pass direct R/Rust agreement, with the maximum
+pair exercising one split in each refinement pass. The canonical suite remains
+clean. Authorize only a clean independent-validation rerun; the remaining 19
+groups remain closed pending 8/8 validation. See
+`docs/audits/MV07H_LANDSCAPE_STRESS_ORACLE_REBIND_2026-08-16.md`.
+
 ## MV7-I — descriptive topology and clustering evaluation
 
 Purpose: use all eight tissues without overstating what the three single-study
