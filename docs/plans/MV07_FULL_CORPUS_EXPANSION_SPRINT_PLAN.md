@@ -161,6 +161,15 @@ canonical oracle. Stream pair outputs and never save dense landscape-function
 matrices. Require independent counts, numerical oracles, deterministic repeats,
 and immutable resume before labels are opened.
 
+Prefreeze gate result: the exact five-source/1,240-PH/20-landscape-group
+workload passes 14/14 independent categories and a 16/16 byte-repeat rebuild.
+The revised all-active-level H0/H1-separated definition is unchanged. The
+conservative total projection is 12.640 worker-hours. Authorize serial full
+source/PH execution and independent validation, then only the prospectively
+selected seed-20260807 gene-H1 7,626-pair stress group. The other 19 landscape
+groups, dimension combination, clustering, labels, outcomes, and claims remain
+closed pending the stress repeat/R-oracle/resource/resume gate.
+
 ## MV7-I — descriptive topology and clustering evaluation
 
 Purpose: use all eight tissues without overstating what the three single-study

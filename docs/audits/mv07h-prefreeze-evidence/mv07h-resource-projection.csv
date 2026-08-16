@@ -1,0 +1,4 @@
+"contract_id","component","projected_worker_seconds","projected_worker_hours","basis","stage1_stress_required"
+"mv07h_resource_projection_v1","full_source_and_PH",22272.517335256,6.18681037090443,"MV7-G conservative measured projection",FALSE
+"mv07h_resource_projection_v1","all_landscape_groups",23232.3673841584,6.45343538448845,"MV6-F combined source_PH_landscape time scaled by component rows",TRUE
+"mv07h_resource_projection_v1","total",45504.8847194144,12.6402457553929,"sum of conservative upper-bound components",TRUE
