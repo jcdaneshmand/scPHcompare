@@ -1,0 +1,2 @@
+"contract_id","checks_passed","checks_total","all_checks_pass","decision","publication_submission_authorized","external_data_download_authorized","new_ph_authorized","expected_head"
+"mv08a_validation_decision_v1",11,11,TRUE,"authorize_author_review_of_figures",FALSE,FALSE,FALSE,"912df83acb3a655becf61dd1dc86e7969d5f063f"

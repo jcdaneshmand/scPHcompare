@@ -1,0 +1,9 @@
+"x","y","label","kind"
+1,1,"127 discovered","all"
+3,1,"124 retained","retained"
+5,1.6,"90 primary
+5 cross-study tissues","primary"
+5,0.4,"34 added
+3 single-study tissues","added"
+7,1,"3 excluded
+<250 cells","excluded"

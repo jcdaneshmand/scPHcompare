@@ -1,0 +1,25 @@
+"id","x","y","label","role"
+"sample",1,1.5,"Biological sample
+comparison unit","unit"
+"cell",2.4,2.25,"Cell view
+cells = observations","cell"
+"gene",2.4,0.75,"Gene view
+genes = observations","gene"
+"cellph",4,2.25,"Cell H0 / H1
+diagrams","cell"
+"geneph",4,0.75,"Gene H0 / H1
+diagrams","gene"
+"cellland",5.7,2.25,"All-level cell
+landscapes","cell"
+"geneland",5.7,0.75,"All-level gene
+landscapes","gene"
+"distance",7.4,1.5,"Separate H0 / H1
+exact or controlled L2","method"
+"matrix",9,1.5,"Seed-specific
+sample matrices","method"
+"cluster",10.6,1.5,"Label-free PAM
++ average sensitivity","method"
+"outcome",12.2,1.5,"Descriptive
+metadata alignment","outcome"
+"composite",7.4,0.25,"Secondary unweighted
+H0+H1 composite","secondary"

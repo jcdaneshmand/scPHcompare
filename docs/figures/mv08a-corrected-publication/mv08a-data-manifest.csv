@@ -1,0 +1,12 @@
+"contract_id","data_order","filename","sha256","bytes","sample_identifiers_published","confidential_review_text"
+"mv08a_data_manifest_v1",1,"f1-edges.csv","5b40ae1898a9a7efad238bb6aeb5009ad01b9f27446ce68b40271bb4469c1736",325,FALSE,FALSE
+"mv08a_data_manifest_v1",2,"f1-nodes.csv","26e83f50fad8f47be8e53f894b2f3a691ea21ffa30b58f3d0f532feb6052223b",729,FALSE,FALSE
+"mv08a_data_manifest_v1",3,"f2-cohort-flow.csv","1c0f45ffa6af4fea916ceacfb4e2fa5d84cbed059f15da897362a359e8922097",218,FALSE,FALSE
+"mv08a_data_manifest_v1",4,"f2-tissue-counts.csv","e19040aae2a31bc1f771e3df5681320183bc98eab8f1f19dad73228797c552f9",545,FALSE,FALSE
+"mv08a_data_manifest_v1",5,"f3-display-landscape-levels.csv","d447946b3aaef8cc08af678ecf4426df19c6ffd2c5152f468e3a0076f84ce5cc",295314,FALSE,FALSE
+"mv08a_data_manifest_v1",6,"f3-finite-diagram.csv","51366e0def91fe369f79cef3e1c5075c32768f31943f3aea308f20a1aa2a683f",24277,FALSE,FALSE
+"mv08a_data_manifest_v1",7,"f4-h0-composite-concordance.csv","ca3b2c614b8359ac475a2b67c852efb48d6cad13e2381345dd417c48668c5d03",2932,FALSE,FALSE
+"mv08a_data_manifest_v1",8,"f4-h1-ecdf.csv","f72fac630804f151d58fdfca2983b4c0c834976c0cc077873005400429a1819c",27148,FALSE,FALSE
+"mv08a_data_manifest_v1",9,"f5-complete-stability.csv","a4ab6c4058eb7344ffb1c39a73e2715f3b9c268ad7c9728fe42d5f963b9b8e3a",6997,FALSE,FALSE
+"mv08a_data_manifest_v1",10,"f6-complete-outcomes.csv","f913e7b4060342aefa58c94abb80399dc4c13d0461773dc9f9b439e4bcf23890",63646,FALSE,FALSE
+"mv08a_data_manifest_v1",11,"f7-algorithm-sensitivity.csv","1d578cb92922476c2a054d0fafc6359a13937d7e9ca70ad27d4480cd29c0e088",4183,FALSE,FALSE

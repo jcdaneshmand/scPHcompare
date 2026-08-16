@@ -1,0 +1,13 @@
+"from","to","secondary"
+"sample","cell",FALSE
+"cellph","cellland",FALSE
+"cell","cellph",FALSE
+"matrix","cluster",FALSE
+"distance","composite",TRUE
+"cellland","distance",FALSE
+"geneland","distance",FALSE
+"sample","gene",FALSE
+"geneph","geneland",FALSE
+"gene","geneph",FALSE
+"distance","matrix",FALSE
+"cluster","outcome",FALSE
