@@ -1,0 +1,158 @@
+test_that("MV8-G queues preserve the exact 124 by five paired scope", {
+  samples <- sprintf("sample_%03d", seq_len(124L))
+  manifest <- expand.grid(sample_id = samples, seed = 20260805:20260809,
+                          stringsAsFactors = FALSE)
+  manifest$source_tier <- ifelse(seq_len(nrow(manifest)) %% 2L, "primary90", "added34")
+  manifest$private_cache_file <- paste0(manifest$sample_id, "__", manifest$seed, ".rds")
+  manifest$private_cache_sha256 <- "a"
+  manifest$normalization_cache_key <- "b"
+  manifest$payload_sha256 <- "c"
+  manifest$outcome_label_state <- "closed"
+  manifest$biological_outcomes_computed <- FALSE
+  axis <- mv08g_sample_seed_axis_v1(manifest)
+  expect_equal(nrow(axis), 620L)
+  expect_true(all(axis$panel_genes == 475L))
+  expect_equal(nrow(mv08g_source_queue_v1(axis)), 5L)
+  ph <- mv08g_ph_queue_v1(axis)
+  expect_equal(nrow(ph), 1240L)
+  expect_equal(as.integer(table(ph$view_id)), c(620L, 620L))
+  landscape <- mv08g_landscape_queue_v1()
+  expect_equal(nrow(landscape), 20L)
+  expect_equal(sum(landscape$component_rows), 152520L)
+  shift <- mv08g_matched_shift_queue_v1()
+  expect_equal(nrow(shift), 20L)
+  expect_equal(sum(shift$component_rows), 2480L)
+  all_names <- unique(c(names(axis), names(ph), names(landscape), names(shift)))
+  expect_false(any(tolower(all_names) %in% .mv08g_forbidden_fields))
+})
+
+test_that("MV8-G scale-free stress is exact and rejects bad axes", {
+  exact <- mv08g_nonnegative_scale_stress_v1(2 * 1:5, 1:5)
+  expect_equal(exact$scale, 2)
+  expect_equal(exact$normalized_stress, 0, tolerance = 1e-14)
+  expect_error(mv08g_nonnegative_scale_stress_v1(c(1, 2), c(1, NA)),
+               "finite nonnegative")
+})
+
+test_that("MV8-G top-k overlap is deterministic under distance ties", {
+  ids <- letters[1:4]
+  first <- matrix(c(0, 1, 1, 3, 1, 0, 2, 3, 1, 2, 0, 3,
+                    3, 3, 3, 0), 4, byrow = TRUE, dimnames = list(ids, ids))
+  second <- first
+  result <- mv08g_top_k_neighbor_overlap_v1(first, second, k = 2L)
+  expect_equal(result$overlap, rep(1, 4))
+  expect_error(mv08g_top_k_neighbor_overlap_v1(first, second[-1, ], 2L),
+               "distance matrix")
+})
+
+test_that("MV8-G harmonization classification follows frozen component rules", {
+  base <- data.frame(
+    component_id = .mv08g_components,
+    median_spearman = 0.96,
+    median_top10_overlap = 0.81,
+    median_fixed_k_pam_ari = 0.81,
+    stringsAsFactors = FALSE)
+  expect_identical(mv08g_harmonization_class_v1(base),
+                   "high_harmonization_stability")
+  mixed <- base
+  mixed$median_spearman[[1L]] <- 0.94
+  expect_identical(mv08g_harmonization_class_v1(mixed),
+                   "mixed_harmonization_stability")
+  material <- mixed
+  material$median_top10_overlap[[1L]] <- 0.79
+  expect_identical(mv08g_harmonization_class_v1(material),
+                   "material_panel_sensitivity")
+})
+
+test_that("MV8-G accepts the published common-475 axis and rejects drift", {
+  path <- testthat::test_path("..", "..", "docs", "audits",
+    "mv08e-reference-reconciliation-evidence", "mv08e-common475-panel.csv")
+  panel <- read.csv(path, stringsAsFactors = FALSE, check.names = FALSE)
+  expect_silent(mv08g_validate_common475_panel_v1(panel))
+  panel$feature_id[[1L]] <- panel$feature_id[[2L]]
+  expect_error(mv08g_validate_common475_panel_v1(panel), "frozen exact-ID")
+})
+
+test_that("MV8-G implementation cannot masquerade as MV7-H 500-gene output", {
+  source_path <- testthat::test_path("..", "..", "scripts",
+                                      "run_mv08g_source_entry.R")
+  helper_path <- testthat::test_path("..", "..", "R",
+                                      "mv08g_panel_sensitivity.R")
+  source_text <- paste(readLines(source_path, warn = FALSE), collapse = "\n")
+  helper_text <- paste(readLines(helper_path, warn = FALSE), collapse = "\n")
+  expect_match(source_text, "panel_size = 475L", fixed = TRUE)
+  expect_match(source_text, "mv08g_full124_common475_seed_", fixed = TRUE)
+  expect_match(helper_text, "mv08g_common475_source_record_v1", fixed = TRUE)
+  expect_match(helper_text, "mv08g_ph_record_v1", fixed = TRUE)
+  expect_false(grepl("mv07h_new_source_record_v1", source_text, fixed = TRUE))
+})
+
+test_that("MV8-G prefreeze preserves landscapes and keeps raw reads closed", {
+  spec_path <- testthat::test_path("..", "..", "docs", "specifications",
+    "MV08G_COMMON475_PAIRED_REFERENCE_SENSITIVITY_PREFREEZE_V1.md")
+  builder_path <- testthat::test_path("..", "..", "scripts",
+                                      "build_mv08g_prefreeze.R")
+  spec <- paste(readLines(spec_path, warn = FALSE), collapse = "\n")
+  builder <- paste(readLines(builder_path, warn = FALSE), collapse = "\n")
+  for (term in c("finite positive-persistence", "essential H0 excluded",
+                 "every consecutive active level", "H0 and H1 separate",
+                 "no fixed grid", "no level cap")) {
+    expect_match(spec, term, fixed = TRUE)
+  }
+  expect_match(builder, "authorize_five_common475_source_bundles_and_one_repeat",
+               fixed = TRUE)
+  expect_match(builder, "hca_fastq_download_authorized = FALSE", fixed = TRUE)
+  expect_match(builder, "raw_reprocessing_authorized = FALSE", fixed = TRUE)
+  expect_match(builder, "matched_shift_rows = 2480L", fixed = TRUE)
+})
+
+test_that("MV8-G source execution is monitored, repeatable, and zero-retry", {
+  path <- testthat::test_path("..", "..", "scripts",
+                              "run_mv08g_source_monitor.R")
+  text <- paste(readLines(path, warn = FALSE), collapse = "\n")
+  expect_match(text, "peak_process_tree_rss_bytes", fixed = TRUE)
+  expect_match(text, "elapsed_cap_exceeded", fixed = TRUE)
+  expect_match(text, "rss_cap_exceeded", fixed = TRUE)
+  expect_match(text, "process$kill_tree()", fixed = TRUE)
+  expect_match(text, "retries = 0L", fixed = TRUE)
+  expect_match(text, "byte_identical", fixed = TRUE)
+  expect_match(text, "source_complete_await_independent_validation",
+               fixed = TRUE)
+})
+
+test_that("MV8-G source validation independently opens only the PH gate", {
+  path <- testthat::test_path("..", "..", "scripts",
+                              "validate_mv08g_sources.R")
+  text <- paste(readLines(path, warn = FALSE), collapse = "\n")
+  expect_match(text, "mv08g_validate_source_record_v1", fixed = TRUE)
+  expect_match(text, "selected_cell_axis_exact", fixed = TRUE)
+  expect_match(text, "common475_axis_exact", fixed = TRUE)
+  expect_match(text, "source_exact_authorize_PH_execution_prefreeze_only",
+               fixed = TRUE)
+  expect_match(text, "ph_jobs_authorized = 0L", fixed = TRUE)
+  expect_match(text, "landscape_jobs_authorized = 0L", fixed = TRUE)
+  expect_match(text, "hca_fastq_download_authorized = FALSE", fixed = TRUE)
+})
+
+test_that("MV8-G comparison publishes reconstructable label-free evidence", {
+  path <- testthat::test_path("..", "..", "scripts",
+                              "run_mv08g_comparison.R")
+  text <- paste(readLines(path, warn = FALSE), collapse = "\n")
+  for (term in c("mv08g-seed-distance-comparison.csv",
+                 "mv08g-top10-neighbor-overlap.csv",
+                 "mv08g-normalized-matched-shifts.csv",
+                 "mv08g-candidate-pam-partitions.csv",
+                 "mv08g-pam-stability-summary.csv",
+                 "mv08g-panel-selected-k.csv",
+                 "mv08g-pam-k-panel-agreement.csv",
+                 "mv08g-fixed500k-partitions.csv",
+                 "mv08g-fixed500k-panel-agreement.csv",
+                 "mv08g-component-summary.csv")) {
+    expect_match(text, term, fixed = TRUE)
+  }
+  expect_match(text, "mv05_select_stable_k_v1", fixed = TRUE)
+  expect_match(text, "mv05n_pam_partition_v1", fixed = TRUE)
+  expect_match(text, "mv05n_average_partition_v1", fixed = TRUE)
+  expect_match(text, "hca_fastq_download_authorized = FALSE", fixed = TRUE)
+  expect_match(text, "raw_reprocessing_authorized = FALSE", fixed = TRUE)
+})
