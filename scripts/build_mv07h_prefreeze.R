@@ -189,7 +189,7 @@ acceptance <- data.frame(
                "ph_queue", "landscape_queue", "component_balance",
                "landscape_definition", "rust_identity", "resource_caps",
                "resource_projection", "repeat_oracles", "label_firewall",
-               "no_execution"),
+               "execution_outputs_excluded"),
   passed = c(
     all(truth(mv07g_checks$passed)),
     nrow(panel) == 500L && length(unique(panel$panel_sha256)) == 1L,
@@ -224,7 +224,7 @@ acceptance <- data.frame(
              "eight dissertation-aligned requirements", "accepted Rust binary",
              "serial zero-retry bounded groups", "conservative total under 48h",
              "source/PH repeat plus stress R oracles", "labels outcomes closed",
-             "zero MV7-H production jobs"),
+             "prefreeze contains zero execution outputs"),
   stringsAsFactors = FALSE
 )
 if (!all(acceptance$passed)) stop("MV7-H prefreeze acceptance failed: ",

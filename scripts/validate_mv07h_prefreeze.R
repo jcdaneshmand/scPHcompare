@@ -54,7 +54,7 @@ checks <- data.frame(
                "source_queue", "ph_queue", "landscape_queue",
                "component_balance", "resource_caps", "resource_projection",
                "landscape_contract", "rust_identity", "label_firewall",
-               "decision", "no_execution"),
+               "decision", "execution_outputs_excluded"),
   passed = c(
     source_ok,
     nrow(panel) == 500L && length(unique(panel$panel_sha256)) == 1L,
@@ -90,7 +90,8 @@ checks <- data.frame(
              "balanced 152,520 H0/H1 rows", "serial bounded zero retry",
              "conservative total below 48 hours", "eight unchanged requirements",
              "accepted accelerator SHA-256", "labels outcomes combination closed",
-             "full PH then one stress only", "zero MV7-H production jobs"),
+             "full PH then one stress only",
+             "prefreeze contains zero execution outputs"),
   stringsAsFactors = FALSE
 )
 if (!all(checks$passed)) stop("MV7-H prefreeze validation failed: ",
