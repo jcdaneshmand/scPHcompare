@@ -368,7 +368,7 @@ f5 <- ggplot2::ggplot(stab,
   ggplot2::scale_fill_manual(values = rep_cols, guide = "none") +
   ggplot2::scale_x_continuous(breaks = 2:10) +
   ggplot2::scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, .2),
-    labels = scales::label_number(accuracy = .1)) +
+    labels = function(x) sprintf("%.1f", x)) +
   ggplot2::labs(title = "Label-free five-seed cluster stability",
     subtitle = "All six representations selected the smallest k within one SE of maximum stability",
     x = "Candidate cluster count k", y = "Mean pairwise seed ARI",
@@ -401,7 +401,7 @@ f6 <- ggplot2::ggplot(out, ggplot2::aes(representation, axis, fill = seed_mean))
   ggplot2::scale_fill_steps2(low = "#C94C4C", mid = "#F7F7F7", high = navy,
     midpoint = .08, limits = c(-.08, .30),
     breaks = c(-.05, 0, .05, .10, .15, .20, .25),
-    labels = scales::label_number(accuracy = .01),
+    labels = function(x) sprintf("%.2f", x),
     oob = scales::squish, name = "Seed mean") +
   ggplot2::labs(title = "Complete descriptive cluster–metadata alignment",
     subtitle = "All 120 prespecified units; values are five-seed mean ± technical jackknife SE",
