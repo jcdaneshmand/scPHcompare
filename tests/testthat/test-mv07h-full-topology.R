@@ -281,6 +281,48 @@ testthat::test_that("MV7-H complete validation covers the full landscape", {
                          fixed = TRUE)
 })
 
+testthat::test_that("MV7-I prefreeze keeps clustering label closed", {
+  path <- testthat::test_path(
+    "..", "..", "scripts", "build_mv07i_descriptive_prefreeze.R")
+  text <- paste(readLines(path, warn = FALSE), collapse = "\n")
+  testthat::expect_match(text, "authorize_MV7I_descriptive_prefreeze_only",
+                         fixed = TRUE)
+  testthat::expect_match(text, "primary_component", fixed = TRUE)
+  testthat::expect_match(text, "secondary_descriptive_composite", fixed = TRUE)
+  testthat::expect_match(text, "median_across_five_seeds", fixed = TRUE)
+  testthat::expect_match(text, "raw_MAD_constant_1", fixed = TRUE)
+  testthat::expect_match(text, "PAM_dissimilarity_v1", fixed = TRUE)
+  testthat::expect_match(text,
+                         "smallest_k_within_one_SE_of_maximum_mean_stability",
+                         fixed = TRUE)
+  testthat::expect_match(text, "average_linkage_at_PAM_selected_k",
+                         fixed = TRUE)
+  testthat::expect_match(text, "canonical_approach", fixed = TRUE)
+  testthat::expect_match(text,
+    "authorize_label_closed_matrix_and_clustering_production_only",
+    fixed = TRUE)
+  testthat::expect_match(text, "labels_authorized = FALSE", fixed = TRUE)
+  testthat::expect_match(text, "outcomes_authorized = FALSE", fixed = TRUE)
+})
+
+testthat::test_that("MV7-I prefreeze requires independent repeat validation", {
+  path <- testthat::test_path(
+    "..", "..", "scripts", "validate_mv07i_descriptive_prefreeze.R")
+  text <- paste(readLines(path, warn = FALSE), collapse = "\n")
+  testthat::expect_match(text, "length(files) == 11L", fixed = TRUE)
+  testthat::expect_match(text, "all(repeat_validation$byte_identical)",
+                         fixed = TRUE)
+  testthat::expect_match(text, "all(file.exists(manifest$path))", fixed = TRUE)
+  testthat::expect_match(text, "tolower(unname(manifest$sha256))",
+                         fixed = TRUE)
+  testthat::expect_match(text, "all(stages$label_access[1:2] == \"FALSE\")",
+                         fixed = TRUE)
+  testthat::expect_match(text, "resources$candidate_pam_fits == 270L",
+                         fixed = TRUE)
+  testthat::expect_match(text, "!as.logical(decision$labels_authorized)",
+                         fixed = TRUE)
+})
+
 testthat::test_that("MV7-H GUDHI fallback preserves an exact gene diagram", {
   testthat::skip_if_not_installed("TDA")
   x <- matrix(

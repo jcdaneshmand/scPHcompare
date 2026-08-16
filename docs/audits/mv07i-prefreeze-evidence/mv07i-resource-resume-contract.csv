@@ -1,0 +1,2 @@
+"contract_id","maximum_workers","elapsed_cap_seconds","process_tree_rss_cap_bytes","candidate_pam_fits","selected_average_linkage_fits","atomic_private_artifacts","deterministic_repeat_required","immutable_resume_required","public_results_allowed","outcome_label_state","biological_outcomes_computed"
+"mv07i_resource_resume_contract_v1",1,3600,4294967296,270,30,TRUE,TRUE,TRUE,FALSE,"closed",FALSE

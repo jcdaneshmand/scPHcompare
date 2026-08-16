@@ -1,0 +1,2 @@
+"contract_id","decision","validation_categories","byte_repeat_artifacts","labels_authorized","outcomes_authorized","claims_authorized","external_data_authorized","outcome_label_state","biological_outcomes_computed"
+"mv07i_descriptive_prefreeze_validation_decision_v1","authorize_label_closed_matrix_and_clustering_production_only",13,11,FALSE,FALSE,FALSE,FALSE,"closed",FALSE

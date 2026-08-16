@@ -1,0 +1,7 @@
+"contract_id","representation_order","representation_id","view_id","component","scientific_role","seed_specific_matrices","samples","construction","dimension_replacement_allowed","outcome_label_state","biological_outcomes_computed"
+"mv07i_representation_registry_v1",1,"cell_H0","cell_topology_v1","H0","primary_component",5,124,"direct_validated_distance",FALSE,"closed",FALSE
+"mv07i_representation_registry_v1",2,"cell_H1","cell_topology_v1","H1","primary_component",5,124,"direct_validated_distance",FALSE,"closed",FALSE
+"mv07i_representation_registry_v1",3,"cell_H0_H1_secondary","cell_topology_v1","H0_H1_unweighted","secondary_descriptive_composite",5,124,"sqrt(H0_squared_distance + H1_squared_distance)",FALSE,"closed",FALSE
+"mv07i_representation_registry_v1",4,"gene_H0","gene_topology_v1","H0","primary_component",5,124,"direct_validated_distance",FALSE,"closed",FALSE
+"mv07i_representation_registry_v1",5,"gene_H1","gene_topology_v1","H1","primary_component",5,124,"direct_validated_distance",FALSE,"closed",FALSE
+"mv07i_representation_registry_v1",6,"gene_H0_H1_secondary","gene_topology_v1","H0_H1_unweighted","secondary_descriptive_composite",5,124,"sqrt(H0_squared_distance + H1_squared_distance)",FALSE,"closed",FALSE

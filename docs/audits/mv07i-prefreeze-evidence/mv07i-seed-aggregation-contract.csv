@@ -1,0 +1,6 @@
+"contract_id","quantity","computation_order","center","uncertainty","zero_rule","select_favorable_seed"
+"mv07i_seed_aggregation_contract_v1","distance","direct_per_seed","median_across_five_seeds","min;max;IQR;raw_MAD_constant_1",,FALSE
+"mv07i_seed_aggregation_contract_v1","combined_distance","within_seed_then_aggregate","median_across_five_seeds","min;max;IQR;raw_MAD_constant_1",,FALSE
+"mv07i_seed_aggregation_contract_v1","h1_squared_fraction","within_seed_then_aggregate","median_across_five_seeds","min;max;IQR;raw_MAD_constant_1","fraction_zero_only_when_H0_and_H1_are_both_zero",FALSE
+"mv07i_seed_aggregation_contract_v1","cluster_stability","across_seed_partitions","mean_of_ten_pairwise_seed_ARIs","delete_one_seed_jackknife_SE",,FALSE
+"mv07i_seed_aggregation_contract_v1","later_label_metric","per_seed_then_jackknife_after_separate_authorization","mean_across_five_seeds","delete_one_seed_jackknife_SE",,FALSE

@@ -1,0 +1,5 @@
+"contract_id","stage_order","stage","authorized_now","label_access","prerequisite","output_role"
+"mv07i_stage_authorization_v1",1,"matrix_reconstruction",TRUE,"FALSE","MV7H_13_of_13","private_matrices_public_manifest"
+"mv07i_stage_authorization_v1",2,"label_closed_clustering",TRUE,"FALSE","immutable_matrices","private_partitions_public_label_free_stability"
+"mv07i_stage_authorization_v1",3,"outcome_prefreeze",FALSE,"structural_only","immutable_partitions","fixed_metadata_endpoints_and_reporting_order"
+"mv07i_stage_authorization_v1",4,"descriptive_outcome_execution",FALSE,"TRUE","separate_outcome_prefreeze_pass","complete_descriptive_results"

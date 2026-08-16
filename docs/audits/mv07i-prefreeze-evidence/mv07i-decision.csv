@@ -1,0 +1,2 @@
+"contract_id","decision","representations","seed_specific_matrices","candidate_pam_fits","average_linkage_fits_after_k_selection","labels_authorized","outcomes_authorized","claims_authorized","external_data_authorized","outcome_label_state","biological_outcomes_computed"
+"mv07i_descriptive_prefreeze_decision_v1","authorize_label_closed_matrix_and_clustering_production_only",6,30,270,30,FALSE,FALSE,FALSE,FALSE,"closed",FALSE

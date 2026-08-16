@@ -309,6 +309,18 @@ regions, how cell and gene views differ, and how cluster stability changes when
 the 34 samples are included. It must not select a favorable view, tissue,
 dimension, seed, or clustering method.
 
+Prefreeze result: six representations are frozen—four separate primary
+cell/gene H0/H1 components and two secondary within-view unweighted composites.
+Pair summaries use all five seeds with median, range, IQR, and raw MAD. PAM
+uses the complete `k=2:10` grid, ten pairwise seed ARIs, delete-one-seed
+jackknife SE, and the smallest-k-within-one-SE rule; average linkage is the sole
+algorithm sensitivity at PAM-selected k. The 124-sample population is
+descriptive, the 90-sample population remains cross-study context, and the 34
+single-study-tissue additions cannot support cross-study claims. Builder and
+independent validator pass 13/13; 11/11 artifacts rebuild byte-identically.
+Authorize label-closed matrix/clustering production only. See
+`docs/audits/MV07I_DESCRIPTIVE_PREFREEZE_2026-08-16.md`.
+
 ## MV7-J — manuscript claim map, literature update, and figures
 
 Only after MV7-I should the result-dependent claim map become final. Link every
