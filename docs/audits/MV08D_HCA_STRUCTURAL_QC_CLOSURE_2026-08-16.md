@@ -66,6 +66,13 @@ explanation, although the exact HCA build provenance is not encoded in these
 files. See the [10x reference release notes](https://www.10xgenomics.com/support/software/cell-ranger/latest/release-notes/cr-reference-release-notes)
 and [10x reference build guidance](https://www.10xgenomics.com/support/software/cell-ranger/latest/analysis/inputs/cr-3p-references).
 
+Subsequent MV8-E fingerprinting resolved the build exactly: the HCA ID and name
+axes are byte-for-byte the Cell Ranger 3.0.0 GRCh38 reference obtained from
+Ensembl release 93 after the documented 10x biotype filter. All 25 absent panel
+genes occur in unfiltered Ensembl 93 but were removed by that filter; an ID or
+symbol crosswalk therefore cannot restore their matrix counts. See
+`MV08E_REFERENCE_RECONCILIATION_AND_PANEL_SENSITIVITY_PREFREEZE_2026-08-16.md`.
+
 Zero filling, symbol-only substitution, or silently dropping 25 input rows from
 the existing 500-gene transform would change the scientific object after
 inspection. All are rejected.

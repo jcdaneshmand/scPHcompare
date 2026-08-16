@@ -1,0 +1,5 @@
+"contract_id","source_order","source_id","url","evidence_role","accessed_date"
+"mv08e_authoritative_reference_source_v1","1","ensembl_release_93_gtf","https://ftp.ensembl.org/pub/release-93/gtf/homo_sapiens/Homo_sapiens.GRCh38.93.gtf.gz","unfiltered historical gene annotation","2026-08-16"
+"mv08e_authoritative_reference_source_v1","2","cellranger_3_0_0_reference_build_steps","https://www.10xgenomics.com/support/software/cell-ranger/downloads/cr-ref-build-steps","Ensembl-93 provenance and exact allowed-biotype policy","2026-08-16"
+"mv08e_authoritative_reference_source_v1","3","hca_bone_marrow_publication","https://pmc.ncbi.nlm.nih.gov/articles/PMC6296228/","Cell Ranger and standard 10x GRCh38 processing provenance","2026-08-16"
+"mv08e_authoritative_reference_source_v1","4","ensembl_rest_lookup","https://rest.ensembl.org/documentation/info/lookup","current stable-ID existence check; not count recovery","2026-08-16"

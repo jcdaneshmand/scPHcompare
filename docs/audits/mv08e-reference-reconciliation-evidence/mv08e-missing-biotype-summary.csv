@@ -1,0 +1,6 @@
+"contract_id","ensembl93_gene_biotype","genes","cellranger_3_0_0_allowed"
+"mv08e_missing_biotype_summary_v1","polymorphic_pseudogene","1","FALSE"
+"mv08e_missing_biotype_summary_v1","processed_pseudogene","17","FALSE"
+"mv08e_missing_biotype_summary_v1","processed_transcript","4","FALSE"
+"mv08e_missing_biotype_summary_v1","transcribed_processed_pseudogene","1","FALSE"
+"mv08e_missing_biotype_summary_v1","unprocessed_pseudogene","2","FALSE"

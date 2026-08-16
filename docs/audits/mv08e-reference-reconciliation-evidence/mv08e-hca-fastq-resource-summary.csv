@@ -1,0 +1,2 @@
+"contract_id","biological_units","fastq_files","fastq_bytes","fastq_gib","download_status","reprocessing_status"
+"mv08e_hca_raw_read_resource_summary_v1","8","48","85034239918","79.194307","not_downloaded","deferred_until_500_vs_475_sensitivity_decision"
