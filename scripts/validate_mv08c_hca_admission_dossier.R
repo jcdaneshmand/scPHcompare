@@ -57,7 +57,7 @@ source_ok <- nrow(sources) == 10L && !anyDuplicated(sources$source_id) &&
   !any(grepl("/mnt/|[A-Z]:\\\\", sources$locator))
 project_ok <- nrow(project) == 1L &&
   project$project_id == "cc95ff89-2e68-4a08-a234-480eca21ce79" &&
-  project$catalog == "dcp60" && project$api_version == "19.0" &&
+  project$catalog == "dcp60" && as.numeric(project$api_version) == 19 &&
   project$project_label == "HematopoieticImmuneCellAtlas" &&
   project$project_cell_estimate == 1453784L &&
   project$project_donor_count == 28L && project$data_use_restriction == "NRES" &&
