@@ -11,6 +11,24 @@ testthat::test_that("MV8-F recovery specification freezes exact cache identity",
   testthat::expect_match(spec, "HCA FASTQs", fixed = TRUE)
 })
 
+testthat::test_that("MV8-F recovery validator requires every accepted identity", {
+  root <- testthat::test_path("..", "..")
+  validator <- paste(readLines(file.path(root, "scripts",
+    "validate_mv08f_cache_recovery.R"), warn = FALSE), collapse = "\n")
+  for (field in c("selected_cell_sha256", "normalization_cache_key",
+      "payload_contract_id", "payload_sha256", "private_cache_bytes",
+      "private_cache_sha256")) {
+    testthat::expect_match(validator, field, fixed = TRUE)
+  }
+  testthat::expect_match(validator, "nrow(sct) != 450L", fixed = TRUE)
+  testthat::expect_match(validator,
+    "recovery_exact_authorize_475_source_prefreeze", fixed = TRUE)
+  testthat::expect_match(validator, "panel475_source_jobs_authorized = 0L",
+    fixed = TRUE)
+  testthat::expect_match(validator, "hca_fastq_download_authorized = FALSE",
+    fixed = TRUE)
+})
+
 testthat::test_that("MV8-F builder preserves the label and landscape boundary", {
   root <- testthat::test_path("..", "..")
   builder <- paste(readLines(file.path(root, "scripts",
