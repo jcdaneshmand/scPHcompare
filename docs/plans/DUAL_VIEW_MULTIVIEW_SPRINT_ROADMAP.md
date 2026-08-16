@@ -1355,3 +1355,27 @@ structural/QC ledger passes. If later admitted, the bounded queue remains 80
 view-level PH jobs and 19,840 separate cell-H0/cell-H1/gene-H0/gene-H1
 query-to-reference distances under the all-active-level, grid-free,
 exact/error-controlled landscape contract.
+
+### MV8-D HCA structural/QC checkpoint
+
+MV8-D closes with the exact-500 gate blocked but the dataset otherwise
+structurally viable. All eight exact H5 files pass byte/checksum, sparse-matrix,
+axis, count-type, GRCh38, and 3' v2 checks. Legacy-comparable QC retains
+3,403--4,707 cells per donor, so all eight pass the 384-cell gate. The accepted
+five 124-sample reference transforms also pass unchanged.
+
+The same 25 panel Ensembl stable IDs are absent from all eight HCA feature
+references. The exact intersection is therefore 475/500, and all 475 mapped
+genes survive final QC in every donor. The pipeline correctly stopped before
+PCA, PH, landscapes, distances, labels, or outcomes; no symbol rescue, zero
+fill, donor removal, or feature substitution occurred.
+
+The next sprint requires owner approval because it changes the external
+analysis object. The recommended path is a prospectively frozen ordered
+common-475 panel, five reference-only transforms fit from the accepted
+124-sample SCT caches, and complete same-panel recomputation of 1,240 reference
+plus 80 HCA PH jobs. The result would be labeled harmonized-panel external
+replication rather than exact replication of the accepted 500-gene analysis.
+Both views and H0/H1 remain separate, and the all-active-level grid-free
+landscape contract is unchanged. Without that approval, HCA topology work stops
+and MV8-D remains a documented negative compatibility result.

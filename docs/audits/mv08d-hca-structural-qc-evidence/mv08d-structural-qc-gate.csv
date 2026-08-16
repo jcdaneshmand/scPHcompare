@@ -1,0 +1,2 @@
+"contract_id","decision","exact_files_verified","structural_files_passed","units_depth_384_passed","units_panel_500_mapped_passed","units_panel_500_final_retained_passed","pca_coordinates_computed","ph_computed","landscapes_computed","outcomes_computed","next_gate"
+"mv08d_hca_structural_qc_gate_v1","structural_qc_block","8","8","8","0","0","FALSE","FALSE","FALSE","FALSE","panel_annotation_reconciliation_or_cohort_block"

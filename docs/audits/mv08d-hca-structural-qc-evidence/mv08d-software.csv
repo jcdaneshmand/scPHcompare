@@ -1,0 +1,2 @@
+"contract_id","python_version","numpy_version","scipy_version","h5py_version","matrix_orientation","qc_contract","outcome_label_state","biological_outcomes_computed"
+"mv08d_hca_software_v1","3.10.12","2.2.6","1.15.3","3.15.1","features_by_barcodes_csc","mv08d_hca_legacy_qc_v1","closed","FALSE"

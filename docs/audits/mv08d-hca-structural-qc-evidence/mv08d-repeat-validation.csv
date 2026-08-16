@@ -1,0 +1,8 @@
+"contract_id","file","production_bytes","repeat_bytes","production_sha256","repeat_sha256","byte_identical"
+"mv08d_hca_repeat_validation_v1","mv08d-file-verification.csv",2821,2821,"028ea67efeb7a8e0325922ff52eed6754f0ea4d1ca28d46c6df1aa37ef04dacd","028ea67efeb7a8e0325922ff52eed6754f0ea4d1ca28d46c6df1aa37ef04dacd",TRUE
+"mv08d_hca_repeat_validation_v1","mv08d-h5-structure.csv",2864,2864,"b8360c115af5c1df95fd9f795e543813dbc76ee3209a31f0b8a5517105da8a79","b8360c115af5c1df95fd9f795e543813dbc76ee3209a31f0b8a5517105da8a79",TRUE
+"mv08d_hca_repeat_validation_v1","mv08d-panel-mapping.csv",1012556,1012556,"2575e9a106eb01723e4851ef5a72f6b1bc99b71d528a03a8c7c08c40fa9ce40a","2575e9a106eb01723e4851ef5a72f6b1bc99b71d528a03a8c7c08c40fa9ce40a",TRUE
+"mv08d_hca_repeat_validation_v1","mv08d-qc-depth.csv",2956,2956,"b03ce24208395d2dee2b06711f8e2635852c5371b2c2c92720d1697f104754a8","b03ce24208395d2dee2b06711f8e2635852c5371b2c2c92720d1697f104754a8",TRUE
+"mv08d_hca_repeat_validation_v1","mv08d-reference-transform-validation.csv",2686,2686,"5fc20f3c9213f436b69d691ee4ce496d7e6c0cec6a113ce3d6247fcc9203f00b","5fc20f3c9213f436b69d691ee4ce496d7e6c0cec6a113ce3d6247fcc9203f00b",TRUE
+"mv08d_hca_repeat_validation_v1","mv08d-software.csv",295,295,"72188975929b92071081cbfe91970b432e4991ee935fa98f7ffd5e28c5eb3fae","72188975929b92071081cbfe91970b432e4991ee935fa98f7ffd5e28c5eb3fae",TRUE
+"mv08d_hca_repeat_validation_v1","mv08d-structural-qc-gate.csv",424,424,"0e33d028866837d416783259506f1feb072d8019bd06efa67b00264592abbe5f","0e33d028866837d416783259506f1feb072d8019bd06efa67b00264592abbe5f",TRUE

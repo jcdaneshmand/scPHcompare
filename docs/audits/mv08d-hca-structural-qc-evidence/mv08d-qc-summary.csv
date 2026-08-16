@@ -1,0 +1,2 @@
+"contract_id","biological_units","exact_files_verified","total_payload_bytes","raw_barcodes_per_unit","post_qc_cells_min","post_qc_cells_median","post_qc_cells_max","units_depth_384_passed","ordered_panel_genes","exact_stable_id_intersection","exact_stable_id_intersection_fraction","shared_missing_genes","units_exact_500_passed","immutable_reference_transforms_passed"
+"mv08d_hca_qc_summary_v1",8,8,202770089,"737280",3403,4165,4707,8,500,475,0.95,25,0,5
