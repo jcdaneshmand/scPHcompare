@@ -69,6 +69,49 @@ mv07h_resource_caps_v1 <- function() {
   )
 }
 
+mv07h_ph_fallback_policy_v1 <- function() {
+  data.frame(
+    contract_id = "mv07h_exact_ph_resource_fallback_v1",
+    primary_engine = "ripserr",
+    eligible_view_id = "gene_topology_v1",
+    eligible_primary_disposition = "rss_cap_exceeded",
+    fallback_engine = "TDA_ripsDiag_GUDHI",
+    mathematical_estimand =
+      "complete_vietoris_rips_H0_H1_field_2_threshold_minus_1",
+    capped_essential_h0_normalization = TRUE,
+    fallback_elapsed_cap_seconds = 1800,
+    fallback_rss_cap_bytes = 12 * 1024^3,
+    fallback_workers = 1L,
+    fallback_attempts = 1L,
+    fallback_repeat_required = TRUE,
+    full_interval_equivalence_required_where_both_complete = TRUE,
+    outcome_label_state = "closed",
+    biological_outcomes_computed = FALSE,
+    stringsAsFactors = FALSE
+  )
+}
+
+mv07h_validate_ph_fallback_policy_v1 <- function(policy) {
+  expected <- mv07h_ph_fallback_policy_v1()
+  if (!is.data.frame(policy) || nrow(policy) != 1L ||
+      !identical(names(policy), names(expected)) ||
+      !isTRUE(all.equal(policy, expected, check.attributes = FALSE)) ||
+      any(tolower(names(policy)) %in% .mv07h_forbidden_fields)) {
+    stop("MV7-H PH fallback policy differs from its exact resource contract.",
+         call. = FALSE)
+  }
+  invisible(TRUE)
+}
+
+mv07h_ph_fallback_eligible_v1 <- function(stage, view_id, disposition,
+                                          policy) {
+  mv07h_validate_ph_fallback_policy_v1(policy)
+  identical(as.character(stage), "gene_ph") &&
+    identical(as.character(view_id), policy$eligible_view_id) &&
+    identical(as.character(disposition),
+              policy$eligible_primary_disposition)
+}
+
 mv07h_source_queue_v1 <- function(axis) {
   if (!is.data.frame(axis) || nrow(axis) != 620L ||
       any(table(axis$seed) != 124L)) {
@@ -344,6 +387,71 @@ mv07h_new_ph_record_v1 <- function(source_record, sample_id, view_id, result) {
   class(record) <- c("scph_mv07h_ph_record_v1", "list")
   mv07h_validate_ph_record_v1(record, view)
   record
+}
+
+mv07h_run_topology_view_ph_gudhi_v1 <- function(
+    view, max_dim = 1L, threshold = -1, field = 2L) {
+  validate_topology_view(view)
+  if (view$view_id != "gene_topology_v1" || !identical(max_dim, 1L) ||
+      !identical(as.numeric(threshold), -1) || !identical(field, 2L)) {
+    stop("MV7-H GUDHI fallback is restricted to the exact gene H0/H1 contract.",
+         call. = FALSE)
+  }
+  if (!requireNamespace("TDA", quietly = TRUE)) {
+    stop("TDA is required for the MV7-H GUDHI fallback.", call. = FALSE)
+  }
+  distances <- as.matrix(view$payload)
+  maximum_scale <- max(distances)
+  raw <- TDA::ripsDiag(
+    X = distances, maxdimension = max_dim, maxscale = maximum_scale,
+    dist = "arbitrary", library = "GUDHI", location = FALSE,
+    printProgress = FALSE
+  )$diagram
+  diagram <- .as_diagram_matrix(raw)
+  h0 <- which(diagram[, "dimension"] == 0)
+  if (length(h0) != length(view$point_ids)) {
+    stop("MV7-H GUDHI did not expose one capped essential H0 interval.",
+         call. = FALSE)
+  }
+  capped <- h0[[which.max(diagram[h0, "death"])]]
+  capped_death <- diagram[capped, "death"]
+  diagram <- diagram[-capped, , drop = FALSE]
+  diagram <- rbind(diagram, c(dimension = 0, birth = 0, death = Inf))
+  invalid_intervals <- !is.finite(diagram[, "dimension"]) |
+    !is.finite(diagram[, "birth"]) | is.na(diagram[, "death"]) |
+    diagram[, "death"] < diagram[, "birth"]
+  zero_persistence <- is.finite(diagram[, "death"]) &
+    diagram[, "death"] == diagram[, "birth"]
+  provenance <- list(
+    result_contract_id = "corrected_topology_result_v1",
+    view_id = view$view_id, view_cache_key = view$cache_key,
+    contract_version = view$contract_version,
+    contract_profile = view$contract_profile,
+    scientific_eligible = view$scientific_eligible,
+    sample_id = view$sample_id, point_axis_role = view$point_axis_role,
+    coordinate_axis_role = view$coordinate_axis_role,
+    point_metric = view$point_metric, point_count = length(view$point_ids),
+    max_dim = max_dim, threshold = as.numeric(threshold), field = field,
+    ph_engine = "TDA_ripsDiag_GUDHI",
+    ph_engine_version = as.character(utils::packageVersion("TDA")),
+    engine_maxscale = maximum_scale,
+    capped_essential_h0_removed = TRUE,
+    capped_essential_h0_death = capped_death,
+    essential_h0_added = TRUE, essential_h0_count = 1L,
+    finite_interval_count = sum(is.finite(diagram[, "death"])),
+    infinite_interval_count = sum(is.infinite(diagram[, "death"])),
+    zero_persistence_count = sum(zero_persistence),
+    invalid_interval_count = sum(invalid_intervals),
+    diagram_sha256 = .scientific_digest(diagram)
+  )
+  structure(
+    list(
+      diagram = diagram, provenance = provenance,
+      cache_key = paste0("corrected_topology_result_v1:",
+                         .scientific_digest(provenance))
+    ),
+    class = c("scph_topology_result_v1", "scph_topology_result")
+  )
 }
 
 mv07h_validate_ph_record_v1 <- function(record, view = NULL) {

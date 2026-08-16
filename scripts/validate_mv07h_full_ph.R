@@ -31,6 +31,9 @@ source_metrics <- read.csv(file.path(public_dir, "mv07h-source-metrics.csv"),
                            stringsAsFactors = FALSE, check.names = FALSE)
 ph_metrics <- read.csv(file.path(public_dir, "mv07h-ph-metrics.csv"),
                        stringsAsFactors = FALSE, check.names = FALSE)
+engine_attempts <- read.csv(file.path(public_dir,
+  "mv07h-ph-engine-attempts.csv"), stringsAsFactors = FALSE,
+  check.names = FALSE)
 equivalence <- read.csv(
   file.path(public_dir, "mv07h-sentinel-equivalence.csv"),
   stringsAsFactors = FALSE, check.names = FALSE)
@@ -71,7 +74,10 @@ for (index in seq_len(nrow(ph_queue))) {
     metric$output_bytes == as.numeric(file.info(path)$size) &&
       record$identity$seed == row$seed &&
       record$identity$sample_id == row$sample_id &&
-      record$identity$view_id == row$view_id
+      record$identity$view_id == row$view_id &&
+      metric$ph_engine == record$topology_result$provenance$ph_engine &&
+      metric$ph_engine_version ==
+        record$topology_result$provenance$ph_engine_version
   orientation_ok[[index]] <- record$identity$point_count == expected_points &&
     record$h0_mst_oracle$finite_h0_intervals == expected_points - 1L
   h0_ok[[index]] <- isTRUE(record$h0_mst_oracle$passed)
@@ -160,12 +166,44 @@ for (seed in source_queue$seed) {
   rm(source_record); invisible(gc(FALSE))
 }
 cross_engine <- do.call(rbind, cross_rows)
+fallback_metrics <- ph_metrics[
+  ph_metrics$ph_engine == "TDA_ripsDiag_GUDHI",, drop = FALSE]
+default_repeat_jobs <- c(
+  paste0("source__", min(source_queue$seed)),
+  ph_queue$job_id[
+    ph_queue$seed == min(source_queue$seed) &
+      ph_queue$sample_id %in% sort(unique(sentinel_axis$sample_id[
+        sentinel_axis$seed == min(source_queue$seed)]), method = "radix")]
+)
+expected_repeat_jobs <- unique(c(default_repeat_jobs,
+                                 fallback_metrics$job_id))
+fallback_ok <- if (!nrow(fallback_metrics)) TRUE else all(vapply(
+  fallback_metrics$job_id, function(job_id) {
+    primary <- engine_attempts[
+      engine_attempts$job_id == job_id &
+        engine_attempts$attempt_scope == "primary",, drop = FALSE]
+    fallback <- engine_attempts[
+      engine_attempts$job_id == job_id &
+        engine_attempts$attempt_scope == "fallback",, drop = FALSE]
+    repeated <- repeat_validation[repeat_validation$job_id == job_id,,
+                                  drop = FALSE]
+    nrow(primary) == 1L && primary$ph_engine == "ripserr" &&
+      primary$disposition == "rss_cap_exceeded" &&
+      primary$peak_process_tree_rss_bytes > primary$rss_cap_bytes &&
+      nrow(fallback) == 1L &&
+      fallback$ph_engine == "TDA_ripsDiag_GUDHI" &&
+      fallback$disposition == "completed" &&
+      fallback$peak_process_tree_rss_bytes <= fallback$rss_cap_bytes &&
+      fallback$rss_cap_bytes == 12 * 1024^3 &&
+      nrow(repeated) == 1L && repeated$sha256_equal
+  }, logical(1L)))
 checks <- data.frame(
   contract_id = "mv07h_full_ph_independent_validation_v1",
   category = c("axis", "source_bundles", "typed_views", "ph_records",
                "point_orientation", "h0_mst", "h1_intervals",
                "sentinel_equivalence", "deterministic_repeat",
-               "new_sample_cross_engine", "resource_firewall"),
+               "new_sample_cross_engine", "exact_resource_fallback",
+               "resource_firewall"),
   passed = c(
     nrow(axis) == 620L && nrow(source_queue) == 5L && nrow(ph_queue) == 1240L,
     length(source_ok) == 5L && all(source_ok),
@@ -173,10 +211,16 @@ checks <- data.frame(
     length(ph_ok) == 1240L && all(ph_ok),
     all(orientation_ok), all(h0_ok), all(h1_ok),
     nrow(equivalence) == 60L && all(as.logical(equivalence$passed)),
-    nrow(repeat_validation) == 13L &&
+    nrow(repeat_validation) == length(expected_repeat_jobs) &&
+      setequal(repeat_validation$job_id, expected_repeat_jobs) &&
       all(as.logical(repeat_validation$bytes_equal)) &&
       all(as.logical(repeat_validation$sha256_equal)),
     nrow(cross_engine) == 20L && all(cross_engine$passed),
+    all(ph_metrics$ph_engine %in% c("ripserr", "TDA_ripsDiag_GUDHI")) &&
+      all(ph_metrics$ph_engine[ph_metrics$view_id == "cell_topology_v1"] ==
+            "ripserr") && fallback_ok &&
+      production_decision$gudhi_fallback_records == nrow(fallback_metrics) &&
+      production_decision$rss_triggered_fallbacks == nrow(fallback_metrics),
     production_decision$decision ==
       "full_PH_complete_await_independent_validation" &&
       production_decision$aggregate_elapsed_seconds <=
@@ -192,7 +236,8 @@ checks <- data.frame(
              "1,240 typed views", "1,240 corrected diagrams",
              "384 cells or 500 genes", "all finite H0 deaths match MST",
              "all H1 finite positive and nonempty", "60 exact MV7-G views",
-             "one source plus 12 sentinel PH", "20 Ripserr/GUDHI checks",
+             "source sentinels plus every fallback", "20 Ripserr/GUDHI checks",
+             "Ripserr primary; exact GUDHI only after RSS failure",
              "within caps; landscapes labels outcomes still closed"),
   stringsAsFactors = FALSE
 )
@@ -202,7 +247,9 @@ decision <- data.frame(
   contract_id = "mv07h_full_ph_validation_decision_v1",
   decision = "authorize_one_MV7H_landscape_stress_group",
   source_jobs = 5L, typed_views = 1240L, ph_jobs = 1240L,
-  cross_engine_checks = 20L, repeat_artifacts = 13L,
+  cross_engine_checks = 20L, repeat_artifacts = nrow(repeat_validation),
+  ripserr_selected_records = sum(ph_metrics$ph_engine == "ripserr"),
+  gudhi_fallback_records = nrow(fallback_metrics),
   landscape_groups_authorized = 1L, landscape_groups_closed = 19L,
   clustering_jobs = 0L, label_jobs = 0L, outcome_jobs = 0L,
   outcome_label_state = "closed", biological_outcomes_computed = FALSE,
@@ -211,4 +258,4 @@ decision <- data.frame(
 write.csv(checks, checks_output, row.names = FALSE, na = "")
 write.csv(cross_engine, cross_output, row.names = FALSE, na = "")
 write.csv(decision, decision_output, row.names = FALSE, na = "")
-message("MV7-H full-PH independent validation: 11/11 pass")
+message("MV7-H full-PH independent validation: 12/12 pass")

@@ -32,6 +32,9 @@ sentinel_axis <- read.csv(file.path(prefreeze, "mv07h-sentinel-axis.csv"),
                           stringsAsFactors = FALSE, check.names = FALSE)
 caps <- read.csv(file.path(prefreeze, "mv07h-resource-caps.csv"),
                  stringsAsFactors = FALSE, check.names = FALSE)
+fallback_policy <- read.csv(file.path(prefreeze, "mv07h-ph-fallback-policy.csv"),
+                            stringsAsFactors = FALSE, check.names = FALSE)
+mv07h_validate_ph_fallback_policy_v1(fallback_policy)
 if (nrow(source_queue) != 5L || nrow(ph_queue) != 1240L ||
     any(source_queue$workers != 1L) || any(ph_queue$workers != 1L) ||
     any(source_queue$retries != 0L) || any(ph_queue$retries != 0L)) {
@@ -39,6 +42,7 @@ if (nrow(source_queue) != 5L || nrow(ph_queue) != 1240L ||
 }
 public_names <- c(
   "mv07h-source-metrics.csv", "mv07h-ph-metrics.csv",
+  "mv07h-ph-engine-attempts.csv",
   "mv07h-sentinel-equivalence.csv", "mv07h-repeat-validation.csv",
   "mv07h-full-ph-decision.csv"
 )
@@ -46,8 +50,9 @@ public_resume <- dir.exists(public_dir)
 if (public_resume && !all(file.exists(file.path(public_dir, public_names)))) {
   stop("MV7-H public resume state is incomplete or ambiguous.")
 }
-for (subdir in c("source", "ph", "logs", "repeat/source", "repeat/ph",
-                 "repeat/logs")) {
+for (subdir in c("source", "ph", "logs", "fallback/logs",
+                 "repeat/source", "repeat/ph", "repeat/logs",
+                 "repeat/fallback/logs")) {
   dir.create(file.path(private_root, subdir), recursive = TRUE,
              showWarnings = FALSE)
 }
@@ -72,10 +77,18 @@ write_ledger <- function(value, path) {
     stop("Failed to atomically publish MV7-H private metrics.")
   }
 }
-run_unit <- function(row, repeat_mode = FALSE) {
-  ledger_path <- file.path(private_root, if (repeat_mode) {
-    "repeat-metrics.csv"
-  } else "metrics.csv")
+augment_metric <- function(value, ph_engine, attempt_kind,
+                           fallback_trigger = "") {
+  value$ph_engine <- ph_engine
+  value$attempt_kind <- attempt_kind
+  value$fallback_trigger <- fallback_trigger
+  value
+}
+run_attempt <- function(row, repeat_mode = FALSE, fallback = FALSE) {
+  ledger_name <- if (fallback) {
+    if (repeat_mode) "repeat-fallback-metrics.csv" else "fallback-metrics.csv"
+  } else if (repeat_mode) "repeat-metrics.csv" else "metrics.csv"
+  ledger_path <- file.path(private_root, ledger_name)
   ledger <- read_ledger(ledger_path)
   job_id <- if (repeat_mode) paste0("repeat__", row$job_id) else row$job_id
   prefix <- if (repeat_mode) "repeat" else ""
@@ -83,17 +96,42 @@ run_unit <- function(row, repeat_mode = FALSE) {
   hit <- if (nrow(ledger)) ledger[ledger$job_id == job_id, , drop = FALSE] else
     data.frame()
   if (file.exists(output) || nrow(hit)) {
-    if (nrow(hit) != 1L || !file.exists(output) ||
-        hit$output_sha256 != .mv07h_sha256(output) ||
-        hit$output_bytes != as.numeric(file.info(output)$size) ||
+    completed <- if (nrow(hit)) hit[hit$disposition == "completed",,
+                                    drop = FALSE] else data.frame()
+    if (nrow(completed) == 1L && file.exists(output) &&
+        completed$output_sha256 == .mv07h_sha256(output) &&
+        completed$output_bytes == as.numeric(file.info(output)$size)) {
+      engine <- if (fallback) "TDA_ripsDiag_GUDHI" else if (
+        row$stage == "source_views") "source_reconstruction" else "ripserr"
+      return(augment_metric(
+        completed, engine,
+        if (fallback) "exact_resource_fallback" else "primary",
+        if (fallback) "rss_cap_exceeded" else ""))
+    }
+    if (!file.exists(output) && !fallback && nrow(hit) == 1L &&
+        hit$disposition == "rss_cap_exceeded") {
+      return(augment_metric(hit, if (row$stage == "source_views") {
+        "source_reconstruction"
+      } else "ripserr", "primary", ""))
+    }
+    if (!file.exists(output) && fallback && nrow(hit) == 1L &&
         hit$disposition != "completed") {
+      return(augment_metric(hit, "TDA_ripsDiag_GUDHI",
+                            "exact_resource_fallback", "rss_cap_exceeded"))
+    }
+    {
       stop("MV7-H ambiguous or stale resume state for ", job_id)
     }
-    return(hit)
   }
   is_source <- row$stage == "source_views"
-  script <- if (is_source) "scripts/run_mv07h_source_entry.R" else
-    "scripts/run_mv07h_ph_entry.R"
+  if (fallback && (is_source || row$view_id != "gene_topology_v1")) {
+    stop("MV7-H GUDHI fallback is restricted to gene PH jobs.")
+  }
+  script <- if (is_source) {
+    "scripts/run_mv07h_source_entry.R"
+  } else if (fallback) {
+    "scripts/run_mv07h_ph_fallback_entry.R"
+  } else "scripts/run_mv07h_ph_entry.R"
   script_args <- if (is_source) {
     parent <- file.path(mv07g_root, "source",
                         paste0("mv07g__", row$seed, "__source.rds"))
@@ -104,7 +142,8 @@ run_unit <- function(row, repeat_mode = FALSE) {
                              paste0("mv07h__", row$seed, "__source.rds"))
     c(source_path, row$sample_id, row$view_id, output)
   }
-  log_root <- file.path(private_root, prefix, "logs")
+  log_root <- if (fallback) file.path(private_root, prefix, "fallback", "logs")
+    else file.path(private_root, prefix, "logs")
   stem <- gsub("[^A-Za-z0-9_.-]", "_", job_id)
   stdout <- file.path(log_root, paste0(stem, "__stdout.txt"))
   stderr <- file.path(log_root, paste0(stem, "__stderr.txt"))
@@ -115,13 +154,18 @@ run_unit <- function(row, repeat_mode = FALSE) {
   )
   peak <- 0
   cap_failure <- ""
+  elapsed_cap <- if (fallback) {
+    fallback_policy$fallback_elapsed_cap_seconds
+  } else row$elapsed_cap_seconds
+  rss_cap <- if (fallback) fallback_policy$fallback_rss_cap_bytes else
+    row$rss_cap_bytes
   while (process$is_alive()) {
     Sys.sleep(0.25)
     peak <- max(peak, tree_rss(process$get_pid()))
     elapsed <- as.numeric(difftime(Sys.time(), started, units = "secs"))
-    if (elapsed > row$elapsed_cap_seconds) {
+    if (elapsed > elapsed_cap) {
       cap_failure <- "elapsed_cap_exceeded"; process$kill_tree()
-    } else if (peak > row$rss_cap_bytes) {
+    } else if (peak > rss_cap) {
       cap_failure <- "rss_cap_exceeded"; process$kill_tree()
     }
   }
@@ -144,15 +188,34 @@ run_unit <- function(row, repeat_mode = FALSE) {
       else NA_real_,
     output_sha256 = if (file.exists(output)) .mv07h_sha256(output)
       else NA_character_,
-    elapsed_cap_seconds = row$elapsed_cap_seconds,
-    rss_cap_bytes = row$rss_cap_bytes,
+    elapsed_cap_seconds = elapsed_cap,
+    rss_cap_bytes = rss_cap,
     outcome_label_state = "closed", biological_outcomes_computed = FALSE,
     stringsAsFactors = FALSE
   )
   ledger <- if (nrow(ledger)) rbind(ledger, result) else result
   write_ledger(ledger, ledger_path)
-  if (disposition != "completed") stop("MV7-H job failed: ", job_id)
+  engine <- if (fallback) "TDA_ripsDiag_GUDHI" else if (is_source) {
+    "source_reconstruction"
+  } else "ripserr"
+  augment_metric(result, engine,
+                 if (fallback) "exact_resource_fallback" else "primary",
+                 if (fallback) "rss_cap_exceeded" else "")
+}
+run_fallback_unit <- function(row, repeat_mode = FALSE) {
+  result <- run_attempt(row, repeat_mode = repeat_mode, fallback = TRUE)
+  if (result$disposition != "completed") {
+    stop("MV7-H exact GUDHI fallback failed: ", result$job_id)
+  }
   result
+}
+run_unit <- function(row, repeat_mode = FALSE) {
+  primary <- run_attempt(row, repeat_mode = repeat_mode, fallback = FALSE)
+  if (primary$disposition == "completed") return(primary)
+  eligible <- mv07h_ph_fallback_eligible_v1(
+    row$stage, row$view_id, primary$disposition, fallback_policy)
+  if (!eligible) stop("MV7-H job failed: ", primary$job_id)
+  run_fallback_unit(row, repeat_mode = repeat_mode)
 }
 
 primary_source <- do.call(rbind, lapply(seq_len(nrow(source_queue)),
@@ -170,11 +233,24 @@ repeat_ph_queue <- ph_queue[ph_queue$seed == repeat_seed &
   ph_queue$sample_id %in% sentinel_ids, , drop = FALSE]
 repeat_ph <- do.call(rbind, lapply(seq_len(nrow(repeat_ph_queue)),
   function(index) run_unit(repeat_ph_queue[index, , drop = FALSE], TRUE)))
-repeated <- rbind(repeat_source, repeat_ph)
-repeat_queue <- rbind(
+default_repeat_queue <- rbind(
   repeat_source_row[c("job_id", "output_file")],
   repeat_ph_queue[c("job_id", "output_file")]
 )
+fallback_job_ids <- primary_ph$job_id[
+  primary_ph$ph_engine == "TDA_ripsDiag_GUDHI"]
+fallback_repeat_queue <- ph_queue[
+  ph_queue$job_id %in% setdiff(fallback_job_ids,
+                               default_repeat_queue$job_id),, drop = FALSE]
+fallback_repeated <- if (nrow(fallback_repeat_queue)) do.call(rbind, lapply(
+  seq_len(nrow(fallback_repeat_queue)), function(index) run_fallback_unit(
+    fallback_repeat_queue[index, , drop = FALSE], repeat_mode = TRUE
+  ))) else primary_ph[FALSE,, drop = FALSE]
+repeated <- rbind(repeat_source, repeat_ph, fallback_repeated)
+repeat_queue <- unique(rbind(
+  default_repeat_queue,
+  fallback_repeat_queue[c("job_id", "output_file")]
+))
 repeat_validation <- do.call(rbind, lapply(seq_len(nrow(repeat_queue)),
   function(index) {
     row <- repeat_queue[index, , drop = FALSE]
@@ -191,7 +267,8 @@ repeat_validation <- do.call(rbind, lapply(seq_len(nrow(repeat_queue)),
       stringsAsFactors = FALSE
     )
   }))
-if (nrow(repeat_validation) != 13L || !all(repeat_validation$sha256_equal)) {
+if (nrow(repeat_validation) != nrow(repeat_queue) ||
+    !all(repeat_validation$sha256_equal)) {
   stop("MV7-H representative source/PH repeat is not byte-identical.")
 }
 
@@ -231,6 +308,10 @@ ph_rows <- lapply(seq_len(nrow(primary_ph)), function(index) {
       record$h0_mst_oracle$maximum_absolute_error,
     h0_mst_tolerance = record$h0_mst_oracle$tolerance,
     h0_mst_passed = record$h0_mst_oracle$passed,
+    ph_engine = record$topology_result$provenance$ph_engine,
+    ph_engine_version = record$topology_result$provenance$ph_engine_version,
+    attempt_kind = metric$attempt_kind,
+    fallback_trigger = metric$fallback_trigger,
     diagram_sha256 = record$topology_result$provenance$diagram_sha256,
     ph_cache_key = record$cache_key, elapsed_seconds = metric$elapsed_seconds,
     peak_process_tree_rss_bytes = metric$peak_process_tree_rss_bytes,
@@ -269,7 +350,40 @@ if (nrow(equivalence) != 60L || !all(equivalence$passed)) {
   stop("MV7-H did not reproduce every accepted MV7-G sentinel view.")
 }
 
-aggregate_elapsed <- sum(primary$elapsed_seconds) + sum(repeated$elapsed_seconds)
+primary_attempts <- read_ledger(file.path(private_root, "metrics.csv"))
+fallback_attempts <- read_ledger(file.path(private_root, "fallback-metrics.csv"))
+repeat_attempts <- read_ledger(file.path(private_root, "repeat-metrics.csv"))
+repeat_fallback_attempts <- read_ledger(file.path(
+  private_root, "repeat-fallback-metrics.csv"))
+attempts <- list(
+  primary = primary_attempts[primary_attempts$stage != "source_views",,
+                             drop = FALSE],
+  fallback = fallback_attempts,
+  repeat_primary = repeat_attempts[repeat_attempts$stage != "source_views",,
+                                   drop = FALSE],
+  repeat_fallback = repeat_fallback_attempts
+)
+attempt_rows <- lapply(names(attempts), function(scope) {
+  value <- attempts[[scope]]
+  if (!nrow(value)) return(NULL)
+  value$attempt_scope <- scope
+  value$ph_engine <- if (grepl("fallback", scope, fixed = TRUE)) {
+    "TDA_ripsDiag_GUDHI"
+  } else "ripserr"
+  value
+})
+attempt_rows <- Filter(Negate(is.null), attempt_rows)
+engine_attempts <- do.call(rbind, attempt_rows)
+engine_attempts <- engine_attempts[c(
+  "contract_id", "job_id", "attempt_scope", "stage", "seed", "sample_id",
+  "view_id", "ph_engine", "disposition", "exit_status", "elapsed_seconds",
+  "peak_process_tree_rss_bytes", "elapsed_cap_seconds", "rss_cap_bytes",
+  "outcome_label_state", "biological_outcomes_computed"
+)]
+engine_attempts$contract_id <- "mv07h_ph_engine_attempt_v1"
+aggregate_elapsed <- sum(primary_attempts$elapsed_seconds) +
+  sum(fallback_attempts$elapsed_seconds) + sum(repeat_attempts$elapsed_seconds) +
+  sum(repeat_fallback_attempts$elapsed_seconds)
 private_files <- list.files(private_root, recursive = TRUE, full.names = TRUE,
                             all.files = TRUE, no.. = TRUE)
 private_files <- private_files[file.info(private_files)$isdir %in% FALSE]
@@ -280,7 +394,8 @@ decision <- data.frame(
   decision = if (nrow(source_metrics) == 5L && nrow(ph_metrics) == 1240L &&
     all(ph_metrics$h0_mst_passed) && all(ph_metrics$finite_h1_intervals > 0L) &&
     nrow(equivalence) == 60L && all(equivalence$passed) &&
-    nrow(repeat_validation) == 13L && all(repeat_validation$sha256_equal) &&
+    nrow(repeat_validation) == nrow(repeat_queue) &&
+    all(repeat_validation$sha256_equal) &&
     aggregate_elapsed <= aggregate_cap$elapsed_cap_seconds &&
     private_bytes <= aggregate_cap$storage_cap_bytes) {
       "full_PH_complete_await_independent_validation"
@@ -288,6 +403,12 @@ decision <- data.frame(
   source_jobs = nrow(source_metrics), typed_views = sum(source_metrics$typed_views),
   ph_jobs = nrow(ph_metrics), sentinel_equivalence_checks = nrow(equivalence),
   repeat_artifacts = nrow(repeat_validation),
+  ripserr_selected_records = sum(ph_metrics$ph_engine == "ripserr"),
+  gudhi_fallback_records = sum(
+    ph_metrics$ph_engine == "TDA_ripsDiag_GUDHI"),
+  rss_triggered_fallbacks = sum(
+    engine_attempts$attempt_scope == "fallback" &
+      engine_attempts$disposition == "completed"),
   aggregate_elapsed_seconds = aggregate_elapsed,
   aggregate_elapsed_cap_seconds = aggregate_cap$elapsed_cap_seconds,
   private_bytes = private_bytes,
@@ -305,11 +426,13 @@ write.csv(source_metrics, file.path(staging, public_names[[1L]]),
           row.names = FALSE, na = "")
 write.csv(ph_metrics, file.path(staging, public_names[[2L]]),
           row.names = FALSE, na = "")
-write.csv(equivalence, file.path(staging, public_names[[3L]]),
+write.csv(engine_attempts, file.path(staging, public_names[[3L]]),
           row.names = FALSE, na = "")
-write.csv(repeat_validation, file.path(staging, public_names[[4L]]),
+write.csv(equivalence, file.path(staging, public_names[[4L]]),
           row.names = FALSE, na = "")
-write.csv(decision, file.path(staging, public_names[[5L]]),
+write.csv(repeat_validation, file.path(staging, public_names[[5L]]),
+          row.names = FALSE, na = "")
+write.csv(decision, file.path(staging, public_names[[6L]]),
           row.names = FALSE, na = "")
 if (public_resume) {
   same <- vapply(public_names, function(name) {

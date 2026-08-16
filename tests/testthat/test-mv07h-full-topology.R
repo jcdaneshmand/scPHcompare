@@ -1,3 +1,6 @@
+source(testthat::test_path("..", "..", "R", "toy_baseline.R"))
+source(testthat::test_path("..", "..", "R", "dual_view_topology.R"))
+source(testthat::test_path("..", "..", "R", "mv07g_sentinel.R"))
 source(testthat::test_path("..", "..", "R", "mv07h_full_topology.R"))
 
 mv07h_manifest_fixture <- function() {
@@ -96,4 +99,60 @@ testthat::test_that("MV7-H ordered axes ignore redundant names only", {
     named, factor(expected)))
   testthat::expect_identical(
     mv07h_canonical_sample_axis_v1(rev(named)), expected)
+})
+
+testthat::test_that("MV7-H exact fallback policy is narrow and label closed", {
+  policy <- mv07h_ph_fallback_policy_v1()
+  testthat::expect_invisible(mv07h_validate_ph_fallback_policy_v1(policy))
+  testthat::expect_identical(policy$eligible_view_id, "gene_topology_v1")
+  testthat::expect_identical(policy$eligible_primary_disposition,
+                             "rss_cap_exceeded")
+  testthat::expect_equal(policy$fallback_rss_cap_bytes, 12 * 1024^3)
+  testthat::expect_true(policy$fallback_repeat_required)
+  testthat::expect_identical(policy$outcome_label_state, "closed")
+  testthat::expect_true(mv07h_ph_fallback_eligible_v1(
+    "gene_ph", "gene_topology_v1", "rss_cap_exceeded", policy))
+  testthat::expect_false(mv07h_ph_fallback_eligible_v1(
+    "cell_ph", "cell_topology_v1", "rss_cap_exceeded", policy))
+  testthat::expect_false(mv07h_ph_fallback_eligible_v1(
+    "gene_ph", "gene_topology_v1", "failed", policy))
+  changed <- policy
+  changed$eligible_primary_disposition <- "failed"
+  testthat::expect_error(
+    mv07h_validate_ph_fallback_policy_v1(changed), "differs")
+})
+
+testthat::test_that("MV7-H GUDHI fallback preserves an exact gene diagram", {
+  testthat::skip_if_not_installed("TDA")
+  x <- matrix(
+    c(0, 1, 2, 3, 4, 0, 1, 0, 1, 0, 1, 0, 2, 0, 3,
+      3, 1, 4, 1, 5), nrow = 4L, byrow = TRUE,
+    dimnames = list(paste0("g", 1:4), paste0("c", 1:5))
+  )
+  source_object <- new_dual_view_source(
+    x, "fixture", "fixture_cohort", "sct_whole", "fixture_scope",
+    20260805L, "fixture_standardization", "analytical_fixture",
+    expected_genes = 4L, expected_cells = 5L, expected_pcs = 2L)
+  view <- construct_gene_topology_view(source_object)
+  ripser <- run_topology_view_ph(view)
+  gudhi <- mv07h_run_topology_view_ph_gudhi_v1(view)
+  finite <- function(result, dimension) {
+    value <- result$diagram[
+      result$diagram[, "dimension"] == dimension &
+        is.finite(result$diagram[, "death"]), c("birth", "death"),
+      drop = FALSE]
+    value[order(value[, "birth"], value[, "death"], method = "radix"),,
+          drop = FALSE]
+  }
+  testthat::expect_identical(gudhi$provenance$ph_engine,
+                             "TDA_ripsDiag_GUDHI")
+  testthat::expect_equal(unname(finite(gudhi, 0L)),
+                         unname(finite(ripser, 0L)),
+                         tolerance = 1e-6)
+  testthat::expect_equal(unname(finite(gudhi, 1L)),
+                         unname(finite(ripser, 1L)),
+                         tolerance = 1e-6)
+  testthat::expect_error(
+    mv07h_run_topology_view_ph_gudhi_v1(view, max_dim = 0L),
+    "restricted")
 })
