@@ -1,0 +1,2 @@
+"contract_id","decision","source_jobs","ph_jobs","repeat_artifacts","aggregate_elapsed_seconds","aggregate_elapsed_cap_seconds","private_bytes","private_storage_cap_bytes","landscape_jobs","distance_jobs","clustering_jobs","label_jobs","outcome_jobs","outcome_label_state","biological_outcomes_computed"
+"mv07g_sentinel_decision_v1","sentinel_complete_await_independent_validation",5,60,13,1324.38421058655,14400,48176762,2147483648,0,0,0,0,0,"closed",FALSE

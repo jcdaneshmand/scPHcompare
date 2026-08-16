@@ -1,0 +1,4 @@
+"contract_id","component","sentinel_units","full_units","projected_worker_seconds","projection_basis","projected_worker_hours","projected_private_bytes"
+"mv07g_full_ph_projection_v1","five_global_fits_and_all_typed_views",5,5,19855.1448488235,"conservative_full_source_bundle_linear_from_six_views",5.5153180135621,759215626.666667
+"mv07g_full_ph_projection_v1","cell_ph",30,620,1001.60825395584,"mean_sentinel_view",0.278224514987734,18688556.6666667
+"mv07g_full_ph_projection_v1","gene_ph",30,620,1415.76423247655,"mean_sentinel_view",0.393267842354598,51265072

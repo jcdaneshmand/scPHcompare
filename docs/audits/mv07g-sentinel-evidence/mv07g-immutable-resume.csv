@@ -1,0 +1,8 @@
+"contract_id","category","passed","detail","maximum_mtime_delta_seconds"
+"mv07g_immutable_resume_validation_v1","artifact_axis",TRUE,"78 private plus 5 public",0
+"mv07g_immutable_resume_validation_v1","private_hashes",TRUE,"78 unchanged",0
+"mv07g_immutable_resume_validation_v1","private_bytes",TRUE,"78 unchanged",0
+"mv07g_immutable_resume_validation_v1","private_mtimes",TRUE,"78 unchanged",0
+"mv07g_immutable_resume_validation_v1","public_hashes",TRUE,"5 unchanged",0
+"mv07g_immutable_resume_validation_v1","public_bytes",TRUE,"5 unchanged",0
+"mv07g_immutable_resume_validation_v1","public_mtimes",TRUE,"5 unchanged",0

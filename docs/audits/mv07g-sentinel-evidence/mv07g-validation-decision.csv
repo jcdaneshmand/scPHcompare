@@ -1,0 +1,2 @@
+"contract_id","decision","panel_sha256","source_jobs","typed_views","ph_jobs","cross_engine_checks","repeat_artifacts","projected_full_worker_hours","projected_full_private_bytes","landscape_jobs","label_jobs","outcome_jobs","outcome_label_state","biological_outcomes_computed"
+"mv07g_validation_decision_v1","authorize_MV7H_full_PH_landscape_prefreeze","48e881ee753893bfaecd7101fc16fbcb552dd30a2a791fedfc7204d7b322a32e",5,60,60,24,13,6.18681037090443,829169255.333334,0,0,0,"closed",FALSE

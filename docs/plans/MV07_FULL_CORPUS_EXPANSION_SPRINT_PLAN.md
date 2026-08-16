@@ -135,6 +135,14 @@ Acceptance: 60 sample-seed-view diagram records pass identity, geometry,
 orientation, MST, cross-engine, repeat, and resource gates. The post-sentinel
 projection must authorize or reject full PH explicitly.
 
+Gate result: all five global fits, 60 typed views/PH records, 60 full-view MST
+checks, 24 reduced Ripserr/GUDHI checks, 13 repeat artifacts, and the 83-file
+immutable-resume gate pass. H1 is finite and nonempty in every cell and gene
+view. The conservative full typed-view/PH projection is 6.187 worker-hours and
+829,169,255 private bytes, below the 24-hour/8-GiB limits. Authorize only a
+separate MV7-H full-PH/landscape prefreeze; labels and full execution remain
+closed.
+
 ## MV7-H — full 124-sample dual-view topology and landscapes
 
 Purpose: construct the complete label-closed descriptive geometry.

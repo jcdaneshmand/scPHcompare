@@ -1,0 +1,4 @@
+"contract_id","amendment_order","commit","scope","scientific_payload_changed","private_artifacts_changed","public_production_artifacts_changed","result"
+"mv07g_resume_amendment_v1",1,"44860b836dfbb72fa354f5f84ffd11e8ca3960b6","allow whole-sentinel receipt reuse when complete public evidence already exists",FALSE,FALSE,FALSE,"public byte-regeneration comparison false negative"
+"mv07g_resume_amendment_v1",2,"b84328b91b85c8259ad0beb59f3b49b968003977","compare regenerated CSV tables semantically while prohibiting overwrite",FALSE,FALSE,FALSE,"production-state byte total exposed validation-snapshot inclusion"
+"mv07g_resume_amendment_v1",3,"d0ce1b5a6dc44a26e613b456ced8af4b37c2b419","restrict production-state accounting to frozen production namespaces",FALSE,FALSE,FALSE,"whole-sentinel resume and 83-artifact immutability pass"
