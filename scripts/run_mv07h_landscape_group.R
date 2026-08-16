@@ -58,6 +58,7 @@ if (length(sample_ids) != 124L) stop("MV7-H sample axis is incomplete.")
 intervals <- vector("list", length(sample_ids))
 names(intervals) <- sample_ids
 ph_keys <- character(length(sample_ids))
+names(ph_keys) <- sample_ids
 for (index in seq_along(sample_ids)) {
   sample_id <- sample_ids[[index]]
   path <- file.path(ph_root, paste0(

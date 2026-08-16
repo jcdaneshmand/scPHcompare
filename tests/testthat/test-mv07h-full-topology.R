@@ -189,6 +189,16 @@ testthat::test_that("MV7-H immutable resume covers private and public state", {
   testthat::expect_match(text, "Refusing overwrite", fixed = TRUE)
 })
 
+testthat::test_that("MV7-H landscape PH keys retain sample identity", {
+  path <- testthat::test_path(
+    "..", "..", "scripts", "run_mv07h_landscape_group.R")
+  text <- paste(readLines(path, warn = FALSE), collapse = "\n")
+  testthat::expect_match(text, "names(intervals) <- sample_ids", fixed = TRUE)
+  testthat::expect_match(text, "names(ph_keys) <- sample_ids", fixed = TRUE)
+  testthat::expect_match(text, "ph_keys[[first_id]]", fixed = TRUE)
+  testthat::expect_match(text, "ph_keys[[second_id]]", fixed = TRUE)
+})
+
 testthat::test_that("MV7-H GUDHI fallback preserves an exact gene diagram", {
   testthat::skip_if_not_installed("TDA")
   x <- matrix(
