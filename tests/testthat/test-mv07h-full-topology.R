@@ -230,6 +230,35 @@ testthat::test_that("MV7-H remaining landscapes retain the frozen gates", {
   testthat::expect_match(text, 'clustering_jobs = 0L', fixed = TRUE)
 })
 
+testthat::test_that("MV7-H completion selection stays label and distance blind", {
+  build_path <- testthat::test_path(
+    "..", "..", "scripts", "build_mv07h_landscape_completion_prefreeze.R")
+  repeat_path <- testthat::test_path(
+    "..", "..", "scripts", "run_mv07h_landscape_completion_repeats.R")
+  build <- paste(readLines(build_path, warn = FALSE), collapse = "\n")
+  repeat_text <- paste(readLines(repeat_path, warn = FALSE), collapse = "\n")
+  testthat::expect_match(build, "distance_values_used_for_selection = FALSE",
+                         fixed = TRUE)
+  testthat::expect_match(build,
+                         "maximum_combined_interval_count_then_pair_id",
+                         fixed = TRUE)
+  testthat::expect_match(build,
+                         "maximum_sentinel_interval_sum_then_group_order",
+                         fixed = TRUE)
+  testthat::expect_match(repeat_text, "nrow(selection) != 3L", fixed = TRUE)
+  testthat::expect_match(repeat_text,
+                         "byte_identical_to_production = complete",
+                         fixed = TRUE)
+  testthat::expect_match(repeat_text, "group_elapsed_cap_exceeded",
+                         fixed = TRUE)
+  testthat::expect_match(repeat_text, "group_rss_cap_exceeded", fixed = TRUE)
+  testthat::expect_match(repeat_text,
+                         "preserve prior failure and refuse retry",
+                         fixed = TRUE)
+  testthat::expect_match(repeat_text, 'outcome_label_state = "closed"',
+                         fixed = TRUE)
+})
+
 testthat::test_that("MV7-H GUDHI fallback preserves an exact gene diagram", {
   testthat::skip_if_not_installed("TDA")
   x <- matrix(
