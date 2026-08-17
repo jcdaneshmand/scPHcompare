@@ -69,10 +69,14 @@ fallback <- data.frame(
   outcome_label_state = "closed", biological_outcomes_computed = FALSE,
   stringsAsFactors = FALSE)
 implementation_paths <- c(
-  "R/mv08g_panel_sensitivity.R", "scripts/run_mv08g_ph_entry.R",
+  "R/provenance_utils.R", "R/toy_baseline.R",
+  "R/dual_view_topology.R", "R/mv07g_sentinel.R",
+  "R/mv07h_full_topology.R", "R/mv08g_panel_sensitivity.R",
+  "scripts/run_mv08g_ph_entry.R",
   "scripts/run_mv08g_ph_fallback_entry.R", "scripts/run_mv08g_ph_monitor.R",
   "scripts/validate_mv08g_ph.R", "scripts/build_mv08g_ph_prefreeze.R",
-  "tests/testthat/test-mv08g-panel-sensitivity.R")
+  "tests/testthat/test-mv08g-panel-sensitivity.R",
+  "docs/specifications/MV08G_COMMON475_PAIRED_REFERENCE_SENSITIVITY_PREFREEZE_V2.md")
 if (any(!file.exists(implementation_paths))) stop("MV8-G PH implementation incomplete.")
 implementation_root <- digest::digest(data.frame(
   path = implementation_paths,

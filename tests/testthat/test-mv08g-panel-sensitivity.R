@@ -256,6 +256,12 @@ test_that("MV8-G PH prefreeze and monitor enforce the approved fallback", {
                fixed = TRUE)
   expect_match(builder, "fallback_rss_cap_bytes = 12 * 1024^3", fixed = TRUE)
   expect_match(builder, "ph_repeat_jobs = 4L", fixed = TRUE)
+  for (dependency in c("R/provenance_utils.R", "R/toy_baseline.R",
+                       "R/dual_view_topology.R", "R/mv07g_sentinel.R",
+                       "R/mv07h_full_topology.R",
+                       "R/mv08g_panel_sensitivity.R")) {
+    expect_match(builder, dependency, fixed = TRUE)
+  }
   expect_match(builder,
     "authorize_1240_PH_jobs_and_four_selected_engine_repeats", fixed = TRUE)
   expect_match(monitor, "row$view_id != \"gene_topology_v1\"", fixed = TRUE)
