@@ -350,3 +350,34 @@ testthat::test_that("MV8-H Cell Ranger 8.0.1 evidence is independently closed", 
     testthat::expect_match(validator, term, fixed = TRUE)
   }
 })
+
+testthat::test_that("MV8-H mkref execution amendment is downward-only and fail closed", {
+  root <- testthat::test_path("..", "..")
+  evidence <- file.path(root, "docs", "audits",
+    "mv08h-cellranger8-mkref-prefreeze-v1")
+  freeze <- utils::read.csv(file.path(evidence,
+    "mv08h-mkref-execution-prefreeze.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  spec <- paste(readLines(file.path(root, "docs", "specifications",
+    "MV08H_CELLRANGER8_MKREF_EXECUTION_PREFREEZE_V1.md"), warn = FALSE),
+    collapse = "\n")
+  launcher <- paste(readLines(file.path(root, "scripts",
+    "run_mv08h_cellranger8_mkref.py"), warn = FALSE), collapse = "\n")
+  testthat::expect_equal(
+    as.integer(freeze$selected_value[freeze$resource == "cores"]), 4L)
+  testthat::expect_equal(
+    as.integer(freeze$selected_value[freeze$resource == "memory_gib"]), 32L)
+  testthat::expect_true(all(freeze$gate %in%
+    c("exact", "downward_only", "unchanged", "non_destructive", "authorized")))
+  for (term in c("--nthreads=4", "--memgb=32", "--localcores=4",
+                 "--localmem=32", "50-GiB", "1-TiB", "does not kill",
+                 "does not authorize", "persistence landscapes")) {
+    testthat::expect_match(spec, term, fixed = TRUE)
+  }
+  for (term in c("EXPECTED_FASTA_SHA256", "EXPECTED_GTF_SHA256",
+                 "REFERENCE_CAP_BYTES", "FREE_SPACE_FLOOR_BYTES",
+                 "process_tree_rss_kib", "resource_breach_detected",
+                 "automatic_kill_used", "deletion_used", "--dry-run")) {
+    testthat::expect_match(launcher, term, fixed = TRUE)
+  }
+})
