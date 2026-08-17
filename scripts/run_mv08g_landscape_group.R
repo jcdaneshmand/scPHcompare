@@ -21,7 +21,7 @@ source("R/mv08g_panel_sensitivity.R")
 source("R/landscape_rust_prototype.R")
 queue <- read.csv(file.path(prefreeze, "mv08g-landscape-queue.csv"),
                   stringsAsFactors = FALSE, check.names = FALSE)
-contract <- read.csv(file.path(prefreeze, "mv08g-contract.csv"),
+contract <- read.csv(file.path(prefreeze, "mv08g-landscape-contract.csv"),
                      stringsAsFactors = FALSE, check.names = FALSE)
 row <- queue[queue$group_id == group_id, , drop = FALSE]
 sha <- function(path) digest::digest(file = path, algo = "sha256",

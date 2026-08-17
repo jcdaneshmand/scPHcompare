@@ -341,6 +341,7 @@ test_that("MV8-G landscape prefreeze retains all levels and exact oracles", {
   expect_match(text, "r_oracles = 12L", fixed = TRUE)
   expect_match(text, "persim_oracles = 12L", fixed = TRUE)
   expect_match(text, "maximum_component_interval_depth", fixed = TRUE)
+  expect_match(text, '"mv08g-sample-seed-axis.csv" = axis', fixed = TRUE)
   for (dependency in c("R/provenance_utils.R", "R/toy_baseline.R",
                        "R/dual_view_topology.R", "R/mv07g_sentinel.R",
                        "R/mv07h_full_topology.R",
@@ -349,6 +350,56 @@ test_that("MV8-G landscape prefreeze retains all levels and exact oracles", {
                        "R/landscape_reference.R")) {
     expect_match(text, dependency, fixed = TRUE)
   }
+})
+
+test_that("MV8-G landscape entries consume the self-contained prefreeze", {
+  root <- testthat::test_path("..", "..", "scripts")
+  for (name in c("run_mv08g_landscape_group.R",
+                 "run_mv08g_matched_shift_group.R")) {
+    text <- paste(readLines(file.path(root, name), warn = FALSE), collapse = "\n")
+    expect_match(text, 'file.path(prefreeze, "mv08g-landscape-contract.csv")',
+                 fixed = TRUE)
+    expect_match(text,
+      'file.path(prefreeze,\n  "mv08g-sample-seed-axis.csv")', fixed = TRUE)
+    expect_false(grepl('file.path(prefreeze, "mv08g-contract.csv")', text,
+                       fixed = TRUE))
+  }
+})
+
+test_that("MV8-G stopped landscape interface attempt is publicly auditable", {
+  root <- testthat::test_path("..", "..")
+  evidence <- file.path(root, "docs", "audits",
+                        "mv08g-landscape-failure-evidence-v1")
+  failure <- read.csv(file.path(evidence, "mv08g-landscape-failure.csv"),
+                      stringsAsFactors = FALSE, check.names = FALSE)
+  decision <- read.csv(file.path(evidence,
+    "mv08g-landscape-failure-decision.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  manifest <- read.csv(file.path(evidence,
+    "mv08g-landscape-failure-artifact-manifest.csv"),
+    stringsAsFactors = FALSE, check.names = FALSE)
+  expect_equal(nrow(failure), 1L)
+  expect_equal(failure$failure_class,
+               "landscape_prefreeze_entry_interface_mismatch")
+  expect_equal(failure$observed_missing_artifact, "mv08g-contract.csv")
+  expect_equal(failure$corrected_contract_artifact,
+               "mv08g-landscape-contract.csv")
+  expect_true(failure$additional_missing_axis_detected_by_static_audit)
+  expect_equal(failure$corrected_axis_artifact,
+               "mv08g-sample-seed-axis.csv")
+  expect_false(failure$output_published)
+  expect_true(decision$implementation_contract_failure)
+  expect_false(decision$retry_in_place_authorized)
+  expect_equal(decision$accepted_landscape_groups, 0L)
+  expect_false(decision$hca_fastq_download_authorized)
+  expect_false(any(manifest$contains_expression))
+  expect_false(any(manifest$contains_cell_barcode))
+  expect_false(any(manifest$contains_absolute_private_path))
+  expect_false(any(manifest$contains_biological_label))
+  paths <- file.path(evidence, manifest$file)
+  expect_equal(unname(vapply(paths, function(path) digest::digest(
+    file = path, algo = "sha256", serialize = FALSE), character(1L))),
+    manifest$sha256)
 })
 
 test_that("MV8-G landscape monitor is bounded, resumable, and zero-retry", {

@@ -37,13 +37,19 @@ landscape <- read.csv(file.path(primary, "mv08g-landscape-queue.csv"),
                       stringsAsFactors = FALSE, check.names = FALSE)
 shift <- read.csv(file.path(primary, "mv08g-matched-shift-queue.csv"),
                   stringsAsFactors = FALSE, check.names = FALSE)
+axis <- read.csv(file.path(primary, "mv08g-sample-seed-axis.csv"),
+                 stringsAsFactors = FALSE, check.names = FALSE)
 if (decision_ph$decision !=
       "full_PH_exact_authorize_landscape_execution_prefreeze_only" ||
     decision_ph$landscape_jobs_authorized != 0L ||
     summary_ph$ph_records != 1240L || summary_ph$mst_oracles_passed != 1240L ||
     nrow(records_ph) != 1240L || nrow(repeats_ph) != 4L ||
     !all(truth(repeats_ph$byte_identical)) || nrow(landscape) != 20L ||
-    nrow(shift) != 20L) stop("MV8-G PH closure does not authorize landscape prefreeze.")
+    nrow(shift) != 20L || nrow(axis) != 620L ||
+    length(unique(axis$sample_id)) != 124L ||
+    length(unique(axis$seed)) != 5L) {
+  stop("MV8-G PH closure does not authorize landscape prefreeze.")
+}
 
 depth <- vapply(seq_len(nrow(landscape)), function(index) {
   row <- landscape[index, , drop = FALSE]
@@ -138,6 +144,7 @@ source_files <- c(
   ph_repeats = file.path(ph_execution, "mv08g-ph-repeat-validation.csv"),
   primary_landscape_queue = file.path(primary, "mv08g-landscape-queue.csv"),
   primary_shift_queue = file.path(primary, "mv08g-matched-shift-queue.csv"),
+  primary_sample_seed_axis = file.path(primary, "mv08g-sample-seed-axis.csv"),
   implementation_paths)
 freeze <- data.frame(
   contract_id = "mv08g_landscape_source_freeze_v1",
@@ -182,6 +189,7 @@ decision <- data.frame(
   stringsAsFactors = FALSE)
 outputs <- list(
   "mv08g-landscape-contract.csv" = contract,
+  "mv08g-sample-seed-axis.csv" = axis,
   "mv08g-landscape-queue.csv" = landscape,
   "mv08g-matched-shift-queue.csv" = shift,
   "mv08g-landscape-repeat-queue.csv" = repeat_within,
