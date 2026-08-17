@@ -5,7 +5,7 @@
 | Field | Value |
 |---|---|
 | Status | Draft for owner and author-team review |
-| Version | 0.3.70 |
+| Version | 0.3.71 |
 | Created | 2026-08-03 |
 | Canonical repository | `jcdaneshmand/scPHcompare` |
 | Historical source repository | `jcdaneshmand/PH_ClusteringApp` |
@@ -687,6 +687,7 @@ Publish a durable, citable research artifact.
 | D-083 | 2026-08-15 | Treat existing data as sufficient for a methods-focused paper but insufficient for external-generalization or causal technology claims | MV7-C reconciles corrected landscapes, complete cell robustness, conditional gene evidence, negative fusion, and material study/tissue influence into ten explicit claim boundaries and four expansion options | Set G-MV7 to owner/author-team decision required; recommend manuscript/figure claim mapping before more PH, or a prospective external-data audit if generalization is the chosen ambition |
 | D-084 | 2026-08-15 | Separate “full data” by estimand: keep the corrected 90-sample cross-study benchmark primary, admit the 34 retained single-study samples only to a prospectively specified 124-sample descriptive topology analysis, and retain the three below-250 candidates as a separate threshold sensitivity | The complete flow is 127 candidates, three explicit pre-PH exclusions, 124 retained, and 90 primary samples; all 34 descriptive-only samples support 384 cells and six depth-extreme source/SCT sentinels pass independently, while 16 approach labels disagree across metadata sources | Advance to MV7-E metadata-provenance and descriptive-fit prefreeze; do not recalculate the primary 90, run expanded PH/outcomes, change the landscape contract, or admit the three low-cell samples without later gates |
 | D-085 | 2026-08-15 | Resolve approach provenance from official accession methods and activate the prespecified 124-sample global-core panel fallback before expanded PH | `Approach.y` matches public metadata 124/124 and all 16 disputed GEO records; the corrected primary 90 are all scRNA, making the old mixed-approach diagnostic not estimable; 33/34 added samples contain all 500 accepted features and one lacks only KLF2; five transductive per-seed fits, separate cell/gene views, complete VR H0/H1, 152,520 landscape components, caps, and label firewall pass 17/17 independent and 17/17 byte-repeat gates | Authorize only MV7-F's 34 raw shards and 170 SCT caches, then freeze the exact all-124 global-core panel before PCA or PH; primary 90, landscapes, labels, outcomes, and external data remain otherwise unchanged/closed |
+| D-086 | 2026-08-17 | Recommend a prospectively frozen exact-500 HCA raw-read path before any external topology claim; retain common-475 only as a secondary harmonization sensitivity | The HCA Cell Ranger 3.0.0 Ensembl93 axes are exact but exclude 25 target genes by historical biotype policy; corrected common-475 PH and all-active-level H0/H1 landscapes pass complete validation; the paired comparison independently reproduces `material_panel_sensitivity`, localized to cell H1 (median Spearman 0.916 and top-10 overlap 0.702 below 0.95/0.80) | Authorize MV8-H planning only. Require owner approval for the 79.194-GiB/48-FASTQ resource commitment and a prospective custom-reference/software/QC/resource/firewall/validation contract before download or processing; labels and outcomes remain closed |
 
 ## 9. Status dashboard
 
@@ -698,7 +699,7 @@ Publish a durable, citable research artifact.
 | 3. Literature/reference/figure audit | Initial literature sample only | G3 not evaluated |
 | 4. Redesign primary comparison | Prediction-locked retrieval, clustering, complete cell robustness panels, corrected matrices, and null/negative results have auditable evidence; MV7-A maps remaining gene-view and confounding gaps without outcome selection | G4 not evaluated |
 | 5. Expand methods | MV-06 complete: equal-weight fusion fails the both-component rule; outcome validation 15/15 and repeat 13/13 pass; cell and gene views continue separately into MV-07 | G-MV6 closed negative; G5 not evaluated |
-| 6. Biological/practical validation | Not started | G6 not evaluated |
+| 6. Biological/practical validation | HCA eight-unit structural and exact-annotation audit complete; common-475 sensitivity is material for cell H1, so exact-500 raw-read prefreeze and owner resource review are next | G6 not evaluated |
 | 7. Profile and optimize | Rust landscape kernel passed complete numerical equivalence and nonpublishing four-platform candidate CI; R remains canonical/default and distribution/adoption remains open | G7 not evaluated |
 | 8. Rewrite manuscript | Not started | G8 not evaluated |
 | 9. Release/archive | Not started | G9 not evaluated |
@@ -707,6 +708,7 @@ Publish a durable, citable research artifact.
 
 | Version | Date | Summary |
 |---|---|---|
+| 0.3.71 | 2026-08-17 | Completed exact HCA annotation reconciliation and the full 124-sample paired 500-versus-475 source/PH/all-active-level landscape/comparison chain; all independent gates pass and material cell-H1 sensitivity supports an exact-500 raw-read prefreeze, while the 79.194-GiB download and processing remain owner-gated |
 | 0.3.70 | 2026-08-15 | Completed MV7-E: resolved all 16 approach conflicts against official GEO methods, superseded the non-estimable mixed-approach diagnostic without changing topology, activated the fixed all-124 global-core fallback after one KLF2 absence, froze five transductive per-seed cell/gene estimands and the unchanged all-active-level H0/H1 landscape contract, and authorized MV7-F upstream caches only |
 | 0.3.69 | 2026-08-15 | Completed MV7-D full-corpus reconciliation: resolved 127 candidates into 124 corrected-descriptive and 90 primary samples, demonstrated 6/6 omitted-source/SCT feasibility, exposed 16 approach-label provenance conflicts, preserved the landscape contract, and added a prospective MV7-E–MV7-J expansion plan before any new PH |
 | 0.3.68 | 2026-08-15 | Completed MV7-C claim/data-sufficiency synthesis and author dossier; recommend a methods-focused manuscript before more PH, while reserving external validation for a consciously chosen generalization claim and requiring author-team approval |

@@ -1,0 +1,7 @@
+"contract_id","file","bytes","sha256","contains_expression","contains_cell_barcode","contains_absolute_private_path","contains_biological_label"
+"mv08g_raw_read_decision_artifact_manifest_v1","mv08g-raw-read-evidence-chain.csv",1232,"0fdb3f18354db86df31bf0ef6b6ac566161b62823f269219ac13b3e462a44946",FALSE,FALSE,FALSE,FALSE
+"mv08g_raw_read_decision_artifact_manifest_v1","mv08g-component-threshold-evaluation.csv",980,"6e853b1397e67a3e4361566eb91c175c99dd12c78d8cd608e90e10d80c539235",FALSE,FALSE,FALSE,FALSE
+"mv08g_raw_read_decision_artifact_manifest_v1","mv08g-raw-read-prefreeze-requirements.csv",1753,"ac9798be0c126f53d2d7ea6d64e419a61a90a341bad82a4881a1af11cfcfebe0",FALSE,FALSE,FALSE,FALSE
+"mv08g_raw_read_decision_artifact_manifest_v1","mv08g-raw-read-decision.csv",667,"977fb0c8a7ae2959de2afe2b9c26bbb0fed92182571ecdf0a22adf2e99ce64df",FALSE,FALSE,FALSE,FALSE
+"mv08g_raw_read_decision_artifact_manifest_v1","mv08g-raw-read-source-freeze.csv",3711,"f44b1f8f9614c02d666745b74bc256d34ce25a3677bafb4c900e50e5f403fcb5",FALSE,FALSE,FALSE,FALSE
+"mv08g_raw_read_decision_artifact_manifest_v1","MV08G_RAW_READ_DECISION_2026-08-17.md",2032,"6bb03ba7347f979a8a0c0398d16d53d9b14d22982de4d0f03d2d30dd98b64d63",FALSE,FALSE,FALSE,FALSE

@@ -1,0 +1,5 @@
+"contract_id","component_id","median_spearman","passes_spearman","median_top10_overlap","passes_top10_overlap","median_fixed_k_pam_ari","passes_fixed_k_pam_ari","threshold_misses","median_normalized_stress","median_normalized_matched_shift","panel_selected_k_agreement","seeds"
+"mv08g_raw_read_component_threshold_evaluation_v1","cell_H0",0.996989448977363,TRUE,0.892741935483871,TRUE,0.814321413036989,TRUE,0,0.0324914489917278,0.0698117999743176,TRUE,5
+"mv08g_raw_read_component_threshold_evaluation_v1","cell_H1",0.916255318125925,FALSE,0.70241935483871,FALSE,0.814287704352187,TRUE,2,0.127431811478766,0.33379764727035,TRUE,5
+"mv08g_raw_read_component_threshold_evaluation_v1","gene_H0",0.99326198632488,TRUE,0.837903225806452,TRUE,0.964865617442393,TRUE,0,0.0530082979554794,1.28366854417351,TRUE,5
+"mv08g_raw_read_component_threshold_evaluation_v1","gene_H1",0.993082160347583,TRUE,0.854032258064516,TRUE,0.935972721246059,TRUE,0,0.0408116545961693,0.125211969236429,TRUE,5

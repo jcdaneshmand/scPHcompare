@@ -749,3 +749,44 @@ test_that("MV8-G comparison evidence independently supports material sensitivity
     file = path, algo = "sha256", serialize = FALSE), character(1L))),
     manifest$sha256)
 })
+
+test_that("MV8-G raw-read recommendation is evidence-bound and planning-only", {
+  root <- testthat::test_path("..", "..")
+  evidence <- file.path(root, "docs", "audits",
+    "mv08g-raw-read-decision-evidence-v1")
+  chain <- read.csv(file.path(evidence, "mv08g-raw-read-evidence-chain.csv"),
+    stringsAsFactors = FALSE, check.names = FALSE)
+  components <- read.csv(file.path(evidence,
+    "mv08g-component-threshold-evaluation.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  requirements <- read.csv(file.path(evidence,
+    "mv08g-raw-read-prefreeze-requirements.csv"),
+    stringsAsFactors = FALSE, check.names = FALSE)
+  decision <- read.csv(file.path(evidence, "mv08g-raw-read-decision.csv"),
+    stringsAsFactors = FALSE, check.names = FALSE)
+  manifest <- read.csv(file.path(evidence,
+    "mv08g-raw-read-decision-artifact-manifest.csv"),
+    stringsAsFactors = FALSE, check.names = FALSE)
+  expect_equal(nrow(chain), 7L)
+  expect_true(all(chain$passed))
+  expect_equal(nrow(requirements), 10L)
+  expect_equal(decision$decision,
+               "recommend_exact500_hca_raw_read_reprocessing_prefreeze")
+  expect_true(decision$owner_raw_read_preference_supported)
+  expect_false(decision$common475_primary_external_topology_authorized)
+  expect_true(decision$common475_secondary_sensitivity_retained)
+  expect_true(decision$raw_read_planning_authorized)
+  expect_false(decision$hca_fastq_download_authorized)
+  expect_false(decision$raw_reprocessing_authorized)
+  expect_true(decision$resource_decision_required)
+  expect_equal(decision$estimated_fastq_bytes, 85034239918)
+  cell_h1 <- components[components$component_id == "cell_H1", ]
+  expect_equal(cell_h1$threshold_misses, 2L)
+  expect_false(cell_h1$passes_spearman)
+  expect_false(cell_h1$passes_top10_overlap)
+  expect_true(cell_h1$passes_fixed_k_pam_ari)
+  paths <- file.path(evidence, manifest$file)
+  expect_equal(unname(vapply(paths, function(path) digest::digest(
+    file = path, algo = "sha256", serialize = FALSE), character(1L))),
+    manifest$sha256)
+})

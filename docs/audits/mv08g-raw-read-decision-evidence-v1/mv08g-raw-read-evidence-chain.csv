@@ -1,0 +1,8 @@
+"contract_id","evidence_id","passed","detail","outcome_label_state","biological_outcomes_computed"
+"mv08g_raw_read_evidence_chain_v1","annotation_identity",TRUE,"HCA Cell Ranger 3.0.0 Ensembl93 ID and name axes are byte-exact","closed",FALSE
+"mv08g_raw_read_evidence_chain_v1","missing25_mechanism",TRUE,"25 current stable IDs were excluded by the historical biotype filter; crosswalks cannot restore counts","closed",FALSE
+"mv08g_raw_read_evidence_chain_v1","hca_raw_inventory",TRUE,"8 biological units; 48 FASTQs; 85,034,239,918 bytes (79.194 GiB); not downloaded","closed",FALSE
+"mv08g_raw_read_evidence_chain_v1","landscape_exactness",TRUE,"20 within-475 plus 20 matched groups; all active H0/H1 levels; 24 independent oracles","closed",FALSE
+"mv08g_raw_read_evidence_chain_v1","comparison_reconstruction",TRUE,"13 checks pass, including 44,640 candidate and 9,920 fixed partition rows","closed",FALSE
+"mv08g_raw_read_evidence_chain_v1","cell_H1_material_sensitivity",TRUE,"cell_H1 misses Spearman and top-10 overlap thresholds (0.916 and 0.702)","closed",FALSE
+"mv08g_raw_read_evidence_chain_v1","other_components_stable",TRUE,"cell_H0, gene_H0, and gene_H1 pass all three prospective classification thresholds","closed",FALSE
