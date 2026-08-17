@@ -1,0 +1,6 @@
+"contract_id","file","bytes","sha256","contains_expression","contains_cell_barcode","contains_absolute_private_path","contains_biological_label"
+"mv08g_landscape_validation_artifact_manifest_v1","mv08g-landscape-independent-validation.csv",10366,"b742fe3b814d3589cbcecb70995a5a305ce9dc6063e7d5cb8f96d3aeff84ed60",FALSE,FALSE,FALSE,FALSE
+"mv08g_landscape_validation_artifact_manifest_v1","mv08g-landscape-validation-summary.csv",356,"d4fd66a82e12514ee324530961d5a1fce38ff982ddae5689c1a584625c227cb0",FALSE,FALSE,FALSE,FALSE
+"mv08g_landscape_validation_artifact_manifest_v1","mv08g-landscape-validation-decision.csv",411,"1284aba15cb80076f54180eb9e62c34c7f87ad218e378a528126ef7b87e84e8c",FALSE,FALSE,FALSE,FALSE
+"mv08g_landscape_validation_artifact_manifest_v1","mv08g-landscape-r-oracles.csv",5060,"5a055ff48ca1f84a08d70919e3aa7e549184f44bbdfe0e80a58c5a152618d3d7",FALSE,FALSE,FALSE,FALSE
+"mv08g_landscape_validation_artifact_manifest_v1","mv08g-landscape-persim-oracles.csv",3399,"f93738684d165b460961c57ba95cddc1200ec68f7a0390c623b049253c1ba422",FALSE,FALSE,FALSE,FALSE

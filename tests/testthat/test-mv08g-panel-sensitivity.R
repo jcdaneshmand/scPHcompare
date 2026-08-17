@@ -508,6 +508,62 @@ test_that("MV8-G Persim environment-entry failure is auditable", {
     manifest$sha256)
 })
 
+test_that("MV8-G exact landscape validation evidence is complete", {
+  root <- testthat::test_path("..", "..")
+  prefreeze <- file.path(root, "docs", "audits",
+    "mv08g-landscape-validation-prefreeze-v2")
+  evidence <- file.path(root, "docs", "audits",
+    "mv08g-landscape-validation-v4")
+  contract <- read.csv(file.path(prefreeze,
+    "mv08g-landscape-validation-repair-contract.csv"),
+    stringsAsFactors = FALSE, check.names = FALSE)
+  summary <- read.csv(file.path(evidence,
+    "mv08g-landscape-validation-summary.csv"),
+    stringsAsFactors = FALSE, check.names = FALSE)
+  decision <- read.csv(file.path(evidence,
+    "mv08g-landscape-validation-decision.csv"),
+    stringsAsFactors = FALSE, check.names = FALSE)
+  groups <- read.csv(file.path(evidence,
+    "mv08g-landscape-independent-validation.csv"),
+    stringsAsFactors = FALSE, check.names = FALSE)
+  r_oracles <- read.csv(file.path(evidence,
+    "mv08g-landscape-r-oracles.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  persim_oracles <- read.csv(file.path(evidence,
+    "mv08g-landscape-persim-oracles.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  manifest <- read.csv(file.path(evidence,
+    "mv08g-landscape-validation-artifact-manifest.csv"),
+    stringsAsFactors = FALSE, check.names = FALSE)
+  expect_equal(contract$python_environment_name, "mv06g-persim-env")
+  expect_equal(contract$persim_version, "0.3.8")
+  expect_true(contract$engine_import_passed)
+  expect_equal(c(summary$within475_groups, summary$matched_shift_groups),
+               c(20L, 20L))
+  expect_equal(c(summary$within475_rows, summary$matched_shift_rows),
+               c(152520L, 2480L))
+  expect_equal(c(summary$exact_repeats, summary$r_oracles,
+                 summary$persim_oracles), c(8L, 12L, 12L))
+  expect_true(summary$all_active_levels)
+  expect_false(summary$level_cap_applied)
+  expect_true(summary$all_resource_caps_passed)
+  expect_equal(nrow(groups), 40L)
+  expect_true(all(groups$passed))
+  expect_true(all(groups$all_active_levels))
+  expect_false(any(groups$level_cap_applied))
+  expect_true(all(r_oracles$passed))
+  expect_true(all(persim_oracles$passed))
+  expect_equal(decision$decision,
+    "landscapes_exact_authorize_comparison_execution_prefreeze_only")
+  expect_equal(decision$comparison_jobs_authorized, 0L)
+  expect_equal(decision$prospective_comparison_jobs, 1L)
+  expect_false(decision$raw_reprocessing_authorized)
+  paths <- file.path(evidence, manifest$file)
+  expect_equal(unname(vapply(paths, function(path) digest::digest(
+    file = path, algo = "sha256", serialize = FALSE), character(1L))),
+    manifest$sha256)
+})
+
 test_that("MV8-G comparison prefreeze fixes complete label-free scope", {
   path <- testthat::test_path("..", "..", "scripts",
                               "build_mv08g_comparison_prefreeze.R")

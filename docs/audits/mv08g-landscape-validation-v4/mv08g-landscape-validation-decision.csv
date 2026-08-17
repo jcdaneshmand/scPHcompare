@@ -1,0 +1,2 @@
+"contract_id","decision","within475_groups_exact","matched_shift_groups_exact","comparison_jobs_authorized","prospective_comparison_jobs","hca_fastq_download_authorized","raw_reprocessing_authorized","label_access_authorized","next_gate"
+"mv08g_landscape_validation_decision_v1","landscapes_exact_authorize_comparison_execution_prefreeze_only",20,20,0,1,FALSE,FALSE,FALSE,"MV8-G_comparison_execution_prefreeze"
