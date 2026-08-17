@@ -152,7 +152,11 @@ fit_mv03_gene_panel <- function(residual_samples, integrated_samples,
 
 prepare_mv03_sources <- function(samples, panel, cohort, representation,
                                  fit_scope_id, seed,
-                                 selected_cells = NULL) {
+                                 selected_cells = NULL,
+                                 contract_profile = "scientific",
+                                 expected_genes = NULL,
+                                 expected_cells = NULL,
+                                 expected_pcs = NULL) {
   sample_ids <- sort(names(samples), method = "radix")
   if (is.null(selected_cells)) {
     selected_cells <- lapply(sample_ids, function(sample_id) {
@@ -202,7 +206,9 @@ prepare_mv03_sources <- function(samples, panel, cohort, representation,
     new_dual_view_source(
       standardized[[sample_id]], sample_id = sample_id, cohort = cohort,
       representation = representation, fit_scope_id = fit_scope_id,
-      subsample_seed = seed, standardization_id = standardization_id
+      subsample_seed = seed, standardization_id = standardization_id,
+      contract_profile = contract_profile, expected_genes = expected_genes,
+      expected_cells = expected_cells, expected_pcs = expected_pcs
     )
   })
   names(sources) <- sample_ids

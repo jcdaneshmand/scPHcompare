@@ -1,0 +1,2 @@
+"contract_id","decision","data_failure","resource_failure","implementation_contract_failure","retry_in_place_authorized","ph_jobs_authorized","landscape_jobs_authorized","comparison_jobs_authorized","hca_fastq_download_authorized","raw_reprocessing_authorized","label_access_authorized","next_gate"
+"mv08g_source_failure_decision_v1","stop_v1_no_retry_require_new_head_and_prefreeze",FALSE,FALSE,TRUE,FALSE,0,0,0,FALSE,FALSE,FALSE,"MV8-G_v2_scientific_common475_prefreeze"

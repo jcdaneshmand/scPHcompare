@@ -1,0 +1,2 @@
+"contract_id","decision","source_jobs_authorized","source_repeat_jobs_authorized","ph_jobs_authorized","landscape_groups_authorized","matched_shift_groups_authorized","comparison_jobs_authorized","hca_fastq_download_authorized","raw_reprocessing_authorized","label_access_authorized","next_gate"
+"mv08g_prefreeze_decision_v1","authorize_five_common475_source_bundles_and_one_repeat",5,1,0,0,0,0,FALSE,FALSE,FALSE,"independent_source_identity_and_repeat_validation"

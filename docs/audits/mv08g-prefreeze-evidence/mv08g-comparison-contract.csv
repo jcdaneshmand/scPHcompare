@@ -1,0 +1,9 @@
+"contract_id","comparison_id","metric","components","seeds","label_free","primary"
+"mv08g_comparison_contract_v1","distance_rank","spearman_and_kendall",4,5,TRUE,TRUE
+"mv08g_comparison_contract_v1","scaled_stress","nonnegative_LS_normalized_stress",4,5,TRUE,TRUE
+"mv08g_comparison_contract_v1","top10_neighbors","mean_per_sample_overlap",4,5,TRUE,TRUE
+"mv08g_comparison_contract_v1","matched_landscape_shift","shift_over_median_nonzero_500_distance",4,5,TRUE,TRUE
+"mv08g_comparison_contract_v1","pam_k_2_10","adjusted_rand_index",4,5,TRUE,TRUE
+"mv08g_comparison_contract_v1","panel_selected_k","exact_k_agreement",4,5,TRUE,TRUE
+"mv08g_comparison_contract_v1","fixed_500_selected_k_pam","adjusted_rand_index",4,5,TRUE,TRUE
+"mv08g_comparison_contract_v1","fixed_500_selected_k_average","adjusted_rand_index",4,5,TRUE,TRUE

@@ -93,6 +93,28 @@ test_that("the scientific profile admits only the frozen full shape", {
   expect_match(source$cache_key, "^dual_view_source_v1:[0-9a-f]{64}$")
 })
 
+test_that("the common-475 sensitivity profile is explicitly scientific", {
+  x <- outer(
+    seq_len(475L), seq_len(384L),
+    function(gene, cell) cos(gene / 19 + cell / 29) + cell / 1000
+  )
+  dimnames(x) <- list(paste0("gene_", seq_len(475L)),
+                      paste0("cell_", seq_len(384L)))
+  source <- new_dual_view_source(
+    x, "sample", "cohort", "sct_common475", "fit_scope", 20260805L,
+    "standardization", contract_profile = "scientific_common475",
+    expected_genes = 475L, expected_cells = 384L, expected_pcs = 30L
+  )
+  expect_identical(source$contract$profile, "scientific_common475")
+  expect_true(source$contract$scientific_eligible)
+  expect_identical(dim(source$matrix), c(475L, 384L))
+  expect_error(new_dual_view_source(
+    x, "sample", "cohort", "sct_common475", "fit_scope", 20260805L,
+    "standardization", contract_profile = "scientific_common475",
+    expected_genes = 500L, expected_cells = 384L, expected_pcs = 30L
+  ), "scientific_common475 contract requires exactly 475 genes")
+})
+
 test_that("source and PCA identities are deterministic and tamper-evident", {
   source_a <- mv02_source()
   source_b <- mv02_source(mv02_matrix() + c(0, 0.1, 0.2, 0.3), "sample_b")

@@ -72,7 +72,9 @@ prepared <- prepare_mv03_sources(
   matrices, panel$feature_id,
   cohort = "mv08g_full124_reference_sensitivity",
   representation = "sct_common475_reference_sensitivity_v1",
-  fit_scope_id = fit_scope_id, seed = seed, selected_cells = selected_cells)
+  fit_scope_id = fit_scope_id, seed = seed, selected_cells = selected_cells,
+  contract_profile = "scientific_common475", expected_genes = 475L,
+  expected_cells = 384L, expected_pcs = 30L)
 rm(matrices)
 invisible(gc())
 pca_model <- fit_cell_topology_pca(

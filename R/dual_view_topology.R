@@ -1,5 +1,6 @@
 .dual_view_contract_version <- "1.0.0"
 .dual_view_scientific_shape <- c(genes = 500L, cells = 384L, pcs = 30L)
+.dual_view_common475_shape <- c(genes = 475L, cells = 384L, pcs = 30L)
 
 .one_nonempty_string <- function(value, label) {
   if (length(value) != 1L || is.na(value) || !is.character(value) ||
@@ -43,9 +44,14 @@
 .resolve_dual_view_shape <- function(contract_profile, expected_genes,
                                      expected_cells, expected_pcs) {
   contract_profile <- match.arg(
-    contract_profile, c("scientific", "analytical_fixture")
+    contract_profile,
+    c("scientific", "scientific_common475", "analytical_fixture")
   )
-  defaults <- .dual_view_scientific_shape
+  defaults <- if (identical(contract_profile, "scientific_common475")) {
+    .dual_view_common475_shape
+  } else {
+    .dual_view_scientific_shape
+  }
   supplied <- c(
     genes = if (is.null(expected_genes)) defaults[["genes"]] else expected_genes,
     cells = if (is.null(expected_cells)) defaults[["cells"]] else expected_cells,
@@ -60,9 +66,12 @@
     stop("expected_pcs must be smaller than both point-axis dimensions.",
          call. = FALSE)
   }
-  if (contract_profile == "scientific" && !identical(supplied, defaults)) {
+  if (contract_profile %in% c("scientific", "scientific_common475") &&
+      !identical(supplied, defaults)) {
     stop(
-      "The scientific contract requires exactly 500 genes, 384 cells, and 30 PCs; ",
+      "The ", contract_profile, " contract requires exactly ",
+      defaults[["genes"]], " genes, ", defaults[["cells"]], " cells, and ",
+      defaults[["pcs"]], " PCs; ",
       "use contract_profile = 'analytical_fixture' for reduced tests.",
       call. = FALSE
     )
@@ -73,7 +82,8 @@
     expected_genes = unname(supplied[["genes"]]),
     expected_cells = unname(supplied[["cells"]]),
     expected_pcs = unname(supplied[["pcs"]]),
-    scientific_eligible = identical(contract_profile, "scientific")
+    scientific_eligible = contract_profile %in%
+      c("scientific", "scientific_common475")
   )
 }
 
@@ -163,7 +173,8 @@ select_matched_cells <- function(cell_ids, n = 384L, seed = 20260805L) {
 #' @param sample_id,cohort,representation,fit_scope_id Non-empty provenance IDs.
 #' @param subsample_seed Integer-compatible cell-subsampling seed.
 #' @param standardization_id Stable ID or digest for the fitted scaling operation.
-#' @param contract_profile `"scientific"` or `"analytical_fixture"`.
+#' @param contract_profile `"scientific"`, `"scientific_common475"`, or
+#'   `"analytical_fixture"`.
 #' @param expected_genes,expected_cells,expected_pcs Expected shape. Overrides
 #'   are allowed only for analytical fixtures.
 #'
@@ -710,12 +721,12 @@ validate_topology_view <- function(view) {
   allowed <- c("cell_topology_v1", "gene_topology_v1")
   if (!(view$view_id %in% allowed) ||
       !identical(view$contract_version, .dual_view_contract_version) ||
-      !(view$contract_profile %in% c("scientific", "analytical_fixture"))) {
+      !(view$contract_profile %in% c(
+        "scientific", "scientific_common475", "analytical_fixture"))) {
     stop("Unknown or incompatible topology-view contract.", call. = FALSE)
   }
-  expected_scientific_eligible <- identical(
-    view$contract_profile, "scientific"
-  )
+  expected_scientific_eligible <- view$contract_profile %in%
+    c("scientific", "scientific_common475")
   if (!identical(view$scientific_eligible, expected_scientific_eligible)) {
     stop(
       "Topology-view scientific eligibility disagrees with its contract profile.",

@@ -1,0 +1,3 @@
+"contract_id","file","bytes","sha256","contains_expression","contains_cell_barcode","contains_absolute_private_path","contains_biological_label"
+"mv08g_source_failure_artifact_manifest_v1","mv08g-source-failure.csv",752,"9cb2e22121d36b301dbc3f0a06470a20185fc8e8d44ef235dd6d6a32442b4dd4",FALSE,FALSE,FALSE,FALSE
+"mv08g_source_failure_artifact_manifest_v1","mv08g-source-failure-decision.csv",473,"8f292177a967cd72da62476c23fc4c1a66459f779e9a6cc8f2cd57c390fe3305",FALSE,FALSE,FALSE,FALSE

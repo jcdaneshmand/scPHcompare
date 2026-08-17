@@ -82,14 +82,18 @@ test_that("MV8-G implementation cannot masquerade as MV7-H 500-gene output", {
   helper_text <- paste(readLines(helper_path, warn = FALSE), collapse = "\n")
   expect_match(source_text, "panel_size = 475L", fixed = TRUE)
   expect_match(source_text, "mv08g_full124_common475_seed_", fixed = TRUE)
+  expect_match(source_text,
+               "contract_profile = \"scientific_common475\"", fixed = TRUE)
   expect_match(helper_text, "mv08g_common475_source_record_v1", fixed = TRUE)
+  expect_match(helper_text, "typed views lack common-475 scientific eligibility",
+               fixed = TRUE)
   expect_match(helper_text, "mv08g_ph_record_v1", fixed = TRUE)
   expect_false(grepl("mv07h_new_source_record_v1", source_text, fixed = TRUE))
 })
 
 test_that("MV8-G prefreeze preserves landscapes and keeps raw reads closed", {
   spec_path <- testthat::test_path("..", "..", "docs", "specifications",
-    "MV08G_COMMON475_PAIRED_REFERENCE_SENSITIVITY_PREFREEZE_V1.md")
+    "MV08G_COMMON475_PAIRED_REFERENCE_SENSITIVITY_PREFREEZE_V2.md")
   builder_path <- testthat::test_path("..", "..", "scripts",
                                       "build_mv08g_prefreeze.R")
   spec <- paste(readLines(spec_path, warn = FALSE), collapse = "\n")
@@ -104,6 +108,8 @@ test_that("MV8-G prefreeze preserves landscapes and keeps raw reads closed", {
   expect_match(builder, "hca_fastq_download_authorized = FALSE", fixed = TRUE)
   expect_match(builder, "raw_reprocessing_authorized = FALSE", fixed = TRUE)
   expect_match(builder, "matched_shift_rows = 2480L", fixed = TRUE)
+  expect_match(spec, "scientific_common475", fixed = TRUE)
+  expect_match(spec, "stopped v1 ledger is immutable", fixed = TRUE)
 })
 
 test_that("MV8-G source execution is monitored, repeatable, and zero-retry", {
@@ -117,6 +123,41 @@ test_that("MV8-G source execution is monitored, repeatable, and zero-retry", {
   expect_match(text, "retries = 0L", fixed = TRUE)
   expect_match(text, "byte_identical", fixed = TRUE)
   expect_match(text, "source_complete_await_independent_validation",
+               fixed = TRUE)
+})
+
+test_that("MV8-G stopped v1 source attempt is publicly auditable", {
+  root <- testthat::test_path("..", "..")
+  evidence <- file.path(root, "docs", "audits",
+                        "mv08g-source-failure-evidence")
+  failure <- read.csv(file.path(evidence, "mv08g-source-failure.csv"),
+                      stringsAsFactors = FALSE, check.names = FALSE)
+  decision <- read.csv(file.path(evidence,
+    "mv08g-source-failure-decision.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  manifest <- read.csv(file.path(evidence,
+    "mv08g-source-failure-artifact-manifest.csv"),
+    stringsAsFactors = FALSE, check.names = FALSE)
+  expect_equal(nrow(failure), 1L)
+  expect_equal(failure$failure_class,
+               "scientific_profile_shape_contract_mismatch")
+  expect_equal(failure$required_shape, "475x384")
+  expect_equal(failure$rejected_against_shape, "500x384")
+  expect_false(failure$output_published)
+  expect_true(decision$implementation_contract_failure)
+  expect_false(decision$retry_in_place_authorized)
+  expect_false(decision$hca_fastq_download_authorized)
+  expect_false(any(manifest$contains_expression))
+  expect_false(any(manifest$contains_cell_barcode))
+  expect_false(any(manifest$contains_absolute_private_path))
+  expect_false(any(manifest$contains_biological_label))
+  paths <- file.path(evidence, manifest$file)
+  expect_equal(unname(vapply(paths, function(path) digest::digest(
+    file = path, algo = "sha256", serialize = FALSE), character(1L))),
+    manifest$sha256)
+  builder <- paste(readLines(file.path(root, "scripts",
+    "build_mv08g_source_failure_audit.R"), warn = FALSE), collapse = "\n")
+  expect_match(builder, "stop_v1_no_retry_require_new_head_and_prefreeze",
                fixed = TRUE)
 })
 

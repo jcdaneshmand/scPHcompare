@@ -206,6 +206,8 @@ mv08g_validate_source_record_v1 <- function(record) {
   }
   .validate_cell_pca_model(record$pca_model)
   if (record$pca_model$n_components != 30L ||
+      record$pca_model$contract$profile != "scientific_common475" ||
+      !isTRUE(record$pca_model$contract$scientific_eligible) ||
       length(record$pca_model$fit_sample_ids) != 124L ||
       record$pca_model$cache_key != record$identity$pca_model_cache_key ||
       record$pca_model$standardization_id != record$identity$standardization_id) {
@@ -217,6 +219,12 @@ mv08g_validate_source_record_v1 <- function(record) {
       stop("MV8-G source lacks one typed-view pair.", call. = FALSE)
     }
     lapply(pair, validate_topology_view)
+    if (any(vapply(pair, `[[`, character(1L), "contract_profile") !=
+        "scientific_common475") ||
+        !all(vapply(pair, `[[`, logical(1L), "scientific_eligible"))) {
+      stop("MV8-G typed views lack common-475 scientific eligibility.",
+           call. = FALSE)
+    }
     if (any(vapply(pair, `[[`, character(1L), "sample_id") != sample_id)) {
       stop("MV8-G typed-view identity is stale.", call. = FALSE)
     }

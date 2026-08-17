@@ -96,7 +96,7 @@ implementation_paths <- c(
   "scripts/run_mv08g_comparison.R",
   "scripts/build_mv08g_prefreeze.R", "scripts/validate_mv08g_prefreeze.R",
   "tests/testthat/test-mv08g-panel-sensitivity.R",
-  "docs/specifications/MV08G_COMMON475_PAIRED_REFERENCE_SENSITIVITY_PREFREEZE_V1.md")
+  "docs/specifications/MV08G_COMMON475_PAIRED_REFERENCE_SENSITIVITY_PREFREEZE_V2.md")
 if (any(!file.exists(implementation_paths))) stop("MV8-G implementation is incomplete.")
 implementation_hashes <- vapply(implementation_paths, sha, character(1L))
 implementation_root <- digest::digest(data.frame(
@@ -105,7 +105,7 @@ implementation_root <- digest::digest(data.frame(
   algo = "sha256", serialize = TRUE)
 
 contract <- data.frame(
-  contract_id = "mv08g_common475_paired_sensitivity_prefreeze_v1",
+  contract_id = "mv08g_common475_paired_sensitivity_prefreeze_v2",
   accepted_head = expected_head,
   implementation_root_sha256 = implementation_root,
   rust_library_sha256 = rust_sha, samples = 124L, seeds = 5L,
@@ -184,13 +184,13 @@ source_files <- c(
     "mv07h-landscape-complete-group-inventory.csv"),
   implementation_paths)
 freeze <- data.frame(
-  contract_id = "mv08g_source_freeze_v1", source_id = names(source_files),
+  contract_id = "mv08g_source_freeze_v2", source_id = names(source_files),
   artifact_locator = unname(source_files),
   sha256 = vapply(source_files, sha, character(1L)),
   bytes = as.numeric(file.info(source_files)$size), accepted_head = expected_head,
   private_source = FALSE, stringsAsFactors = FALSE)
 acceptance <- data.frame(
-  contract_id = "mv08g_prefreeze_acceptance_v1",
+  contract_id = "mv08g_prefreeze_acceptance_v2",
   category = c("recovery", "panel", "cache_axis", "source_queue", "ph_queue",
     "landscape_queue", "matched_shift_queue", "accepted_500", "definition",
     "comparison", "resources", "rust", "label_firewall", "stop_boundary"),
@@ -224,7 +224,7 @@ acceptance <- data.frame(
 if (!all(acceptance$passed)) stop("MV8-G prefreeze acceptance failed: ",
   paste(acceptance$category[!acceptance$passed], collapse = ", "))
 decision <- data.frame(
-  contract_id = "mv08g_prefreeze_decision_v1",
+  contract_id = "mv08g_prefreeze_decision_v2",
   decision = "authorize_five_common475_source_bundles_and_one_repeat",
   source_jobs_authorized = 5L, source_repeat_jobs_authorized = 1L,
   ph_jobs_authorized = 0L,

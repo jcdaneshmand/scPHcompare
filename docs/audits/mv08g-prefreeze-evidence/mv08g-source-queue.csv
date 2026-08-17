@@ -1,0 +1,6 @@
+"contract_id","job_order","job_id","stage","seed","sample_count","typed_view_count","output_file","elapsed_cap_seconds","rss_cap_bytes","workers","retries","outcome_label_state","biological_outcomes_computed"
+"mv08g_source_queue_v1",1,"source__20260805","source_views",20260805,124,248,"source/mv08g__20260805__source.rds",1800,8589934592,1,0,"closed",FALSE
+"mv08g_source_queue_v1",2,"source__20260806","source_views",20260806,124,248,"source/mv08g__20260806__source.rds",1800,8589934592,1,0,"closed",FALSE
+"mv08g_source_queue_v1",3,"source__20260807","source_views",20260807,124,248,"source/mv08g__20260807__source.rds",1800,8589934592,1,0,"closed",FALSE
+"mv08g_source_queue_v1",4,"source__20260808","source_views",20260808,124,248,"source/mv08g__20260808__source.rds",1800,8589934592,1,0,"closed",FALSE
+"mv08g_source_queue_v1",5,"source__20260809","source_views",20260809,124,248,"source/mv08g__20260809__source.rds",1800,8589934592,1,0,"closed",FALSE
