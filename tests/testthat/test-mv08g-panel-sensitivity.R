@@ -425,6 +425,11 @@ test_that("MV8-G landscape validation requires R and corrected Persim", {
   py_text <- paste(readLines(py_path, warn = FALSE), collapse = "\n")
   expect_match(r_text, "landscape_reference_exact_dimension", fixed = TRUE)
   expect_match(r_text, "landscape_reference_adaptive_dimension", fixed = TRUE)
+  expect_match(r_text, 'source("R/landscape_contract.R")', fixed = TRUE)
+  expect_match(r_text, "VALIDATION_PREFREEZE", fixed = TRUE)
+  expect_match(r_text,
+    "authorize_one_independent_landscape_validation_after_helper_closure",
+    fixed = TRUE)
   expect_match(r_text, "validate_mv08g_persim_oracles.py", fixed = TRUE)
   expect_match(r_text, "any(!truth(distances$all_active_levels))", fixed = TRUE)
   expect_match(r_text,
@@ -433,6 +438,44 @@ test_that("MV8-G landscape validation requires R and corrected Persim", {
   expect_match(py_text, "engine.landscape_distance", fixed = TRUE)
   expect_match(py_text, "len(output) != 12", fixed = TRUE)
   expect_match(py_text, '"all_active_levels": "TRUE"', fixed = TRUE)
+})
+
+test_that("MV8-G validation helper closure is validation-only and auditable", {
+  root <- testthat::test_path("..", "..")
+  builder <- paste(readLines(file.path(root, "scripts",
+    "build_mv08g_landscape_validation_prefreeze.R"), warn = FALSE),
+    collapse = "\n")
+  for (term in c("R/landscape_contract.R", "R/landscape_reference.R",
+                 "scripts/validate_mv08g_landscapes.R",
+                 "scripts/validate_mv08g_persim_oracles.py",
+                 "scripts/mv05d4_landscape_group.py")) {
+    expect_match(builder, term, fixed = TRUE)
+  }
+  expect_match(builder, "landscape_execution_jobs_authorized = 0L",
+               fixed = TRUE)
+  expect_match(builder, "validation_jobs_authorized = 1L", fixed = TRUE)
+  evidence <- file.path(root, "docs", "audits",
+    "mv08g-landscape-validation-failure-evidence-v1")
+  failure <- read.csv(file.path(evidence,
+    "mv08g-landscape-validation-failure.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  decision <- read.csv(file.path(evidence,
+    "mv08g-landscape-validation-failure-decision.csv"),
+    stringsAsFactors = FALSE, check.names = FALSE)
+  manifest <- read.csv(file.path(evidence,
+    "mv08g-landscape-validation-failure-artifact-manifest.csv"),
+    stringsAsFactors = FALSE, check.names = FALSE)
+  expect_equal(failure$missing_helper_file, "R/landscape_contract.R")
+  expect_equal(failure$missing_function, "finite_landscape_diagram")
+  expect_true(failure$execution_outputs_retained)
+  expect_false(failure$execution_recompute_authorized)
+  expect_true(decision$validation_entry_failure)
+  expect_false(decision$retry_in_place_authorized)
+  expect_false(decision$hca_fastq_download_authorized)
+  paths <- file.path(evidence, manifest$file)
+  expect_equal(unname(vapply(paths, function(path) digest::digest(
+    file = path, algo = "sha256", serialize = FALSE), character(1L))),
+    manifest$sha256)
 })
 
 test_that("MV8-G comparison prefreeze fixes complete label-free scope", {

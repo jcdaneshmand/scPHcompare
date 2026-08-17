@@ -1,0 +1,2 @@
+"contract_id","decision","within475_groups","matched_shift_groups","repeat_groups","aggregate_elapsed_seconds","aggregate_elapsed_cap_seconds","private_storage_bytes","aggregate_storage_cap_bytes","maximum_process_tree_rss_bytes","comparison_jobs_authorized","hca_fastq_download_authorized","raw_reprocessing_authorized","label_access_authorized","biological_outcomes_computed"
+"mv08g_landscape_execution_decision_v1","landscapes_complete_await_independent_R_Persim_validation",20,20,8,4204.3402633667,172800,84035868,4294967296,199802880,0,FALSE,FALSE,FALSE,FALSE

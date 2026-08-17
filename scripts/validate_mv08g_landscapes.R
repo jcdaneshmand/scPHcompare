@@ -7,12 +7,15 @@ for (package in c("digest")) {
   if (!requireNamespace(package, quietly = TRUE)) stop(package, " required.")
 }
 args <- commandArgs(trailingOnly = TRUE)
-if (length(args) != 9L) {
-  stop("usage: validate_mv08g_landscapes.R PREFREEZE PH475_ROOT PH500_ROOT PRIVATE_ROOT EXECUTION_EVIDENCE PYTHON PERSIM_ENGINE PRIVATE_ORACLE OUTPUT")
+if (length(args) != 10L) {
+  stop("usage: validate_mv08g_landscapes.R EXECUTION_PREFREEZE VALIDATION_PREFREEZE PH475_ROOT PH500_ROOT PRIVATE_ROOT EXECUTION_EVIDENCE PYTHON PERSIM_ENGINE PRIVATE_ORACLE OUTPUT")
 }
-prefreeze <- args[[1L]]; ph475 <- args[[2L]]; ph500 <- args[[3L]]
-private_root <- args[[4L]]; execution <- args[[5L]]; python <- args[[6L]]
-persim_engine <- args[[7L]]; private_oracle <- args[[8L]]; output <- args[[9L]]
+prefreeze <- args[[1L]]; validation_prefreeze <- args[[2L]]
+ph475 <- args[[3L]]; ph500 <- args[[4L]]
+private_root <- args[[5L]]; execution <- args[[6L]]
+python <- normalizePath(args[[7L]], winslash = "/", mustWork = TRUE)
+persim_engine <- normalizePath(args[[8L]], winslash = "/", mustWork = TRUE)
+private_oracle <- args[[9L]]; output <- args[[10L]]
 if ((dir.exists(output) && length(list.files(output, all.files = TRUE,
                                               no.. = TRUE))) ||
     (dir.exists(private_oracle) && length(list.files(private_oracle,
@@ -27,10 +30,34 @@ source("R/dual_view_topology.R")
 source("R/mv07g_sentinel.R")
 source("R/mv07h_full_topology.R")
 source("R/mv08g_panel_sensitivity.R")
+source("R/landscape_contract.R")
 source("R/landscape_reference.R")
 sha <- function(path) digest::digest(file = path, algo = "sha256",
                                      serialize = FALSE)
 truth <- function(value) tolower(as.character(value)) %in% c("true", "t", "1")
+validation_contract <- read.csv(file.path(validation_prefreeze,
+  "mv08g-landscape-validation-repair-contract.csv"), stringsAsFactors = FALSE,
+  check.names = FALSE)
+validation_decision <- read.csv(file.path(validation_prefreeze,
+  "mv08g-landscape-validation-repair-decision.csv"), stringsAsFactors = FALSE,
+  check.names = FALSE)
+validation_freeze <- read.csv(file.path(validation_prefreeze,
+  "mv08g-landscape-validation-repair-source-freeze.csv"),
+  stringsAsFactors = FALSE, check.names = FALSE)
+head <- tolower(trimws(system2("git", c("rev-parse", "HEAD"), stdout = TRUE)))
+if (nrow(validation_contract) != 1L || nrow(validation_decision) != 1L ||
+    validation_contract$validator_head != head ||
+    validation_contract$python_executable_sha256 != sha(python) ||
+    validation_contract$persim_engine_sha256 != sha(persim_engine) ||
+    validation_decision$decision !=
+      "authorize_one_independent_landscape_validation_after_helper_closure" ||
+    validation_decision$validation_jobs_authorized != 1L ||
+    validation_decision$landscape_execution_jobs_authorized != 0L ||
+    any(!file.exists(validation_freeze$artifact_locator)) ||
+    any(vapply(validation_freeze$artifact_locator, sha, character(1L)) !=
+          validation_freeze$sha256)) {
+  stop("MV8-G landscape validation-only prefreeze is stale.")
+}
 contract <- read.csv(file.path(prefreeze, "mv08g-landscape-contract.csv"),
                      stringsAsFactors = FALSE, check.names = FALSE)
 within_queue <- read.csv(file.path(prefreeze, "mv08g-landscape-queue.csv"),
@@ -56,7 +83,8 @@ if (nrow(contract) != 1L || nrow(within_queue) != 20L || nrow(shift_queue) != 20
     execution_decision$aggregate_elapsed_seconds >
       execution_decision$aggregate_elapsed_cap_seconds ||
     execution_decision$private_storage_bytes >
-      execution_decision$aggregate_storage_cap_bytes) {
+      execution_decision$aggregate_storage_cap_bytes ||
+    contract$accepted_head != validation_contract$execution_head) {
   stop("MV8-G landscape execution evidence is incomplete.")
 }
 validate_rows <- function(queue, inventory, base, expected_rows, scope) {

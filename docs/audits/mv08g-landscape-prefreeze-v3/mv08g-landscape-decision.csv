@@ -1,0 +1,2 @@
+"contract_id","decision","within475_groups_authorized","matched_shift_groups_authorized","within475_repeat_groups_authorized","matched_shift_repeat_groups_authorized","comparison_jobs_authorized","hca_fastq_download_authorized","raw_reprocessing_authorized","label_access_authorized","next_gate"
+"mv08g_landscape_prefreeze_decision_v1","authorize_20_within_20_matched_and_eight_repeats",20,20,4,4,0,FALSE,FALSE,FALSE,"MV8-G_landscape_independent_R_Persim_validation"
