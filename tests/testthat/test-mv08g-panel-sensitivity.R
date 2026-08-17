@@ -108,6 +108,11 @@ test_that("MV8-G prefreeze preserves landscapes and keeps raw reads closed", {
   expect_match(builder, "hca_fastq_download_authorized = FALSE", fixed = TRUE)
   expect_match(builder, "raw_reprocessing_authorized = FALSE", fixed = TRUE)
   expect_match(builder, "matched_shift_rows = 2480L", fixed = TRUE)
+  for (dependency in c("R/dual_view_topology.R", "R/mv03_pilot.R",
+                       "R/mv05_resource_safe_execution.R",
+                       "R/mv07g_sentinel.R", "R/mv07h_full_topology.R")) {
+    expect_match(builder, dependency, fixed = TRUE)
+  }
   expect_match(spec, "scientific_common475", fixed = TRUE)
   expect_match(spec, "stopped v1 ledger is immutable", fixed = TRUE)
 })

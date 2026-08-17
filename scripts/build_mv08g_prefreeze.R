@@ -87,7 +87,10 @@ accepted_rust_sha <-
 if (rust_sha != accepted_rust_sha) stop("MV8-G Rust binary identity drift.")
 
 implementation_paths <- c(
-  "R/mv08g_panel_sensitivity.R", "scripts/run_mv08g_source_entry.R",
+  "R/toy_baseline.R", "R/dual_view_topology.R", "R/mv03_pilot.R",
+  "R/mv05_resource_safe_execution.R", "R/mv07g_sentinel.R",
+  "R/mv07h_full_topology.R", "R/mv08g_panel_sensitivity.R",
+  "scripts/run_mv08g_source_entry.R",
   "scripts/run_mv08g_source_monitor.R",
   "scripts/validate_mv08g_sources.R",
   "scripts/run_mv08g_ph_entry.R", "scripts/run_mv08g_ph_fallback_entry.R",
