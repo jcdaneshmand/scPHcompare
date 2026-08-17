@@ -1,0 +1,2 @@
+"contract_id","file_order","unit_id","file_name","file_uuid","expected_bytes","observed_bytes","expected_sha256","observed_sha256","gzip_magic","receipt_exact","passed"
+"mv08h_sentinel_file_validation_v1","1","HCA_BM_001","MantonBM1_HiSeq_9_S1_L002_I1_001.fastq.gz","8612fc0c-1549-476b-bb7f-c601dd2f2e3c","394373114","394373114","4464d4ea5000356ec74dd80f37dc69016ca13668bc8f33c8d2fcffdef31dd302","4464d4ea5000356ec74dd80f37dc69016ca13668bc8f33c8d2fcffdef31dd302","TRUE","TRUE","TRUE"

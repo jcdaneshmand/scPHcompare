@@ -1,0 +1,5 @@
+"contract_id","file","bytes","sha256","contains_expression","contains_cell_barcode","contains_absolute_private_path","contains_donor_attribute","contains_outcome_label"
+"mv08h_sentinel_artifact_manifest_v1","MV08H_FASTQ_SENTINEL_CLOSURE_2026-08-17.md","1131","f53015367edc6e61698cf7a42f7981f6df42a61ba903bb2002eb8bfecda57952","FALSE","FALSE","FALSE","FALSE","FALSE"
+"mv08h_sentinel_artifact_manifest_v1","mv08h-sentinel-decision.csv","389","3d2c76fb6811161d97aa9a0e2374740ffdf2d94ddb8b67cac85de12b1058388f","FALSE","FALSE","FALSE","FALSE","FALSE"
+"mv08h_sentinel_artifact_manifest_v1","mv08h-sentinel-file-validation.csv","484","455949d5c45eb5d8a2af37a90f28c49e276caff6013e324a32f9dd210dc815a1","FALSE","FALSE","FALSE","FALSE","FALSE"
+"mv08h_sentinel_artifact_manifest_v1","mv08h-sentinel-summary.csv","403","aa4ee646a9d52dd7a4cc94d634e1af89827a54f76ac42db428008c7d21a28828","FALSE","FALSE","FALSE","FALSE","FALSE"

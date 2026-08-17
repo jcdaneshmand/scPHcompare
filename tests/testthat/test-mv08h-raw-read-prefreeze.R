@@ -90,3 +90,45 @@ testthat::test_that("MV8-H public prefreeze evidence passes independently", {
     file = path, algo = "sha256", serialize = FALSE), character(1L)))
   testthat::expect_identical(observed, manifest$sha256)
 })
+
+testthat::test_that("MV8-H sentinel independently opens only the remaining download", {
+  root <- testthat::test_path("..", "..")
+  evidence <- file.path(root, "docs", "audits", "mv08h-download-sentinel-v1")
+  files <- utils::read.csv(file.path(evidence,
+    "mv08h-sentinel-file-validation.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  summary <- utils::read.csv(file.path(evidence,
+    "mv08h-sentinel-summary.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  decision <- utils::read.csv(file.path(evidence,
+    "mv08h-sentinel-decision.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  artifacts <- utils::read.csv(file.path(evidence,
+    "mv08h-sentinel-artifact-manifest.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  testthat::expect_equal(nrow(files), 1L)
+  testthat::expect_equal(files$observed_bytes, 394373114)
+  testthat::expect_identical(files$observed_sha256,
+    "4464d4ea5000356ec74dd80f37dc69016ca13668bc8f33c8d2fcffdef31dd302")
+  testthat::expect_true(files$gzip_magic)
+  testthat::expect_true(files$receipt_exact)
+  testthat::expect_true(files$passed)
+  testthat::expect_equal(summary$verified_files, 1L)
+  testthat::expect_equal(summary$partial_files, 0L)
+  testthat::expect_true(summary$storage_gate_passed)
+  testthat::expect_true(decision$remaining_fastq_download_authorized)
+  testthat::expect_false(decision$mkref_authorized)
+  testthat::expect_false(decision$raw_reprocessing_authorized)
+  testthat::expect_false(decision$label_access_authorized)
+  paths <- file.path(evidence, artifacts$file)
+  observed <- unname(vapply(paths, function(path) digest::digest(
+    file = path, algo = "sha256", serialize = FALSE), character(1L)))
+  testthat::expect_identical(observed, artifacts$sha256)
+  validator <- paste(readLines(file.path(root, "scripts",
+    "validate_mv08h_fastq_cache.py"), warn = FALSE), collapse = "\n")
+  for (term in c("EXPECTED_MANIFEST_SHA256", "gzip_magic",
+                 "receipt_exact", "RESERVE_BYTES", "CACHE_CAP_BYTES",
+                 "complete_download_exact_authorize_reference_input_validation_only")) {
+    testthat::expect_match(validator, term, fixed = TRUE)
+  }
+})

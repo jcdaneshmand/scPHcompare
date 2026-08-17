@@ -1,0 +1,2 @@
+"contract_id","decision","remaining_fastq_download_authorized","reference_input_validation_authorized","mkref_authorized","raw_reprocessing_authorized","label_access_authorized","biological_outcomes_authorized","next_gate"
+"mv08h_sentinel_decision_v1","sentinel_exact_authorize_remaining_47_file_download","TRUE","FALSE","FALSE","FALSE","FALSE","FALSE","complete_48_file_checksum_closure"
