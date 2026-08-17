@@ -627,6 +627,9 @@ test_that("MV8-G comparison validation independently refits every partition", {
   expect_match(text, "raw_reprocessing_authorized = FALSE", fixed = TRUE)
   expect_match(text, "mv08g_fixed_partition_schema_v1(fit, algorithm)",
                fixed = TRUE)
+  expect_match(text, "unname(truth(k_agreement$exact_k_agreement))",
+               fixed = TRUE)
+  expect_match(text, "VALIDATION_PREFREEZE", fixed = TRUE)
 })
 
 test_that("MV8-G stopped comparison schema failure is auditable", {
@@ -654,4 +657,44 @@ test_that("MV8-G stopped comparison schema failure is auditable", {
   expect_equal(unname(vapply(paths, function(path) digest::digest(
     file = path, algo = "sha256", serialize = FALSE), character(1L))),
     manifest$sha256)
+})
+
+test_that("MV8-G comparison validation representation failure is auditable", {
+  root <- testthat::test_path("..", "..")
+  evidence <- file.path(root, "docs", "audits",
+    "mv08g-comparison-validation-failure-evidence-v1")
+  failure <- read.csv(file.path(evidence,
+    "mv08g-comparison-validation-failure.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  decision <- read.csv(file.path(evidence,
+    "mv08g-comparison-validation-failure-decision.csv"),
+    stringsAsFactors = FALSE, check.names = FALSE)
+  manifest <- read.csv(file.path(evidence,
+    "mv08g-comparison-validation-failure-artifact-manifest.csv"),
+    stringsAsFactors = FALSE, check.names = FALSE)
+  expect_equal(failure$failure_class, "named_logical_attribute_mismatch")
+  expect_true(failure$selected_k_values_exact)
+  expect_equal(failure$all_components_selected_k, 2L)
+  expect_true(failure$published_agreement_values_all_true)
+  expect_false(failure$result_mismatch_observed)
+  expect_false(failure$comparison_recompute_authorized)
+  expect_equal(decision$validation_jobs_authorized, 0L)
+  expect_false(decision$raw_reprocessing_authorized)
+  paths <- file.path(evidence, manifest$file)
+  expect_equal(unname(vapply(paths, function(path) digest::digest(
+    file = path, algo = "sha256", serialize = FALSE), character(1L))),
+    manifest$sha256)
+})
+
+test_that("MV8-G repaired comparison validation has a validation-only gate", {
+  root <- testthat::test_path("..", "..")
+  text <- paste(readLines(file.path(root, "scripts",
+    "build_mv08g_comparison_validation_prefreeze.R"), warn = FALSE),
+    collapse = "\n")
+  expect_match(text, "validation_jobs_authorized = 1L", fixed = TRUE)
+  expect_match(text, "comparison_jobs_authorized = 0L", fixed = TRUE)
+  expect_match(text, "result_manifest_sha256", fixed = TRUE)
+  expect_match(text, "candidate_partition_rows = 44640L", fixed = TRUE)
+  expect_match(text, "fixed_partition_rows = 9920L", fixed = TRUE)
+  expect_match(text, "raw_reprocessing_authorized = FALSE", fixed = TRUE)
 })

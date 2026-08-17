@@ -1,0 +1,2 @@
+"contract_id","decision","comparison_jobs","elapsed_seconds","peak_process_tree_rss_bytes","result_bytes","hca_fastq_download_authorized","raw_reprocessing_authorized","label_access_authorized","biological_outcomes_computed"
+"mv08g_comparison_execution_decision_v1","comparison_complete_await_independent_reconstruction",1,62.5976293087006,173281280,7555474,FALSE,FALSE,FALSE,FALSE

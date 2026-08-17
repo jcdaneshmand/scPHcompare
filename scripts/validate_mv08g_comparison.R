@@ -7,12 +7,12 @@ for (package in c("digest", "cluster", "mclust")) {
   if (!requireNamespace(package, quietly = TRUE)) stop(package, " required.")
 }
 args <- commandArgs(trailingOnly = TRUE)
-if (length(args) != 7L) {
-  stop("usage: validate_mv08g_comparison.R PREFREEZE PRIMARY_PREFREEZE MV07H_LANDSCAPE_ROOT MV08G_LANDSCAPE_ROOT MATCHED_SHIFT_ROOT RESULT OUTPUT")
+if (length(args) != 8L) {
+  stop("usage: validate_mv08g_comparison.R PREFREEZE VALIDATION_PREFREEZE PRIMARY_PREFREEZE MV07H_LANDSCAPE_ROOT MV08G_LANDSCAPE_ROOT MATCHED_SHIFT_ROOT RESULT OUTPUT")
 }
-prefreeze <- args[[1L]]; primary <- args[[2L]]; root500 <- args[[3L]]
-root475 <- args[[4L]]; shift_root <- args[[5L]]; result <- args[[6L]]
-output <- args[[7L]]
+prefreeze <- args[[1L]]; validation_prefreeze <- args[[2L]]
+primary <- args[[3L]]; root500 <- args[[4L]]; root475 <- args[[5L]]
+shift_root <- args[[6L]]; result <- args[[7L]]; output <- args[[8L]]
 if (dir.exists(output) && length(list.files(output, all.files = TRUE,
                                              no.. = TRUE))) {
   stop("MV8-G comparison validation output must be empty.")
@@ -25,6 +25,30 @@ source("R/mv08g_panel_sensitivity.R")
 sha <- function(path) digest::digest(file = path, algo = "sha256",
                                      serialize = FALSE)
 truth <- function(value) tolower(as.character(value)) %in% c("true", "t", "1")
+validation_contract <- read.csv(file.path(validation_prefreeze,
+  "mv08g-comparison-validation-contract.csv"), stringsAsFactors = FALSE,
+  check.names = FALSE)
+validation_decision <- read.csv(file.path(validation_prefreeze,
+  "mv08g-comparison-validation-decision.csv"), stringsAsFactors = FALSE,
+  check.names = FALSE)
+validation_freeze <- read.csv(file.path(validation_prefreeze,
+  "mv08g-comparison-validation-source-freeze.csv"), stringsAsFactors = FALSE,
+  check.names = FALSE)
+execution_contract <- read.csv(file.path(prefreeze, "mv08g-comparison-contract.csv"),
+  stringsAsFactors = FALSE, check.names = FALSE)
+head <- tolower(trimws(system2("git", c("rev-parse", "HEAD"), stdout = TRUE)))
+if (nrow(validation_contract) != 1L || nrow(validation_decision) != 1L ||
+    validation_contract$validator_head != head ||
+    validation_contract$execution_head != execution_contract$accepted_head ||
+    validation_decision$decision !=
+      "authorize_one_independent_comparison_validation_after_representation_closure" ||
+    validation_decision$validation_jobs_authorized != 1L ||
+    validation_decision$comparison_jobs_authorized != 0L ||
+    any(!file.exists(validation_freeze$artifact_locator)) ||
+    any(vapply(validation_freeze$artifact_locator, sha, character(1L)) !=
+          validation_freeze$sha256)) {
+  stop("MV8-G comparison validation-only prefreeze is stale.")
+}
 same_numeric <- function(first, second, tolerance = 1e-12) {
   length(first) == length(second) && all(is.finite(first)) && all(is.finite(second)) &&
     all(abs(as.numeric(first) - as.numeric(second)) <= tolerance *
@@ -33,7 +57,10 @@ same_numeric <- function(first, second, tolerance = 1e-12) {
 read_result <- function(name) read.csv(file.path(result, name),
   stringsAsFactors = FALSE, check.names = FALSE)
 manifest <- read_result("mv08g-artifact-manifest.csv")
-if (nrow(manifest) != 12L || any(vapply(file.path(result, manifest$file),
+if (nrow(manifest) != 12L ||
+    sha(file.path(result, "mv08g-artifact-manifest.csv")) !=
+      validation_contract$result_manifest_sha256 ||
+    any(vapply(file.path(result, manifest$file),
   sha, character(1L)) != manifest$sha256) || any(truth(manifest$contains_expression)) ||
   any(truth(manifest$contains_cell_barcode)) ||
   any(truth(manifest$contains_absolute_private_path)) ||
@@ -228,7 +255,8 @@ recomputed_k_agreement <- vapply(k_agreement$component_id, function(component) {
       reconstructed_selection$component_id == component]
   first == second
 }, logical(1L))
-if (!identical(truth(k_agreement$exact_k_agreement), recomputed_k_agreement)) {
+if (!identical(unname(truth(k_agreement$exact_k_agreement)),
+               unname(recomputed_k_agreement))) {
   stop("MV8-G selected-k agreement did not reproduce.")
 }
 recomputed_pam_ari <- vapply(seq_len(nrow(pam_agreement)), function(index) {

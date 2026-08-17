@@ -1,0 +1,8 @@
+"contract_id","category","passed","detail"
+"mv08g_comparison_prefreeze_acceptance_v1","landscape_closure",TRUE,"40 groups, eight repeats, 24 oracles exact"
+"mv08g_comparison_prefreeze_acceptance_v1","comparison_families",TRUE,"eight frozen comparison families"
+"mv08g_comparison_prefreeze_acceptance_v1","thresholds",TRUE,"0.95, 0.80, 0.80 planning thresholds"
+"mv08g_comparison_prefreeze_acceptance_v1","row_scope",TRUE,"complete candidate and fixed partition evidence"
+"mv08g_comparison_prefreeze_acceptance_v1","resources",TRUE,"one bounded zero-retry job"
+"mv08g_comparison_prefreeze_acceptance_v1","label_firewall",TRUE,"sample identities only; labels outcomes closed"
+"mv08g_comparison_prefreeze_acceptance_v1","stop_boundary",TRUE,"comparison only; HCA raw reads remain closed"

@@ -1,0 +1,2 @@
+"contract_id","decision","comparison_jobs_authorized","hca_expression_jobs_authorized","hca_fastq_download_authorized","raw_reprocessing_authorized","label_access_authorized","next_gate"
+"mv08g_comparison_prefreeze_decision_v1","authorize_one_label_closed_comparison_job",1,0,FALSE,FALSE,FALSE,"MV8-G_independent_comparison_reconstruction_and_raw_read_decision"

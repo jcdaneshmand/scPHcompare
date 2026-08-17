@@ -1,0 +1,2 @@
+"contract_id","job_id","disposition","exit_status","elapsed_seconds","peak_process_tree_rss_bytes","elapsed_cap_seconds","rss_cap_bytes","result_bytes","storage_cap_bytes","result_manifest_sha256","workers","retries","outcome_label_state","biological_outcomes_computed"
+"mv08g_comparison_resource_metric_v1","comparison","completed",0,62.5976293087006,173281280,3600,8589934592,7555474,2147483648,"98c19b9ff9ea95e3c69e943de30fffc47ab75567679ecfacba196343dd6e7552",1,0,"closed",FALSE
