@@ -283,6 +283,51 @@ test_that("MV8-G PH validation opens only a landscape prefreeze", {
   expect_match(text, "hca_fastq_download_authorized = FALSE", fixed = TRUE)
 })
 
+test_that("published MV8-G common475 PH closure is exact and label closed", {
+  root <- testthat::test_path("..", "..", "docs", "audits")
+  execution <- file.path(root, "mv08g-ph-execution-v2")
+  validation <- file.path(root, "mv08g-ph-validation-v2")
+  metric <- read.csv(file.path(execution, "mv08g-ph-metrics.csv"),
+                     stringsAsFactors = FALSE, check.names = FALSE)
+  repeats <- read.csv(file.path(execution, "mv08g-ph-repeat-validation.csv"),
+                      stringsAsFactors = FALSE, check.names = FALSE)
+  summary <- read.csv(file.path(validation, "mv08g-ph-validation-summary.csv"),
+                      stringsAsFactors = FALSE, check.names = FALSE)
+  decision <- read.csv(file.path(validation, "mv08g-ph-validation-decision.csv"),
+                       stringsAsFactors = FALSE, check.names = FALSE)
+  manifest <- read.csv(file.path(validation,
+    "mv08g-ph-validation-artifact-manifest.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  expect_equal(nrow(metric), 1240L)
+  expect_equal(sum(metric$view_id == "cell_topology_v1"), 620L)
+  expect_equal(sum(metric$view_id == "gene_topology_v1"), 620L)
+  expect_equal(sum(metric$ph_engine == "ripserr"), 1239L)
+  expect_equal(sum(metric$ph_engine == "TDA_ripsDiag_GUDHI"), 1L)
+  expect_true(all(metric$disposition == "completed"))
+  expect_equal(nrow(repeats), 4L)
+  expect_true(all(repeats$byte_identical))
+  expect_equal(summary$ph_records, 1240L)
+  expect_equal(summary$finite_h0_intervals, 531340L)
+  expect_equal(summary$finite_h1_intervals, 881613L)
+  expect_equal(summary$mst_oracles_passed, 1240L)
+  expect_true(summary$fallback_policy_exact)
+  expect_true(summary$all_resource_caps_passed)
+  expect_equal(decision$decision,
+    "full_PH_exact_authorize_landscape_execution_prefreeze_only")
+  expect_equal(decision$landscape_jobs_authorized, 0L)
+  expect_false(decision$hca_fastq_download_authorized)
+  expect_false(decision$raw_reprocessing_authorized)
+  expect_false(decision$label_access_authorized)
+  expect_false(any(manifest$contains_expression))
+  expect_false(any(manifest$contains_cell_barcode))
+  expect_false(any(manifest$contains_absolute_private_path))
+  expect_false(any(manifest$contains_biological_label))
+  paths <- file.path(validation, manifest$file)
+  expect_equal(unname(vapply(paths, function(path) digest::digest(
+    file = path, algo = "sha256", serialize = FALSE), character(1L))),
+    manifest$sha256)
+})
+
 test_that("MV8-G landscape prefreeze retains all levels and exact oracles", {
   path <- testthat::test_path("..", "..", "scripts",
                               "build_mv08g_landscape_prefreeze.R")

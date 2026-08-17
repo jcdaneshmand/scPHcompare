@@ -1,0 +1,4 @@
+"contract_id","file","bytes","sha256","contains_expression","contains_cell_barcode","contains_absolute_private_path","contains_biological_label"
+"mv08g_ph_validation_artifact_manifest_v1","mv08g-ph-independent-validation.csv",357635,"4046ff72d0cc82786566f843f165157e011168e95d68fdc56b5542880a9bbe7b",FALSE,FALSE,FALSE,FALSE
+"mv08g_ph_validation_artifact_manifest_v1","mv08g-ph-validation-summary.csv",393,"1a32e1b2dbb8ed741577575a89915801da4a49f1cc9998c1eb4f688084218092",FALSE,FALSE,FALSE,FALSE
+"mv08g_ph_validation_artifact_manifest_v1","mv08g-ph-validation-decision.csv",488,"23d7c3e5209aa1c309cb36ea283035e2e05b258f8dcb92491104f65e399cd71a",FALSE,FALSE,FALSE,FALSE

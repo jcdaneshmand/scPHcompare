@@ -1,0 +1,2 @@
+"contract_id","primary_engine","eligible_view_id","eligible_primary_disposition","fallback_engine","mathematical_estimand","fallback_elapsed_cap_seconds","fallback_rss_cap_bytes","fallback_workers","fallback_attempts","selected_engine_repeat_required","outcome_label_state","biological_outcomes_computed"
+"mv08g_exact_ph_resource_fallback_v1","ripserr","gene_topology_v1","rss_cap_exceeded","TDA_ripsDiag_GUDHI","complete_vietoris_rips_H0_H1_field_2_threshold_minus_1",1800,12884901888,1,1,TRUE,"closed",FALSE

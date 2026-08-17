@@ -1,0 +1,5 @@
+"contract_id","repeat_order","seed","sample_id","view_id","repeat_basis","outcome_label_state","biological_outcomes_computed"
+"mv08g_ph_repeat_queue_v1",1,20260805,"SRA550660_SRS2089635","cell_topology_v1","prospective_lexicographic_axis_extremes_balanced_by_view","closed",FALSE
+"mv08g_ph_repeat_queue_v1",2,20260805,"SRA550660_SRS2089635","gene_topology_v1","prospective_lexicographic_axis_extremes_balanced_by_view","closed",FALSE
+"mv08g_ph_repeat_queue_v1",3,20260809,"SRA850958_SRS4386113","cell_topology_v1","prospective_lexicographic_axis_extremes_balanced_by_view","closed",FALSE
+"mv08g_ph_repeat_queue_v1",4,20260809,"SRA850958_SRS4386113","gene_topology_v1","prospective_lexicographic_axis_extremes_balanced_by_view","closed",FALSE

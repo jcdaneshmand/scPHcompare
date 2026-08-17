@@ -1,0 +1,2 @@
+"contract_id","ph_records","cell_records","gene_records","finite_h0_intervals","finite_h1_intervals","mst_oracles_passed","ripserr_selected_records","gudhi_selected_records","fallback_policy_exact","exact_repeats","all_resource_caps_passed","outcome_label_state","biological_outcomes_computed"
+"mv08g_ph_validation_summary_v1",1240,620,620,531340,881613,1240,1239,1,TRUE,4,TRUE,"closed",FALSE

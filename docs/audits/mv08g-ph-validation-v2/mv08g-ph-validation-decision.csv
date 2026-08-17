@@ -1,0 +1,2 @@
+"contract_id","decision","ph_records_exact","ph_repeats_exact","landscape_jobs_authorized","prospective_landscape_groups","matched_shift_jobs_authorized","prospective_matched_shift_groups","comparison_jobs_authorized","hca_fastq_download_authorized","raw_reprocessing_authorized","label_access_authorized","next_gate"
+"mv08g_ph_validation_decision_v1","full_PH_exact_authorize_landscape_execution_prefreeze_only",1240,4,0,20,0,20,0,FALSE,FALSE,FALSE,"MV8-G_landscape_execution_prefreeze"

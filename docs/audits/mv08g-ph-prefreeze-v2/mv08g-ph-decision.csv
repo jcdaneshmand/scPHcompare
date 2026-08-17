@@ -1,0 +1,2 @@
+"contract_id","decision","ph_jobs_authorized","ph_repeat_jobs_authorized","gene_fallback_attempts_authorized_only_after_rss_cap","landscape_jobs_authorized","matched_shift_jobs_authorized","comparison_jobs_authorized","hca_fastq_download_authorized","raw_reprocessing_authorized","label_access_authorized","next_gate"
+"mv08g_ph_prefreeze_decision_v1","authorize_1240_PH_jobs_and_four_selected_engine_repeats",1240,4,1,0,0,0,FALSE,FALSE,FALSE,"MV8-G_full_PH_independent_validation"
