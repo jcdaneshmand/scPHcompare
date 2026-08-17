@@ -194,7 +194,8 @@ testthat::test_that("MV8-H closes the exact Ensembl-93 input before Cell Ranger"
   testthat::expect_equal(identity$observed_bytes, 881214682)
   testthat::expect_identical(identity$observed_sha256,
     "2a27436d44f0d6350f86894fbe5edec56faa5467028879784508041562406aa0")
-  testthat::expect_identical(identity$observed_bsd_sum, "07119")
+  testthat::expect_identical(sprintf("%05d", identity$observed_bsd_sum),
+    "07119")
   testthat::expect_equal(identity$observed_bsd_blocks, 860562L)
   testthat::expect_true(identity$gzip_integrity)
   testthat::expect_true(identity$all_identity_gates_passed)
