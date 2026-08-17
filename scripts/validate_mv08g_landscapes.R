@@ -13,7 +13,10 @@ if (length(args) != 10L) {
 prefreeze <- args[[1L]]; validation_prefreeze <- args[[2L]]
 ph475 <- args[[3L]]; ph500 <- args[[4L]]
 private_root <- args[[5L]]; execution <- args[[6L]]
-python <- normalizePath(args[[7L]], winslash = "/", mustWork = TRUE)
+python_arg <- args[[7L]]
+python <- file.path(normalizePath(dirname(python_arg), winslash = "/",
+                                  mustWork = TRUE), basename(python_arg))
+if (!file.exists(python)) stop("MV8-G Python launcher does not exist.")
 persim_engine <- normalizePath(args[[8L]], winslash = "/", mustWork = TRUE)
 private_oracle <- args[[9L]]; output <- args[[10L]]
 if ((dir.exists(output) && length(list.files(output, all.files = TRUE,
@@ -35,6 +38,15 @@ source("R/landscape_reference.R")
 sha <- function(path) digest::digest(file = path, algo = "sha256",
                                      serialize = FALSE)
 truth <- function(value) tolower(as.character(value)) %in% c("true", "t", "1")
+probe_output <- suppressWarnings(system2(python, c(
+  "scripts/probe_mv08g_persim_environment.py",
+  "--engine-source", shQuote(persim_engine)), stdout = TRUE, stderr = TRUE))
+probe_status <- attr(probe_output, "status")
+if (!is.null(probe_status) || length(probe_output) != 2L) {
+  stop("MV8-G Python/Persim environment probe failed.")
+}
+probe <- read.csv(text = paste(probe_output, collapse = "\n"),
+                  stringsAsFactors = FALSE, check.names = FALSE)
 validation_contract <- read.csv(file.path(validation_prefreeze,
   "mv08g-landscape-validation-repair-contract.csv"), stringsAsFactors = FALSE,
   check.names = FALSE)
@@ -47,10 +59,16 @@ validation_freeze <- read.csv(file.path(validation_prefreeze,
 head <- tolower(trimws(system2("git", c("rev-parse", "HEAD"), stdout = TRUE)))
 if (nrow(validation_contract) != 1L || nrow(validation_decision) != 1L ||
     validation_contract$validator_head != head ||
-    validation_contract$python_executable_sha256 != sha(python) ||
+    validation_contract$python_launcher_sha256 != sha(python) ||
     validation_contract$persim_engine_sha256 != sha(persim_engine) ||
+    probe$environment_name != validation_contract$python_environment_name ||
+    probe$python_version != validation_contract$python_version ||
+    probe$persim_version != validation_contract$persim_version ||
+    probe$persim_init_sha256 != validation_contract$persim_init_sha256 ||
+    probe$numpy_version != validation_contract$numpy_version ||
+    !truth(probe$engine_import_passed) ||
     validation_decision$decision !=
-      "authorize_one_independent_landscape_validation_after_helper_closure" ||
+      "authorize_one_independent_landscape_validation_after_environment_closure" ||
     validation_decision$validation_jobs_authorized != 1L ||
     validation_decision$landscape_execution_jobs_authorized != 0L ||
     any(!file.exists(validation_freeze$artifact_locator)) ||

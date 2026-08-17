@@ -7,7 +7,10 @@ if (length(args) != 7L) {
   stop("usage: build_mv08g_landscape_validation_prefreeze.R EXECUTION_PREFREEZE EXECUTION_EVIDENCE PYTHON PERSIM_ENGINE OUTPUT EXPECTED_EXECUTION_HEAD EXPECTED_VALIDATOR_HEAD")
 }
 prefreeze <- args[[1L]]; execution <- args[[2L]]
-python <- normalizePath(args[[3L]], winslash = "/", mustWork = TRUE)
+python_arg <- args[[3L]]
+python <- file.path(normalizePath(dirname(python_arg), winslash = "/",
+                                  mustWork = TRUE), basename(python_arg))
+if (!file.exists(python)) stop("MV8-G Python launcher does not exist.")
 persim_engine <- normalizePath(args[[4L]], winslash = "/", mustWork = TRUE)
 output <- args[[5L]]; expected_execution_head <- tolower(trimws(args[[6L]]))
 expected_validator_head <- tolower(trimws(args[[7L]]))
@@ -22,6 +25,21 @@ if (dir.exists(output) && length(list.files(output, all.files = TRUE,
 source("R/provenance_utils.R")
 sha <- function(path) digest::digest(file = path, algo = "sha256",
                                      serialize = FALSE)
+probe_script <- "scripts/probe_mv08g_persim_environment.py"
+probe_output <- suppressWarnings(system2(python, c(
+  probe_script, "--engine-source", shQuote(persim_engine)),
+  stdout = TRUE, stderr = TRUE))
+probe_status <- attr(probe_output, "status")
+if (!is.null(probe_status) || length(probe_output) != 2L) {
+  stop("MV8-G Python/Persim environment probe failed.")
+}
+probe <- read.csv(text = paste(probe_output, collapse = "\n"),
+                  stringsAsFactors = FALSE, check.names = FALSE)
+expected_environment <- basename(dirname(dirname(python)))
+if (nrow(probe) != 1L || probe$environment_name != expected_environment ||
+    !isTRUE(as.logical(probe$engine_import_passed))) {
+  stop("MV8-G Python/Persim environment probe is not launcher-closed.")
+}
 execution_contract_path <- file.path(prefreeze, "mv08g-landscape-contract.csv")
 execution_decision_path <- file.path(execution, "mv08g-landscape-decision.csv")
 execution_contract <- read.csv(execution_contract_path, stringsAsFactors = FALSE,
@@ -43,6 +61,7 @@ implementation_paths <- c(
   "R/mv08g_panel_sensitivity.R", "R/landscape_contract.R",
   "R/landscape_reference.R", "scripts/validate_mv08g_landscapes.R",
   "scripts/validate_mv08g_persim_oracles.py",
+  "scripts/probe_mv08g_persim_environment.py",
   "scripts/mv05d4_landscape_group.py",
   "scripts/build_mv08g_landscape_validation_prefreeze.R",
   "tests/testthat/test-mv08g-panel-sensitivity.R")
@@ -64,11 +83,17 @@ implementation_root <- digest::digest(data.frame(
   validator_head = expected_validator_head, stringsAsFactors = FALSE),
   algo = "sha256", serialize = TRUE)
 contract <- data.frame(
-  contract_id = "mv08g_landscape_validation_repair_prefreeze_v1",
+  contract_id = "mv08g_landscape_validation_environment_prefreeze_v2",
   execution_head = expected_execution_head,
   validator_head = expected_validator_head,
   implementation_root_sha256 = implementation_root,
-  python_executable_sha256 = sha(python),
+  python_launcher_sha256 = sha(python),
+  python_environment_name = probe$environment_name,
+  python_version = probe$python_version,
+  persim_version = probe$persim_version,
+  persim_init_sha256 = probe$persim_init_sha256,
+  numpy_version = probe$numpy_version,
+  engine_import_passed = probe$engine_import_passed,
   persim_engine_sha256 = sha(persim_engine),
   completed_execution_groups = 40L, completed_execution_repeats = 8L,
   validation_jobs = 1L, r_oracles = 12L, persim_oracles = 12L,
@@ -77,7 +102,7 @@ contract <- data.frame(
   outcome_label_state = "closed", biological_outcomes_computed = FALSE,
   stringsAsFactors = FALSE)
 freeze <- data.frame(
-  contract_id = "mv08g_landscape_validation_repair_source_freeze_v1",
+  contract_id = "mv08g_landscape_validation_environment_source_freeze_v2",
   source_id = names(all_paths), artifact_locator = unname(all_paths),
   sha256 = vapply(all_paths, sha, character(1L)),
   bytes = as.numeric(file.info(all_paths)$size),
@@ -85,13 +110,13 @@ freeze <- data.frame(
   validator_head = expected_validator_head, private_source = FALSE,
   stringsAsFactors = FALSE)
 decision <- data.frame(
-  contract_id = "mv08g_landscape_validation_repair_decision_v1",
+  contract_id = "mv08g_landscape_validation_environment_decision_v2",
   decision =
-    "authorize_one_independent_landscape_validation_after_helper_closure",
+    "authorize_one_independent_landscape_validation_after_environment_closure",
   validation_jobs_authorized = 1L, landscape_execution_jobs_authorized = 0L,
   comparison_jobs_authorized = 0L, hca_fastq_download_authorized = FALSE,
   raw_reprocessing_authorized = FALSE, label_access_authorized = FALSE,
-  next_gate = "MV8-G_landscape_independent_R_Persim_validation",
+  next_gate = "MV8-G_landscape_independent_R_Persim_validation_v4",
   stringsAsFactors = FALSE)
 dir.create(output, recursive = TRUE, showWarnings = FALSE)
 write_provenance_csv(contract, file.path(output,
@@ -100,4 +125,4 @@ write_provenance_csv(freeze, file.path(output,
   "mv08g-landscape-validation-repair-source-freeze.csv"))
 write_provenance_csv(decision, file.path(output,
   "mv08g-landscape-validation-repair-decision.csv"))
-message("MV8-G landscape validation helper closure prefreeze passed")
+message("MV8-G landscape validation environment closure prefreeze passed")

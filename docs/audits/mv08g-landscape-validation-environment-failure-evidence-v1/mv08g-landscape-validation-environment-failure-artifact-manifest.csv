@@ -1,0 +1,4 @@
+"contract_id","file","bytes","sha256","contains_expression","contains_cell_barcode","contains_absolute_private_path","contains_biological_label"
+"mv08g_landscape_validation_environment_failure_artifact_manifest_v1","mv08g-landscape-validation-environment-failure.csv",1096,"777fcfb644bfe499e382721b24582ac6bdae5c0ce211a152e2aa872e5d656edd",FALSE,FALSE,FALSE,FALSE
+"mv08g_landscape_validation_environment_failure_artifact_manifest_v1","mv08g-landscape-validation-environment-failure-decision.csv",468,"d6a38a57c66fd449d0a453af44e1288e8ada42511cc0985efaf6eec4043486f2",FALSE,FALSE,FALSE,FALSE
+"mv08g_landscape_validation_environment_failure_artifact_manifest_v1","mv08g-landscape-r-oracles-partial.csv",5060,"5a055ff48ca1f84a08d70919e3aa7e549184f44bbdfe0e80a58c5a152618d3d7",FALSE,FALSE,FALSE,FALSE

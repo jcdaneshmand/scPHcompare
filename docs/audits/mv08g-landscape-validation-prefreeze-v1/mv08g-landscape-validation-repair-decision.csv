@@ -1,0 +1,2 @@
+"contract_id","decision","validation_jobs_authorized","landscape_execution_jobs_authorized","comparison_jobs_authorized","hca_fastq_download_authorized","raw_reprocessing_authorized","label_access_authorized","next_gate"
+"mv08g_landscape_validation_repair_decision_v1","authorize_one_independent_landscape_validation_after_helper_closure",1,0,0,FALSE,FALSE,FALSE,"MV8-G_landscape_independent_R_Persim_validation"
