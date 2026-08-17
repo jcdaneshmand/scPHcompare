@@ -1,0 +1,5 @@
+"contract_id","file","bytes","sha256","contains_expression","contains_cell_barcode","contains_absolute_private_path"
+"mv08f_cache_recovery_artifact_manifest_v1","mv08f-raw-recovery.csv",48736,"b69c803dea2c9964ca611db534be9db82e9c1ea6a5930bda764e977ffb933399",FALSE,FALSE,FALSE
+"mv08f_cache_recovery_artifact_manifest_v1","mv08f-recovered-cache-validation.csv",217607,"2937f7223082446f02a6f4adfa731c431ea44afa4c7e8d71cd33d046ce40e330",FALSE,FALSE,FALSE
+"mv08f_cache_recovery_artifact_manifest_v1","mv08f-recovery-resource-summary.csv",424,"92cc3ea8a4af43bbd6d31ed9156e2f0f11e052c085bf93e924fdd4ebebe10753",FALSE,FALSE,FALSE
+"mv08f_cache_recovery_artifact_manifest_v1","mv08f-recovery-decision.csv",466,"5d7b56e6ac96c179b29ec7b16cc6237ebfa88d9e3168070154dc80f4e3f0ce07",FALSE,FALSE,FALSE

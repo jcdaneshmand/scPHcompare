@@ -1,2 +1,6 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Audit manifests contain byte-level SHA-256 identities; keep their CSV bytes
+# stable across Windows and Unix checkouts.
+docs/audits/**/*.csv text eol=lf

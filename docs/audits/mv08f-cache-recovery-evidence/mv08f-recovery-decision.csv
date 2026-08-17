@@ -1,0 +1,2 @@
+"contract_id","decision","raw_exact","sct_exact","accepted_axis_records","unexpected_cache_files","panel475_source_jobs_authorized","ph_jobs_authorized","landscape_jobs_authorized","clustering_jobs_authorized","hca_fastq_download_authorized","label_access_authorized","outcome_jobs_authorized","next_gate"
+"mv08f_cache_recovery_decision_v1","recovery_exact_authorize_475_source_prefreeze",90,450,450,0,0,0,0,0,FALSE,FALSE,0,"MV8-G_475_source_PH_landscape_prefreeze"

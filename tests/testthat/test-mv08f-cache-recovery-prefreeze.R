@@ -72,3 +72,43 @@ testthat::test_that("MV8-F published prefreeze evidence is independently closed"
   testthat::expect_equal(nrow(validation), 10L)
   testthat::expect_true(all(validation$passed))
 })
+
+testthat::test_that("MV8-F published recovery evidence closes all exact caches", {
+  evidence <- testthat::test_path("..", "..", "docs", "audits",
+    "mv08f-cache-recovery-evidence")
+  raw <- utils::read.csv(file.path(evidence, "mv08f-raw-recovery.csv"),
+    stringsAsFactors = FALSE, check.names = FALSE)
+  recovered <- utils::read.csv(file.path(evidence,
+    "mv08f-recovered-cache-validation.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  resource <- utils::read.csv(file.path(evidence,
+    "mv08f-recovery-resource-summary.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  decision <- utils::read.csv(file.path(evidence,
+    "mv08f-recovery-decision.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  manifest <- utils::read.csv(file.path(evidence,
+    "mv08f-artifact-manifest.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+
+  testthat::expect_equal(nrow(raw), 90L)
+  testthat::expect_equal(nrow(recovered), 450L)
+  testthat::expect_equal(length(unique(recovered$sample_id)), 90L)
+  testthat::expect_equal(as.integer(table(recovered$seed)), rep(90L, 5L))
+  testthat::expect_true(all(recovered$finite_payload))
+  testthat::expect_true(all(recovered$exact_identity_passed))
+  testthat::expect_true(resource$all_resource_caps_passed)
+  testthat::expect_equal(decision$decision,
+    "recovery_exact_authorize_475_source_prefreeze")
+  testthat::expect_equal(decision$unexpected_cache_files, 0L)
+  testthat::expect_false(decision$hca_fastq_download_authorized)
+  testthat::expect_false(decision$label_access_authorized)
+  testthat::expect_equal(nrow(manifest), 4L)
+  testthat::expect_false(any(manifest$contains_expression))
+  testthat::expect_false(any(manifest$contains_cell_barcode))
+  testthat::expect_false(any(manifest$contains_absolute_private_path))
+  paths <- file.path(evidence, manifest$file)
+  testthat::expect_equal(unname(vapply(paths, function(path) digest::digest(
+    file = path, algo = "sha256", serialize = FALSE), character(1L))),
+    manifest$sha256)
+})
