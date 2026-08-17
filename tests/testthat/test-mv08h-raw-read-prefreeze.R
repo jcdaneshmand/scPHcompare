@@ -132,3 +132,49 @@ testthat::test_that("MV8-H sentinel independently opens only the remaining downl
     testthat::expect_match(validator, term, fixed = TRUE)
   }
 })
+
+testthat::test_that("MV8-H complete acquisition opens only reference input validation", {
+  root <- testthat::test_path("..", "..")
+  evidence <- file.path(root, "docs", "audits", "mv08h-download-closure-v1")
+  files <- utils::read.csv(file.path(evidence,
+    "mv08h-complete-file-validation.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  summary <- utils::read.csv(file.path(evidence,
+    "mv08h-complete-summary.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  decision <- utils::read.csv(file.path(evidence,
+    "mv08h-complete-decision.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  artifacts <- utils::read.csv(file.path(evidence,
+    "mv08h-complete-artifact-manifest.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  testthat::expect_equal(nrow(files), 48L)
+  testthat::expect_identical(files$file_order, 1:48)
+  testthat::expect_true(all(files$gzip_magic))
+  testthat::expect_true(all(files$receipt_exact))
+  testthat::expect_true(all(files$passed))
+  testthat::expect_equal(summary$verified_files, 48L)
+  testthat::expect_equal(summary$expected_cache_bytes, 85034239918)
+  testthat::expect_equal(summary$observed_cache_bytes, 85034239918)
+  testthat::expect_equal(summary$remaining_manifest_bytes, 0)
+  testthat::expect_equal(summary$partial_files, 0L)
+  testthat::expect_true(summary$storage_gate_passed)
+  testthat::expect_true(summary$all_file_gates_passed)
+  testthat::expect_false(decision$remaining_fastq_download_authorized)
+  testthat::expect_true(decision$reference_input_validation_authorized)
+  testthat::expect_false(decision$mkref_authorized)
+  testthat::expect_false(decision$raw_reprocessing_authorized)
+  testthat::expect_false(decision$label_access_authorized)
+  testthat::expect_false(decision$biological_outcomes_authorized)
+  testthat::expect_true("MV08H_FASTQ_COMPLETE_CLOSURE_2026-08-17.md" %in%
+    artifacts$file)
+  testthat::expect_false(any(artifacts$contains_expression))
+  testthat::expect_false(any(artifacts$contains_cell_barcode))
+  testthat::expect_false(any(artifacts$contains_absolute_private_path))
+  testthat::expect_false(any(artifacts$contains_donor_attribute))
+  testthat::expect_false(any(artifacts$contains_outcome_label))
+  paths <- file.path(evidence, artifacts$file)
+  observed <- unname(vapply(paths, function(path) digest::digest(
+    file = path, algo = "sha256", serialize = FALSE), character(1L)))
+  testthat::expect_identical(observed, artifacts$sha256)
+})

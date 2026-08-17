@@ -1,0 +1,5 @@
+"contract_id","file","bytes","sha256","contains_expression","contains_cell_barcode","contains_absolute_private_path","contains_donor_attribute","contains_outcome_label"
+"mv08h_complete_artifact_manifest_v1","MV08H_FASTQ_COMPLETE_CLOSURE_2026-08-17.md","1358","5dfdca6c790884ac0179abd9c194235c62247b7a5ee99347bba2f9cf7974926d","FALSE","FALSE","FALSE","FALSE","FALSE"
+"mv08h_complete_artifact_manifest_v1","mv08h-complete-decision.csv","424","3348fb4be30feaf867bb0f01bf2fd107d9b7dbef490441b67435478c0d9e28ac","FALSE","FALSE","FALSE","FALSE","FALSE"
+"mv08h_complete_artifact_manifest_v1","mv08h-complete-file-validation.csv","15392","576b16059fa161b02cef7fff8e090feb64e50aaadf7f19bad5348deb68976de6","FALSE","FALSE","FALSE","FALSE","FALSE"
+"mv08h_complete_artifact_manifest_v1","mv08h-complete-summary.csv","399","df7e8df3deb25548158226bc94600e7da656842fa27fb5e40045336c2b04b6ca","FALSE","FALSE","FALSE","FALSE","FALSE"

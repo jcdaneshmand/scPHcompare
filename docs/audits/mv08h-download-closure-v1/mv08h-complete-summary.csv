@@ -1,0 +1,2 @@
+"contract_id","expected_files","verified_files","expected_cache_bytes","observed_cache_bytes","remaining_manifest_bytes","partial_files","free_bytes_at_validation","post_remaining_free_bytes","required_reserve_bytes","storage_gate_passed","all_file_gates_passed"
+"mv08h_complete_summary_v1","48","48","85034239918","85034239918","0","0","2027032043520","2027032043520","1649267441664","TRUE","TRUE"

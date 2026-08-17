@@ -1,0 +1,2 @@
+"contract_id","decision","remaining_fastq_download_authorized","reference_input_validation_authorized","mkref_authorized","raw_reprocessing_authorized","label_access_authorized","biological_outcomes_authorized","next_gate"
+"mv08h_complete_decision_v1","complete_download_exact_authorize_reference_input_validation_only","FALSE","TRUE","FALSE","FALSE","FALSE","FALSE","exact_cellranger_3_0_0_and_custom_reference_validation"
