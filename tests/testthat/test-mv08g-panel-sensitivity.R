@@ -341,6 +341,14 @@ test_that("MV8-G landscape prefreeze retains all levels and exact oracles", {
   expect_match(text, "r_oracles = 12L", fixed = TRUE)
   expect_match(text, "persim_oracles = 12L", fixed = TRUE)
   expect_match(text, "maximum_component_interval_depth", fixed = TRUE)
+  for (dependency in c("R/provenance_utils.R", "R/toy_baseline.R",
+                       "R/dual_view_topology.R", "R/mv07g_sentinel.R",
+                       "R/mv07h_full_topology.R",
+                       "R/mv08g_panel_sensitivity.R",
+                       "R/landscape_rust_prototype.R",
+                       "R/landscape_reference.R")) {
+    expect_match(text, dependency, fixed = TRUE)
+  }
 })
 
 test_that("MV8-G landscape monitor is bounded, resumable, and zero-retry", {
@@ -387,6 +395,10 @@ test_that("MV8-G comparison prefreeze fixes complete label-free scope", {
   expect_match(text, "0.95, 0.80, 0.80", fixed = TRUE)
   expect_match(text, "authorize_one_label_closed_comparison_job", fixed = TRUE)
   expect_match(text, "hca_fastq_download_authorized = FALSE", fixed = TRUE)
+  expect_match(text, "R/provenance_utils.R", fixed = TRUE)
+  expect_match(text,
+    "docs/specifications/MV08G_COMMON475_PAIRED_REFERENCE_SENSITIVITY_PREFREEZE_V2.md",
+    fixed = TRUE)
 })
 
 test_that("MV8-G comparison execution is bounded and fail-closed", {

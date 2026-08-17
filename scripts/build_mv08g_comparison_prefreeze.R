@@ -47,12 +47,14 @@ if (decision_landscape$decision !=
   stop("MV8-G landscape closure does not authorize comparison prefreeze.")
 }
 implementation_paths <- c(
-  "R/mv08g_panel_sensitivity.R", "R/mv05n_clustering_gate.R",
+  "R/provenance_utils.R", "R/mv08g_panel_sensitivity.R",
+  "R/mv05n_clustering_gate.R",
   "R/mv05_benchmark_contract.R", "scripts/run_mv08g_comparison.R",
   "scripts/run_mv08g_comparison_monitor.R",
   "scripts/validate_mv08g_comparison.R",
   "scripts/build_mv08g_comparison_prefreeze.R",
-  "tests/testthat/test-mv08g-panel-sensitivity.R")
+  "tests/testthat/test-mv08g-panel-sensitivity.R",
+  "docs/specifications/MV08G_COMMON475_PAIRED_REFERENCE_SENSITIVITY_PREFREEZE_V2.md")
 if (any(!file.exists(implementation_paths))) stop("MV8-G comparison implementation incomplete.")
 implementation_root <- digest::digest(data.frame(
   path = implementation_paths,
