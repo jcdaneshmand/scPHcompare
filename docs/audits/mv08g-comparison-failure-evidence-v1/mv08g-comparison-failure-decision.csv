@@ -1,0 +1,2 @@
+"contract_id","decision","comparison_jobs_authorized","hca_expression_jobs_authorized","hca_fastq_download_authorized","raw_reprocessing_authorized","label_access_authorized","next_gate"
+"mv08g_comparison_failure_decision_v1","require_common_fixed_partition_schema_and_new_exact_prefreeze",0,0,FALSE,FALSE,FALSE,"MV8-G_comparison_schema_repair_and_prefreeze"

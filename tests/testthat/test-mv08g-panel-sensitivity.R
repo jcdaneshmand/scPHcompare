@@ -64,6 +64,21 @@ test_that("MV8-G harmonization classification follows frozen component rules", {
                    "material_panel_sensitivity")
 })
 
+test_that("MV8-G fixed partitions share one PAM and average schema", {
+  common <- data.frame(
+    sample_id = c("a", "b"), cluster = c(1L, 2L), k = 2L,
+    outcome_label_state = "closed", biological_outcomes_computed = FALSE,
+    stringsAsFactors = FALSE)
+  pam <- common
+  pam$is_medoid <- c(TRUE, TRUE)
+  pam <- mv08g_fixed_partition_schema_v1(pam, "pam")
+  average <- mv08g_fixed_partition_schema_v1(common, "average")
+  expect_identical(names(pam), names(average))
+  expect_true(all(pam$is_medoid))
+  expect_true(all(is.na(average$is_medoid)))
+  expect_equal(nrow(rbind(pam, average)), 4L)
+})
+
 test_that("MV8-G accepts the published common-475 axis and rejects drift", {
   path <- testthat::test_path("..", "..", "docs", "audits",
     "mv08e-reference-reconciliation-evidence", "mv08e-common475-panel.csv")
@@ -592,6 +607,9 @@ test_that("MV8-G comparison execution is bounded and fail-closed", {
   expect_match(text, "Unowned or partial MV8-G comparison output", fixed = TRUE)
   expect_match(text, "comparison_complete_await_independent_reconstruction",
                fixed = TRUE)
+  expect_match(paste(readLines(testthat::test_path("..", "..", "scripts",
+    "run_mv08g_comparison.R"), warn = FALSE), collapse = "\n"),
+    "mv08g_fixed_partition_schema_v1(fits[[panel]], algorithm)", fixed = TRUE)
 })
 
 test_that("MV8-G comparison validation independently refits every partition", {
@@ -607,4 +625,33 @@ test_that("MV8-G comparison validation independently refits every partition", {
   expect_match(text, "comparison_exact_ready_for_raw_read_owner_decision",
                fixed = TRUE)
   expect_match(text, "raw_reprocessing_authorized = FALSE", fixed = TRUE)
+  expect_match(text, "mv08g_fixed_partition_schema_v1(fit, algorithm)",
+               fixed = TRUE)
+})
+
+test_that("MV8-G stopped comparison schema failure is auditable", {
+  root <- testthat::test_path("..", "..")
+  evidence <- file.path(root, "docs", "audits",
+    "mv08g-comparison-failure-evidence-v1")
+  failure <- read.csv(file.path(evidence, "mv08g-comparison-failure.csv"),
+    stringsAsFactors = FALSE, check.names = FALSE)
+  decision <- read.csv(file.path(evidence,
+    "mv08g-comparison-failure-decision.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  manifest <- read.csv(file.path(evidence,
+    "mv08g-comparison-failure-artifact-manifest.csv"),
+    stringsAsFactors = FALSE, check.names = FALSE)
+  expect_equal(failure$failure_class,
+               "heterogeneous_fixed_partition_schema")
+  expect_equal(failure$pam_only_column, "is_medoid")
+  expect_false(failure$result_mismatch_observed)
+  expect_false(failure$resource_cap_failure)
+  expect_equal(failure$accepted_result_files, 0L)
+  expect_false(failure$retry_in_place_authorized)
+  expect_equal(decision$comparison_jobs_authorized, 0L)
+  expect_false(decision$raw_reprocessing_authorized)
+  paths <- file.path(evidence, manifest$file)
+  expect_equal(unname(vapply(paths, function(path) digest::digest(
+    file = path, algo = "sha256", serialize = FALSE), character(1L))),
+    manifest$sha256)
 })

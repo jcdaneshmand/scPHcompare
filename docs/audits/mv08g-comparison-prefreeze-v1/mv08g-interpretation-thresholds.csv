@@ -1,0 +1,4 @@
+"contract_id","metric","threshold","direction","high_rule","material_rule","equivalence_test"
+"mv08g_interpretation_threshold_v1","median_spearman",0.95,"greater_than_or_equal","all_four_components_pass_all_three","any_component_misses_at_least_two_of_three",FALSE
+"mv08g_interpretation_threshold_v1","median_top10_overlap",0.8,"greater_than_or_equal","all_four_components_pass_all_three","any_component_misses_at_least_two_of_three",FALSE
+"mv08g_interpretation_threshold_v1","median_fixed_k_pam_ari",0.8,"greater_than_or_equal","all_four_components_pass_all_three","any_component_misses_at_least_two_of_three",FALSE

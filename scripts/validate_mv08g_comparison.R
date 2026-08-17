@@ -258,6 +258,7 @@ for (panel in names(matrices)) for (component in .mv08g_components) {
     matrix <- matrices[[panel]][[component]][[as.character(seed)]]
     fit <- if (algorithm == "pam") mv05n_pam_partition_v1(matrix, k500) else
       mv05n_average_partition_v1(matrix, k500)
+    fit <- mv08g_fixed_partition_schema_v1(fit, algorithm)
     fit$panel_id <- panel; fit$component_id <- component; fit$seed <- seed
     fit$algorithm <- algorithm
     reconstructed_fixed[[length(reconstructed_fixed) + 1L]] <- fit

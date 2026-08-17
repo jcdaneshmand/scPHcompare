@@ -363,6 +363,27 @@ mv08g_top_k_neighbor_overlap_v1 <- function(reference, candidate, k = 10L) {
              stringsAsFactors = FALSE)
 }
 
+mv08g_fixed_partition_schema_v1 <- function(value,
+                                             algorithm = c("pam", "average")) {
+  algorithm <- match.arg(algorithm)
+  required <- c("sample_id", "cluster", "k", "outcome_label_state",
+                "biological_outcomes_computed")
+  if (!is.data.frame(value) || !all(required %in% names(value)) ||
+      anyDuplicated(value$sample_id) || anyNA(value[c("sample_id", "cluster", "k")])) {
+    stop("MV8-G fixed partition is malformed.", call. = FALSE)
+  }
+  if (algorithm == "pam") {
+    if (!"is_medoid" %in% names(value) || anyNA(value$is_medoid)) {
+      stop("MV8-G PAM partition lacks medoid identity.", call. = FALSE)
+    }
+    value$is_medoid <- as.logical(value$is_medoid)
+  } else {
+    value$is_medoid <- rep(NA, nrow(value))
+  }
+  value[c("sample_id", "cluster", "k", "is_medoid",
+          "outcome_label_state", "biological_outcomes_computed")]
+}
+
 mv08g_harmonization_class_v1 <- function(component_summary) {
   required <- c("component_id", "median_spearman", "median_top10_overlap",
                 "median_fixed_k_pam_ari")

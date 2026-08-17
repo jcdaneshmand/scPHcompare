@@ -228,7 +228,7 @@ for (component in .mv08g_components) {
         fits$panel500$cluster, right$cluster),
       outcome_label_state = "closed", biological_outcomes_computed = FALSE)
     for (panel in names(fits)) {
-      value <- fits[[panel]]
+      value <- mv08g_fixed_partition_schema_v1(fits[[panel]], algorithm)
       value$contract_id <- "mv08g_fixed500k_partition_v1"
       value$panel_id <- panel; value$component_id <- component
       value$seed <- seed; value$algorithm <- algorithm
