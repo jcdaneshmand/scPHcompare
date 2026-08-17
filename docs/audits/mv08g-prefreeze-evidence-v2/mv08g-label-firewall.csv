@@ -1,0 +1,2 @@
+"contract_id","allowed_execution_inputs","forbidden_execution_inputs","labels_may_select","labels_may_stop","hca_expression_jobs","hca_fastq_download_jobs","raw_reprocessing_jobs","label_jobs","outcome_jobs","label_access_state"
+"mv08g_label_firewall_v1","sample_id;seed;cache_identity;selected_cell_identity;panel_identity;transform_identity;PH_identity;distance_identity","tissue;approach;study;class;label;outcome;prior_result",FALSE,FALSE,0,0,0,0,0,"closed"

@@ -1,0 +1,2 @@
+"contract_id","decision","passed_checks","total_checks","source_jobs_authorized","source_repeat_jobs_authorized","ph_jobs_authorized","hca_fastq_download_authorized","raw_reprocessing_authorized","label_access_authorized"
+"mv08g_independent_prefreeze_decision_v1","prefreeze_pass_authorize_five_source_jobs_and_one_repeat",12,12,5,1,0,FALSE,FALSE,FALSE

@@ -1,0 +1,13 @@
+"contract_id","check_id","passed"
+"mv08g_independent_prefreeze_validation_v1","recovery_gate",TRUE
+"mv08g_independent_prefreeze_validation_v1","panel_axis",TRUE
+"mv08g_independent_prefreeze_validation_v1","cache_axis",TRUE
+"mv08g_independent_prefreeze_validation_v1","source_queue",TRUE
+"mv08g_independent_prefreeze_validation_v1","ph_balance",TRUE
+"mv08g_independent_prefreeze_validation_v1","landscape_balance",TRUE
+"mv08g_independent_prefreeze_validation_v1","matched_shift_balance",TRUE
+"mv08g_independent_prefreeze_validation_v1","landscape_definition",TRUE
+"mv08g_independent_prefreeze_validation_v1","comparison_freeze",TRUE
+"mv08g_independent_prefreeze_validation_v1","threshold_freeze",TRUE
+"mv08g_independent_prefreeze_validation_v1","label_firewall",TRUE
+"mv08g_independent_prefreeze_validation_v1","authorization_boundary",TRUE

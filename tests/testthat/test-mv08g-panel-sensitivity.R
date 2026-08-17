@@ -171,6 +171,9 @@ test_that("MV8-G source validation independently opens only the PH gate", {
                               "validate_mv08g_sources.R")
   text <- paste(readLines(path, warn = FALSE), collapse = "\n")
   expect_match(text, "mv08g_validate_source_record_v1", fixed = TRUE)
+  expect_match(text, "source(\"R/mv07h_full_topology.R\")", fixed = TRUE)
+  expect_match(text, "validator_head", fixed = TRUE)
+  expect_match(text, "mv08g_source_validation_decision_v2", fixed = TRUE)
   expect_match(text, "selected_cell_axis_exact", fixed = TRUE)
   expect_match(text, "common475_axis_exact", fixed = TRUE)
   expect_match(text, "source_exact_authorize_PH_execution_prefreeze_only",

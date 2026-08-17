@@ -1,0 +1,2 @@
+"contract_id","decision","source_jobs","source_repeat_jobs","typed_views","aggregate_elapsed_seconds","maximum_process_tree_rss_bytes","ph_jobs_authorized","hca_fastq_download_authorized","raw_reprocessing_authorized","label_access_authorized","biological_outcomes_computed"
+"mv08g_source_execution_decision_v1","source_complete_await_independent_validation",5,1,1240,1399.78496360779,2008600576,0,FALSE,FALSE,FALSE,FALSE

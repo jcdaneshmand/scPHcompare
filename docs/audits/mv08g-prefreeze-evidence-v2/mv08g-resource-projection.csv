@@ -1,0 +1,6 @@
+"contract_id","component","projected_worker_hours","basis"
+"mv08g_resource_projection_v1","source_and_PH",6,"accepted_MV7H_measured_plus_margin"
+"mv08g_resource_projection_v1","within475_landscapes",1.25,"accepted_MV7H_landscape_measured_plus_margin"
+"mv08g_resource_projection_v1","matched_shifts",0.25,"row_scaled_landscape_plus_margin"
+"mv08g_resource_projection_v1","comparisons",0.5,"bounded_4_component_summary"
+"mv08g_resource_projection_v1","total",8,"sum_of_conservative_components"

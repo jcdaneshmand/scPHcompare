@@ -19,7 +19,13 @@ source("R/provenance_utils.R")
 source("R/toy_baseline.R")
 source("R/dual_view_topology.R")
 source("R/mv07g_sentinel.R")
+source("R/mv07h_full_topology.R")
 source("R/mv08g_panel_sensitivity.R")
+validator_head <- tolower(trimws(system2(
+  "git", c("rev-parse", "HEAD"), stdout = TRUE)))
+if (!grepl("^[0-9a-f]{40}$", validator_head)) {
+  stop("MV8-G source validator commit identity is unavailable.")
+}
 sha <- function(path) digest::digest(file = path, algo = "sha256",
                                      serialize = FALSE)
 truth <- function(value) tolower(as.character(value)) %in% c("true", "t", "1")
@@ -77,7 +83,8 @@ for (index in seq_len(nrow(queue))) {
   }
   total_views <- total_views + view_counts[.mv08g_views]
   rows[[index]] <- data.frame(
-    contract_id = "mv08g_source_independent_validation_v1", seed = seed,
+    contract_id = "mv08g_source_independent_validation_v2",
+    validator_head = validator_head, seed = seed,
     source_sha256 = sha(path), source_bytes = as.numeric(file.info(path)$size),
     source_cache_key = record$cache_key, samples = length(record$views),
     panel_genes = nrow(record$panel), fit_cells = record$identity$fit_cells,
@@ -97,7 +104,8 @@ if (nrow(validated) != 5L || sum(total_views) != 1240L ||
   stop("MV8-G independent source validation is incomplete.")
 }
 summary <- data.frame(
-  contract_id = "mv08g_source_validation_summary_v1",
+  contract_id = "mv08g_source_validation_summary_v2",
+  validator_head = validator_head,
   source_jobs = nrow(validated), source_repeat_jobs = 1L,
   samples_per_seed = 124L, typed_views = sum(total_views),
   cell_views = unname(total_views[["cell_topology_v1"]]),
@@ -109,7 +117,8 @@ summary <- data.frame(
   outcome_label_state = "closed", biological_outcomes_computed = FALSE,
   stringsAsFactors = FALSE)
 decision <- data.frame(
-  contract_id = "mv08g_source_validation_decision_v1",
+  contract_id = "mv08g_source_validation_decision_v2",
+  validator_head = validator_head,
   decision = "source_exact_authorize_PH_execution_prefreeze_only",
   source_jobs_exact = 5L, source_repeat_jobs_exact = 1L,
   ph_jobs_authorized = 0L, prospective_ph_jobs = 1240L,
@@ -128,7 +137,7 @@ paths <- vapply(names(outputs), function(name) {
   path <- file.path(output, name); write_provenance_csv(outputs[[name]], path); path
 }, character(1L))
 artifact_manifest <- data.frame(
-  contract_id = "mv08g_source_validation_artifact_manifest_v1",
+  contract_id = "mv08g_source_validation_artifact_manifest_v2",
   file = basename(paths), bytes = as.numeric(file.info(paths)$size),
   sha256 = vapply(paths, sha, character(1L)), contains_expression = FALSE,
   contains_cell_barcode = FALSE, contains_absolute_private_path = FALSE,
