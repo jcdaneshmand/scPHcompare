@@ -1,0 +1,8 @@
+"contract_id","step_order","step_id","frozen_value","status","execution_authorized"
+"mv08h_processing_contract_v1","1","counter_runtime","Cell Ranger 3.0.0 exact binary distribution","selected_not_installed","FALSE"
+"mv08h_processing_contract_v1","2","chemistry","SC3Pv2; paired_end=false; lanes L002,L003; I1/R1/R2 retained","frozen_from_official_metadata","FALSE"
+"mv08h_processing_contract_v1","3","mkref","cellranger mkref --genome=GRCh38_Ensembl93_target_complete_33563 --fasta=<verified Ensembl93 primary assembly> --genes=<verified target-complete GTF> --nthreads=16 --memgb=64","blocked_on_fasta_and_runtime_validation","FALSE"
+"mv08h_processing_contract_v1","4","count","one unit at a time: cellranger count --id=<unit_id> --transcriptome=<verified custom reference> --fastqs=<verified unit FASTQs> --sample=MantonBM<unit>_HiSeq_9 --chemistry=SC3Pv2 --expect-cells=7000 --localcores=16 --localmem=64 --nosecondary","blocked_until_download_closure_and_runtime_reference_validation","FALSE"
+"mv08h_processing_contract_v1","5","qc","reuse docs/specifications/mv08d-hca-qc-contract-v1.csv exactly","frozen","FALSE"
+"mv08h_processing_contract_v1","6","cell_selection","sort post-QC barcodes; select 384 without replacement for seeds 20260805:20260809 using select_matched_cells","frozen","FALSE"
+"mv08h_processing_contract_v1","7","topology","exact ordered 500; cell_topology_v1 and gene_topology_v1; complete VR H0/H1; every active landscape level; exact/error-controlled squared L2; no fixed grid or level cap; H0/H1 separate; essential H0 excluded","frozen_unchanged","FALSE"

@@ -1,0 +1,2 @@
+"contract_id","decision","biological_units","fastq_files","fastq_bytes","fastq_gib","sentinel_files_first","download_authorized","reference_download_authorized","mkref_authorized","raw_reprocessing_authorized","pca_ph_landscape_authorized","label_access_authorized","biological_outcomes_authorized","next_gate"
+"mv08h_prefreeze_decision_v1","authorize_exact_48_file_download_only","8","48","85034239918","79.194307","1","TRUE","TRUE","FALSE","FALSE","FALSE","FALSE","FALSE","verified_48_file_download_closure_then_exact_runtime_reference_validation"

@@ -1,0 +1,5 @@
+"contract_id","source_order","source_id","locator","bytes","sha256","access_class","contains_expression","contains_donor_identifiers","published"
+"mv08h_source_manifest_v1","1","official_hca_fastq_compact_manifest","https://service.azul.data.humancellatlas.org/fetch/manifest/files; dcp60; frozen MV8-H filters","73629","ddd70432d3f19a4b8cb6a7253a9860e91661c21c8863df75082d02641249e327","private_local_metadata_hash_only","FALSE","TRUE","FALSE"
+"mv08h_source_manifest_v1","2","published_fastq_manifest","mv08h-fastq-manifest.csv","31875","b315e097ef9b2f8cf1cad31cda08c4a440919641f9fff1674cf09e86928b2136","public_file_identity_metadata","FALSE","FALSE","TRUE"
+"mv08h_source_manifest_v1","3","ensembl93_gtf","official archive URL in reference contract","42921931","810e3bb63bb24bd5a005b14397d69280dda34c41a612fb86a18f3c4836fce57d","public_reference","FALSE","FALSE","FALSE"
+"mv08h_source_manifest_v1","4","ensembl93_fasta_checksums","https://ftp.ensembl.org/pub/release-93/fasta/homo_sapiens/dna/CHECKSUMS","5010","d0cd8313040eebcb42db28360477278579ed1e7b14aef0d6b119626f53c12c11","public_reference_metadata","FALSE","FALSE","FALSE"

@@ -1,0 +1,2 @@
+"contract_id","decision","checks_passed","checks_total","fastq_download_authorized","raw_reprocessing_authorized","labels_opened","outcomes_computed","next_gate"
+"mv08h_validation_decision_v1","prefreeze_exact_authorize_one_file_sentinel_then_resumable_48_file_download","13","13","TRUE","FALSE","FALSE","FALSE","sentinel_checksum_then_complete_download_checksum_closure"
