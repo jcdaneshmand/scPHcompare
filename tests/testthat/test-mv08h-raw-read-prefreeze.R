@@ -178,3 +178,49 @@ testthat::test_that("MV8-H complete acquisition opens only reference input valid
     file = path, algo = "sha256", serialize = FALSE), character(1L)))
   testthat::expect_identical(observed, artifacts$sha256)
 })
+
+testthat::test_that("MV8-H closes the exact Ensembl-93 input before Cell Ranger", {
+  root <- testthat::test_path("..", "..")
+  evidence <- file.path(root, "docs", "audits", "mv08h-reference-input-v1")
+  identity <- utils::read.csv(file.path(evidence,
+    "mv08h-reference-input-identity.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  decision <- utils::read.csv(file.path(evidence,
+    "mv08h-reference-input-decision.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  artifacts <- utils::read.csv(file.path(evidence,
+    "mv08h-reference-input-artifact-manifest.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  testthat::expect_equal(identity$observed_bytes, 881214682)
+  testthat::expect_identical(identity$observed_sha256,
+    "2a27436d44f0d6350f86894fbe5edec56faa5467028879784508041562406aa0")
+  testthat::expect_identical(identity$observed_bsd_sum, "07119")
+  testthat::expect_equal(identity$observed_bsd_blocks, 860562L)
+  testthat::expect_true(identity$gzip_integrity)
+  testthat::expect_true(identity$all_identity_gates_passed)
+  testthat::expect_true(decision$reference_input_identity_closed)
+  testthat::expect_false(decision$cellranger_acquisition_authorized)
+  testthat::expect_false(decision$cellranger_runtime_validated)
+  testthat::expect_false(decision$mkref_authorized)
+  testthat::expect_false(decision$raw_reprocessing_authorized)
+  testthat::expect_false(decision$label_access_authorized)
+  testthat::expect_false(decision$biological_outcomes_authorized)
+  testthat::expect_true("MV08H_ENSEMBL93_REFERENCE_INPUT_CLOSURE_2026-08-17.md" %in%
+    artifacts$file)
+  testthat::expect_false(any(artifacts$contains_expression))
+  testthat::expect_false(any(artifacts$contains_cell_barcode))
+  testthat::expect_false(any(artifacts$contains_absolute_private_path))
+  testthat::expect_false(any(artifacts$contains_donor_attribute))
+  testthat::expect_false(any(artifacts$contains_outcome_label))
+  paths <- file.path(evidence, artifacts$file)
+  observed <- unname(vapply(paths, function(path) digest::digest(
+    file = path, algo = "sha256", serialize = FALSE), character(1L)))
+  testthat::expect_identical(observed, artifacts$sha256)
+  validator <- paste(readLines(file.path(root, "scripts",
+    "validate_mv08h_reference_input.py"), warn = FALSE), collapse = "\n")
+  for (term in c("EXPECTED_FASTA_SHA256", "EXPECTED_BSD_SUM",
+                 "validate_gzip", "cellranger_acquisition_authorized",
+                 "stop_before_runtime_or_mkref")) {
+    testthat::expect_match(validator, term, fixed = TRUE)
+  }
+})

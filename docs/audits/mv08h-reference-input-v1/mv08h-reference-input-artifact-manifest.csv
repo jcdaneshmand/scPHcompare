@@ -1,0 +1,4 @@
+"contract_id","file","bytes","sha256","contains_expression","contains_cell_barcode","contains_absolute_private_path","contains_donor_attribute","contains_outcome_label"
+"mv08h_reference_input_artifact_manifest_v1","MV08H_ENSEMBL93_REFERENCE_INPUT_CLOSURE_2026-08-17.md","1280","404bfb02adb13d318c13d453539f5659754bf4ad65b6d7cdf580a57ab28edac0","FALSE","FALSE","FALSE","FALSE","FALSE"
+"mv08h_reference_input_artifact_manifest_v1","mv08h-reference-input-decision.csv","481","1b8ce7990588b3dad6b321a2c6f58de5d685a1c51a1c15ac96562993581beb28","FALSE","FALSE","FALSE","FALSE","FALSE"
+"mv08h_reference_input_artifact_manifest_v1","mv08h-reference-input-identity.csv","777","b992226f7e591aef7f6cdae08b826ab0e03b01bf81abd55a923cc4645898c4aa","FALSE","FALSE","FALSE","FALSE","FALSE"

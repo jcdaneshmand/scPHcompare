@@ -1,0 +1,2 @@
+"contract_id","decision","reference_input_identity_closed","cellranger_acquisition_authorized","cellranger_runtime_validated","mkref_authorized","raw_reprocessing_authorized","label_access_authorized","biological_outcomes_authorized","next_gate"
+"mv08h_reference_input_decision_v1","ensembl93_reference_input_exact_stop_before_runtime_or_mkref","TRUE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","owner_provided_exact_cellranger_3_0_0_runtime_then_custom_reference_validation"
