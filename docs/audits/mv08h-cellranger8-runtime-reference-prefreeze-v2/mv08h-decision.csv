@@ -1,0 +1,2 @@
+"contract_id","decision","runtime_amendment_accepted","runtime_validated","reference_inputs_validated","mkref_authorized","count_sentinel_authorized","remaining_units_authorized","pca_ph_landscape_authorized","label_access_authorized","biological_outcomes_authorized","next_gate"
+"mv08h_cellranger8_prefreeze_decision_v2","runtime_reference_exact_authorize_mkref_only","TRUE","TRUE","TRUE","TRUE","FALSE","FALSE","FALSE","FALSE","FALSE","build_and_independently_validate_custom_reference_then_prefreeze_one_complete_unit_count_sentinel"

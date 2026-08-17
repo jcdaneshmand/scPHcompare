@@ -1,0 +1,7 @@
+"contract_id","artifact_order","artifact","production_sha256","repeat_sha256","byte_identical"
+"mv08h_cellranger8_repeat_validation_v2","1","mv08h-decision.csv","1caa4a220e6a19de3a1a7c495bf46272a71e6a5f677678ed74fa11910add6892","1caa4a220e6a19de3a1a7c495bf46272a71e6a5f677678ed74fa11910add6892","TRUE"
+"mv08h_cellranger8_repeat_validation_v2","2","mv08h-gate-status.csv","33bfa4c4378db2eb6b3f12e1e21d49bc940a3c4ab69fde8aacb4154d59fc12b6","33bfa4c4378db2eb6b3f12e1e21d49bc940a3c4ab69fde8aacb4154d59fc12b6","TRUE"
+"mv08h_cellranger8_repeat_validation_v2","3","mv08h-processing-amendment.csv","ea3a9639555659fe1aadc6b6b2debe4e04f9e62e01f5d54ca73275c519d8887b","ea3a9639555659fe1aadc6b6b2debe4e04f9e62e01f5d54ca73275c519d8887b","TRUE"
+"mv08h_cellranger8_repeat_validation_v2","4","mv08h-reference-binding.csv","0214fb4e38fdf7a00c9843bebd94fa3cc614127e43ce03b57a8cf563e69d6eb7","0214fb4e38fdf7a00c9843bebd94fa3cc614127e43ce03b57a8cf563e69d6eb7","TRUE"
+"mv08h_cellranger8_repeat_validation_v2","5","mv08h-runtime-identity.csv","733183d41d9114c03a91609c913a2223c61462f86e7b53e0963eb8a467983df0","733183d41d9114c03a91609c913a2223c61462f86e7b53e0963eb8a467983df0","TRUE"
+"mv08h_cellranger8_repeat_validation_v2","6","mv08h-source-manifest.csv","65c69dbb31f5dcc925133525c04550d2df3731746521abd60688156c3466fbca","65c69dbb31f5dcc925133525c04550d2df3731746521abd60688156c3466fbca","TRUE"

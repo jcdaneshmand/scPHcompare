@@ -225,3 +225,128 @@ testthat::test_that("MV8-H closes the exact Ensembl-93 input before Cell Ranger"
     testthat::expect_match(validator, term, fixed = TRUE)
   }
 })
+
+testthat::test_that("MV8-H prospectively binds the installed Cell Ranger 8.0.1 runtime", {
+  root <- testthat::test_path("..", "..")
+  evidence <- file.path(root, "docs", "audits",
+    "mv08h-cellranger8-runtime-reference-prefreeze-v2")
+  runtime <- utils::read.csv(file.path(evidence,
+    "mv08h-runtime-identity.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  testthat::expect_equal(nrow(runtime), 1L)
+  testthat::expect_identical(runtime$reported_version,
+    "cellranger cellranger-8.0.1")
+  testthat::expect_identical(runtime$launcher_sha256,
+    "4ee3a1670b4f14c826004fe8e17b4759e1edc701b15ff2e9623753bf1b34d4d6")
+  testthat::expect_identical(runtime$star_version, "2.7.2a")
+  testthat::expect_identical(runtime$samtools_version, "samtools 1.16.1")
+  testthat::expect_match(runtime$tree_sha256, "^[0-9a-f]{64}$")
+  testthat::expect_gt(runtime$regular_files, 25000)
+  testthat::expect_gt(runtime$regular_file_bytes, 1900000000)
+  testthat::expect_true(runtime$required_cli_controls_verified)
+  testthat::expect_true(runtime$all_runtime_gates_passed)
+})
+
+testthat::test_that("MV8-H runtime amendment rebinds exact reference and panel identities", {
+  root <- testthat::test_path("..", "..")
+  evidence <- file.path(root, "docs", "audits",
+    "mv08h-cellranger8-runtime-reference-prefreeze-v2")
+  reference <- utils::read.csv(file.path(evidence,
+    "mv08h-reference-binding.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  testthat::expect_equal(nrow(reference), 5L)
+  testthat::expect_true(all(reference$gate_passed))
+  testthat::expect_identical(
+    reference$sha256[reference$resource_id == "ensembl93_primary_assembly_fasta_gz"],
+    "2a27436d44f0d6350f86894fbe5edec56faa5467028879784508041562406aa0")
+  custom <- reference[reference$resource_id == "target_complete_33563_gtf", ]
+  for (term in c("genes=33563", "feature_records=2565751",
+                 "all_exact500_present=true",
+                 "independent_repeat_byte_identical=true")) {
+    testthat::expect_match(custom$structural_detail, term, fixed = TRUE)
+  }
+  testthat::expect_match(
+    reference$structural_detail[reference$resource_id == "exact500_panel"],
+    "features=500", fixed = TRUE)
+  testthat::expect_match(
+    reference$structural_detail[reference$resource_id == "common475_panel"],
+    "features=475", fixed = TRUE)
+})
+
+testthat::test_that("MV8-H runtime amendment opens only mkref and preserves landscapes", {
+  root <- testthat::test_path("..", "..")
+  evidence <- file.path(root, "docs", "audits",
+    "mv08h-cellranger8-runtime-reference-prefreeze-v2")
+  processing <- utils::read.csv(file.path(evidence,
+    "mv08h-processing-amendment.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  decision <- utils::read.csv(file.path(evidence,
+    "mv08h-decision.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  count <- processing$frozen_value[processing$step_id == "count_sentinel"]
+  for (term in c("--chemistry=SC3Pv2", "--include-introns=false",
+                 "--create-bam=false", "--nosecondary",
+                 "--localcores=16", "--localmem=64")) {
+    testthat::expect_match(count, term, fixed = TRUE)
+  }
+  landscapes <- processing$frozen_value[
+    processing$step_id == "topology_landscapes"]
+  for (term in c("cell_topology_v1", "gene_topology_v1",
+                 "complete VR H0/H1",
+                 "every consecutive active landscape level",
+                 "no fixed grid", "no level cap", "H0/H1 separate",
+                 "essential H0 excluded")) {
+    testthat::expect_match(landscapes, term, fixed = TRUE)
+  }
+  testthat::expect_equal(sum(processing$execution_authorized), 1L)
+  testthat::expect_true(processing$execution_authorized[
+    processing$step_id == "mkref"])
+  testthat::expect_true(decision$mkref_authorized)
+  testthat::expect_false(decision$count_sentinel_authorized)
+  testthat::expect_false(decision$remaining_units_authorized)
+  testthat::expect_false(decision$pca_ph_landscape_authorized)
+  testthat::expect_false(decision$label_access_authorized)
+  testthat::expect_false(decision$biological_outcomes_authorized)
+})
+
+testthat::test_that("MV8-H Cell Ranger 8.0.1 evidence is independently closed", {
+  root <- testthat::test_path("..", "..")
+  evidence <- file.path(root, "docs", "audits",
+    "mv08h-cellranger8-runtime-reference-prefreeze-v2")
+  validation <- utils::read.csv(file.path(evidence,
+    "mv08h-independent-validation.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  repeat_validation <- utils::read.csv(file.path(evidence,
+    "mv08h-repeat-validation.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  artifacts <- utils::read.csv(file.path(evidence,
+    "mv08h-artifact-manifest.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  testthat::expect_equal(nrow(validation), 12L)
+  testthat::expect_true(all(validation$passed))
+  testthat::expect_equal(nrow(repeat_validation), 6L)
+  testthat::expect_true(all(repeat_validation$byte_identical))
+  testthat::expect_false(any(artifacts$contains_expression))
+  testthat::expect_false(any(artifacts$contains_cell_barcode))
+  testthat::expect_false(any(artifacts$contains_absolute_private_path))
+  testthat::expect_false(any(artifacts$contains_donor_attribute))
+  testthat::expect_false(any(artifacts$contains_outcome_label))
+  paths <- file.path(evidence, artifacts$file)
+  observed <- unname(vapply(paths, function(path) digest::digest(
+    file = path, algo = "sha256", serialize = FALSE), character(1L)))
+  testthat::expect_identical(observed, artifacts$sha256)
+  builder <- paste(readLines(file.path(root, "scripts",
+    "build_mv08h_cellranger8_runtime_prefreeze.py"), warn = FALSE),
+    collapse = "\n")
+  validator <- paste(readLines(file.path(root, "scripts",
+    "validate_mv08h_cellranger8_runtime_prefreeze.py"), warn = FALSE),
+    collapse = "\n")
+  for (term in c("distribution_tree_identity", "--include-introns=false",
+                 "--create-bam=false", "runtime_reference_exact_authorize_mkref_only")) {
+    testthat::expect_match(builder, term, fixed = TRUE)
+  }
+  for (term in c("runtime_tree", "public_firewall",
+                 "deterministic_builder_repeat", "12/12 checks")) {
+    testthat::expect_match(validator, term, fixed = TRUE)
+  }
+})

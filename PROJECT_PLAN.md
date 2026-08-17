@@ -5,7 +5,7 @@
 | Field | Value |
 |---|---|
 | Status | Draft for owner and author-team review |
-| Version | 0.3.75 |
+| Version | 0.3.76 |
 | Created | 2026-08-03 |
 | Canonical repository | `jcdaneshmand/scPHcompare` |
 | Historical source repository | `jcdaneshmand/PH_ClusteringApp` |
@@ -692,6 +692,7 @@ Publish a durable, citable research artifact.
 | D-088 | 2026-08-17 | Accept the exact MV8-H file-order-1 sentinel and authorize the committed downloader to resume through all 48 FASTQs | The 394,373,114-byte HCA_BM_001 L002 I1 file atomically publishes with exact official SHA-256 `4464d4ea…1dd302`; independent validation confirms size, hash, gzip identity, receipt, zero partials, cache cap, and the 1.5-TiB post-remaining reserve | Run the remaining 47 files serially/resumably; require an independent 48-file checksum closure before any reference build or raw processing; labels and outcomes remain closed |
 | D-089 | 2026-08-17 | Close the exact MV8-H 48-FASTQ acquisition and authorize only frozen Ensembl-93 primary-assembly input acquisition and identity validation | The private cache contains 48/48 final files and exactly 85,034,239,918 bytes with zero partials; the downloader completion marker and empty error log pass; an independent validator reopens and recomputes all 48 SHA-256 digests, byte sizes, gzip identities, and receipt joins with no mismatch while preserving the 1.5-TiB reserve | Acquire and hash-bind the official Ensembl release-93 primary-assembly FASTA; separately validate exact Cell Ranger 3.0.0 and the custom reference before `mkref` or `count`; labels, outcomes, downstream topology, and deletion remain closed |
 | D-090 | 2026-08-17 | Close the exact Ensembl release-93 primary-assembly input identity and stop before any Cell Ranger acquisition, reference build, or raw processing | The 881,214,682-byte archive has local SHA-256 `2a27436d…2406aa0`; the live official checksum file and independent local BSD `sum` both return `07119 860562`; a complete gzip stream read passes and the public bundle contains identities only | Require the owner to provide or explicitly install/accept access for exact Cell Ranger 3.0.0, then separately validate the runtime and custom reference before `mkref`; raw processing, topology, labels, outcomes, and deletion remain closed |
+| D-091 | 2026-08-17 | Prospectively amend only the MV8-H counter runtime to the installed Cell Ranger 8.0.1 while retaining the admitted 3.0.0 matrices as historical comparators | The exact installed distribution (`aafd39e2…fdf3`), launcher, STAR, samtools, Python, and required CLI controls are content-bound; Ensembl-93 FASTA/source GTF, the independently repeated 33,563-gene target-complete GTF, exact-500 panel, and common-475 panel remain unchanged; six builder artifacts repeat byte-identically, independent validation passes 12/12, focused tests pass 178/178, and the complete suite passes 2,629 with four established skips | Authorize only construction of the frozen custom reference; require complete-tree/reference-feature validation before prefreezing one complete-unit count sentinel; all count, QC, topology, landscape, label, outcome, and deletion operations remain closed |
 
 ## 9. Status dashboard
 
@@ -703,7 +704,7 @@ Publish a durable, citable research artifact.
 | 3. Literature/reference/figure audit | Initial literature sample only | G3 not evaluated |
 | 4. Redesign primary comparison | Prediction-locked retrieval, clustering, complete cell robustness panels, corrected matrices, and null/negative results have auditable evidence; MV7-A maps remaining gene-view and confounding gaps without outcome selection | G4 not evaluated |
 | 5. Expand methods | MV-06 complete: equal-weight fusion fails the both-component rule; outcome validation 15/15 and repeat 13/13 pass; cell and gene views continue separately into MV-07 | G-MV6 closed negative; G5 not evaluated |
-| 6. Biological/practical validation | HCA exact-annotation/common-475 sensitivity complete; MV8-H exact 48-file acquisition and Ensembl-93 primary-assembly input identity are independently closed; Cell Ranger acquisition, `mkref`, and raw processing remain closed pending an owner-provided exact 3.0.0 runtime and separate runtime/custom-reference validation | G6 not evaluated |
+| 6. Biological/practical validation | HCA exact-annotation/common-475 sensitivity complete; MV8-H exact 48-file acquisition and Ensembl-93 inputs are independently closed; the installed Cell Ranger 8.0.1 runtime/reference amendment is frozen with panel and runtime effects separated; only custom-reference construction is open and raw processing remains closed | G6 not evaluated |
 | 7. Profile and optimize | Rust landscape kernel passed complete numerical equivalence and nonpublishing four-platform candidate CI; R remains canonical/default and distribution/adoption remains open | G7 not evaluated |
 | 8. Rewrite manuscript | Not started | G8 not evaluated |
 | 9. Release/archive | Not started | G9 not evaluated |
@@ -712,6 +713,7 @@ Publish a durable, citable research artifact.
 
 | Version | Date | Summary |
 |---|---|---|
+| 0.3.76 | 2026-08-17 | Prospectively amended MV8-H to the exact installed Cell Ranger 8.0.1 distribution, froze explicit SC3Pv2/exon-only/BAM-disabled/no-secondary commands, rebound unchanged Ensembl-93/exact-500/common-475 identities, passed deterministic/independent/focused/complete verification, preserved separate cell/gene H0/H1 all-active-level landscapes, and opened only custom-reference construction before a separately validated count sentinel |
 | 0.3.75 | 2026-08-17 | Closed Ensembl release-93 primary-assembly input identity with exact 881,214,682-byte size, local SHA-256, matching official/local BSD `07119 860562`, and full gzip integrity; stopped before Cell Ranger acquisition, EULA, `mkref`, or raw processing pending owner-provided exact 3.0.0 runtime validation |
 | 0.3.74 | 2026-08-17 | Closed the MV8-H exact 48-FASTQ acquisition after independent size/SHA-256/gzip/receipt validation of all 85,034,239,918 bytes with zero partials and preserved storage reserve; authorized only Ensembl-93 primary-assembly input acquisition and identity validation before a separate Cell Ranger/runtime/reference gate |
 | 0.3.73 | 2026-08-17 | Accepted the independently validated 394,373,114-byte MV8-H FASTQ sentinel with exact official SHA-256, gzip/receipt/zero-partial/storage gates, and authorized only resumable completion of the remaining 47 files before a separate checksum closure |

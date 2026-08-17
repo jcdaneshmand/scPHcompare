@@ -1,0 +1,6 @@
+"contract_id","source_order","source_id","locator","sha256","access_class","published_content"
+"mv08h_cellranger8_source_manifest_v2","1","installed_cellranger_8_0_1","private local installation; relative identities only","aafd39e293e0ba9d14dba3896a6aeda077304531a2702d26bda0c62c4688fdf3","licensed_runtime_identity","identity_only"
+"mv08h_cellranger8_source_manifest_v2","2","ensembl93_reference_input_closure","docs/audits/mv08h-reference-input-v1/","2a27436d44f0d6350f86894fbe5edec56faa5467028879784508041562406aa0","public_reference_identity","identity_only"
+"mv08h_cellranger8_source_manifest_v2","3","mv08h_acquisition_prefreeze_v1","docs/audits/mv08h-raw-read-prefreeze-v1/","historical_v1_artifact_bundle_retained","public_prior_contract","contract_only"
+"mv08h_cellranger8_source_manifest_v2","4","tenx_cellranger_8_release_notes","https://www.10xgenomics.com/support/software/cell-ranger/8.0/release-notes/cr-release-notes","not_local_payload","public_authoritative_documentation","citation_only"
+"mv08h_cellranger8_source_manifest_v2","5","tenx_command_arguments","https://www.10xgenomics.com/support/software/cell-ranger/latest/resources/cr-command-line-arguments","not_local_payload","public_authoritative_documentation","citation_only"
