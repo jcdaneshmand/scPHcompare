@@ -1,0 +1,2 @@
+"contract_id","validator_head","source_jobs","source_repeat_jobs","samples_per_seed","typed_views","cell_views","gene_views","maximum_process_tree_rss_bytes","aggregate_elapsed_seconds","all_resource_caps_passed","exact_repeat_passed","outcome_label_state","biological_outcomes_computed"
+"mv08g_source_validation_summary_v2","d00a7e17db3ead38aca0eae364eb9bcd364511d2",5,1,124,1240,620,620,2008600576,1167.71216702461,TRUE,TRUE,"closed",FALSE

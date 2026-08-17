@@ -183,6 +183,47 @@ test_that("MV8-G source validation independently opens only the PH gate", {
   expect_match(text, "hca_fastq_download_authorized = FALSE", fixed = TRUE)
 })
 
+test_that("MV8-G published v2 source validation is exact and label closed", {
+  evidence <- testthat::test_path("..", "..", "docs", "audits",
+                                  "mv08g-source-validation-v2")
+  validated <- read.csv(file.path(evidence,
+    "mv08g-source-independent-validation.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  summary <- read.csv(file.path(evidence,
+    "mv08g-source-validation-summary.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  decision <- read.csv(file.path(evidence,
+    "mv08g-source-validation-decision.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  manifest <- read.csv(file.path(evidence,
+    "mv08g-source-validation-artifact-manifest.csv"),
+    stringsAsFactors = FALSE, check.names = FALSE)
+  expect_equal(nrow(validated), 5L)
+  expect_true(all(validated$cache_axis_exact))
+  expect_true(all(validated$selected_cell_axis_exact))
+  expect_true(all(validated$common475_axis_exact))
+  expect_true(all(validated$resource_caps_passed))
+  expect_equal(summary$typed_views, 1240L)
+  expect_equal(summary$cell_views, 620L)
+  expect_equal(summary$gene_views, 620L)
+  expect_true(summary$exact_repeat_passed)
+  expect_match(summary$validator_head, "^[0-9a-f]{40}$")
+  expect_equal(decision$decision,
+               "source_exact_authorize_PH_execution_prefreeze_only")
+  expect_equal(decision$ph_jobs_authorized, 0L)
+  expect_false(decision$hca_fastq_download_authorized)
+  expect_false(decision$raw_reprocessing_authorized)
+  expect_false(decision$label_access_authorized)
+  expect_false(any(manifest$contains_expression))
+  expect_false(any(manifest$contains_cell_barcode))
+  expect_false(any(manifest$contains_absolute_private_path))
+  expect_false(any(manifest$contains_biological_label))
+  paths <- file.path(evidence, manifest$file)
+  expect_equal(unname(vapply(paths, function(path) digest::digest(
+    file = path, algo = "sha256", serialize = FALSE), character(1L))),
+    manifest$sha256)
+})
+
 test_that("MV8-G comparison publishes reconstructable label-free evidence", {
   path <- testthat::test_path("..", "..", "scripts",
                               "run_mv08g_comparison.R")
