@@ -1,0 +1,2 @@
+"contract_id","decision","harmonization_classification","independent_checks_passed","hca_fastq_download_authorized","raw_reprocessing_authorized","label_access_authorized","next_gate"
+"mv08g_comparison_validation_decision_v1","comparison_exact_ready_for_raw_read_owner_decision","material_panel_sensitivity",13,FALSE,FALSE,FALSE,"owner_review_raw_read_reprocessing_decision"

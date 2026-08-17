@@ -1,0 +1,9 @@
+"contract_id","panel_id","component_id","selected_k","selection_rule","outcome_label_state","biological_outcomes_computed"
+"mv08g_panel_selected_k_v1","panel500","cell_H0",2,"five_seed_smallest_k_within_one_SE_of_maximum_mean_stability","closed",FALSE
+"mv08g_panel_selected_k_v1","panel500","cell_H1",2,"five_seed_smallest_k_within_one_SE_of_maximum_mean_stability","closed",FALSE
+"mv08g_panel_selected_k_v1","panel500","gene_H0",2,"five_seed_smallest_k_within_one_SE_of_maximum_mean_stability","closed",FALSE
+"mv08g_panel_selected_k_v1","panel500","gene_H1",2,"five_seed_smallest_k_within_one_SE_of_maximum_mean_stability","closed",FALSE
+"mv08g_panel_selected_k_v1","panel475","cell_H0",2,"five_seed_smallest_k_within_one_SE_of_maximum_mean_stability","closed",FALSE
+"mv08g_panel_selected_k_v1","panel475","cell_H1",2,"five_seed_smallest_k_within_one_SE_of_maximum_mean_stability","closed",FALSE
+"mv08g_panel_selected_k_v1","panel475","gene_H0",2,"five_seed_smallest_k_within_one_SE_of_maximum_mean_stability","closed",FALSE
+"mv08g_panel_selected_k_v1","panel475","gene_H1",2,"five_seed_smallest_k_within_one_SE_of_maximum_mean_stability","closed",FALSE

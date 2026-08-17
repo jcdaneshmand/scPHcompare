@@ -698,3 +698,54 @@ test_that("MV8-G repaired comparison validation has a validation-only gate", {
   expect_match(text, "fixed_partition_rows = 9920L", fixed = TRUE)
   expect_match(text, "raw_reprocessing_authorized = FALSE", fixed = TRUE)
 })
+
+test_that("MV8-G comparison evidence independently supports material sensitivity", {
+  root <- testthat::test_path("..", "..")
+  prefreeze <- file.path(root, "docs", "audits",
+    "mv08g-comparison-validation-prefreeze-v1")
+  evidence <- file.path(root, "docs", "audits",
+    "mv08g-comparison-validation-v2")
+  contract <- read.csv(file.path(prefreeze,
+    "mv08g-comparison-validation-contract.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  gate <- read.csv(file.path(prefreeze,
+    "mv08g-comparison-validation-decision.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  checks <- read.csv(file.path(evidence,
+    "mv08g-comparison-independent-validation.csv"),
+    stringsAsFactors = FALSE, check.names = FALSE)
+  decision <- read.csv(file.path(evidence,
+    "mv08g-comparison-validation-decision.csv"),
+    stringsAsFactors = FALSE, check.names = FALSE)
+  summary <- read.csv(file.path(evidence, "mv08g-component-summary.csv"),
+    stringsAsFactors = FALSE, check.names = FALSE)
+  selections <- read.csv(file.path(evidence, "mv08g-panel-selected-k.csv"),
+    stringsAsFactors = FALSE, check.names = FALSE)
+  agreement <- read.csv(file.path(evidence,
+    "mv08g-panel-selected-k-agreement.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  manifest <- read.csv(file.path(evidence,
+    "mv08g-comparison-validation-artifact-manifest.csv"),
+    stringsAsFactors = FALSE, check.names = FALSE)
+  expect_equal(contract$result_files, 12L)
+  expect_equal(contract$independent_checks, 13L)
+  expect_equal(gate$validation_jobs_authorized, 1L)
+  expect_equal(gate$comparison_jobs_authorized, 0L)
+  expect_equal(nrow(checks), 13L)
+  expect_true(all(checks$passed))
+  expect_equal(decision$harmonization_classification,
+               "material_panel_sensitivity")
+  expect_false(decision$raw_reprocessing_authorized)
+  expect_true(all(selections$selected_k == 2L))
+  expect_true(all(agreement$exact_k_agreement))
+  misses <- (summary$median_spearman < 0.95) +
+    (summary$median_top10_overlap < 0.80) +
+    (summary$median_fixed_k_pam_ari < 0.80)
+  names(misses) <- summary$component_id
+  expect_equal(unname(misses["cell_H1"]), 2L)
+  expect_true(all(misses[c("cell_H0", "gene_H0", "gene_H1")] == 0L))
+  paths <- file.path(evidence, manifest$file)
+  expect_equal(unname(vapply(paths, function(path) digest::digest(
+    file = path, algo = "sha256", serialize = FALSE), character(1L))),
+    manifest$sha256)
+})

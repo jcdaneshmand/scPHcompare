@@ -1,0 +1,15 @@
+"contract_id","file","bytes","sha256","contains_expression","contains_cell_barcode","contains_absolute_private_path","contains_biological_label"
+"mv08g_comparison_validation_artifact_manifest_v1","mv08g-comparison-independent-validation.csv",1364,"105c926273fa1d0f9dd0aff7c3bc7847671b0a267bcd413a92e11432fbf7e178",FALSE,FALSE,FALSE,FALSE
+"mv08g_comparison_validation_artifact_manifest_v1","mv08g-comparison-validation-decision.csv",375,"5517cde70a0d4f216ba666ec49a44ebfca77026b337de4d599aa4872dae8b68f",FALSE,FALSE,FALSE,FALSE
+"mv08g_comparison_validation_artifact_manifest_v1","mv08g-seed-distance-comparison.csv",4718,"79d3b2c03128ed55092c08a55b61503186b97cee33d31a064f90a9580d374a82",FALSE,FALSE,FALSE,FALSE
+"mv08g_comparison_validation_artifact_manifest_v1","mv08g-top10-neighbor-overlap.csv",242413,"5f99ab1af645b02f1000fd516002691d4bf6e03fe674f045e605163507c00968",FALSE,FALSE,FALSE,FALSE
+"mv08g_comparison_validation_artifact_manifest_v1","mv08g-normalized-matched-shifts.csv",1091708,"73bf00fc6b13432ce67c670521e14b437849a45cf35f4e7b6d848b45755b61a6",FALSE,FALSE,FALSE,FALSE
+"mv08g_comparison_validation_artifact_manifest_v1","mv08g-candidate-pam-partitions.csv",5047513,"707e6e403bdb54c9677a02452257e0dcaca957fbd821c8cf9205f35049872413",FALSE,FALSE,FALSE,FALSE
+"mv08g_comparison_validation_artifact_manifest_v1","mv08g-pam-stability-summary.csv",8457,"0fa2fdce64f1e12f89b969034378e81cdc2ea886322ba189105aca47c204448f",FALSE,FALSE,FALSE,FALSE
+"mv08g_comparison_validation_artifact_manifest_v1","mv08g-panel-selected-k.csv",1155,"390a40b498f499d836c6982d153bb112906cccc81cc54fbdeaf0ae0d5fe0a6a3",FALSE,FALSE,FALSE,FALSE
+"mv08g_comparison_validation_artifact_manifest_v1","mv08g-panel-selected-k-agreement.csv",434,"0276a61d09d3798d7fbb3e5210dffba4353f74aae80d0506c8bda20d2f737b29",FALSE,FALSE,FALSE,FALSE
+"mv08g_comparison_validation_artifact_manifest_v1","mv08g-pam-k-panel-agreement.csv",15726,"e9e6aa514c132c17a583e8c986092e6b506fff7a20b2786d69047b2a5a608781",FALSE,FALSE,FALSE,FALSE
+"mv08g_comparison_validation_artifact_manifest_v1","mv08g-fixed500k-partitions.csv",1135910,"b76ff397e8e574ffeb491ea7247c81306a358078cb242caac7491b342cb95299",FALSE,FALSE,FALSE,FALSE
+"mv08g_comparison_validation_artifact_manifest_v1","mv08g-fixed500k-panel-agreement.csv",3956,"12f408a57c604b501aafc117a050a93a63862c2fb27e641b13471fac1eafa962",FALSE,FALSE,FALSE,FALSE
+"mv08g_comparison_validation_artifact_manifest_v1","mv08g-component-summary.csv",937,"46a890583ba88dc934f34130ee873d13e64f78da656d5240c8b2cfa0e2b88b43",FALSE,FALSE,FALSE,FALSE
+"mv08g_comparison_validation_artifact_manifest_v1","mv08g-decision.csv",356,"9657c5297c6926489edb9086a302749f87dd919de9f5e537253494b70ee076df",FALSE,FALSE,FALSE,FALSE

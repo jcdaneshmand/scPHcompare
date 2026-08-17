@@ -1,0 +1,2 @@
+"contract_id","decision","complete_components","complete_seeds","raw_read_reprocessing_recommendation","hca_fastq_download_authorized","raw_reprocessing_authorized","label_access_authorized","biological_outcomes_computed"
+"mv08g_harmonization_decision_v1","material_panel_sensitivity",4,5,"recommend_before_external_topology_claim",FALSE,FALSE,FALSE,FALSE

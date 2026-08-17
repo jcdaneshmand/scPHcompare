@@ -1,0 +1,2 @@
+"contract_id","execution_head","validator_head","implementation_root_sha256","result_manifest_sha256","result_files","validation_jobs","independent_checks","candidate_partition_rows","fixed_partition_rows","outcome_label_state","biological_outcomes_computed"
+"mv08g_comparison_validation_prefreeze_v1","f9bf235b52f676ccd1b1879fe38d16c0c49812ab","9b87516c95acc81c5f995ef185c22c4a473fadd3","e5ef92ca7889ac07fa97007975f69b3f11e2eaa1755804270dc79890d13a79f5","98c19b9ff9ea95e3c69e943de30fffc47ab75567679ecfacba196343dd6e7552",12,1,13,44640,9920,"closed",FALSE

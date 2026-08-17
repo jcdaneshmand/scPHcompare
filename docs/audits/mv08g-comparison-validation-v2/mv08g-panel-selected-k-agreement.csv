@@ -1,0 +1,5 @@
+"contract_id","component_id","panel500_selected_k","panel475_selected_k","exact_k_agreement","outcome_label_state","biological_outcomes_computed"
+"mv08g_panel_selected_k_agreement_v1","cell_H0",2,2,TRUE,"closed",FALSE
+"mv08g_panel_selected_k_agreement_v1","cell_H1",2,2,TRUE,"closed",FALSE
+"mv08g_panel_selected_k_agreement_v1","gene_H0",2,2,TRUE,"closed",FALSE
+"mv08g_panel_selected_k_agreement_v1","gene_H1",2,2,TRUE,"closed",FALSE
