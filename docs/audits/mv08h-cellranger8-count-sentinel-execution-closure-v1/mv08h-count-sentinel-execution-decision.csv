@@ -1,0 +1,2 @@
+"contract_id","decision","execution_performed","run_success","matrix_access_authorized","qc_authorized","pca_ph_landscape_authorized","label_access_authorized","biological_outcomes_authorized","remaining_units_authorized","deletion_authorized","next_gate"
+"mv08h_count_sentinel_execution_decision_v1","count_sentinel_execution_closed_downstream_firewall_preserved","TRUE","TRUE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","separate owner-approved structural/QC review and remaining-unit decision"

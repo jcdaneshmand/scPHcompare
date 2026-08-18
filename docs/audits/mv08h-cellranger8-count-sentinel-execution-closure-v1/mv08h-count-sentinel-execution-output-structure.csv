@@ -1,0 +1,8 @@
+"artifact_class","relative_name","kind","bytes","content_opened","contains_expression_or_umi","contains_qc_or_labels","public_release_permitted"
+"private_output_structure","filtered_feature_bc_matrix","directory","18224696","FALSE","TRUE","TRUE","FALSE"
+"private_output_structure","raw_feature_bc_matrix","directory","28103526","FALSE","TRUE","TRUE","FALSE"
+"private_output_structure","filtered_feature_bc_matrix.h5","private_matrix","7248979","FALSE","TRUE","TRUE","FALSE"
+"private_output_structure","raw_feature_bc_matrix.h5","private_matrix","13064522","FALSE","TRUE","TRUE","FALSE"
+"private_output_structure","molecule_info.h5","private_molecule_data","71629815","FALSE","TRUE","TRUE","FALSE"
+"private_output_structure","metrics_summary.csv","private_qc","647","FALSE","TRUE","TRUE","FALSE"
+"private_output_structure","web_summary.html","private_qc","4302378","FALSE","TRUE","TRUE","FALSE"

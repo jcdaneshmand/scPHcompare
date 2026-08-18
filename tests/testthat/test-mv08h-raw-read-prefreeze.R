@@ -657,3 +657,64 @@ testthat::test_that("MV8-H count prefreeze is independently closed and runnable 
     testthat::expect_match(runner, term, fixed = TRUE)
   }
 })
+
+testthat::test_that("MV8-H completed sentinel has a separate closed execution record", {
+  root <- testthat::test_path("..", "..")
+  evidence <- file.path(root, "docs", "audits",
+    "mv08h-cellranger8-count-sentinel-execution-closure-v1")
+  validation <- utils::read.csv(file.path(evidence,
+    "mv08h-count-sentinel-execution-validation.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  decision <- utils::read.csv(file.path(evidence,
+    "mv08h-count-sentinel-execution-decision.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  resource <- utils::read.csv(file.path(evidence,
+    "mv08h-count-sentinel-execution-resource.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  outputs <- utils::read.csv(file.path(evidence,
+    "mv08h-count-sentinel-execution-output-structure.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  metadata <- utils::read.csv(file.path(evidence,
+    "mv08h-count-sentinel-execution-metadata.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  artifacts <- utils::read.csv(file.path(evidence,
+    "mv08h-count-sentinel-execution-artifact-manifest.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  report <- paste(readLines(file.path(evidence,
+    "MV08H_CELLRANGER8_COUNT_SENTINEL_EXECUTION_CLOSURE_2026-08-18.md"),
+    warn = FALSE), collapse = "\n")
+
+  testthat::expect_equal(nrow(validation), 12L)
+  testthat::expect_true(all(validation$passed))
+  testthat::expect_equal(nrow(decision), 1L)
+  testthat::expect_true(decision$execution_performed)
+  testthat::expect_true(decision$run_success)
+  for (field in c("matrix_access_authorized", "qc_authorized",
+                  "pca_ph_landscape_authorized", "label_access_authorized",
+                  "biological_outcomes_authorized", "remaining_units_authorized",
+                  "deletion_authorized")) {
+    testthat::expect_false(decision[[field]])
+  }
+  testthat::expect_equal(as.numeric(resource$local_cores), 4)
+  testthat::expect_equal(as.numeric(resource$local_memory_gib), 32)
+  testthat::expect_true(resource$rss_cap_passed)
+  testthat::expect_true(resource$workspace_cap_passed)
+  testthat::expect_true(resource$free_space_floor_passed)
+  testthat::expect_true(resource$elapsed_cap_passed)
+  testthat::expect_equal(nrow(outputs), 7L)
+  testthat::expect_true(all(!outputs$content_opened))
+  testthat::expect_true(all(!outputs$public_release_permitted))
+  testthat::expect_true(all(metadata$public_release_permitted))
+  testthat::expect_false(any(artifacts$contains_private_path))
+  testthat::expect_equal(nrow(artifacts), 7L)
+  paths <- file.path(evidence, artifacts$file)
+  observed <- unname(vapply(paths, function(path) digest::digest(
+    file = path, algo = "sha256", serialize = FALSE), character(1L)))
+  testthat::expect_identical(observed, artifacts$sha256)
+  for (term in c("execution closure", "historical pre-execution prefreeze",
+                 "peak RSS", "does not open", "separate cell and gene",
+                 "every consecutive active level", "no fixed grid",
+                 "universal level cap", "remaining units")) {
+    testthat::expect_match(report, term, fixed = TRUE)
+  }
+})

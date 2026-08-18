@@ -1,0 +1,8 @@
+"contract_id","artifact_order","file","bytes","sha256","contains_private_path","contains_expression_or_umi","contains_qc_or_labels","public_release_permitted"
+"mv08h_count_sentinel_execution_artifact_manifest_v1","1","MV08H_CELLRANGER8_COUNT_SENTINEL_EXECUTION_CLOSURE_2026-08-18.md","2124","deef729c0ac90e2f5cc8160fff67bb600193064e8603e2b07aa764a3beea770c","FALSE","FALSE","FALSE","TRUE"
+"mv08h_count_sentinel_execution_artifact_manifest_v1","2","mv08h-count-sentinel-execution-decision.csv","510","625ca7ea1ceab2d7ea0fe541f459dbcce7f29bd99b9c1ed15dd3d4afd040c1b4","FALSE","FALSE","FALSE","TRUE"
+"mv08h_count_sentinel_execution_artifact_manifest_v1","3","mv08h-count-sentinel-execution-input-binding.csv","647","e166e69215e5da74353353e417f719584cf2e2059fb2933e98eedbd1628798a2","FALSE","FALSE","FALSE","TRUE"
+"mv08h_count_sentinel_execution_artifact_manifest_v1","4","mv08h-count-sentinel-execution-metadata.csv","1092","85d6999fcef57421ae3c052c8de60bc518fe4235a845c9c37c3acb96ddadb047","FALSE","FALSE","FALSE","TRUE"
+"mv08h_count_sentinel_execution_artifact_manifest_v1","5","mv08h-count-sentinel-execution-output-structure.csv","894","c6746320d09c6f98fa475dbd15477a6b510c9a0a601713bc493c8192f0c22a9c","FALSE","FALSE","FALSE","TRUE"
+"mv08h_count_sentinel_execution_artifact_manifest_v1","6","mv08h-count-sentinel-execution-resource.csv","480","37d21daca295572370fd2cc196dc1abce4d1140639c6c23695b037c3f86e0368","FALSE","FALSE","FALSE","TRUE"
+"mv08h_count_sentinel_execution_artifact_manifest_v1","7","mv08h-count-sentinel-execution-validation.csv","1632","56184c89d32d39096acc96b7c7ee903f49ea1e2cc5e2817cfa86b6b30165efaf","FALSE","FALSE","FALSE","TRUE"
