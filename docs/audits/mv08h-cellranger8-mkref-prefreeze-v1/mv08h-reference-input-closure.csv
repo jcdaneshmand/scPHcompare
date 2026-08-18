@@ -1,0 +1,3 @@
+"contract_id","resource","stored_bytes","stored_sha256","logical_bytes","logical_sha256","metadata_sha1","gate_passed"
+"mv08h_cellranger8_reference_input_closure_v1","embedded_fasta","3151425857","78777b0886e8dfa5e14e4957fbbaa53736fcbaa5668d59e09b6b7945fca93d8c","3151425857","78777b0886e8dfa5e14e4957fbbaa53736fcbaa5668d59e09b6b7945fca93d8c","e475be6ce8fe6aec49130158ece4b226ebeff601","TRUE"
+"mv08h_cellranger8_reference_input_closure_v1","embedded_gtf_gz","43876824","20d6073868523235f7a72c34fe6f7ed7a4670cdc145978ce5f2f16fba770a20a","1099737654","e28e4c4faf0dd76884d5e94c481fce2db43ad303968067c1276092a234727182","044b2efd1dda13b315bdf4558ca683c3adc2f2d3","TRUE"

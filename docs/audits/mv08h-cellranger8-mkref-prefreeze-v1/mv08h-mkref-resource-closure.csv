@@ -1,0 +1,2 @@
+"contract_id","elapsed_seconds","monitor_samples","selected_cores","selected_memory_gib","observed_peak_rss_kib","observed_peak_rss_gib","observed_peak_run_tree_bytes","minimum_free_bytes","reference_cap_bytes","free_space_floor_bytes","resource_breach_detected","automatic_kill_used","launcher_deletion_used","all_resource_gates_passed"
+"mv08h_cellranger8_mkref_resource_closure_v1","13603","450","4","32","31975732","30.494434","27819306242","1987831930880","53687091200","1099511627776","FALSE","FALSE","FALSE","TRUE"

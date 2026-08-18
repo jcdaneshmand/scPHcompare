@@ -1,0 +1,2 @@
+"contract_id","reference_name","regular_files","symlinks","regular_file_bytes","tree_sha256","partial_files","all_tree_gates_passed"
+"mv08h_cellranger8_reference_tree_identity_v1","GRCh38_Ensembl93_target_complete_33563","19","0","20765871518","5e2aff9e7154e6b02f98552a4419bd48edce66e617e579ae562e714f79199f1c","0","TRUE"

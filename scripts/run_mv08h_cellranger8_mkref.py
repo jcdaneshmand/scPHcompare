@@ -182,7 +182,7 @@ def main() -> int:
         fields = [
             "sample_time_utc", "elapsed_seconds", "processes", "rss_kib",
             "run_tree_bytes", "free_bytes", "reference_cap_passed",
-            "free_space_floor_passed",
+            "free_space_floor_passed", "memory_allocation_passed",
         ]
         writer = csv.DictWriter(monitor_handle, fieldnames=fields, quoting=csv.QUOTE_ALL)
         writer.writeheader()
@@ -209,7 +209,11 @@ def main() -> int:
             min_free_bytes = min(min_free_bytes, current_free)
             cap_passed = current_tree <= REFERENCE_CAP_BYTES
             floor_passed = current_free >= FREE_SPACE_FLOOR_BYTES
-            resource_breach = resource_breach or not cap_passed or not floor_passed
+            memory_passed = rss_kib <= MEM_GB * 1024**2
+            resource_breach = (
+                resource_breach or not cap_passed or not floor_passed
+                or not memory_passed
+            )
             writer.writerow({
                 "sample_time_utc": utc_now(),
                 "elapsed_seconds": elapsed,
@@ -219,6 +223,7 @@ def main() -> int:
                 "free_bytes": current_free,
                 "reference_cap_passed": cap_passed,
                 "free_space_floor_passed": floor_passed,
+                "memory_allocation_passed": memory_passed,
             })
             monitor_handle.flush()
             if sample_index == 1 or sample_index % 2 == 0 or resource_breach:

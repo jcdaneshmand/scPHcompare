@@ -377,7 +377,120 @@ testthat::test_that("MV8-H mkref execution amendment is downward-only and fail c
   for (term in c("EXPECTED_FASTA_SHA256", "EXPECTED_GTF_SHA256",
                  "REFERENCE_CAP_BYTES", "FREE_SPACE_FLOOR_BYTES",
                  "process_tree_rss_kib", "resource_breach_detected",
-                 "automatic_kill_used", "deletion_used", "--dry-run")) {
+                 "memory_allocation_passed", "automatic_kill_used",
+                 "deletion_used", "--dry-run")) {
     testthat::expect_match(launcher, term, fixed = TRUE)
+  }
+})
+
+testthat::test_that("MV8-H custom reference closes exact inputs and feature axes", {
+  root <- testthat::test_path("..", "..")
+  evidence <- file.path(root, "docs", "audits",
+    "mv08h-cellranger8-mkref-prefreeze-v1")
+  tree <- utils::read.csv(file.path(evidence,
+    "mv08h-reference-tree-identity.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  inputs <- utils::read.csv(file.path(evidence,
+    "mv08h-reference-input-closure.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  features <- utils::read.csv(file.path(evidence,
+    "mv08h-reference-feature-closure.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  components <- utils::read.csv(file.path(evidence,
+    "mv08h-reference-components.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  testthat::expect_equal(tree$regular_files, 19L)
+  testthat::expect_equal(tree$regular_file_bytes, 20765871518)
+  testthat::expect_identical(tree$tree_sha256,
+    "5e2aff9e7154e6b02f98552a4419bd48edce66e617e579ae562e714f79199f1c")
+  testthat::expect_equal(tree$partial_files, 0L)
+  testthat::expect_true(tree$all_tree_gates_passed)
+  testthat::expect_equal(nrow(components), 19L)
+  testthat::expect_true(all(!grepl("^[A-Za-z]:|^/mnt/|^/home/",
+    components$relative_path)))
+  testthat::expect_true(all(inputs$gate_passed))
+  testthat::expect_identical(
+    inputs$logical_sha256[inputs$resource == "embedded_fasta"],
+    "78777b0886e8dfa5e14e4957fbbaa53736fcbaa5668d59e09b6b7945fca93d8c")
+  testthat::expect_identical(
+    inputs$logical_sha256[inputs$resource == "embedded_gtf_gz"],
+    "e28e4c4faf0dd76884d5e94c481fce2db43ad303968067c1276092a234727182")
+  testthat::expect_equal(features$unique_genes, 33563L)
+  testthat::expect_equal(features$all_feature_records, 2565751L)
+  testthat::expect_equal(features$exact500_present, 500L)
+  testthat::expect_equal(features$common475_present, 475L)
+  testthat::expect_true(features$all_feature_gates_passed)
+})
+
+testthat::test_that("MV8-H mkref resource and authorization closure stays narrow", {
+  root <- testthat::test_path("..", "..")
+  evidence <- file.path(root, "docs", "audits",
+    "mv08h-cellranger8-mkref-prefreeze-v1")
+  resource <- utils::read.csv(file.path(evidence,
+    "mv08h-mkref-resource-closure.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  validation <- utils::read.csv(file.path(evidence,
+    "mv08h-mkref-independent-validation.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  decision <- utils::read.csv(file.path(evidence,
+    "mv08h-mkref-decision.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  testthat::expect_equal(resource$elapsed_seconds, 13603L)
+  testthat::expect_equal(resource$monitor_samples, 450L)
+  testthat::expect_equal(resource$selected_cores, 4L)
+  testthat::expect_equal(resource$selected_memory_gib, 32L)
+  testthat::expect_equal(resource$observed_peak_rss_kib, 31975732L)
+  testthat::expect_lt(resource$observed_peak_rss_gib, 32)
+  testthat::expect_lt(resource$observed_peak_run_tree_bytes,
+    resource$reference_cap_bytes)
+  testthat::expect_gt(resource$minimum_free_bytes,
+    resource$free_space_floor_bytes)
+  testthat::expect_false(resource$resource_breach_detected)
+  testthat::expect_true(resource$all_resource_gates_passed)
+  testthat::expect_equal(nrow(validation), 15L)
+  testthat::expect_true(all(validation$passed))
+  testthat::expect_identical(decision$decision,
+    "reference_exact_authorize_count_sentinel_prefreeze_only")
+  testthat::expect_true(decision$count_sentinel_prefreeze_authorized)
+  testthat::expect_false(decision$count_sentinel_execution_authorized)
+  testthat::expect_false(decision$remaining_units_authorized)
+  testthat::expect_false(decision$qc_pca_ph_landscape_authorized)
+  testthat::expect_false(decision$label_access_authorized)
+  testthat::expect_false(decision$biological_outcomes_authorized)
+  testthat::expect_false(decision$deletion_authorized)
+})
+
+testthat::test_that("MV8-H custom-reference evidence preserves firewall and landscapes", {
+  root <- testthat::test_path("..", "..")
+  evidence <- file.path(root, "docs", "audits",
+    "mv08h-cellranger8-mkref-prefreeze-v1")
+  artifacts <- utils::read.csv(file.path(evidence,
+    "mv08h-reference-artifact-manifest.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  report <- paste(readLines(file.path(evidence,
+    "MV08H_CELLRANGER8_REFERENCE_CLOSURE_2026-08-18.md"), warn = FALSE),
+    collapse = "\n")
+  validator <- paste(readLines(file.path(root, "scripts",
+    "validate_mv08h_cellranger8_reference.py"), warn = FALSE),
+    collapse = "\n")
+  for (field in c("contains_expression", "contains_cell_barcode",
+                  "contains_absolute_private_path", "contains_donor_attribute",
+                  "contains_outcome_label")) {
+    testthat::expect_false(any(artifacts[[field]]))
+  }
+  paths <- file.path(evidence, artifacts$file)
+  observed <- unname(vapply(paths, function(path) digest::digest(
+    file = path, algo = "sha256", serialize = FALSE), character(1L)))
+  testthat::expect_identical(observed, artifacts$sha256)
+  for (term in c("separate typed views", "H0 and H1 remain separate",
+                 "every consecutive active level", "no fixed grid",
+                 "no universal level cap", "does **not** execute",
+                 "RSS in its composite", "forward-only")) {
+    testthat::expect_match(report, term, fixed = TRUE)
+  }
+  for (term in c("tree_identity", "parse_embedded_gtf",
+                 "MEMORY_ALLOCATION_KIB", "count_not_executed",
+                 "reference_exact_authorize_count_sentinel_prefreeze_only")) {
+    testthat::expect_match(validator, term, fixed = TRUE)
   }
 })

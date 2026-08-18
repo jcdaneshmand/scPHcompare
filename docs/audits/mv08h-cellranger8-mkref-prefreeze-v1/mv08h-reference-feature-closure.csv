@@ -1,0 +1,2 @@
+"contract_id","unique_genes","gene_feature_rows","all_feature_records","gene_axis_sha256","exact500_present","common475_present","all_feature_gates_passed"
+"mv08h_cellranger8_reference_feature_closure_v1","33563","33563","2565751","0ea5f54698d79e05a7dd98eded2bf9558174d5214cfe684e8263b996c2a169a4","500","475","TRUE"
