@@ -1,0 +1,7 @@
+"contract_id","gate_order","gate","status","evidence"
+"mv08h_count_sentinel_gate_status_v1","1","deterministic_label_closed_selection","pass","unique maximum FASTQ-byte unit; stable tie-break by unit order"
+"mv08h_count_sentinel_gate_status_v1","2","six_fastq_live_identity","pass","6/6 exact size and SHA-256; 11249623632 bytes"
+"mv08h_count_sentinel_gate_status_v1","3","reference_live_identity","pass","19 files; 20765871518 bytes; exact frozen tree SHA-256"
+"mv08h_count_sentinel_gate_status_v1","4","runtime_reference_contract","pass","Cell Ranger 8.0.1 and exact custom reference closures rebound"
+"mv08h_count_sentinel_gate_status_v1","5","command_and_resources","pass","SC3Pv2; exon-only; no BAM/secondary; 4 cores; 32 GiB; serialized"
+"mv08h_count_sentinel_gate_status_v1","6","firewall_and_stop","pass","count/QC/matrix/label/outcome execution remain closed"

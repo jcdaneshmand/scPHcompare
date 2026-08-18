@@ -1,0 +1,2 @@
+"contract_id","reference_name","regular_files","symlinks","regular_file_bytes","tree_sha256","runtime_tree_sha256","launcher_sha256","binding_passed"
+"mv08h_count_sentinel_reference_binding_v1","GRCh38_Ensembl93_target_complete_33563","19","0","20765871518","5e2aff9e7154e6b02f98552a4419bd48edce66e617e579ae562e714f79199f1c","aafd39e293e0ba9d14dba3896a6aeda077304531a2702d26bda0c62c4688fdf3","4ee3a1670b4f14c826004fe8e17b4759e1edc701b15ff2e9623753bf1b34d4d6","TRUE"

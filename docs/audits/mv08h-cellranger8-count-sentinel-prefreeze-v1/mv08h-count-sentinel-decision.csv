@@ -1,0 +1,2 @@
+"contract_id","decision","count_sentinel_prefreeze_completed","count_sentinel_execution_authorized","matrix_access_authorized","qc_authorized","remaining_units_authorized","pca_ph_landscape_authorized","label_access_authorized","biological_outcomes_authorized","deletion_authorized","next_gate"
+"mv08h_count_sentinel_decision_v1","count_sentinel_prefreeze_exact_await_execution_authorization","TRUE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","owner_or_existing_plan_authorization_for_exact_frozen_one_unit_count_execution"

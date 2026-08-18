@@ -494,3 +494,163 @@ testthat::test_that("MV8-H custom-reference evidence preserves firewall and land
     testthat::expect_match(validator, term, fixed = TRUE)
   }
 })
+
+testthat::test_that("MV8-H count sentinel is selected prospectively without labels", {
+  root <- testthat::test_path("..", "..")
+  evidence <- file.path(root, "docs", "audits",
+    "mv08h-cellranger8-count-sentinel-prefreeze-v1")
+  selection <- utils::read.csv(file.path(evidence,
+    "mv08h-count-sentinel-selection.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  fastqs <- utils::read.csv(file.path(evidence,
+    "mv08h-count-sentinel-fastqs.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  testthat::expect_equal(nrow(selection), 8L)
+  testthat::expect_identical(selection$burden_rank, 1:8)
+  testthat::expect_equal(sum(selection$selected), 1L)
+  testthat::expect_identical(selection$unit_id[selection$selected],
+    "HCA_BM_002")
+  testthat::expect_equal(selection$fastq_bytes[selection$selected],
+    11249623632)
+  testthat::expect_false(any(selection$label_fields_consulted))
+  testthat::expect_false(any(selection$expression_or_qc_consulted))
+  testthat::expect_equal(nrow(fastqs), 6L)
+  testthat::expect_equal(sum(fastqs$expected_bytes), 11249623632)
+  testthat::expect_true(all(fastqs$cache_identity_passed))
+  testthat::expect_false(any(fastqs$private_path_published))
+  testthat::expect_true(all(grepl("^[0-9a-f]{64}$", fastqs$expected_sha256)))
+})
+
+testthat::test_that("MV8-H count command and conservative resources are exact", {
+  root <- testthat::test_path("..", "..")
+  evidence <- file.path(root, "docs", "audits",
+    "mv08h-cellranger8-count-sentinel-prefreeze-v1")
+  command <- utils::read.csv(file.path(evidence,
+    "mv08h-count-sentinel-command.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  resources <- utils::read.csv(file.path(evidence,
+    "mv08h-count-sentinel-resource-policy.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  reference <- utils::read.csv(file.path(evidence,
+    "mv08h-count-sentinel-reference-binding.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  public <- command$frozen_value[command$parameter == "public_command"]
+  for (term in c(
+      "--id=mv08h_count_sentinel_hca_bm_002",
+      "--transcriptome=<verified_custom_reference>",
+      "--fastqs=<verified_hca_bm_002_fastq_directory>",
+      "--sample=MantonBM2_HiSeq_9", "--chemistry=SC3Pv2",
+      "--expect-cells=7000", "--include-introns=false",
+      "--create-bam=false", "--nosecondary", "--localcores=4",
+      "--localmem=32", "--disable-ui")) {
+    testthat::expect_match(public, term, fixed = TRUE)
+  }
+  values <- stats::setNames(resources$selected_value, resources$resource)
+  testthat::expect_equal(values[["local_cores"]], 4)
+  testthat::expect_equal(values[["local_memory"]], 32)
+  testthat::expect_equal(values[["process_tree_rss_absolute_cap"]],
+    80 * 1024^3)
+  testthat::expect_equal(values[["run_workspace_cap"]], 200 * 1024^3)
+  testthat::expect_equal(values[["minimum_free_space"]], 1024^4)
+  testthat::expect_equal(values[["elapsed_observation_cap"]], 96 * 60 * 60)
+  testthat::expect_identical(values[["automatic_termination"]], "false")
+  testthat::expect_identical(values[["automatic_deletion"]], "false")
+  testthat::expect_identical(reference$tree_sha256,
+    "5e2aff9e7154e6b02f98552a4419bd48edce66e617e579ae562e714f79199f1c")
+  testthat::expect_true(reference$binding_passed)
+})
+
+testthat::test_that("MV8-H count prefreeze preserves firewall and stop boundary", {
+  root <- testthat::test_path("..", "..")
+  evidence <- file.path(root, "docs", "audits",
+    "mv08h-cellranger8-count-sentinel-prefreeze-v1")
+  validation <- utils::read.csv(file.path(evidence,
+    "mv08h-count-sentinel-validation-contract.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  firewall <- utils::read.csv(file.path(evidence,
+    "mv08h-count-sentinel-firewall.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  decision <- utils::read.csv(file.path(evidence,
+    "mv08h-count-sentinel-decision.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  testthat::expect_equal(nrow(validation), 12L)
+  testthat::expect_false(any(validation$count_execution_performed_by_prefreeze))
+  validation_text <- paste(validation$frozen_requirement, collapse = " ")
+  for (term in c("HDF5", "33,563", "exact500", "common475",
+                 "barcodes unique and private", "persistence landscape",
+                 "remaining-unit decision")) {
+    testthat::expect_match(validation_text, term, fixed = TRUE)
+  }
+  public <- firewall$field_class[firewall$public_release_permitted]
+  testthat::expect_identical(public, c(
+    "FASTQ byte sizes and SHA-256",
+    "reference/runtime relative identities",
+    "aggregate resource samples and run status",
+    "matrix dimensions and feature-axis identities"))
+  for (field in c("expression or UMI values", "cell barcodes",
+                  "donor attributes or identifiers",
+                  "QC values or eligibility decisions",
+                  "study/tissue/approach labels", "biological outcomes")) {
+    row <- firewall[firewall$field_class == field, ]
+    testthat::expect_equal(nrow(row), 1L)
+    testthat::expect_false(row$public_release_permitted)
+  }
+  testthat::expect_identical(decision$decision,
+    "count_sentinel_prefreeze_exact_await_execution_authorization")
+  testthat::expect_true(decision$count_sentinel_prefreeze_completed)
+  for (field in c("count_sentinel_execution_authorized",
+                  "matrix_access_authorized", "qc_authorized",
+                  "remaining_units_authorized",
+                  "pca_ph_landscape_authorized",
+                  "label_access_authorized",
+                  "biological_outcomes_authorized",
+                  "deletion_authorized")) {
+    testthat::expect_false(decision[[field]])
+  }
+})
+
+testthat::test_that("MV8-H count prefreeze is independently closed and runnable only explicitly", {
+  root <- testthat::test_path("..", "..")
+  evidence <- file.path(root, "docs", "audits",
+    "mv08h-cellranger8-count-sentinel-prefreeze-v1")
+  validation <- utils::read.csv(file.path(evidence,
+    "mv08h-count-sentinel-independent-validation.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  artifacts <- utils::read.csv(file.path(evidence,
+    "mv08h-count-sentinel-artifact-manifest.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
+  report <- paste(readLines(file.path(evidence,
+    "MV08H_CELLRANGER8_COUNT_SENTINEL_PREFREEZE_2026-08-18.md"),
+    warn = FALSE), collapse = "\n")
+  runner <- paste(readLines(file.path(root, "scripts",
+    "run_mv08h_cellranger8_count_sentinel.py"), warn = FALSE),
+    collapse = "\n")
+  testthat::expect_equal(nrow(validation), 14L)
+  testthat::expect_true(all(validation$passed))
+  for (field in c("contains_expression", "contains_cell_barcode",
+                  "contains_absolute_private_path", "contains_donor_attribute",
+                  "contains_qc_value", "contains_outcome_label")) {
+    testthat::expect_false(any(artifacts[[field]]))
+  }
+  paths <- file.path(evidence, artifacts$file)
+  observed <- unname(vapply(paths, function(path) digest::digest(
+    file = path, algo = "sha256", serialize = FALSE), character(1L)))
+  testthat::expect_identical(observed, artifacts$sha256)
+  for (term in c("does **not** execute or authorize count", "4 cores",
+                 "32 GiB", "96 hours", "does not kill or delete",
+                 "separate typed observation views", "H0 and H1 remain separate",
+                 "every consecutive active level", "no fixed grid",
+                 "no universal level cap")) {
+    testthat::expect_match(report, term, fixed = TRUE)
+  }
+  for (term in c("--dry-run", "EXECUTION_TOKEN",
+                 "EXPECTED_REFERENCE_TREE_SHA256",
+                 "competing_cellranger_processes", "process_tree_rss_kib",
+                 "RSS_CAP_BYTES", "WORKSPACE_CAP_BYTES",
+                 "ELAPSED_CAP_SECONDS", "FREE_SPACE_FLOOR_BYTES",
+                 "resource_breach_detected", "automatic_kill_used",
+                 "deletion_used", "--create-bam=false", "--nosecondary",
+                 "--localcores=4", "--localmem=32")) {
+    testthat::expect_match(runner, term, fixed = TRUE)
+  }
+})
