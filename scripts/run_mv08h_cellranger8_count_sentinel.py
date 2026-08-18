@@ -8,7 +8,6 @@ sprint. The launcher never kills a process and never deletes an artifact.
 Non-destructive sentinel enforcement defaults are enforced with
 ``--localcores=4`` and ``--localmem=32``.
 """
-"""
 
 from __future__ import annotations
 

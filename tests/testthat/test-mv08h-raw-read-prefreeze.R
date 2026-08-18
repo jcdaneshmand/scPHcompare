@@ -546,13 +546,16 @@ testthat::test_that("MV8-H count command and conservative resources are exact", 
     testthat::expect_match(public, term, fixed = TRUE)
   }
   values <- stats::setNames(resources$selected_value, resources$resource)
-  testthat::expect_equal(values[["local_cores"]], 4)
-  testthat::expect_equal(values[["local_memory"]], 32)
-  testthat::expect_equal(values[["process_tree_rss_absolute_cap"]],
+  values_numeric <- vapply(values, function(value) suppressWarnings(as.numeric(value)),
+    numeric(1L))
+  testthat::expect_equal(values_numeric[["local_cores"]], 4)
+  testthat::expect_equal(values_numeric[["local_memory"]], 32)
+  testthat::expect_equal(values_numeric[["process_tree_rss_absolute_cap"]],
     80 * 1024^3)
-  testthat::expect_equal(values[["run_workspace_cap"]], 200 * 1024^3)
-  testthat::expect_equal(values[["minimum_free_space"]], 1024^4)
-  testthat::expect_equal(values[["elapsed_observation_cap"]], 96 * 60 * 60)
+  testthat::expect_equal(values_numeric[["run_workspace_cap"]], 200 * 1024^3)
+  testthat::expect_equal(values_numeric[["minimum_free_space"]], 1024^4)
+  testthat::expect_equal(values_numeric[["elapsed_observation_cap"]],
+    96 * 60 * 60)
   testthat::expect_identical(values[["automatic_termination"]], "false")
   testthat::expect_identical(values[["automatic_deletion"]], "false")
   testthat::expect_identical(reference$tree_sha256,
