@@ -719,7 +719,7 @@ testthat::test_that("MV8-H completed sentinel has a separate closed execution re
   }
 })
 
-testthat::test_that("MV8-H strict no-count objective is reconciled without rewriting history", {
+testthat::test_that("MV8-H owner clarification supersedes the unintended no-count clause", {
   root <- testthat::test_path("..", "..")
   evidence <- file.path(root, "docs", "audits",
     "mv08h-count-sentinel-objective-reconciliation-v1")
@@ -740,10 +740,10 @@ testthat::test_that("MV8-H strict no-count objective is reconciled without rewri
     check.names = FALSE)
   testthat::expect_match(audit, "historical prefreeze remains valid", fixed = TRUE)
   testthat::expect_match(audit, "Not achieved literally", fixed = TRUE)
-  testthat::expect_match(audit, "goal must not be marked", fixed = TRUE)
+  testthat::expect_match(audit, "no-count clause was unintended", fixed = TRUE)
   testthat::expect_equal(nrow(rows), 5L)
   testthat::expect_identical(rows$status[rows$requirement ==
-    "without_cellranger_count"], "not_achieved_literally")
+    "without_cellranger_count"], "superseded_by_owner_authorization")
   testthat::expect_equal(nrow(package_rows), 4L)
   testthat::expect_identical(package_rows$status[package_rows$check ==
     "clean_git_export"], "passed")
@@ -754,7 +754,7 @@ testthat::test_that("MV8-H strict no-count objective is reconciled without rewri
     "without_running_cellranger_count"] %in%
     c("achieved", "achieved_as_separate_records")))
   testthat::expect_identical(compliance$status[compliance$requirement ==
-    "without_running_cellranger_count"], "not_achieved_literally")
+    "without_running_cellranger_count"], "superseded_by_owner_authorization")
   testthat::expect_equal(nrow(resume), 5L)
   testthat::expect_identical(resume$status[resume$check ==
     "second_count_started"], "no")

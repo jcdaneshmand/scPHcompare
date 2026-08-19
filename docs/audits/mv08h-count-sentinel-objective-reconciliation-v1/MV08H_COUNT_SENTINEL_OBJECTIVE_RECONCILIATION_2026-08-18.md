@@ -31,16 +31,16 @@ The final execution record opened no matrices, expression/QC values, barcodes,
 labels, outcomes, landscapes, remaining units, or deletion path. Those gates
 remain closed for future owner decisions.
 
-Under the strict wording of the original goal, the goal must not be marked
-complete because the no-count condition was superseded by the later explicit
-execution authorization. The repository now contains the strongest truthful
-state: a deterministic historical no-count prefreeze plus a separately bound
-successful execution record.
+The owner subsequently clarified that the no-count clause was unintended and
+is superseded. The historical prefreeze remains unchanged, while the accepted
+current contract is exactly one hash-bound sentinel with one completed,
+separately documented execution record.
 
 The requirement-by-requirement mapping is preserved in
 `mv08h-count-sentinel-objective-compliance.csv`; every freeze element is
-marked achieved against its prefreeze artifact, while the literal no-count
-requirement is marked `not_achieved_literally`.
+marked achieved against its prefreeze artifact. The former no-count row is now
+marked `superseded_by_owner_authorization`, with the clarification recorded in
+the project plan.
 
 After the owner confirmed that count may run if resources permit, the existing
 sentinel was revalidated rather than rerun: the closure builder again passed
