@@ -211,6 +211,8 @@ This is an append-only audit log. Correct an earlier entry with a new row; do no
 
 | 2026-08-19 | D-105 / MV8-J provisional claim-to-evidence map | Codex under project-owner continuation authorization | MV7-J claim inventory reconciled with MV8-I eight-unit common475 technical outputs; labels/outcomes/fusion/exact500 closed | `docs/audits/mv08j-claim-map-v1/`; `tests/testthat/test-mv08j-claim-map.R`; `PROJECT_PLAN.md` D-105 | Fourteen claims classified; external ranges recorded for cell/gene H0/H1 and active landscape levels; exact500 marked decision-required only when a manuscript claim needs it; no biological generalization or clustering claim promoted | Project owner continuation | `claim map complete; methods-focused drafting is next; exact500 conditional` |
 
+| 2026-08-19 | D-106 / MV8-H HCA_BM_002 exact500 sentinel feasibility | Codex under project-owner continuation authorization | Existing Cell Ranger 8.0.1 count output; exact500 panel `48e881ee…a32e`; common475 panel `b7b802ca…bc0ba`; existing matrix/QC and execution closure; labels/outcomes/manuscript closed | `scripts/validate_mv08h_exact500_sentinel.py`; `docs/audits/mv08h-exact500-sentinel-v1/`; `tests/testthat/test-mv08h-exact500-sentinel.R` | 33,563 unique features; exact500 500/500; common475 475/475; 5,037 filtered cells; 4,614 post-QC cells; 10/10 independent checks; 14,348 s and 20.141-GB peak RSS | Project owner continuation | `exact500 sentinel technically feasible; remaining units and exact500 PH/landscapes remain conditional` |
+
 ## Entry requirements
 
 - Use an ISO date.

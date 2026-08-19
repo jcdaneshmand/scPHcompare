@@ -1,0 +1,11 @@
+check_id,passed,evidence
+feature_axis_count,True,unique feature rows=33563
+feature_axis_unique,True,feature IDs unique after version stripping
+exact500_panel_present,True,exact500 present=500/500
+common475_panel_present,True,common475 present=475/475
+common475_subset_exact500,True,common475 is an exact ordered subset of exact500
+filtered_cell_axis,True,filtered barcode rows=5037
+qc_384_eligibility,True,post-QC eligible cells=4614
+execution_success,True,existing Cell Ranger sentinel completed successfully
+resource_closure,True,elapsed=14348 s; peak RSS=20141236224 B; cores=4; memory=32 GiB
+downstream_firewall,True,"labels, outcomes, landscapes, remaining units, and deletion remain closed"

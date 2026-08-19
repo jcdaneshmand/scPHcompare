@@ -1,0 +1,4 @@
+"artifact","sha256","purpose","private_content"
+"MV08H_EXACT500_SENTINEL_FEASIBILITY_2026-08-19.md","BD6BFECD96BC6D76F1B905CC74D063B4A74E89A76B8CB7CAA5E3545DD2DA5C40","exact500 feasibility decision summary","none"
+"mv08h-exact500-sentinel-validation.csv","6921F063DA49F612A38C6923FF4376B1CA548305CEDBDC28F7749B4DADED7904","independent exact500 technical checks","hashes and aggregate counts only"
+"mv08h-exact500-sentinel-artifact-identity.csv","2928179D3E9CD3E59CEFD78A6AE87D637797FD2FC393A76159306D24DCBD0E32","private output identity receipts","hashes and sizes only"
