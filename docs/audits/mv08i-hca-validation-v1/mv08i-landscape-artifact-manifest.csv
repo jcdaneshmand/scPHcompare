@@ -1,0 +1,3 @@
+"artifact","purpose","public","contains_private_diagrams"
+"mv08i-landscape-execution.csv","one row per unit, view, and homology dimension",TRUE,FALSE
+"mv08i-landscape-level-summary.csv","one row per retained active landscape level",TRUE,FALSE
