@@ -174,18 +174,23 @@ def resource_evidence(unit_root: Path) -> tuple[bool, dict[str, object]]:
             and int(row.get("minimum_free_bytes", "0")) >= 1024**4
         )
         return passed, {"source": "private-receipt.csv", **row}
-    monitor = unit_root / "post-parent-resource-samples.csv"
-    if not monitor.is_file():
+    monitor_paths = sorted(unit_root.glob("resource-samples.csv")) + sorted(
+        unit_root.glob("post-parent-resource-samples*.csv")
+    )
+    monitor_paths = [path for path in monitor_paths if path.is_file()]
+    if not monitor_paths:
         return False, {"source": "missing-resource-evidence"}
-    sampled = rows(monitor)
+    sampled: list[dict[str, str]] = []
+    for path in monitor_paths:
+        sampled.extend(rows(path))
     if not sampled:
-        return False, {"source": "post-parent-resource-samples.csv", "rows": 0}
+        return False, {"source": "merged-resource-samples", "rows": 0}
     passed = all(
         row["rss_cap_passed"] == "True" and row["workspace_cap_passed"] == "True"
         and row["free_space_floor_passed"] == "True" for row in sampled
     )
     return passed, {
-        "source": "post-parent-resource-samples.csv", "rows": len(sampled),
+        "source": "merged-resource-samples", "rows": len(sampled),
         "maximum_process_tree_rss_kib": max(int(row["rss_kib"]) for row in sampled),
         "maximum_run_tree_bytes": max(int(row["run_tree_bytes"]) for row in sampled),
         "minimum_free_bytes": min(int(row["free_bytes"]) for row in sampled),
