@@ -339,6 +339,10 @@ def main() -> int:
     parser.add_argument("--reference-dir", type=Path, required=True)
     parser.add_argument("--manifest", type=Path, required=True)
     parser.add_argument("--run-root", type=Path, required=True)
+    parser.add_argument(
+        "--start-after", choices=UNITS, default=None,
+        help="skip units through this already-closed unit; never resumes its target",
+    )
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--execution-token")
     args = parser.parse_args()
@@ -350,8 +354,11 @@ def main() -> int:
     manifest = args.manifest.resolve()
     run_root = args.run_root.resolve()
     rows_by_unit = validate_inputs(launcher, fastq_cache, reference, manifest, run_root)
+    start_index = 0
+    if args.start_after is not None:
+        start_index = UNITS.index(args.start_after) + 1
     if args.dry_run:
-        for unit in UNITS:
+        for unit in UNITS[start_index:]:
             rows = rows_by_unit[unit]
             print(public_command(unit))
             print(f"{unit} fastq_files={len(rows)} fastq_bytes={sum(int(row['file_size_bytes']) for row in rows)}")
@@ -360,7 +367,7 @@ def main() -> int:
         print("count_executed=false")
         return 0
     receipts: list[dict[str, object]] = []
-    for unit in UNITS:
+    for unit in UNITS[start_index:]:
         receipts.append(run_unit(unit, rows_by_unit[unit], launcher, fastq_cache, reference, run_root))
     print(f"MV8-H exact500 remaining units completed count={len(receipts)}", flush=True)
     return 0
