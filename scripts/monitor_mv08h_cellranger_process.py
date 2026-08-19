@@ -56,10 +56,19 @@ def process_tree(root_pid: int) -> tuple[int, int, bool]:
 def tree_bytes(root: Path) -> int:
     if not root.exists():
         return 0
-    return sum(
-        path.stat().st_size for path in root.rglob("*")
-        if path.is_file() and not path.is_symlink()
-    )
+    total = 0
+    # Cell Ranger rotates/removes temporary files while the tree is sampled.
+    # Ignore only those transient races; the process itself is never touched.
+    for directory, _dirnames, filenames in os.walk(root, onerror=lambda _error: None):
+        base = Path(directory)
+        for name in filenames:
+            path = base / name
+            try:
+                if path.is_file() and not path.is_symlink():
+                    total += path.stat().st_size
+            except FileNotFoundError:
+                continue
+    return total
 
 
 def main() -> int:
