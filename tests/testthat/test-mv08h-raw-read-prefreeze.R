@@ -718,3 +718,21 @@ testthat::test_that("MV8-H completed sentinel has a separate closed execution re
     testthat::expect_match(report, term, fixed = TRUE)
   }
 })
+
+testthat::test_that("MV8-H strict no-count objective is reconciled without rewriting history", {
+  root <- testthat::test_path("..", "..")
+  evidence <- file.path(root, "docs", "audits",
+    "mv08h-count-sentinel-objective-reconciliation-v1")
+  audit <- paste(readLines(file.path(evidence,
+    "MV08H_COUNT_SENTINEL_OBJECTIVE_RECONCILIATION_2026-08-18.md"),
+    warn = FALSE), collapse = "\n")
+  rows <- utils::read.csv(file.path(evidence,
+    "mv08h-count-sentinel-objective-reconciliation.csv"),
+    stringsAsFactors = FALSE, check.names = FALSE)
+  testthat::expect_match(audit, "historical prefreeze remains valid", fixed = TRUE)
+  testthat::expect_match(audit, "Not achieved literally", fixed = TRUE)
+  testthat::expect_match(audit, "goal must not be marked", fixed = TRUE)
+  testthat::expect_equal(nrow(rows), 5L)
+  testthat::expect_identical(rows$status[rows$requirement ==
+    "without_cellranger_count"], "not_achieved_literally")
+})
