@@ -42,6 +42,11 @@ The requirement-by-requirement mapping is preserved in
 marked achieved against its prefreeze artifact, while the literal no-count
 requirement is marked `not_achieved_literally`.
 
+After the owner confirmed that count may run if resources permit, the existing
+sentinel was revalidated rather than rerun: the closure builder again passed
+12/12 checks and all 8 public closure artifacts matched the published record.
+The resume evidence is recorded in `mv08h-execution-resume-validation.csv`.
+
 ## Verification note
 
 The focused MV8-H test passed. A canonical package build/check was started but
