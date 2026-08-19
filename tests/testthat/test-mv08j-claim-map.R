@@ -1,0 +1,16 @@
+test_that("MV8-J claim map is evidence-bounded", {
+  path <- file.path("..", "..", "docs", "audits", "mv08j-claim-map-v1", "mv08j-claim-map.csv")
+  expect_true(file.exists(path))
+  claims <- read.csv(path, check.names = FALSE, stringsAsFactors = FALSE)
+  expect_equal(nrow(claims), 14L)
+  expect_true(all(claims$status %in% c("supported_method", "supported_technical", "supported_descriptive", "conditional_descriptive", "not_supported", "not_evaluated", "decision_required", "blocked")))
+  expect_true(any(claims$claim_id == "C04" & claims$status == "supported_technical"))
+  expect_true(any(claims$claim_id == "C13" & claims$status == "decision_required"))
+  expect_true(any(claims$claim_id == "C14" & claims$status == "blocked"))
+  expect_true(all(!grepl("barcode|expression|outcome", tolower(names(claims)))))
+  manifest <- read.csv(file.path("..", "..", "docs", "audits", "mv08j-claim-map-v1", "mv08j-artifact-manifest.csv"), check.names = FALSE, stringsAsFactors = FALSE)
+  expect_equal(nrow(manifest), 2L)
+  expect_true(all(vapply(seq_len(nrow(manifest)), function(i) {
+    identical(toupper(digest::digest(file = file.path("..", "..", "docs", "audits", "mv08j-claim-map-v1", manifest$artifact[[i]]), algo = "sha256", serialize = FALSE)), toupper(manifest$sha256[[i]]))
+  }, logical(1))))
+})
