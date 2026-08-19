@@ -1,0 +1,8 @@
+"check_id","passed","evidence"
+"artifact_count",TRUE,"three primary artifacts"
+"five_seed_rows",TRUE,"20260805-20260809"
+"all_384",TRUE,"384,384,384,384,384"
+"all_exact500_blocked",TRUE,"497,499,497,499,499"
+"all_repeat_hashes",TRUE,"TRUE,TRUE,TRUE"
+"labels_closed",TRUE,"all FALSE"
+"landscapes_closed",TRUE,"all FALSE"

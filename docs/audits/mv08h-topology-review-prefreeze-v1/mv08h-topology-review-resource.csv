@@ -1,0 +1,7 @@
+"resource","selected_value","policy"
+"workers",1,"serial"
+"local_memory_request_bytes",34359738368,"conservative"
+"rss_hard_cap_bytes",85899345920,"hard_stop"
+"workspace_cap_bytes",214748364800,"hard_stop"
+"free_space_floor_bytes",1099511627776,"preflight"
+"elapsed_cap_seconds",86400,"hard_stop"

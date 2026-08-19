@@ -1,0 +1,4 @@
+"artifact_order","artifact","bytes","sha256","repeat_sha256","byte_identical"
+1,"MV08H_TOPOLOGY_PANEL_SEED_GATE_2026-08-18.md",412,"2bf903de9da89ccc4ed19c49e10fe812e9a5e9f4c426495a4187e93e70a0ac65","2bf903de9da89ccc4ed19c49e10fe812e9a5e9f4c426495a4187e93e70a0ac65",TRUE
+2,"mv08h-topology-panel-seed-gate.csv",1267,"f9d08a1a8aeac3b79f7c0b86072224c6570d038806e654757d44815f5eab5054","f9d08a1a8aeac3b79f7c0b86072224c6570d038806e654757d44815f5eab5054",TRUE
+3,"mv08h-topology-panel-seed-validation.csv",292,"d254c8f381973c801b8971d40caa1383d9db39d1726d06a980143e9bc1ac5b12","d254c8f381973c801b8971d40caa1383d9db39d1726d06a980143e9bc1ac5b12",TRUE

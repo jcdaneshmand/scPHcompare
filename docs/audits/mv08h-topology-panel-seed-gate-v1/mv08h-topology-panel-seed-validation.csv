@@ -1,0 +1,6 @@
+"check_id","passed","evidence"
+"five_seeds_present",TRUE,"20260805-20260809"
+"all_have_384_cells",TRUE,"384,384,384,384,384"
+"panel_mapping_pre_sct",TRUE,"500 stable IDs mapped once"
+"no_zero_padding",TRUE,"missing genes are reported as blocks"
+"label_firewall",TRUE,"labels/outcomes closed"

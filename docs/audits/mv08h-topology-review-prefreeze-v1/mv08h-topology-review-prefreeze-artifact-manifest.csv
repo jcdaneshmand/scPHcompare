@@ -1,0 +1,7 @@
+"artifact_order","artifact","bytes","sha256"
+1,"MV08H_TOPOLOGY_REVIEW_PREFREEZE_2026-08-18.md",940,"9965772b05fcd3b0b088cc6a69d6d8eaa87f4a611dd2e5f2db5646a942b7d369"
+2,"mv08h-topology-review-contract.csv",902,"0a0f303b544dc266b72f2278b1230e371f5f1991826464a0c68f66ed1f93f9d1"
+3,"mv08h-topology-review-input-binding.csv",680,"8326ba58e73fd036ac01285ad390fe7279eab265065252be7745aa12342d6823"
+4,"mv08h-topology-review-resource.csv",297,"2a64fab871e9f65f8d92008995bc0f5843138332ba28f891aab7223231accb8a"
+5,"mv08h-topology-review-firewall.csv",310,"ace5eea527d370eb31fde9f1745bb25b3a8b0cb1c99cb671fbcf12123892030c"
+6,"mv08h-topology-review-validation.csv",521,"519e7a62621575a66490679591e26732b356bd550b5823ecea5b85c494ac4993"

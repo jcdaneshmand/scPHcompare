@@ -1,0 +1,6 @@
+"contract_id","unit_id","seed","qc_eligible_cells","selected_cells","selected_cell_sha256","panel_genes","retained_panel_genes","missing_panel_genes","panel_retention_pass","labels_outcomes_opened","landscapes_computed","next_gate"
+"mv08h_topology_panel_seed_gate_v1","HCA_BM_002",20260805,4614,384,"805754d02690e40834a6bca5e3ad268e81c56fdc200b5135e25b17ef68ff2c1f",500,497,3,FALSE,FALSE,FALSE,"owner_review_required_panel_contract_block"
+"mv08h_topology_panel_seed_gate_v1","HCA_BM_002",20260806,4614,384,"a3a07311b4ac1574ed5abdc398da6cf01e15a02bd8797ce98c16d73ebb60e9b6",500,499,1,FALSE,FALSE,FALSE,"owner_review_required_panel_contract_block"
+"mv08h_topology_panel_seed_gate_v1","HCA_BM_002",20260807,4614,384,"afdd01ef0988afdac5bee641d72902460be0ae466e2c47acd78eef7e392d29f8",500,497,3,FALSE,FALSE,FALSE,"owner_review_required_panel_contract_block"
+"mv08h_topology_panel_seed_gate_v1","HCA_BM_002",20260808,4614,384,"7eeb85b6115098ce76290acac55bf0c6e7331339c8cd7307dffcec94ba715a10",500,499,1,FALSE,FALSE,FALSE,"owner_review_required_panel_contract_block"
+"mv08h_topology_panel_seed_gate_v1","HCA_BM_002",20260809,4614,384,"9f12f66422cbf1e385ed6f5db9a9db62ab17d4775dd0c12dd7e4652e870238cc",500,499,1,FALSE,FALSE,FALSE,"owner_review_required_panel_contract_block"

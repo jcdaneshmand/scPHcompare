@@ -1,0 +1,5 @@
+"input_order","input_id","role","sha256","content_publication","values_published","labels_outcomes_opened"
+1,"hca_filtered_h5","filtered_counts_and_cell_axis","7b0a9f90b05d68c14af29cea39926f74f3c52d07c8825bdc4f01303bb6ad0e2f","identity_only",FALSE,FALSE
+2,"hca_raw_h5","raw_counts_for_locked_sct","767e5539adbf5242a34926848a7b06d07f5e60a4ac9fadf843f3211324775552","identity_only",FALSE,FALSE
+3,"mv07fp_panel","ordered_500_gene_panel","fe22220dc89deafd3c84714434a73ce8243c4d3e15d1eeb43cd51f5e6170b69b","identity_only",FALSE,FALSE
+4,"mv07h_reference_source","immutable_center_scale_pca","5f25228552bbf6481b29de12052ae03aa7462590676009edb7770efd38aebf33","identity_only",FALSE,FALSE
