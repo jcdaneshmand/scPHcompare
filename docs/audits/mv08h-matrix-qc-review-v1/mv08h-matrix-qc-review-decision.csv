@@ -1,0 +1,2 @@
+"contract_id","unit_id","decision","validation_passed","expression_values_opened","barcode_identifiers_opened","labels_outcomes_opened","pca_ph_landscapes_computed","remaining_units_authorized","deletion_authorized","next_gate"
+"mv08h_matrix_qc_review_execution_v1","HCA_BM_002","matrix_qc_review_pass","8/8","TRUE","FALSE","FALSE","FALSE","FALSE","FALSE","owner_decision_on_topology_or_stop"
