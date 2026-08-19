@@ -37,6 +37,11 @@ execution authorization. The repository now contains the strongest truthful
 state: a deterministic historical no-count prefreeze plus a separately bound
 successful execution record.
 
+The requirement-by-requirement mapping is preserved in
+`mv08h-count-sentinel-objective-compliance.csv`; every freeze element is
+marked achieved against its prefreeze artifact, while the literal no-count
+requirement is marked `not_achieved_literally`.
+
 ## Verification note
 
 The focused MV8-H test passed. A canonical package build/check was started but
