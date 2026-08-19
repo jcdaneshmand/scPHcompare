@@ -41,5 +41,10 @@ successful execution record.
 
 The focused MV8-H test passed. A canonical package build/check was started but
 is dominated by copying the large ignored `tmp/` runtime tree before package
-filtering; this is a separate release-hygiene issue and does not invalidate
-the sentinel closure evidence.
+filtering. A clean Git export was then built successfully as
+`scPHcompare_0.1.0.tar.gz`; the export contained zero `tmp/` entries and zero
+PDF files. `R CMD check` reached the dependency gate and stopped because the
+current Ubuntu environment does not have the package's declared imports and
+suggests installed. No dependency installation or biological processing was
+attempted. This is a reproducible environment limitation, not a sentinel
+closure failure; the exact result is recorded in the companion CSV.

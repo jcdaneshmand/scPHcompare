@@ -729,10 +729,18 @@ testthat::test_that("MV8-H strict no-count objective is reconciled without rewri
   rows <- utils::read.csv(file.path(evidence,
     "mv08h-count-sentinel-objective-reconciliation.csv"),
     stringsAsFactors = FALSE, check.names = FALSE)
+  package_rows <- utils::read.csv(file.path(evidence,
+    "mv08h-package-verification.csv"), stringsAsFactors = FALSE,
+    check.names = FALSE)
   testthat::expect_match(audit, "historical prefreeze remains valid", fixed = TRUE)
   testthat::expect_match(audit, "Not achieved literally", fixed = TRUE)
   testthat::expect_match(audit, "goal must not be marked", fixed = TRUE)
   testthat::expect_equal(nrow(rows), 5L)
   testthat::expect_identical(rows$status[rows$requirement ==
     "without_cellranger_count"], "not_achieved_literally")
+  testthat::expect_equal(nrow(package_rows), 4L)
+  testthat::expect_identical(package_rows$status[package_rows$check ==
+    "clean_git_export"], "passed")
+  testthat::expect_identical(package_rows$status[package_rows$check ==
+    "canonical_R_CMD_check"], "environment_blocked")
 })
