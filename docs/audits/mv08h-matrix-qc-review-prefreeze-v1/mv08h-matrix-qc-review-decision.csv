@@ -1,0 +1,2 @@
+"contract_id","prefreeze_completed","matrix_content_review_authorized","qc_content_review_authorized","labels_outcomes_authorized","landscapes_authorized","remaining_units_authorized","deletion_authorized","next_gate"
+"mv08h_matrix_qc_review_prefreeze_v1","TRUE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","owner_approval_for_allowlisted_matrix_qc_review"

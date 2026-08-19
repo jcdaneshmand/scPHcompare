@@ -1,0 +1,6 @@
+"input_order","input_name","role","permitted_after_owner_approval","opened_by_prefreeze","label_or_outcome_access"
+"1","filtered_feature_bc_matrix.h5","filtered_matrix_content","TRUE","FALSE","FALSE"
+"2","raw_feature_bc_matrix.h5","raw_matrix_content","TRUE","FALSE","FALSE"
+"3","metrics_summary.csv","aggregate_cellranger_qc_metadata","TRUE","FALSE","FALSE"
+"4","molecule_info.h5","molecule_level_payload","FALSE","FALSE","FALSE"
+"5","web_summary.html","interactive_qc_payload","FALSE","FALSE","FALSE"

@@ -1,0 +1,8 @@
+"file","bytes","sha256","contains_private_path"
+"MV08H_MATRIX_QC_REVIEW_PREFREEZE_2026-08-18.md","710","826022b68a447a2c38d2fbde1619de256dd933e951434cf5975cb255b8dc214b","FALSE"
+"mv08h-matrix-qc-review-decision.csv","361","7998ed75fc9af757a6e32d36c434eac0f63dc82a000b64ac835f588c0b43e01a","FALSE"
+"mv08h-matrix-qc-review-firewall.csv","432","e7f24a7466f648f210f4d78ea2c44d96b3814466d43db497c28b9953b9cf2c9e","FALSE"
+"mv08h-matrix-qc-review-input-binding.csv","503","4fdbf5697c1dfc47380719eaa1683a28a3db2d7fa58c6e4ec682e93024631142","FALSE"
+"mv08h-matrix-qc-review-resource.csv","926","faebedee9806106ef0facf15b4bb4d4a8e81b2336aa0dc90397e084db612824a","FALSE"
+"mv08h-matrix-qc-review-stop-conditions.csv","384","d1d8dfe38b7d6730a7ab6d50e409090e754dbfef690c0146479c58167a88778e","FALSE"
+"mv08h-matrix-qc-review-validation.csv","741","9e671993bfa88efc21b91645e8c8fcf26153989c81e72667c3e65ad6f0209fdb","FALSE"

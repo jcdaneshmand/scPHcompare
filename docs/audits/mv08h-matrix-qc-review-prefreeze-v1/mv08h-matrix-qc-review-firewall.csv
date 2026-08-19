@@ -1,0 +1,6 @@
+"firewall_id","state","prohibited_action","stop_on_breach"
+"matrix_content","closed_until_owner_approval","open_matrix_values_or_barcode_identifiers","TRUE"
+"labels_outcomes","closed","read_labels_or_biological_outcomes","TRUE"
+"landscapes","closed","compute_persistence_or_landscape_artifacts","TRUE"
+"remaining_units","closed","process_any_additional_unit","TRUE"
+"deletion","closed","delete_partial_or_complete_artifacts","TRUE"

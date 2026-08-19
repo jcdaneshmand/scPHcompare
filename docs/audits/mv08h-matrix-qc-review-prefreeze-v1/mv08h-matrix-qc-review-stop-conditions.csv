@@ -1,0 +1,6 @@
+"stop_order","condition","action"
+"1","owner_approval_missing","do_not_open_matrix_or_qc_content"
+"2","input_hash_or_structure_drift","stop_and_rebind_before_review"
+"3","resource_cap_breach","stop_without_automatic_kill_and_preserve_artifacts"
+"4","any_label_outcome_landscape_or_remaining_unit_access","stop_and_escalate"
+"5","nonreproducible_repeat","block_review_and_investigate"
