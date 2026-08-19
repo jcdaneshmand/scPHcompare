@@ -1,0 +1,3 @@
+"file","matrix_features","matrix_barcodes","data_dtype","indices_dtype","indptr_dtype","barcode_dataset_shape","data_dataset_shape","metadata_schema_pass","expression_values_opened","barcode_identifiers_opened"
+"raw_feature_bc_matrix.h5","33563","333655","int32","int64","int64","(333655,)","(6140184,)","TRUE","FALSE","FALSE"
+"filtered_feature_bc_matrix.h5","33563","5037","int32","int64","int64","(5037,)","(4517625,)","TRUE","FALSE","FALSE"

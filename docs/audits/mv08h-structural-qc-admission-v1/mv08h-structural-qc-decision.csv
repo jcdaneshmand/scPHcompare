@@ -1,0 +1,2 @@
+"contract_id","decision","exact_output_structure_passed","h5_metadata_passed","aggregate_metrics_passed","resource_provenance_passed","expression_values_opened","labels_outcomes_opened","landscapes_computed","remaining_units_authorized","next_gate"
+"mv08h_structural_qc_admission_v1","metadata_only_structural_qc_admit","TRUE","TRUE","TRUE","TRUE","FALSE","FALSE","FALSE","FALSE","owner_decision_on_matrix_content_qc_review"

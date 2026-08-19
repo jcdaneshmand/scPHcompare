@@ -1,0 +1,2 @@
+"contract_id","filtered_estimated_cells","filtered_median_genes_per_cell","filtered_total_genes_detected","filtered_median_umi_counts_per_cell","valid_barcodes_percent","fraction_reads_in_cells_percent","expression_values_opened","labels_outcomes_opened"
+"mv08h_structural_qc_metadata_v1","5037","801","18845","2545","98.4%","91.1%","FALSE","FALSE"

@@ -1,0 +1,8 @@
+"output_name","kind","exists","metadata_inspected","expression_values_opened","barcode_identifiers_opened","labels_outcomes_opened"
+"filtered_feature_bc_matrix","directory","TRUE","TRUE","FALSE","FALSE","FALSE"
+"filtered_feature_bc_matrix.h5","file","TRUE","TRUE","FALSE","FALSE","FALSE"
+"metrics_summary.csv","file","TRUE","TRUE","FALSE","FALSE","FALSE"
+"molecule_info.h5","file","TRUE","TRUE","FALSE","FALSE","FALSE"
+"raw_feature_bc_matrix","directory","TRUE","TRUE","FALSE","FALSE","FALSE"
+"raw_feature_bc_matrix.h5","file","TRUE","TRUE","FALSE","FALSE","FALSE"
+"web_summary.html","file","TRUE","TRUE","FALSE","FALSE","FALSE"
