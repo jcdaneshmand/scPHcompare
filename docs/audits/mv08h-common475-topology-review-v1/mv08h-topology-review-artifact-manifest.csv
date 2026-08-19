@@ -1,0 +1,5 @@
+artifact,purpose,public,contains_private_diagrams
+mv08h-topology-review-summary.csv,four view-by-homology PH summaries,TRUE,FALSE
+mv08h-topology-review-identity.csv,hash-bound execution identity and firewall state,TRUE,FALSE
+mv08h-topology-review-validation.csv,independent technical validation checks,TRUE,FALSE
+MV08H_TOPOLOGY_REVIEW_2026-08-18.md,human-readable execution report,TRUE,FALSE

@@ -1,0 +1,4 @@
+"artifact","purpose","public","contains_private_diagrams"
+"mv08h-common475-landscape-level-summary.csv","one row per retained active landscape level",TRUE,FALSE
+"mv08h-common475-landscape-execution.csv","one row per frozen view and homology dimension",TRUE,FALSE
+"mv08h-common475-landscape-repeat-ledger.csv","byte-identical primary/repeat verification",TRUE,FALSE
