@@ -1,0 +1,8 @@
+"contract_id","unit_id","success_marker_present","stderr_empty","failure_markers","required_outputs","resource_evidence_source","resource_sample_count","elapsed_seconds","maximum_rss_bytes","maximum_workspace_bytes","minimum_free_bytes","resource_gates_passed","private_outputs_published"
+"mv08h_exact500_remaining_execution_evidence_v1","HCA_BM_001","TRUE","TRUE","0","6/6","merged-resource-samples+terminal-perf","109","14667","20107894784","21880474622","1831579729920","TRUE","FALSE"
+"mv08h_exact500_remaining_execution_evidence_v1","HCA_BM_003","TRUE","TRUE","0","6/6","merged-resource-samples+terminal-perf","5","15343","20349296640","334109","1853302513664","TRUE","FALSE"
+"mv08h_exact500_remaining_execution_evidence_v1","HCA_BM_004","TRUE","TRUE","0","6/6","merged-resource-samples+terminal-perf","380","17726","20483440640","32632534257","1752494759936","TRUE","FALSE"
+"mv08h_exact500_remaining_execution_evidence_v1","HCA_BM_005","TRUE","TRUE","0","6/6","private-receipt+terminal-perf","1","14544","20215795712","32640465938","1714787155968","TRUE","FALSE"
+"mv08h_exact500_remaining_execution_evidence_v1","HCA_BM_006","TRUE","TRUE","0","6/6","private-receipt+terminal-perf","1","15432","20036288512","32841680581","1647425118208","TRUE","FALSE"
+"mv08h_exact500_remaining_execution_evidence_v1","HCA_BM_007","TRUE","TRUE","0","6/6","private-receipt+terminal-perf","1","16122","20176646144","31671842450","1620817772544","TRUE","FALSE"
+"mv08h_exact500_remaining_execution_evidence_v1","HCA_BM_008","TRUE","TRUE","0","6/6","private-receipt+terminal-perf","1","20392","20131180544","34782743507","1584180985856","TRUE","FALSE"

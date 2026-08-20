@@ -12,12 +12,14 @@ from __future__ import annotations
 
 import argparse
 import csv
-from datetime import date
+from datetime import date, datetime
 import gzip
 import hashlib
+import json
 import os
 from pathlib import Path
 import re
+import subprocess
 
 import h5py
 import numpy as np
@@ -107,7 +109,7 @@ def read_panels(exact_path: Path, common_path: Path) -> tuple[list[str], list[st
     return exact_ids, common_ids
 
 
-def load_matrix(path: Path) -> tuple[sparse.csc_matrix, np.ndarray]:
+def load_matrix(path: Path) -> tuple[sparse.csc_matrix, np.ndarray, np.ndarray]:
     with h5py.File(path, "r") as h5:
         shape = tuple(int(value) for value in h5["matrix/shape"][()])
         if shape[0] != FEATURES or shape[1] <= 0:
@@ -115,7 +117,12 @@ def load_matrix(path: Path) -> tuple[sparse.csc_matrix, np.ndarray]:
         data = np.asarray(h5["matrix/data"][()])
         indices = np.asarray(h5["matrix/indices"][()]).astype(np.int64, copy=False)
         indptr = np.asarray(h5["matrix/indptr"][()]).astype(np.int64, copy=False)
+        ids_raw = np.asarray(h5["matrix/features/id"][()])
         names_raw = np.asarray(h5["matrix/features/name"][()])
+        feature_ids = np.asarray([
+            value.decode("utf-8") if isinstance(value, (bytes, np.bytes_)) else str(value)
+            for value in ids_raw
+        ], dtype=object)
         names = np.asarray([
             value.decode("utf-8") if isinstance(value, (bytes, np.bytes_)) else str(value)
             for value in names_raw
@@ -123,11 +130,11 @@ def load_matrix(path: Path) -> tuple[sparse.csc_matrix, np.ndarray]:
         feature_types = h5["matrix/features/feature_type"][()]
         if data.dtype != np.int32 or indices.dtype != np.int64 or indptr.dtype != np.int64:
             raise ValueError(f"unexpected dtypes in {path.name}")
-        if len(names) != shape[0] or len(feature_types) != shape[0] or len(indptr) != shape[1] + 1:
+        if len(feature_ids) != shape[0] or len(names) != shape[0] or len(feature_types) != shape[0] or len(indptr) != shape[1] + 1:
             raise ValueError(f"axis mismatch in {path.name}")
         if indptr[-1] != len(data) or np.any(data < 0):
             raise ValueError(f"invalid sparse matrix values in {path.name}")
-    return sparse.csc_matrix((data, indices, indptr), shape=shape), names
+    return sparse.csc_matrix((data, indices, indptr), shape=shape), feature_ids, names
 
 
 def qc_summary(matrix: sparse.csc_matrix, names: np.ndarray) -> dict[str, object]:
@@ -163,17 +170,58 @@ def add(checks: list[dict[str, object]], unit: str, check_id: str, passed: bool,
     checks.append({"unit_id": unit, "check_id": check_id, "passed": str(bool(passed)).upper(), "evidence": evidence})
 
 
+def collect_highmem(value: object, rows: list[dict[str, int]]) -> None:
+    if isinstance(value, dict):
+        highmem = value.get("highmem")
+        if isinstance(highmem, dict) and "rss" in highmem:
+            rows.append({key: int(highmem.get(key, 0)) for key in ("rss", "vmem", "proc_count", "shared", "text")})
+        for child in value.values():
+            collect_highmem(child, rows)
+    elif isinstance(value, list):
+        for child in value:
+            collect_highmem(child, rows)
+
+
+def terminal_resource_evidence(unit_root: Path) -> dict[str, object]:
+    target = next(unit_root.glob("mv08h_exact500_*"), None)
+    if target is None:
+        return {"present": False, "max_rss_bytes": 0, "elapsed_seconds": 0}
+    perf_path = target / "_perf"
+    timestamp_path = target / "_timestamp"
+    stdout_path = unit_root / "stdout.log"
+    if not (perf_path.is_file() and timestamp_path.is_file() and stdout_path.is_file()):
+        return {"present": False, "max_rss_bytes": 0, "elapsed_seconds": 0}
+    highmem: list[dict[str, int]] = []
+    collect_highmem(json.loads(perf_path.read_text(encoding="utf-8")), highmem)
+    timestamp_lines = timestamp_path.read_text(encoding="utf-8").splitlines()
+    start_line = next((line for line in timestamp_lines if line.startswith("start: ")), "")
+    finish_match = re.search(r"^(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}) Shutting down\.", stdout_path.read_text(encoding="utf-8", errors="replace"), re.MULTILINE)
+    if not highmem or not start_line or not finish_match:
+        return {"present": False, "max_rss_bytes": 0, "elapsed_seconds": 0}
+    start = datetime.strptime(start_line.removeprefix("start: "), "%Y-%m-%d %H:%M:%S")
+    finish = datetime.strptime(finish_match.group(1), "%Y-%m-%d %H:%M:%S")
+    return {
+        "present": True,
+        "max_rss_bytes": max(row["rss"] for row in highmem),
+        "elapsed_seconds": int((finish - start).total_seconds()),
+    }
+
+
 def resource_evidence(unit_root: Path) -> tuple[bool, dict[str, object]]:
+    terminal = terminal_resource_evidence(unit_root)
     receipt = unit_root / "private-receipt.csv"
     if receipt.is_file():
         row = rows(receipt)[0]
-        passed = (
+        sample_passed = (
             row.get("resource_breach_detected", "True") == "False"
             and int(row.get("maximum_process_tree_rss_kib", "0")) * 1024 <= 80 * 1024**3
             and int(row.get("maximum_run_tree_bytes", "0")) <= 200 * 1024**3
             and int(row.get("minimum_free_bytes", "0")) >= 1024**4
         )
-        return passed, {"source": "private-receipt.csv", **row}
+        max_rss = max(int(row.get("maximum_process_tree_rss_kib", "0")) * 1024, int(terminal["max_rss_bytes"]))
+        elapsed = max(int(row.get("elapsed_seconds", "0")), int(terminal["elapsed_seconds"]))
+        passed = sample_passed and bool(terminal["present"]) and max_rss <= 80 * 1024**3 and elapsed <= 96 * 60 * 60
+        return passed, {**row, "source": "private-receipt+terminal-perf", "maximum_process_tree_rss_kib": max_rss // 1024, "elapsed_seconds": elapsed}
     monitor_paths = sorted(unit_root.glob("resource-samples.csv")) + sorted(
         unit_root.glob("post-parent-resource-samples*.csv")
     )
@@ -185,13 +233,17 @@ def resource_evidence(unit_root: Path) -> tuple[bool, dict[str, object]]:
         sampled.extend(rows(path))
     if not sampled:
         return False, {"source": "merged-resource-samples", "rows": 0}
-    passed = all(
+    sample_passed = all(
         row["rss_cap_passed"] == "True" and row["workspace_cap_passed"] == "True"
         and row["free_space_floor_passed"] == "True" for row in sampled
     )
+    max_rss = max(max(int(row["rss_kib"]) for row in sampled) * 1024, int(terminal["max_rss_bytes"]))
+    elapsed = max(max(int(row.get("elapsed_seconds", "0")) for row in sampled), int(terminal["elapsed_seconds"]))
+    passed = sample_passed and bool(terminal["present"]) and max_rss <= 80 * 1024**3 and elapsed <= 96 * 60 * 60
     return passed, {
-        "source": "merged-resource-samples", "rows": len(sampled),
-        "maximum_process_tree_rss_kib": max(int(row["rss_kib"]) for row in sampled),
+        "source": "merged-resource-samples+terminal-perf", "rows": len(sampled),
+        "maximum_process_tree_rss_kib": max_rss // 1024,
+        "elapsed_seconds": elapsed,
         "maximum_run_tree_bytes": max(int(row["run_tree_bytes"]) for row in sampled),
         "minimum_free_bytes": min(int(row["free_bytes"]) for row in sampled),
     }
@@ -242,9 +294,9 @@ def main() -> int:
         add(checks, unit, "output_structure", output_ok, f"required_files={sum(path.is_file() for path in required)}/{len(required)}")
         if not output_ok:
             continue
-        filtered, names = load_matrix(outs / "filtered_feature_bc_matrix.h5")
-        raw, _ = load_matrix(outs / "raw_feature_bc_matrix.h5")
-        feature_ids = [re.sub(r"\.[0-9]+$", "", value) for value in names.astype(str)]
+        filtered, feature_ids_raw, names = load_matrix(outs / "filtered_feature_bc_matrix.h5")
+        raw, _, _ = load_matrix(outs / "raw_feature_bc_matrix.h5")
+        feature_ids = [re.sub(r"\.[0-9]+$", "", value) for value in feature_ids_raw.astype(str)]
         feature_set = set(feature_ids)
         add(checks, unit, "feature_axis", len(feature_ids) == FEATURES and len(feature_set) == FEATURES, f"unique_features={len(feature_set)}")
         add(checks, unit, "exact500_present", set(exact_ids) <= feature_set, f"present={sum(value in feature_set for value in exact_ids)}/500")

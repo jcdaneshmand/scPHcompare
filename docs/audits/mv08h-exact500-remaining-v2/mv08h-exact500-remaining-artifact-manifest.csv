@@ -1,0 +1,6 @@
+"artifact","bytes","sha256","contains_private_matrix_or_barcode_data","public_release_permitted"
+"MV08H_EXACT500_REMAINING_CLOSURE_2026-08-20.md","1490","18d6e73f47f3a8469071785981f63a775a8e1ed9e45f3703a9ec107561469d55","FALSE","TRUE"
+"mv08h-exact500-remaining-execution-evidence.csv","1635","d9552c202bee18159063c3632c855a411c4a22a4abe2af014d11fd060158cc1b","FALSE","TRUE"
+"mv08h-exact500-remaining-input-binding.csv","3037","5c53837d7587a1dc900fe957a79f6b9706a88527d2eccbbad08778e8556d7cd6","FALSE","TRUE"
+"mv08h-exact500-unit-summary.csv","858","9efd13565a3368313993361f69c97301a0f1909eface5fdae246bcf4a41c63a3","FALSE","TRUE"
+"mv08h-exact500-unit-validation.csv","5319","111bed94e8be59ecc33cbb31ddbcd364c09aa8875ca0e017ca16e0757a8276d6","FALSE","TRUE"

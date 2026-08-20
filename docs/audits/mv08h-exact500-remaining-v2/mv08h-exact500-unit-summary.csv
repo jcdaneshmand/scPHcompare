@@ -1,0 +1,8 @@
+"unit_id","filtered_cells","post_qc_cells","filtered_nnz","raw_cells","exact500_present","common475_present","resource_evidence","resource_passed"
+"HCA_BM_001","3622","2818","3576836","341365","500","475","merged-resource-samples+terminal-perf","TRUE"
+"HCA_BM_003","4024","3338","3404894","326503","500","475","merged-resource-samples+terminal-perf","TRUE"
+"HCA_BM_004","3483","2769","3856600","321682","500","475","merged-resource-samples+terminal-perf","TRUE"
+"HCA_BM_005","3664","2571","4313877","347806","500","475","private-receipt+terminal-perf","TRUE"
+"HCA_BM_006","4446","3608","4249573","335788","500","475","private-receipt+terminal-perf","TRUE"
+"HCA_BM_007","4694","4076","3950749","321344","500","475","private-receipt+terminal-perf","TRUE"
+"HCA_BM_008","4271","3661","4015149","355664","500","475","private-receipt+terminal-perf","TRUE"

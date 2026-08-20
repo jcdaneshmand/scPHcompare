@@ -103,10 +103,19 @@ def tree_identity(root: Path) -> tuple[int, int, int, str]:
 def tree_bytes(root: Path) -> int:
     if not root.exists():
         return 0
-    return sum(
-        path.stat().st_size for path in root.rglob("*")
-        if path.is_file() and not path.is_symlink()
-    )
+    # Cell Ranger removes transient work directories during final cleanup.
+    # Walk defensively so that a directory disappearing between enumeration
+    # and stat does not abort the monitor after a successful count.
+    total = 0
+    for directory, _dirnames, filenames in os.walk(root, onerror=lambda _error: None):
+        for name in filenames:
+            path = Path(directory) / name
+            try:
+                if path.is_file() and not path.is_symlink():
+                    total += path.stat().st_size
+            except FileNotFoundError:
+                continue
+    return total
 
 
 def process_tree_rss_kib(root_pid: int) -> tuple[int, int]:
