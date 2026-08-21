@@ -1,0 +1,7 @@
+"comparison_id","matched","evidence"
+"selected_cell_identity",TRUE,"same SHA-256 for the fixed 384-cell seed selection"
+"standard_retention",TRUE,"both repeats retain 497 of 500 features under min_cells=5"
+"lowcount_retention",TRUE,"both repeats retain 500 of 500 features under min_cells=1"
+"lowcount_zero_variance_gate",TRUE,"both repeats identify three effectively zero-variance features"
+"lowcount_source_matrix",TRUE,"same standardized source SHA-256: 6a74c707fa61ebbe5dbc26b14d7d7bed565cdfb60776b1005501fbd915385ee0"
+"firewall_state",TRUE,"both repeats compute no persistence, landscapes, fusion, labels, or outcomes"

@@ -1,0 +1,3 @@
+"run_id","elapsed_seconds","maximum_resident_kib","intentional_exit_status","resource_interpretation"
+"repeat_1",143.32,1148080,2,"diagnostic closure; transform completed and admission gate declined"
+"repeat_2",142.71,1158876,2,"diagnostic closure; transform completed and admission gate declined"

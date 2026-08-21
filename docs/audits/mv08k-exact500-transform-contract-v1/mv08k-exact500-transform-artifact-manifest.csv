@@ -1,0 +1,7 @@
+"artifact","sha256","contains_private_matrix_or_barcode_data","public_release_permitted"
+"MV08K_EXACT500_TRANSFORM_CONTRACT_2026-08-21.md","12f107fdaf1770ea01c0744a75545ae6fe4aa8aa897471541d2f6bc9d8564588",FALSE,TRUE
+"mv08k-exact500-transform-determinism.csv","e26fdcca180455e9348b77839fa6e5266f3c716c8bb8711216df730185ca02d8",FALSE,TRUE
+"mv08k-exact500-transform-identity.csv","e6c27c195f4371750e02322b8afd250a29e6781ef8b3bb6e28796200a502e0dc",FALSE,TRUE
+"mv08k-exact500-transform-resources.csv","aff88d744cf78a808c9be52e3bb341590f69baa3ee96f79a12a06149f25da563",FALSE,TRUE
+"mv08k-exact500-transform-summary.csv","4a8243466bd03b24be9fd237b10307c86f8e77f87fd3a620b8c47c13449d7eff",FALSE,TRUE
+"mv08k-exact500-transform-validation.csv","0d8a617e9278d338d0ac3e33ebb0235bc71c184835918fd7f680570cd5ae75d3",FALSE,TRUE
