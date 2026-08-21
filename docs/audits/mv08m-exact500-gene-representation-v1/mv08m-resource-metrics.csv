@@ -1,0 +1,4 @@
+"attempt_id","scientific_status","exit_status","elapsed_seconds","peak_rss_kib","worker_cap","elapsed_cap_seconds","peak_rss_cap_kib","within_caps","disposition"
+"primary_prepublication_helper_failure","not_evaluable",1,550.52,4313688,1,1800,12582912,TRUE,"preserved; dimension-dropping aggregate helper failed after representations completed; no scientific result admitted"
+"primary_corrected","complete",0,559.74,3879828,1,1800,12582912,TRUE,"admitted primary aggregate result"
+"repeat","complete",0,567.16,4289784,1,1800,12582912,TRUE,"admitted deterministic repeat"

@@ -1,0 +1,4 @@
+"check_id","passed","primary_sha256","repeat_sha256","evidence"
+"representation_summary_byte_repeat",TRUE,"16c0785e3e0ed97c45b5838369360b8821f397d90fcf0691114c8b8019867fb0","16c0785e3e0ed97c45b5838369360b8821f397d90fcf0691114c8b8019867fb0","all representation viability fields, values, and distance hashes are byte-identical"
+"common475_stability_byte_repeat",TRUE,"2bf90347b2f06170fd5922eeec3482024d8103ebfa952cb726e82fcb13c3e775","2bf90347b2f06170fd5922eeec3482024d8103ebfa952cb726e82fcb13c3e775","all three pairwise structural summaries are byte-identical"
+"validation_state_repeat",TRUE,"not_applicable","not_applicable","all 12 check identifiers and pass states agree after excluding elapsed-time evidence"

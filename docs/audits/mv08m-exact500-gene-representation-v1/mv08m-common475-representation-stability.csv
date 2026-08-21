@@ -1,0 +1,4 @@
+"representation_a","representation_b","common475_pair_valid","pair_count","pearson_distance_correlation","spearman_distance_correlation","median_absolute_distance_difference","p95_absolute_distance_difference","mean_top10_neighbor_overlap","interpretation"
+"sct_data_log1p_corrected_umi","sct_pearson_residual",TRUE,112575,0.950324239304171,0.926773049773842,0.00973517080830488,0.0306211812266382,0.681263157894737,"descriptive_no_threshold"
+"sct_data_log1p_corrected_umi","rna_lognormalize_10000",TRUE,112575,0.979064260433926,0.964785904178065,0.00527016756135512,0.0203294091215645,0.779157894736842,"descriptive_no_threshold"
+"sct_pearson_residual","rna_lognormalize_10000",TRUE,112575,0.926432094039249,0.910398238696988,0.00991185810388506,0.0376972609660591,0.617263157894737,"descriptive_no_threshold"

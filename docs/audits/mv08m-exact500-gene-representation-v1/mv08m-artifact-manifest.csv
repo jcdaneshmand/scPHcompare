@@ -1,0 +1,8 @@
+"artifact","bytes","sha256","public_release_permitted","contains_private_matrix_gene_or_barcode_data"
+"MV08M_EXACT500_GENE_REPRESENTATION_2026-08-21.md",5822,"1f533f4aa378609e3e3889d19bf5e47c476830213b5978e2fbc96f0717444b7c",TRUE,FALSE
+"mv08m-common475-representation-stability.csv",811,"2bf90347b2f06170fd5922eeec3482024d8103ebfa952cb726e82fcb13c3e775",TRUE,FALSE
+"mv08m-determinism.csv",712,"fdd6feb5059a1e216f1d3aef916bc6fc93116af36f4ddfe7b14cc66ab97b7ddb",TRUE,FALSE
+"mv08m-identity.csv",786,"0e1da09f798f8d06e96232e5a1dc563f82887b7bc89261f87c70677c5ac1bfec",TRUE,FALSE
+"mv08m-representation-summary.csv",1905,"16c0785e3e0ed97c45b5838369360b8821f397d90fcf0691114c8b8019867fb0",TRUE,FALSE
+"mv08m-resource-metrics.csv",570,"edb0a0ebfa8779f4165b562cb4d13f65a6055453726f4509a0fe98469d39752c",TRUE,FALSE
+"mv08m-validation.csv",1303,"7f8b8f0c33cafca4f26a60c8cef75431a14c14c5bf401edd90cd1bf9177fe670",TRUE,FALSE
