@@ -1,0 +1,13 @@
+"contract_id","artifact","bytes","sha256","role","private_content"
+"mv08n_source_freeze_v1","docs/audits/mv08f-cache-recovery-evidence/mv08f-raw-recovery.csv",48736,"b69c803dea2c9964ca611db534be9db82e9c1ea6a5930bda764e977ffb933399","primary90_raw_identity",FALSE
+"mv08n_source_freeze_v1","docs/audits/mv07f-production-evidence/mv07f-raw-production.csv",13629,"753f5e785569d2fdc95dbeef5fa6d0af25de21f5c8f163d70ba813a4cf982035","added34_raw_identity",FALSE
+"mv08n_source_freeze_v1","docs/audits/mv07fp-prefreeze-evidence-v4/mv07fp-cache-manifest.csv",292032,"73a080e3a6b4ca38edc80dd973e296823e2adfa10ba627a808c0d2c9279d2f3d","620_selection_axes",FALSE
+"mv08n_source_freeze_v1","docs/audits/mv07h-prefreeze-evidence-v4/mv07h-panel.csv",97166,"fe22220dc89deafd3c84714434a73ce8243c4d3e15d1eeb43cd51f5e6170b69b","exact500_panel",FALSE
+"mv08n_source_freeze_v1","docs/audits/mv08e-reference-reconciliation-evidence/mv08e-common475-panel.csv",150683,"2996b101445d23cb1ac02093af0f17df318cbf238b629c9835e43f88f2ecfc74","common475_panel",FALSE
+"mv08n_source_freeze_v1","docs/audits/mv08h-exact500-remaining-v2/mv08h-exact500-unit-summary.csv",858,"9efd13565a3368313993361f69c97301a0f1909eface5fdae246bcf4a41c63a3","remaining7_hca_qc",FALSE
+"mv08n_source_freeze_v1","docs/audits/mv08h-exact500-remaining-v2/mv08h-exact500-remaining-input-binding.csv",3037,"5c53837d7587a1dc900fe957a79f6b9706a88527d2eccbbad08778e8556d7cd6","remaining7_input_binding",FALSE
+"mv08n_source_freeze_v1","docs/audits/mv08m-exact500-gene-representation-v1/mv08m-identity.csv",786,"0e1da09f798f8d06e96232e5a1dc563f82887b7bc89261f87c70677c5ac1bfec","mv08m_representation_evidence",FALSE
+"mv08n_source_freeze_v1","docs/audits/mv08k-exact500-transform-contract-v1/mv08k-exact500-transform-identity.csv",682,"e6c27c195f4371750e02322b8afd250a29e6781ef8b3bb6e28796200a502e0dc","mv08k_selected_axis_bridge",FALSE
+"mv08n_source_freeze_v1","docs/audits/mv07h-full-ph-evidence/mv07h-independent-validation.csv",1216,"ec1abd3296d5e8b11d80090c9e3d22cf51aa060d5867a186bec93e974cde5a47","internal_existing_ph_validation",FALSE
+"mv08n_source_freeze_v1","docs/audits/mv07h-landscape-complete-validation/mv07h-landscape-complete-independent-validation.csv",1891,"778bddb5a7c9a6bd6cf4f60c947c56760943503b62c27dc94c647af11bbd238c","internal_existing_landscape_validation",FALSE
+"mv08n_source_freeze_v1","docs/audits/mv08i-hca-validation-v1/mv08i-independent-validation.csv",800,"c447930a7bccb0faabff78b981cb519b9b1711822da5a35751977d5d932fec8c","historical_external_common475_validation",FALSE

@@ -1,0 +1,2 @@
+"contract_id","decision","candidate_representation","default_adopted","source_view_sentinel_authorized","full_source_production_authorized","ph_authorized","landscapes_authorized","comparisons_authorized","clustering_authorized","fusion_authorized","labels_authorized","outcomes_authorized","next_gate"
+"mv08n_decision_v1","prefreeze_pass_source_view_sentinel_authorized_after_commit","sct_pearson_residual_all_qc_fit_selected384",FALSE,TRUE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,"MV8-O_internal_min_max_plus_HCA_BM_002_source_view_sentinel"

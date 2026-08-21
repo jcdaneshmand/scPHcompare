@@ -1,0 +1,7 @@
+"contract_id","stage_order","stage_id","authorization_state","pass_requirement","next_stage_automatic","outcome_label_state","biological_outcomes_computed"
+"mv08n_stage_gate_v1",1,"input_closure","complete_in_prefreeze","124 raw + 620 selections + 8 H5 + panels + comparator roots exact",FALSE,"closed",FALSE
+"mv08n_stage_gate_v1",2,"source_view_sentinel","authorized_after_commit","internal min/max five-seed views + HCA_BM_002; max/HCA repeat; no PH",FALSE,"closed",FALSE
+"mv08n_stage_gate_v1",3,"full_source_production","closed","separate sentinel closure and storage projection at or below 40 GiB",FALSE,"closed",FALSE
+"mv08n_stage_gate_v1",4,"ph_sentinel_and_full_ph","closed","separate exact-engine/cross-engine/repeat/resource prefreeze",FALSE,"closed",FALSE
+"mv08n_stage_gate_v1",5,"landscape_stress_and_completion","closed","maximum interval-burden stress + R oracle + repeat + immutable resume",FALSE,"closed",FALSE
+"mv08n_stage_gate_v1",6,"paired_comparison","closed","all sources/PH/landscapes complete and immutable",FALSE,"closed",FALSE
