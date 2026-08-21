@@ -1,0 +1,6 @@
+"comparison_id","matched","evidence"
+"configuration_set",TRUE,"both fresh runs executed standard min_cells=5 followed by low-count min_cells=1"
+"feature_retention",TRUE,"both runs retain 500/500 in both configurations"
+"transformed_variance_gate",TRUE,"both runs identify one effective zero-variance gene in both configurations"
+"raw_panel_detection_summary",TRUE,"both runs have minimum=33, median=1763.5, maximum=4613 detected cells"
+"input_and_firewall_binding",TRUE,"same panel/reference identities and no labels, persistence, landscapes, or fusion"

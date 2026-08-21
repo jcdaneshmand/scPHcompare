@@ -1,0 +1,3 @@
+"run_id","elapsed_seconds","maximum_resident_kib","intentional_exit_status","resource_gate_passed"
+"sentinel_primary",1046.48,6097884,2,TRUE
+"sentinel_repeat",1147.65,6166200,2,TRUE

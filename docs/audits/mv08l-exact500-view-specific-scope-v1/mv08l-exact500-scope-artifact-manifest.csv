@@ -1,0 +1,7 @@
+"artifact","sha256","contains_private_matrix_or_barcode_data","public_release_permitted"
+"MV08L_EXACT500_VIEW_SPECIFIC_SCOPE_2026-08-21.md","118bb82f99110df6e9bda7758d1931c7956e0d0f57a23050ddf98aad44e5f1b9",FALSE,TRUE
+"mv08l-exact500-scope-determinism.csv","f15dd67bec393d80937ffdb68a27b2c8d12aa4ae86ea5e5ee7372a930d237b9c",FALSE,TRUE
+"mv08l-exact500-scope-identity.csv","991a12df0ae4759611e745ed99e7152d5558d69b339f2e0ccb446dd29bffa60d",FALSE,TRUE
+"mv08l-exact500-scope-resources.csv","33b8d3a900ec767ba716e53e9756487da37bb10573328cd2b7b3d59c8fd659be",FALSE,TRUE
+"mv08l-exact500-scope-summary.csv","9e5a61759b06d733c9a072c02844e4b309c588c100e5f322480881a2a0ab0ce2",FALSE,TRUE
+"mv08l-exact500-scope-validation.csv","214bdcbd97fd2702812a9c84aedd22bc80c0af94b0e64f75b819b41db40bf6f1",FALSE,TRUE
