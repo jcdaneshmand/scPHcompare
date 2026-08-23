@@ -154,3 +154,61 @@ test_that("MV8-PR prefreeze binds the preserved stop and bounded overlay", {
       manifest$sha256[[i]])
   }
 })
+
+test_that("MV8-Q closes 132 sources across three immutable production roots", {
+  root <- file.path("..", "..")
+  audit <- file.path(root, "docs", "audits", "mv08q-full-source-production-closure-v1")
+  validation <- read.csv(file.path(audit, "mv08q-validation.csv"),
+    check.names = FALSE, stringsAsFactors = FALSE)
+  resource <- read.csv(file.path(audit, "mv08q-source-production-resource.csv"),
+    check.names = FALSE, stringsAsFactors = FALSE)
+  rehash <- read.csv(file.path(audit, "mv08q-source-cache-rehash.csv"),
+    check.names = FALSE, stringsAsFactors = FALSE)
+  views <- read.csv(file.path(audit, "mv08q-source-view-summary.csv"),
+    check.names = FALSE, stringsAsFactors = FALSE)
+  external <- read.csv(file.path(audit, "mv08q-external-selected-axis.csv"),
+    check.names = FALSE, stringsAsFactors = FALSE)
+  recovery <- read.csv(file.path(audit, "mv08q-recovery-summary.csv"),
+    check.names = FALSE, stringsAsFactors = FALSE)
+  manifest <- read.csv(file.path(audit, "mv08q-artifact-manifest.csv"),
+    check.names = FALSE, stringsAsFactors = FALSE)
+
+  expect_equal(nrow(validation), 17L)
+  expect_true(all(validation$passed))
+  expect_setequal(validation$check_id, c("remaining_queue_complete", "all_132_sources_covered",
+    "resource_caps", "stderr_policy", "private_caches_rehashed", "worker_row_contract",
+    "required_geometry", "external_exact500_data_diagnostic", "external_selection_frozen",
+    "source_identity", "topology_firewall", "outcome_firewall",
+    "stopped_run_evidence_preserved", "second_stop_evidence_preserved",
+    "bounded_first_recovery", "bounded_second_recovery", "explicit_retry_contract"))
+  expect_equal(nrow(resource), 129L)
+  expect_identical(as.integer(resource$job_order), seq_len(129L))
+  expect_true(all(resource$disposition == "completed"))
+  expect_equal(as.integer(table(resource$execution_source)), c(123L, 1L, 5L))
+  expect_equal(resource$attempt_number[resource$job_order %in% c(124L, 125L)], c(2L, 2L))
+  expect_true(all(resource$elapsed_seconds <= resource$elapsed_cap_seconds))
+  expect_true(all(resource$peak_rss_bytes <= resource$rss_cap_bytes))
+  expect_false(any(resource$persistence_computed | resource$landscapes_computed |
+    resource$clustering_computed | resource$fusion_computed))
+  expect_true(all(resource$outcome_label_state == "closed"))
+  expect_false(any(resource$biological_outcomes_computed))
+  expect_equal(nrow(rehash), 129L)
+  expect_true(all(rehash$private_cache_rehashed))
+  expect_equal(nrow(views), 1248L)
+  expect_equal(nrow(external), 7L)
+  expect_true(all(external$selected_cells == 384L))
+  expect_equal(recovery$original_completed_jobs, 123L)
+  expect_equal(recovery$first_recovery_completed_jobs, 1L)
+  expect_equal(recovery$second_recovery_completed_jobs, 5L)
+  expect_equal(recovery$explicit_retry_jobs, 2L)
+  expect_equal(recovery$maximum_rss_cap_bytes, 14 * 1024^3)
+  expect_true(recovery$original_evidence_preserved & recovery$second_evidence_preserved)
+
+  expect_equal(nrow(manifest), 7L)
+  for (i in seq_len(nrow(manifest))) {
+    path <- file.path(audit, manifest$artifact[[i]])
+    expect_equal(unname(file.info(path)$size), manifest$bytes[[i]])
+    expect_equal(digest::digest(file = path, algo = "sha256", serialize = FALSE),
+      manifest$sha256[[i]])
+  }
+})
