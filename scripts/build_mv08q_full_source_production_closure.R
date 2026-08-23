@@ -5,12 +5,14 @@
 # builder publishes no matrices, barcodes, private paths, PH, or outcomes.
 
 args <- commandArgs(trailingOnly = TRUE)
-if (!(length(args) %in% c(4L, 7L))) stop(paste(
+if (!(length(args) %in% c(4L, 7L, 10L))) stop(paste(
   "usage: build_mv08q_full_source_production_closure.R <mv08p-audit-dir>",
   "<original-private-dir> <original-public-dir>",
   "[<mv08pr-prefreeze-dir> <recovery-private-dir> <recovery-public-dir>]",
+  "[<mv08ps-prefreeze-dir> <second-private-dir> <second-public-dir>]",
   "<closure-output-dir>"), call. = FALSE)
-has_recovery <- length(args) == 7L
+has_recovery <- length(args) >= 7L
+has_second_recovery <- length(args) == 10L
 audit_dir <- normalizePath(args[[1L]], mustWork = TRUE)
 private_dir <- normalizePath(args[[2L]], mustWork = TRUE)
 run_dir <- normalizePath(args[[3L]], mustWork = TRUE)
@@ -19,7 +21,13 @@ if (has_recovery) {
   recovery_private_dir <- normalizePath(args[[5L]], mustWork = TRUE)
   recovery_run_dir <- normalizePath(args[[6L]], mustWork = TRUE)
 }
-output_dir <- normalizePath(args[[if (has_recovery) 7L else 4L]], mustWork = FALSE)
+if (has_second_recovery) {
+  second_audit_dir <- normalizePath(args[[7L]], mustWork = TRUE)
+  second_private_dir <- normalizePath(args[[8L]], mustWork = TRUE)
+  second_run_dir <- normalizePath(args[[9L]], mustWork = TRUE)
+}
+output_dir <- normalizePath(args[[if (has_second_recovery) 10L else if (has_recovery) 7L else 4L]],
+  mustWork = FALSE)
 if (dir.exists(output_dir)) stop("refusing to overwrite MV8-Q closure output", call. = FALSE)
 if (!requireNamespace("digest", quietly = TRUE)) stop("digest is required", call. = FALSE)
 dir.create(output_dir, recursive = TRUE)
@@ -67,37 +75,100 @@ if (has_recovery) {
       !all(original_resource$disposition[1:123] == "completed") ||
       original_resource$disposition[[124L]] != "child_failed" ||
       nrow(original_progress) != 1L || original_progress$state != "stopped" ||
-      original_progress$completed_jobs != 123L ||
-      nrow(recovery_resource) != 6L ||
-      !identical(as.integer(recovery_resource$job_order), 124:129) ||
-      !all(recovery_resource$disposition == "completed") ||
-      !identical(as.integer(recovery_resource$attempt_number), c(2L, rep(1L, 5L))) ||
-      !all(recovery_resource$future_globals_max_size_bytes == 2 * 1024^3) ||
-      nrow(recovery_progress) != 1L ||
-      recovery_progress$state != "source_production_complete_closure_pending" ||
-      recovery_progress$completed_jobs != 6L || recovery_progress$overall_completed_jobs != 129L) {
+      original_progress$completed_jobs != 123L) {
     stop("MV8-Q recovery prerequisite drift", call. = FALSE)
   }
   if (!all(names(original_resource) %in% names(recovery_resource))) {
     stop("MV8-Q recovery resource schema drift", call. = FALSE)
   }
-  resource <- rbind(original_resource[1:123, , drop = FALSE],
-    recovery_resource[, names(original_resource), drop = FALSE])
-  resource$execution_source <- c(rep("mv08p_original_v1", 123L), rep("mv08pr_overlay_v1", 6L))
-  resource$attempt_number <- c(rep(1L, 123L), as.integer(recovery_resource$attempt_number))
-  private_dirs[124:129] <- recovery_private_dir
+  if (has_second_recovery) {
+    second_contract <- utils::read.csv(file.path(second_audit_dir, "mv08ps-contract.csv"),
+      check.names = FALSE, stringsAsFactors = FALSE)
+    second_evidence <- utils::read.csv(file.path(second_audit_dir, "mv08ps-prior-evidence.csv"),
+      check.names = FALSE, stringsAsFactors = FALSE)
+    second_resource <- utils::read.csv(file.path(second_run_dir, "mv08ps-source-production-resource.csv"),
+      check.names = FALSE, stringsAsFactors = FALSE)
+    second_progress <- utils::read.csv(file.path(second_run_dir, "mv08ps-source-production-progress.csv"),
+      check.names = FALSE, stringsAsFactors = FALSE)
+    second_stopped_paths <- c(
+      file.path(recovery_run_dir, "mv08pr-source-production-resource.csv"),
+      file.path(recovery_run_dir, "mv08pr-source-production-progress.csv"),
+      file.path(recovery_private_dir, "logs", paste0(queue$unit_id[[125L]], "__primary-stderr.txt")),
+      file.path(recovery_private_dir, "logs", paste0(queue$unit_id[[125L]], "__primary-stdout.txt")),
+      file.path(recovery_private_dir, "cache", queue$output_file[[124L]]),
+      file.path(recovery_private_dir, "worker-audit", paste0(queue$unit_id[[124L]], "__primary.csv")))
+    second_stopped_valid <- nrow(second_evidence) == 6L && all(file.exists(second_stopped_paths)) &&
+      identical(as.numeric(file.info(second_stopped_paths)$size), as.numeric(second_evidence$bytes)) &&
+      identical(tolower(unname(vapply(second_stopped_paths, sha_file, character(1L)))),
+        tolower(second_evidence$sha256))
+    if (nrow(second_contract) != 1L || second_contract$rss_cap_bytes != 14 * 1024^3 ||
+        !second_stopped_valid || nrow(recovery_resource) != 2L ||
+        !identical(as.integer(recovery_resource$job_order), 124:125) ||
+        !identical(as.character(recovery_resource$disposition), c("completed", "rss_cap_exceeded")) ||
+        !identical(as.integer(recovery_resource$attempt_number), c(2L, 1L)) ||
+        nrow(recovery_progress) != 1L || recovery_progress$state != "stopped" ||
+        recovery_progress$completed_jobs != 1L || recovery_progress$overall_completed_jobs != 124L ||
+        nrow(second_resource) != 5L || !identical(as.integer(second_resource$job_order), 125:129) ||
+        !all(second_resource$disposition == "completed") ||
+        !identical(as.integer(second_resource$attempt_number), c(2L, rep(1L, 4L))) ||
+        !all(second_resource$future_globals_max_size_bytes == 2 * 1024^3) ||
+        !all(second_resource$rss_cap_bytes == 14 * 1024^3) ||
+        nrow(second_progress) != 1L ||
+        second_progress$state != "source_production_complete_closure_pending" ||
+        second_progress$completed_jobs != 5L || second_progress$overall_completed_jobs != 129L ||
+        !all(names(original_resource) %in% names(second_resource))) {
+      stop("MV8-Q second recovery prerequisite drift", call. = FALSE)
+    }
+    resource <- rbind(original_resource[1:123, , drop = FALSE],
+      recovery_resource[1L, names(original_resource), drop = FALSE],
+      second_resource[, names(original_resource), drop = FALSE])
+    resource$execution_source <- c(rep("mv08p_original_v1", 123L),
+      "mv08pr_overlay_v1", rep("mv08ps_overlay_v1", 5L))
+    resource$attempt_number <- c(rep(1L, 123L), 2L, as.integer(second_resource$attempt_number))
+    private_dirs[[124L]] <- recovery_private_dir
+    private_dirs[125:129] <- second_private_dir
+    recovery_completed_jobs <- 1L
+    second_recovery_completed_jobs <- 5L
+    explicit_retry_jobs <- 2L
+    max_rss_cap_bytes <- 14 * 1024^3
+    second_evidence_preserved <- TRUE
+  } else {
+    if (nrow(recovery_resource) != 6L ||
+        !identical(as.integer(recovery_resource$job_order), 124:129) ||
+        !all(recovery_resource$disposition == "completed") ||
+        !identical(as.integer(recovery_resource$attempt_number), c(2L, rep(1L, 5L))) ||
+        !all(recovery_resource$future_globals_max_size_bytes == 2 * 1024^3) ||
+        nrow(recovery_progress) != 1L ||
+        recovery_progress$state != "source_production_complete_closure_pending" ||
+        recovery_progress$completed_jobs != 6L || recovery_progress$overall_completed_jobs != 129L) {
+      stop("MV8-Q first recovery prerequisite drift", call. = FALSE)
+    }
+    resource <- rbind(original_resource[1:123, , drop = FALSE],
+      recovery_resource[, names(original_resource), drop = FALSE])
+    resource$execution_source <- c(rep("mv08p_original_v1", 123L), rep("mv08pr_overlay_v1", 6L))
+    resource$attempt_number <- c(rep(1L, 123L), as.integer(recovery_resource$attempt_number))
+    private_dirs[124:129] <- recovery_private_dir
+    recovery_completed_jobs <- 6L
+    second_recovery_completed_jobs <- 0L
+    explicit_retry_jobs <- 1L
+    max_rss_cap_bytes <- 12 * 1024^3
+    second_evidence_preserved <- NA
+  }
   progress_complete <- TRUE
   recovery_summary <- data.frame(
     contract_id = "mv08q_recovery_summary_v1", original_completed_jobs = 123L,
-    original_failed_job_order = 124L, recovery_completed_jobs = 6L,
-    explicit_retry_jobs = 1L, future_globals_max_size_bytes = 2 * 1024^3,
+    original_failed_job_order = 124L, first_recovery_completed_jobs = recovery_completed_jobs,
+    second_failed_job_order = if (has_second_recovery) 125L else NA_integer_,
+    second_recovery_completed_jobs = second_recovery_completed_jobs,
+    explicit_retry_jobs = explicit_retry_jobs, future_globals_max_size_bytes = 2 * 1024^3,
+    maximum_rss_cap_bytes = max_rss_cap_bytes,
     original_resource_sha256 = sha_file(stopped_paths[[1L]]),
     original_progress_sha256 = sha_file(stopped_paths[[2L]]),
     original_failed_stderr_sha256 = sha_file(stopped_paths[[3L]]),
     original_failed_stdout_sha256 = sha_file(stopped_paths[[4L]]),
-    original_evidence_preserved = TRUE, topology_execution_state = "closed",
-    outcome_label_state = "closed", biological_outcomes_computed = FALSE,
-    stringsAsFactors = FALSE)
+    original_evidence_preserved = TRUE, second_evidence_preserved = second_evidence_preserved,
+    topology_execution_state = "closed", outcome_label_state = "closed",
+    biological_outcomes_computed = FALSE, stringsAsFactors = FALSE)
 } else {
   resource <- original_resource
   progress_complete <- nrow(original_progress) == 1L &&
@@ -171,24 +242,47 @@ validation <- data.frame(
       resource$clustering_computed | resource$fusion_computed),
     all(resource$outcome_label_state == "closed") && !any(resource$biological_outcomes_computed)),
   evidence = c("all 129 MV8-P jobs completed", "129 new plus three MV8-O primary source fits",
-    "every job within 1,800 seconds and 12 GiB", "only empty or documented glmGamPoi-native fallback stderr",
+    if (has_second_recovery) "every job within 1,800 seconds and its prospectively frozen 12- or 14-GiB cap" else
+      "every job within 1,800 seconds and 12 GiB", "only empty or documented glmGamPoi-native fallback stderr",
     "all private cache/audit hashes independently recomputed", "122 internal ten-row plus seven external four-row audits",
     "all PH-eligible correlation-chord geometries valid", "seven SCT-data exact500 views remain diagnostic-only",
     "seven external 384-cell axes frozen by deterministic preflight", "resource order matches the frozen queue",
     "no PH, landscapes, clustering, or fusion", "labels and biological outcomes remained closed"),
   stringsAsFactors = FALSE)
 if (has_recovery) {
-  validation <- rbind(validation, data.frame(
-    check_id = c("stopped_run_evidence_preserved", "bounded_recovery_overlay",
-      "single_explicit_retry"),
-    passed = c(recovery_summary$original_evidence_preserved,
-      nrow(recovery_resource) == 6L && all(recovery_resource$disposition == "completed") &&
-        all(recovery_resource$future_globals_max_size_bytes == 2 * 1024^3),
-      identical(as.integer(recovery_resource$attempt_number), c(2L, rep(1L, 5L)))),
-    evidence = c("stopped v1 ledger, progress, and failed child logs match the recovery prefreeze",
-      "jobs 124-129 completed in the fresh overlay with bounded 2-GiB future exports",
-      "only job 124 received one explicit second attempt; jobs 125-129 were first attempts"),
-    stringsAsFactors = FALSE))
+  if (has_second_recovery) {
+    validation <- rbind(validation, data.frame(
+      check_id = c("stopped_run_evidence_preserved", "second_stop_evidence_preserved",
+        "bounded_first_recovery", "bounded_second_recovery", "explicit_retry_contract"),
+      passed = c(recovery_summary$original_evidence_preserved,
+        recovery_summary$second_evidence_preserved,
+        recovery_resource$disposition[[1L]] == "completed" &&
+          recovery_resource$future_globals_max_size_bytes[[1L]] == 2 * 1024^3 &&
+          recovery_resource$rss_cap_bytes[[1L]] == 12 * 1024^3,
+        nrow(second_resource) == 5L && all(second_resource$disposition == "completed") &&
+          all(second_resource$future_globals_max_size_bytes == 2 * 1024^3) &&
+          all(second_resource$rss_cap_bytes == 14 * 1024^3),
+        recovery_resource$attempt_number[[1L]] == 2L &&
+          identical(as.integer(second_resource$attempt_number), c(2L, rep(1L, 4L)))),
+      evidence = c("original stopped ledger, progress, and failed job-124 logs match MV8-PR prefreeze",
+        "MV8-PR stopped ledger/progress, failed job-125 logs, and accepted job-124 artifacts match MV8-PS prefreeze",
+        "accepted job 124 completed under the 12-GiB and 2-GiB-future first overlay",
+        "jobs 125-129 completed under the prospective 14-GiB and 2-GiB-future second overlay",
+        "only jobs 124 and 125 received one explicit second attempt; jobs 126-129 were first attempts"),
+      stringsAsFactors = FALSE))
+  } else {
+    validation <- rbind(validation, data.frame(
+      check_id = c("stopped_run_evidence_preserved", "bounded_recovery_overlay",
+        "single_explicit_retry"),
+      passed = c(recovery_summary$original_evidence_preserved,
+        nrow(recovery_resource) == 6L && all(recovery_resource$disposition == "completed") &&
+          all(recovery_resource$future_globals_max_size_bytes == 2 * 1024^3),
+        identical(as.integer(recovery_resource$attempt_number), c(2L, rep(1L, 5L)))),
+      evidence = c("stopped v1 ledger, progress, and failed child logs match the recovery prefreeze",
+        "jobs 124-129 completed in the fresh overlay with bounded 2-GiB future exports",
+        "only job 124 received one explicit second attempt; jobs 125-129 were first attempts"),
+      stringsAsFactors = FALSE))
+  }
 }
 if (!all(validation$passed)) stop("MV8-Q source-production closure validation failed", call. = FALSE)
 
@@ -203,7 +297,9 @@ if (has_recovery) {
 report <- c(
   "# MV8-Q full Pearson-residual source-production closure", "",
   "## Result", "",
-  if (has_recovery)
+  if (has_second_recovery)
+    "The preserved MV8-P run contributed 123 accepted fits, MV8-PR contributed accepted job 124, and the bounded MV8-PS overlay contributed jobs 125-129. Together with the three MV8-O primary source fits, the full 132-source representation layer is covered. Every private cache and worker audit was independently rehashed."
+  else if (has_recovery)
     "The preserved MV8-P run contributed 123 accepted fits and the bounded MV8-PR overlay contributed jobs 124-129. Together with the three MV8-O primary source fits, the full 132-source representation layer is covered. Every private cache and worker audit was independently rehashed."
   else
     "All 129 MV8-P source fits completed within the frozen serial resource policy. Together with the three MV8-O primary source fits, the full 132-source representation layer is covered. Every private cache and worker audit was independently rehashed.", "",

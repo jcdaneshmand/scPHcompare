@@ -1,0 +1,7 @@
+"artifact_id","relative_path","bytes","sha256"
+"mv08pr_stopped_resource_ledger","public/mv08pr-source-production-resource.csv",1179,"c7da39cf9e53223b7bd5eb5bf9a6bcc1b13c2a079227ab4e3d80141769e284b9"
+"mv08pr_stopped_progress","public/mv08pr-source-production-progress.csv",356,"37055d4d1304c4df5a935b24572620978b73befc340338e4f3d6ed24318b8d55"
+"failed_job125_stderr","private/logs/SRA826293_SRS4181130__primary-stderr.txt",338,"f975514c931bf2c05af7f8957f11a5c134d140c27c66f49fe143496a52743250"
+"failed_job125_stdout","private/logs/SRA826293_SRS4181130__primary-stdout.txt",0,"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+"accepted_job124_cache","private/cache/internal/SRA760933_SRS3693061__exact500_allqc_sct_model.rds",15641439,"b25c89fb5efe2873b370855b2d2dfee310f1eaa8aeb137931432a6c0fe293963"
+"accepted_job124_audit","private/worker-audit/SRA760933_SRS3693061__primary.csv",6492,"a7cd2c3529a987d23c3e6383eea0e70e93d1f107b2e1221fc5221320222c9276"
