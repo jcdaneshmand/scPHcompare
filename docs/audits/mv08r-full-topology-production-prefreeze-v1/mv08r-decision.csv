@@ -1,0 +1,2 @@
+"contract_id","decision","source_fits_reused","external_baseline_jobs_authorized","ph_jobs_authorized","full_ph_jobs_closed","landscape_groups_authorized","comparison_strata_authorized","clustering_jobs_authorized","fusion_jobs_authorized","label_jobs_authorized","outcome_jobs_authorized","next_gate","outcome_label_state","biological_outcomes_computed"
+"mv08r_decision_v1","authorize_same_axis_external_baseline_and_23_job_PH_sentinel_after_commit",132,8,23,1257,0,0,0,0,0,0,"same_axis_external_baseline_plus_PH_sentinel_closure","closed",FALSE

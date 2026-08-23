@@ -1,0 +1,11 @@
+"contract_id","item","required_state","owner_approved","outcome_label_state","biological_outcomes_computed"
+"mv08r_landscape_contract_v1","finite_intervals","all_finite_positive_persistence_intervals",TRUE,"closed",FALSE
+"mv08r_landscape_contract_v1","essential_h0","exclude_infinite_interval",TRUE,"closed",FALSE
+"mv08r_landscape_contract_v1","level_policy","all_consecutive_active_levels",TRUE,"closed",FALSE
+"mv08r_landscape_contract_v1","integration","exact_or_error_controlled_squared_l2_on_dimension_support",TRUE,"closed",FALSE
+"mv08r_landscape_contract_v1","dimension_policy","h0_h1_separate_primary_outputs",TRUE,"closed",FALSE
+"mv08r_landscape_contract_v1","grid_policy","no_universal_fixed_grid",TRUE,"closed",FALSE
+"mv08r_landscape_contract_v1","level_cap_policy","no_universal_level_cap",TRUE,"closed",FALSE
+"mv08r_landscape_contract_v1","streaming","stream_or_chunk_without_dense_landscape_materialization",TRUE,"closed",FALSE
+"mv08r_landscape_contract_v1","combined_summary","secondary_only_after_separate_h0_h1",TRUE,"closed",FALSE
+"mv08r_landscape_contract_v1","engine_gate","rust_rebuild_hash_rebind_and_R_oracle_before_production",TRUE,"closed",FALSE

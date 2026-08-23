@@ -1,0 +1,8 @@
+"contract_id","component","observed_version","required_before_stage","current_gate_passed","resolution"
+"mv08r_runtime_audit_v1","R","4.4.1","ph_sentinel",TRUE,"none"
+"mv08r_runtime_audit_v1","ripserr","0.3.0","ph_sentinel",TRUE,"none"
+"mv08r_runtime_audit_v1","TDA","1.9.4","ph_sentinel",TRUE,"none"
+"mv08r_runtime_audit_v1","digest","0.6.37","prefreeze",TRUE,"none"
+"mv08r_runtime_audit_v1","cargo","absent","landscape_stress",FALSE,"reinstall_or_restore_locked_Rust_toolchain"
+"mv08r_runtime_audit_v1","rustc","absent","landscape_stress",FALSE,"same_as_cargo"
+"mv08r_runtime_audit_v1","accepted_Rust_binary","absent","landscape_stress",FALSE,"rebuild_and_hash_rebind_from_locked_source"

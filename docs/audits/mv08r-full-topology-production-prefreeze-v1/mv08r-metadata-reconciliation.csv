@@ -1,0 +1,4 @@
+"contract_id","discrepancy","observed_state","resolution","changes_estimand","historical_artifacts_mutated","outcome_label_state","biological_outcomes_computed"
+"mv08r_metadata_reconciliation_v1","common475_worker_panel_sha256","common475_rows_recorded_exact500_sha256","bind_common475_to_frozen_ordered_common475_sha_without_altering_matrix_distance_hashes",FALSE,FALSE,"closed",FALSE
+"mv08r_metadata_reconciliation_v1","external_selectedfit_baseline_cell_axis","MV8I_selected384_digests_differ_from_current_exact_reference_all_8_units","reconstruct_selected384_fit_baseline_from_current_exact_reference_raw_reads_on_identical_axes",FALSE,FALSE,"closed",FALSE
+"mv08r_metadata_reconciliation_v1","current_rust_binary_availability","accepted_binary_not_present_in_current_WSL_workspace","rebuild_from_locked_source_then_require_hash_equivalence_and_R_oracles_before_landscapes",FALSE,FALSE,"closed",FALSE

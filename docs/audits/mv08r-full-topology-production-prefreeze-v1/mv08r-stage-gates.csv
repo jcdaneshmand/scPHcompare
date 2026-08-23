@@ -1,0 +1,8 @@
+"contract_id","stage_order","stage_id","authorization_state","pass_requirement","next_stage_automatic","outcome_label_state","biological_outcomes_computed"
+"mv08r_stage_gate_v1",1,"source_closure","complete","132 source caches and required geometry hash-bound",FALSE,"closed",FALSE
+"mv08r_stage_gate_v1",2,"same_axis_external_baseline","authorized_after_commit","8 exact-reference selectedfit baselines match frozen selected384 digests",FALSE,"closed",FALSE
+"mv08r_stage_gate_v1",3,"ph_sentinel","authorized_after_commit","23 jobs complete; repeats, MST oracle, subset/full cross-engine and caps pass",FALSE,"closed",FALSE
+"mv08r_stage_gate_v1",4,"full_ph","closed","1280/1280 atomic PH records complete with H0/H1 separate",FALSE,"closed",FALSE
+"mv08r_stage_gate_v1",5,"landscape_stress","closed","accepted Rust binary rebound; max interval-burden group plus R oracle and repeat pass",FALSE,"closed",FALSE
+"mv08r_stage_gate_v1",6,"landscape_completion","closed","28/28 groups complete; immutable resume and component balance pass",FALSE,"closed",FALSE
+"mv08r_stage_gate_v1",7,"paired_comparison","closed","all prerequisite distance hashes complete; labels and outcomes still closed",FALSE,"closed",FALSE

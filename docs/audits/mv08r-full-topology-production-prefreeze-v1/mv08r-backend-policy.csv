@@ -1,0 +1,4 @@
+"contract_id","view_kind","attempt_scope","engine","trigger","elapsed_cap_seconds","rss_cap_bytes","workers","retries","mathematical_estimand","essential_h0_normalization","substitution_allowed","outcome_label_state","biological_outcomes_computed"
+"mv08r_backend_policy_v1","cell_topology_v1","primary","ripserr_0.3.0","always",600,4294967296,1,0,"complete_vietoris_rips_H0_H1_field_2_threshold_minus_1","native_infinite",FALSE,"closed",FALSE
+"mv08r_backend_policy_v1","gene_topology_v1","primary","ripserr_0.3.0","always",1800,8589934592,1,0,"complete_vietoris_rips_H0_H1_field_2_threshold_minus_1","native_infinite",FALSE,"closed",FALSE
+"mv08r_backend_policy_v1","gene_topology_v1","resource_fallback","TDA_ripsDiag_GUDHI_1.9.4","primary_rss_cap_exceeded_only",1800,12884901888,1,0,"complete_vietoris_rips_H0_H1_field_2_threshold_minus_1","replace_capped_class_with_infinite",FALSE,"closed",FALSE
