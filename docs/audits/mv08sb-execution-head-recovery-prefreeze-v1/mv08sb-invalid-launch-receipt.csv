@@ -1,0 +1,2 @@
+"contract_id","supplied_execution_head","actual_git_head","supplied_head_matches_actual","parent_interrupted","orphan_child_terminated","empty_log_files","private_log_bytes","public_ledger_files","scientific_outputs","ph_records","landscape_groups","outcome_label_state","biological_outcomes_computed"
+"mv08sb_invalid_launch_receipt_v1","ecc01ad1c3a845164163232015c3cb959d5d76b7","ecc01ada51b316fb8e8f309558fde308a21e1195",FALSE,TRUE,TRUE,2,0,0,0,0,0,"closed",FALSE

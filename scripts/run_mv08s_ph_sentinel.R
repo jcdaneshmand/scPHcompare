@@ -39,16 +39,40 @@ recovery_implementation <- utils::read.csv(
   file.path(recovery_prefreeze, "mv08sa-implementation-bindings.csv"),
   check.names = FALSE, stringsAsFactors = FALSE
 )
-if (nrow(recovery_decision) != 1L ||
+helper_binding <- recovery_implementation[
+  recovery_implementation$file == "scripts/run_mv08s_same_axis_baseline_entry.R",
+  , drop = FALSE
+]
+if (nrow(recovery_decision) != 1L || nrow(helper_binding) != 1L ||
     recovery_decision$authorization_state != "authorized_after_mv08sa_commit" ||
     recovery_decision$failed_execution_head !=
       "218af2869e4664bbaa020fe4fed03075f601a849" ||
     recovery_decision$replacement_roots_required != TRUE ||
-    !all(file.exists(recovery_implementation$file)) ||
-    !all(vapply(recovery_implementation$file, function(path) {
-      digest::digest(file = path, algo = "sha256", serialize = FALSE)
-    }, character(1L)) == recovery_implementation$sha256)) {
+    !file.exists(helper_binding$file) ||
+    digest::digest(file = helper_binding$file, algo = "sha256", serialize = FALSE) !=
+      helper_binding$sha256) {
   stop("MV8-SA implementation-recovery binding failed", call. = FALSE)
+}
+launch_recovery_prefreeze <- normalizePath(
+  Sys.getenv("MV08S_LAUNCH_RECOVERY_PREFREEZE", unset = ""), mustWork = TRUE
+)
+launch_decision <- utils::read.csv(
+  file.path(launch_recovery_prefreeze, "mv08sb-decision.csv"),
+  check.names = FALSE, stringsAsFactors = FALSE
+)
+launch_implementation <- utils::read.csv(
+  file.path(launch_recovery_prefreeze, "mv08sb-implementation-bindings.csv"),
+  check.names = FALSE, stringsAsFactors = FALSE
+)
+if (nrow(launch_decision) != 1L ||
+    launch_decision$authorization_state != "authorized_after_mv08sb_commit" ||
+    launch_decision$actual_git_head !=
+      "ecc01ada51b316fb8e8f309558fde308a21e1195" ||
+    !all(file.exists(launch_implementation$file)) ||
+    !all(vapply(launch_implementation$file, function(path) {
+      digest::digest(file = path, algo = "sha256", serialize = FALSE)
+    }, character(1L)) == launch_implementation$sha256)) {
+  stop("MV8-SB launch-provenance recovery binding failed", call. = FALSE)
 }
 if ((dir.exists(private_root) || dir.exists(public_root)) && !resume) {
   stop("MV8-S output roots already exist; explicit --resume required", call. = FALSE)
@@ -157,6 +181,7 @@ progress <- if (file.exists(progress_path)) read_csv(progress_path) else
     contract_id = "mv08s_progress_v1", stage = "prefight",
     execution_head = expected_head,
     recovery_contract = "mv08sa_baseline_helper_recovery_prefreeze_v1",
+    launch_recovery_contract = "mv08sb_execution_head_recovery_prefreeze_v1",
     completed_units = 0L, total_units = 66L,
     last_unit = "none", disposition = "ready",
     outcome_label_state = "closed", biological_outcomes_computed = FALSE,
@@ -167,6 +192,7 @@ publish_progress <- function(stage, completed, last, disposition) {
     contract_id = "mv08s_progress_v1", stage = stage,
     execution_head = expected_head,
     recovery_contract = "mv08sa_baseline_helper_recovery_prefreeze_v1",
+    launch_recovery_contract = "mv08sb_execution_head_recovery_prefreeze_v1",
     completed_units = completed, total_units = 66L,
     last_unit = last, disposition = disposition,
     outcome_label_state = "closed", biological_outcomes_computed = FALSE,
@@ -222,6 +248,7 @@ run_child <- function(attempt_id, stage, script, script_args, output,
     contract_id = "mv08s_resource_metric_v1",
     execution_head = expected_head,
     recovery_contract = "mv08sa_baseline_helper_recovery_prefreeze_v1",
+    launch_recovery_contract = "mv08sb_execution_head_recovery_prefreeze_v1",
     attempt_order = nrow(ledger) + 1L,
     attempt_id = attempt_id,
     stage = stage,
@@ -446,6 +473,7 @@ decision <- data.frame(
   contract_id = "mv08s_execution_decision_v1",
   execution_head = expected_head,
   recovery_contract = "mv08sa_baseline_helper_recovery_prefreeze_v1",
+  launch_recovery_contract = "mv08sb_execution_head_recovery_prefreeze_v1",
   decision = "23_record_PH_sentinel_complete_await_independent_closure",
   baseline_units = nrow(baseline_metrics), baseline_repeat_units = nrow(baseline_repeats),
   ph_records = nrow(ph_metrics), ph_repeat_records = nrow(ph_repeats),

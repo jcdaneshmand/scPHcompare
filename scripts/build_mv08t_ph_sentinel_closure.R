@@ -28,6 +28,9 @@ dir.create(output_dir, recursive = TRUE)
 recovery_prefreeze <- normalizePath(
   Sys.getenv("MV08S_RECOVERY_PREFREEZE", unset = ""), mustWork = TRUE
 )
+launch_recovery_prefreeze <- normalizePath(
+  Sys.getenv("MV08S_LAUNCH_RECOVERY_PREFREEZE", unset = ""), mustWork = TRUE
+)
 source("R/toy_baseline.R")
 source("R/dual_view_topology.R")
 source("R/mv07g_sentinel.R")
@@ -76,6 +79,7 @@ ph_repeats <- read_csv(file.path(public_root, "mv08s-ph-repeat-validation.csv"))
 cross_results <- read_csv(file.path(public_root, "mv08s-cross-engine-results.csv"))
 execution_decision <- read_csv(file.path(public_root, "mv08s-execution-decision.csv"))
 recovery_decision <- read_csv(file.path(recovery_prefreeze, "mv08sa-decision.csv"))
+launch_decision <- read_csv(file.path(launch_recovery_prefreeze, "mv08sb-decision.csv"))
 panel <- read_csv(panel_path)
 if (nrow(contract) != 1L || nrow(bindings) != 8L || nrow(source_bindings) != 2L ||
     nrow(queue) != 23L || nrow(cross_contract) != 4L ||
@@ -204,7 +208,7 @@ cross_private_valid <- all(file.exists(cross_files)) && all(vapply(
 validation <- data.frame(
   contract_id = "mv08t_closure_validation_v1",
   check_id = c(
-    "recovery_amendment_bound", "exact_execution_head_published", "input_rehash_20_of_20", "baseline_8_primary", "baseline_8_repeat_exact",
+    "helper_recovery_bound", "launch_recovery_bound", "exact_execution_head_published", "input_rehash_20_of_20", "baseline_8_primary", "baseline_8_repeat_exact",
     "ph_23_primary", "ph_23_repeat_exact", "all_23_typed_views_reconstructed",
     "all_23_h0_mst_oracles_pass", "cross_4_private_jobs", "cross_8_dimension_checks",
     "subset_and_full_present", "resource_policy_compliant", "unexpected_stderr_zero",
@@ -215,6 +219,9 @@ validation <- data.frame(
     nrow(recovery_decision) == 1L &&
       recovery_decision$authorization_state == "authorized_after_mv08sa_commit" &&
       all(ledger$recovery_contract == "mv08sa_baseline_helper_recovery_prefreeze_v1"),
+    nrow(launch_decision) == 1L &&
+      launch_decision$authorization_state == "authorized_after_mv08sb_commit" &&
+      all(ledger$launch_recovery_contract == "mv08sb_execution_head_recovery_prefreeze_v1"),
     length(unique(ledger$execution_head)) == 1L &&
       grepl("^[0-9a-f]{40}$", unique(ledger$execution_head)) &&
       progress$execution_head == unique(ledger$execution_head) &&
@@ -246,6 +253,7 @@ decision <- data.frame(
   contract_id = "mv08t_closure_decision_v1",
   execution_head = unique(ledger$execution_head),
   recovery_contract = "mv08sa_baseline_helper_recovery_prefreeze_v1",
+  launch_recovery_contract = "mv08sb_execution_head_recovery_prefreeze_v1",
   decision = "MV8S_sentinel_closed_full_PH_prefreeze_may_begin",
   baseline_records = 8L, ph_records = 23L, cross_engine_dimension_checks = 8L,
   validations_passed = sum(validation$passed), validations_total = nrow(validation),

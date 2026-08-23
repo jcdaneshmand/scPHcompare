@@ -1,0 +1,6 @@
+"contract_id","file","bytes","sha256"
+"mv08sb_implementation_binding_v1","scripts/build_mv08sb_execution_head_recovery_prefreeze.R",7051,"077c8bef049c943effc5f01ceccdd9cf0a938d613bf372cf1181ceced03e285c"
+"mv08sb_implementation_binding_v1","scripts/run_mv08s_ph_sentinel.R",24556,"c50bdff5747529eb668a96a26fcfd884fddd7e2e2e9a61d241c3a91411323a0f"
+"mv08sb_implementation_binding_v1","scripts/build_mv08t_ph_sentinel_closure.R",15522,"d30954215e9386ca580e4e6daffb982038e93cd12a521fdad1532d5d68a89233"
+"mv08sb_implementation_binding_v1","tests/testthat/test-mv08s-ph-sentinel.R",6108,"346d6378f634d0fd41b7f59b57934bd2e747ee167590b450eb02ab9f70dd257e"
+"mv08sb_implementation_binding_v1","docs/specifications/MV08SB_EXECUTION_HEAD_RECOVERY_PREFREEZE_V1.md",1002,"13dac10f9f1e6451359d69635383cc33956f972afa2a42bd42751c04ed278157"

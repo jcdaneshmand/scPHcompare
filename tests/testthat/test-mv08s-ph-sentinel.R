@@ -48,6 +48,7 @@ test_that("MV8-S runner retains the fallback and downstream firewalls", {
   expect_match(runner, "completed_units != 66L")
   expect_match(runner, "execution_head = expected_head", fixed = TRUE)
   expect_match(runner, "MV08S_RECOVERY_PREFREEZE", fixed = TRUE)
+  expect_match(runner, "MV08S_LAUNCH_RECOVERY_PREFREEZE", fixed = TRUE)
   baseline <- paste(readLines(file.path(
     "..", "..", "scripts", "run_mv08s_same_axis_baseline_entry.R"
   ), warn = FALSE), collapse = "\n")
@@ -57,6 +58,36 @@ test_that("MV8-S runner retains the fallback and downstream firewalls", {
   expect_match(runner, "label_jobs_authorized = 0L")
   expect_match(runner, "outcome_jobs_authorized = 0L")
   expect_false(grepl("run_landscape", runner, fixed = TRUE))
+})
+
+test_that("MV8-SB preserves the invalid-head launch without scientific output", {
+  root <- file.path("..", "..", "docs", "audits",
+                    "mv08sb-execution-head-recovery-prefreeze-v1")
+  read <- function(name) utils::read.csv(
+    file.path(root, name), check.names = FALSE, stringsAsFactors = FALSE
+  )
+  receipt <- read("mv08sb-invalid-launch-receipt.csv")
+  decision <- read("mv08sb-decision.csv")
+  checks <- read("mv08sb-validation.csv")
+  implementation <- read("mv08sb-implementation-bindings.csv")
+  manifest <- read("mv08sb-artifact-manifest.csv")
+  expect_equal(nrow(receipt), 1L)
+  expect_false(receipt$supplied_head_matches_actual)
+  expect_equal(receipt$scientific_outputs, 0L)
+  expect_equal(receipt$public_ledger_files, 0L)
+  expect_true(decision$fresh_roots_required)
+  expect_true(decision$derive_head_directly_from_windows_git)
+  expect_equal(decision$within_run_retries, 0L)
+  expect_true(all(checks$passed))
+  observed_implementation <- vapply(implementation$file, function(path) {
+    digest::digest(file = file.path("..", "..", path), algo = "sha256",
+                   serialize = FALSE)
+  }, character(1L))
+  expect_identical(unname(observed_implementation), implementation$sha256)
+  observed_manifest <- vapply(file.path(root, manifest$artifact), function(path) {
+    digest::digest(file = path, algo = "sha256", serialize = FALSE)
+  }, character(1L))
+  expect_identical(unname(observed_manifest), manifest$sha256)
 })
 
 test_that("MV8-SA binds the output-free helper recovery", {
@@ -79,11 +110,16 @@ test_that("MV8-SA binds the output-free helper recovery", {
   expect_true(decision$replacement_roots_required)
   expect_equal(decision$within_replacement_retries, 0L)
   expect_true(all(checks$passed))
-  observed_implementation <- vapply(implementation$file, function(path) {
+  helper <- implementation[
+    implementation$file == "scripts/run_mv08s_same_axis_baseline_entry.R",
+    , drop = FALSE
+  ]
+  expect_equal(nrow(helper), 1L)
+  observed_implementation <- vapply(helper$file, function(path) {
     digest::digest(file = file.path("..", "..", path), algo = "sha256",
                    serialize = FALSE)
   }, character(1L))
-  expect_identical(unname(observed_implementation), implementation$sha256)
+  expect_identical(unname(observed_implementation), helper$sha256)
   observed_manifest <- vapply(file.path(root, manifest$artifact), function(path) {
     digest::digest(file = path, algo = "sha256", serialize = FALSE)
   }, character(1L))

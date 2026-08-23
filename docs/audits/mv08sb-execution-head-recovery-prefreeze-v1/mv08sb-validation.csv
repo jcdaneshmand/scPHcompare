@@ -1,0 +1,13 @@
+"contract_id","check_id","passed"
+"mv08sb_validation_v1","heads_differ",TRUE
+"mv08sb_validation_v1","actual_head_exact",TRUE
+"mv08sb_validation_v1","two_empty_logs_only",TRUE
+"mv08sb_validation_v1","no_public_ledger",TRUE
+"mv08sb_validation_v1","no_baseline_output",TRUE
+"mv08sb_validation_v1","no_ph",TRUE
+"mv08sb_validation_v1","no_landscapes",TRUE
+"mv08sb_validation_v1","fresh_roots_required",TRUE
+"mv08sb_validation_v1","direct_git_derivation_required",TRUE
+"mv08sb_validation_v1","science_unchanged",TRUE
+"mv08sb_validation_v1","resources_unchanged",TRUE
+"mv08sb_validation_v1","implementation_bound",TRUE

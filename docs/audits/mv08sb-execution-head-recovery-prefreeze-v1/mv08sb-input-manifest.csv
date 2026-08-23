@@ -1,0 +1,4 @@
+"contract_id","input","bytes","sha256"
+"mv08sb_input_manifest_v1","mv08sa_artifact_manifest",816,"a2ad0a8ba89d876d036408cd123907e140ea939ae2ad06a61d8c7f39e1d6677b"
+"mv08sb_input_manifest_v1","baseline__HCA_BM_001__stderr.txt",0,"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+"mv08sb_input_manifest_v1","baseline__HCA_BM_001__stdout.txt",0,"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"

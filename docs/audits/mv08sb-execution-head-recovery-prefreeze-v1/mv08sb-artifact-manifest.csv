@@ -1,0 +1,7 @@
+"contract_id","artifact","bytes","sha256"
+"mv08sb_artifact_manifest_v1","MV08SB_RECOVERY_REPORT.md",491,"823b29150442bdddcc53d52a2bd3a3ef831ed4f8d60a1f59f9df85dbb5eca846"
+"mv08sb_artifact_manifest_v1","mv08sb-decision.csv",632,"59bf53c59dae6e785c0f4d56a347b4b29172288b9cfda2b74dfb4679e32457d7"
+"mv08sb_artifact_manifest_v1","mv08sb-implementation-bindings.csv",823,"753233358fc69ff5024bb0d24da433be4790934502c820d7ca7de392bfcca4a9"
+"mv08sb_artifact_manifest_v1","mv08sb-input-manifest.csv",426,"382e2a56c5cc91f670f3d407558e0d68a3ee00ba9559679da59fa95215fb3921"
+"mv08sb_artifact_manifest_v1","mv08sb-invalid-launch-receipt.csv",466,"839981ae9db80e337db9aac8735b7e1bda53887820158019c2570d54b23ad87f"
+"mv08sb_artifact_manifest_v1","mv08sb-validation.csv",612,"1f7035c6ecd1d493604c6cf573c78d90609c46b25e1615fc660dc4e134afce39"
