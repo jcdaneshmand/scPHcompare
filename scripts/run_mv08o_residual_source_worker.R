@@ -5,10 +5,10 @@
 # evaluates only the immutable selected-384 axes.  It never calls PH.
 
 args <- commandArgs(trailingOnly = TRUE)
-if (length(args) != 7L) {
+if (!(length(args) %in% 7:8)) {
   stop(paste(
     "usage: run_mv08o_residual_source_worker.R <mv08n-audit-dir>",
-    "<raw|h5> <source-path> <unit-id> <output-rds> <output-csv> <run-role>"
+    "<raw|h5> <source-path> <unit-id> <output-rds> <output-csv> <run-role> [source-queue.csv]"
   ), call. = FALSE)
 }
 
@@ -19,6 +19,8 @@ unit_id <- args[[4L]]
 output_rds <- normalizePath(args[[5L]], mustWork = FALSE)
 output_csv <- normalizePath(args[[6L]], mustWork = FALSE)
 run_role <- args[[7L]]
+source_queue_path <- if (length(args) == 8L) normalizePath(args[[8L]], mustWork = TRUE) else
+  file.path(audit_dir, "mv08n-residual-source-queue.csv")
 if (!(source_kind %in% c("raw", "h5")) || !nzchar(unit_id) ||
     !(run_role %in% c("primary", "repeat")) || file.exists(output_rds) ||
     file.exists(output_csv)) {
@@ -66,14 +68,17 @@ geometry <- function(values) {
   out
 }
 
-queue <- read_csv("mv08n-residual-source-queue.csv")
+queue <- utils::read.csv(source_queue_path, check.names = FALSE, stringsAsFactors = FALSE)
 row <- queue[queue$unit_id == unit_id, , drop = FALSE]
-if (nrow(row) != 1L || row$authorization_state != "source_view_sentinel_authorized" ||
+if (nrow(row) != 1L || !(row$authorization_state %in% c("source_view_sentinel_authorized", "authorized_after_mv08p_commit")) ||
     row$fit_cells < 384L || row$selected_cells_per_axis != 384L || row$workers != 1L ||
     row$retries != 0L || row$elapsed_cap_seconds != 1800L ||
     row$rss_cap_bytes != 12 * 1024^3 || row$outcome_label_state != "closed" ||
     isTRUE(row$biological_outcomes_computed)) {
   stop("unit is not an authorized MV8-O source sentinel", call. = FALSE)
+}
+if (!identical(tolower(sha_file(source_path)), tolower(row$source_sha256[[1L]]))) {
+  stop("source hash drift", call. = FALSE)
 }
 exact <- utils::read.csv("docs/audits/mv07h-prefreeze-evidence-v4/mv07h-panel.csv",
                          check.names = FALSE, stringsAsFactors = FALSE)
@@ -133,11 +138,24 @@ if (source_kind == "raw") {
   if (sum(eligible) != row$fit_cells) stop("HCA frozen-QC count drift", call. = FALSE)
   counts <- counts[, eligible, drop = FALSE]
   selected <- select_matched_cells(colnames(counts), n = 384L, seed = 20260805L)
-  expected <- utils::read.csv("docs/audits/mv08k-exact500-transform-contract-v1/mv08k-exact500-transform-identity.csv",
-                              check.names = FALSE, stringsAsFactors = FALSE)
-  if (nrow(expected) != 1L || !identical(unit_id, "HCA_BM_002") ||
-      !identical(attr(selected, "selected_cell_sha256"), expected$selected_cell_sha256[[1L]])) {
-    stop("HCA frozen selected-cell axis drift", call. = FALSE)
+  external_axis <- utils::read.csv(
+    "docs/audits/mv08n-pearson-residual-migration-prefreeze-v1/mv08n-external-source-axis.csv",
+    check.names = FALSE, stringsAsFactors = FALSE)
+  expected <- external_axis[external_axis$unit_id == unit_id, , drop = FALSE]
+  if (nrow(expected) != 1L || expected$selection_seed != 20260805L ||
+      expected$selected_cells != 384L || expected$qc_eligible_cells != ncol(counts) ||
+      expected$outcome_label_state != "closed" || isTRUE(expected$biological_outcomes_computed)) {
+    stop("HCA selected-cell preflight drift", call. = FALSE)
+  }
+  observed_selection_sha <- attr(selected, "selected_cell_sha256")
+  if (expected$selected_axis_state == "frozen_mv08k") {
+    if (!nzchar(expected$selected_cell_sha256) ||
+        !identical(observed_selection_sha, expected$selected_cell_sha256[[1L]])) {
+      stop("HCA frozen selected-cell axis drift", call. = FALSE)
+    }
+  } else if (expected$selected_axis_state != "freeze_in_source_preflight" ||
+             nzchar(expected$selected_cell_sha256)) {
+    stop("HCA selected-cell preflight policy drift", call. = FALSE)
   }
   selected_by_seed <- list("20260805" = selected)
 }
