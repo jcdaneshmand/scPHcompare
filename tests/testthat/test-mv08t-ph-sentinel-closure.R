@@ -1,0 +1,45 @@
+test_that("MV8-T independently closes the bounded PH sentinel", {
+  root <- file.path("..", "..", "docs", "audits",
+                    "mv08t-ph-sentinel-closure-v1")
+  read <- function(name) utils::read.csv(
+    file.path(root, name), check.names = FALSE, stringsAsFactors = FALSE
+  )
+  inputs <- read("mv08t-input-rehash.csv")
+  artifacts <- read("mv08t-private-artifact-rehash.csv")
+  resources <- read("mv08t-resource-ledger.csv")
+  cross <- read("mv08t-cross-engine-results.csv")
+  checks <- read("mv08t-validation.csv")
+  decision <- read("mv08t-decision.csv")
+  manifest <- read("mv08t-artifact-manifest.csv")
+
+  expect_equal(nrow(inputs), 20L)
+  expect_true(all(inputs$passed))
+  expect_equal(nrow(artifacts), 31L)
+  expect_equal(sum(artifacts$artifact_type == "baseline"), 8L)
+  expect_equal(sum(artifacts$artifact_type == "ph"), 23L)
+  expect_true(all(artifacts$byte_identical))
+  expect_true(all(artifacts$independently_validated))
+  expect_equal(nrow(resources), 66L)
+  expect_true(all(resources$disposition == "completed"))
+  expect_true(all(resources$stderr_class != "unexpected"))
+  expect_equal(nrow(cross), 8L)
+  expect_setequal(unique(cross$homology_dimension), c("H0", "H1"))
+  expect_true(all(cross$passed))
+  expect_true(all(checks$passed))
+  expect_identical(decision$execution_head,
+                   "38e2bdeb7287d405de9214b4936d7573be384d82")
+  expect_equal(decision$baseline_records, 8L)
+  expect_equal(decision$ph_records, 23L)
+  expect_equal(decision$cross_engine_dimension_checks, 8L)
+  expect_equal(decision$full_ph_jobs_authorized, 0L)
+  expect_equal(decision$landscape_groups_authorized, 0L)
+  expect_equal(decision$label_jobs_authorized, 0L)
+  expect_equal(decision$outcome_jobs_authorized, 0L)
+  expect_identical(decision$outcome_label_state, "closed")
+  expect_false(decision$biological_outcomes_computed)
+
+  observed <- vapply(file.path(root, manifest$artifact), function(path) {
+    digest::digest(file = path, algo = "sha256", serialize = FALSE)
+  }, character(1L))
+  expect_identical(unname(observed), manifest$sha256)
+})

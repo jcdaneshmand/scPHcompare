@@ -1,0 +1,8 @@
+"contract_id","artifact","bytes","sha256"
+"mv08t_artifact_manifest_v1","MV08T_CLOSURE_REPORT.md",632,"67ebac93601ab669a8df58ce45171686e456c00ac195d190a63410e21cf3e46c"
+"mv08t_artifact_manifest_v1","mv08t-cross-engine-results.csv",2396,"2a0035a1b83f20d954b5debe738c5bac12a874cca7e4eff32a38ce7b277fb0d6"
+"mv08t_artifact_manifest_v1","mv08t-decision.csv",695,"07a1a79f495a8efd28f04242a43ddff96c33283e7b7f274776d82375c0ffbbd3"
+"mv08t_artifact_manifest_v1","mv08t-input-rehash.csv",2908,"fd534ba6e6853166d129ce4e38e3e44aacff362f20ed1f594fbfa72ca61170cd"
+"mv08t_artifact_manifest_v1","mv08t-private-artifact-rehash.csv",9376,"fc68d17d7f20e809d8d8c3e57f9a59d3561732cc5013d3211b69b1b68e86bb71"
+"mv08t_artifact_manifest_v1","mv08t-resource-ledger.csv",26352,"9c844538d02ab16c29c361c7a6842715345e761fb9cc660b56b623bde27926ed"
+"mv08t_artifact_manifest_v1","mv08t-validation.csv",1252,"0c97abaa0feb4978e349d068c6dd9e5026cc460e3ba8a794be94a883714e977a"
