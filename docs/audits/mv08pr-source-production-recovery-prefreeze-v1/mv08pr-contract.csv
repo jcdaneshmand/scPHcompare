@@ -1,0 +1,2 @@
+"contract_id","original_completed_jobs","failed_job_order","recovery_first_job_order","recovery_last_job_order","recovery_jobs","explicit_retry_jobs","future_globals_max_size_bytes","workers","elapsed_cap_seconds","rss_cap_bytes","original_evidence_state","recovery_state","topology_execution_state","outcome_label_state","biological_outcomes_computed"
+"mv08pr_source_production_recovery_v1",123,124,124,129,6,1,2147483648,1,1800,12884901888,"preserve_immutable","authorized_after_commit","closed","closed",FALSE

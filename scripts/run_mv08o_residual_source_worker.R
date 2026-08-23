@@ -30,6 +30,16 @@ dir.create(dirname(output_rds), recursive = TRUE, showWarnings = FALSE)
 dir.create(dirname(output_csv), recursive = TRUE, showWarnings = FALSE)
 Sys.setenv(OMP_NUM_THREADS = "1", OPENBLAS_NUM_THREADS = "1", MKL_NUM_THREADS = "1")
 options(warn = 1)
+future_globals_max_size_env <- Sys.getenv("MV08_FUTURE_GLOBALS_MAX_SIZE_BYTES", unset = "")
+future_globals_max_size_bytes <- if (nzchar(future_globals_max_size_env))
+  suppressWarnings(as.numeric(future_globals_max_size_env)) else NA_real_
+if (nzchar(future_globals_max_size_env)) {
+  if (!is.finite(future_globals_max_size_bytes) ||
+      future_globals_max_size_bytes != 2 * 1024^3) {
+    stop("MV08 future globals limit must be the authorized bounded 2 GiB value", call. = FALSE)
+  }
+  options(future.globals.maxSize = future_globals_max_size_bytes)
+}
 for (package in c("digest", "Matrix", "Seurat")) {
   if (!requireNamespace(package, quietly = TRUE)) stop(package, " is required", call. = FALSE)
 }
@@ -250,6 +260,7 @@ identity <- list(contract_id = "mv08o_residual_source_cache_v1", unit_id = unit_
     vapply(selected_by_seed, attr, character(1L), which = "selected_cell_sha256"),
   normalization = list(method = "SCTransform", min_cells = 5L, variable_features_n = 3000L,
                        return_only_var_genes = FALSE, workers = 1L,
+                       future_globals_max_size_bytes = future_globals_max_size_bytes,
                        warning_count = length(sct_warnings),
                        warning_sha256 = sha_object(sort(unique(sct_warnings), method = "radix"))),
   representation_ids = names(representations[[1L]]), run_role = run_role,

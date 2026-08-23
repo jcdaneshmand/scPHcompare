@@ -1,0 +1,5 @@
+"artifact_id","relative_path","bytes","sha256"
+"stopped_resource_ledger","public/mv08p-source-production-resource.csv",47533,"20114322be5f444ab266e58d03a7e84653390a3691f510962bb287edbe867dc2"
+"stopped_progress","public/mv08p-source-production-progress.csv",330,"142fccd627d5f789fd5b92780d6ae71e2dd7ae1c6760696d70d6329727b10759"
+"failed_job_stderr","private/logs/SRA760933_SRS3693061__primary-stderr.txt",877,"c2a8f589473d8669839f28fa0dfb9c5420ed990082fdad03cd8720bcf408ea9b"
+"failed_job_stdout","private/logs/SRA760933_SRS3693061__primary-stdout.txt",0,"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
