@@ -59,7 +59,7 @@ if (has_recovery) {
     file.path(private_dir, "logs", paste0(queue$unit_id[[124L]], "__primary-stdout.txt")))
   stopped_evidence_valid <- nrow(recovery_evidence) == 4L && all(file.exists(stopped_paths)) &&
     identical(as.numeric(file.info(stopped_paths)$size), as.numeric(recovery_evidence$bytes)) &&
-    identical(tolower(vapply(stopped_paths, sha_file, character(1L))),
+    identical(tolower(unname(vapply(stopped_paths, sha_file, character(1L)))),
       tolower(recovery_evidence$sha256))
   if (nrow(recovery_contract) != 1L || !stopped_evidence_valid ||
       nrow(original_resource) != 124L ||

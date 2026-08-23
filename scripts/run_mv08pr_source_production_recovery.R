@@ -101,7 +101,8 @@ evidence_paths <- c(
   file.path(original_private, "logs", paste0(queue$unit_id[[124L]], "__primary-stdout.txt")))
 if (nrow(evidence) != 4L || !all(file.exists(evidence_paths)) ||
     !identical(as.numeric(file.info(evidence_paths)$size), as.numeric(evidence$bytes)) ||
-    !identical(tolower(vapply(evidence_paths, sha_file, character(1L))), tolower(evidence$sha256))) {
+    !identical(tolower(unname(vapply(evidence_paths, sha_file, character(1L)))),
+      tolower(evidence$sha256))) {
   stop("MV8-PR original stopped evidence drift", call. = FALSE)
 }
 for (i in 1:123) {
