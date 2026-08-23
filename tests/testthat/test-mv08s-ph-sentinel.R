@@ -47,9 +47,45 @@ test_that("MV8-S runner retains the fallback and downstream firewalls", {
   expect_match(runner, "primary\\$disposition != \\\"rss_cap_exceeded\\\"")
   expect_match(runner, "completed_units != 66L")
   expect_match(runner, "execution_head = expected_head", fixed = TRUE)
+  expect_match(runner, "MV08S_RECOVERY_PREFREEZE", fixed = TRUE)
+  baseline <- paste(readLines(file.path(
+    "..", "..", "scripts", "run_mv08s_same_axis_baseline_entry.R"
+  ), warn = FALSE), collapse = "\n")
+  expect_match(baseline, 'source("R/toy_baseline.R")', fixed = TRUE)
   expect_match(runner, "full_ph_jobs_authorized = 0L")
   expect_match(runner, "landscape_groups_authorized = 0L")
   expect_match(runner, "label_jobs_authorized = 0L")
   expect_match(runner, "outcome_jobs_authorized = 0L")
   expect_false(grepl("run_landscape", runner, fixed = TRUE))
+})
+
+test_that("MV8-SA binds the output-free helper recovery", {
+  root <- file.path("..", "..", "docs", "audits",
+                    "mv08sa-baseline-helper-recovery-prefreeze-v1")
+  read <- function(name) utils::read.csv(
+    file.path(root, name), check.names = FALSE, stringsAsFactors = FALSE
+  )
+  failure <- read("mv08sa-failure-receipt.csv")
+  decision <- read("mv08sa-decision.csv")
+  checks <- read("mv08sa-validation.csv")
+  implementation <- read("mv08sa-implementation-bindings.csv")
+  manifest <- read("mv08sa-artifact-manifest.csv")
+  expect_equal(nrow(failure), 1L)
+  expect_identical(failure$disposition, "failed")
+  expect_false(failure$output_published)
+  expect_equal(failure$ph_records_computed, 0L)
+  expect_false(decision$scientific_contract_changed)
+  expect_false(decision$resource_contract_changed)
+  expect_true(decision$replacement_roots_required)
+  expect_equal(decision$within_replacement_retries, 0L)
+  expect_true(all(checks$passed))
+  observed_implementation <- vapply(implementation$file, function(path) {
+    digest::digest(file = file.path("..", "..", path), algo = "sha256",
+                   serialize = FALSE)
+  }, character(1L))
+  expect_identical(unname(observed_implementation), implementation$sha256)
+  observed_manifest <- vapply(file.path(root, manifest$artifact), function(path) {
+    digest::digest(file = path, algo = "sha256", serialize = FALSE)
+  }, character(1L))
+  expect_identical(unname(observed_manifest), manifest$sha256)
 })

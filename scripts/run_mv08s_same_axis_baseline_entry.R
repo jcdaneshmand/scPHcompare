@@ -22,6 +22,7 @@ for (package in c("digest", "Matrix", "Seurat")) {
 Sys.setenv(OMP_NUM_THREADS = "1", OPENBLAS_NUM_THREADS = "1", MKL_NUM_THREADS = "1")
 if (requireNamespace("future", quietly = TRUE)) future::plan(future::sequential)
 options(warn = 1)
+source("R/toy_baseline.R")
 source("R/dual_view_topology.R")
 source("R/mv07g_sentinel.R")
 source("R/mv08g_panel_sensitivity.R")

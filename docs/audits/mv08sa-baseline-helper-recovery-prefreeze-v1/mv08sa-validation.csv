@@ -1,0 +1,13 @@
+"contract_id","check_id","passed"
+"mv08sa_validation_v1","failed_head_exact",TRUE
+"mv08sa_validation_v1","one_failed_attempt",TRUE
+"mv08sa_validation_v1","no_output",TRUE
+"mv08sa_validation_v1","under_elapsed_cap",TRUE
+"mv08sa_validation_v1","under_rss_cap",TRUE
+"mv08sa_validation_v1","stderr_diagnosis_exact",TRUE
+"mv08sa_validation_v1","helper_import_present",TRUE
+"mv08sa_validation_v1","fresh_roots_required",TRUE
+"mv08sa_validation_v1","science_unchanged",TRUE
+"mv08sa_validation_v1","landscapes_closed",TRUE
+"mv08sa_validation_v1","outcomes_closed",TRUE
+"mv08sa_validation_v1","implementation_bound",TRUE

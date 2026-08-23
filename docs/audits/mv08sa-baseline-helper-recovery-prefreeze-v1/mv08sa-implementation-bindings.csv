@@ -1,0 +1,7 @@
+"contract_id","file","bytes","sha256"
+"mv08sa_implementation_binding_v1","scripts/build_mv08sa_baseline_helper_recovery_prefreeze.R",8157,"36a1d3d7142e134df34d31150613d0cf91d7f832aaf3beb35150cdff85f3edbe"
+"mv08sa_implementation_binding_v1","scripts/run_mv08s_same_axis_baseline_entry.R",8248,"d1ce7eb66260cb82bff94ac3aebcb3bcf6821839ae56904081c54dd6a59ce8da"
+"mv08sa_implementation_binding_v1","scripts/run_mv08s_ph_sentinel.R",23197,"3fb64ce470b084314e02ade1a653560a315deb2569e2bf1996d9b6263e30f8b3"
+"mv08sa_implementation_binding_v1","scripts/build_mv08t_ph_sentinel_closure.R",15003,"1f1b9739eb053625e0f2ab093360e31bce38cb1d84d3400747faa0a07cc55cb5"
+"mv08sa_implementation_binding_v1","tests/testthat/test-mv08s-ph-sentinel.R",4434,"3cc6cd4018f8fa19a0c1e663dc8d1d8230c3c0551f240deaaba9edcd84788758"
+"mv08sa_implementation_binding_v1","docs/specifications/MV08SA_BASELINE_HELPER_RECOVERY_PREFREEZE_V1.md",1189,"b8a27d1e8d63b8e5a057c01f49b961ea718aaff6006e25d6124b78571b389a95"

@@ -1,0 +1,5 @@
+"contract_id","input","bytes","sha256"
+"mv08sa_input_manifest_v1","mv08s_artifact_manifest",1463,"347a2983f785faf8c1e156f6314ad9852cdb0247f516012d38b32d2da2f69c8c"
+"mv08sa_input_manifest_v1","failed_resource_ledger",563,"412fdfb9497dc35f96f2b00d3fd5288cec7567f6ca26a4bcfea80ee96ea65454"
+"mv08sa_input_manifest_v1","failed_stderr",135,"430c68c4cb8aaf5e8367c783096bc54ae0aa6afaeb82422ae181fbeb6ccac916"
+"mv08sa_input_manifest_v1","failed_stdout",0,"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
