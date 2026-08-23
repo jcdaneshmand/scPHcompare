@@ -1,0 +1,17 @@
+"contract_id","check_id","passed"
+"mv08s_prefreeze_validation_v1","parent_head_bound",TRUE
+"mv08s_prefreeze_validation_v1","eight_current_hca_inputs_rehashed",TRUE
+"mv08s_prefreeze_validation_v1","two_source_caches_rehashed",TRUE
+"mv08s_prefreeze_validation_v1","queue_23_exact",TRUE
+"mv08s_prefreeze_validation_v1","queue_axes_8_cell_15_gene",TRUE
+"mv08s_prefreeze_validation_v1","source_views_7_hash_bound",TRUE
+"mv08s_prefreeze_validation_v1","baseline_repeats_required",TRUE
+"mv08s_prefreeze_validation_v1","ph_repeats_required",TRUE
+"mv08s_prefreeze_validation_v1","cross_subset_and_full",TRUE
+"mv08s_prefreeze_validation_v1","one_worker_zero_retry",TRUE
+"mv08s_prefreeze_validation_v1","resource_caps_frozen",TRUE
+"mv08s_prefreeze_validation_v1","h0_mst_required",TRUE
+"mv08s_prefreeze_validation_v1","landscape_definition_preserved",TRUE
+"mv08s_prefreeze_validation_v1","landscapes_closed",TRUE
+"mv08s_prefreeze_validation_v1","outcomes_closed",TRUE
+"mv08s_prefreeze_validation_v1","implementation_hash_bound",TRUE

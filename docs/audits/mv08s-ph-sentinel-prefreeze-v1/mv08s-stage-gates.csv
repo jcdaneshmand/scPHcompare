@@ -1,0 +1,6 @@
+"contract_id","stage_order","stage_id","authorization_state","requirement","next_stage_automatic","outcome_label_state","biological_outcomes_computed"
+"mv08s_stage_gate_v1",1,"same_axis_baseline","authorized_after_mv08s_commit","8 current-input baseline records plus byte-identical repeats",FALSE,"closed",FALSE
+"mv08s_stage_gate_v1",2,"ph_sentinel","authorized_after_mv08s_commit","23 PH records plus repeats, H0 MST and resource gates",FALSE,"closed",FALSE
+"mv08s_stage_gate_v1",3,"independent_closure","authorized_after_execution","independent rehash, reconstruction, cross-engine and privacy closure",FALSE,"closed",FALSE
+"mv08s_stage_gate_v1",4,"full_ph","closed","separate later prefreeze required",FALSE,"closed",FALSE
+"mv08s_stage_gate_v1",5,"landscapes","closed","Rust rebuild/hash rebind/R oracle required",FALSE,"closed",FALSE

@@ -1,0 +1,3 @@
+"contract_id","dataset_scope","unit_id","cache_bytes","cache_sha256","source_cache_key","private_locator_state","outcome_label_state","biological_outcomes_computed"
+"mv08s_source_cache_binding_v1","internal124","SRA628554_SRS2664364",15641386,"29916a33c59ac77d5ac5bb5c3f1dd2b507c80392e46d53f6895a72b3ae42d72e","mv08o_residual_source_cache_v1:a4ccb0f02739b726743da4f8780ac3e0537a675974abdaf0837629c1c4f6b89f","runtime_argument_only_not_public","closed",FALSE
+"mv08s_source_cache_binding_v1","external8","HCA_BM_002",3151274,"869e731ddcc69aa26a329898451f6241910b6469cf9ff88681271cca3199bc09","mv08o_residual_source_cache_v1:f172952326833ba3692fdcad4b1f5cded7cdd1414369ac1ffb58adda8f932bc7","runtime_argument_only_not_public","closed",FALSE

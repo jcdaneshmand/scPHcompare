@@ -1,0 +1,2 @@
+"contract_id","decision","closure_required_before_full_ph","full_ph_state","landscape_state","outcome_label_state","biological_outcomes_computed"
+"mv08s_prefreeze_decision_v1","authorize_exact_8_baselines_and_23_record_PH_sentinel_after_commit",TRUE,"closed","closed_requires_Rust_rebuild_hash_rebind_R_oracle","closed",FALSE
