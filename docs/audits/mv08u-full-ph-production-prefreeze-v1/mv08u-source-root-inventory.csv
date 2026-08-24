@@ -1,0 +1,5 @@
+"contract_id","source_cache_root_role","source_units","expected_cache_bytes","runtime_locator_policy","private_absolute_paths_published"
+"mv08u_source_root_inventory_v1","mv08o_internal_primary_v8",2,31275092,"root_argument_plus_frozen_relative_file",FALSE
+"mv08u_source_root_inventory_v1","mv08p_original_v1",123,1836352174,"root_argument_plus_frozen_relative_file",FALSE
+"mv08u_source_root_inventory_v1","mv08pr_overlay_v1",1,15641439,"root_argument_plus_frozen_relative_file",FALSE
+"mv08u_source_root_inventory_v1","mv08ps_overlay_v1",5,78191835,"root_argument_plus_frozen_relative_file",FALSE

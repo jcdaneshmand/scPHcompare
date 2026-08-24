@@ -1,0 +1,2 @@
+"contract_id","decision","ph_records_authorized","workers","retries","landscape_groups_authorized","comparison_strata_authorized","clustering_jobs_authorized","fusion_jobs_authorized","label_jobs_authorized","outcome_jobs_authorized","next_gate","outcome_label_state","biological_outcomes_computed"
+"mv08u_decision_v1","authorize_1257_record_serial_MV8V_after_commit_and_launch_recheck",1257,1,0,0,0,0,0,0,0,"MV8V_execution_then_MV8W_independent_closure","closed",FALSE

@@ -1,0 +1,2 @@
+"contract_id","input_role","expected_rows","file_sha256","runtime_locator_policy"
+"mv08u_runtime_input_binding_v1","ordered_common475_panel_csv",475,"2996b101445d23cb1ac02093af0f17df318cbf238b629c9835e43f88f2ecfc74","explicit_launch_argument_no_public_absolute_path"

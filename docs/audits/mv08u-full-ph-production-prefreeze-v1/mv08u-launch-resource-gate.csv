@@ -1,0 +1,3 @@
+"contract_id","resource","observed_bytes_at_prefreeze","minimum_bytes_at_launch","rationale","must_recheck_at_launch"
+"mv08u_launch_resource_gate_v1","available_memory",1561029656576,17179869184,"12_GiB_fallback_cap_plus_4_GiB_headroom",TRUE
+"mv08u_launch_resource_gate_v1","workspace_filesystem_available",1498925539328,6442450944,"1_GiB_private_cap_plus_5_GiB_workspace_headroom",TRUE

@@ -1,0 +1,5 @@
+"contract_id","risk_stratum","sentinel_records","elapsed_min_seconds","elapsed_median_seconds","elapsed_max_seconds","peak_rss_max_bytes","output_max_bytes","fallback_records","source_evidence"
+"mv08u_sentinel_resource_summary_v1","sct_data_all_qc_fit_selected384:common475",1,2.08178400993347,2.08178400993347,2.08178400993347,100491264,59634,0,"MV8-T independently closed MV8-S primary PH"
+"mv08u_sentinel_resource_summary_v1","sct_data_all_qc_fit_selected384:exact500",2,36.681084394455,55.6921436786652,74.7032029628754,4390977536,137956,0,"MV8-T independently closed MV8-S primary PH"
+"mv08u_sentinel_resource_summary_v1","sct_pearson_residual_all_qc_fit_selected384:common475",1,1.83807134628296,1.83807134628296,1.83807134628296,98004992,51162,0,"MV8-T independently closed MV8-S primary PH"
+"mv08u_sentinel_resource_summary_v1","sct_pearson_residual_all_qc_fit_selected384:exact500",3,1.91595315933228,11.3933291435242,13.9035074710846,539680768,137548,0,"MV8-T independently closed MV8-S primary PH"

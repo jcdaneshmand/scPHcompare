@@ -1,0 +1,8 @@
+"contract_id","condition","action","automatic_retry","scientific_contract_change","deletion_allowed"
+"mv08u_resume_and_recovery_policy_v1","clean_interruption_between_jobs","resume_after_rehashing_completed_strict_prefix",FALSE,FALSE,FALSE
+"mv08u_resume_and_recovery_policy_v1","runner_or_child_interrupted_mid_job","preserve_all_artifacts_and_require_separate_recovery_prefreeze",FALSE,FALSE,FALSE
+"mv08u_resume_and_recovery_policy_v1","primary_rss_cap_exceeded","permit_one_exact_GUDHI_resource_fallback_for_same_job",FALSE,FALSE,FALSE
+"mv08u_resume_and_recovery_policy_v1","primary_timeout","stop_preserve_no_fallback_no_retry",FALSE,FALSE,FALSE
+"mv08u_resume_and_recovery_policy_v1","child_failure","stop_preserve_no_retry",FALSE,FALSE,FALSE
+"mv08u_resume_and_recovery_policy_v1","aggregate_elapsed_cap_reached","stop_before_next_job_and_preserve",FALSE,FALSE,FALSE
+"mv08u_resume_and_recovery_policy_v1","private_storage_cap_reached","stop_before_next_job_and_preserve",FALSE,FALSE,FALSE
