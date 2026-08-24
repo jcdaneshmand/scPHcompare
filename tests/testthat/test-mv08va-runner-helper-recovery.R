@@ -57,9 +57,16 @@ test_that("MV8-VA preserves the helper omission and admits job 1 without retry",
     "mv08vb-implementation-binding.csv"
   ), check.names = FALSE, stringsAsFactors = FALSE)
   expect_identical(vb$prior_sha256, implementation$sha256[bootstrap])
+  vc <- utils::read.csv(file.path(
+    "..", "..", "docs", "audits",
+    "mv08vc-bootstrap-amendment-recovery-prefreeze-v1",
+    "mv08vc-implementation-binding.csv"
+  ), check.names = FALSE, stringsAsFactors = FALSE)
+  expect_identical(vc$mv08va_sha256, implementation$sha256[bootstrap])
+  expect_identical(vc$mv08vb_sha256, vb$sha256)
   expect_identical(digest::digest(
-    file = file.path("..", "..", vb$file), algo = "sha256", serialize = FALSE
-  ), vb$sha256)
+    file = file.path("..", "..", vc$file), algo = "sha256", serialize = FALSE
+  ), vc$sha256)
   observed_manifest <- vapply(file.path(root, manifest$artifact), function(path) {
     digest::digest(file = path, algo = "sha256", serialize = FALSE)
   }, character(1L))

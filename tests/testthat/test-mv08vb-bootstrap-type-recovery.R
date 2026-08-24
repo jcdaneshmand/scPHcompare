@@ -33,11 +33,17 @@ test_that("MV8-VB preserves zero-output bootstrap stops and binds value equality
   expect_equal(decision$landscape_groups_authorized, 0L)
   expect_equal(decision$outcome_jobs_authorized, 0L)
 
+  amendment <- utils::read.csv(file.path(
+    "..", "..", "docs", "audits",
+    "mv08vc-bootstrap-amendment-recovery-prefreeze-v1",
+    "mv08vc-implementation-binding.csv"
+  ), check.names = FALSE, stringsAsFactors = FALSE)
+  expect_identical(amendment$mv08vb_sha256, implementation$sha256)
   observed <- digest::digest(
-    file = file.path("..", "..", implementation$file), algo = "sha256",
+    file = file.path("..", "..", amendment$file), algo = "sha256",
     serialize = FALSE
   )
-  expect_identical(observed, implementation$sha256)
+  expect_identical(observed, amendment$sha256)
   observed_manifest <- vapply(file.path(root, manifest$artifact), function(path) {
     digest::digest(file = path, algo = "sha256", serialize = FALSE)
   }, character(1L))

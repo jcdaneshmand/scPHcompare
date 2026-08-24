@@ -1,0 +1,2 @@
+"contract_id","attempted_head","head_source","failure_stage","observed_error","raw_log_capture","private_root_created","public_root_created","copied_records","recomputed_records","retry_records"
+"mv08vc_bootstrap_stop_event_v1","3befbafcf7b3bab9dc8fd990033910d4df53169d","mechanical_windows_git_rev_parse_HEAD","mv08va_implementation_self_hash_guard","MV8-VA committed recovery prefreeze drift","interactive_tool_output_not_file_captured",FALSE,FALSE,0,0,0

@@ -27,10 +27,17 @@ new_public <- normalizePath(args[[11L]], mustWork = FALSE)
 expected_head <- tolower(trimws(args[[12L]]))
 launch_stderr <- normalizePath(args[[13L]], mustWork = TRUE)
 environment_head <- tolower(trimws(Sys.getenv("MV08VA_GIT_HEAD", unset = "")))
+amendment_prefreeze_value <- trimws(Sys.getenv(
+  "MV08V_BOOTSTRAP_AMENDMENT_PREFREEZE", unset = ""
+))
 if (!grepl("^[0-9a-f]{40}$", expected_head) ||
     !identical(expected_head, environment_head)) {
   stop("MV8-VA exact recovery HEAD binding failed", call. = FALSE)
 }
+if (!nzchar(amendment_prefreeze_value)) {
+  stop("MV8-V bootstrap amendment prefreeze absent", call. = FALSE)
+}
+amendment_prefreeze <- normalizePath(amendment_prefreeze_value, mustWork = TRUE)
 if (dir.exists(new_private) || dir.exists(new_public)) {
   stop("MV8-VA recovery roots must be fresh", call. = FALSE)
 }
@@ -60,12 +67,34 @@ evidence <- read_csv(file.path(recovery_prefreeze, "mv08va-stopped-evidence.csv"
 implementation <- read_csv(file.path(
   recovery_prefreeze, "mv08va-implementation-bindings.csv"
 ))
+amendment_decision <- read_csv(file.path(
+  amendment_prefreeze, "mv08vc-decision.csv"
+))
+amendment_binding <- read_csv(file.path(
+  amendment_prefreeze, "mv08vc-implementation-binding.csv"
+))
+amendment_manifest <- read_csv(file.path(
+  amendment_prefreeze, "mv08vc-artifact-manifest.csv"
+))
+bootstrap_file <- "scripts/bootstrap_mv08va_full_ph_recovery.R"
+bootstrap_binding <- implementation$file == bootstrap_file
 if (nrow(decision) != 1L || decision$decision !=
       "authorize_no_retry_job1_bootstrap_and_resume_at_job2" ||
     nrow(failure) != 1L || !failure$job1_independently_validated ||
-    !all(file.exists(implementation$file)) ||
-    !all(vapply(implementation$file, sha_file, character(1L)) ==
-           implementation$sha256)) {
+    sum(bootstrap_binding) != 1L ||
+    !all(file.exists(implementation$file[!bootstrap_binding])) ||
+    !all(vapply(implementation$file[!bootstrap_binding], sha_file, character(1L)) ==
+           implementation$sha256[!bootstrap_binding]) ||
+    nrow(amendment_decision) != 1L ||
+    amendment_decision$decision !=
+      "authorize_hash_bound_zero_retry_MV8VA_bootstrap_after_commit" ||
+    !amendment_decision$corrected_bootstrap_authorized ||
+    nrow(amendment_binding) != 1L ||
+    amendment_binding$file != bootstrap_file ||
+    amendment_binding$mv08va_sha256 != implementation$sha256[bootstrap_binding] ||
+    sha_file(bootstrap_file) != amendment_binding$sha256 ||
+    !all(vapply(file.path(amendment_prefreeze, amendment_manifest$artifact),
+                sha_file, character(1L)) == amendment_manifest$sha256)) {
   stop("MV8-VA committed recovery prefreeze drift", call. = FALSE)
 }
 original_paths <- c(
