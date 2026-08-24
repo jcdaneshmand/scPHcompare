@@ -1,0 +1,10 @@
+test_that("MV8-ZD binds generic ordered recovery-chain validation", {
+  root<-file.path("..","..","docs","audits","mv08zd-landscape-chain-recovery-prefreeze-v1")
+  read<-function(x)read.csv(file.path(root,x),check.names=FALSE,stringsAsFactors=FALSE)
+  failure<-read("mv08zd-failure.csv"); checks<-read("mv08zd-validation.csv"); decision<-read("mv08zd-decision.csv"); manifest<-read("mv08zd-artifact-manifest.csv")
+  expect_equal(failure$failure_class,"single_hop_amendment_traversal")
+  expect_equal(failure$landscape_pair_outputs,0L); expect_equal(failure$later_children_started,0L)
+  expect_equal(nrow(checks),14L); expect_true(all(checks$passed))
+  expect_equal(decision$replacement_children_authorized,3L); expect_equal(decision$automatic_retries,0L); expect_false(decision$scientific_contract_changed)
+  observed<-unname(vapply(file.path(root,manifest$artifact),function(p)digest::digest(file=p,algo="sha256",serialize=FALSE),character(1L))); expect_identical(observed,manifest$sha256)
+})

@@ -1,0 +1,4 @@
+"contract_id","role","file","old_sha256","sha256","scientific_change"
+"mv08zd_implementation_binding_v1","generic_ordered_chain_worker","scripts/run_mv08z_landscape_chunk.R","5c825299281882a4b599d36f5f70a8d9eeed8a27cd3f747b88c9b4af0e9c2724","a812ffaba2ec6af7d7b353f8ad6a710adfc761b6a633c63fd4db074281679f57",FALSE
+"mv08zd_implementation_binding_v1","generic_ordered_chain_monitor","scripts/run_mv08za_landscape_sentinel.R","2a47a5f684416ccf7b93d4ddf048a27e75be6ccfc7f88854bbd347bdf8b53fc2","1e154c86e874d9479fc036f7bf953c1e01eef438926dd143dbbbd545e53c5d1f",FALSE
+"mv08zd_implementation_binding_v1","recovery_builder","scripts/build_mv08zd_landscape_chain_recovery_prefreeze.R",,"c714fe7e416977cb0c5c7807b796d453ff6ea8213db9282fa8248117d3db7831",FALSE

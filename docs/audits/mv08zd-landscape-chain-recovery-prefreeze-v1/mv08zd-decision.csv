@@ -1,0 +1,2 @@
+"contract_id","decision","replacement_children_authorized","automatic_retries","scientific_contract_changed","production_pairs_authorized","downstream_jobs_authorized","next_gate"
+"mv08zd_recovery_decision_v1","authorize_one_fresh_generic_chain_v4_replacement",3,0,FALSE,0,0,"MV8_ZE_independent_sentinel_closure"

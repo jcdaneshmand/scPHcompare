@@ -48,19 +48,30 @@ implementation_ok <- all(file.exists(implementations$file)) &&
   all(vapply(implementations$file, .mv08z_sha256_file, character(1L)) ==
         implementations$sha256)
 if (!implementation_ok) {
-  recovery_root <- normalizePath(
-    Sys.getenv("MV08ZB_RECOVERY_PREFREEZE", unset = ""), mustWork = TRUE
-  )
-  .mv08z_verify_manifest(recovery_root, "mv08zb-artifact-manifest.csv")
-  amendments <- .mv08z_read_csv(
-    file.path(recovery_root, "mv08zb-implementation-bindings.csv")
-  )
+  chain_text <- Sys.getenv("MV08Z_RECOVERY_CHAIN", unset = "")
+  recovery_roots <- strsplit(chain_text, "|", fixed = TRUE)[[1L]]
+  recovery_roots <- vapply(recovery_roots, normalizePath, character(1L),
+                           mustWork = TRUE)
+  amendment_tables <- lapply(recovery_roots, function(root) {
+    manifest <- list.files(root, pattern = "artifact-manifest[.]csv$",
+                           full.names = FALSE)
+    bindings <- list.files(root, pattern = "implementation-bindings[.]csv$",
+                           full.names = TRUE)
+    if (length(manifest) != 1L || length(bindings) != 1L)
+      stop("MV8-Z recovery-chain schema drift", call. = FALSE)
+    .mv08z_verify_manifest(root, manifest)
+    .mv08z_read_csv(bindings)
+  })
   current <- vapply(implementations$file, .mv08z_sha256_file, character(1L))
-  matched <- match(implementations$file, amendments$file)
-  amended_ok <- !is.na(matched) &
-    implementations$sha256 == amendments$old_sha256[matched] &
-    current == amendments$sha256[matched]
-  implementation_ok <- all(current == implementations$sha256 | amended_ok)
+  expected <- implementations$sha256
+  for (amendments in amendment_tables) {
+    matched <- match(implementations$file, amendments$file)
+    applies <- !is.na(matched) & !is.na(amendments$old_sha256[matched])
+    if (any(applies & expected != amendments$old_sha256[matched]))
+      stop("MV8-Z recovery-chain transition drift", call. = FALSE)
+    expected[applies] <- amendments$sha256[matched[applies]]
+  }
+  implementation_ok <- all(current == expected)
 }
 if (nrow(contract) != 1L ||
     .mv08z_sha256_file(binding_path) !=
