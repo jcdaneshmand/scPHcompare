@@ -1,0 +1,5 @@
+"contract_id","launch_attempt","evidence_role","bytes","sha256","r_process_started","output_root_created","scientific_records"
+"mv08va_empty_launch_history_v1","powershell_variable_nohup","stdout",0,"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",FALSE,FALSE,0
+"mv08va_empty_launch_history_v1","powershell_variable_nohup","pid_sentinel",1,"01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",FALSE,FALSE,0
+"mv08va_empty_launch_history_v1","literal_nohup","stdout",0,"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",FALSE,FALSE,0
+"mv08va_empty_launch_history_v1","literal_nohup","pid_sentinel",1,"01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",FALSE,FALSE,0
