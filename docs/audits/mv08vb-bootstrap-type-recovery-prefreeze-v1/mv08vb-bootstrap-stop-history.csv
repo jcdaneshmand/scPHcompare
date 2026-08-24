@@ -1,0 +1,5 @@
+"contract_id","launch_role","bytes","sha256","supplied_head","supplied_head_matches_actual","output_root_created","copied_records","recomputed_records","retry_records"
+"mv08vb_bootstrap_stop_history_v1","invalid_manually_expanded_head_stdout",66,"14b87d63918b3f2822ade2c60a0031970c4b0280b4b790e5e72295e0c93575a6","e83da61d8a5ab3a46e4d88a8d350cdcc726ed7d5",FALSE,FALSE,0,0,0
+"mv08vb_bootstrap_stop_history_v1","invalid_manually_expanded_head_stderr",54,"3e9d4e2226e9f30e3873353354566b5f11c61d87dc37416c6a700935db5f6114","e83da61d8a5ab3a46e4d88a8d350cdcc726ed7d5",FALSE,FALSE,0,0,0
+"mv08vb_bootstrap_stop_history_v1","mechanically_bound_head_stdout",66,"14b87d63918b3f2822ade2c60a0031970c4b0280b4b790e5e72295e0c93575a6","e83da615ee8a8c6ef7083852107fbecbbf370db5",TRUE,FALSE,0,0,0
+"mv08vb_bootstrap_stop_history_v1","mechanically_bound_head_stderr",54,"3e9d4e2226e9f30e3873353354566b5f11c61d87dc37416c6a700935db5f6114","e83da615ee8a8c6ef7083852107fbecbbf370db5",TRUE,FALSE,0,0,0

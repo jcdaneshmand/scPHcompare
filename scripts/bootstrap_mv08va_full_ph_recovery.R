@@ -76,7 +76,8 @@ original_paths <- c(
   file.path(original_private, failure$output_file), launch_stderr
 )
 if (length(original_paths) != nrow(evidence) || !all(file.exists(original_paths)) ||
-    !identical(as.numeric(file.info(original_paths)$size), evidence$bytes) ||
+    !all(as.numeric(file.info(original_paths)$size) ==
+           as.numeric(evidence$bytes)) ||
     !identical(unname(vapply(original_paths, sha_file, character(1L))),
                evidence$sha256)) {
   stop("MV8-VA stopped evidence drift", call. = FALSE)

@@ -43,11 +43,23 @@ test_that("MV8-VA preserves the helper omission and admits job 1 without retry",
   expect_equal(decision$landscape_groups_authorized, 0L)
   expect_equal(decision$outcome_jobs_authorized, 0L)
 
-  observed_implementation <- vapply(implementation$file, function(path) {
+  bootstrap <- implementation$file ==
+    "scripts/bootstrap_mv08va_full_ph_recovery.R"
+  observed_implementation <- vapply(implementation$file[!bootstrap], function(path) {
     digest::digest(file = file.path("..", "..", path), algo = "sha256",
                    serialize = FALSE)
   }, character(1L))
-  expect_identical(unname(observed_implementation), implementation$sha256)
+  expect_identical(unname(observed_implementation),
+                   implementation$sha256[!bootstrap])
+  vb <- utils::read.csv(file.path(
+    "..", "..", "docs", "audits",
+    "mv08vb-bootstrap-type-recovery-prefreeze-v1",
+    "mv08vb-implementation-binding.csv"
+  ), check.names = FALSE, stringsAsFactors = FALSE)
+  expect_identical(vb$prior_sha256, implementation$sha256[bootstrap])
+  expect_identical(digest::digest(
+    file = file.path("..", "..", vb$file), algo = "sha256", serialize = FALSE
+  ), vb$sha256)
   observed_manifest <- vapply(file.path(root, manifest$artifact), function(path) {
     digest::digest(file = path, algo = "sha256", serialize = FALSE)
   }, character(1L))
