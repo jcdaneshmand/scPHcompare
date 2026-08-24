@@ -1,0 +1,2 @@
+"contract_id","decision","expected_engine_version","fresh_oracle_runs_authorized","failed_run_rerun_authorized","scientific_kernel_change","candidate_hash_change","production_landscape_jobs","comparison_jobs","clustering_jobs","fusion_jobs","label_jobs","outcome_jobs","outcome_label_state","biological_outcomes_computed","next_gate"
+"mv08zs_harness_acceptance_decision_v1","accept_harness_only_engine_parameter_and_run_fresh_oracles",2,2,FALSE,FALSE,FALSE,0,0,0,0,0,0,"closed",FALSE,"MV8_ZQ_engine_v2_admission_closure"

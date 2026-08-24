@@ -1,0 +1,2 @@
+"contract_id","file","old_sha256","new_sha256","candidate_sha256","expected_engine_version","scientific_kernel_changed","backward_compatible_eight_argument_default"
+"mv08zs_harness_amendment_v1","scripts/run_mv08x_rust_landscape_oracles.R","beeefeb86389f62d873a9ec20386eb738537bd5e6038c931fdb69da6b36a42c1","e04d3f20143babee8b09c97d2e2f3c77514ce2d6aedac395bd420f59ce8b77d0","dd21610230f800aa8a1c2f69667c85af56a51dbadf1392862a5603f95f7d2476",2,FALSE,1

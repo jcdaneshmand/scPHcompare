@@ -1,10 +1,11 @@
 #!/usr/bin/env Rscript
 
 args <- commandArgs(trailingOnly = TRUE)
-if (length(args) != 8L) stop(paste(
+if (!length(args) %in% 8:9) stop(paste(
   "usage: run_mv08x_rust_landscape_oracles.R <private-selection.csv>",
   "<mv08s-private> <mv08v-private> <rust-library>",
-  "<expected-library-sha256> <run-id> <execution-head> <output-dir>"
+  "<expected-library-sha256> [expected-engine-version]",
+  "<run-id> <execution-head> <output-dir>"
 ), call. = FALSE)
 
 selection_path <- normalizePath(args[[1L]], mustWork = TRUE)
@@ -12,11 +13,14 @@ s_root <- normalizePath(args[[2L]], mustWork = TRUE)
 v_root <- normalizePath(args[[3L]], mustWork = TRUE)
 library_path <- normalizePath(args[[4L]], mustWork = TRUE)
 expected_library_sha <- tolower(args[[5L]])
-run_id <- args[[6L]]
-execution_head <- args[[7L]]
-output_dir <- normalizePath(args[[8L]], mustWork = FALSE)
+expected_engine_version <- if (length(args) == 9L) as.integer(args[[6L]]) else 1L
+offset <- if (length(args) == 9L) 1L else 0L
+run_id <- args[[6L + offset]]
+execution_head <- args[[7L + offset]]
+output_dir <- normalizePath(args[[8L + offset]], mustWork = FALSE)
 if (dir.exists(output_dir)) stop("refusing to overwrite MV8-X oracle output", call. = FALSE)
 if (!grepl("^[0-9a-f]{64}$", expected_library_sha) ||
+    is.na(expected_engine_version) || expected_engine_version < 1L ||
     !run_id %in% c("a", "b") ||
     !grepl("^[0-9a-f]{40}$", execution_head)) {
   stop("invalid MV8-X oracle invocation identity", call. = FALSE)
@@ -67,6 +71,7 @@ dir.create(output_dir, recursive = TRUE)
 atomic_csv(data.frame(
   contract_id = "mv08xa_oracle_run_start_v1", run_id = run_id,
   execution_head = execution_head, oracle_pairs = nrow(selection),
+  expected_engine_version = expected_engine_version,
   candidate_sha256 = expected_library_sha,
   private_selection_sha256 = sha_file(selection_path),
   production_landscape_jobs = 0L, outcome_label_state = "closed",
@@ -177,7 +182,8 @@ for (index in seq_len(nrow(selection))) {
   expected_second_active <- landscape_active_depth(second_intervals)
   expected_active <- max(expected_first_active, expected_second_active)
   engine_valid <- isTRUE(forward$rust_used) && forward$status == 0L &&
-    forward$engine_version == 1L && is.finite(forward$squared_distance) &&
+    forward$engine_version == expected_engine_version &&
+    is.finite(forward$squared_distance) &&
     forward$squared_distance >= 0
   reference_within_threshold <- error <= threshold
   reverse_bit_identical <- identical(forward$squared_distance, reverse$squared_distance)
@@ -215,6 +221,7 @@ for (index in seq_len(nrow(selection))) {
     expected_second_active_levels = expected_second_active,
     expected_active_levels = expected_active,
     status = forward$status, engine_version = forward$engine_version,
+    expected_engine_version = expected_engine_version,
     engine_valid = engine_valid,
     reference_within_threshold = reference_within_threshold,
     reverse_bit_identical = reverse_bit_identical,
@@ -238,6 +245,7 @@ if (!all(results$passed)) {
   atomic_csv(data.frame(
     contract_id = "mv08xa_oracle_gate_failure_v1", run_id = run_id,
     execution_head = execution_head, evaluated_pairs = nrow(results),
+    expected_engine_version = expected_engine_version,
     failed_pairs = sum(!results$passed),
     engine_failures = sum(!results$engine_valid),
     reference_threshold_failures = sum(!results$reference_within_threshold),
@@ -295,9 +303,10 @@ fixtures <- lapply(names(fixture_definitions), function(case) {
     observed_squared_distance = candidate$squared_distance,
     absolute_error = error, acceptance_threshold = 1e-12,
     status = candidate$status, engine_version = candidate$engine_version,
+    expected_engine_version = expected_engine_version,
     rust_used = candidate$rust_used, fallback_used = FALSE,
     passed = isTRUE(candidate$rust_used) && candidate$status == 0L &&
-      candidate$engine_version == 1L && error <= 1e-12,
+      candidate$engine_version == expected_engine_version && error <= 1e-12,
     stringsAsFactors = FALSE
   )
 })
@@ -311,7 +320,9 @@ fixtures[[length(fixtures) + 1L]] <- data.frame(
   expected_squared_distance = 2 / 3, observed_squared_distance = missing$squared_distance,
   absolute_error = abs(missing$squared_distance - 2 / 3),
   acceptance_threshold = 0, status = missing$status,
-  engine_version = missing$engine_version, rust_used = missing$rust_used,
+  engine_version = missing$engine_version,
+  expected_engine_version = expected_engine_version,
+  rust_used = missing$rust_used,
   fallback_used = missing$fallback_used,
   passed = isTRUE(missing$fallback_used) && !missing$rust_used &&
     missing$status == 9001L && identical(missing$squared_distance, 2 / 3),
@@ -331,6 +342,7 @@ fixtures[[length(fixtures) + 1L]] <- data.frame(
   absolute_error = abs(corrupt_result$squared_distance - 2 / 3),
   acceptance_threshold = 0, status = corrupt_result$status,
   engine_version = corrupt_result$engine_version,
+  expected_engine_version = expected_engine_version,
   rust_used = corrupt_result$rust_used,
   fallback_used = corrupt_result$fallback_used,
   passed = isTRUE(corrupt_result$fallback_used) && !corrupt_result$rust_used &&
@@ -353,6 +365,7 @@ peak_rss <- if (length(peak_line) == 1L) {
 resource <- data.frame(
   contract_id = "mv08x_oracle_resource_v1", run_id = run_id,
   execution_head = execution_head,
+  expected_engine_version = expected_engine_version,
   oracle_pairs = nrow(results), reference_seconds = reference_seconds,
   rust_seconds = rust_seconds,
   total_seconds = proc.time()[["elapsed"]] - started,
