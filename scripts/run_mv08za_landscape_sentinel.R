@@ -7,10 +7,11 @@ for (package in c("digest", "processx", "ps")) {
   if (!requireNamespace(package, quietly = TRUE)) stop(package, " required", call. = FALSE)
 }
 args <- commandArgs(trailingOnly = TRUE)
-if (length(args) != 11L) stop(paste(
+if (length(args) != 12L) stop(paste(
   "usage: run_mv08za_landscape_sentinel.R <mv08z-prefreeze> <mv08za-prefreeze>",
   "<private-bindings> <private-sentinel> <mv08s-private> <mv08v-private>",
-  "<rust-library> <private-output> <public-output> <execution-head> <recovery-prefreeze>"
+  "<rust-library> <private-output> <public-output> <execution-head>",
+  "<helper-recovery-prefreeze> <traversal-recovery-prefreeze>"
 ), call. = FALSE)
 z_root <- normalizePath(args[[1L]], mustWork = TRUE)
 za_root <- normalizePath(args[[2L]], mustWork = TRUE)
@@ -23,6 +24,8 @@ private_root <- normalizePath(args[[8L]], mustWork = FALSE)
 public_root <- normalizePath(args[[9L]], mustWork = FALSE)
 execution_head <- tolower(args[[10L]])
 recovery_root <- normalizePath(args[[11L]], mustWork = TRUE)
+traversal_root <- normalizePath(args[[12L]], mustWork = TRUE)
+Sys.setenv(MV08ZB_RECOVERY_PREFREEZE = recovery_root)
 if (!grepl("^[0-9a-f]{40}$", execution_head) ||
     execution_head != tolower(Sys.getenv("MV08ZA_GIT_HEAD", unset = "")) ||
     dir.exists(private_root) || dir.exists(public_root)) {
@@ -32,10 +35,12 @@ source("R/mv08z_landscape_production.R")
 .mv08z_verify_manifest(z_root, "mv08z-artifact-manifest.csv")
 .mv08z_verify_manifest(za_root, "mv08za-artifact-manifest.csv")
 .mv08z_verify_manifest(recovery_root, "mv08zb-artifact-manifest.csv")
+.mv08z_verify_manifest(traversal_root, "mv08zc-artifact-manifest.csv")
 z_inputs <- .mv08z_read_csv(file.path(z_root, "mv08z-input-manifest.csv"))
 z_resource <- .mv08z_read_csv(file.path(z_root, "mv08z-resource-policy.csv"))
 sentinel <- .mv08z_read_csv(file.path(z_root, "mv08z-sentinel-selection.csv"))
-implementation <- .mv08z_read_csv(file.path(recovery_root, "mv08zb-implementation-bindings.csv"))
+implementation <- .mv08z_read_csv(file.path(traversal_root, "mv08zc-implementation-bindings.csv"))
+prior_implementation <- .mv08z_read_csv(file.path(recovery_root, "mv08zb-implementation-bindings.csv"))
 decision <- .mv08z_read_csv(file.path(za_root, "mv08za-decision.csv"))
 if (nrow(sentinel) != 1L || nrow(decision) != 1L ||
     decision$authorized_child_processes != 3L ||
@@ -46,7 +51,11 @@ if (nrow(sentinel) != 1L || nrow(decision) != 1L ||
       z_inputs$sha256[z_inputs$role == "admitted_private_rust_library"] ||
     !all(file.exists(implementation$file)) ||
     !all(vapply(implementation$file, .mv08z_sha256_file, character(1L)) ==
-           implementation$sha256)) stop("MV8-ZA binding drift", call. = FALSE)
+           implementation$sha256) ||
+    .mv08z_sha256_file("scripts/run_mv08z_landscape_oracle.R") !=
+      prior_implementation$sha256[prior_implementation$role == "oracle_worker"]) {
+  stop("MV8-ZA binding drift", call. = FALSE)
+}
 
 dir.create(private_root, recursive = TRUE)
 dir.create(public_root, recursive = TRUE)

@@ -1,0 +1,21 @@
+test_that("MV8-ZC binds zero-output amendment traversal recovery", {
+  root <- file.path("..", "..", "docs", "audits",
+                    "mv08zc-landscape-traversal-recovery-prefreeze-v1")
+  read <- function(x) read.csv(file.path(root, x), check.names=FALSE,
+                               stringsAsFactors=FALSE)
+  failure <- read("mv08zc-failure.csv")
+  checks <- read("mv08zc-validation.csv")
+  decision <- read("mv08zc-decision.csv")
+  manifest <- read("mv08zc-artifact-manifest.csv")
+  expect_equal(failure$failure_class, "amendment_traversal_absent")
+  expect_equal(failure$landscape_pair_outputs, 0L)
+  expect_equal(failure$later_children_started, 0L)
+  expect_equal(nrow(checks), 14L)
+  expect_true(all(checks$passed))
+  expect_equal(decision$replacement_children_authorized, 3L)
+  expect_equal(decision$automatic_retries, 0L)
+  expect_false(decision$scientific_contract_changed)
+  observed <- unname(vapply(file.path(root, manifest$artifact), function(path)
+    digest::digest(file=path, algo="sha256", serialize=FALSE), character(1L)))
+  expect_identical(observed, manifest$sha256)
+})

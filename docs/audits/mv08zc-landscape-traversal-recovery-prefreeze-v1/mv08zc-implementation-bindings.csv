@@ -1,0 +1,5 @@
+"contract_id","role","file","old_sha256","sha256","scientific_change"
+"mv08zc_implementation_binding_v1","chunk_amendment_traversal","scripts/run_mv08z_landscape_chunk.R","946e3369a7453aead4edde36abf37eeb2bf254026eefe8d337393621fb58d505","5c825299281882a4b599d36f5f70a8d9eeed8a27cd3f747b88c9b4af0e9c2724",FALSE
+"mv08zc_implementation_binding_v1","monitor_exports_recovery","scripts/run_mv08za_landscape_sentinel.R","cbd6753448912c18b665d1c598f5a5e38375a1fb438d534a8ed071b8c4f4f221","2a47a5f684416ccf7b93d4ddf048a27e75be6ccfc7f88854bbd347bdf8b53fc2",FALSE
+"mv08zc_implementation_binding_v1","accepted_landscape_contract_helper","R/landscape_contract.R",,"4e60dcc8e291ae657c326bc08b9fff0b4eedbbdf7e831eb7e1226acd9c173fa9",FALSE
+"mv08zc_implementation_binding_v1","recovery_builder","scripts/build_mv08zc_landscape_traversal_recovery_prefreeze.R",,"74434f4efc5ca6156d82938d6e8a98f0ce843fce1627a1c187753f42c7dac06f",FALSE

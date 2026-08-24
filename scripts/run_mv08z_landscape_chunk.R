@@ -44,13 +44,29 @@ inputs <- .mv08z_read_csv(file.path(prefreeze, "mv08z-input-manifest.csv"))
 implementations <- .mv08z_read_csv(
   file.path(prefreeze, "mv08z-implementation-bindings.csv")
 )
+implementation_ok <- all(file.exists(implementations$file)) &&
+  all(vapply(implementations$file, .mv08z_sha256_file, character(1L)) ==
+        implementations$sha256)
+if (!implementation_ok) {
+  recovery_root <- normalizePath(
+    Sys.getenv("MV08ZB_RECOVERY_PREFREEZE", unset = ""), mustWork = TRUE
+  )
+  .mv08z_verify_manifest(recovery_root, "mv08zb-artifact-manifest.csv")
+  amendments <- .mv08z_read_csv(
+    file.path(recovery_root, "mv08zb-implementation-bindings.csv")
+  )
+  current <- vapply(implementations$file, .mv08z_sha256_file, character(1L))
+  matched <- match(implementations$file, amendments$file)
+  amended_ok <- !is.na(matched) &
+    implementations$sha256 == amendments$old_sha256[matched] &
+    current == amendments$sha256[matched]
+  implementation_ok <- all(current == implementations$sha256 | amended_ok)
+}
 if (nrow(contract) != 1L ||
     .mv08z_sha256_file(binding_path) !=
       inputs$sha256[inputs$role == "private_unit_bindings"] ||
     .mv08z_sha256_file(rust_library) != contract$rust_library_sha256 ||
-    !all(file.exists(implementations$file)) ||
-    !all(vapply(implementations$file, .mv08z_sha256_file, character(1L)) ==
-           implementations$sha256)) {
+    !implementation_ok) {
   stop("MV8-Z execution binding drift", call. = FALSE)
 }
 group <- groups[as.integer(groups$group_order) == group_order, , drop = FALSE]
