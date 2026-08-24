@@ -1,22 +1,25 @@
 #!/usr/bin/env Rscript
 
 args <- commandArgs(trailingOnly = TRUE)
-if (length(args) != 7L) stop(paste(
+if (length(args) != 8L) stop(paste(
   "usage: build_mv08y_rust_landscape_admission_closure.R <prefreeze-root>",
-  "<toolchain-root> <build-evidence> <oracle-run-a> <oracle-run-b>",
+  "<amendment-root> <toolchain-root> <build-evidence> <oracle-run-a> <oracle-run-b>",
   "<private-selection.csv> <output-dir>"
 ), call. = FALSE)
 
 prefreeze_root <- normalizePath(args[[1L]], mustWork = TRUE)
-toolchain_root <- normalizePath(args[[2L]], mustWork = TRUE)
-build_root <- normalizePath(args[[3L]], mustWork = TRUE)
-run_a_root <- normalizePath(args[[4L]], mustWork = TRUE)
-run_b_root <- normalizePath(args[[5L]], mustWork = TRUE)
-selection_path <- normalizePath(args[[6L]], mustWork = TRUE)
-output_dir <- normalizePath(args[[7L]], mustWork = FALSE)
+amendment_root <- normalizePath(args[[2L]], mustWork = TRUE)
+toolchain_root <- normalizePath(args[[3L]], mustWork = TRUE)
+build_root <- normalizePath(args[[4L]], mustWork = TRUE)
+run_a_root <- normalizePath(args[[5L]], mustWork = TRUE)
+run_b_root <- normalizePath(args[[6L]], mustWork = TRUE)
+selection_path <- normalizePath(args[[7L]], mustWork = TRUE)
+output_dir <- normalizePath(args[[8L]], mustWork = FALSE)
 if (dir.exists(output_dir)) stop("refusing to overwrite MV8-Y output", call. = FALSE)
-execution_head <- tolower(trimws(Sys.getenv("MV08Y_EXECUTION_HEAD", unset = "")))
-if (!grepl("^[0-9a-f]{40}$", execution_head)) {
+oracle_execution_head <- tolower(trimws(
+  Sys.getenv("MV08Y_EXECUTION_HEAD", unset = "")
+))
+if (!grepl("^[0-9a-f]{40}$", oracle_execution_head)) {
   stop("MV8-Y exact execution HEAD absent", call. = FALSE)
 }
 if (!requireNamespace("digest", quietly = TRUE)) stop("digest required", call. = FALSE)
@@ -82,6 +85,9 @@ tree_bytes <- function(root) {
 prefreeze_manifest <- verify_manifest(
   prefreeze_root, "mv08x-artifact-manifest.csv"
 )
+amendment_manifest <- verify_manifest(
+  amendment_root, "mv08xa-artifact-manifest.csv"
+)
 build_manifest <- verify_manifest(build_root, "artifact-manifest.csv")
 run_a_manifest <- verify_manifest(run_a_root, "artifact-manifest.csv")
 run_b_manifest <- verify_manifest(run_b_root, "artifact-manifest.csv")
@@ -94,6 +100,12 @@ implementation <- read_csv(file.path(prefreeze_root, "mv08x-implementation-bindi
 input_manifest <- read_csv(file.path(prefreeze_root, "mv08x-input-manifest.csv"))
 prefreeze_validation <- read_csv(file.path(prefreeze_root, "mv08x-validation.csv"))
 prefreeze_decision <- read_csv(file.path(prefreeze_root, "mv08x-decision.csv"))
+amendment_bindings <- read_csv(file.path(
+  amendment_root, "mv08xa-amendment-bindings.csv"
+))
+failure <- read_csv(file.path(amendment_root, "mv08xa-failure.csv"))
+diagnostic <- read_csv(file.path(amendment_root, "mv08xa-diagnostic.csv"))
+amendment_decision <- read_csv(file.path(amendment_root, "mv08xa-decision.csv"))
 build <- read_csv(file.path(build_root, "build-validation.csv"))
 source_bindings <- read_csv(file.path(build_root, "source-bindings.csv"))
 results_a <- read_csv(file.path(run_a_root, "oracle-results.csv"))
@@ -112,8 +124,40 @@ if (nrow(contract) != 1L || nrow(prefreeze_decision) != 1L ||
   stop("MV8-Y singleton/cardinality drift", call. = FALSE)
 }
 
-current_hashes <- vapply(implementation$file, sha_file, character(1L))
-implementation_match <- all(current_hashes == implementation$sha256)
+has_old <- !is.na(amendment_bindings$old_sha256) &
+  nzchar(amendment_bindings$old_sha256)
+amended_roles <- amendment_bindings$role[has_old]
+unamended <- !implementation$role %in% amended_roles
+current_hashes <- vapply(implementation$file[unamended], sha_file, character(1L))
+implementation_match <- all(current_hashes == implementation$sha256[unamended])
+amendment_current_hashes <- vapply(
+  amendment_bindings$file, sha_file, character(1L)
+)
+amendment_old <- implementation[
+  match(amendment_bindings$role[has_old], implementation$role), , drop = FALSE
+]
+amendment_binding_ok <-
+  !anyNA(amendment_old$role) &&
+  all(amendment_old$bytes == amendment_bindings$old_bytes[has_old]) &&
+  all(amendment_old$sha256 == amendment_bindings$old_sha256[has_old]) &&
+  all(as.numeric(file.info(amendment_bindings$file)$size) ==
+        as.numeric(amendment_bindings$new_bytes)) &&
+  all(amendment_current_hashes == amendment_bindings$new_sha256)
+failure_preserved <- nrow(failure) == 1L && nrow(diagnostic) == 1L &&
+  nrow(amendment_decision) == 1L &&
+  failure$rebuild_execution_head == build$execution_head &&
+  !truth(failure$output_root_created) &&
+  failure$terminal_error == "MV8-X canonical R oracle gate failed" &&
+  diagnostic$pairs == 28L && diagnostic$engine_passes == 28L &&
+  diagnostic$reverse_bit_passes == 28L &&
+  diagnostic$reverse_count_passes == 28L &&
+  diagnostic$reverse_diagnostic_passes == 28L &&
+  diagnostic$first_self_zero_passes == 28L &&
+  diagnostic$second_self_zero_passes == 28L &&
+  diagnostic$all_active_level_passes == 14L &&
+  diagnostic$production_landscape_jobs == 0L &&
+  truth(amendment_decision$replacement_authorized) &&
+  amendment_decision$replacement_attempts == 1L
 selection_binding <- input_manifest[
   input_manifest$role == "private_oracle_selection", , drop = FALSE
 ]
@@ -197,7 +241,8 @@ result_firewalls <- all(results_a$outcome_label_state == "closed") &&
 
 validation <- data.frame(
   check_id = c(
-    "prefreeze_manifest", "prefreeze_checks", "implementation_hashes",
+    "prefreeze_manifest", "amendment_manifest", "failed_attempt_preserved",
+    "amendment_bindings", "prefreeze_checks", "implementation_hashes",
     "private_selection_binding", "installer_hash", "toolchain_receipt",
     "source_binding", "execution_head", "rust_identity", "one_build_job",
     "zero_external_crates", "format_unit_clippy", "two_clean_builds",
@@ -211,10 +256,13 @@ validation <- data.frame(
     "downstream_firewalls", "labels_outcomes_closed"
   ),
   passed = c(
-    nrow(prefreeze_manifest) == 9L,
+    nrow(prefreeze_manifest) == 9L, nrow(amendment_manifest) == 6L,
+    failure_preserved, amendment_binding_ok,
     nrow(prefreeze_validation) == 20L && all(truth(prefreeze_validation$passed)),
     implementation_match, selection_private_match, installer_ok, receipt_ok,
-    source_binding_ok, build$execution_head == execution_head,
+    source_binding_ok, build$execution_head == failure$rebuild_execution_head &&
+      resource_a$execution_head == oracle_execution_head &&
+      resource_b$execution_head == oracle_execution_head,
     build$rustc_release == "1.97.1" &&
       build$rustc_host == "x86_64-unknown-linux-gnu",
     build$build_jobs == 1L, build$external_crates == 0L,
@@ -239,7 +287,12 @@ validation <- data.frame(
       all(truth(results_a$reverse_diagnostics_match)),
     all(truth(results_a$first_self_exact_zero)) &&
       all(truth(results_a$second_self_exact_zero)),
-    all(truth(results_a$all_active_levels)),
+    all(truth(results_a$all_active_levels)) &&
+      all(results_a$active_levels == results_a$expected_active_levels) &&
+      all(results_a$expected_active_levels == pmax(
+        results_a$expected_first_active_levels,
+        results_a$expected_second_active_levels
+      )),
     scientific_a_sha == scientific_b_sha,
     fixture_a_sha == fixture_b_sha,
     all(truth(fixtures_a$passed)) && nrow(fixtures_a) == 9L,
@@ -255,7 +308,10 @@ validation <- data.frame(
                    resource_b$biological_outcomes_computed)))
   ),
   evidence = c(
-    "MV8-X manifest rehashes", "20/20 prospective checks remain accepted",
+    "MV8-X manifest rehashes", "MV8-XA manifest rehashes",
+    "failed opaque run and aggregate diagnosis are preserved",
+    "old/new observability amendment bytes rehash",
+    "20/20 prospective checks remain accepted",
     "all prefrozen implementation bytes rehash", "private locator selection rehashes",
     "official rustup installer rehashes", "isolated toolchain receipt is exact",
     "build source equals prefreeze", "build binds exact committed prefreeze head",
@@ -267,7 +323,7 @@ validation <- data.frame(
     "one immutable pair per future group", "14 H0 and 14 H1",
     "both scopes/panels and all representations", "all Rust errors fit R certificates",
     "every reverse is invariant", "both self distances are exact zero",
-    "every finite interval level is represented", "A/B oracle tables are byte-identical",
+    "every nonzero active landscape level is represented", "A/B oracle tables are byte-identical",
     "A/B fixture tables are byte-identical", "9/9 analytical/fallback fixtures pass",
     "both oracle runs stay under caps", "published result schema is aggregate-only",
     "production landscape jobs remain zero", "all downstream job counts remain zero",
@@ -282,6 +338,7 @@ if (!all(validation$passed)) {
 build_summary <- data.frame(
   contract_id = "mv08y_build_summary_v1",
   execution_head = build$execution_head, rustc_release = build$rustc_release,
+  oracle_execution_head = oracle_execution_head,
   rustc_host = build$rustc_host, build_jobs = build$build_jobs,
   external_crates = build$external_crates,
   candidate_sha256 = build$candidate_sha256,

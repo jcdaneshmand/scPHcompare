@@ -1,10 +1,10 @@
 #!/usr/bin/env Rscript
 
 args <- commandArgs(trailingOnly = TRUE)
-if (length(args) != 7L) stop(paste(
+if (length(args) != 8L) stop(paste(
   "usage: run_mv08x_rust_landscape_oracles.R <private-selection.csv>",
   "<mv08s-private> <mv08v-private> <rust-library>",
-  "<expected-library-sha256> <run-id> <output-dir>"
+  "<expected-library-sha256> <run-id> <execution-head> <output-dir>"
 ), call. = FALSE)
 
 selection_path <- normalizePath(args[[1L]], mustWork = TRUE)
@@ -13,10 +13,12 @@ v_root <- normalizePath(args[[3L]], mustWork = TRUE)
 library_path <- normalizePath(args[[4L]], mustWork = TRUE)
 expected_library_sha <- tolower(args[[5L]])
 run_id <- args[[6L]]
-output_dir <- normalizePath(args[[7L]], mustWork = FALSE)
+execution_head <- args[[7L]]
+output_dir <- normalizePath(args[[8L]], mustWork = FALSE)
 if (dir.exists(output_dir)) stop("refusing to overwrite MV8-X oracle output", call. = FALSE)
 if (!grepl("^[0-9a-f]{64}$", expected_library_sha) ||
-    !run_id %in% c("a", "b")) {
+    !run_id %in% c("a", "b") ||
+    !grepl("^[0-9a-f]{40}$", execution_head)) {
   stop("invalid MV8-X oracle invocation identity", call. = FALSE)
 }
 for (package in "digest") if (!requireNamespace(package, quietly = TRUE)) {
@@ -40,6 +42,15 @@ atomic_csv <- function(value, path) {
   utils::write.csv(value, partial, row.names = FALSE, quote = TRUE, na = "")
   if (!file.rename(partial, path)) stop("failed to publish ", basename(path), call. = FALSE)
 }
+publish_manifest <- function() {
+  files <- list.files(output_dir, full.names = TRUE)
+  files <- files[basename(files) != "artifact-manifest.csv"]
+  manifest <- data.frame(
+    artifact = basename(files), bytes = as.numeric(file.info(files)$size),
+    sha256 = vapply(files, sha_file, character(1L)), stringsAsFactors = FALSE
+  )
+  atomic_csv(manifest, file.path(output_dir, "artifact-manifest.csv"))
+}
 
 if (sha_file(library_path) != expected_library_sha) {
   stop("MV8-X Rust candidate SHA-256 mismatch", call. = FALSE)
@@ -52,6 +63,15 @@ if (nrow(selection) != 28L ||
     any(selection$biological_outcomes_computed)) {
   stop("MV8-X private oracle selection drift", call. = FALSE)
 }
+dir.create(output_dir, recursive = TRUE)
+atomic_csv(data.frame(
+  contract_id = "mv08xa_oracle_run_start_v1", run_id = run_id,
+  execution_head = execution_head, oracle_pairs = nrow(selection),
+  candidate_sha256 = expected_library_sha,
+  private_selection_sha256 = sha_file(selection_path),
+  production_landscape_jobs = 0L, outcome_label_state = "closed",
+  biological_outcomes_computed = FALSE, stringsAsFactors = FALSE
+), file.path(output_dir, "run-start.csv"))
 
 root_for <- function(role) {
   if (role == "mv08s_private_v3") return(s_root)
@@ -100,10 +120,19 @@ reference_one <- function(first, second, dimension, row) {
   } else stop("unknown MV8-X reference route", call. = FALSE)
 }
 
+landscape_active_depth <- function(intervals) {
+  if (!nrow(intervals)) return(0L)
+  points <- sort(unique(c(intervals[, "birth"], intervals[, "death"])))
+  births <- tabulate(match(intervals[, "birth"], points), nbins = length(points))
+  deaths <- tabulate(match(intervals[, "death"], points), nbins = length(points))
+  as.integer(max(cumsum(births - deaths)))
+}
+
 started <- proc.time()[["elapsed"]]
 reference_seconds <- 0
 rust_seconds <- 0
-results <- lapply(seq_len(nrow(selection)), function(index) {
+results <- vector("list", nrow(selection))
+for (index in seq_len(nrow(selection))) {
   row <- selection[index, , drop = FALSE]
   first_record <- load_record(row, "first")
   second_record <- load_record(row, "second")
@@ -144,18 +173,27 @@ results <- lapply(seq_len(nrow(selection)), function(index) {
       100 * .Machine$double.eps * max(1, abs(reference$squared_distance))
   }
   error <- abs(forward$squared_distance - reference$squared_distance)
-  passed <- isTRUE(forward$rust_used) && forward$status == 0L &&
+  expected_first_active <- landscape_active_depth(first_intervals)
+  expected_second_active <- landscape_active_depth(second_intervals)
+  expected_active <- max(expected_first_active, expected_second_active)
+  engine_valid <- isTRUE(forward$rust_used) && forward$status == 0L &&
     forward$engine_version == 1L && is.finite(forward$squared_distance) &&
-    forward$squared_distance >= 0 && error <= threshold &&
-    identical(forward$squared_distance, reverse$squared_distance) &&
+    forward$squared_distance >= 0
+  reference_within_threshold <- error <= threshold
+  reverse_bit_identical <- identical(forward$squared_distance, reverse$squared_distance)
+  reverse_counts_swap <-
     forward$first_finite_intervals == reverse$second_finite_intervals &&
-    forward$second_finite_intervals == reverse$first_finite_intervals &&
+    forward$second_finite_intervals == reverse$first_finite_intervals
+  reverse_diagnostics_match <-
     forward$active_levels == reverse$active_levels &&
-    forward$event_segments == reverse$event_segments &&
-    identical(first_self$squared_distance, 0) &&
-    identical(second_self$squared_distance, 0) &&
-    forward$active_levels == max(nrow(first_intervals), nrow(second_intervals))
-  data.frame(
+    forward$event_segments == reverse$event_segments
+  first_self_exact_zero <- identical(first_self$squared_distance, 0)
+  second_self_exact_zero <- identical(second_self$squared_distance, 0)
+  all_active_levels <- forward$active_levels == expected_active
+  passed <- engine_valid && reference_within_threshold && reverse_bit_identical &&
+    reverse_counts_swap && reverse_diagnostics_match && first_self_exact_zero &&
+    second_self_exact_zero && all_active_levels
+  result <- data.frame(
     contract_id = "mv08x_oracle_result_v1",
     oracle_order = as.integer(row$oracle_order), oracle_id = row$oracle_id,
     pair_identity_sha256 = row$pair_identity_sha256,
@@ -173,26 +211,48 @@ results <- lapply(seq_len(nrow(selection)), function(index) {
     first_finite_intervals = nrow(first_intervals),
     second_finite_intervals = nrow(second_intervals),
     active_levels = forward$active_levels, event_segments = forward$event_segments,
+    expected_first_active_levels = expected_first_active,
+    expected_second_active_levels = expected_second_active,
+    expected_active_levels = expected_active,
     status = forward$status, engine_version = forward$engine_version,
-    reverse_bit_identical = identical(
-      forward$squared_distance, reverse$squared_distance
-    ),
-    reverse_counts_swap =
-      forward$first_finite_intervals == reverse$second_finite_intervals &&
-      forward$second_finite_intervals == reverse$first_finite_intervals,
-    reverse_diagnostics_match =
-      forward$active_levels == reverse$active_levels &&
-      forward$event_segments == reverse$event_segments,
-    first_self_exact_zero = identical(first_self$squared_distance, 0),
-    second_self_exact_zero = identical(second_self$squared_distance, 0),
-    all_active_levels = forward$active_levels ==
-      max(nrow(first_intervals), nrow(second_intervals)),
+    engine_valid = engine_valid,
+    reference_within_threshold = reference_within_threshold,
+    reverse_bit_identical = reverse_bit_identical,
+    reverse_counts_swap = reverse_counts_swap,
+    reverse_diagnostics_match = reverse_diagnostics_match,
+    first_self_exact_zero = first_self_exact_zero,
+    second_self_exact_zero = second_self_exact_zero,
+    all_active_levels = all_active_levels,
     passed = passed, outcome_label_state = "closed",
     biological_outcomes_computed = FALSE, stringsAsFactors = FALSE
   )
-})
+  results[[index]] <- result
+  atomic_csv(
+    do.call(rbind, results[seq_len(index)]),
+    file.path(output_dir, "oracle-progress.csv")
+  )
+}
 results <- do.call(rbind, results)
-if (!all(results$passed)) stop("MV8-X canonical R oracle gate failed", call. = FALSE)
+atomic_csv(results, file.path(output_dir, "oracle-results.csv"))
+if (!all(results$passed)) {
+  atomic_csv(data.frame(
+    contract_id = "mv08xa_oracle_gate_failure_v1", run_id = run_id,
+    execution_head = execution_head, evaluated_pairs = nrow(results),
+    failed_pairs = sum(!results$passed),
+    engine_failures = sum(!results$engine_valid),
+    reference_threshold_failures = sum(!results$reference_within_threshold),
+    reverse_bit_failures = sum(!results$reverse_bit_identical),
+    reverse_count_failures = sum(!results$reverse_counts_swap),
+    reverse_diagnostic_failures = sum(!results$reverse_diagnostics_match),
+    first_self_failures = sum(!results$first_self_exact_zero),
+    second_self_failures = sum(!results$second_self_exact_zero),
+    active_level_failures = sum(!results$all_active_levels),
+    production_landscape_jobs = 0L, outcome_label_state = "closed",
+    biological_outcomes_computed = FALSE, stringsAsFactors = FALSE
+  ), file.path(output_dir, "gate-failure.csv"))
+  publish_manifest()
+  stop("MV8-X canonical R oracle gate failed", call. = FALSE)
+}
 
 empty <- matrix(numeric(), nrow = 0L, ncol = 2L,
                 dimnames = list(NULL, c("birth", "death")))
@@ -292,6 +352,7 @@ peak_rss <- if (length(peak_line) == 1L) {
 } else NA_real_
 resource <- data.frame(
   contract_id = "mv08x_oracle_resource_v1", run_id = run_id,
+  execution_head = execution_head,
   oracle_pairs = nrow(results), reference_seconds = reference_seconds,
   rust_seconds = rust_seconds,
   total_seconds = proc.time()[["elapsed"]] - started,
@@ -310,16 +371,10 @@ if (!is.finite(resource$peak_process_rss_bytes) ||
   stop("MV8-X oracle resource cap failed", call. = FALSE)
 }
 
-dir.create(output_dir, recursive = TRUE)
 atomic_csv(results, file.path(output_dir, "oracle-results.csv"))
 atomic_csv(fixtures, file.path(output_dir, "fixture-results.csv"))
 atomic_csv(resource, file.path(output_dir, "resource.csv"))
-files <- list.files(output_dir, full.names = TRUE)
-manifest <- data.frame(
-  artifact = basename(files), bytes = as.numeric(file.info(files)$size),
-  sha256 = vapply(files, sha_file, character(1L)), stringsAsFactors = FALSE
-)
-atomic_csv(manifest, file.path(output_dir, "artifact-manifest.csv"))
+publish_manifest()
 cat("MV8-X oracle run ", run_id, ": ", sum(results$passed), "/",
     nrow(results), " pairs; fixtures ", sum(fixtures$passed), "/",
     nrow(fixtures), "\n", sep = "")

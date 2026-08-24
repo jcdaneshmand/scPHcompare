@@ -4,7 +4,9 @@ test_that("MV8-X implementation parses and retains the isolated rebuild boundary
   r_scripts <- file.path(root, "scripts", c(
     "build_mv08x_rust_landscape_admission_prefreeze.R",
     "run_mv08x_rust_landscape_oracles.R",
-    "build_mv08y_rust_landscape_admission_closure.R"
+    "build_mv08y_rust_landscape_admission_closure.R",
+    "run_mv08xa_rust_invariant_diagnostic.R",
+    "build_mv08xa_oracle_observability_recovery.R"
   ))
   for (script in r_scripts) expect_silent(parse(file = script))
 
@@ -25,6 +27,10 @@ test_that("MV8-X implementation parses and retains the isolated rebuild boundary
   expect_match(rebuild, "-D warnings", fixed = TRUE)
   expect_match(rebuild, "clean Rust builds are not byte-identical", fixed = TRUE)
   expect_false(grepl("sudo|apt-get|dnf|yum", rebuild, perl = TRUE))
+  oracle <- paste(readLines(r_scripts[[2L]], warn = FALSE), collapse = "\n")
+  expect_match(oracle, "landscape_active_depth", fixed = TRUE)
+  expect_match(oracle, "oracle-progress.csv", fixed = TRUE)
+  expect_match(oracle, "cumsum(births - deaths)", fixed = TRUE)
 })
 
 test_that("MV8-X prospectively freezes one private stress pair per group", {
@@ -79,10 +85,31 @@ test_that("MV8-X prospectively freezes one private stress pair per group", {
   expect_identical(decision$outcome_label_state, "closed")
   expect_false(decision$biological_outcomes_computed)
 
-  current <- vapply(file.path("..", "..", implementations$file), function(path) {
+  amendment_root <- file.path(
+    "..", "..", "docs", "audits",
+    "mv08xa-oracle-observability-recovery-v1"
+  )
+  amended_roles <- character()
+  if (dir.exists(amendment_root)) {
+    amendment <- utils::read.csv(
+      file.path(amendment_root, "mv08xa-amendment-bindings.csv"),
+      check.names = FALSE, stringsAsFactors = FALSE
+    )
+    amended_roles <- amendment$role[
+      !is.na(amendment$old_sha256) & nzchar(amendment$old_sha256)
+    ]
+    current_amendment <- vapply(
+      file.path("..", "..", amendment$file),
+      function(path) digest::digest(file = path, algo = "sha256", serialize = FALSE),
+      character(1L)
+    )
+    expect_identical(unname(current_amendment), amendment$new_sha256)
+  }
+  retained <- !implementations$role %in% amended_roles
+  current <- vapply(file.path("..", "..", implementations$file[retained]), function(path) {
     digest::digest(file = path, algo = "sha256", serialize = FALSE)
   }, character(1L))
-  expect_identical(unname(current), implementations$sha256)
+  expect_identical(unname(current), implementations$sha256[retained])
   observed <- vapply(file.path(root, manifest$artifact), function(path) {
     digest::digest(file = path, algo = "sha256", serialize = FALSE)
   }, character(1L))

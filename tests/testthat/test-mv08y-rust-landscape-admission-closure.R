@@ -40,13 +40,18 @@ test_that("MV8-Y closes Rust admission without opening landscape production", {
   expect_true(all(oracles$first_self_exact_zero))
   expect_true(all(oracles$second_self_exact_zero))
   expect_true(all(oracles$all_active_levels))
+  expect_true(all(oracles$active_levels == oracles$expected_active_levels))
+  expect_true(all(oracles$expected_active_levels == pmax(
+    oracles$expected_first_active_levels,
+    oracles$expected_second_active_levels
+  )))
   expect_equal(nrow(fixtures), 9L)
   expect_true(all(fixtures$passed))
   expect_equal(nrow(resources), 4L)
   expect_true(all(resources$cap_passed))
   expect_true(all(resources$workers == 1L))
   expect_true(all(resources$retries == 0L))
-  expect_equal(nrow(checks), 34L)
+  expect_equal(nrow(checks), 37L)
   expect_true(all(checks$passed))
 
   expect_true(decision$private_wsl_candidate_admitted)
