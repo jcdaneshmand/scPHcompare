@@ -1,0 +1,2 @@
+"contract_id","production_order","group_order","chunk_order","expected_pair_rows","expected_pair_subset_sha256","observed_pair_rows","observed_pair_subset_sha256","private_bindings_bytes","private_bindings_sha256","public_private_identities_exposed"
+"mv08zi_private_pair_binding_v1",164,6,9,250,"4b9cdb797fc379f582f1ba4d49c6c5ccb980d5e2f000dc8be2dc9c16baea69a3",250,"4b9cdb797fc379f582f1ba4d49c6c5ccb980d5e2f000dc8be2dc9c16baea69a3",1474509,"d6c9adb5445b2644d853e6c122bc05b74631c17cc28acafc2c7d9b7c215fcaec",FALSE

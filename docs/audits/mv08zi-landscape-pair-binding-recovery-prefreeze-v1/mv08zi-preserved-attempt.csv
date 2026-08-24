@@ -1,0 +1,2 @@
+"contract_id","attempt","stopped_stage","stopped_reason","public_rows_before","public_rows_after","private_orphan_preserved","public_receipts_written","landscape_jobs_run","automatic_retries"
+"mv08zi_preserved_attempt_v1","mv08zh_post_commit_adoption","private_pair_inventory_lookup","public_MV8_Z_audit_intentionally_has_no_private_pair_queue",163,163,TRUE,0,0,0

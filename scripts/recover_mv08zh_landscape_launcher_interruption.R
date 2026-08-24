@@ -4,18 +4,20 @@
 # was interrupted. This script performs no landscape computation and no retry.
 
 args <- commandArgs(trailingOnly = TRUE)
-if (length(args) != 5L) stop(paste(
+if (length(args) != 7L) stop(paste(
   "usage: recover_mv08zh_landscape_launcher_interruption.R",
-  "<mv08zh-prefreeze> <mv08zf-prefreeze> <private-root> <public-root>",
-  "<recovery-head>"
+  "<mv08zi-prefreeze> <mv08zh-prefreeze> <mv08zf-prefreeze>",
+  "<private-bindings> <private-root> <public-root> <recovery-head>"
 ), call. = FALSE)
 if (!requireNamespace("digest", quietly = TRUE)) stop("digest required", call. = FALSE)
 
-zh_root <- normalizePath(args[[1L]], mustWork = TRUE)
-zf_root <- normalizePath(args[[2L]], mustWork = TRUE)
-private_root <- normalizePath(args[[3L]], mustWork = TRUE)
-public_root <- normalizePath(args[[4L]], mustWork = TRUE)
-recovery_head <- tolower(trimws(args[[5L]]))
+zi_root <- normalizePath(args[[1L]], mustWork = TRUE)
+zh_root <- normalizePath(args[[2L]], mustWork = TRUE)
+zf_root <- normalizePath(args[[3L]], mustWork = TRUE)
+bindings_path <- normalizePath(args[[4L]], mustWork = TRUE)
+private_root <- normalizePath(args[[5L]], mustWork = TRUE)
+public_root <- normalizePath(args[[6L]], mustWork = TRUE)
+recovery_head <- tolower(trimws(args[[7L]]))
 if (!grepl("^[0-9a-f]{40}$", recovery_head)) stop("invalid MV8-ZH recovery head", call. = FALSE)
 
 source("R/mv08z_landscape_production.R")
@@ -34,15 +36,18 @@ verify_manifest <- function(root, name) {
   }
   manifest
 }
+verify_manifest(zi_root, "mv08zi-artifact-manifest.csv")
 verify_manifest(zh_root, "mv08zh-artifact-manifest.csv")
 verify_manifest(zf_root, "mv08zf-artifact-manifest.csv")
 
-decision <- read_csv(file.path(zh_root, "mv08zh-decision.csv"))
+decision <- read_csv(file.path(zi_root, "mv08zi-decision.csv"))
 snapshot <- read_csv(file.path(zh_root, "mv08zh-stopped-snapshot.csv"))
 orphan <- read_csv(file.path(zh_root, "mv08zh-orphan-binding.csv"))
-implementation <- read_csv(file.path(zh_root, "mv08zh-implementation-bindings.csv"))
+implementation <- read_csv(file.path(zi_root, "mv08zi-implementation-bindings.csv"))
 queue <- read_csv(file.path(zf_root, "mv08zf-production-queue.csv"))
 contract <- read_csv(file.path(zf_root, "mv08zf-contract.csv"))
+zf_inputs <- read_csv(file.path(zf_root, "mv08zf-input-manifest.csv"))
+bindings <- read_csv(bindings_path)
 ledger_path <- file.path(public_root, "mv08zf-resource-ledger.csv")
 completion_path <- file.path(public_root, "mv08zf-chunk-completions.csv")
 progress_path <- file.path(public_root, "mv08zf-progress.csv")
@@ -57,7 +62,9 @@ if (nrow(decision) != 1L || !truth(decision$orphan_adoption_authorized) ||
     decision$orphan_production_order != 164L || decision$resume_at_production_order != 165L ||
     decision$automatic_retries != 0L || truth(decision$landscape_recomputation_authorized) ||
     current_head != recovery_head || nrow(bound_recovery) != 1L ||
-    bound_recovery$file != recovery_file || sha_file(recovery_file) != bound_recovery$sha256) {
+    bound_recovery$file != recovery_file || sha_file(recovery_file) != bound_recovery$sha256 ||
+    sha_file(bindings_path) != zf_inputs$sha256[zf_inputs$role == "private_unit_bindings"] ||
+    nrow(bindings) != 2544L) {
   stop("MV8-ZH committed recovery authorization drift", call. = FALSE)
 }
 
@@ -105,6 +112,14 @@ if (!all(file.exists(bound_paths)) ||
 }
 status <- read_csv(paths[["status"]])
 distances <- read_csv(paths[["distance"]])
+group_bindings <- bindings[as.integer(bindings$group_order) == row$group_order, , drop = FALSE]
+expected_pairs <- .mv08z_add_pair_identities(
+  .mv08z_group_pairs(group_bindings), row$group_id
+)
+expected_pairs <- expected_pairs[
+  expected_pairs$pair_ordinal >= row$pair_start &
+    expected_pairs$pair_ordinal <= row$pair_end, , drop = FALSE
+]
 stderr_text <- trimws(paste(readLines(stderr, warn = FALSE), collapse = "\n"))
 expected_stderr <- paste0("Completed MV8-Z ", .mv08z_safe_group(row$group_order), "/",
                           .mv08z_safe_chunk(row$chunk_order), "; pairs=", row$pair_count)
@@ -115,11 +130,8 @@ if (nrow(status) != 1L || nrow(distances) != row$pair_count ||
     status$pair_subset_sha256 != row$pair_subset_sha256 ||
     status$distances_sha256 != sha_file(paths[["distance"]]) ||
     !truth(status$workers == 1L) || status$retries != 0L || truth(status$fallback_used) ||
-    !identical(distances$pair_identity_sha256,
-               read_csv(file.path(
-                 "docs/audits/mv08z-landscape-execution-prefreeze-v1",
-                 "mv08z-pair-queue.csv"
-               ))$pair_identity_sha256[row$pair_start:row$pair_end]) ||
+    .mv08z_sha256_text(expected_pairs$pair_identity_sha256) != row$pair_subset_sha256 ||
+    !identical(distances$pair_identity_sha256, expected_pairs$pair_identity_sha256) ||
     stderr_text != expected_stderr) {
   stop("MV8-ZH orphan scientific validation failed", call. = FALSE)
 }

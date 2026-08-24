@@ -1,0 +1,3 @@
+"contract_id","role","file","old_sha256","bytes","sha256","scientific_change","private_pair_binding_fix"
+"mv08zi_implementation_binding_v1","recovery_executor","scripts/recover_mv08zh_landscape_launcher_interruption.R","4950b88b3b091706063c543d982e109a497d334309cd683594299abd712a65cd",10895,"904d797a09bb61341012aa19b16e3ca66745f5701765bc2ca877f7ba0b90319f",FALSE,TRUE
+"mv08zi_implementation_binding_v1","amendment_builder","scripts/build_mv08zi_landscape_pair_binding_recovery_prefreeze.R",,10414,"f0d854abe463c45f3a2fd3c2ed07463648c39da3a662c63388c91fb6bf97658d",FALSE,FALSE
