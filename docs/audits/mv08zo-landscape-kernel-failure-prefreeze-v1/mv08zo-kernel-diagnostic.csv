@@ -1,0 +1,5 @@
+"contract_id","diagnostic","rust_status","rust_active_levels","canonical_active_levels","rust_squared_norm","canonical_squared_norm","absolute_norm_error","relative_norm_error","interpretation"
+"mv08zo_kernel_diagnostic_v1","failed_pair",0,656,655,,,,,"success_status_but_active_level_mismatch"
+"mv08zo_kernel_diagnostic_v1","failed_first_norm",0,492,492,0.00174727986151617,0.00174727986151617,0,0,"exact_control"
+"mv08zo_kernel_diagnostic_v1","failed_second_norm",0,656,655,0.00180157503219503,0.00180119784320834,3.77188986688468e-07,0.000209410081247159,"active_level_and_exact_norm_failure"
+"mv08zo_kernel_diagnostic_v1","public_synthetic_norm",0,3,3,3.16666666666667,3.08333333333333,0.083333333333333,0.0270270270270269,"exact_norm_failure_despite_level_count_match"

@@ -1,0 +1,14 @@
+"contract_id","role","bytes","sha256","public_content"
+"mv08zo_evidence_binding_v1","stopped_progress",494,"f89312da5dc3da5231b40402fe8fa4f8e6297d78c4d43730a7e3dfb29b2018b2",TRUE
+"mv08zo_evidence_binding_v1","stopped_completion",169869,"20d7b6b0b7b04878a45d95a5dcaccfc574c5ea6d7103c46496555af602e1ced7",TRUE
+"mv08zo_evidence_binding_v1","stopped_ledger",169384,"4808033e8c47a15a2734b66ce47007301c46637761674de06f752b69a0353ec3",TRUE
+"mv08zo_evidence_binding_v1","failed_stdout",94,"84f0c7d60a062a2d65c08aa9e927cc3a5bb2f2eb9064faddaf0ea4f12ba643d0",FALSE
+"mv08zo_evidence_binding_v1","failed_stderr",82,"4aa3ac354bb2106d823751fdeb78c4811351501fe4e4d77fa07a3787714e6763",FALSE
+"mv08zo_evidence_binding_v1","private_unit_axis",1474509,"d6c9adb5445b2644d853e6c122bc05b74631c17cc28acafc2c7d9b7c215fcaec",FALSE
+"mv08zo_evidence_binding_v1","admitted_private_rust",442272,"51d3fca4808c6620c46c7b1100ddfad4753af02d37f87ec3eb278008846b160d",FALSE
+"mv08zo_evidence_binding_v1","faulted_rust_source",18702,"35979730d533005aee5bf9fa79083f17c531123329b89e78e87c1968d1428381",TRUE
+"mv08zo_evidence_binding_v1","rust_R_shim",5137,"4771ec396759dacaf36e860819b49978b37d8cc8d4224e54cc72b0077f8a5eb1",TRUE
+"mv08zo_evidence_binding_v1","landscape_helpers",3990,"93a9ac4b40f7158bbe058fe3195e96abcd528fef6b0388a073b86eb8bf7c157f",TRUE
+"mv08zo_evidence_binding_v1","chunk_worker",13204,"51d83791bf6ff6a2c6cd7a2ce3364fd82cac535e4db5976b0bd44383cf94772f",TRUE
+"mv08zo_evidence_binding_v1","serial_runner",14862,"7f0c235bc548a5259cfa1bee3446c084e82d8fca14a8c5cdbc551a5b6bfe0d7c",TRUE
+"mv08zo_evidence_binding_v1","prefreeze_builder",16590,"659b2d07940accae4b30c4cfe1c7efcb1db5d8cb318b113565a59a4b5b4510d5",TRUE

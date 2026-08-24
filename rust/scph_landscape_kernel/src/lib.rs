@@ -152,16 +152,20 @@ impl IntervalPool {
         self.maxima.update(index, maximum);
     }
 
-    fn pop_first_all_duplicates(&mut self) -> Option<(f64, f64, usize)> {
+    fn pop_first(&mut self) -> Option<(f64, f64)> {
         if self.remaining == 0 {
             return None;
         }
         let index = self.maxima.first_above(f64::NEG_INFINITY)?;
         let key = *self.deaths[index].last_key_value()?.0;
-        let count = self.deaths[index].remove(&key)?;
-        self.remaining -= count;
+        let count = self.deaths[index].get_mut(&key)?;
+        *count -= 1;
+        if *count == 0 {
+            self.deaths[index].remove(&key);
+        }
+        self.remaining -= 1;
         self.refresh(index);
-        Some((self.births[index], key.0, count))
+        Some((self.births[index], key.0))
     }
 
     fn pop_first_with_death_above(&mut self, threshold: f64) -> Option<(f64, f64)> {
@@ -191,7 +195,12 @@ impl IntervalPool {
 fn critical_landscape(intervals: &[(f64, f64)]) -> Vec<Vec<Point>> {
     let mut pool = IntervalPool::new(intervals);
     let mut landscape = Vec::new();
-    while let Some((birth, mut death, copies)) = pool.pop_first_all_duplicates() {
+    // Residual intervals created below may be identical even when their source
+    // barcode intervals were not.  Collapsing those residual duplicates and
+    // cloning the completed suffix is invalid: the residuals can belong to
+    // different earlier landscape chains.  Consume exactly one interval per
+    // outer level so every chain is constructed independently.
+    while let Some((birth, mut death)) = pool.pop_first() {
         let mut level = Vec::new();
         level.push(Point { x: birth, y: 0.0 });
         level.push(Point {
@@ -225,13 +234,6 @@ fn critical_landscape(intervals: &[(f64, f64)]) -> Vec<Vec<Point>> {
             death = next_death;
         }
         landscape.push(level);
-        let completed = landscape
-            .last()
-            .expect("just pushed a landscape level")
-            .clone();
-        for _ in 1..copies {
-            landscape.push(completed.clone());
-        }
     }
     landscape
 }
@@ -541,6 +543,70 @@ mod tests {
     #[test]
     fn duplicates_create_consecutive_levels() {
         assert!((squared(&[(0.0, 2.0), (0.0, 2.0)], &[]) - 4.0 / 3.0).abs() <= 1e-15);
+    }
+
+    #[test]
+    fn residual_duplicates_do_not_clone_incomplete_levels() {
+        let intervals = [(1.0, 4.0), (3.0, 4.0), (0.0, 2.0), (1.0, 2.0)];
+        let expected_norm: f64 = intervals
+            .iter()
+            .map(|(birth, death)| (death - birth) * (death - birth) * (death - birth) / 12.0)
+            .sum();
+        let result = landscape_squared_l2(
+            &intervals.iter().map(|item| item.0).collect::<Vec<_>>(),
+            &intervals.iter().map(|item| item.1).collect::<Vec<_>>(),
+            &[],
+            &[],
+            1,
+        )
+        .unwrap();
+        assert_eq!(result.active_levels, 3);
+        assert!((result.squared_distance - expected_norm).abs() <= 1e-15);
+    }
+
+    #[test]
+    fn all_small_four_interval_norms_and_depths_are_exact() {
+        let mut universe = Vec::new();
+        for birth in 0..6 {
+            for death in (birth + 1)..6 {
+                universe.push((birth as f64, death as f64));
+            }
+        }
+        for first in 0..universe.len() {
+            for second in (first + 1)..universe.len() {
+                for third in (second + 1)..universe.len() {
+                    for fourth in (third + 1)..universe.len() {
+                        let intervals = [
+                            universe[first],
+                            universe[second],
+                            universe[third],
+                            universe[fourth],
+                        ];
+                        let births: Vec<_> = intervals.iter().map(|item| item.0).collect();
+                        let deaths: Vec<_> = intervals.iter().map(|item| item.1).collect();
+                        let result = landscape_squared_l2(&births, &deaths, &[], &[], 1).unwrap();
+                        let expected_norm: f64 = intervals
+                            .iter()
+                            .map(|(birth, death)| {
+                                (death - birth) * (death - birth) * (death - birth) / 12.0
+                            })
+                            .sum();
+                        let expected_depth = (0..5)
+                            .map(|segment| {
+                                let location = segment as f64 + 0.5;
+                                intervals
+                                    .iter()
+                                    .filter(|(birth, death)| *birth < location && location < *death)
+                                    .count()
+                            })
+                            .max()
+                            .unwrap();
+                        assert_eq!(result.active_levels, expected_depth as u64);
+                        assert!((result.squared_distance - expected_norm).abs() <= 1e-12);
+                    }
+                }
+            }
+        }
     }
 
     #[test]

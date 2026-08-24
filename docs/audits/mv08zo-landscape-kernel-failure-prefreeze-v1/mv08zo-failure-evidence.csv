@@ -1,0 +1,2 @@
+"contract_id","execution_head","stopped_production_order","completed_chunks","completed_pairs","failed_group_order","failed_chunk_order","failed_pair_ordinal","homology_dimension","exit_status","elapsed_seconds","peak_process_tree_rss_bytes","private_partial_files","failed_chunk_published","retries","outcome_label_state","biological_outcomes_computed"
+"mv08zo_failure_evidence_v1","fee7aa9c6bcb2aea13e63769cb527ae8cac05702",503,502,123516,17,7,1531,"H1",1,9.77055287361145,128086016,0,FALSE,0,"closed",FALSE

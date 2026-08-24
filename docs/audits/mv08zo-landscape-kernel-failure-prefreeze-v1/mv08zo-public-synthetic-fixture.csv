@@ -1,0 +1,5 @@
+"contract_id","interval_order","birth","death","expected_active_levels"
+"mv08zo_public_synthetic_fixture_v1",1,1,4,3
+"mv08zo_public_synthetic_fixture_v1",2,3,4,3
+"mv08zo_public_synthetic_fixture_v1",3,0,2,3
+"mv08zo_public_synthetic_fixture_v1",4,1,2,3
