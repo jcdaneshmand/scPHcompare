@@ -1,0 +1,2 @@
+"contract_id","execution_head","stage","disposition","exit_status","elapsed_seconds","peak_process_tree_rss_bytes","stderr_sha256","stderr_bytes","stdout_sha256","stdout_bytes","failure_class","landscape_pair_outputs","later_children_started"
+"mv08zb_failure_v1","0afc8a74481fa8078e25b7ee6376504ee442948b","sentinel_primary_chunk","failed",1,1.58762574195862,75091968,"db97d4ce1058023f1ce429fce27ba4b7add55320725f7496edacac2a843f35e9",186,"84f0c7d60a062a2d65c08aa9e927cc3a5bb2f2eb9064faddaf0ea4f12ba643d0",94,"missing_finite_landscape_diagram_helper",0,0

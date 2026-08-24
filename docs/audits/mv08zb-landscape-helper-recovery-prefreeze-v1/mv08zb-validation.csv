@@ -1,0 +1,15 @@
+"check_id","passed"
+"mv08za_manifest",TRUE
+"one_failed_child",TRUE
+"expected_stage",TRUE
+"expected_error",TRUE
+"below_elapsed_cap",TRUE
+"below_rss_cap",TRUE
+"zero_pair_outputs",TRUE
+"zero_later_children",TRUE
+"old_hashes_bound",TRUE
+"helper_source_chunk",TRUE
+"helper_source_oracle",TRUE
+"monitor_amended",TRUE
+"science_unchanged",TRUE
+"fresh_root_replacement",TRUE

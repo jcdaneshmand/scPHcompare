@@ -1,0 +1,5 @@
+"contract_id","role","file","old_sha256","sha256","exact_change","scientific_change"
+"mv08zb_implementation_binding_v1","chunk_worker","scripts/run_mv08z_landscape_chunk.R","aac58ca4351a4bd8ad9b112deee7e4c877009a7882de4b3ab8f7d4b8cd707e68","946e3369a7453aead4edde36abf37eeb2bf254026eefe8d337393621fb58d505","source_landscape_contract_helper",FALSE
+"mv08zb_implementation_binding_v1","oracle_worker","scripts/run_mv08z_landscape_oracle.R","9855b200cc945b9926b493e88eed69d8bc7e2e03814917322bc278ac1864aea5","6025fbd096efaa112585642150b5d8a1d8a276b0307df4e3224abcf140c06257","source_landscape_contract_helper",FALSE
+"mv08zb_implementation_binding_v1","resource_monitor","scripts/run_mv08za_landscape_sentinel.R","d699945a1649a8eda6d78be62adbc7e11c8d1eeb0678c1a9cbc408390e683835","cbd6753448912c18b665d1c598f5a5e38375a1fb438d534a8ed071b8c4f4f221","require_manifest_verified_recovery_prefreeze",FALSE
+"mv08zb_implementation_binding_v1","recovery_builder","scripts/build_mv08zb_landscape_helper_recovery_prefreeze.R",,"0cf1c22b30f801341096f309ed5c138e6bffd289bd3c506e0d4a88edae11162b","bind_failed_attempt_and_helper_only_recovery",FALSE

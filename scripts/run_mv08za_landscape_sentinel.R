@@ -7,10 +7,10 @@ for (package in c("digest", "processx", "ps")) {
   if (!requireNamespace(package, quietly = TRUE)) stop(package, " required", call. = FALSE)
 }
 args <- commandArgs(trailingOnly = TRUE)
-if (length(args) != 10L) stop(paste(
+if (length(args) != 11L) stop(paste(
   "usage: run_mv08za_landscape_sentinel.R <mv08z-prefreeze> <mv08za-prefreeze>",
   "<private-bindings> <private-sentinel> <mv08s-private> <mv08v-private>",
-  "<rust-library> <private-output> <public-output> <execution-head>"
+  "<rust-library> <private-output> <public-output> <execution-head> <recovery-prefreeze>"
 ), call. = FALSE)
 z_root <- normalizePath(args[[1L]], mustWork = TRUE)
 za_root <- normalizePath(args[[2L]], mustWork = TRUE)
@@ -22,6 +22,7 @@ rust_library <- normalizePath(args[[7L]], mustWork = TRUE)
 private_root <- normalizePath(args[[8L]], mustWork = FALSE)
 public_root <- normalizePath(args[[9L]], mustWork = FALSE)
 execution_head <- tolower(args[[10L]])
+recovery_root <- normalizePath(args[[11L]], mustWork = TRUE)
 if (!grepl("^[0-9a-f]{40}$", execution_head) ||
     execution_head != tolower(Sys.getenv("MV08ZA_GIT_HEAD", unset = "")) ||
     dir.exists(private_root) || dir.exists(public_root)) {
@@ -30,10 +31,11 @@ if (!grepl("^[0-9a-f]{40}$", execution_head) ||
 source("R/mv08z_landscape_production.R")
 .mv08z_verify_manifest(z_root, "mv08z-artifact-manifest.csv")
 .mv08z_verify_manifest(za_root, "mv08za-artifact-manifest.csv")
+.mv08z_verify_manifest(recovery_root, "mv08zb-artifact-manifest.csv")
 z_inputs <- .mv08z_read_csv(file.path(z_root, "mv08z-input-manifest.csv"))
 z_resource <- .mv08z_read_csv(file.path(z_root, "mv08z-resource-policy.csv"))
 sentinel <- .mv08z_read_csv(file.path(z_root, "mv08z-sentinel-selection.csv"))
-implementation <- .mv08z_read_csv(file.path(za_root, "mv08za-implementation-bindings.csv"))
+implementation <- .mv08z_read_csv(file.path(recovery_root, "mv08zb-implementation-bindings.csv"))
 decision <- .mv08z_read_csv(file.path(za_root, "mv08za-decision.csv"))
 if (nrow(sentinel) != 1L || nrow(decision) != 1L ||
     decision$authorized_child_processes != 3L ||
