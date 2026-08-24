@@ -1,0 +1,2 @@
+"contract_id","executor_exit_status","stop_stage","failure_class","completion_promotion_finished","progress_refresh_finished","aggregate_progress_seconds","aggregate_ledger_seconds","absolute_difference_seconds","acceptance_tolerance_seconds","tolerance_passed","scientific_failure","resource_failure","publication_failure"
+"mv08zn_validation_stop_v1",1,"post_publication_final_validation","csv_roundtrip_exact_double_equality_only",TRUE,TRUE,5369.11562395096,5369.11562395096,1.81898940354586e-12,1e-09,TRUE,FALSE,FALSE,FALSE
