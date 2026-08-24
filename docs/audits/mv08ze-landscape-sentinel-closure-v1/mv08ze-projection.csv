@@ -1,0 +1,2 @@
+"contract_id","observed_max_chunk_seconds","observed_pairs_per_chunk","observed_seconds_per_pair","full_pair_count","measured_max_projection_seconds","measured_max_projection_hours","twofold_planning_seconds","twofold_planning_hours","observed_peak_process_tree_rss_bytes","private_sentinel_bytes","projection_policy","production_authorized"
+"mv08ze_landscape_projection_v1",94.4236478805542,250,0.377694591522217,152744,57690.5826874695,16.0251618576304,115381.165374939,32.0503237152608,189886464,506988,"maximum_burden_chunk_linear_conservative",FALSE

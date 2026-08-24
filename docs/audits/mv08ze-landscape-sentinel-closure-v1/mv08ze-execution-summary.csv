@@ -1,0 +1,4 @@
+"contract_id","stage","disposition","elapsed_seconds","peak_process_tree_rss_bytes","elapsed_cap_seconds","rss_cap_bytes","output_bytes","stderr_class","workers","retries","cap_passed"
+"mv08ze_execution_summary_v1","sentinel_primary_chunk","completed",94.3473217487335,189886464,3600,4294967296,252108,"expected_completion",1,0,TRUE
+"mv08ze_execution_summary_v1","sentinel_repeat_chunk","completed",94.4236478805542,181264384,3600,4294967296,251858,"expected_completion",1,0,TRUE
+"mv08ze_execution_summary_v1","sentinel_canonical_R_oracle","completed",414.648022890091,158232576,3600,4294967296,890,"expected_completion",1,0,TRUE
