@@ -1,0 +1,5 @@
+"contract_id","role","bytes","sha256","public_content"
+"mv08zr_harness_binding_v1","legacy_oracle_runner",17120,"beeefeb86389f62d873a9ec20386eb738537bd5e6038c931fdb69da6b36a42c1",TRUE
+"mv08zr_harness_binding_v1","recovery_prefreeze_builder",6880,"6ea8919b2a51b840dbbe531211ad2b75baf599d34e77a46dc396bb1088d24bf3",TRUE
+"mv08zr_harness_binding_v1","engine_v2_private_candidate",441512,"dd21610230f800aa8a1c2f69667c85af56a51dbadf1392862a5603f95f7d2476",FALSE
+"mv08zr_harness_binding_v1","failed_oracle_manifest",394,"2e483649dcdd56027418154a1d4f9fd0d651f3f5e033153a8b59f02ede020488",FALSE
