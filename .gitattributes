@@ -4,3 +4,8 @@
 # Audit manifests contain byte-level SHA-256 identities; keep their CSV bytes
 # stable across Windows and Unix checkouts.
 docs/audits/**/*.csv text eol=lf
+
+# These MV8 closure artifacts are also bound by byte-level SHA-256 evidence.
+docs/audits/mv08w-full-ph-production-closure-v1/*.md text eol=lf
+docs/audits/mv08wx-recovery-provenance-closure-v1/*.md text eol=lf
+scripts/build_mv08wx_recovery_provenance_closure.R text eol=lf

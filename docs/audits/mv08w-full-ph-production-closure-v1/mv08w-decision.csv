@@ -1,0 +1,2 @@
+"contract_id","decision","mv08t_records","mv08v_records","full_ph_records","fallback_records","validations_passed","validations_total","landscape_groups_authorized","comparison_strata_authorized","clustering_jobs_authorized","fusion_jobs_authorized","label_jobs_authorized","outcome_jobs_authorized","outcome_label_state","biological_outcomes_computed"
+"mv08w_decision_v1","full_1280_PH_closed_landscape_Rust_admission_prefreeze_may_begin",23,1257,1280,0,20,20,0,0,0,0,0,0,"closed",FALSE

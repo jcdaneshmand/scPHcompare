@@ -1,0 +1,8 @@
+"artifact","bytes","sha256"
+"MV08W_FULL_PH_PRODUCTION_CLOSURE.md",533,"b849f949da95ec0fb115881f5b4193239e0ef1bd58cafcb04101e667e247def7"
+"mv08w-decision.csv",488,"62207b13b976c2fb95f2a47b4e3b6efa1d850b5e617b4d67162303069ea3b7b2"
+"mv08w-full-ph-inventory.csv",322322,"101cdf2a376afb2ac6cc8283ac1e58227161aec511825a5255c479204d1306d6"
+"mv08w-production-ph-rehash.csv",571721,"7b868016e45f25a859c716607b2e532c4240fa60b85bf38dc59709ed5a2fab8a"
+"mv08w-resource-ledger.csv",382664,"8924aaaee9759d4dba7493fda84ef38d0b143187474c96c6821ccc0bb807e0de"
+"mv08w-source-cache-rehash.csv",22353,"d9317bbb3daa7826b0353121a252749e5716d5aaae90ba9d76efc5c10bf8c696"
+"mv08w-validation.csv",1614,"19a71369227d4d8c46e9762bb14e44a7727b2f0681f724a0780ebf95a42b0105"

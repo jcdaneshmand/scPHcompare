@@ -1,0 +1,4 @@
+"contract_id","role","execution_head","ph_metric_rows","resource_ledger_rows","ph_recomputations","retries"
+"mv08wx_execution_head_summary_v1","original_job1_science","79c2147c8d01b3cb4cddef89b5d960177fdf1d04",1,1,0,0
+"mv08wx_execution_head_summary_v1","bootstrap_byte_copy","2a32bc38a9e3f67e95eb1dba06d8d4f1bafffdc0",0,0,0,0
+"mv08wx_execution_head_summary_v1","recovery_science","fa2da5ed6cb4e4b15d64a82b8c4a4d760b771f4a",1256,1256,0,0
