@@ -9,3 +9,23 @@ docs/audits/**/*.csv text eol=lf
 docs/audits/mv08w-full-ph-production-closure-v1/*.md text eol=lf
 docs/audits/mv08wx-recovery-provenance-closure-v1/*.md text eol=lf
 scripts/build_mv08wx_recovery_provenance_closure.R text eol=lf
+
+# MV8-X rebuilds the previously accepted Windows-hosted WSL candidate. Preserve
+# the exact CRLF source identities used by that accepted binary on every host.
+rust/scph_landscape_kernel/Cargo.toml text eol=crlf
+rust/scph_landscape_kernel/Cargo.lock text eol=crlf
+rust/scph_landscape_kernel/src/lib.rs text eol=crlf
+rust/scph_landscape_kernel/include/scph_landscape_kernel.h text eol=crlf
+R/landscape_contract.R text eol=crlf
+R/landscape_reference.R text eol=crlf
+R/landscape_rust_prototype.R text eol=crlf
+R/mv08s_ph_sentinel.R text eol=crlf
+
+# New admission machinery and byte-bound public reports stay LF-native.
+scripts/build_mv08x_rust_landscape_admission_prefreeze.R text eol=lf
+scripts/acquire_mv08x_rust_toolchain.sh text eol=lf
+scripts/run_mv08x_rust_rebuild.sh text eol=lf
+scripts/run_mv08x_rust_landscape_oracles.R text eol=lf
+scripts/build_mv08y_rust_landscape_admission_closure.R text eol=lf
+docs/audits/mv08x-rust-landscape-admission-prefreeze-v1/*.md text eol=lf
+docs/audits/mv08y-rust-landscape-admission-closure-v1/*.md text eol=lf

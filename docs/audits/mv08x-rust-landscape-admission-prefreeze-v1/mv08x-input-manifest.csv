@@ -1,0 +1,14 @@
+"contract_id","role","bytes","sha256","rows"
+"mv08x_input_manifest_v1","mv08r_manifest",1804,"bc40dba54bc240569bf7ac16be1b5c26be482425806d35cb467f400d02acc5f7",17
+"mv08x_input_manifest_v1","mv08r_ph_queue",889157,"da83712e36476ab0e90dfbd8628b8960d0400c0eaa46e25488913c04f6134f44",1280
+"mv08x_input_manifest_v1","mv08r_landscape_queue",16283,"d508b212f24d93276c17e906d22d9abdf3da55e3046aec8abfb71e06bce7e6af",28
+"mv08x_input_manifest_v1","mv08r_landscape_contract",1170,"62551be537abb63218a3233c851a709725c8303983574adf9c2975adc98dc69a",10
+"mv08x_input_manifest_v1","mv08w_manifest",742,"13c5ac9a095966eb1f01aac2e6c82e25437fa89f4bc304e061f41d7c28a03bd0",7
+"mv08x_input_manifest_v1","mv08w_inventory",322322,"101cdf2a376afb2ac6cc8283ac1e58227161aec511825a5255c479204d1306d6",1280
+"mv08x_input_manifest_v1","mv08w_validation",1614,"19a71369227d4d8c46e9762bb14e44a7727b2f0681f724a0780ebf95a42b0105",20
+"mv08x_input_manifest_v1","mv08w_decision",488,"62207b13b976c2fb95f2a47b4e3b6efa1d850b5e617b4d67162303069ea3b7b2",1
+"mv08x_input_manifest_v1","mv08s_ph_metrics",14876,"0b7693aafb4176b0afd56d9282f681b49001b50ed789023e80cc626cf01867bf",23
+"mv08x_input_manifest_v1","mv08s_decision",1064,"618f6caa48fbdaff55900729b56b2f555bbdab7046a97d998e15693a0463032d",1
+"mv08x_input_manifest_v1","mv08v_ph_metrics",824396,"e5ba44d7276b7312e5aa08d42fa067b12fe6c56daa47ef59823795a950adc4d4",1257
+"mv08x_input_manifest_v1","mv08v_progress",641,"9ceb7de82fc8ba73c1350747a2de40b0196e1ce24a71eefeda8e7679896c7c91",1
+"mv08x_input_manifest_v1","private_oracle_selection",32494,"1ebcf025cba72ba73065ec0e29acb8f2582708e2a8e404a7a593e5bf8519a241",28
