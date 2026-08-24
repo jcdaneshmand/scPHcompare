@@ -1,0 +1,13 @@
+"check_id","passed"
+"mv08z_manifest",TRUE
+"three_children",TRUE
+"one_worker",TRUE
+"zero_retry",TRUE
+"elapsed_caps",TRUE
+"rss_caps",TRUE
+"tree_monitor",TRUE
+"kill_tree_on_cap",TRUE
+"fresh_roots",TRUE
+"mechanical_head",TRUE
+"science_unchanged",TRUE
+"downstream_closed",TRUE

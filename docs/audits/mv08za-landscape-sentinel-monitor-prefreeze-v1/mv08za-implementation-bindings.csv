@@ -1,0 +1,5 @@
+"contract_id","role","file","bytes","sha256","scientific_change"
+"mv08za_implementation_binding_v1","unchanged_chunk_worker","scripts/run_mv08z_landscape_chunk.R",10217,"aac58ca4351a4bd8ad9b112deee7e4c877009a7882de4b3ab8f7d4b8cd707e68",FALSE
+"mv08za_implementation_binding_v1","unchanged_oracle_worker","scripts/run_mv08z_landscape_oracle.R",5464,"9855b200cc945b9926b493e88eed69d8bc7e2e03814917322bc278ac1864aea5",FALSE
+"mv08za_implementation_binding_v1","process_tree_monitor","scripts/run_mv08za_landscape_sentinel.R",8085,"d699945a1649a8eda6d78be62adbc7e11c8d1eeb0678c1a9cbc408390e683835",FALSE
+"mv08za_implementation_binding_v1","monitor_prefreeze_builder","scripts/build_mv08za_landscape_monitor_prefreeze.R",4842,"b4b9af0c8a86ed6e036dfb146796e046ae7240d08072cbfd120db213c4ec3986",FALSE

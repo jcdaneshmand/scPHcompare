@@ -1,0 +1,2 @@
+"contract_id","decision","parent_head","authorized_child_processes","Rust_chunks","pairs_per_Rust_chunk","R_oracle_pairs","workers","retries","scientific_contract_changed","production_pairs_authorized","comparison_jobs_authorized","clustering_jobs_authorized","fusion_jobs_authorized","label_jobs_authorized","outcome_jobs_authorized","next_gate"
+"mv08za_monitor_prefreeze_decision_v1","authorize_exactly_three_monitored_sentinel_children_after_commit","5103521d61f953934a7d846f203721564213363c",3,2,250,1,1,0,FALSE,0,0,0,0,0,0,"MV8_ZB_independent_sentinel_closure"
