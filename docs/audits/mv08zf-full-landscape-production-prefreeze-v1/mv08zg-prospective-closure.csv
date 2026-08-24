@@ -1,0 +1,11 @@
+"contract_id","requirement","expected_count","recompute_landscape_distance","labels_or_outcomes"
+"mv08zg_prospective_closure_requirement_v1","rehash_all_prefreeze_manifests",7,FALSE,FALSE
+"mv08zg_prospective_closure_requirement_v1","rehash_all_unique_PH_sources",1272,FALSE,FALSE
+"mv08zg_prospective_closure_requirement_v1","rehash_all_628_distance_and_status_files",1256,FALSE,FALSE
+"mv08zg_prospective_closure_requirement_v1","reconstruct_all_pair_identities",152744,FALSE,FALSE
+"mv08zg_prospective_closure_requirement_v1","reopen_all_PH_records",2544,FALSE,FALSE
+"mv08zg_prospective_closure_requirement_v1","reconstruct_all_finite_interval_counts",2544,FALSE,FALSE
+"mv08zg_prospective_closure_requirement_v1","reconstruct_all_maximum_overlap_active_depths",152744,FALSE,FALSE
+"mv08zg_prospective_closure_requirement_v1","validate_exact_distance_schema",152744,FALSE,FALSE
+"mv08zg_prospective_closure_requirement_v1","validate_resources_and_strict_prefix",628,FALSE,FALSE
+"mv08zg_prospective_closure_requirement_v1","validate_privacy_and_firewalls",1,FALSE,FALSE

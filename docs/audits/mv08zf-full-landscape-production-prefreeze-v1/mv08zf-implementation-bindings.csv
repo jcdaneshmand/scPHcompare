@@ -1,0 +1,6 @@
+"contract_id","role","file","old_sha256","bytes","sha256","scientific_change","safety_change"
+"mv08zf_implementation_binding_v1","landscape_helper","R/mv08z_landscape_production.R","93a9ac4b40f7158bbe058fe3195e96abcd528fef6b0388a073b86eb8bf7c157f",3990,"93a9ac4b40f7158bbe058fe3195e96abcd528fef6b0388a073b86eb8bf7c157f",FALSE,FALSE
+"mv08zf_implementation_binding_v1","chunk_worker","scripts/run_mv08z_landscape_chunk.R","a812ffaba2ec6af7d7b353f8ad6a710adfc761b6a633c63fd4db074281679f57",13204,"51d83791bf6ff6a2c6cd7a2ce3364fd82cac535e4db5976b0bd44383cf94772f",FALSE,TRUE
+"mv08zf_implementation_binding_v1","serial_parent_runner","scripts/run_mv08zf_full_landscape_production.R",,14862,"7f0c235bc548a5259cfa1bee3446c084e82d8fca14a8c5cdbc551a5b6bfe0d7c",FALSE,FALSE
+"mv08zf_implementation_binding_v1","independent_closure_builder","scripts/build_mv08zg_full_landscape_production_closure.R",,21597,"444b58118a91092e4eefcace93c45aeea717351be07199e5e6faae9826fdd968",FALSE,FALSE
+"mv08zf_implementation_binding_v1","prefreeze_builder","scripts/build_mv08zf_full_landscape_production_prefreeze.R",,19772,"a1cc05689228520e79bf70af34abd6149d9e0ebfa9bbcb31e1744b57f4cb6fa6",FALSE,FALSE

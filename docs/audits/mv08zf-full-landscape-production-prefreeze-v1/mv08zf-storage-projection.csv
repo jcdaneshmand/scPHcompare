@@ -1,0 +1,2 @@
+"contract_id","sentinel_private_bytes","sentinel_Rust_chunks","projected_full_private_bytes","twofold_projected_private_bytes","private_storage_cap_bytes","minimum_free_disk_bytes","projection_policy"
+"mv08zf_storage_projection_v1",506988,2,154878750.144,309757500.288,1073741824,10737418240,"sentinel_total_bytes_per_Rust_pair_linear_conservative"

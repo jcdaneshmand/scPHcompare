@@ -91,9 +91,43 @@ if (nrow(group) != 1L || nrow(chunk) != 1L ||
                "sentinel_only_after_prefreeze_commit") && mode != "production") {
   stop("MV8-Z requested chunk is not authorized", call. = FALSE)
 }
-if (mode == "production" && !identical(
-    contract$full_production_authorization_state, "closed"
-  )) stop("MV8-Z full production remains closed", call. = FALSE)
+if (mode == "production") {
+  production_root_text <- Sys.getenv("MV08ZF_PREFREEZE", unset = "")
+  if (!nzchar(production_root_text)) {
+    stop("MV8-Z full production remains closed without MV8-ZF authorization",
+         call. = FALSE)
+  }
+  production_root <- normalizePath(production_root_text, mustWork = TRUE)
+  .mv08z_verify_manifest(production_root, "mv08zf-artifact-manifest.csv")
+  production_decision <- .mv08z_read_csv(file.path(
+    production_root, "mv08zf-decision.csv"
+  ))
+  production_queue <- .mv08z_read_csv(file.path(
+    production_root, "mv08zf-production-queue.csv"
+  ))
+  production_implementation <- .mv08z_read_csv(file.path(
+    production_root, "mv08zf-implementation-bindings.csv"
+  ))
+  worker_binding <- production_implementation[
+    production_implementation$role == "chunk_worker", , drop = FALSE
+  ]
+  production_row <- production_queue[
+    as.integer(production_queue$group_order) == group_order &
+      as.integer(production_queue$chunk_order) == chunk_order, , drop = FALSE
+  ]
+  if (nrow(production_decision) != 1L ||
+      !.mv08z_truth(production_decision$full_production_authorized) ||
+      production_decision$production_landscape_pairs_authorized != 152744L ||
+      nrow(worker_binding) != 1L || worker_binding$file !=
+        "scripts/run_mv08z_landscape_chunk.R" ||
+      .mv08z_sha256_file(worker_binding$file) != worker_binding$sha256 ||
+      nrow(production_row) != 1L || production_row$pair_count != chunk$pair_count ||
+      production_row$pair_subset_sha256 != chunk$pair_subset_sha256 ||
+      production_row$authorization_state != "authorized_after_mv08zf_commit" ||
+      execution_head != tolower(Sys.getenv("MV08ZF_GIT_HEAD", unset = ""))) {
+    stop("MV8-ZF production authorization drift", call. = FALSE)
+  }
+}
 
 pairs <- .mv08z_add_pair_identities(.mv08z_group_pairs(bindings), group$group_id)
 pairs <- pairs[pairs$pair_ordinal >= as.integer(chunk$pair_start) &

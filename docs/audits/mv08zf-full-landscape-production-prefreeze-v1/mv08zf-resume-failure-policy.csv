@@ -1,0 +1,10 @@
+"contract_id","condition","required_action","automatic_retry","deletion_allowed","outcome_label_state","biological_outcomes_computed"
+"mv08zf_resume_failure_policy_v1","fresh_launch","require_fresh_private_and_public_roots",FALSE,FALSE,"closed",FALSE
+"mv08zf_resume_failure_policy_v1","completed_strict_prefix","rehash_every_completed_chunk_then_resume_at_next_order",FALSE,FALSE,"closed",FALSE
+"mv08zf_resume_failure_policy_v1","interrupt_with_unowned_logs","stop_preserve_and_require_recovery_audit",FALSE,FALSE,"closed",FALSE
+"mv08zf_resume_failure_policy_v1","child_timeout","stop_preserve_and_require_new_decision",FALSE,FALSE,"closed",FALSE
+"mv08zf_resume_failure_policy_v1","child_RSS_cap","stop_preserve_and_require_new_decision",FALSE,FALSE,"closed",FALSE
+"mv08zf_resume_failure_policy_v1","ordinary_child_failure","stop_preserve_and_require_recovery_audit",FALSE,FALSE,"closed",FALSE
+"mv08zf_resume_failure_policy_v1","aggregate_elapsed_cap","stop_before_next_chunk_and_preserve",FALSE,FALSE,"closed",FALSE
+"mv08zf_resume_failure_policy_v1","private_storage_cap","stop_before_next_chunk_and_preserve",FALSE,FALSE,"closed",FALSE
+"mv08zf_resume_failure_policy_v1","hash_or_identity_drift","stop_preserve_and_do_not_resume",FALSE,FALSE,"closed",FALSE
