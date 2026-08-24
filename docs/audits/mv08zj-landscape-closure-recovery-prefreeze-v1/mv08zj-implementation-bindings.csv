@@ -1,0 +1,4 @@
+"contract_id","role","file","bytes","sha256","scientific_change","resource_contract_change"
+"mv08zj_implementation_binding_v1","immutable_scientific_closure","scripts/build_mv08zg_full_landscape_production_closure.R",21597,"444b58118a91092e4eefcace93c45aeea717351be07199e5e6faae9826fdd968",FALSE,FALSE
+"mv08zj_implementation_binding_v1","companion_recovery_closure","scripts/build_mv08zk_landscape_recovery_provenance_closure.R",13763,"c3d3a0c60f8f9c402a4f6503c11b93c19a083fdbf70525131cf60f3193bfc5cf",FALSE,FALSE
+"mv08zj_implementation_binding_v1","companion_prefreeze_builder","scripts/build_mv08zj_landscape_closure_recovery_prefreeze.R",10584,"c1e1605164970b38660d573d0a42c579f72eb729501feafebed4c85f4376b277",FALSE,FALSE
