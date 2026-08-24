@@ -1,0 +1,9 @@
+"contract_id","condition","required_action","automatic_retry","deletion_allowed","outcome_label_state","biological_outcomes_computed"
+"mv08z_resume_failure_policy_v1","completed_chunk","reuse_only_after_full_status_output_head_subset_and_pair_validation",FALSE,FALSE,"closed",FALSE
+"mv08z_resume_failure_policy_v1","missing_output_or_status","compute_only_when_both_are_absent",FALSE,FALSE,"closed",FALSE
+"mv08z_resume_failure_policy_v1","partial_directory","stop_preserve_and_require_recovery_audit",FALSE,FALSE,"closed",FALSE
+"mv08z_resume_failure_policy_v1","hash_or_pair_identity_mismatch","stop_preserve_and_require_recovery_audit",FALSE,FALSE,"closed",FALSE
+"mv08z_resume_failure_policy_v1","Rust_nonzero_or_invalid","stop_preserve_and_require_recovery_audit",FALSE,FALSE,"closed",FALSE
+"mv08z_resume_failure_policy_v1","resource_cap","stop_preserve_and_require_resource_decision",FALSE,FALSE,"closed",FALSE
+"mv08z_resume_failure_policy_v1","unexpected_stderr","stop_preserve_and_diagnose_read_only",FALSE,FALSE,"closed",FALSE
+"mv08z_resume_failure_policy_v1","production_fallback","not_authorized_R_and_Persim_are_separate_recovery_gates",FALSE,FALSE,"closed",FALSE

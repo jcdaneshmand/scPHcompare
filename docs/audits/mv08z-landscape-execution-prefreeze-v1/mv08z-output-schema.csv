@@ -1,0 +1,4 @@
+"contract_id","artifact","cardinality","required_identity","scientific_values","public_before_downstream_gate","labels_or_outcomes"
+"mv08z_output_schema_v1","private_distances","one_row_per_dimension_specific_unordered_pair","group_chunk_pair_ordinal_pair_hash_two_PH_hashes_execution_head","squared_distance_distance_active_depth_event_segments_interval_counts",FALSE,"prohibited"
+"mv08z_output_schema_v1","private_chunk_status","one_row_per_atomic_chunk","group_chunk_pair_range_subset_hash_output_hash_candidate_hash_execution_head","none",FALSE,"prohibited"
+"mv08z_output_schema_v1","public_sentinel_closure","aggregate_only","prefreeze_manifest_execution_head_resource_determinism_R_oracle","aggregate_validation_only",TRUE,"prohibited"

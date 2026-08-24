@@ -1,0 +1,5 @@
+"contract_id","stage","elapsed_cap_seconds","rss_cap_bytes","workers","retries","private_storage_cap_bytes","projected_elapsed_seconds","projection_policy","authorization_state"
+"mv08z_resource_policy_v1","sentinel_primary_chunk",3600,4294967296,1,0,1073741824,32.6607142857134,"MV8_Y_worst_Rust_only_forward_call_rate","authorized_after_prefreeze_commit"
+"mv08z_resource_policy_v1","sentinel_repeat_chunk",3600,4294967296,1,0,1073741824,32.6607142857134,"MV8_Y_worst_Rust_only_forward_call_rate","authorized_after_prefreeze_commit"
+"mv08z_resource_policy_v1","sentinel_canonical_R_oracle",3600,4294967296,1,0,1073741824,,"bounded_by_observed_MV8_Y_whole_oracle_run","authorized_after_prefreeze_commit"
+"mv08z_resource_policy_v1","future_full_production",86400,4294967296,1,0,4294967296,19954.912571428,"MV8_Y_worst_Rust_only_forward_call_rate_unvalidated_until_sentinel","closed_pending_sentinel_closure"
