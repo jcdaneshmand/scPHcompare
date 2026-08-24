@@ -43,14 +43,18 @@ test_that("MV8-VA preserves the helper omission and admits job 1 without retry",
   expect_equal(decision$landscape_groups_authorized, 0L)
   expect_equal(decision$outcome_jobs_authorized, 0L)
 
+  amended <- implementation$file %in% c(
+    "scripts/bootstrap_mv08va_full_ph_recovery.R",
+    "scripts/run_mv08va_full_ph_production_recovery.R"
+  )
   bootstrap <- implementation$file ==
     "scripts/bootstrap_mv08va_full_ph_recovery.R"
-  observed_implementation <- vapply(implementation$file[!bootstrap], function(path) {
+  observed_implementation <- vapply(implementation$file[!amended], function(path) {
     digest::digest(file = file.path("..", "..", path), algo = "sha256",
                    serialize = FALSE)
   }, character(1L))
   expect_identical(unname(observed_implementation),
-                   implementation$sha256[!bootstrap])
+                   implementation$sha256[!amended])
   vb <- utils::read.csv(file.path(
     "..", "..", "docs", "audits",
     "mv08vb-bootstrap-type-recovery-prefreeze-v1",
@@ -67,6 +71,21 @@ test_that("MV8-VA preserves the helper omission and admits job 1 without retry",
   expect_identical(digest::digest(
     file = file.path("..", "..", vc$file), algo = "sha256", serialize = FALSE
   ), vc$sha256)
+  vd <- utils::read.csv(file.path(
+    "..", "..", "docs", "audits",
+    "mv08vd-runner-amendment-prefreeze-v1",
+    "mv08vd-implementation-bindings.csv"
+  ), check.names = FALSE, stringsAsFactors = FALSE)
+  runner <- implementation$file ==
+    "scripts/run_mv08va_full_ph_production_recovery.R"
+  expect_identical(vd$mv08va_sha256[match(
+    implementation$file[runner], vd$file
+  )], implementation$sha256[runner])
+  observed_vd <- vapply(vd$file, function(path) {
+    digest::digest(file = file.path("..", "..", path), algo = "sha256",
+                   serialize = FALSE)
+  }, character(1L))
+  expect_identical(unname(observed_vd), vd$sha256)
   observed_manifest <- vapply(file.path(root, manifest$artifact), function(path) {
     digest::digest(file = path, algo = "sha256", serialize = FALSE)
   }, character(1L))

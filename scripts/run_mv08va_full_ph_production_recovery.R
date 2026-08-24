@@ -111,14 +111,42 @@ recovery_decision <- read_csv(file.path(recovery_prefreeze, "mv08va-decision.csv
 recovery_implementation <- read_csv(file.path(
   recovery_prefreeze, "mv08va-implementation-bindings.csv"
 ))
+execution_amendment <- normalizePath(
+  Sys.getenv("MV08VD_RECOVERY_PREFREEZE", unset = ""), mustWork = TRUE
+)
+amendment_decision <- read_csv(file.path(execution_amendment, "mv08vd-decision.csv"))
+amendment_binding <- read_csv(file.path(
+  execution_amendment, "mv08vd-implementation-bindings.csv"
+))
+amendment_manifest <- read_csv(file.path(
+  execution_amendment, "mv08vd-artifact-manifest.csv"
+))
+amended_files <- c(
+  "scripts/bootstrap_mv08va_full_ph_recovery.R",
+  "scripts/run_mv08va_full_ph_production_recovery.R"
+)
+historical_unamended <- !(recovery_implementation$file %in% amended_files)
 if (nrow(recovery_decision) != 1L ||
     recovery_decision$decision !=
       "authorize_no_retry_job1_bootstrap_and_resume_at_job2" ||
     recovery_decision$accepted_completed_records != 1L ||
     recovery_decision$retry_records_authorized != 0L ||
-    !all(file.exists(recovery_implementation$file)) ||
-    !all(vapply(recovery_implementation$file, sha_file, character(1L)) ==
-           recovery_implementation$sha256)) {
+    !all(file.exists(recovery_implementation$file[historical_unamended])) ||
+    !all(vapply(recovery_implementation$file[historical_unamended], sha_file,
+                character(1L)) ==
+           recovery_implementation$sha256[historical_unamended]) ||
+    nrow(amendment_decision) != 1L ||
+    amendment_decision$decision != "authorize_amendment_bound_resume_at_job2" ||
+    !amendment_decision$runner_resume_authorized ||
+    nrow(amendment_binding) != length(amended_files) ||
+    !setequal(amendment_binding$file, amended_files) ||
+    !all(amendment_binding$mv08va_sha256 == recovery_implementation$sha256[
+      match(amendment_binding$file, recovery_implementation$file)
+    ]) ||
+    !all(vapply(amendment_binding$file, sha_file, character(1L)) ==
+           amendment_binding$sha256) ||
+    !all(vapply(file.path(execution_amendment, amendment_manifest$artifact),
+                sha_file, character(1L)) == amendment_manifest$sha256)) {
   stop("MV8-VA committed recovery binding failed", call. = FALSE)
 }
 if (nrow(contract) != 1L || nrow(queue) != 1257L || nrow(decision) != 1L ||
