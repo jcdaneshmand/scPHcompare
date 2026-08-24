@@ -1,0 +1,8 @@
+"artifact","bytes","sha256"
+"MV08ZH_LAUNCHER_INTERRUPTION_RECOVERY_PREFREEZE.md",476,"8e2b4cddc958acf55d05b685dbb71ca13b07a4be62712991afae1a3bcec69cac"
+"mv08zh-decision.csv",600,"476b4f7bc9966c00b9546c957fc363e3988a17a9ef7ea38e5b8f24d8de491f53"
+"mv08zh-implementation-bindings.csv",455,"e92bab6596a9f7b8f330fa58023093735778dc7e68204ae2a3c9ff89eb57c773"
+"mv08zh-orphan-binding.csv",813,"5d3282f08654f48382ed7c81b97666ab658ff9a85829f79058a1f8662e8376cf"
+"mv08zh-recovery-policy.csv",494,"435b0e122e015fc878efd3fcf7bcd7fa01798dc8bfa43cdd528357763a564d08"
+"mv08zh-stopped-snapshot.csv",554,"3b6a56e0872bf81eb9bc6bd5a547522ebd9582326440973a657d3dfcc1dbbc48"
+"mv08zh-validation.csv",707,"01655dcb99979d1e8a039104f97c392df5c171fb47e36ee1a5a1e3399a8dcadc"
