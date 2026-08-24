@@ -1,0 +1,4 @@
+"contract_id","role","bytes","sha256","public_locator"
+"mv08zp_input_binding_v1","private_candidate",441512,"dd21610230f800aa8a1c2f69667c85af56a51dbadf1392862a5603f95f7d2476","hash_only_private_candidate"
+"mv08zp_input_binding_v1","private_oracle_selection",32494,"1ebcf025cba72ba73065ec0e29acb8f2582708e2a8e404a7a593e5bf8519a241","hash_only_private_selection"
+"mv08zp_input_binding_v1","private_unit_bindings",1474509,"d6c9adb5445b2644d853e6c122bc05b74631c17cc28acafc2c7d9b7c215fcaec","hash_only_private_axis"

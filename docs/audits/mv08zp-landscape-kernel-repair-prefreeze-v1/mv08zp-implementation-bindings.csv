@@ -1,0 +1,6 @@
+"contract_id","role","file","bytes","sha256"
+"mv08zp_implementation_binding_v1","corrected_rust_source","rust/scph_landscape_kernel/src/lib.rs",21188,"3e29dcb193a0ace2a775dd8eef19b6c83663868c4cd709e44136c3da9a04d89e"
+"mv08zp_implementation_binding_v1","R_FFI_shim","R/landscape_rust_prototype.R",5137,"4771ec396759dacaf36e860819b49978b37d8cc8d4224e54cc72b0077f8a5eb1"
+"mv08zp_implementation_binding_v1","canonical_oracle_runner","scripts/run_mv08x_rust_landscape_oracles.R",17120,"beeefeb86389f62d873a9ec20386eb738537bd5e6038c931fdb69da6b36a42c1"
+"mv08zp_implementation_binding_v1","private_failure_runner","scripts/run_mv08zp_landscape_kernel_repair_diagnostic.R",7522,"2b20bd154acd077b85c8a33b8675143de49a9156630ddefb9913c29de155d6bc"
+"mv08zp_implementation_binding_v1","prefreeze_builder","scripts/build_mv08zp_landscape_kernel_repair_prefreeze.R",9459,"42f2bbe9a318444733fd13baa52ae90a4a25f31346b37ca2a4be242b288a7f57"

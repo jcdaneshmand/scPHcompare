@@ -1,0 +1,2 @@
+"contract_id","decision","diagnostic_execution_authorized","oracle_runs_authorized","private_failed_pair_jobs_authorized","old_root_resume_authorized","old_output_reuse_authorized","old_output_delete_authorized","fresh_production_authorized","next_gate","outcome_label_state","biological_outcomes_computed"
+"mv08zp_decision_v1","authorize_bounded_engine_v2_repair_admission_only",TRUE,2,1,FALSE,FALSE,FALSE,FALSE,"MV8_ZQ_kernel_repair_admission_closure","closed",FALSE

@@ -5,7 +5,7 @@ use std::collections::BTreeMap;
 use std::panic::{AssertUnwindSafe, catch_unwind};
 use std::slice;
 
-pub const ENGINE_VERSION_V1: u32 = 1;
+pub const ENGINE_VERSION_V2: u32 = 2;
 pub const STATUS_OK: i32 = 0;
 pub const STATUS_NULL_OUTPUT: i32 = 1;
 pub const STATUS_NULL_INPUT: i32 = 2;
@@ -34,7 +34,7 @@ impl ScphLandscapeResultV1 {
             event_segments: 0,
             first_finite_intervals: 0,
             second_finite_intervals: 0,
-            engine_version: ENGINE_VERSION_V1,
+            engine_version: ENGINE_VERSION_V2,
             status,
         }
     }
@@ -372,7 +372,7 @@ pub fn landscape_squared_l2(
         event_segments,
         first_finite_intervals: first.len() as u64,
         second_finite_intervals: second.len() as u64,
-        engine_version: ENGINE_VERSION_V1,
+        engine_version: ENGINE_VERSION_V2,
         status: STATUS_OK,
     })
 }
@@ -561,6 +561,7 @@ mod tests {
         )
         .unwrap();
         assert_eq!(result.active_levels, 3);
+        assert_eq!(result.engine_version, ENGINE_VERSION_V2);
         assert!((result.squared_distance - expected_norm).abs() <= 1e-15);
     }
 
