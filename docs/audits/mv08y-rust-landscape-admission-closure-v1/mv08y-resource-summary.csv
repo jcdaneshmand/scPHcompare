@@ -1,0 +1,5 @@
+"contract_id","stage","elapsed_seconds","peak_process_rss_bytes","elapsed_cap_seconds","rss_cap_bytes","workers","retries","cap_passed"
+"mv08y_resource_summary_v1","clean_build_a",5.8,143122432,3600,8589934592,1,0,TRUE
+"mv08y_resource_summary_v1","clean_build_b",5.96,143183872,3600,8589934592,1,0,TRUE
+"mv08y_resource_summary_v1","oracle_run_a",1855.096,262983680,3600,12884901888,1,0,TRUE
+"mv08y_resource_summary_v1","oracle_run_b",1911.537,264826880,3600,12884901888,1,0,TRUE
