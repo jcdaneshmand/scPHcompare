@@ -1,0 +1,4 @@
+"contract_id","role","file","bytes","sha256","scientific_change","resource_contract_change"
+"mv08zl_implementation_binding_v1","receipt_recovery_executor","scripts/recover_mv08zl_landscape_receipt_publication.R",7474,"1db439857c18ac3cc9e4c273ecff5f877a43f182d9d50e1dbef6e0c098c20a76",FALSE,FALSE
+"mv08zl_implementation_binding_v1","recovery_prefreeze_builder","scripts/build_mv08zl_landscape_receipt_recovery_prefreeze.R",14995,"67b47fb732148e89dbbbc3336ca39d5a9945c4124b4d3278f29d6ef1ac0a4465",FALSE,FALSE
+"mv08zl_implementation_binding_v1","postproduction_recovery_closure","scripts/build_mv08zm_landscape_receipt_recovery_closure.R",10055,"dba3f35fa7e198ebc5d9b55e082ac2dbf68e4fea63d6be167644d83ca8c8b04e",FALSE,FALSE

@@ -1,0 +1,2 @@
+"contract_id","action","accepted_completion_prefix","adopted_production_order","resume_at_production_order","preserve_prefix_copy_privately","WSL_only_publication_and_monitoring","landscape_recomputation","automatic_retry","ledger_rewrite","receipt_reconstruction","deletion_allowed","workers","outcome_label_state","biological_outcomes_computed"
+"mv08zl_recovery_policy_v1","promote_exact_order_280_completion_partial_then_refresh_progress",279,280,281,TRUE,TRUE,FALSE,FALSE,FALSE,FALSE,FALSE,1,"closed",FALSE
