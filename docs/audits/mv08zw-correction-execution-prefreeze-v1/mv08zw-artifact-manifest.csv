@@ -1,0 +1,8 @@
+"artifact","bytes","sha256"
+"MV08ZW_CORRECTION_EXECUTION_PREFREEZE_2026-08-25.md",882,"e5244b584ac5d17cc290b2d501763c31d50692723b57c698480840a50f143fbd"
+"mv08zw-contract.csv",1009,"1ff05253ab9d2079c74ae763bd95a16f17c2f436cbc03ac68c6904eca7dabb62"
+"mv08zw-correction-queue.csv",1794,"7b906d6e4a101ada6c130021a4456cbd30278a5ec55f4ea68c571d0d369672f1"
+"mv08zw-decision.csv",479,"fec10333ba9f9a6c969128ae2137ca8420e9cf4def738ac4ffde32dea0e96f69"
+"mv08zw-implementation-bindings.csv",1970,"c78415b07faba8e28c88915656bde3689cbd0d87907e7244cfbd5a68b3befa6a"
+"mv08zw-source-freeze.csv",1190,"1bb455998b00aaf15597b1e0f957a2a0d43d2333e448169f47cd24fb0363e3a8"
+"mv08zw-validation.csv",1417,"b235781494261938813a62cf2f72df720fa32914c0f04815080ce5a872a2f861"

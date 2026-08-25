@@ -1,0 +1,2 @@
+"contract_id","decision","checks_passed","checks_total","correction_authorized_after_commit","correction_groups","correction_pairs","comparisons_authorized","clustering_authorized","fusion_authorized","labels_authorized","outcomes_authorized","manuscript_claims_authorized","next_gate"
+"mv08zw_prefreeze_decision_v1","authorize_two_group_external_gene_landscape_correction_after_commit",13,13,TRUE,2,56,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,"MV8-ZX_independent_correction_closure"

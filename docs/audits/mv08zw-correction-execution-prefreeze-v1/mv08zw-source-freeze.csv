@@ -1,0 +1,7 @@
+"contract_id","source_order","artifact","bytes","sha256","private_content"
+"mv08zw_source_freeze_v1",1,"docs/audits/mv08zv-distance-comparison-prefreeze-v1/mv08zv-artifact-manifest.csv",1249,"dc6109c3f9386e60f355b3bb777eff0deea68b3e46ab249c614e4c8aececa134",FALSE
+"mv08zw_source_freeze_v1",2,"docs/audits/mv08zv-distance-comparison-prefreeze-v1/mv08zv-correction-queue.csv",1567,"46010f1ca4f1d4d767e157f64d3a4d7c3e5a1285db99c9b968db7f03626b6cde",FALSE
+"mv08zw_source_freeze_v1",3,"docs/audits/mv08zv-distance-comparison-prefreeze-v1/mv08zv-decision.csv",462,"048cc04245613cc72df20e7feffab9d6c2c4b9aa6daae9165029075c89871890",FALSE
+"mv08zw_source_freeze_v1",4,"docs/audits/mv08zq-landscape-kernel-repair-admission-closure-v1/mv08zq-decision.csv",758,"86bc4d9e827071113912d50d038d0d1b2053741ebf56c2f4c3ad7ee60eeb05d8",FALSE
+"mv08zw_source_freeze_v1",5,"docs/audits/mv08r-full-topology-production-prefreeze-v1/mv08r-ph-queue.csv",889157,"da83712e36476ab0e90dfbd8628b8960d0400c0eaa46e25488913c04f6134f44",FALSE
+"mv08zw_source_freeze_v1",6,"docs/audits/mv08t-ph-sentinel-closure-v1/mv08t-private-artifact-rehash.csv",9376,"fc68d17d7f20e809d8d8c3e57f9a59d3561732cc5013d3211b69b1b68e86bb71",FALSE
