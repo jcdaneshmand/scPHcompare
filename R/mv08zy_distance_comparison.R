@@ -115,3 +115,59 @@ mv08zy_compare_distance_pairs_v1 <- function(left, right, comparison_id) {
   list(summary = summary, neighbor = neighbor,
        pair_axis = left[c("first_unit_id", "second_unit_id", "pair_key")])
 }
+
+mv08zy_read_distance_stack_v1 <- function(binding, mv07h_root,
+                                           mv08zu_private_root,
+                                           mv08zx_private_root) {
+  if (!is.data.frame(binding) || nrow(binding) != 1L ||
+      !all(c("source_stage", "source_group_id", "source_group_order",
+             "homology_dimension", "unordered_pairs") %in% names(binding))) {
+    stop("stack binding must contain exactly one complete row", call. = FALSE)
+  }
+  source_stage <- as.character(binding$source_stage)
+  if (source_stage == "MV7-H") {
+    directory <- gsub(":", "_", binding$source_group_id, fixed = TRUE)
+    files <- file.path(mv07h_root, "landscape", directory, "distances.csv")
+  } else if (source_stage == "MV8-ZU") {
+    group <- sprintf("group_%02d", as.integer(binding$source_group_order))
+    files <- list.files(file.path(mv08zu_private_root, "production", group),
+                        pattern = "^distances[.]csv$", recursive = TRUE,
+                        full.names = TRUE)
+    files <- sort(files, method = "radix")
+  } else if (source_stage == "MV8-ZV-correction") {
+    files <- file.path(mv08zx_private_root, "groups",
+                       tolower(binding$homology_dimension), "distances.csv")
+  } else stop("unsupported distance-stack source stage", call. = FALSE)
+  if (!length(files) || !all(file.exists(files))) {
+    stop("one or more bound distance payloads are absent", call. = FALSE)
+  }
+  payloads <- lapply(files, utils::read.csv, stringsAsFactors = FALSE,
+                     check.names = FALSE)
+  value <- do.call(rbind, payloads)
+  if (source_stage == "MV7-H") {
+    names(value)[names(value) == "first_sample_id"] <- "first_unit_id"
+    names(value)[names(value) == "second_sample_id"] <- "second_unit_id"
+  }
+  canonical <- .mv08zy_validate_pairs(value)
+  if (nrow(canonical) != as.integer(binding$unordered_pairs)) {
+    stop("distance-stack pair cardinality differs from binding", call. = FALSE)
+  }
+  file_manifest <- data.frame(
+    file_order = seq_along(files), bytes = as.numeric(file.info(files)$size),
+    sha256 = vapply(files, function(path) digest::digest(
+      file = path, algo = "sha256", serialize = FALSE
+    ), character(1L)), stringsAsFactors = FALSE
+  )
+  list(
+    pairs = canonical,
+    file_manifest = file_manifest,
+    payload_set_sha256 = digest::digest(
+      paste(file_manifest$sha256, collapse = "\n"), algo = "sha256",
+      serialize = FALSE
+    ),
+    pair_axis_sha256 = digest::digest(
+      paste(canonical$pair_key, collapse = "\n"), algo = "sha256",
+      serialize = FALSE
+    )
+  )
+}

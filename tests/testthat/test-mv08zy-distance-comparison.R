@@ -52,3 +52,44 @@ test_that("MV8-ZY neighbor ties are deterministic and pair axes fail closed", {
   expect_error(mv08zy_compare_distance_pairs_v1(constant, constant, "constant"),
                "degenerate")
 })
+
+test_that("MV8-ZY reads all three immutable stack layouts canonically", {
+  root <- tempfile("mv08zy-layout-")
+  dir.create(root)
+  old <- file.path(root, "old")
+  new <- file.path(root, "new")
+  corrected <- file.path(root, "corrected")
+  dir.create(file.path(old, "landscape", "old_group"), recursive = TRUE)
+  dir.create(file.path(new, "production", "group_03", "chunk_001"),
+             recursive = TRUE)
+  dir.create(file.path(corrected, "groups", "h0"), recursive = TRUE)
+  pairs <- data.frame(first_unit_id = c("a", "a", "b"),
+                      second_unit_id = c("b", "c", "c"),
+                      distance = c(1, 2, 3))
+  old_pairs <- pairs
+  names(old_pairs)[1:2] <- c("first_sample_id", "second_sample_id")
+  write.csv(old_pairs, file.path(old, "landscape", "old_group",
+                                 "distances.csv"), row.names = FALSE)
+  write.csv(pairs, file.path(new, "production", "group_03", "chunk_001",
+                             "distances.csv"), row.names = FALSE)
+  write.csv(pairs, file.path(corrected, "groups", "h0", "distances.csv"),
+            row.names = FALSE)
+  binding <- data.frame(
+    source_stage = "MV7-H", source_group_id = "old:group",
+    source_group_order = 1L, homology_dimension = "H0",
+    unordered_pairs = 3L
+  )
+  old_result <- mv08zy_read_distance_stack_v1(binding, old, new, corrected)
+  binding$source_stage <- "MV8-ZU"
+  binding$source_group_order <- 3L
+  new_result <- mv08zy_read_distance_stack_v1(binding, old, new, corrected)
+  binding$source_stage <- "MV8-ZV-correction"
+  corrected_result <- mv08zy_read_distance_stack_v1(binding, old, new,
+                                                      corrected)
+  expect_identical(old_result$pairs, new_result$pairs)
+  expect_identical(new_result$pairs, corrected_result$pairs)
+  expect_identical(old_result$pair_axis_sha256,
+                   corrected_result$pair_axis_sha256)
+  expect_equal(nrow(old_result$file_manifest), 1L)
+  unlink(root, recursive = TRUE)
+})
