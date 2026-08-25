@@ -1,0 +1,13 @@
+"contract_id","check_id","passed"
+"mv09db_validation_v1","prior_manifest",TRUE
+"mv09db_validation_v1","primary_manifest",TRUE
+"mv09db_validation_v1","three_failed_repeat_pngs",TRUE
+"mv09db_validation_v1","repeat_bytes_match_primary",TRUE
+"mv09db_validation_v1","three_of_four_implementation_unchanged",TRUE
+"mv09db_validation_v1","closure_script_only_changed",TRUE
+"mv09db_validation_v1","source_data_unchanged",TRUE
+"mv09db_validation_v1","metric_selection_unchanged",TRUE
+"mv09db_validation_v1","figure_values_unchanged",TRUE
+"mv09db_validation_v1","scientific_contract_unchanged",TRUE
+"mv09db_validation_v1","closure_rerun_only",TRUE
+"mv09db_validation_v1","interpretation_closed",TRUE
