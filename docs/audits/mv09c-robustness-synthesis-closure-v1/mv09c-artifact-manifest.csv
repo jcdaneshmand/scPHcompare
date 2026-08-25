@@ -1,0 +1,5 @@
+"contract_id","artifact","bytes","sha256"
+"mv09c_artifact_manifest_v1","MV09C_ROBUSTNESS_SYNTHESIS_CLOSURE_2026-08-25.md",260,"e6bac11bd09dd3b0a6041d72b194312183d3abe7406b52b24886da2a1021da05"
+"mv09c_artifact_manifest_v1","mv09c-decision.csv",350,"5c01c1de16df7ae0798ae7a9483f79ffe4a4fd7708900ad6560d88c3563ba671"
+"mv09c_artifact_manifest_v1","mv09c-production-rehash.csv",887,"c42bf253faa9f31360e925e40c64e35f28807a7ab1087feee26e2f04302d96de"
+"mv09c_artifact_manifest_v1","mv09c-validation.csv",754,"543f2e2550d27493bbd48d2f6baf3fa2b53c175ce52fc79ee417c76fcbc8a58d"

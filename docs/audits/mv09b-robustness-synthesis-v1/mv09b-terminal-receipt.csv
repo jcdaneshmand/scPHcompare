@@ -1,0 +1,2 @@
+"contract_id","execution_head","completion_state","aggregate_rows","plot_rows","internal_summary_rows","external_singleton_rows","dimension_delta_rows","dimension_summary_rows","labels_used","outcomes_used","inference_performed","clustering_jobs","fusion_jobs","manuscript_claims"
+"mv09b_terminal_receipt_v1","07144a9e4c6f33f5874e67966b6322b83dcf00c3","complete",40,440,66,110,220,88,FALSE,FALSE,FALSE,0,0,FALSE

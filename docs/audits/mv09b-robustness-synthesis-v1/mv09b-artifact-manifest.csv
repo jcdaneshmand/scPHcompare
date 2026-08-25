@@ -1,0 +1,8 @@
+"contract_id","artifact","bytes","sha256"
+"mv09b_artifact_manifest_v1","mv09b-aggregate-comparisons.csv",30012,"b621ebf1fe682eb0203e56d947c53f6fd32519ab53775d38d2c31e044b47a52f"
+"mv09b_artifact_manifest_v1","mv09b-dimension-delta-summary.csv",17463,"55765bf52113c5ea36968f16ee82743c6dbc9ef9fc4c70f9233f52f5077c4257"
+"mv09b_artifact_manifest_v1","mv09b-dimension-delta.csv",40628,"006ffe95c79a2bcfaee900c255547eb6150843509451e92eb0518434bda3ce42"
+"mv09b_artifact_manifest_v1","mv09b-external-singleton.csv",19477,"3dd48feac9220f84e3d150ef617b4153ff4f0e1b82b5466584a8d2819ac5b45f"
+"mv09b_artifact_manifest_v1","mv09b-internal-seed-summary.csv",13786,"30331a4bb716288dd9fd9b3d754d225882ef2c3e557f3e2c2d044d099ae5d284"
+"mv09b_artifact_manifest_v1","mv09b-plot-data.csv",39557,"b91427bc1b8eca26b375f9a97dbcf2e9440b0c76a0f9975d8ce53a94e7e9f9df"
+"mv09b_artifact_manifest_v1","mv09b-terminal-receipt.csv",412,"185d4683bb8ea922213bd8994836d68ebb6e6d7ddb154e26951779dad2544002"

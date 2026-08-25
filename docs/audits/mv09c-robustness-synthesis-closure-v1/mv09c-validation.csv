@@ -1,0 +1,16 @@
+"contract_id","check_id","passed"
+"mv09c_validation_v1","prefreeze_manifest",TRUE
+"mv09c_validation_v1","production_manifest",TRUE
+"mv09c_validation_v1","source_hash",TRUE
+"mv09c_validation_v1","terminal_complete",TRUE
+"mv09c_validation_v1","aggregate_40",TRUE
+"mv09c_validation_v1","plot_440",TRUE
+"mv09c_validation_v1","internal_summary_66",TRUE
+"mv09c_validation_v1","external_singleton_110",TRUE
+"mv09c_validation_v1","dimension_delta_220",TRUE
+"mv09c_validation_v1","dimension_summary_88",TRUE
+"mv09c_validation_v1","independent_recomputation",TRUE
+"mv09c_validation_v1","finite_metrics",TRUE
+"mv09c_validation_v1","no_inference",TRUE
+"mv09c_validation_v1","label_outcome_firewall",TRUE
+"mv09c_validation_v1","clustering_fusion_claim_firewall",TRUE
