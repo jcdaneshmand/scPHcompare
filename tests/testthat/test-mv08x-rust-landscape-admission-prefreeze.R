@@ -90,6 +90,7 @@ test_that("MV8-X prospectively freezes one private stress pair per group", {
     "mv08xa-oracle-observability-recovery-v1"
   )
   amended_roles <- character()
+  amendment <- data.frame()
   if (dir.exists(amendment_root)) {
     amendment <- utils::read.csv(
       file.path(amendment_root, "mv08xa-amendment-bindings.csv"),
@@ -98,18 +99,56 @@ test_that("MV8-X prospectively freezes one private stress pair per group", {
     amended_roles <- amendment$role[
       !is.na(amendment$old_sha256) & nzchar(amendment$old_sha256)
     ]
+    expected_amendment <- amendment$new_sha256
+    zp_path <- file.path(
+      "..", "..", "docs", "audits",
+      "mv08zp-landscape-kernel-repair-prefreeze-v1",
+      "mv08zp-implementation-bindings.csv"
+    )
+    if (file.exists(zp_path)) {
+      zp <- utils::read.csv(zp_path, check.names = FALSE,
+                            stringsAsFactors = FALSE)
+      replacement <- match(amendment$file, zp$file)
+      changed <- !is.na(replacement)
+      expected_amendment[changed] <- zp$sha256[replacement[changed]]
+    }
+    zs_path <- file.path(
+      "..", "..", "docs", "audits",
+      "mv08zs-landscape-oracle-harness-recovery-acceptance-v1",
+      "mv08zs-harness-amendment.csv"
+    )
+    if (file.exists(zs_path)) {
+      zs <- utils::read.csv(zs_path, check.names = FALSE,
+                            stringsAsFactors = FALSE)
+      replacement <- match(amendment$file, zs$file)
+      changed <- !is.na(replacement)
+      expected_amendment[changed] <- zs$new_sha256[replacement[changed]]
+    }
     current_amendment <- vapply(
       file.path("..", "..", amendment$file),
       function(path) digest::digest(file = path, algo = "sha256", serialize = FALSE),
       character(1L)
     )
-    expect_identical(unname(current_amendment), amendment$new_sha256)
+    expect_identical(unname(current_amendment), expected_amendment)
   }
   retained <- !implementations$role %in% amended_roles
+  expected_retained <- implementations$sha256[retained]
+  zp_path <- file.path(
+    "..", "..", "docs", "audits",
+    "mv08zp-landscape-kernel-repair-prefreeze-v1",
+    "mv08zp-implementation-bindings.csv"
+  )
+  if (file.exists(zp_path)) {
+    zp <- utils::read.csv(zp_path, check.names = FALSE,
+                          stringsAsFactors = FALSE)
+    replacement <- match(implementations$file[retained], zp$file)
+    changed <- !is.na(replacement)
+    expected_retained[changed] <- zp$sha256[replacement[changed]]
+  }
   current <- vapply(file.path("..", "..", implementations$file[retained]), function(path) {
     digest::digest(file = path, algo = "sha256", serialize = FALSE)
   }, character(1L))
-  expect_identical(unname(current), implementations$sha256[retained])
+  expect_identical(unname(current), expected_retained)
   observed <- vapply(file.path(root, manifest$artifact), function(path) {
     digest::digest(file = path, algo = "sha256", serialize = FALSE)
   }, character(1L))

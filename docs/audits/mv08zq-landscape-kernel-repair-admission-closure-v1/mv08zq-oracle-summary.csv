@@ -1,0 +1,3 @@
+"contract_id","homology_dimension","pairs","pairs_passed","maximum_absolute_error","maximum_threshold_fraction","maximum_active_levels","scientific_engine_version","runs"
+"mv08zq_oracle_summary_v1","H0",14,14,3.90798504668055e-14,2.85751399337567e-05,499,2,2
+"mv08zq_oracle_summary_v1","H1",14,14,6.53919846331681e-12,0.182257580371733,2038,2,2

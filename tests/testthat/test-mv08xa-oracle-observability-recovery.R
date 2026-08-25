@@ -31,10 +31,23 @@ test_that("MV8-XA preserves the failed gate and freezes only the active-depth re
   expect_equal(diagnostic$all_active_level_passes, 14L)
 
   expect_equal(nrow(bindings), 4L)
+  expected_current <- bindings$new_sha256
+  zs_path <- file.path(
+    "..", "..", "docs", "audits",
+    "mv08zs-landscape-oracle-harness-recovery-acceptance-v1",
+    "mv08zs-harness-amendment.csv"
+  )
+  if (file.exists(zs_path)) {
+    zs <- utils::read.csv(zs_path, check.names = FALSE,
+                          stringsAsFactors = FALSE)
+    replacement <- match(bindings$file, zs$file)
+    changed <- !is.na(replacement)
+    expected_current[changed] <- zs$new_sha256[replacement[changed]]
+  }
   current <- vapply(file.path("..", "..", bindings$file), function(path) {
     digest::digest(file = path, algo = "sha256", serialize = FALSE)
   }, character(1L))
-  expect_identical(unname(current), bindings$new_sha256)
+  expect_identical(unname(current), expected_current)
   expect_true(decision$replacement_authorized)
   expect_equal(decision$replacement_attempts, 1L)
   expect_false(decision$selected_pairs_changed)

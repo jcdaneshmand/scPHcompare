@@ -1,0 +1,3 @@
+"contract_id","run","elapsed_seconds","elapsed_cap_seconds","peak_process_rss_bytes","rss_cap_bytes","workers","retries","cap_passed"
+"mv08zq_resource_summary_v1","A",1794.742,3600,265207808,12884901888,1,0,TRUE
+"mv08zq_resource_summary_v1","B",1826.907,3600,269889536,12884901888,1,0,TRUE
