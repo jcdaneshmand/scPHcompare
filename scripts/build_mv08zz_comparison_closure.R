@@ -16,7 +16,7 @@ if (dir.exists(output) && length(list.files(output, all.files = TRUE,
                                             no.. = TRUE))) {
   stop("refusing to overwrite MV8-ZZ closure")
 }
-dir.create(output, recursive = TRUE)
+if (!dir.exists(output)) dir.create(output, recursive = TRUE)
 source("R/mv08z_landscape_production.R")
 source("R/mv08zy_distance_comparison.R")
 .mv08z_verify_manifest(prefreeze, "mv08zy-artifact-manifest.csv")
