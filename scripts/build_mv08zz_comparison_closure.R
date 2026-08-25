@@ -64,15 +64,41 @@ for (i in 1:40) {
                            as.numeric(fresh$summary[1, shared_numeric])))
   neighbor_delta <- max(abs(saved_neighbor$neighbor_jaccard -
                             fresh$neighbor$neighbor_jaccard))
+  saved_axis_keys <- paste(saved_axis$first_unit_id,
+                           saved_axis$second_unit_id, sep = "\r")
+  saved_axis_hash <- digest::digest(
+    paste(saved_axis_keys, collapse = "\n"), algo = "sha256",
+    serialize = FALSE
+  )
+  axis_values_identical <-
+    identical(saved_axis$first_unit_id, fresh$pair_axis$first_unit_id) &&
+    identical(saved_axis$second_unit_id, fresh$pair_axis$second_unit_id) &&
+    saved_axis_hash == row$pair_axis_sha256
+  neighbor_identity_values <-
+    identical(as.character(saved_neighbor$comparison_id),
+              as.character(fresh$neighbor$comparison_id)) &&
+    identical(as.character(saved_neighbor$unit_id),
+              as.character(fresh$neighbor$unit_id)) &&
+    identical(as.integer(saved_neighbor$k), as.integer(fresh$neighbor$k))
+  public_row <- public_summary[public_summary$comparison_order == i,
+                               , drop = FALSE]
+  public_matches_private <- nrow(public_row) == 1L &&
+    identical(names(public_row), names(saved)) &&
+    all(vapply(names(saved), function(name) {
+      if (is.numeric(saved[[name]])) {
+        isTRUE(all.equal(as.numeric(public_row[[name]]),
+                         as.numeric(saved[[name]]), tolerance = 1e-14))
+      } else identical(as.character(public_row[[name]]),
+                       as.character(saved[[name]]))
+    }, logical(1L)))
   valid <- nrow(status) == 1L && status$completion_state == "complete" &&
     status$execution_head == contract$execution_head &&
     left$payload_set_sha256 == left_binding$payload_set_sha256 &&
     right$payload_set_sha256 == right_binding$payload_set_sha256 &&
     left$pair_axis_sha256 == row$pair_axis_sha256 &&
     right$pair_axis_sha256 == row$pair_axis_sha256 &&
-    identical(saved_axis, fresh$pair_axis) &&
-    identical(saved_neighbor[c("comparison_id", "unit_id", "k")],
-              fresh$neighbor[c("comparison_id", "unit_id", "k")]) &&
+    axis_values_identical && neighbor_identity_values &&
+    public_matches_private &&
     numeric_delta <= 1e-12 && neighbor_delta <= 1e-12 &&
     sha(paths[[1L]]) == completed$summary_sha256[[i]] &&
     sha(paths[[2L]]) == completed$neighbor_sha256[[i]] &&
