@@ -1,0 +1,2 @@
+"contract_id","execution_head","state","completed_chunks","total_chunks","completed_pairs","total_pairs","aggregate_child_seconds","private_bytes","workers","retries","comparison_jobs","clustering_jobs","fusion_jobs","label_jobs","outcome_jobs","adoption_jobs","manuscript_claim_jobs","outcome_label_state","biological_outcomes_computed"
+"mv08zt_progress_v1","6515d9b85a2c9467b3cb688e6e9429e0be944d8d","running",325,628,80010,152744,2375.53399920464,78394368,1,0,0,0,0,0,0,0,0,"closed",FALSE

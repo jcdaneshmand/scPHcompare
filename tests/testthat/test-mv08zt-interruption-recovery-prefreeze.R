@@ -1,8 +1,13 @@
 test_that("MV8-ZT interruption recovery freezes engine-v2 no-retry adoption", {
-  root <- testthat::test_path(
+  root_v2 <- testthat::test_path(
+    "..", "..", "docs", "audits",
+    "mv08zt-engine-v2-interruption-recovery-prefreeze-v2"
+  )
+  root_v1 <- testthat::test_path(
     "..", "..", "docs", "audits",
     "mv08zt-engine-v2-interruption-recovery-prefreeze-v1"
   )
+  root <- if (dir.exists(root_v2)) root_v2 else root_v1
   skip_if_not(dir.exists(root), "MV8-ZT recovery prefreeze has not been produced")
   read <- function(name) utils::read.csv(
     file.path(root, name), stringsAsFactors = FALSE, check.names = FALSE
@@ -53,6 +58,8 @@ test_that("MV8-ZT recovery implementation cannot recompute or delete", {
   expect_match(text, "conservative upper bounds", fixed = TRUE)
   expect_match(text, "resume_at=327", fixed = TRUE)
   expect_match(text, "public recovery receipts are non-monotone", fixed = TRUE)
+  expect_match(text, "MV08ZT_RECOVERY_GIT_HEAD", fixed = TRUE)
+  expect_false(grepl("system2\\(\"git\"", text, perl = TRUE))
   expect_false(grepl("run_mv08z_landscape_chunk", text, fixed = TRUE))
   expect_false(grepl("unlink\\(|file.remove\\(", text, perl = TRUE))
 })

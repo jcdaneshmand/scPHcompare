@@ -1,0 +1,2 @@
+"contract_id","action","accepted_prefix","orphan_order","resume_at_order","elapsed_receipt_policy","rss_receipt_policy","landscape_recomputation","automatic_retry","deletion_allowed","overwrite_allowed","scientific_contract_changed","workers","outcome_label_state","biological_outcomes_computed"
+"mv08zt_r1_recovery_policy_v1","adopt_exact_completed_orphan_without_recomputation",325,326,327,"frozen_child_cap_as_conservative_upper_bound","frozen_child_cap_as_conservative_upper_bound",FALSE,FALSE,FALSE,FALSE,FALSE,1,"closed",FALSE

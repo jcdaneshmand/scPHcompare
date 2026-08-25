@@ -55,7 +55,9 @@ ledger <- read_csv(ledger_path)
 completed <- read_csv(completion_path)
 progress <- read_csv(progress_path)
 
-current_head <- tolower(trimws(system2("git", c("rev-parse", "HEAD"), stdout = TRUE)))
+environment_head <- tolower(trimws(Sys.getenv(
+  "MV08ZT_RECOVERY_GIT_HEAD", unset = ""
+)))
 executor_file <- "scripts/recover_mv08zt_landscape_interruption.R"
 bound_executor <- implementation[implementation$role == "recovery_executor", , drop = FALSE]
 binding_hash <- inputs$sha256[inputs$role == "private_unit_bindings"]
@@ -64,7 +66,9 @@ if (nrow(decision) != 1L || !truth(decision$orphan_adoption_authorized) ||
     decision$resume_at_production_order != 327L ||
     decision$automatic_retries != 0L ||
     truth(decision$landscape_recomputation_authorized) ||
-    truth(decision$scientific_contract_changed) || current_head != recovery_head ||
+    truth(decision$scientific_contract_changed) ||
+    !grepl("^[0-9a-f]{40}$", environment_head) ||
+    environment_head != recovery_head ||
     nrow(bound_executor) != 1L || bound_executor$file != executor_file ||
     sha_file(executor_file) != bound_executor$sha256 ||
     length(binding_hash) != 1L || sha_file(bindings_path) != binding_hash) {
