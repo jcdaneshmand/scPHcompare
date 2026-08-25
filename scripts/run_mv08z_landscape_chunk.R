@@ -127,8 +127,11 @@ if (mode == "production") {
   production_implementation <- .mv08z_read_csv(file.path(
     production_root, paste0(stage, "-implementation-bindings.csv")
   ))
+  worker_role <- if (engine_v2_production) {
+    "version_aware_chunk_worker"
+  } else "chunk_worker"
   worker_binding <- production_implementation[
-    production_implementation$role == "chunk_worker", , drop = FALSE
+    production_implementation$role == worker_role, , drop = FALSE
   ]
   production_row <- production_queue[
     as.integer(production_queue$group_order) == group_order &

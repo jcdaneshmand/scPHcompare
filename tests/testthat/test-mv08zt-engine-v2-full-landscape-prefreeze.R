@@ -1,8 +1,13 @@
 test_that("MV8-ZT freezes fresh engine-v2 production from order zero", {
-  root <- testthat::test_path(
+  root_v2 <- testthat::test_path(
+    "..", "..", "docs", "audits",
+    "mv08zt-engine-v2-full-landscape-prefreeze-v2"
+  )
+  root_v1 <- testthat::test_path(
     "..", "..", "docs", "audits",
     "mv08zt-engine-v2-full-landscape-prefreeze-v1"
   )
+  root <- if (dir.exists(root_v2)) root_v2 else root_v1
   skip_if_not(dir.exists(root), "MV8-ZT prefreeze has not been produced")
   read <- function(name) utils::read.csv(
     file.path(root, name), check.names = FALSE, stringsAsFactors = FALSE
@@ -77,6 +82,7 @@ test_that("MV8-ZT version-aware execution cannot mix or reuse old outputs", {
                fixed = TRUE)
   expect_match(worker_text, "scientific_engine_version = expected_engine_version",
                fixed = TRUE)
+  expect_match(worker_text, "version_aware_chunk_worker", fixed = TRUE)
   expect_match(runner_text, "status$scientific_engine_version == 2L", fixed = TRUE)
   expect_match(runner_text, "MV08ZT_PREFREEZE = zt_root", fixed = TRUE)
   expect_false(grepl("recovery_roots|MV08Z_RECOVERY_CHAIN", runner_text))
