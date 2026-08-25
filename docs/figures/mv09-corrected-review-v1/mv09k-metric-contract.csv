@@ -1,0 +1,8 @@
+"evidence_scope","metric","k","disposition"
+"both","pearson",,"display"
+"both","spearman",,"display"
+"both","relative_stress",,"display"
+"internal124","mean_neighbor_jaccard",10,"display"
+"external8","mean_neighbor_jaccard",7,"structurally_noninformative_exclude"
+"external8","mean_neighbor_jaccard",2,"display_sensitivity"
+"external8","mean_neighbor_jaccard",3,"display_sensitivity"

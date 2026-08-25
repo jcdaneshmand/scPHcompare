@@ -1,0 +1,2 @@
+"contract_id","execution_head","completion_state","figures","global_metrics","internal_neighbor_k","external_neighbor_k","external_k7_displayed","external_k7_interpretation","labels_used","outcomes_used","inference_performed","combined_score","ranking_performed","biological_claims","manuscript_claims","human_review_state"
+"mv09k_terminal_receipt_v1","34eba1ee2ced85d1ded60307c041a34ff2c5c853","complete",4,3,10,"2;3",FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,"pending"

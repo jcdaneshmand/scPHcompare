@@ -1,0 +1,5 @@
+"contract_id","figure_order","figure_id","filename","bytes","sha256","width_pixels","height_pixels","opened_at_original_resolution","clipping_or_truncation_observed","titles_axes_legible","scientific_scope_disclosure_legible"
+"mv09m_figure_binding_v1",1,"internal_seed_sensitivity","mv09k-internal-seed-sensitivity.png",126309,"da2ded9f8996b8fb0913ed3b8a3d561146c1b414540e8ed7540c436f1e94620f",2160,1620,TRUE,FALSE,TRUE,TRUE
+"mv09m_figure_binding_v1",2,"external_global_sensitivity","mv09k-external-global-sensitivity.png",162902,"cf26eb3a31076c45fffed68ec179119e2a02316ee39ec7157bb9158f437dca27",2520,1260,TRUE,FALSE,TRUE,TRUE
+"mv09m_figure_binding_v1",3,"external_neighbor_sensitivity","mv09k-external-neighbor-sensitivity.png",130497,"cc04f05cf4ba4122fa4d0880279cdfdc919531c9b5122389809dc506f747df66",2520,1350,TRUE,FALSE,TRUE,TRUE
+"mv09m_figure_binding_v1",4,"paired_global_shift","mv09k-paired-global-shift.png",156006,"a59142dd4bc1947e70e091139e10bea99f0e77cc57f3df8a96a8073f9d4c64de",2700,1620,TRUE,FALSE,TRUE,TRUE
