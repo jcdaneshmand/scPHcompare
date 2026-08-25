@@ -1,0 +1,2 @@
+"contract_id","jobs","pair_alignments","aggregate_child_seconds","aggregate_elapsed_cap_seconds","peak_process_tree_rss_bytes","child_rss_cap_bytes","private_bytes","private_storage_cap_bytes","elapsed_cap_passed","rss_cap_passed","storage_cap_passed","workers","retries"
+"mv08zz_resource_summary_v1",40,229060,235.224819421768,14400,119263232,2147483648,21042935,536870912,TRUE,TRUE,TRUE,1,0

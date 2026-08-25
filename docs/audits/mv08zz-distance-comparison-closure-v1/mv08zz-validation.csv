@@ -1,0 +1,13 @@
+"contract_id","check_id","passed"
+"mv08zz_validation_v1","prefreeze_manifest",TRUE
+"mv08zz_validation_v1","terminal_complete",TRUE
+"mv08zz_validation_v1","job_cardinality",TRUE
+"mv08zz_validation_v1","source_rehash",TRUE
+"mv08zz_validation_v1","pair_axis_identity",TRUE
+"mv08zz_validation_v1","fresh_recomputation",TRUE
+"mv08zz_validation_v1","H0_H1_separate",TRUE
+"mv08zz_validation_v1","public_aggregate_only",TRUE
+"mv08zz_validation_v1","resource_caps",TRUE
+"mv08zz_validation_v1","one_worker_zero_retry",TRUE
+"mv08zz_validation_v1","label_outcome_firewall",TRUE
+"mv08zz_validation_v1","clustering_fusion_firewall",TRUE

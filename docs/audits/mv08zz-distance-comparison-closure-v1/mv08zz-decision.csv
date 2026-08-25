@@ -1,0 +1,2 @@
+"contract_id","decision","comparisons","interpretation","next_stage","clustering_state","fusion_state","labels_outcomes_state","manuscript_claims_state"
+"mv08zz_decision_v1","close_label_closed_distance_comparisons",40,"descriptive_sensitivity_evidence_no_equivalence_or_biological_claim","separate_label_closed_robustness_synthesis_prefreeze","closed","closed","closed","closed"

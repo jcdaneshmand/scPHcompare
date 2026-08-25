@@ -1,0 +1,7 @@
+"contract_id","artifact","bytes","sha256"
+"mv08zz_artifact_manifest_v1","MV08ZZ_DISTANCE_COMPARISON_CLOSURE_2026-08-25.md",261,"42eccfa85d34ca9797d8c1663da24f5ed6e7cba5396342abccb10a0eee4c6704"
+"mv08zz_artifact_manifest_v1","mv08zz-decision.csv",380,"04bcad8c2bdb6b7e4cb945dc6a4f372e766706ee74a7b40dc773a86202ca664e"
+"mv08zz_artifact_manifest_v1","mv08zz-private-rehash.csv",12970,"479d4830f971295349b64551fd945114cab124a2d5cf8a52ca776910a6af26c2"
+"mv08zz_artifact_manifest_v1","mv08zz-recomputation-summary.csv",7990,"23e33058d0cf6557f95d4954938851f6dd3021dd4d1b9fd8fc347121b6fdd77f"
+"mv08zz_artifact_manifest_v1","mv08zz-resource-summary.csv",393,"bc8bd59c8dfb650a96c341c5cd7712587e23a96be528ecb4abf06592ce6b0c61"
+"mv08zz_artifact_manifest_v1","mv08zz-validation.csv",623,"52bf3bfb422d74e8b85cc5feabb61413ea0c8d3c4a0748d7a8b42482b5ecfac8"

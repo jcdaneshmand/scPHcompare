@@ -50,10 +50,25 @@ test_that("MV8-ZY prospectively binds all comparison inputs and firewalls", {
   expect_true(all(validation$passed))
   expect_equal(nrow(validation), 20L)
   expect_true(decision$execution_authorized_after_commit)
-  implementation_paths <- testthat::test_path("..", "..",
-                                               implementation$file)
+  unchanged <- implementation$file !=
+    "scripts/build_mv08zz_comparison_closure.R"
+  implementation_paths <- testthat::test_path(
+    "..", "..", implementation$file[unchanged]
+  )
   expect_true(all(file.exists(implementation_paths)))
   expect_equal(unname(vapply(implementation_paths, function(path) digest::digest(
     file = path, algo = "sha256", serialize = FALSE
-  ), character(1L))), implementation$sha256)
+  ), character(1L))), implementation$sha256[unchanged])
+  recovery_root <- testthat::test_path(
+    "..", "..", "docs", "audits",
+    "mv08zza-closure-serialization-recovery-prefreeze-v1"
+  )
+  recovery <- read.csv(file.path(recovery_root,
+                                 "mv08zza-implementation-bindings.csv"),
+                       stringsAsFactors = FALSE, check.names = FALSE)
+  closure <- recovery$file == "scripts/build_mv08zz_comparison_closure.R"
+  expect_equal(sum(closure), 1L)
+  closure_path <- testthat::test_path("..", "..", recovery$file[closure])
+  expect_equal(digest::digest(file = closure_path, algo = "sha256",
+                              serialize = FALSE), recovery$sha256[closure])
 })
