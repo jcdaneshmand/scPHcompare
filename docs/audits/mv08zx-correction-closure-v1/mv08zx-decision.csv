@@ -1,0 +1,2 @@
+"contract_id","decision","checks_passed","checks_total","groups_closed","pairs_closed","comparisons_authorized","clustering_authorized","fusion_authorized","labels_authorized","outcomes_authorized","manuscript_claims_authorized","next_gate","outcome_label_state","biological_outcomes_computed"
+"mv08zx_decision_v1","close_external_gene_landscape_correction_and_require_comparison_prefreeze",20,20,2,56,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,"prospective_label_closed_40_stratum_comparison_execution_prefreeze","closed",FALSE

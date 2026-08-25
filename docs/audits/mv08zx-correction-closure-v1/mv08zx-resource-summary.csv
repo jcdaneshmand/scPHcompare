@@ -1,0 +1,2 @@
+"contract_id","groups","pairs","aggregate_child_seconds","aggregate_elapsed_cap_seconds","peak_process_tree_rss_bytes","child_rss_cap_bytes","private_bytes","private_storage_cap_bytes","elapsed_cap_passed","rss_cap_passed","storage_cap_passed","workers","retries"
+"mv08zx_resource_summary_v1",2,56,5.21429944038391,7200,83091456,4294967296,43623,67108864,TRUE,TRUE,TRUE,1,0
