@@ -1,0 +1,5 @@
+"contract_id","figure_order","figure_id","external_k7_displayed","external_k2_k3_displayed","H0_H1_separate","format","dpi","interpretation_state"
+"mv09h_figure_contract_v1",1,"internal_seed_sensitivity",FALSE,FALSE,TRUE,"PNG_only_no_PDF",180,"claim_free_pending_owner_review"
+"mv09h_figure_contract_v1",2,"external_global_sensitivity",FALSE,FALSE,TRUE,"PNG_only_no_PDF",180,"claim_free_pending_owner_review"
+"mv09h_figure_contract_v1",3,"external_neighbor_sensitivity",FALSE,TRUE,TRUE,"PNG_only_no_PDF",180,"claim_free_pending_owner_review"
+"mv09h_figure_contract_v1",4,"paired_global_shift",FALSE,FALSE,TRUE,"PNG_only_no_PDF",180,"claim_free_pending_owner_review"
