@@ -1,0 +1,3 @@
+"contract_id","stage","elapsed_cap_seconds","rss_cap_bytes","workers","retries","private_storage_cap_bytes","minimum_free_disk_bytes","minimum_available_memory_bytes","authorization_state"
+"mv08zt_resource_policy_v1","landscape_chunk",3600,4294967296,1,0,1073741824,10737418240,8589934592,"authorized_after_mv08zt_commit"
+"mv08zt_resource_policy_v1","full_production",144000,4294967296,1,0,1073741824,10737418240,8589934592,"authorized_after_launch_headroom_gate"

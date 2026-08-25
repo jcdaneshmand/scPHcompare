@@ -50,7 +50,9 @@ implementations <- .mv08z_read_csv(
   file.path(prefreeze, "mv08z-implementation-bindings.csv")
 )
 retained_implementation <- if (engine_v2_production) {
-  !implementations$role %in% c("chunk_runner", "Rust_kernel_source")
+  !implementations$role %in% c(
+    "chunk_runner", "Rust_kernel_source", "sentinel_R_oracle_runner"
+  )
 } else rep(TRUE, nrow(implementations))
 implementation_ok <- all(file.exists(implementations$file[retained_implementation])) &&
   all(vapply(implementations$file[retained_implementation], .mv08z_sha256_file,
