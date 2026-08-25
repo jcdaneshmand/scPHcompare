@@ -1,0 +1,2 @@
+"contract_id","decision","production_retry_authorized","closure_rerun_authorized_after_commit","next_if_pass"
+"mv08zza_decision_v1","authorize_independent_closure_rerun_only_after_commit",FALSE,TRUE,"accept_mv08zz_closure"

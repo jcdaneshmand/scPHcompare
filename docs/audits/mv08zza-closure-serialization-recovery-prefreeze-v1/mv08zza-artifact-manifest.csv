@@ -1,0 +1,7 @@
+"contract_id","artifact","bytes","sha256"
+"mv08zza_artifact_manifest_v1","MV08ZZA_CLOSURE_SERIALIZATION_RECOVERY_2026-08-25.md",349,"2bc39c6fc2b70978b37cefb3c76b7b9104b4f7f67ec71a4776118af4ab41f83e"
+"mv08zza_artifact_manifest_v1","mv08zza-contract.csv",664,"ab216b331f0c58ae511f4c5ab2baf303eaad8724301b7bf5f5f7984f6345f1c1"
+"mv08zza_artifact_manifest_v1","mv08zza-decision.csv",223,"766ece30cf23d5276bb42e1d0f124d55fd7b2dfae5a7648e48ec9b83e44a3464"
+"mv08zza_artifact_manifest_v1","mv08zza-immutable-production.csv",553,"7fbba096fac62cbc6b3eefb91fd4edb147e502d76b6cc0bbd310375fe97b75a6"
+"mv08zza_artifact_manifest_v1","mv08zza-implementation-bindings.csv",470,"25759f463e4bcaeeb43684e75e3f159c8bc75e6f229e0b13bee49eea3fa656f1"
+"mv08zza_artifact_manifest_v1","mv08zza-validation.csv",574,"d9ad6b3efb752c54e69fa2795f6bccfb5203d929de83fa6548066071d7a18574"

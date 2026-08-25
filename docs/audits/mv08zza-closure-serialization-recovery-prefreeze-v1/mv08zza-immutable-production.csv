@@ -1,0 +1,2 @@
+"contract_id","execution_head","completed_jobs","pair_alignments","terminal_sha256","ledger_sha256","completions_sha256","summary_sha256","workers","retries","production_mutation_allowed"
+"mv08zza_immutable_production_v1","65774f6c11090bdc7c52d587118daf1bd5683acc",40,229060,"e30c1192df8504a4e7e764228b4f8346a112ce79a35eed62351440cf9dfd75a8","eba879995f4e0cfc2a19b060f33a812e92d14b02ed9bfde88fe0a403e75b5ba4","03cdddc22ee20585b3eacdb0659b2a098382400f3f746cbf369c8eb085a63cff","b621ebf1fe682eb0203e56d947c53f6fd32519ab53775d38d2c31e044b47a52f",1,0,FALSE
