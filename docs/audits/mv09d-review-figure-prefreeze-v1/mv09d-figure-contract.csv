@@ -1,0 +1,4 @@
+"contract_id","figure_order","figure_id","data_rows","geometry","facets","width_inches","height_inches","dpi","format","visual_review_required"
+"mv09d_figure_contract_v1",1,"internal_seed_sensitivity",120,"five seed points plus median and IQR","four metrics",12,9,180,"PNG_only_no_PDF",TRUE
+"mv09d_figure_contract_v1",2,"external_singleton_sensitivity",40,"one cohort point per contrast and dimension; no error bars","four metrics",14,8.5,180,"PNG_only_no_PDF",TRUE
+"mv09d_figure_contract_v1",3,"paired_dimension_shift",80,"paired H1-minus-H0 points with zero reference line","four metrics x evidence stratum",15,11,180,"PNG_only_no_PDF",TRUE

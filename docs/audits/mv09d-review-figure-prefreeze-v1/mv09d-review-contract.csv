@@ -1,0 +1,7 @@
+"contract_id","review_order","review_item","acceptance","owner_review_state"
+"mv09d_review_contract_v1",1,"metric_legibility","four quantities legible under free metric scales","pending"
+"mv09d_review_contract_v1",2,"H0_H1_visibility","both dimensions shown simultaneously and never pooled","pending"
+"mv09d_review_contract_v1",3,"internal_seed_visibility","all five seed marks visible with median and IQR","pending"
+"mv09d_review_contract_v1",4,"external_singleton_disclosure","one cohort and absence of error bars stated on figure","pending"
+"mv09d_review_contract_v1",5,"zero_line_not_threshold","subtitle explicitly identifies descriptive reference","pending"
+"mv09d_review_contract_v1",6,"claim_firewall","no thresholds rankings inference biology or manuscript claims","pending"

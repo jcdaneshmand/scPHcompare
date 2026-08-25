@@ -1,0 +1,8 @@
+"contract_id","source_order","artifact","bytes","sha256"
+"mv09d_source_freeze_v1",1,"/mnt/e/Repositories/Jonah/PH_ClusteringApp/_worktrees/scphcompare-mv06/docs/audits/mv09b-robustness-synthesis-v1/mv09b-artifact-manifest.csv",968,"15e2b9da9407952f028927473f44e42847765503259dfbaf826ccf35eb72116e"
+"mv09d_source_freeze_v1",2,"/mnt/e/Repositories/Jonah/PH_ClusteringApp/_worktrees/scphcompare-mv06/docs/audits/mv09b-robustness-synthesis-v1/mv09b-plot-data.csv",39557,"b91427bc1b8eca26b375f9a97dbcf2e9440b0c76a0f9975d8ce53a94e7e9f9df"
+"mv09d_source_freeze_v1",3,"/mnt/e/Repositories/Jonah/PH_ClusteringApp/_worktrees/scphcompare-mv06/docs/audits/mv09b-robustness-synthesis-v1/mv09b-internal-seed-summary.csv",13786,"30331a4bb716288dd9fd9b3d754d225882ef2c3e557f3e2c2d044d099ae5d284"
+"mv09d_source_freeze_v1",4,"/mnt/e/Repositories/Jonah/PH_ClusteringApp/_worktrees/scphcompare-mv06/docs/audits/mv09b-robustness-synthesis-v1/mv09b-external-singleton.csv",19477,"3dd48feac9220f84e3d150ef617b4153ff4f0e1b82b5466584a8d2819ac5b45f"
+"mv09d_source_freeze_v1",5,"/mnt/e/Repositories/Jonah/PH_ClusteringApp/_worktrees/scphcompare-mv06/docs/audits/mv09b-robustness-synthesis-v1/mv09b-dimension-delta.csv",40628,"006ffe95c79a2bcfaee900c255547eb6150843509451e92eb0518434bda3ce42"
+"mv09d_source_freeze_v1",6,"docs/audits/mv09c-robustness-synthesis-closure-v1/mv09c-artifact-manifest.csv",567,"113f3afc1c07c311cd85f19e8dba781791020fc290cb7bbbf6f8682a9842567f"
+"mv09d_source_freeze_v1",7,"docs/audits/mv09c-robustness-synthesis-closure-v1/mv09c-validation.csv",754,"543f2e2550d27493bbd48d2f6baf3fa2b53c175ce52fc79ee417c76fcbc8a58d"

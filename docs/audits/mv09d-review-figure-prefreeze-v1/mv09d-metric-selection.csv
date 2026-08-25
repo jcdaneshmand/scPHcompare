@@ -1,0 +1,5 @@
+"metric_order","metric","label","quantity_note","selection_basis","contract_id"
+1,"pearson","Pearson distance concordance","correlation","global linear agreement","mv09d_metric_selection_v1"
+2,"spearman","Spearman distance concordance","rank correlation","global rank agreement","mv09d_metric_selection_v1"
+3,"relative_stress","Relative stress after nonnegative scaling","unitless","scaled residual disagreement","mv09d_metric_selection_v1"
+4,"mean_neighbor_jaccard","Mean 10-neighbor Jaccard overlap","proportion","local neighborhood agreement","mv09d_metric_selection_v1"
