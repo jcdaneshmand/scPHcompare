@@ -1,0 +1,9 @@
+"contract_id","artifact","cardinality","identifier_policy","atomic","labels_allowed","outcomes_allowed"
+"mv08zv_output_schema_v1","private_corrective_pair_distances","56 rows","private opaque pair hashes",TRUE,FALSE,FALSE
+"mv08zv_output_schema_v1","public_corrective_receipt","2 rows","aggregate group identity only",TRUE,FALSE,FALSE
+"mv08zv_output_schema_v1","private_comparison_pair_alignment","40 x pair_count","private opaque pair hashes",TRUE,FALSE,FALSE
+"mv08zv_output_schema_v1","private_neighbor_overlap","40 x unit_count","private opaque unit hashes",TRUE,FALSE,FALSE
+"mv08zv_output_schema_v1","public_comparison_summary","40 rows","aggregate strata only",TRUE,FALSE,FALSE
+"mv08zv_output_schema_v1","public_resource_ledger","42 rows","job/group identity only",TRUE,FALSE,FALSE
+"mv08zv_output_schema_v1","public_terminal_receipt","1 row","aggregate counts and hashes",TRUE,FALSE,FALSE
+"mv08zv_output_schema_v1","public_independent_closure","one immutable audit directory","aggregate receipts/hashes only",TRUE,FALSE,FALSE

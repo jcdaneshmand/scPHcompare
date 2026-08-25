@@ -1,0 +1,3 @@
+"contract_id","stage","jobs","workers","retries","per_child_elapsed_cap_seconds","per_child_rss_cap_bytes","aggregate_elapsed_cap_seconds","private_storage_cap_bytes","minimum_available_memory_bytes","minimum_free_disk_bytes","launch_recheck_required"
+"mv08zv_resource_policy_v1","corrective_landscape",2,1,0,3600,4294967296,7200,67108864,6442450944,1073741824,TRUE
+"mv08zv_resource_policy_v1","distance_comparison",40,1,0,600,2147483648,14400,536870912,4294967296,2147483648,TRUE

@@ -1,0 +1,10 @@
+"contract_id","estimand_order","estimand","definition","interpretation","labels_used","outcomes_used"
+"mv08zv_distance_estimand_v1",1,"landscape_L2_distance","sqrt(exact streamed squared-L2); H0/H1 never combined","primary dimension-specific distance",FALSE,FALSE
+"mv08zv_distance_estimand_v1",2,"pearson","Pearson correlation of canonical unordered-pair distance vectors","descriptive",FALSE,FALSE
+"mv08zv_distance_estimand_v1",3,"spearman","Spearman correlation of canonical unordered-pair distance vectors","descriptive",FALSE,FALSE
+"mv08zv_distance_estimand_v1",4,"nonnegative_scale","max(0,sum(left*right)/sum(left^2))","descriptive",FALSE,FALSE
+"mv08zv_distance_estimand_v1",5,"relative_stress","sqrt(sum((right-scale*left)^2)/sum(right^2))","descriptive",FALSE,FALSE
+"mv08zv_distance_estimand_v1",6,"left_right_medians","median raw L2 distance reported for each stack","descriptive",FALSE,FALSE
+"mv08zv_distance_estimand_v1",7,"median_abs_scaled_change","median(abs(right/median(right)-left/median(left)))","descriptive",FALSE,FALSE
+"mv08zv_distance_estimand_v1",8,"p95_abs_scaled_change","type-7 0.95 quantile of absolute median-scaled pair change","descriptive",FALSE,FALSE
+"mv08zv_distance_estimand_v1",9,"neighbor_overlap","per-unit Jaccard of k nearest neighbors; k=min(10,n-1); report mean, median, p10","descriptive",FALSE,FALSE
