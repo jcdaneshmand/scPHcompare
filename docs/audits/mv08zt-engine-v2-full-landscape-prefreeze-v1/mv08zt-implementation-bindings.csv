@@ -1,0 +1,7 @@
+"contract_id","role","file","bytes","sha256"
+"mv08zt_implementation_binding_v1","engine_v2_rust_source","rust/scph_landscape_kernel/src/lib.rs",21188,"3e29dcb193a0ace2a775dd8eef19b6c83663868c4cd709e44136c3da9a04d89e"
+"mv08zt_implementation_binding_v1","R_FFI_shim","R/landscape_rust_prototype.R",5137,"4771ec396759dacaf36e860819b49978b37d8cc8d4224e54cc72b0077f8a5eb1"
+"mv08zt_implementation_binding_v1","execution_helpers","R/mv08z_landscape_production.R",3990,"93a9ac4b40f7158bbe058fe3195e96abcd528fef6b0388a073b86eb8bf7c157f"
+"mv08zt_implementation_binding_v1","version_aware_chunk_worker","scripts/run_mv08z_landscape_chunk.R",15026,"3299841f973c6d04f9acf60a239e708f9a093c4f2129cbf56d433f917dd5b0ee"
+"mv08zt_implementation_binding_v1","fresh_full_runner","scripts/run_mv08zt_full_landscape_production.R",14617,"777228eed09b72a0ffcf6fd27bf38187aa37158e15389b8be4c79edac6ea41e4"
+"mv08zt_implementation_binding_v1","prefreeze_builder","scripts/build_mv08zt_engine_v2_full_landscape_prefreeze.R",15675,"0d39bcd6fe13b645fc051a24e6b53aa35a29534ce4d534af95f4d155dd25db9e"

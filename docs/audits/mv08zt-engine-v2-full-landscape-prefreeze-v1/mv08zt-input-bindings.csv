@@ -1,0 +1,6 @@
+"contract_id","role","bytes","sha256"
+"mv08zt_input_binding_v1","mv08zq_admission_manifest",642,"dd650a256b95095e05833670b72a0d50e64432f795282405a4fbfe9dedb9e5ec"
+"mv08zt_input_binding_v1","mv08z_queue_manifest",1331,"8397a09671de9c25707d19b4841d0b9e20ddc0d98994265d3560438dc65f24de"
+"mv08zt_input_binding_v1","mv08zf_queue_plan_manifest",1158,"b0ad888b88088b028b179c5670347ac94e523e6bad0c72b00614f03dcb10a6da"
+"mv08zt_input_binding_v1","private_unit_bindings",1474509,"d6c9adb5445b2644d853e6c122bc05b74631c17cc28acafc2c7d9b7c215fcaec"
+"mv08zt_input_binding_v1","engine_v2_candidate",441512,"dd21610230f800aa8a1c2f69667c85af56a51dbadf1392862a5603f95f7d2476"

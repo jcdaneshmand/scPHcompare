@@ -1,0 +1,2 @@
+"contract_id","old_engine_version","old_completed_chunks","old_completed_pairs","old_scientific_state","resume","reuse","overwrite","delete","new_private_root_required","new_public_root_required"
+"mv08zt_old_root_firewall_v1",1,502,123516,"rejected",FALSE,FALSE,FALSE,FALSE,TRUE,TRUE

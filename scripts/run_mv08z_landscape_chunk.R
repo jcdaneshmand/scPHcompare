@@ -4,10 +4,11 @@ Sys.setenv(OMP_NUM_THREADS = "1", OPENBLAS_NUM_THREADS = "1",
            MKL_NUM_THREADS = "1", RAYON_NUM_THREADS = "1")
 options(warn = 2)
 args <- commandArgs(trailingOnly = TRUE)
-if (length(args) != 10L) stop(paste(
+if (!length(args) %in% 10:11) stop(paste(
   "usage: run_mv08z_landscape_chunk.R <prefreeze> <private-bindings>",
   "<mv08s-private> <mv08v-private> <rust-library> <group-order>",
-  "<chunk-order> <output-root> <execution-head> <mode>"
+  "<chunk-order> <output-root> <execution-head> <mode>",
+  "[<engine-v2-production-prefreeze>]"
 ), call. = FALSE)
 if (!requireNamespace("digest", quietly = TRUE)) stop("digest required", call. = FALSE)
 
@@ -21,6 +22,10 @@ chunk_order <- as.integer(args[[7L]])
 output_root <- normalizePath(args[[8L]], mustWork = FALSE)
 execution_head <- tolower(args[[9L]])
 mode <- args[[10L]]
+engine_v2_production <- length(args) == 11L
+production_prefreeze <- if (engine_v2_production) {
+  normalizePath(args[[11L]], mustWork = TRUE)
+} else NULL
 if (is.na(group_order) || is.na(chunk_order) ||
     !grepl("^[0-9a-f]{40}$", execution_head) ||
     !mode %in% c("sentinel_primary", "sentinel_repeat", "production")) {
@@ -44,9 +49,12 @@ inputs <- .mv08z_read_csv(file.path(prefreeze, "mv08z-input-manifest.csv"))
 implementations <- .mv08z_read_csv(
   file.path(prefreeze, "mv08z-implementation-bindings.csv")
 )
-implementation_ok <- all(file.exists(implementations$file)) &&
-  all(vapply(implementations$file, .mv08z_sha256_file, character(1L)) ==
-        implementations$sha256)
+retained_implementation <- if (engine_v2_production) {
+  !implementations$role %in% c("chunk_runner", "Rust_kernel_source")
+} else rep(TRUE, nrow(implementations))
+implementation_ok <- all(file.exists(implementations$file[retained_implementation])) &&
+  all(vapply(implementations$file[retained_implementation], .mv08z_sha256_file,
+             character(1L)) == implementations$sha256[retained_implementation])
 if (!implementation_ok) {
   chain_text <- Sys.getenv("MV08Z_RECOVERY_CHAIN", unset = "")
   recovery_roots <- strsplit(chain_text, "|", fixed = TRUE)[[1L]]
@@ -73,11 +81,19 @@ if (!implementation_ok) {
   }
   implementation_ok <- all(current == expected)
 }
-if (nrow(contract) != 1L ||
+execution_contract <- if (engine_v2_production) {
+  .mv08z_verify_manifest(production_prefreeze, "mv08zt-artifact-manifest.csv")
+  .mv08z_read_csv(file.path(production_prefreeze, "mv08zt-contract.csv"))
+} else contract
+expected_engine_version <- if ("scientific_engine_version" %in%
+                                 names(execution_contract)) {
+  as.integer(execution_contract$scientific_engine_version)
+} else 1L
+if (nrow(contract) != 1L || nrow(execution_contract) != 1L ||
     .mv08z_sha256_file(binding_path) !=
       inputs$sha256[inputs$role == "private_unit_bindings"] ||
-    .mv08z_sha256_file(rust_library) != contract$rust_library_sha256 ||
-    !implementation_ok) {
+    .mv08z_sha256_file(rust_library) != execution_contract$rust_library_sha256 ||
+    !implementation_ok || !expected_engine_version %in% 1:2) {
   stop("MV8-Z execution binding drift", call. = FALSE)
 }
 group <- groups[as.integer(groups$group_order) == group_order, , drop = FALSE]
@@ -92,21 +108,24 @@ if (nrow(group) != 1L || nrow(chunk) != 1L ||
   stop("MV8-Z requested chunk is not authorized", call. = FALSE)
 }
 if (mode == "production") {
-  production_root_text <- Sys.getenv("MV08ZF_PREFREEZE", unset = "")
+  production_root_text <- if (engine_v2_production) {
+    Sys.getenv("MV08ZT_PREFREEZE", unset = "")
+  } else Sys.getenv("MV08ZF_PREFREEZE", unset = "")
   if (!nzchar(production_root_text)) {
     stop("MV8-Z full production remains closed without MV8-ZF authorization",
          call. = FALSE)
   }
   production_root <- normalizePath(production_root_text, mustWork = TRUE)
-  .mv08z_verify_manifest(production_root, "mv08zf-artifact-manifest.csv")
+  stage <- if (engine_v2_production) "mv08zt" else "mv08zf"
+  .mv08z_verify_manifest(production_root, paste0(stage, "-artifact-manifest.csv"))
   production_decision <- .mv08z_read_csv(file.path(
-    production_root, "mv08zf-decision.csv"
+    production_root, paste0(stage, "-decision.csv")
   ))
   production_queue <- .mv08z_read_csv(file.path(
-    production_root, "mv08zf-production-queue.csv"
+    production_root, paste0(stage, "-production-queue.csv")
   ))
   production_implementation <- .mv08z_read_csv(file.path(
-    production_root, "mv08zf-implementation-bindings.csv"
+    production_root, paste0(stage, "-implementation-bindings.csv")
   ))
   worker_binding <- production_implementation[
     production_implementation$role == "chunk_worker", , drop = FALSE
@@ -115,17 +134,26 @@ if (mode == "production") {
     as.integer(production_queue$group_order) == group_order &
       as.integer(production_queue$chunk_order) == chunk_order, , drop = FALSE
   ]
-  if (nrow(production_decision) != 1L ||
-      !.mv08z_truth(production_decision$full_production_authorized) ||
+  production_authorized <- if (engine_v2_production) {
+    .mv08z_truth(production_decision$fresh_production_authorized_after_commit)
+  } else .mv08z_truth(production_decision$full_production_authorized)
+  authorization_state <- if (engine_v2_production) {
+    "authorized_after_mv08zt_commit"
+  } else "authorized_after_mv08zf_commit"
+  environment_head <- if (engine_v2_production) {
+    Sys.getenv("MV08ZT_GIT_HEAD", unset = "")
+  } else Sys.getenv("MV08ZF_GIT_HEAD", unset = "")
+  if (nrow(production_decision) != 1L || !production_authorized ||
       production_decision$production_landscape_pairs_authorized != 152744L ||
       nrow(worker_binding) != 1L || worker_binding$file !=
         "scripts/run_mv08z_landscape_chunk.R" ||
       .mv08z_sha256_file(worker_binding$file) != worker_binding$sha256 ||
       nrow(production_row) != 1L || production_row$pair_count != chunk$pair_count ||
       production_row$pair_subset_sha256 != chunk$pair_subset_sha256 ||
-      production_row$authorization_state != "authorized_after_mv08zf_commit" ||
-      execution_head != tolower(Sys.getenv("MV08ZF_GIT_HEAD", unset = ""))) {
-    stop("MV8-ZF production authorization drift", call. = FALSE)
+      production_row$authorization_state != authorization_state ||
+      execution_head != tolower(environment_head) ||
+      (engine_v2_production && expected_engine_version != 2L)) {
+    stop("MV8-Z production authorization drift", call. = FALSE)
   }
 }
 
@@ -149,6 +177,7 @@ if (dir.exists(final_dir)) {
   existing <- .mv08z_read_csv(distance_path)
   if (nrow(status) != 1L || status$completion_state != "complete" ||
       status$execution_head != execution_head || status$mode != mode ||
+      (engine_v2_production && status$scientific_engine_version != 2L) ||
       status$pair_subset_sha256 != chunk$pair_subset_sha256 ||
       status$distances_sha256 != .mv08z_sha256_file(distance_path) ||
       nrow(existing) != as.integer(chunk$pair_count) ||
@@ -210,6 +239,7 @@ for (index in seq_len(nrow(pairs))) {
   expected_depth <- max(.mv08z_active_depth(intervals[[first_axis]]),
                         .mv08z_active_depth(intervals[[second_axis]]))
   if (!isTRUE(value$rust_used) || value$status != 0L ||
+      as.integer(value$engine_version) != expected_engine_version ||
       !is.finite(value$squared_distance) || value$squared_distance < 0 ||
       as.integer(value$active_levels) != expected_depth) {
     stop("MV8-Z Rust calculation failed closed at pair ordinal ",
@@ -217,7 +247,7 @@ for (index in seq_len(nrow(pairs))) {
   }
   result[[index]] <- data.frame(
     contract_id = "mv08z_landscape_distance_v1",
-    engine_id = "rust_scph_landscape_kernel_v1",
+    engine_id = paste0("rust_scph_landscape_kernel_v", expected_engine_version),
     execution_head = execution_head, mode = mode,
     group_order = group_order, group_id = group$group_id,
     chunk_order = chunk_order, pair_ordinal = pair$pair_ordinal,
@@ -258,7 +288,8 @@ status <- data.frame(
   pair_start = chunk$pair_start, pair_end = chunk$pair_end,
   pair_count = nrow(result), pair_subset_sha256 = chunk$pair_subset_sha256,
   elapsed_seconds = elapsed,
-  rust_library_sha256 = contract$rust_library_sha256,
+  rust_library_sha256 = execution_contract$rust_library_sha256,
+  scientific_engine_version = expected_engine_version,
   distances_sha256 = .mv08z_sha256_file(file.path(partial, "distances.csv")),
   distances_bytes = as.numeric(file.info(file.path(partial, "distances.csv"))$size),
   workers = 1L, retries = 0L, fallback_used = FALSE,
