@@ -1,0 +1,4 @@
+"contract_id","figure_order","figure_id","geometry","facet","forbidden","generation_state"
+"mv09a_figure_contract_v1",1,"internal_seed_small_multiples","seed points plus median and IQR","metric x homology_dimension","thresholds;rankings;combined score","closed_pending_mv09a_commit"
+"mv09a_figure_contract_v1",2,"external_singleton_small_multiples","one point per contrast","metric x homology_dimension","error bars implying replication;generalization;combined score","closed_pending_mv09a_commit"
+"mv09a_figure_contract_v1",3,"paired_H1_minus_H0_small_multiples","seed points plus median and IQR; external singleton point","metric x dataset_scope","error bars implying replication;generalization;combined score","closed_pending_mv09a_commit"

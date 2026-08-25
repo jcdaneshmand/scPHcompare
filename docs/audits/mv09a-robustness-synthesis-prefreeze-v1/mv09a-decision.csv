@@ -1,0 +1,2 @@
+"contract_id","decision","execution_authorized_after_commit","next_if_closed"
+"mv09a_decision_v1","authorize_aggregate_label_closed_synthesis_after_commit",TRUE,"separate_scientific_review_and_figure_prefreeze"

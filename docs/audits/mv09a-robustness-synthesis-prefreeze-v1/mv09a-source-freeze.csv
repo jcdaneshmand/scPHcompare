@@ -1,0 +1,4 @@
+"contract_id","source_order","artifact","bytes","sha256"
+"mv09a_source_freeze_v1",1,"docs/audits/mv08zz-distance-comparison-closure-v1/mv08zz-artifact-manifest.csv",841,"6de0112342a3f627f4e0710ecf571f4fbfbad4bab93d0e0992a5a5c1ff91aa71"
+"mv09a_source_freeze_v1",2,"docs/audits/mv08zz-distance-comparison-closure-v1/mv08zz-validation.csv",623,"52bf3bfb422d74e8b85cc5feabb61413ea0c8d3c4a0748d7a8b42482b5ecfac8"
+"mv09a_source_freeze_v1",3,"docs/audits/mv08zz-distance-comparison-closure-v1/mv08zz-decision.csv",380,"04bcad8c2bdb6b7e4cb945dc6a4f372e766706ee74a7b40dc773a86202ca664e"

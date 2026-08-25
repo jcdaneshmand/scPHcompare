@@ -1,0 +1,7 @@
+"contract_id","output_order","artifact","rows","rule","labels_allowed","outcomes_allowed","inference_allowed"
+"mv09a_output_contract_v1",1,"aggregate_comparisons",40,"exact public aggregate copy with provenance",FALSE,FALSE,FALSE
+"mv09a_output_contract_v1",2,"plot_data_long",440,"eleven metrics x forty strata; H0/H1 explicit",FALSE,FALSE,FALSE
+"mv09a_output_contract_v1",3,"internal_seed_summary",66,"three contrasts x H0/H1 x eleven metrics; five seeds; min/q25/median/q75/max",FALSE,FALSE,FALSE
+"mv09a_output_contract_v1",4,"external_singleton",110,"five contrasts x H0/H1 x eleven metrics; replication_units=1",FALSE,FALSE,FALSE
+"mv09a_output_contract_v1",5,"paired_dimension_delta",220,"twenty matched scope/contrast/seed pairs x eleven metrics; H1-H0",FALSE,FALSE,FALSE
+"mv09a_output_contract_v1",6,"dimension_delta_summary",88,"scope/contrast/metric summaries; singleton external remains n=1",FALSE,FALSE,FALSE
