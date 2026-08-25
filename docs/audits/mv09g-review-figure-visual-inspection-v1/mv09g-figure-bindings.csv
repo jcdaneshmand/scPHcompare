@@ -1,0 +1,4 @@
+"contract_id","figure_order","filename","bytes","sha256","width_pixels","height_pixels","opened_at_original_resolution","clipping_or_truncation_observed","titles_axes_legible","replication_disclosure_legible"
+"mv09g_figure_binding_v1",1,"mv09e-internal-seed-sensitivity.png",125349,"f60cf678478adcac7da02e6b1eb031ad1ba58a8368307536dc3bc1ce756f68bb",2160,1620,TRUE,FALSE,TRUE,TRUE
+"mv09g_figure_binding_v1",2,"mv09e-external-singleton-sensitivity.png",156317,"9965888770d8be80639ca3ccb18e3dbab00453b6f84f0c4119c0723d6dfa05b8",2520,1530,TRUE,FALSE,TRUE,TRUE
+"mv09g_figure_binding_v1",3,"mv09e-paired-dimension-shift.png",176281,"5b2266f659d38235068ec643e0e6843c1d6319c20a8fe6e782bab814e8bfa980",2700,1980,TRUE,FALSE,TRUE,TRUE

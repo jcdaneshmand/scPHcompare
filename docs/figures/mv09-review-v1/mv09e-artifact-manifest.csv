@@ -1,0 +1,8 @@
+"contract_id","artifact","bytes","sha256"
+"mv09e_artifact_manifest_v1","mv09e-external-singleton-sensitivity.png",156317,"9965888770d8be80639ca3ccb18e3dbab00453b6f84f0c4119c0723d6dfa05b8"
+"mv09e_artifact_manifest_v1","mv09e-figure-specifications.csv",313,"edf012dec82203a72509f1f8dbb66007f9c7cde9981531cfc9b1f2e710563f46"
+"mv09e_artifact_manifest_v1","mv09e-human-review-checklist.csv",969,"a0e0fbbe75bd5a4e31c2fef9a00827f97b527702d69584e8f3fbd2a3a946b827"
+"mv09e_artifact_manifest_v1","mv09e-internal-seed-sensitivity.png",125349,"f60cf678478adcac7da02e6b1eb031ad1ba58a8368307536dc3bc1ce756f68bb"
+"mv09e_artifact_manifest_v1","mv09e-metric-contract.csv",448,"40152aab1aa3181f89956db5900a709c591b4e59fb18d1507fdc925ee39d7177"
+"mv09e_artifact_manifest_v1","mv09e-paired-dimension-shift.png",176281,"5b2266f659d38235068ec643e0e6843c1d6319c20a8fe6e782bab814e8bfa980"
+"mv09e_artifact_manifest_v1","mv09e-terminal-receipt.csv",367,"f0972cf69efbf597132a1b94852d0ce4bc640e28743303ccc84bf3590a0e04f4"

@@ -1,0 +1,17 @@
+"contract_id","check_id","passed"
+"mv09f_validation_v1","prefreeze_manifest",TRUE
+"mv09f_validation_v1","mv09b_manifest",TRUE
+"mv09f_validation_v1","primary_manifest",TRUE
+"mv09f_validation_v1","terminal_complete",TRUE
+"mv09f_validation_v1","three_figures",TRUE
+"mv09f_validation_v1","four_metrics",TRUE
+"mv09f_validation_v1","image_dimensions",TRUE
+"mv09f_validation_v1","exact_pixel_repeat",TRUE
+"mv09f_validation_v1","byte_repeat",TRUE
+"mv09f_validation_v1","H0_H1_explicit",TRUE
+"mv09f_validation_v1","internal_five_seed",TRUE
+"mv09f_validation_v1","external_singleton",TRUE
+"mv09f_validation_v1","no_threshold_rank_inference",TRUE
+"mv09f_validation_v1","label_outcome_firewall",TRUE
+"mv09f_validation_v1","claim_firewall",TRUE
+"mv09f_validation_v1","human_review_pending",TRUE

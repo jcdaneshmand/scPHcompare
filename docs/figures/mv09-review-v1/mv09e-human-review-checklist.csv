@@ -1,0 +1,7 @@
+"contract_id","review_order","review_question","required_answer","owner_review_state"
+"mv09e_review_dossier_v1",1,"Are all four metrics legible without sharing incompatible y scales?","yes_before_scientific_interpretation","pending"
+"mv09e_review_dossier_v1",2,"Are H0 and H1 simultaneously visible and uncombined?","yes_before_scientific_interpretation","pending"
+"mv09e_review_dossier_v1",3,"Are all five internal seeds visible behind median and IQR summaries?","yes_before_scientific_interpretation","pending"
+"mv09e_review_dossier_v1",4,"Is external evidence visibly labeled as one cohort with no error bars?","yes_before_scientific_interpretation","pending"
+"mv09e_review_dossier_v1",5,"Is the H1-minus-H0 zero line described as a reference, not a threshold?","yes_before_scientific_interpretation","pending"
+"mv09e_review_dossier_v1",6,"Are thresholds, rankings, inference, biology, and manuscript claims absent?","yes_before_scientific_interpretation","pending"

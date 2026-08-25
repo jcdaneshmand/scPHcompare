@@ -1,0 +1,4 @@
+"figure_order","figure_id","filename","width_inches","height_inches","dpi"
+1,"internal_seed_sensitivity","mv09e-internal-seed-sensitivity.png",12,9,180
+2,"external_singleton_sensitivity","mv09e-external-singleton-sensitivity.png",14,8.5,180
+3,"paired_dimension_shift","mv09e-paired-dimension-shift.png",15,11,180
