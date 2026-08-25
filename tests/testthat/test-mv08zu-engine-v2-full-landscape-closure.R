@@ -50,16 +50,33 @@ test_that("MV8-ZU independently closes the complete engine-v2 production contrac
   expect_match(launcher_text, "nrow(completed) == 628L", fixed = TRUE)
   expect_match(launcher_text, "refusing to overwrite MV8-ZU output", fixed = TRUE)
   expect_match(launcher_text, "system2(", fixed = TRUE)
-  expect_match(launcher_text, "expected_builder_sha256", fixed = TRUE)
+  expect_match(launcher_text, "expected_builder_lf_sha256", fixed = TRUE)
+  expect_match(launcher_text, "gsub(\"\\r\\n\", \"\\n\"", fixed = TRUE)
   expect_false(grepl("run_mv08z_landscape_chunk", launcher_text, fixed = TRUE))
   hash_line <- grep(
-    "^expected_builder_sha256 <-", launcher_lines, value = TRUE
+    "^expected_builder_lf_sha256 <-", launcher_lines, value = TRUE
   )
   expect_length(hash_line, 1L)
   expected_hash <- sub(".*\"([0-9a-f]+)\".*", "\\1", hash_line)
+  builder_bytes <- readBin(
+    builder, what = "raw", n = as.integer(file.info(builder)$size)
+  )
+  normalized_builder <- gsub(
+    "\r\n", "\n", rawToChar(builder_bytes), fixed = TRUE
+  )
   expect_identical(
     expected_hash,
-    digest::digest(file = builder, algo = "sha256", serialize = FALSE)
+    digest::digest(
+      charToRaw(normalized_builder), algo = "sha256", serialize = FALSE
+    )
+  )
+  crlf_builder <- gsub("\n", "\r\n", normalized_builder, fixed = TRUE)
+  expect_identical(
+    expected_hash,
+    digest::digest(
+      charToRaw(gsub("\r\n", "\n", crlf_builder, fixed = TRUE)),
+      algo = "sha256", serialize = FALSE
+    )
   )
 
   read <- function(path) utils::read.csv(

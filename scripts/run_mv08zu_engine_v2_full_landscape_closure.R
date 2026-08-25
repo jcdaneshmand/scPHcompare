@@ -16,12 +16,20 @@ if (!requireNamespace("digest", quietly = TRUE)) {
 sha_file <- function(path) {
   digest::digest(file = path, algo = "sha256", serialize = FALSE)
 }
+sha_lf_text <- function(path) {
+  size <- as.integer(file.info(path)$size)
+  connection <- file(path, open = "rb")
+  on.exit(close(connection), add = TRUE)
+  value <- rawToChar(readBin(connection, what = "raw", n = size))
+  normalized <- gsub("\r\n", "\n", value, fixed = TRUE)
+  digest::digest(charToRaw(normalized), algo = "sha256", serialize = FALSE)
+}
 read_csv <- function(path) {
   utils::read.csv(path, stringsAsFactors = FALSE, check.names = FALSE)
 }
 
 builder <- "scripts/build_mv08zu_engine_v2_full_landscape_closure.R"
-expected_builder_sha256 <- "933bc0660cb8992f56db071dd729a0bde9db07ec221e35ed9f48ede6d23fb3b5"
+expected_builder_lf_sha256 <- "933bc0660cb8992f56db071dd729a0bde9db07ec221e35ed9f48ede6d23fb3b5"
 closure_args <- c(
   "docs/audits/mv08zt-engine-v2-full-landscape-prefreeze-v3",
   "docs/audits/mv08z-landscape-execution-prefreeze-v1",
@@ -47,7 +55,7 @@ completion_path <- file.path(
   closure_args[[8L]], "mv08zt-chunk-completions.csv"
 )
 
-if (!file.exists(builder) || sha_file(builder) != expected_builder_sha256) {
+if (!file.exists(builder) || sha_lf_text(builder) != expected_builder_lf_sha256) {
   stop("MV8-ZU closure builder hash drift", call. = FALSE)
 }
 if (!all(file.exists(closure_args)) || !all(file.exists(c(
