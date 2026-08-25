@@ -507,13 +507,22 @@ atomic_csv(groups, file.path(output_dir, "mv08zu-group-summary.csv"))
 atomic_csv(resource, file.path(output_dir, "mv08zu-resource-summary.csv"))
 atomic_csv(checks, file.path(output_dir, "mv08zu-validation.csv"))
 atomic_csv(decision, file.path(output_dir, "mv08zu-decision.csv"))
-closure_builder <- "scripts/build_mv08zu_engine_v2_full_landscape_closure.R"
+closure_implementations <- c(
+  "scripts/build_mv08zu_engine_v2_full_landscape_closure.R",
+  "scripts/run_mv08zu_engine_v2_full_landscape_closure.R"
+)
+if (!all(file.exists(closure_implementations))) {
+  stop("MV8-ZU closure implementation file missing", call. = FALSE)
+}
 atomic_csv(data.frame(
   contract_id = "mv08zu_implementation_binding_v1",
-  role = "independent_engine_v2_closure_builder",
-  file = closure_builder,
-  bytes = as.numeric(file.info(closure_builder)$size),
-  sha256 = sha_file(closure_builder),
+  role = c(
+    "independent_engine_v2_closure_builder",
+    "hash_bound_terminal_closure_launcher"
+  ),
+  file = closure_implementations,
+  bytes = as.numeric(file.info(closure_implementations)$size),
+  sha256 = vapply(closure_implementations, sha_file, character(1L)),
   stringsAsFactors = FALSE
 ), file.path(output_dir, "mv08zu-implementation-binding.csv"))
 atomic_text(c(

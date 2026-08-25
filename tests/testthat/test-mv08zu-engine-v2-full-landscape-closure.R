@@ -3,6 +3,9 @@ test_that("MV8-ZU independently closes the complete engine-v2 production contrac
   builder <- file.path(
     root, "scripts", "build_mv08zu_engine_v2_full_landscape_closure.R"
   )
+  launcher <- file.path(
+    root, "scripts", "run_mv08zu_engine_v2_full_landscape_closure.R"
+  )
   prefreeze_v3 <- file.path(
     root, "docs", "audits", "mv08zt-engine-v2-full-landscape-prefreeze-v3"
   )
@@ -11,7 +14,9 @@ test_that("MV8-ZU independently closes the complete engine-v2 production contrac
   )
 
   expect_true(file.exists(builder))
+  expect_true(file.exists(launcher))
   expect_silent(parse(builder))
+  expect_silent(parse(launcher))
   text <- paste(readLines(builder, warn = FALSE), collapse = "\n")
   expect_match(text, "if (length(args) != 10L)", fixed = TRUE)
   expect_match(text, "required_engine_version", fixed = TRUE)
@@ -26,11 +31,36 @@ test_that("MV8-ZU independently closes the complete engine-v2 production contrac
   expect_match(text, "all-active-level", ignore.case = TRUE)
   expect_match(text, "exact streamed", ignore.case = TRUE)
   expect_match(text, "mv08zu-implementation-binding.csv", fixed = TRUE)
+  expect_match(text, "hash_bound_terminal_closure_launcher", fixed = TRUE)
   expect_match(text, "public_privacy_ok", fixed = TRUE)
   expect_match(text, "queue_firewall_ok", fixed = TRUE)
   expect_match(text, "completion_contract_ok", fixed = TRUE)
   expect_false(grepl("processx::process|process\\$new|system2\\(", text, perl = TRUE))
   expect_false(grepl("run_mv08z_landscape_chunk", text, fixed = TRUE))
+
+  launcher_lines <- readLines(launcher, warn = FALSE)
+  launcher_text <- paste(launcher_lines, collapse = "\n")
+  expect_match(launcher_text, "if (length(args) != 0L)", fixed = TRUE)
+  expect_match(
+    launcher_text, "landscape_production_complete_closure_pending", fixed = TRUE
+  )
+  expect_match(launcher_text, "progress$completed_chunks == 628L", fixed = TRUE)
+  expect_match(launcher_text, "progress$completed_pairs == 152744L", fixed = TRUE)
+  expect_match(launcher_text, "nrow(ledger) == 628L", fixed = TRUE)
+  expect_match(launcher_text, "nrow(completed) == 628L", fixed = TRUE)
+  expect_match(launcher_text, "refusing to overwrite MV8-ZU output", fixed = TRUE)
+  expect_match(launcher_text, "system2(", fixed = TRUE)
+  expect_match(launcher_text, "expected_builder_sha256", fixed = TRUE)
+  expect_false(grepl("run_mv08z_landscape_chunk", launcher_text, fixed = TRUE))
+  hash_line <- grep(
+    "^expected_builder_sha256 <-", launcher_lines, value = TRUE
+  )
+  expect_length(hash_line, 1L)
+  expected_hash <- sub(".*\"([0-9a-f]+)\".*", "\\1", hash_line)
+  expect_identical(
+    expected_hash,
+    digest::digest(file = builder, algo = "sha256", serialize = FALSE)
+  )
 
   read <- function(path) utils::read.csv(
     path, stringsAsFactors = FALSE, check.names = FALSE
