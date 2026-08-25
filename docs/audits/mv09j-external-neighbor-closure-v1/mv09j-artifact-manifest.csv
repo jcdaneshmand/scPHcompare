@@ -1,0 +1,5 @@
+"contract_id","artifact","bytes","sha256"
+"mv09j_artifact_manifest_v1","MV09J_EXTERNAL_NEIGHBOR_CLOSURE_2026-08-25.md",276,"49de3267ca1cc25bf9e03d3ba25220c22bfedd83bf37e9b394ba8d75ddb0dfe6"
+"mv09j_artifact_manifest_v1","mv09j-decision.csv",279,"4693f1a76dd03d3e02da7bc7f89b258c70de0e4e9c95ed05b550a06260e2ff98"
+"mv09j_artifact_manifest_v1","mv09j-private-rehash.csv",2976,"87a256f9f4844d16b9924553ce48800840afaf1160822abe10c656e1a39f7044"
+"mv09j_artifact_manifest_v1","mv09j-validation.csv",966,"295ff4b5f237239de956f83ce1d1c9982e86909af2616631f78a8f02b2679b6e"

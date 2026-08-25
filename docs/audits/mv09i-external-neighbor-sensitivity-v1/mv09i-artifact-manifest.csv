@@ -1,0 +1,4 @@
+"contract_id","artifact","bytes","sha256"
+"mv09i_artifact_manifest_v1","mv09i-degeneracy-classification.csv",293,"0c29a772095335136e816599121b99dde32552695c6e53b629d5ade150dfb1a6"
+"mv09i_artifact_manifest_v1","mv09i-external-neighbor-summary.csv",11212,"4175c3478145d06fa2a549bf1525a52444fed4c009dd926f8eb6cd71fb5d4a35"
+"mv09i_artifact_manifest_v1","mv09i-terminal-receipt.csv",430,"0bdf610d8dc68112e80406a2735e571ca4defb0a1d8a297635349ee4d4e2e734"

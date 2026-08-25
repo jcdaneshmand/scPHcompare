@@ -1,0 +1,2 @@
+"contract_id","units","k","k_equals_all_other_units","possible_neighbor_sets_per_unit","jaccard_for_any_two_complete_rankings","informative_for_neighborhood_preservation","disposition"
+"mv09h_neighbor_degeneracy_v1",8,7,TRUE,1,1,FALSE,"structurally_noninformative_exclude_from_interpretation"
