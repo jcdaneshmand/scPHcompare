@@ -1,0 +1,2 @@
+"contract_id","chunks","pairs","aggregate_child_seconds","aggregate_child_hours","peak_process_tree_rss_bytes","private_bytes","aggregate_elapsed_cap_seconds","private_storage_cap_bytes","workers","retries","all_caps_passed","recovery_order_326_values_are_conservative_upper_bounds"
+"mv08zu_resource_summary_v1",628,152744,13510.2496168613,3.75284711579482,4294967296,150382330,144000,1073741824,1,0,TRUE,TRUE

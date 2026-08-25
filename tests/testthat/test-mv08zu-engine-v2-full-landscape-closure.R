@@ -16,6 +16,9 @@ test_that("MV8-ZU independently closes the complete engine-v2 production contrac
     root, "docs", "audits",
     "mv08zq-landscape-kernel-repair-admission-closure-v1"
   )
+  closure_root <- file.path(
+    root, "docs", "audits", "mv08zu-engine-v2-full-landscape-closure-v1"
+  )
 
   expect_true(file.exists(builder))
   expect_true(file.exists(launcher))
@@ -159,4 +162,97 @@ test_that("MV8-ZU independently closes the complete engine-v2 production contrac
   expect_equal(recovery_policy$resume_at_order, 327L)
   expect_false(recovery_policy$landscape_recomputation)
   expect_false(recovery_policy$automatic_retry)
+
+  expect_true(dir.exists(closure_root))
+  manifest <- read(file.path(closure_root, "mv08zu-artifact-manifest.csv"))
+  expect_setequal(manifest$artifact, c(
+    "MV08ZU_ENGINE_V2_FULL_LANDSCAPE_CLOSURE.md",
+    "mv08zu-decision.csv",
+    "mv08zu-group-summary.csv",
+    "mv08zu-implementation-binding.csv",
+    "mv08zu-private-chunk-rehash.csv",
+    "mv08zu-resource-summary.csv",
+    "mv08zu-validation.csv"
+  ))
+  expect_equal(nrow(manifest), 7L)
+  manifest_paths <- file.path(closure_root, manifest$artifact)
+  expect_true(all(file.exists(manifest_paths)))
+  expect_equal(
+    as.numeric(manifest$bytes), as.numeric(file.info(manifest_paths)$size)
+  )
+  manifest_hashes <- vapply(manifest_paths, function(path) {
+    digest::digest(file = path, algo = "sha256", serialize = FALSE)
+  }, character(1L))
+  expect_equal(as.character(manifest$sha256), unname(manifest_hashes))
+
+  validation <- read(file.path(closure_root, "mv08zu-validation.csv"))
+  expect_equal(nrow(validation), 52L)
+  expect_true(all(validation$passed))
+
+  decision <- read(file.path(closure_root, "mv08zu-decision.csv"))
+  expect_equal(decision$decision,
+    "close_full_landscape_production_and_require_separate_comparison_prefreeze"
+  )
+  expect_equal(decision$landscape_groups, 28L)
+  expect_equal(decision$landscape_pairs, 152744L)
+  expect_equal(decision$scientific_engine_version, 2L)
+  expect_true(decision$all_active_levels)
+  expect_true(decision$exact_streamed_squared_L2)
+  expect_true(decision$essential_H0_excluded)
+  expect_true(decision$H0_H1_separate)
+  expect_false(decision$grid_used)
+  expect_false(decision$universal_level_cap_used)
+  expect_equal(decision$comparison_jobs_authorized, 0L)
+  expect_equal(decision$clustering_jobs_authorized, 0L)
+  expect_equal(decision$fusion_jobs_authorized, 0L)
+  expect_equal(decision$label_jobs_authorized, 0L)
+  expect_equal(decision$outcome_jobs_authorized, 0L)
+  expect_equal(decision$manuscript_claim_jobs_authorized, 0L)
+  expect_false(decision$biological_outcomes_computed)
+
+  groups <- read(file.path(closure_root, "mv08zu-group-summary.csv"))
+  expect_equal(nrow(groups), 28L)
+  homology_counts <- table(groups$homology_dimension)
+  expect_equal(names(homology_counts), c("H0", "H1"))
+  expect_equal(as.integer(homology_counts), c(14L, 14L))
+  expect_equal(sum(groups$chunks), 628L)
+  expect_equal(sum(groups$pairs), 152744L)
+  expect_true(all(groups$exact))
+  expect_true(all(groups$all_active_levels))
+  expect_false(any(groups$grid_used))
+  expect_false(any(groups$level_cap_used))
+
+  chunk_rehash <- read(file.path(
+    closure_root, "mv08zu-private-chunk-rehash.csv"
+  ))
+  expect_equal(nrow(chunk_rehash), 628L)
+  expect_identical(as.integer(chunk_rehash$production_order), 1:628)
+  expect_equal(sum(chunk_rehash$pair_count), 152744L)
+  expect_true(all(chunk_rehash$independently_reconstructed))
+
+  resources <- read(file.path(closure_root, "mv08zu-resource-summary.csv"))
+  expect_equal(resources$chunks, 628L)
+  expect_equal(resources$pairs, 152744L)
+  expect_equal(resources$workers, 1L)
+  expect_equal(resources$retries, 0L)
+  expect_true(resources$all_caps_passed)
+  expect_true(resources$recovery_order_326_values_are_conservative_upper_bounds)
+  expect_lte(resources$aggregate_child_seconds,
+    resources$aggregate_elapsed_cap_seconds
+  )
+  expect_lte(resources$private_bytes, resources$private_storage_cap_bytes)
+
+  bindings <- read(file.path(
+    closure_root, "mv08zu-implementation-binding.csv"
+  ))
+  expect_equal(nrow(bindings), 2L)
+  binding_paths <- file.path(root, bindings$file)
+  expect_true(all(file.exists(binding_paths)))
+  expect_equal(
+    as.numeric(bindings$bytes), as.numeric(file.info(binding_paths)$size)
+  )
+  binding_hashes <- vapply(binding_paths, function(path) {
+    digest::digest(file = path, algo = "sha256", serialize = FALSE)
+  }, character(1L))
+  expect_equal(as.character(bindings$sha256), unname(binding_hashes))
 })
