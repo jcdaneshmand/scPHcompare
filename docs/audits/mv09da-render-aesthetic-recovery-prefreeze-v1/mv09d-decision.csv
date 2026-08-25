@@ -1,0 +1,2 @@
+"contract_id","decision","render_authorized_after_commit","interpretation_authorized","next_if_closed"
+"mv09d_decision_v1","authorize_claim_free_render_after_aesthetic_recovery_commit",TRUE,FALSE,"owner_scientific_review"

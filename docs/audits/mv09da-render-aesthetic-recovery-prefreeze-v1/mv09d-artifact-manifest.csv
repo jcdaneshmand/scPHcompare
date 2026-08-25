@@ -1,0 +1,8 @@
+"contract_id","artifact","bytes","sha256"
+"mv09da_artifact_manifest_v1","mv09d-contract.csv",961,"cf08eff667916d05acd6fd2692aaa943269defffc67b94e989327efbaf420ded"
+"mv09da_artifact_manifest_v1","mv09d-decision.csv",222,"21b657d2811d72495f6b872cafc5a202cfae4962536d82faf63659b65bd01758"
+"mv09da_artifact_manifest_v1","mv09d-implementation-bindings.csv",654,"2f3b29a08108d36877326b940742f9af2029364cbaa1532885666af5e10bb832"
+"mv09da_artifact_manifest_v1","MV09DA_RENDER_AESTHETIC_RECOVERY_2026-08-25.md",357,"b02780e34f508911995af687cc3e9f28d1ae778c5c96ad27e7350adf47c6cff0"
+"mv09da_artifact_manifest_v1","mv09da-builder-binding.csv",199,"64d18e9775646732a93b818afdd951bc9c26644dd53f6ed20d194f66c2727e28"
+"mv09da_artifact_manifest_v1","mv09da-recovery-contract.csv",686,"d569482a76f2d511ee4b98e470399c94fd5dba8796daa3a3adfe1bc7b2617430"
+"mv09da_artifact_manifest_v1","mv09da-validation.csv",571,"5344eb7a63346b6f59ad1f3e475f88aaebf03baaf5a9e58106cc9abb9155e907"
