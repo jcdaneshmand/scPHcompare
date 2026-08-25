@@ -1,0 +1,5 @@
+"contract_id","view","mv10b_role","H0_H1_separate","labels_allowed","outcomes_allowed"
+"mv10a_view_contract_v1","gene_topology","current_full124_benchmark",TRUE,FALSE,FALSE
+"mv10a_view_contract_v1","cell_topology","separate_prior_evidence_no_recompute",TRUE,FALSE,FALSE
+"mv10a_view_contract_v1","cell_gene_fusion","prohibited_pending_separate_multiview_gate",TRUE,FALSE,FALSE
+"mv10a_view_contract_v1","external8","descriptive_validation_only_no_clustering_claim",TRUE,FALSE,FALSE

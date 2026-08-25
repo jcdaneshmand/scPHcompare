@@ -1,0 +1,2 @@
+"contract_id","matrices","units_per_matrix","pairs_per_matrix","authorized_methods","k_values","partition_fits","private_assignment_rows","workers","automatic_retries","child_elapsed_cap_seconds","process_tree_rss_cap_bytes","private_storage_cap_bytes","execution_state"
+"mv10a_resource_contract_v1",30,124,7626,5,9,1350,167400,1,0,1800,4294967296,536870912,"closed_until_runner_closure_implementation_committed"

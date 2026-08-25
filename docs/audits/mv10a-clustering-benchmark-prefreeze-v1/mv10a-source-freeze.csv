@@ -1,0 +1,7 @@
+"contract_id","source_order","artifact","bytes","sha256"
+"mv10a_source_freeze_v1",1,"docs/audits/mv08zy-distance-comparison-execution-prefreeze-v1/mv08zy-artifact-manifest.csv",1489,"b4be48c852cf13012ae04c278e509b96c812a789a8ea352c9eacd46f28161ec4"
+"mv10a_source_freeze_v1",2,"docs/audits/mv08zz-distance-comparison-closure-v1/mv08zz-artifact-manifest.csv",841,"6de0112342a3f627f4e0710ecf571f4fbfbad4bab93d0e0992a5a5c1ff91aa71"
+"mv10a_source_freeze_v1",3,"docs/audits/mv09m-corrected-review-visual-inspection-v1/mv09m-artifact-manifest.csv",708,"68e82f2a16c249c32906aeb6fa85e20e6bb7bb83c8bc02e8ac8e66c0421b8275"
+"mv10a_source_freeze_v1",4,"docs/specifications/MV05N_LABEL_CLOSED_CLUSTERING_RESOURCE_GATE_SPECIFICATION_V1.md",11957,"a026e319ebcaf27f461f495ee995b79dc37d2399f75edb51d5eabe43d35f9074"
+"mv10a_source_freeze_v1",5,"docs/specifications/MV05Q_LABEL_CLOSED_CLUSTERING_ARTIFACT_PRODUCTION_SPECIFICATION_V1.md",4412,"0038fa7e2be78ad2e7d15ca4260813142e80be96270729b777b1a8dc2b5c195b"
+"mv10a_source_freeze_v1",6,"docs/architecture/ADR-024-MV05N-LABEL-CLOSED-CLUSTERING-GATE.md",2861,"636a0deab6c51371766676bc967fcbbbfbe24664a9a7fef26201c748da8a3b33"

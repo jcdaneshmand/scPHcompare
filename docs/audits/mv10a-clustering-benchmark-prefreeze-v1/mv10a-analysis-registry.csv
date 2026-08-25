@@ -1,0 +1,7 @@
+"analysis_order","stack_id","representation_id","panel_id","homology_dimension","analysis_role","seeds","matrices","units_per_matrix","k_grid","H0_H1_combined","cell_gene_combined","outcome_label_state","biological_outcomes_computed"
+1,"existing_selectedfit_data_exact500","existing_selectedfit_data_exact500","exact500","H0","historical_representation_sensitivity",5,5,124,"2:10",FALSE,FALSE,"closed",FALSE
+2,"existing_selectedfit_data_exact500","existing_selectedfit_data_exact500","exact500","H1","historical_representation_sensitivity",5,5,124,"2:10",FALSE,FALSE,"closed",FALSE
+3,"allqc_data_exact500","sct_data_all_qc_fit_selected384","exact500","H0","allqc_data_representation_sensitivity",5,5,124,"2:10",FALSE,FALSE,"closed",FALSE
+4,"allqc_data_exact500","sct_data_all_qc_fit_selected384","exact500","H1","allqc_data_representation_sensitivity",5,5,124,"2:10",FALSE,FALSE,"closed",FALSE
+5,"allqc_residual_exact500","sct_pearson_residual_all_qc_fit_selected384","exact500","H0","corrected_primary_representation",5,5,124,"2:10",FALSE,FALSE,"closed",FALSE
+6,"allqc_residual_exact500","sct_pearson_residual_all_qc_fit_selected384","exact500","H1","corrected_primary_representation",5,5,124,"2:10",FALSE,FALSE,"closed",FALSE

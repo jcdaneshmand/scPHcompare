@@ -1,0 +1,7 @@
+"source_order","citation_key","source_role","doi_or_url","used_to_authorize_method"
+1,"Bubenik2015","persistence_landscape_vector_space_and_stability","https://www.jmlr.org/papers/v16/bubenik15a.html",TRUE
+2,"Rousseeuw1987","silhouette_internal_validation","https://doi.org/10.1016/0377-0427(87)90125-7",TRUE
+3,"TibshiraniWalther2005","prediction_strength_precedent","https://doi.org/10.1198/106186005X59243",TRUE
+4,"KaufmanRousseeuw1990","PAM_and_DIANA_algorithms","ISBN:978-0-471-87876-6",TRUE
+5,"NgJordanWeiss2002","spectral_clustering_deferred_precedent","https://www.ee.columbia.edu/~dpwe/papers/NgJW01-specclus.pdf",FALSE
+6,"CampelloEtAl2013","HDBSCAN_deferred_precedent","https://doi.org/10.1007/978-3-642-37456-2_14",FALSE

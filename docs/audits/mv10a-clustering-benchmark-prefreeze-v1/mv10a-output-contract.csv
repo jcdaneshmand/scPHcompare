@@ -1,0 +1,7 @@
+"contract_id","artifact","expected_rows","contains_sample_ids","public","labels_allowed","outcomes_allowed"
+"mv10a_output_contract_v1","private_sample_partitions",167400,TRUE,FALSE,FALSE,FALSE
+"mv10a_output_contract_v1","public_partition_quality",1350,FALSE,TRUE,FALSE,FALSE
+"mv10a_output_contract_v1","public_seed_stability",270,FALSE,TRUE,FALSE,FALSE
+"mv10a_output_contract_v1","public_primary_k_selection",2,FALSE,TRUE,FALSE,FALSE
+"mv10a_output_contract_v1","public_method_agreement",2700,FALSE,TRUE,FALSE,FALSE
+"mv10a_output_contract_v1","public_resource_receipt",1,FALSE,TRUE,FALSE,FALSE

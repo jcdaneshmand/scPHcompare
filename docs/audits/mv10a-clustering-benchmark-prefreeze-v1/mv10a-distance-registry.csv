@@ -1,0 +1,7 @@
+"distance_order","distance_id","role","authorized_for_mv10b","reason","essential_h0_policy","level_policy","grid_policy"
+1,"exact_all_level_landscape_l2_H0_v2","primary_separate",TRUE,"closed_engine_v2_exact_streamed_landscape_distance","exclude","all_consecutive_active_levels","none_exact_critical_segments"
+2,"exact_all_level_landscape_l2_H1_v2","primary_separate",TRUE,"closed_engine_v2_exact_streamed_landscape_distance","not_applicable","all_consecutive_active_levels","none_exact_critical_segments"
+3,"median_scaled_H0_H1_composite_v0","deferred",FALSE,"no_H0_H1_combination_before_separate_evidence_and_scale_gate","unfrozen","unfrozen","unfrozen"
+4,"diagram_bottleneck_v0","deferred",FALSE,"requires_diagram_matching_implementation_and_resource_sentinel","unfrozen","unfrozen","unfrozen"
+5,"diagram_wasserstein_p2_v0","deferred",FALSE,"requires_p_definition_matching_implementation_and_resource_sentinel","unfrozen","unfrozen","unfrozen"
+6,"persistence_image_euclidean_v0","deferred",FALSE,"requires_vectorization_resolution_weighting_and_stability_gate","unfrozen","unfrozen","unfrozen"

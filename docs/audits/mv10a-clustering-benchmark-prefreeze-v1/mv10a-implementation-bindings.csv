@@ -1,0 +1,6 @@
+"contract_id","implementation_order","file","bytes","sha256"
+"mv10a_implementation_binding_v1",1,"R/mv05_benchmark_contract.R",16628,"b060803a4070c1dea69d845527c449a94a7bd319bb2df6e1c0c323fbaaf0357d"
+"mv10a_implementation_binding_v1",2,"R/mv05n_clustering_gate.R",25044,"9f92a6d8354ee3e4aedadd233c057bc266baa4a3410cf602327135e2cd4f1c03"
+"mv10a_implementation_binding_v1",3,"R/mv08zy_distance_comparison.R",7996,"9cb705041a19ccf69af93dbbe355f37832aca035470ca4cf22d87e73690211ab"
+"mv10a_implementation_binding_v1",4,"R/mv10_clustering_benchmark.R",16701,"a1a15c4cde20693e339dba2aadecf9b5ce1f4abc95d673526a772016dfc53de4"
+"mv10a_implementation_binding_v1",5,"scripts/build_mv10a_clustering_benchmark_prefreeze.R",13090,"741a393316320723b2e9f4ccf75d95c11877a6e21c5c9c8db533d7f1ffea6b4d"

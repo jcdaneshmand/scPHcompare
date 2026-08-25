@@ -1,0 +1,10 @@
+"method_order","method_id","role","authorized_for_mv10b","accepts_arbitrary_dissimilarity","k_grid","primary_k_selection","disposition_reason","deterministic","outcome_label_state","biological_outcomes_computed"
+1,"pam_dissimilarity_v1","primary",TRUE,TRUE,"2:10_complete_grid","five_seed_smallest_k_within_one_SE_of_maximum_mean_ARI","medoid_partition_defined_directly_on_dissimilarities",TRUE,"closed",FALSE
+2,"hclust_average_v1","sensitivity",TRUE,TRUE,"2:10_complete_grid","reuse_primary_k_and_report_full_grid_only","established_average_linkage_sensitivity",TRUE,"closed",FALSE
+3,"hclust_complete_v1","sensitivity",TRUE,TRUE,"2:10_complete_grid","reuse_primary_k_and_report_full_grid_only","complete_linkage_tests_compact_cluster_sensitivity",TRUE,"closed",FALSE
+4,"hclust_single_diagnostic_v1","diagnostic_chaining",TRUE,TRUE,"2:10_complete_grid","reuse_primary_k_and_report_full_grid_only","single_linkage_retained_only_to_diagnose_chaining",TRUE,"closed",FALSE
+5,"diana_dissimilarity_v1","sensitivity",TRUE,TRUE,"2:10_complete_grid","reuse_primary_k_and_report_full_grid_only","divisive_hierarchical_sensitivity_defined_on_dissimilarities",TRUE,"closed",FALSE
+6,"spectral_affinity_v0","deferred",FALSE,FALSE,"none","not_authorized","requires_prospective_affinity_bandwidth_and_eigensolver_gate",,"closed",FALSE
+7,"hdbscan_dissimilarity_v0","deferred",FALSE,TRUE,"none","not_authorized","requires_prospective_minPts_noise_and_density_semantics_gate",,"closed",FALSE
+8,"ward_arbitrary_distance_v0","excluded",FALSE,FALSE,"none","not_authorized","not_admitted_without_squared_euclidean_distance_proof",,"closed",FALSE
+9,"kmeans_distance_matrix_v0","excluded",FALSE,FALSE,"none","not_authorized","distance_matrix_rows_are_not_feature_vectors",,"closed",FALSE

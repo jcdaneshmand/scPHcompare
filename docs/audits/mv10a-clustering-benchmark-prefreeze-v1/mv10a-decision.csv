@@ -1,0 +1,2 @@
+"contract_id","decision","mv10b_execution_authorized","next_required_stage","label_opening_authorized","outcome_evaluation_authorized","biological_interpretation_authorized","manuscript_claims_authorized"
+"mv10a_decision_v1","freeze_design_and_inputs_before_execution_implementation",FALSE,"commit_runner_independent_closure_and_resource_sentinel",FALSE,FALSE,FALSE,FALSE

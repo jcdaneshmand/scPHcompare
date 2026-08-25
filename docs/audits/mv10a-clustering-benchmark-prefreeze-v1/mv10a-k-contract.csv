@@ -1,0 +1,10 @@
+"contract_id","candidate_k","all_methods_report_complete_grid","primary_selection_method","selection_rule","silhouette_role","result_dependent_thresholds","labels_allowed"
+"mv10a_k_contract_v1",2,TRUE,"pam_dissimilarity_v1","smallest_k_within_one_SE_of_maximum_five_seed_mean_ARI","descriptive_internal_validation_not_selection",FALSE,FALSE
+"mv10a_k_contract_v1",3,TRUE,"pam_dissimilarity_v1","smallest_k_within_one_SE_of_maximum_five_seed_mean_ARI","descriptive_internal_validation_not_selection",FALSE,FALSE
+"mv10a_k_contract_v1",4,TRUE,"pam_dissimilarity_v1","smallest_k_within_one_SE_of_maximum_five_seed_mean_ARI","descriptive_internal_validation_not_selection",FALSE,FALSE
+"mv10a_k_contract_v1",5,TRUE,"pam_dissimilarity_v1","smallest_k_within_one_SE_of_maximum_five_seed_mean_ARI","descriptive_internal_validation_not_selection",FALSE,FALSE
+"mv10a_k_contract_v1",6,TRUE,"pam_dissimilarity_v1","smallest_k_within_one_SE_of_maximum_five_seed_mean_ARI","descriptive_internal_validation_not_selection",FALSE,FALSE
+"mv10a_k_contract_v1",7,TRUE,"pam_dissimilarity_v1","smallest_k_within_one_SE_of_maximum_five_seed_mean_ARI","descriptive_internal_validation_not_selection",FALSE,FALSE
+"mv10a_k_contract_v1",8,TRUE,"pam_dissimilarity_v1","smallest_k_within_one_SE_of_maximum_five_seed_mean_ARI","descriptive_internal_validation_not_selection",FALSE,FALSE
+"mv10a_k_contract_v1",9,TRUE,"pam_dissimilarity_v1","smallest_k_within_one_SE_of_maximum_five_seed_mean_ARI","descriptive_internal_validation_not_selection",FALSE,FALSE
+"mv10a_k_contract_v1",10,TRUE,"pam_dissimilarity_v1","smallest_k_within_one_SE_of_maximum_five_seed_mean_ARI","descriptive_internal_validation_not_selection",FALSE,FALSE
