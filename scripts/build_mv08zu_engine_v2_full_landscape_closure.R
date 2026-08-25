@@ -99,6 +99,17 @@ ze_root <- "docs/audits/mv08ze-landscape-sentinel-closure-v1"
 ze_manifest <- verify_manifest(ze_root, "mv08ze-artifact-manifest.csv")
 zq_root <- "docs/audits/mv08zq-landscape-kernel-repair-admission-closure-v1"
 zq_manifest <- verify_manifest(zq_root, "mv08zq-artifact-manifest.csv")
+zq_required_artifacts <- c(
+  "MV08ZQ_LANDSCAPE_KERNEL_REPAIR_ADMISSION_CLOSURE.md",
+  "mv08zq-decision.csv",
+  "mv08zq-input-bindings.csv",
+  "mv08zq-oracle-summary.csv",
+  "mv08zq-resource-summary.csv",
+  "mv08zq-validation.csv"
+)
+zq_manifest_ok <- identical(
+  sort(zq_manifest$artifact), sort(zq_required_artifacts)
+)
 recovery_manifest <- verify_manifest(
   recovery_root, "mv08zt-r1-artifact-manifest.csv"
 )
@@ -437,7 +448,7 @@ checks <- data.frame(
   ),
   passed = c(
     nrow(zt_manifest) >= 8L, nrow(z_manifest) == 13L,
-    nrow(zq_manifest) >= 7L,
+    zq_manifest_ok,
     nrow(recovery_manifests[[1L]]) == 4L,
     nrow(recovery_manifests[[2L]]) == 5L,
     nrow(recovery_manifests[[3L]]) == 5L,

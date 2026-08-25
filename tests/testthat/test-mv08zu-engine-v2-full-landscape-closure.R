@@ -12,6 +12,10 @@ test_that("MV8-ZU independently closes the complete engine-v2 production contrac
   recovery_v2 <- file.path(
     root, "docs", "audits", "mv08zt-engine-v2-interruption-recovery-prefreeze-v2"
   )
+  zq_closure <- file.path(
+    root, "docs", "audits",
+    "mv08zq-landscape-kernel-repair-admission-closure-v1"
+  )
 
   expect_true(file.exists(builder))
   expect_true(file.exists(launcher))
@@ -20,6 +24,8 @@ test_that("MV8-ZU independently closes the complete engine-v2 production contrac
   text <- paste(readLines(builder, warn = FALSE), collapse = "\n")
   expect_match(text, "if (length(args) != 10L)", fixed = TRUE)
   expect_match(text, "required_engine_version", fixed = TRUE)
+  expect_match(text, "zq_required_artifacts", fixed = TRUE)
+  expect_match(text, "zq_manifest_ok", fixed = TRUE)
   expect_match(text, "distances$rust_engine_version) == 2L", fixed = TRUE)
   expect_match(text, "status$scientific_engine_version == 2L", fixed = TRUE)
   expect_match(text, "rust_scph_landscape_kernel_v2", fixed = TRUE)
@@ -115,6 +121,16 @@ test_that("MV8-ZU independently closes the complete engine-v2 production contrac
   read <- function(path) utils::read.csv(
     path, stringsAsFactors = FALSE, check.names = FALSE
   )
+  zq_manifest <- read(file.path(zq_closure, "mv08zq-artifact-manifest.csv"))
+  expect_setequal(zq_manifest$artifact, c(
+    "MV08ZQ_LANDSCAPE_KERNEL_REPAIR_ADMISSION_CLOSURE.md",
+    "mv08zq-decision.csv",
+    "mv08zq-input-bindings.csv",
+    "mv08zq-oracle-summary.csv",
+    "mv08zq-resource-summary.csv",
+    "mv08zq-validation.csv"
+  ))
+  expect_equal(nrow(zq_manifest), 6L)
   closure <- read(file.path(prefreeze_v3, "mv08zu-prospective-closure.csv"))
   expect_equal(closure$required_chunks, 628L)
   expect_equal(closure$required_pairs, 152744L)
