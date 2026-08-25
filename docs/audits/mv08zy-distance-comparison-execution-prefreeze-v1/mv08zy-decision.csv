@@ -1,0 +1,2 @@
+"contract_id","decision","execution_authorized_after_commit","execution_requires_headroom_recheck","interpretation","next_after_closure","clustering_state","fusion_state","labels_outcomes_state","manuscript_claims_state","cleanup_deletion_state"
+"mv08zy_decision_v1","authorize_exact_40_job_label_closed_comparison_after_commit",TRUE,TRUE,"descriptive_sensitivity_only","label_closed_robustness_synthesis_prefreeze","closed","closed","closed","closed","closed"

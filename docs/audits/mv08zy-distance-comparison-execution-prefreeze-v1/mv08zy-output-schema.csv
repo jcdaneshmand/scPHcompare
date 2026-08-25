@@ -1,0 +1,9 @@
+"contract_id","artifact","cardinality","identifier_policy","atomic","labels_allowed","outcomes_allowed"
+"mv08zy_output_schema_v1","private_pair_axis","40 x pair_count","private unit pairs",TRUE,FALSE,FALSE
+"mv08zy_output_schema_v1","private_neighbor_overlap","40 x unit_count","private unit identifiers",TRUE,FALSE,FALSE
+"mv08zy_output_schema_v1","private_job_summary_status","40 job directories","private execution details",TRUE,FALSE,FALSE
+"mv08zy_output_schema_v1","public_comparison_summary","40 aggregate rows","aggregate only",TRUE,FALSE,FALSE
+"mv08zy_output_schema_v1","public_resource_ledger","40 rows","aggregate only",TRUE,FALSE,FALSE
+"mv08zy_output_schema_v1","public_completion_receipts","40 rows","aggregate only",TRUE,FALSE,FALSE
+"mv08zy_output_schema_v1","public_terminal_receipt","1 row","aggregate only",TRUE,FALSE,FALSE
+"mv08zy_output_schema_v1","immutable_independent_closure","one audit directory","aggregate only",TRUE,FALSE,FALSE
