@@ -18,4 +18,10 @@ test_that("MV9-D review figures preserve replication and dimension strata", {
   expect_equal(sum(result$delta$dataset_scope == "internal124"), 60L)
   expect_equal(sum(result$delta$dataset_scope == "external8"), 20L)
   expect_true(all(is.finite(result$delta$h1_minus_h0)))
+  source_text <- paste(readLines(testthat::test_path(
+    "..", "..", "R", "mv09d_review_figures.R"
+  ), warn = FALSE), collapse = "\n")
+  expect_match(source_text, 'metric_label ~ dataset_label, scales = "free"',
+               fixed = TRUE)
+  expect_match(source_text, "label_wrap_gen(width = 24L)", fixed = TRUE)
 })

@@ -170,8 +170,12 @@ mv09d_render_review_figures_v1 <- function(data, output_dir,
                         colour = "#777777") +
     ggplot2::geom_point(position = ggplot2::position_dodge(width = 0.45),
                         alpha = 0.72, size = 2.2) +
-    ggplot2::facet_grid(metric_label ~ dataset_label, scales = "free_y",
-                        space = "free_x") +
+    ggplot2::facet_grid(
+      metric_label ~ dataset_label, scales = "free", space = "free_x",
+      labeller = ggplot2::labeller(
+        metric_label = ggplot2::label_wrap_gen(width = 24L)
+      )
+    ) +
     ggplot2::scale_colour_manual(values = c(
       "Internal: five seeds" = "#009E73", "External: one cohort" = "#CC79A7"
     )) +
