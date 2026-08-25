@@ -42,6 +42,7 @@ mv09d_prepare_review_figure_data_v1 <- function(production_root) {
   internal_summary <- internal_summary[
     internal_summary$metric %in% selected, , drop = FALSE
   ]
+  internal_summary$value <- internal_summary$median
   external <- external[external$metric %in% selected, , drop = FALSE]
   delta <- delta[delta$metric %in% selected, , drop = FALSE]
   label_metric <- setNames(metric_contract$label, metric_contract$metric)
