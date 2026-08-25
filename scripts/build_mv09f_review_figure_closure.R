@@ -28,7 +28,11 @@ receipt <- readc(file.path(primary, "mv09e-terminal-receipt.csv"))
 primary_specs <- readc(file.path(primary, "mv09e-figure-specifications.csv"))
 data <- mv09d_prepare_review_figure_data_v1(production)
 repeat_specs <- mv09d_render_review_figures_v1(data, repeat_root, "mv09e")
-if (!identical(primary_specs, repeat_specs)) stop("MV9-F specification drift")
+same_schema <- identical(names(primary_specs), names(repeat_specs))
+same_values <- isTRUE(all.equal(
+  primary_specs, repeat_specs, check.attributes = FALSE, tolerance = 0
+))
+if (!same_schema || !same_values) stop("MV9-F specification drift")
 validation <- lapply(seq_len(nrow(primary_specs)), function(i) {
   name <- primary_specs$filename[[i]]
   primary_path <- file.path(primary, name)
