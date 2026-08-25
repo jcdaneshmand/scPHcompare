@@ -24,6 +24,10 @@ test_that("MV8-ZU independently closes the complete engine-v2 production contrac
   expect_match(text, "status$scientific_engine_version == 2L", fixed = TRUE)
   expect_match(text, "rust_scph_landscape_kernel_v2", fixed = TRUE)
   expect_match(text, "recovery_provenance_ok", fixed = TRUE)
+  expect_match(text, ".mv08zu_exact_table_equal", fixed = TRUE)
+  expect_match(
+    text, "mv08zt_recovery_numeric_storage_normalization", fixed = TRUE
+  )
   expect_match(text, "orphan_production_order == 326L", fixed = TRUE)
   expect_match(text, "resume_at_production_order == 327L", fixed = TRUE)
   expect_match(text, "fresh_engine_v2_from_zero_no_old_output_reuse", fixed = TRUE)
@@ -37,6 +41,35 @@ test_that("MV8-ZU independently closes the complete engine-v2 production contrac
   expect_match(text, "completion_contract_ok", fixed = TRUE)
   expect_false(grepl("processx::process|process\\$new|system2\\(", text, perl = TRUE))
   expect_false(grepl("run_mv08z_landscape_chunk", text, fixed = TRUE))
+
+  expressions <- parse(builder)
+  helper_index <- which(vapply(expressions, function(expression) {
+    is.call(expression) && identical(expression[[1L]], as.name("<-")) &&
+      identical(expression[[2L]], as.name(".mv08zu_exact_table_equal"))
+  }, logical(1L)))
+  expect_length(helper_index, 1L)
+  helper_environment <- new.env(parent = baseenv())
+  eval(expressions[[helper_index]], envir = helper_environment)
+  exact_table_equal <- get(
+    ".mv08zu_exact_table_equal", envir = helper_environment
+  )
+  integer_fixture <- data.frame(
+    production_order = 1:2,
+    peak_process_tree_rss_bytes = c(100L, 200L),
+    disposition = c("completed", "completed"),
+    stringsAsFactors = FALSE
+  )
+  double_fixture <- integer_fixture
+  double_fixture$peak_process_tree_rss_bytes <- as.numeric(
+    double_fixture$peak_process_tree_rss_bytes
+  )
+  expect_true(exact_table_equal(double_fixture, integer_fixture))
+  value_drift <- double_fixture
+  value_drift$peak_process_tree_rss_bytes[[2L]] <- 201
+  expect_false(exact_table_equal(value_drift, integer_fixture))
+  expect_false(exact_table_equal(
+    double_fixture[c(2L, 1L)], integer_fixture
+  ))
 
   launcher_lines <- readLines(launcher, warn = FALSE)
   launcher_text <- paste(launcher_lines, collapse = "\n")

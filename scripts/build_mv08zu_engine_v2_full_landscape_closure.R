@@ -60,6 +60,21 @@ tree_files <- function(root) {
                       all.files = TRUE, no.. = TRUE)
   paths[!file.info(paths)$isdir]
 }
+.mv08zu_exact_table_equal <- function(current, frozen) {
+  if (!identical(dim(current), dim(frozen)) ||
+      !identical(names(current), names(frozen)) ||
+      !identical(row.names(current), row.names(frozen))) {
+    return(FALSE)
+  }
+  all(vapply(names(frozen), function(column) {
+    left <- current[[column]]
+    right <- frozen[[column]]
+    if (is.numeric(left) && is.numeric(right)) {
+      return(identical(as.numeric(left), as.numeric(right)))
+    }
+    identical(left, right)
+  }, logical(1L)))
+}
 root_for <- function(role) {
   if (role == "mv08s_private_v3") return(s_root)
   if (role == "mv08v_recovery_private_v2") return(v_root)
@@ -160,14 +175,17 @@ if (!all(truth(zt_validation$passed)) || !all(truth(ze_validation$passed)) ||
   stop("MV8-ZU prerequisite binding drift", call. = FALSE)
 }
 
+recovery_prefix_equal <- .mv08zu_exact_table_equal(
+  ledger[seq_len(325L), names(recovery_ledger), drop = FALSE],
+  recovery_ledger
+) && .mv08zu_exact_table_equal(
+  completed[seq_len(325L), names(recovery_completed), drop = FALSE],
+  recovery_completed
+)
 recovery_provenance_ok <- nrow(recovery_manifest) == 10L &&
   nrow(recovery_policy) == 1L && nrow(recovery_decision) == 1L &&
   nrow(recovery_orphan) == 1L && nrow(recovery_ledger) == 325L &&
-  nrow(recovery_completed) == 325L &&
-  identical(ledger[seq_len(325L), names(recovery_ledger), drop = FALSE],
-            recovery_ledger) &&
-  identical(completed[seq_len(325L), names(recovery_completed), drop = FALSE],
-            recovery_completed) &&
+  nrow(recovery_completed) == 325L && recovery_prefix_equal &&
   truth(recovery_decision$orphan_adoption_authorized) &&
   recovery_decision$orphan_production_order == 326L &&
   recovery_decision$resume_at_production_order == 327L &&
@@ -400,6 +418,7 @@ checks <- data.frame(
     "mv08zc_manifest", "mv08zd_manifest", "mv08ze_manifest",
     "mv08zt_recovery_manifest", "mv08zt_recovery_validation",
     "mv08zt_recovery_provenance",
+    "mv08zt_recovery_numeric_storage_normalization",
     "prospective_closure_contract", "prefreeze_checks", "sentinel_closure",
     "implementation_bindings",
     "private_axis_binding", "rust_identity", "execution_head",
@@ -426,6 +445,7 @@ checks <- data.frame(
     nrow(ze_manifest) == 7L,
     nrow(recovery_manifest) == 10L,
     all(truth(recovery_validation$passed)), recovery_provenance_ok,
+    recovery_prefix_equal,
     prospective_closure_ok, all(truth(zt_validation$passed)),
     all(truth(ze_validation$passed)),
     all(vapply(implementation$file, sha_file, character(1L)) == implementation$sha256),

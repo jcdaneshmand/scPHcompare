@@ -29,7 +29,7 @@ read_csv <- function(path) {
 }
 
 builder <- "scripts/build_mv08zu_engine_v2_full_landscape_closure.R"
-expected_builder_lf_sha256 <- "933bc0660cb8992f56db071dd729a0bde9db07ec221e35ed9f48ede6d23fb3b5"
+expected_builder_lf_sha256 <- "0d5c6b701e5e79f38b1ec8281e5e9ac72e3e8c3b6a157b0c7bf6faf32e176d02"
 closure_args <- c(
   "docs/audits/mv08zt-engine-v2-full-landscape-prefreeze-v3",
   "docs/audits/mv08z-landscape-execution-prefreeze-v1",
