@@ -1,0 +1,2 @@
+"contract_id","execution_head","completed_prefix","unreceipted_complete_order","progress_state","ledger_bytes","ledger_sha256","completion_bytes","completion_sha256","progress_bytes","progress_sha256","partial_files","active_runner_processes"
+"mv08zt_r1_stopped_snapshot_v1","6515d9b85a2c9467b3cb688e6e9429e0be944d8d",325,326,"running",110092,"fc27e698a6ee3f0d0546c92bf1ffbb844904eed603966daac470c1e4970ad774",110595,"eba9766d993f2cc69110c779d79d80b257720029dd022c8df0eb2d33dd8f44a9",492,"53ec6bb91e9205c159322c6d75e3fdfe58cc0f8dec93f9cf6f79eb19b8d53509",0,0
