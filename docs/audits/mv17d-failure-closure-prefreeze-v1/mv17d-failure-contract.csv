@@ -1,0 +1,2 @@
+"contract_id","execution_head","production_rerun_authorized","threshold_change_authorized","failure_closure_authorized_after_commit","revised_algorithm_implementation_eligible_after_closure","real_localization_authorized","labels_authorized","outcomes_authorized","clustering_authorized","fusion_authorized","biology_authorized","manuscript_claims_authorized"
+"mv17d_failure_closure_prefreeze_v1","cad40c9d408659863ee7f35d8079c3a84ab8d969",FALSE,FALSE,TRUE,TRUE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE

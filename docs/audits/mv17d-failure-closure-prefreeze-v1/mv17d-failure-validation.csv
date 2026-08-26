@@ -1,0 +1,14 @@
+"contract_id","check_id","passed"
+"mv17d_failure_prefreeze_validation_v1","six_sources_bound",TRUE
+"mv17d_failure_prefreeze_validation_v1","summary_repeat_exact",TRUE
+"mv17d_failure_prefreeze_validation_v1","status_repeat_exact",TRUE
+"mv17d_failure_prefreeze_validation_v1","H0_and_persistence_controls_pass",TRUE
+"mv17d_failure_prefreeze_validation_v1","fundamental_positive_localization_passes",TRUE
+"mv17d_failure_prefreeze_validation_v1","edge_shortest_positive_gate_fails",TRUE
+"mv17d_failure_prefreeze_validation_v1","row_invariance_gate_fails",TRUE
+"mv17d_failure_prefreeze_validation_v1","implementation_bound",TRUE
+"mv17d_failure_prefreeze_validation_v1","production_frozen",TRUE
+"mv17d_failure_prefreeze_validation_v1","thresholds_frozen",TRUE
+"mv17d_failure_prefreeze_validation_v1","failure_only",TRUE
+"mv17d_failure_prefreeze_validation_v1","real_localization_closed",TRUE
+"mv17d_failure_prefreeze_validation_v1","downstream_firewall",TRUE

@@ -1,0 +1,6 @@
+"contract_id","artifact","bytes","sha256"
+"mv17d_failure_manifest_v1","MV17D_FAILURE_CLOSURE_PREFREEZE_2026-08-26.md",219,"db9b3ff4c9b49e9321edb36b8bd9a7153a4cb2a1c046ffb50e1e064f2fb26818"
+"mv17d_failure_manifest_v1","mv17d-failure-contract.csv",504,"678882c25a554c8d6b9e6180f6b52f0db2d55b744c8915db28572181f76f81a5"
+"mv17d_failure_manifest_v1","mv17d-failure-implementation-binding.csv",516,"ef77c08d91f85aa586e9c3d9d143bceb3db4eec8d76a1906214d6fb054d21963"
+"mv17d_failure_manifest_v1","mv17d-failure-source-binding.csv",775,"405fbc962bbc1bc4006cc20cf6b3d5b77f428d68df2b6265822c1e4d6c3a0071"
+"mv17d_failure_manifest_v1","mv17d-failure-validation.csv",953,"83a54ce90888fd180b7538d5cf7cc5086ca95f18ee64a3fd65b757571f809620"

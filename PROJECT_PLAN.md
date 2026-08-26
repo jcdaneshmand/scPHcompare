@@ -5,7 +5,7 @@
 | Field | Value |
 |---|---|
 | Status | Draft for owner and author-team review |
-| Version | 0.5.24 |
+| Version | 0.5.25 |
 | Created | 2026-08-03 |
 | Canonical repository | `jcdaneshmand/scPHcompare` |
 | Historical source repository | `jcdaneshmand/PH_ClusteringApp` |
@@ -870,6 +870,7 @@ Publish a durable, citable research artifact.
 | D-266 | 2026-08-26 | Implement MV17-D H0/H1 localization qualification without running its fixtures | H0 uses deterministic Kruskal merger edges with distance/canonical-token tie handling. H1 compares a non-boundary fundamental-cycle method with an edge-exclusion shortest-hop method over field 2 at the midpoint of the longest finite interval. Four fixed fixtures, persistence boundaries, two-loop cardinality, radial/angular localization checks, row-order invariance, exact repeat, one-worker/1,800-second/4-GiB caps, six-artifact resource/provenance closure, and every real/downstream firewall are implemented | Commit/push implementation and static tests. Then build a distinct exact-head MV17-D prefreeze before executing any synthetic localization fixture. Real localization and all labels, outcomes, clustering, fusion, biology, and manuscript claims remain closed |
 | D-267 | 2026-08-26 | Prospectively freeze MV17-D synthetic localization qualification at exact head `fd7fd88` | Thirteen of thirteen gates bind four fixtures, deterministic H0 merger reconstruction, two field-2 H1 non-boundary cycle methods, midpoint scale selection, fixed persistence/cardinality/geometry thresholds, canonical tie handling, row-order invariance, exact repeat, six-artifact provenance, one worker, 1,800 seconds, 4 GiB, and all real/downstream firewalls. No localization fixture was executed | Commit/push the exact-head prefreeze. Then run one primary and one independent repeat synthetic qualification under GNU-time receipts and build one immutable closure. Full real-corpus localization remains unauthorized regardless of the result until a separate production prefreeze |
 | D-268 | 2026-08-26 | Preserve MV17-D's substantive second-algorithm failure and prepare a no-rerun negative closure | Primary and repeat are byte-identical, finish in 27.67/27.68 seconds at 169/170 MiB peak RSS, and pass exact H0 merger reconstruction, all persistence controls, two-loop cardinality, and fundamental-cycle geometry. The edge-exclusion single-shortest-path method misses the circle, noisy-circle, and double-loop representatives and the complete row-order gate fails on the Gaussian control. The attempted closure therefore stops without publishing an artifact | Commit/push the failure-only closure implementation and tests. Do not rerun production or change thresholds. Build an exact-head failure prefreeze binding all six immutable result/resource artifacts, then publish a negative closure before prospectively replacing the failed second method with a mathematically stronger shortest-homology-basis algorithm |
+| D-269 | 2026-08-26 | Prospectively freeze the MV17-D negative closure at exact head `cad40c9` | Thirteen of thirteen gates bind the two byte-identical summaries, two byte-identical statuses, both GNU-time receipts, the exact passing H0/persistence/fundamental controls, the failed edge-shortest and complete row-order controls, and all failure-closure implementation hashes. Production rerun and threshold changes are forbidden; real localization remains closed | Commit/push the failure prefreeze. Then build and independently test one immutable negative closure retaining every passed and failed gate. Only after closure may a revised second-algorithm qualification be implemented under a new exact-head prefreeze |
 
 ## 9. Status dashboard
 
@@ -890,6 +891,7 @@ Publish a durable, citable research artifact.
 
 | Version | Date | Summary |
 |---|---|---|
+| 0.5.25 | 2026-08-26 | Prospectively froze MV17-D's negative closure at 13/13 gates and exact head `cad40c9`, binding all six immutable result/resource artifacts while forbidding rerun, threshold changes, and real localization. |
 | 0.5.24 | 2026-08-26 | Preserved MV17-D's reproducible bounded failure: H0, persistence controls, fundamental-cycle localization, exact repeat, and resources pass, but the single-shortest-path second method misses all three positive loops and fails complete row-order invariance; implemented a no-rerun negative closure path. |
 | 0.5.23 | 2026-08-26 | Prospectively froze MV17-D at 13/13 gates and exact head `fd7fd88` before any fixture execution, binding deterministic H0 mergers, two field-2 H1 localization algorithms, fixed geometry/repeat/resource rules, and complete real/downstream firewalls. |
 | 0.5.22 | 2026-08-26 | Implemented the prospective MV17-D synthetic H0/H1 localization qualification, including two field-2 representative-cycle algorithms, canonical tie handling, known-geometry checks, row-order/repeat/resource gates, and complete real/downstream firewalls without executing localization fixtures. |

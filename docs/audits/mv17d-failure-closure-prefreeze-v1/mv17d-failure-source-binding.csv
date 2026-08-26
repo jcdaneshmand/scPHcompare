@@ -1,0 +1,7 @@
+"contract_id","role","bytes","sha256"
+"mv17d_failure_source_binding_v1","primary_summary",1204,"8bafb166e303078f98ce4f3c85b382c39878f0036c0e2e9be636e777a000815a"
+"mv17d_failure_source_binding_v1","primary_status",142,"761760f102a32fa3fde9cd65861043c9c981a10f18be21e190d0c0f8b25b93de"
+"mv17d_failure_source_binding_v1","repeat_summary",1204,"8bafb166e303078f98ce4f3c85b382c39878f0036c0e2e9be636e777a000815a"
+"mv17d_failure_source_binding_v1","repeat_status",142,"761760f102a32fa3fde9cd65861043c9c981a10f18be21e190d0c0f8b25b93de"
+"mv17d_failure_source_binding_v1","primary_GNU_time",860,"412688894e2145dcee6cd66c937d1d76ba61ca3de5d19ede598fd99455db6a53"
+"mv17d_failure_source_binding_v1","repeat_GNU_time",859,"b9494f91730101997a53b1e2d253f06074966f1b70f986ee609fb6c5de6dfa57"
