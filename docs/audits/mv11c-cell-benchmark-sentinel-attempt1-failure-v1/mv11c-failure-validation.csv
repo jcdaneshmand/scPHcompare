@@ -1,0 +1,13 @@
+"contract_id","check_id","passed"
+"mv11c_attempt1_failure_validation_v1","prefreeze_was_committed",TRUE
+"mv11c_attempt1_failure_validation_v1","one_sentinel_only",TRUE
+"mv11c_attempt1_failure_validation_v1","worker_exit_nonzero",TRUE
+"mv11c_attempt1_failure_validation_v1","catalog_type_mismatch_identified",TRUE
+"mv11c_attempt1_failure_validation_v1","unordered_pair_values_equal",TRUE
+"mv11c_attempt1_failure_validation_v1","no_partition_artifact",TRUE
+"mv11c_attempt1_failure_validation_v1","no_quality_artifact",TRUE
+"mv11c_attempt1_failure_validation_v1","no_status_artifact",TRUE
+"mv11c_attempt1_failure_validation_v1","labels_outcomes_closed",TRUE
+"mv11c_attempt1_failure_validation_v1","cross_view_fusion_closed",TRUE
+"mv11c_attempt1_failure_validation_v1","partial_evidence_preserved",TRUE
+"mv11c_attempt1_failure_validation_v1","new_prefreeze_required",TRUE

@@ -58,6 +58,8 @@ rownames(repeat_partitions) <- NULL; rownames(repeat_quality) <- NULL
 temp <- tempfile("mv11d-repeat-"); dir.create(temp)
 atomic(repeat_partitions, file.path(temp, "partitions.csv"))
 atomic(repeat_quality, file.path(temp, "quality.csv"))
+repeat_partitions_read <- readc(file.path(temp, "partitions.csv"))
+repeat_quality_read <- readc(file.path(temp, "quality.csv"))
 checks <- c(
   prefreeze_head_exact = execution_head == contract$execution_head,
   source_hash_exact = sha(bundle_path) == source_binding$sha256,
@@ -79,8 +81,8 @@ checks <- c(
     sha(file.path(private, "job", "partitions.csv")),
   aggregate_quality_exact_repeat = sha(file.path(temp, "quality.csv")) ==
     sha(file.path(private, "job", "quality.csv")),
-  assignment_identity = identical(saved_partitions, repeat_partitions),
-  quality_identity = identical(saved_quality, repeat_quality),
+  assignment_identity = identical(saved_partitions, repeat_partitions_read),
+  quality_identity = identical(saved_quality, repeat_quality_read),
   labels_outcomes_closed = !truth(receipt$labels_used) &&
     !truth(receipt$outcomes_used),
   cross_view_closed = !truth(receipt$cross_view_comparison_performed),

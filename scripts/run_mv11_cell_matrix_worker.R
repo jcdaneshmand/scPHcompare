@@ -43,9 +43,13 @@ bundle <- readRDS(bundle_path)
 catalog <- mv11_cell_catalog_v1(bundle)
 observed <- catalog[catalog$catalog_order == catalog_order, , drop = FALSE]
 check_columns <- intersect(names(observed), names(binding))
-if (nrow(observed) != 1L ||
-    !identical(as.data.frame(observed[check_columns], stringsAsFactors = FALSE),
-               as.data.frame(binding[check_columns], stringsAsFactors = FALSE))) {
+catalog_equal <- nrow(observed) == 1L && all(vapply(
+  check_columns,
+  function(name) identical(as.character(observed[[name]]),
+                            as.character(binding[[name]])),
+  logical(1L)
+))
+if (!catalog_equal) {
   stop("MV11 worker source catalog drift", call. = FALSE)
 }
 dir.create(output, recursive = TRUE)

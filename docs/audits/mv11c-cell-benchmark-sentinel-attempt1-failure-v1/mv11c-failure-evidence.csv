@@ -1,0 +1,4 @@
+"artifact_id","private_path_not_published","bytes","sha256"
+"resource_ledger","tmp/mv11c-cell-benchmark-public-v1/mv11c-resource-ledger.csv",511,"8e8b0bd7d23c2980547d8c36f0404a3d37afc210245e3398c0ac8943748e14d1"
+"stderr","tmp/mv11c-cell-benchmark-private-v1/sentinel-stderr.txt",57,"a219fdc9cfc306a5dfe7574bad7dd85da6dd6e977f53e05c012daef8f66840e6"
+"stdout","tmp/mv11c-cell-benchmark-private-v1/sentinel-stdout.txt",93,"a73f4422fd7135e04d8d43d30f0ebee219d403beea59b693aceb0135a06b7802"
