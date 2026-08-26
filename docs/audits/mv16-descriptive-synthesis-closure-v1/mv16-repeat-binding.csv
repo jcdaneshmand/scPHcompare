@@ -1,0 +1,5 @@
+"contract_id","artifact","production_sha256","repeat_sha256","byte_exact"
+"mv16_repeat_binding_v1","mv16-complete-global.csv","684755da02d1730c282e12c6a381813d4f59007802f12cb2cc5bf76e1eb7a1e4","684755da02d1730c282e12c6a381813d4f59007802f12cb2cc5bf76e1eb7a1e4",TRUE
+"mv16_repeat_binding_v1","mv16-complete-neighbor.csv","afc361fe0e6429b465f40be54fad4952f77aa1a26eccaea6f40652afd1966cb4","afc361fe0e6429b465f40be54fad4952f77aa1a26eccaea6f40652afd1966cb4",TRUE
+"mv16_repeat_binding_v1","mv16-global-family-summary.csv","2f69ebdc6f5cf004980b780f3c027633ae26c09bfdc25750473202971f403020","2f69ebdc6f5cf004980b780f3c027633ae26c09bfdc25750473202971f403020",TRUE
+"mv16_repeat_binding_v1","mv16-neighbor-family-summary.csv","d7e34e4dd6b3c6f32f2fe8c912edb53091c973c16467ddd0c7ad5a81ac9cae11","d7e34e4dd6b3c6f32f2fe8c912edb53091c973c16467ddd0c7ad5a81ac9cae11",TRUE

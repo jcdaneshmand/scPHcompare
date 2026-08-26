@@ -1,0 +1,13 @@
+"contract_id","check_id","passed"
+"mv16_closure_validation_v1","prefreeze_manifest",TRUE
+"mv16_closure_validation_v1","terminal_complete",TRUE
+"mv16_closure_validation_v1","complete_global",TRUE
+"mv16_closure_validation_v1","complete_neighbor",TRUE
+"mv16_closure_validation_v1","global_family_shape",TRUE
+"mv16_closure_validation_v1","neighbor_family_shape",TRUE
+"mv16_closure_validation_v1","independent_byte_exact_repeat",TRUE
+"mv16_closure_validation_v1","H0_H1_retained",TRUE
+"mv16_closure_validation_v1","all_families_retained",TRUE
+"mv16_closure_validation_v1","no_unit_identifiers",TRUE
+"mv16_closure_validation_v1","no_threshold_ranking",TRUE
+"mv16_closure_validation_v1","downstream_firewall",TRUE

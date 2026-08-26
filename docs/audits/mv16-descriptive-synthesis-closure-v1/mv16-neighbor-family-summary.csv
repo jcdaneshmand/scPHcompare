@@ -1,0 +1,17 @@
+"contrast_family","dataset_scope","summary_panel","homology_dimension","k","contract_id","comparisons","mean_neighbor_jaccard_median","mean_neighbor_jaccard_min","mean_neighbor_jaccard_max","median_neighbor_jaccard_median","median_neighbor_jaccard_min","median_neighbor_jaccard_max","p10_neighbor_jaccard_median","p10_neighbor_jaccard_min","p10_neighbor_jaccard_max"
+"cell_gene_view_agreement","external8","common475","H0",2,"mv16_neighbor_family_summary_v1",1,0.5,0.5,0.5,0.333333333333333,0.333333333333333,0.333333333333333,0,0,0
+"cell_gene_view_agreement","external8","common475","H0",3,"mv16_neighbor_family_summary_v1",1,0.525,0.525,0.525,0.5,0.5,0.5,0.41,0.41,0.41
+"cell_gene_view_agreement","external8","common475","H1",2,"mv16_neighbor_family_summary_v1",1,0.166666666666667,0.166666666666667,0.166666666666667,0.166666666666667,0.166666666666667,0.166666666666667,0,0,0
+"cell_gene_view_agreement","external8","common475","H1",3,"mv16_neighbor_family_summary_v1",1,0.45,0.45,0.45,0.35,0.35,0.35,0.14,0.14,0.14
+"cell_gene_view_agreement","external8","exact500","H0",2,"mv16_neighbor_family_summary_v1",1,0.5,0.5,0.5,0.333333333333333,0.333333333333333,0.333333333333333,0,0,0
+"cell_gene_view_agreement","external8","exact500","H0",3,"mv16_neighbor_family_summary_v1",1,0.4625,0.4625,0.4625,0.5,0.5,0.5,0.41,0.41,0.41
+"cell_gene_view_agreement","external8","exact500","H1",2,"mv16_neighbor_family_summary_v1",1,0.291666666666667,0.291666666666667,0.291666666666667,0.333333333333333,0.333333333333333,0.333333333333333,0,0,0
+"cell_gene_view_agreement","external8","exact500","H1",3,"mv16_neighbor_family_summary_v1",1,0.45,0.45,0.45,0.35,0.35,0.35,0.14,0.14,0.14
+"cell_gene_view_agreement","internal124","internal_exact500","H0",10,"mv16_neighbor_family_summary_v1",5,0.124373730816605,0.113451818191906,0.137234392908267,0.111111111111111,0.111111111111111,0.111111111111111,0,0,0
+"cell_gene_view_agreement","internal124","internal_exact500","H1",10,"mv16_neighbor_family_summary_v1",5,0.122835871974492,0.114099945406747,0.126546265191027,0.111111111111111,0.111111111111111,0.111111111111111,0,0,0
+"cell_panel_sensitivity","external8","common475_vs_exact500","H0",2,"mv16_neighbor_family_summary_v1",1,1,1,1,1,1,1,1,1,1
+"cell_panel_sensitivity","external8","common475_vs_exact500","H0",3,"mv16_neighbor_family_summary_v1",1,0.9375,0.9375,0.9375,1,1,1,0.85,0.85,0.85
+"cell_panel_sensitivity","external8","common475_vs_exact500","H1",2,"mv16_neighbor_family_summary_v1",1,0.75,0.75,0.75,1,1,1,0.333333333333333,0.333333333333333,0.333333333333333
+"cell_panel_sensitivity","external8","common475_vs_exact500","H1",3,"mv16_neighbor_family_summary_v1",1,0.6875,0.6875,0.6875,0.5,0.5,0.5,0.5,0.5,0.5
+"cell_seed_stability","internal124","internal_exact500","H0",10,"mv16_neighbor_family_summary_v1",10,0.483143500196331,0.450225895147497,0.51179141511085,0.538461538461538,0.428571428571429,0.538461538461538,0.25,0.176470588235294,0.25
+"cell_seed_stability","internal124","internal_exact500","H1",10,"mv16_neighbor_family_summary_v1",10,0.221036522747424,0.207380870375228,0.237652452910118,0.176470588235294,0.176470588235294,0.25,0.0526315789473684,0,0.0526315789473684
