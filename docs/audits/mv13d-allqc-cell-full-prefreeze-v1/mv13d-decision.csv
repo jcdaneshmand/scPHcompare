@@ -1,0 +1,2 @@
+"contract_id","full_execution_authorized_after_commit","independent_closure_required","landscapes_authorized","labels_authorized","outcomes_authorized","next_action"
+"mv13d_decision_v1",TRUE,TRUE,FALSE,FALSE,FALSE,"commit prefreeze; run serial 7-group production once; independently refit all 7 groups"

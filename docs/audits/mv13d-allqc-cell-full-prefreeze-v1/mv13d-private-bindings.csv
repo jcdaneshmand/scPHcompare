@@ -1,0 +1,3 @@
+"contract_id","artifact_id","bytes","sha256","publication_state"
+"mv13d_private_binding_v1","private_locator",38981,"c785ac3551f93aff325d1c0ed7c5c3ac56b4a22070bd99d24d9e196990e9aee2","private_not_tracked"
+"mv13d_private_binding_v1","sentinel_payload",242210,"371634fc2f571322902fd689ff124dc8dfa00664ddf623ab1a2cf5eb6ecf4d7d","private_not_tracked"

@@ -1,0 +1,8 @@
+"contract_id","artifact","bytes","sha256"
+"mv13d_artifact_manifest_v1","mv13d-contract.csv",900,"92e5b66c4651a8ce5bb8e6305f88abf3be898611144d6df5aaf9ab04595ac5e4"
+"mv13d_artifact_manifest_v1","mv13d-decision.csv",303,"d7291260854292d1f43cebd3795c263a0deaf4423b49e67f2f8c77dc1e9dce4a"
+"mv13d_artifact_manifest_v1","mv13d-group-queue.csv",1135,"b96384334f9c8d11170329ecbda802cc5da24fd64a4729324914b83d90c8f359"
+"mv13d_artifact_manifest_v1","mv13d-implementation-bindings.csv",762,"f111ce598411507443cdd7e42f800ec859b36e9c7763ed3411be695e07cb16a1"
+"mv13d_artifact_manifest_v1","mv13d-prior-bindings.csv",565,"2c3d4be2598d4e6e6ce47e7926f585d1913ad1ada5e449fb4739a884a9911066"
+"mv13d_artifact_manifest_v1","mv13d-private-bindings.csv",347,"67290eb3c055d483cef3bf0238de6d8c1c12b21530fc794b2abb3bda27cc1eac"
+"mv13d_artifact_manifest_v1","mv13d-validation.csv",1284,"e3ae9b89aefbec439714cec881038dcee23c44a69fce5b16f63f93b6a54c653e"
