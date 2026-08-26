@@ -1,0 +1,10 @@
+"fixture","seed","contract_id","points","coordinates","values_inspected","execution_authorized"
+"correlated_gaussian",17001,"mv17b_fixture_v1",128,3,FALSE,FALSE
+"circle_in_3d",17001,"mv17b_fixture_v1",128,3,FALSE,FALSE
+"independent_gaussian",17001,"mv17b_fixture_v1",128,3,FALSE,FALSE
+"correlated_gaussian",17002,"mv17b_fixture_v1",128,3,FALSE,FALSE
+"circle_in_3d",17002,"mv17b_fixture_v1",128,3,FALSE,FALSE
+"independent_gaussian",17002,"mv17b_fixture_v1",128,3,FALSE,FALSE
+"correlated_gaussian",17003,"mv17b_fixture_v1",128,3,FALSE,FALSE
+"circle_in_3d",17003,"mv17b_fixture_v1",128,3,FALSE,FALSE
+"independent_gaussian",17003,"mv17b_fixture_v1",128,3,FALSE,FALSE

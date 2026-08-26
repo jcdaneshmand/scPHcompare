@@ -1,0 +1,13 @@
+"contract_id","check_id","passed"
+"mv17b_validation_v1","MV17A_closed",TRUE
+"mv17b_validation_v1","four_families",TRUE
+"mv17b_validation_v1","family_semantics",TRUE
+"mv17b_validation_v1","fixture_grid",TRUE
+"mv17b_validation_v1","fixed_seeds",TRUE
+"mv17b_validation_v1","fixed_tolerances",TRUE
+"mv17b_validation_v1","implementation_bound",TRUE
+"mv17b_validation_v1","repeat_required",TRUE
+"mv17b_validation_v1","real_corpus_closed",TRUE
+"mv17b_validation_v1","PH_closed",TRUE
+"mv17b_validation_v1","downstream_firewall",TRUE
+"mv17b_validation_v1","zero_null_execution",TRUE

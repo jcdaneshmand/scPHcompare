@@ -1,0 +1,8 @@
+"contract_id","artifact","bytes","sha256"
+"mv17b_artifact_manifest_v1","MV17B_NULL_QUALIFICATION_PREFREEZE_2026-08-26.md",294,"6d642d30d3b5d9a20a08c49cf329c3f63a23737ba9341729f78ff47ebb9079f5"
+"mv17b_artifact_manifest_v1","mv17b-contract.csv",681,"38fb8d626cdf5df4dee88aedb0614e42c06436efa467528bf125251d815feb61"
+"mv17b_artifact_manifest_v1","mv17b-decision.csv",250,"ec11caaa36a401a5aad84b99b730659dda6dfd248084c74bcb120ea939aa1318"
+"mv17b_artifact_manifest_v1","mv17b-fixtures.csv",663,"b6643b7363a132fd5003ac7d6d8843137c0786fc4ea77f9fe0c00f0f986e4483"
+"mv17b_artifact_manifest_v1","mv17b-implementation-binding.csv",949,"2ad9ccec7154f739d27e21a03c1477d7a3f7a36a3d455d6c5c467648ab756b91"
+"mv17b_artifact_manifest_v1","mv17b-null-families.csv",1065,"3fa0cbc4944bf0a603533fd28d1362fe862247a20cdc6b62bb39e226123d44b9"
+"mv17b_artifact_manifest_v1","mv17b-validation.csv",574,"b9851af2795611d489a7442f84bb4769d1800cb5bf3bef6c882ae7c7af917f79"

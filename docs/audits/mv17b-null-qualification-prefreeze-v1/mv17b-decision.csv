@@ -1,0 +1,2 @@
+"contract_id","decision","synthetic_execution_authorized_after_commit","real_corpus_authorized","next_after_closure"
+"mv17b_decision_v1","authorize_synthetic_null_qualification_after_commit",TRUE,FALSE,"separate_MV17C_calibration_sentinel_prefreeze"

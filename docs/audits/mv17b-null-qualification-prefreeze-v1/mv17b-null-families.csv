@@ -1,0 +1,5 @@
+"contract_id","null_family","function_name","compatible_view","preserves","destroys","primary_invariant","real_corpus_authorized"
+"mv17b_null_family_v1","coordinate_permutation","mv17b_coordinate_permutation_v1","cell_and_gene","point_count;coordinate_count;coordinatewise_marginals","cross_coordinate_dependence;local_neighborhoods","sorted_coordinate_values",FALSE
+"mv17b_null_family_v1","covariance_gaussian","mv17b_covariance_gaussian_v1","cell_and_gene","point_count;coordinate_count;mean;sample_covariance","higher_moments;non_gaussian_geometry;local_topology","mean_and_covariance",FALSE
+"mv17b_null_family_v1","radial_density_cloud","mv17b_radial_density_cloud_v1","cell_and_gene","point_count;coordinate_count;center;radial_multiset","angular_structure;coordinate_dependence;local_topology","sorted_centered_radii",FALSE
+"mv17b_null_family_v1","within_row_axis_shuffle","mv17b_within_row_axis_shuffle_v1","gene_only","point_count;coordinate_count;within_point_value_multiset","coordinate_identity;between_point_feature_alignment","sorted_row_values",FALSE
