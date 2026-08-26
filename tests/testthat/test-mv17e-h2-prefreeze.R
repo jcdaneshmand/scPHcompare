@@ -1,0 +1,10 @@
+test_that("MV17-E prefreeze is synthetic-only and exact-head bound", {
+  root<-testthat::test_path("..",".."); audit<-file.path(root,"docs","audits","mv17e-h2-qualification-prefreeze-v1")
+  skip_if_not(dir.exists(audit),"MV17-E prefreeze not built")
+  r<-function(n)read.csv(file.path(audit,n),stringsAsFactors=FALSE,check.names=FALSE)
+  c<-r("mv17e-contract.csv"); v<-r("mv17e-validation.csv"); d<-r("mv17e-decision.csv"); m<-r("mv17e-artifact-manifest.csv")
+  expect_equal(nrow(v),12L); expect_true(all(v$passed)); expect_equal(c$coefficient_field,2L)
+  expect_equal(c$maximum_dimension,2L); expect_true(c$independent_engine_required)
+  expect_false(c$real_H2_authorized); expect_true(d$synthetic_execution_authorized_after_commit)
+  files<-file.path(audit,m$artifact); expect_equal(as.numeric(file.info(files)$size),m$bytes)
+})
