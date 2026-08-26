@@ -1,0 +1,5 @@
+"contract_id","summary_id","formula","tail","H0_H1_separate"
+"mv17c_summary_v1","finite_interval_count","number_of_finite_positive_intervals","greater_or_equal",TRUE
+"mv17c_summary_v1","total_persistence","sum(death-birth)","greater_or_equal",TRUE
+"mv17c_summary_v1","maximum_persistence","max(death-birth),zero_if_empty","greater_or_equal",TRUE
+"mv17c_summary_v1","all_level_landscape_squared_l2_norm","sum((death-birth)^3/12)","greater_or_equal",TRUE

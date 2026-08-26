@@ -1,0 +1,8 @@
+"view","family_order","null_family"
+"cell",1,"coordinate_permutation"
+"cell",2,"covariance_gaussian"
+"cell",3,"radial_density_cloud"
+"gene",1,"coordinate_permutation"
+"gene",2,"covariance_gaussian"
+"gene",3,"radial_density_cloud"
+"gene",4,"within_row_axis_shuffle"

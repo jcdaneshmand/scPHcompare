@@ -1,0 +1,9 @@
+"contract_id","source","artifacts","manifest_bytes","manifest_sha256","independently_rehashed"
+"mv17g_source_closure_binding_v1","mv17a-source-inventory-estimand-prefreeze-v4",13,1739,"a7d9e35e9acff42c46af92b1ff5cc17ac511b677c0dd51c7433c637a387d2096",TRUE
+"mv17g_source_closure_binding_v1","mv17b-null-qualification-closure-v2",6,877,"0b2818a6e7e390bc014dc62454d166765e606ae9be4ca3c3a257ab7a9234fb6f",TRUE
+"mv17g_source_closure_binding_v1","mv17c-calibration-closure-v2",6,816,"415f0b2596bc17ffc0511e63be0fb18f4ec98597dd056dc0ab0b7ebeba20645c",TRUE
+"mv17g_source_closure_binding_v1","mv17d2-localization-closure-v1",6,773,"d163bf66e071bccaf1bc22c13768d7a7a61a252ea66bd0faa065b8bfc8fb1569",TRUE
+"mv17g_source_closure_binding_v1","mv08q-full-source-production-closure-v1",7,777,"33e968f80fe9ea96ded5b6a55715a9d63d44832e04d0c029962f997e180c8d20",TRUE
+"mv17g_source_closure_binding_v1","mv08r-full-topology-production-prefreeze-v1",17,1804,"bc40dba54bc240569bf7ac16be1b5c26be482425806d35cb467f400d02acc5f7",TRUE
+"mv17g_source_closure_binding_v1","mv08w-full-ph-production-closure-v1",7,742,"13c5ac9a095966eb1f01aac2e6c82e25437fa89f4bc304e061f41d7c28a03bd0",TRUE
+"mv17g_source_closure_binding_v1","mv14-cell-landscape-closure-v1",5,702,"0a34980b9398f017e3df021dc808ae28e1def3c3c9ec5da0a01b494f8c0d9dcf",TRUE

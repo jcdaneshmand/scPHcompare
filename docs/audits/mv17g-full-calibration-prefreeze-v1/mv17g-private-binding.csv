@@ -1,0 +1,5 @@
+"contract_id","role","artifact","rows","bytes","sha256","tracking_state"
+"mv17g_private_binding_v1","unit_locator","mv17g-private-locator.csv",264,108207,"41c01b69480813b600b7c3f63893e869c339b03007b0916af42800d53f25bc99","private_not_tracked"
+"mv17g_private_binding_v1","primary_grouped_queue","mv17g-primary-grouped-queue.csv",1188,104045,"9f476181f09fffe27b787fc588e516e7b0bd407ff7b7bfa94e33c15cf217be5f","private_not_tracked"
+"mv17g_private_binding_v1","repeat_grouped_queue","mv17g-repeat-grouped-queue.csv",27,2435,"8b7723a8dba0bb8f47294ddddf47c9e832d28a0ad518c1bd40020673854a3857","private_not_tracked"
+"mv17g_private_binding_v1","seed_registry","mv17g-seed-registry.csv",91476,5928187,"5f492e00175866183324a214f10b3426e901cbd8e29a8b8f89d789cff8f16dbc","private_not_tracked"

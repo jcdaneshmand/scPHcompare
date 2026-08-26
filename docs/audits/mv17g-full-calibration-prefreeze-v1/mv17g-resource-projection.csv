@@ -1,0 +1,3 @@
+"contract_id","mode","grouped_children","scientific_runs","conservative_seconds_per_run","projected_wall_seconds","projected_wall_seconds_with_25pct_margin","projected_private_bytes_with_25pct_margin","child_timeout_seconds","aggregate_timeout_seconds","child_RSS_cap_bytes","private_cap_bytes","public_cap_bytes","workers","retries"
+"mv17g_resource_projection_v1","primary",1188,91740,4.56,418334.4,522918,8636539445.76923,1800,604800,8589934592,12884901888,67108864,1,0
+"mv17g_resource_projection_v1","repeat",27,2085,4.56,9507.6,11884.5,196284987.403846,1800,604800,8589934592,12884901888,67108864,1,0
