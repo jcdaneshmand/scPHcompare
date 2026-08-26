@@ -1,0 +1,2 @@
+"contract_id","decision","next_stage","result_interpretation_state","labels_outcomes_state","biological_interpretation_state","manuscript_claims_state"
+"mv10f_decision_v1","close_full_label_closed_clustering_benchmark","separate_label_closed_descriptive_synthesis_prefreeze","closed_pending_separate_review","closed","closed","closed"

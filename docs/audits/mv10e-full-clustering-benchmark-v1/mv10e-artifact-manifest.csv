@@ -1,0 +1,8 @@
+"contract_id","artifact","bytes","sha256"
+"mv10e_artifact_manifest_v1","mv10e-method-agreement.csv",410897,"501814fa043c2b25aded2007b5c9b38819018a313a12335fc75cfdadf9047000"
+"mv10e_artifact_manifest_v1","mv10e-partition-quality.csv",568887,"24d483631300edc3f482e453abc228bdcfd06ee7a0e83ceacfdea2993afe168a"
+"mv10e_artifact_manifest_v1","mv10e-primary-k-selection.csv",505,"105a6fce6eb71b79a5b907736d923f66dae51d79e181360c35b078bee658ab06"
+"mv10e_artifact_manifest_v1","mv10e-progress.csv",267,"547726a47b32e19b2a045f0f033fc73e273eb8027b0167865bd4fc8503e35e2d"
+"mv10e_artifact_manifest_v1","mv10e-resource-ledger.csv",11320,"8a709a2ab411cbeab91b5ca05d2afc62702a740cc9bca242b846547bccbbc6e7"
+"mv10e_artifact_manifest_v1","mv10e-seed-stability.csv",42286,"5602d8fa1718fe9d51a0bfc8fd49bd48f7ff2dccd14bf14012736a273d3cff05"
+"mv10e_artifact_manifest_v1","mv10e-terminal-receipt.csv",733,"329004b0cbc8eb4391b88ef127c9c4c2b55b363277686eda24f307cf07d64757"
