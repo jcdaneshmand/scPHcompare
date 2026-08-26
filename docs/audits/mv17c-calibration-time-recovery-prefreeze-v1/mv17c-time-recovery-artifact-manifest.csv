@@ -1,0 +1,8 @@
+"contract_id","artifact","bytes","sha256"
+"mv17c_time_recovery_manifest_v1","MV17C_TIME_RECOVERY_PREFREEZE_2026-08-26.md",418,"d99985c77b7cec797d2818c35ac616f7ef0ac4dd3aba93d5332adfb70b1e2ef5"
+"mv17c_time_recovery_manifest_v1","mv17c-time-recovery-contract.csv",377,"768df606e15151ba5fba379eb11dae55943a444e1a85433a661c73876e9f71f4"
+"mv17c_time_recovery_manifest_v1","mv17c-time-recovery-failure-binding.csv",489,"8e44dcde3db122eadcb65177fedb2c145fa4ee932bc8d166b18b730184029ceb"
+"mv17c_time_recovery_manifest_v1","mv17c-time-recovery-implementation-binding.csv",1010,"4a01c4888785798db17e51e6e138457efab88f8b25e749be6811cebab7d3c683"
+"mv17c_time_recovery_manifest_v1","mv17c-time-recovery-production-binding.csv",1121,"b6108b3b730179a5c589cbb84e920664c4823a60c79125ad620d2b03d180a234"
+"mv17c_time_recovery_manifest_v1","mv17c-time-recovery-rejected-binding.csv",900,"6c94847c452e0a0f175c0fb282777e4f7eac21702db3ec2e327572ef633ef0a1"
+"mv17c_time_recovery_manifest_v1","mv17c-time-recovery-validation.csv",964,"9356eea6f9792148d05f650784a23db36ceb87592200319e21402e724039814e"

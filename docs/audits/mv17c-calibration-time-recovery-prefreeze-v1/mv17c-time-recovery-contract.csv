@@ -1,0 +1,2 @@
+"contract_id","execution_head","production_jobs","scientific_recomputation_authorized","production_rerun_authorized","closure_v2_authorized_after_commit","full_calibration_authorized","real_localization_authorized","labels_outcomes_clustering_fusion_claims"
+"mv17c_time_recovery_contract_v1","ae5d3c9b4bf2aeb77cfbc92bd2a7f2b6e1a460c4",260,FALSE,FALSE,TRUE,FALSE,FALSE,"closed"

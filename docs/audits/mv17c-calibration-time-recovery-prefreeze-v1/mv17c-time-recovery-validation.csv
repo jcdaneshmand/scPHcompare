@@ -1,0 +1,15 @@
+"contract_id","check_id","passed"
+"mv17c_time_recovery_validation_v1","original_prefreeze_bound",TRUE
+"mv17c_time_recovery_validation_v1","rejected_closure_bound",TRUE
+"mv17c_time_recovery_validation_v1","failure_record_bound",TRUE
+"mv17c_time_recovery_validation_v1","eight_production_sources",TRUE
+"mv17c_time_recovery_validation_v1","primary_metrics_complete",TRUE
+"mv17c_time_recovery_validation_v1","repeat_metrics_complete",TRUE
+"mv17c_time_recovery_validation_v1","corrected_minutes_recovered",TRUE
+"mv17c_time_recovery_validation_v1","outer_covers_serial_children",TRUE
+"mv17c_time_recovery_validation_v1","six_implementation_files",TRUE
+"mv17c_time_recovery_validation_v1","production_frozen",TRUE
+"mv17c_time_recovery_validation_v1","closure_v2_only",TRUE
+"mv17c_time_recovery_validation_v1","full_calibration_closed",TRUE
+"mv17c_time_recovery_validation_v1","real_localization_closed",TRUE
+"mv17c_time_recovery_validation_v1","downstream_firewall",TRUE

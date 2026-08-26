@@ -1,0 +1,7 @@
+"contract_id","artifact","bytes","sha256"
+"mv17c_time_recovery_rejected_binding_v1","MV17C_CALIBRATION_CLOSURE_2026-08-26.md",276,"b5b4aaaec7ba690c05293171cb92bf48c30284b13f7f503eebbe86beb43c5dfd"
+"mv17c_time_recovery_rejected_binding_v1","mv17c-decision.csv",174,"8d3bf654af27f7df1c7a2c5ee76a896591a74396893ff72894e61696cc6de34b"
+"mv17c_time_recovery_rejected_binding_v1","mv17c-empirical-calibration.csv",24980,"faf708bad4a2f3bf5904de82d20c9f365edb36f137dd329b02dbc030d3b61039"
+"mv17c_time_recovery_rejected_binding_v1","mv17c-resource-summary.csv",331,"6a32d04ba5a63b7cebefd61b622b0505064179bb67ac262bd86a706c66f17efa"
+"mv17c_time_recovery_rejected_binding_v1","mv17c-source-binding.csv",1041,"2282f371470da2cad540e745e6b8e041ccd18cbfc991373f44bc8d100e8f59c8"
+"mv17c_time_recovery_rejected_binding_v1","mv17c-validation.csv",1116,"ef450ec9073ed10d7f0c081039fb0fa86cd8b947597be5a9e161895fa990a19c"

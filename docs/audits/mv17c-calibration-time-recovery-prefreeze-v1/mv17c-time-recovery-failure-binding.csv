@@ -1,0 +1,4 @@
+"contract_id","artifact","bytes","sha256"
+"mv17c_time_recovery_failure_binding_v1","MV17C_TIME_PARSER_FAILURE_2026-08-26.md",537,"ab36eb4e0037b9dec55d630ff35dfd61105232cdb1cfde11e072edee265f311c"
+"mv17c_time_recovery_failure_binding_v1","mv17c-rejected-closure-binding.csv",864,"84cbeb8157b5742a797e480add336cec67f381b5bd3de8b7a651ba2678a089b4"
+"mv17c_time_recovery_failure_binding_v1","mv17c-time-parser-failure.csv",510,"9f0e2a38b6f2f4cac8406fab8adc690a2c2561ce073486fb8b7be3e0005af922"
