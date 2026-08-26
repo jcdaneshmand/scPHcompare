@@ -1,0 +1,7 @@
+"contract_id","artifact","bytes","sha256"
+"mv17d_manifest_v1","MV17D_LOCALIZATION_PREFREEZE_2026-08-26.md",215,"cad59b0add15ce06f74a0b6b7e235c12efe5671b7464534efc168538bf6f45c1"
+"mv17d_manifest_v1","mv17d-contract.csv",976,"568f4db109ae52d1367b6e7bc0de425898c1ed2a91bde80e2ea9e833a9f04a34"
+"mv17d_manifest_v1","mv17d-decision.csv",182,"82ed3eb6d593f734a16451246750582352d6e5ce3af4db4ef07b982f2c8fbe84"
+"mv17d_manifest_v1","mv17d-fixtures.csv",262,"5b126afd1cffd42a2aa1964687e3045163ca7a1431c784f144a91882823c6540"
+"mv17d_manifest_v1","mv17d-implementation-binding.csv",934,"3210351ecc16cfcfb83a82f18964c04a06a7afc78512a0a0d6978780e310167f"
+"mv17d_manifest_v1","mv17d-validation.csv",665,"0be8f86847b1e1d4ebe3d875cca42feb20e191a37c027b9f1d0fc78688eecf9c"

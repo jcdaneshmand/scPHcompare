@@ -1,0 +1,7 @@
+"contract_id","file","bytes","sha256"
+"mv17d_implementation_binding_v1","R/mv17_localization.R",4609,"d8e2a24903531b64267a3a187d12869956010cec35ed09fef9113dbd964d99fa"
+"mv17d_implementation_binding_v1","scripts/build_mv17d_localization_prefreeze.R",4051,"7944d6d40702754ab3fab65bd8ee3fed9289dd27bb07a48e390a329f16e5ae23"
+"mv17d_implementation_binding_v1","scripts/run_mv17d_localization_qualification.R",3713,"1beaca7cbaab3bc05f703b98b7a90cb5fafbf5ba29e30a2ab296d6c9b637dd0d"
+"mv17d_implementation_binding_v1","scripts/build_mv17d_localization_closure.R",3556,"b5fced203d2456903c5e8db276d1c0a18b441f635892f2e3b2dbd3752671daa7"
+"mv17d_implementation_binding_v1","tests/testthat/test-mv17d-localization.R",701,"59213aa336131b893b53afc49f0528254ea2eb404dace59cc16f9ff03bc7db58"
+"mv17d_implementation_binding_v1","tests/testthat/test-mv17d-localization-prefreeze.R",1151,"206840a9912291fadb240326192400bd4b4b954244fe5ebbf32bf128bd3575a1"

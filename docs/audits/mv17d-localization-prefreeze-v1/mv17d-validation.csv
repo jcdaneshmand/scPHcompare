@@ -1,0 +1,14 @@
+"contract_id","check_id","passed"
+"mv17d_validation_v1","four_fixtures",TRUE
+"mv17d_validation_v1","H0_method",TRUE
+"mv17d_validation_v1","two_H1_methods",TRUE
+"mv17d_validation_v1","field_and_scale",TRUE
+"mv17d_validation_v1","fixed_persistence_thresholds",TRUE
+"mv17d_validation_v1","known_geometry_thresholds",TRUE
+"mv17d_validation_v1","tie_canonicalization",TRUE
+"mv17d_validation_v1","row_invariance",TRUE
+"mv17d_validation_v1","resource_caps",TRUE
+"mv17d_validation_v1","implementation_bound",TRUE
+"mv17d_validation_v1","real_localization_closed",TRUE
+"mv17d_validation_v1","downstream_firewall",TRUE
+"mv17d_validation_v1","zero_localization_execution",TRUE
