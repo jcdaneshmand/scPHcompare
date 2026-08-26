@@ -1,0 +1,2 @@
+"contract_id","decision","direct_current_cross_view_claim_authorized","historical_matched_cell_benchmark_authorized_next","new_allqc_cell_recomputation_authorized","fusion_authorized","labels_authorized","outcomes_authorized","biological_claims_authorized","manuscript_claims_authorized"
+"mv11a_decision_v1","prefreeze_matched_historical_cell_benchmark_before_cross_view_synthesis",FALSE,TRUE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE

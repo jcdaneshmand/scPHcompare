@@ -1,0 +1,15 @@
+"contract_id","contract_axis","value","labels_allowed","outcomes_allowed","cross_view_comparison_allowed"
+"mv11a_proposed_cell_contract_v1","source","immutable_mv07i_historical_matrix_bundle",FALSE,FALSE,FALSE
+"mv11a_proposed_cell_contract_v1","representations","cell_H0;cell_H1_separate",FALSE,FALSE,FALSE
+"mv11a_proposed_cell_contract_v1","matrices","10",FALSE,FALSE,FALSE
+"mv11a_proposed_cell_contract_v1","methods","PAM;average;complete;DIANA;single_diagnostic",FALSE,FALSE,FALSE
+"mv11a_proposed_cell_contract_v1","K_grid","2:10",FALSE,FALSE,FALSE
+"mv11a_proposed_cell_contract_v1","partition_fits","450",FALSE,FALSE,FALSE
+"mv11a_proposed_cell_contract_v1","private_assignments","55800",FALSE,FALSE,FALSE
+"mv11a_proposed_cell_contract_v1","quality_rows","450",FALSE,FALSE,FALSE
+"mv11a_proposed_cell_contract_v1","stability_rows","90",FALSE,FALSE,FALSE
+"mv11a_proposed_cell_contract_v1","primary_K_rows","2",FALSE,FALSE,FALSE
+"mv11a_proposed_cell_contract_v1","method_agreement_rows","900",FALSE,FALSE,FALSE
+"mv11a_proposed_cell_contract_v1","common_K_sensitivity_after_closure","K2_and_K3",FALSE,FALSE,FALSE
+"mv11a_proposed_cell_contract_v1","composites","excluded",FALSE,FALSE,FALSE
+"mv11a_proposed_cell_contract_v1","new_allqc_cell_recomputation","deferred_separate_contract",FALSE,FALSE,FALSE
