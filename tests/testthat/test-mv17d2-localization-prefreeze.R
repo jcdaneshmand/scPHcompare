@@ -1,0 +1,3 @@
+test_that("MV17-D2 prefreeze binds the negative closure and keeps real data closed", {
+  root<-testthat::test_path("..","..");a<-file.path(root,"docs","audits","mv17d2-localization-prefreeze-v1");skip_if_not(dir.exists(a),"MV17-D2 prefreeze absent");r<-function(n)read.csv(file.path(a,n),check.names=FALSE);c<-r("mv17d2-contract.csv");v<-r("mv17d2-validation.csv");d<-r("mv17d2-decision.csv");expect_equal(nrow(v),14L);expect_true(all(v$passed));expect_true(grepl("horton",c$H1_methods));expect_false(c$prior_failed_method_rerun_authorized);expect_false(c$real_localization_authorized);expect_true(d$synthetic_execution_authorized_after_commit)
+})
