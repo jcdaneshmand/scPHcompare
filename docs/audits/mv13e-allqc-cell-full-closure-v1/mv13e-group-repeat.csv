@@ -1,0 +1,8 @@
+"contract_id","group_order","group_id","dataset_scope","panel_id","seed","units","axis_exact","model_rotation_exact","exact_view_payloads","exact_PH_diagrams","H0_MST_oracles_passed","all_exact","labels_used","outcomes_used"
+"mv13e_group_repeat_v1",1,"external8__common475__20260805","external8","common475",20260805,8,TRUE,TRUE,8,8,8,TRUE,FALSE,FALSE
+"mv13e_group_repeat_v1",2,"external8__exact500__20260805","external8","exact500",20260805,8,TRUE,TRUE,8,8,8,TRUE,FALSE,FALSE
+"mv13e_group_repeat_v1",3,"internal124__exact500__20260805","internal124","exact500",20260805,124,TRUE,TRUE,124,124,124,TRUE,FALSE,FALSE
+"mv13e_group_repeat_v1",4,"internal124__exact500__20260806","internal124","exact500",20260806,124,TRUE,TRUE,124,124,124,TRUE,FALSE,FALSE
+"mv13e_group_repeat_v1",5,"internal124__exact500__20260807","internal124","exact500",20260807,124,TRUE,TRUE,124,124,124,TRUE,FALSE,FALSE
+"mv13e_group_repeat_v1",6,"internal124__exact500__20260808","internal124","exact500",20260808,124,TRUE,TRUE,124,124,124,TRUE,FALSE,FALSE
+"mv13e_group_repeat_v1",7,"internal124__exact500__20260809","internal124","exact500",20260809,124,TRUE,TRUE,124,124,124,TRUE,FALSE,FALSE

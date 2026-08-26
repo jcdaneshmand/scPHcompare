@@ -1,0 +1,5 @@
+"contract_id","artifact","bytes","sha256"
+"mv13e_artifact_manifest_v1","mv13e-decision.csv",388,"baf566ab91dab4f9d4189a19d61a04da7079f60302808eb3ed1d390501629fc6"
+"mv13e_artifact_manifest_v1","mv13e-group-repeat.csv",1162,"ca5b2de687fee3ef5f520bb5979c70562dde3b59f3cf7bc9402b99e539d56034"
+"mv13e_artifact_manifest_v1","mv13e-resource-closure.csv",346,"1fbf776ff609126021e7a5c40a1ef18856b231a798f3c069713ce038a85b2847"
+"mv13e_artifact_manifest_v1","mv13e-validation.csv",1361,"b05497ef955813603d68d5f69c22abec2f3766d9193685388d42e0e99da6bb37"

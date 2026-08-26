@@ -1,0 +1,2 @@
+"contract_id","full_cell_PH_independently_closed","landscapes_prefreeze_eligible_next","landscapes_authorized_by_this_closure","comparisons_authorized","clustering_authorized","fusion_authorized","labels_authorized","outcomes_authorized","next_action"
+"mv13e_decision_v1",TRUE,TRUE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,"commit closure; prospectively freeze 14 H0/H1 cell-landscape groups"

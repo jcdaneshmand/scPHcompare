@@ -1,0 +1,2 @@
+"contract_id","elapsed_seconds","elapsed_cap_seconds","peak_process_rss_bytes","rss_cap_bytes","private_bytes","private_cap_bytes","public_bytes","public_cap_bytes","GNU_time_exit_status","stdout_bytes","stderr_bytes","workers","retries"
+"mv13e_resource_closure_v1",518.875,7200,1472376832,8589934592,68315814,536870912,3520,16777216,0,200,0,1,0
