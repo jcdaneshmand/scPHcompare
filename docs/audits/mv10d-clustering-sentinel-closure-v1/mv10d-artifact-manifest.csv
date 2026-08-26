@@ -1,0 +1,5 @@
+"contract_id","artifact","bytes","sha256"
+"mv10d_artifact_manifest_v1","MV10D_CLUSTERING_SENTINEL_CLOSURE_2026-08-25.md",323,"3a3473343d37e19d81ba785e90af02615937771d36c73c8db080f916cf65f557"
+"mv10d_artifact_manifest_v1","mv10d-decision.csv",396,"26774c84adb4964b031a081441a7321072b40d7e0cf00e9ba7a5e26fc4f4b11f"
+"mv10d_artifact_manifest_v1","mv10d-private-rehash.csv",383,"eb22deb2960bd5d3a1d889d766d151d93620c5d72349197420c0257ecc009136"
+"mv10d_artifact_manifest_v1","mv10d-validation.csv",1368,"da7d5b35336909b8725975b794b3f9b4d4fba5c68271b8d7a31026726f460fd7"

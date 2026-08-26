@@ -1,0 +1,2 @@
+"catalog_order","stack_id","representation_id","panel_id","seed","homology_dimension","units","unordered_pairs","payload_set_sha256","pair_axis_sha256"
+32,"allqc_residual_exact500","sct_pearson_residual_all_qc_fit_selected384","exact500",20260809,"H1",124,7626,"f0e5f26e8056291af5a07172ead9f6a4fb69cbe0ef8cf4555d925088d24c16f2","9fc531b3bcf7c6df277ab2eeab9702346f860b3c1e05aa2f162ce8e5fc76ee35"

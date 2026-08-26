@@ -1,0 +1,2 @@
+"contract_id","decision","full_execution_authorized_after_commit","maximum_workers","automatic_retries","labels_authorized","outcomes_authorized","biological_interpretation_authorized","manuscript_claims_authorized","next_stage"
+"mv10d_decision_v1","admit_full_label_closed_clustering_execution_after_commit",TRUE,1,0,FALSE,FALSE,FALSE,FALSE,"mv10e_full_execution_then_mv10f_independent_closure"

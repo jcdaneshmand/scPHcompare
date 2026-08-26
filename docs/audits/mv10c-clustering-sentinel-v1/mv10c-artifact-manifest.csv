@@ -1,0 +1,4 @@
+"contract_id","artifact","bytes","sha256"
+"mv10c_artifact_manifest_v1","mv10c-partition-quality.csv",19546,"f4f44ba635eb720680a937475262eaf5271e9c0c324fd109cae524f510e3d74c"
+"mv10c_artifact_manifest_v1","mv10c-resource-receipt.csv",609,"85eceb701139118ea5ce6408e73ff165066285aea96970a6274f35fd00e69c4f"
+"mv10c_artifact_manifest_v1","mv10c-source-binding.csv",395,"bf6a70fe75ce8a33b5550ecfcc93a8587c58fb875bc03d06f40082a48715ac08"
