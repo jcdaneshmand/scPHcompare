@@ -1,0 +1,12 @@
+"contract_id","check_id","passed"
+"mv17e_failure_closure_validation_v1","seven_fixtures",TRUE
+"mv17e_failure_closure_validation_v1","all_payloads_bound",TRUE
+"mv17e_failure_closure_validation_v1","scientific_repeat_exact",TRUE
+"mv17e_failure_closure_validation_v1","dual_engine_agreement",TRUE
+"mv17e_failure_closure_validation_v1","independent_summary_reconstruction",TRUE
+"mv17e_failure_closure_validation_v1","positive_controls_pass",TRUE
+"mv17e_failure_closure_validation_v1","negative_controls_fail",TRUE
+"mv17e_failure_closure_validation_v1","resource_caps",TRUE
+"mv17e_failure_closure_validation_v1","real_H2_closed",TRUE
+"mv17e_failure_closure_validation_v1","MV17F_closed",TRUE
+"mv17e_failure_closure_validation_v1","downstream_firewall",TRUE

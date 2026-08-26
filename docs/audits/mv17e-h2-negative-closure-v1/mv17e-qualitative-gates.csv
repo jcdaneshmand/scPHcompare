@@ -1,0 +1,7 @@
+"contract_id","gate","passed"
+"mv17e_qualitative_gate_v1","sphere_H2_positive",TRUE
+"mv17e_qualitative_gate_v1","torus_H1_H2_positive",TRUE
+"mv17e_qualitative_gate_v1","circle_H1_positive_H2_negative",FALSE
+"mv17e_qualitative_gate_v1","shuffled_sphere_attenuated",TRUE
+"mv17e_qualitative_gate_v1","shuffled_torus_attenuated",TRUE
+"mv17e_qualitative_gate_v1","shuffled_circle_H2_negative",FALSE

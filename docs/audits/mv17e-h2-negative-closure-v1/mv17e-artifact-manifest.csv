@@ -1,0 +1,7 @@
+"contract_id","artifact","bytes","sha256"
+"mv17e_failure_closure_manifest_v1","MV17E_H2_NEGATIVE_CLOSURE_2026-08-26.md",255,"fb8fc496f2a164e504612ce23394c31f1f0dffd75311a609731875f3c0adc2bb"
+"mv17e_failure_closure_manifest_v1","mv17e-complete-summary.csv",1495,"c3d1cb83273d1582d6824accf69da373d081be69671a4a9ee0a44c342a2ea00f"
+"mv17e_failure_closure_manifest_v1","mv17e-decision.csv",289,"d96efa6492e5a5e3cf5297f389007e7b111ff50a9caee0be4b7660e3aff26769"
+"mv17e_failure_closure_manifest_v1","mv17e-qualitative-gates.csv",394,"78d1a4f13338391a8a520c7d5f605f574c74d932e578f66b19e6dfc310ea65fe"
+"mv17e_failure_closure_manifest_v1","mv17e-source-binding.csv",2648,"38bc781c5a6555e795d92cc9c382c064ea95e557e446b7cb0bc08ba0a27347fa"
+"mv17e_failure_closure_manifest_v1","mv17e-validation.csv",752,"b7e5f3fa00404001cec2572f2cfa6ec666a0d1271b4f96bbd05892e3e88393de"
