@@ -1,0 +1,8 @@
+"contract_id","artifact","bytes","sha256"
+"mv10h_artifact_manifest_v1","mv10h-method-agreement-summary.csv",137899,"0fdfb76093bfd22d5c49e7830e08761b0d7bc113ed9d9a561c925d2b24d15812"
+"mv10h_artifact_manifest_v1","mv10h-primary-quality.csv",38960,"e6a15fa618816b0614c77d0923ae0b2a33b19fd8fe5cae14984d3f9729c6bcc1"
+"mv10h_artifact_manifest_v1","mv10h-primary-selection.csv",505,"105a6fce6eb71b79a5b907736d923f66dae51d79e181360c35b078bee658ab06"
+"mv10h_artifact_manifest_v1","mv10h-primary-stability.csv",4346,"204e464724095098719cf36e281fa3cea1a79ab8f13b10a23fd2364032163cf7"
+"mv10h_artifact_manifest_v1","mv10h-quality-summary.csv",62271,"0c36c77afe35f8ab37c7badc6f2f0b52d9fe80efbaf6ba828ba729bf9a1852ed"
+"mv10h_artifact_manifest_v1","mv10h-stability-grid.csv",54888,"92c160772265800690189c41fcdece81b43ea525a6a0131cfed495afa5d1f04d"
+"mv10h_artifact_manifest_v1","mv10h-terminal-receipt.csv",547,"8b0a09e160c004bc136e5dd5d5d63cb4d927afc5d343abfbc8e5123a32210edf"

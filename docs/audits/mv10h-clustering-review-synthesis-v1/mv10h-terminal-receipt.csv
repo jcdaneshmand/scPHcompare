@@ -1,0 +1,2 @@
+"contract_id","execution_head","completion_state","source_tables","output_tables","stability_rows","quality_summary_rows","agreement_summary_rows","primary_selection_rows","primary_stability_rows","primary_quality_rows","labels_used","outcomes_used","inference_performed","ranking_performed","combined_score","H0_H1_combined","cell_gene_combined","biological_claims","manuscript_claims"
+"mv10h_terminal_receipt_v1","f3281e12574942935915fadda93f78268dc83cbe","complete",4,6,270,270,540,2,18,90,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE

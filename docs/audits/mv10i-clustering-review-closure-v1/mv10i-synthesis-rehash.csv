@@ -1,0 +1,7 @@
+"contract_id","artifact_order","artifact","rows","bytes","sha256","independent_numeric_repeat"
+"mv10i_synthesis_rehash_v1",1,"mv10h-stability-grid.csv",270,54888,"92c160772265800690189c41fcdece81b43ea525a6a0131cfed495afa5d1f04d",TRUE
+"mv10i_synthesis_rehash_v1",2,"mv10h-quality-summary.csv",270,62271,"0c36c77afe35f8ab37c7badc6f2f0b52d9fe80efbaf6ba828ba729bf9a1852ed",TRUE
+"mv10i_synthesis_rehash_v1",3,"mv10h-method-agreement-summary.csv",540,137899,"0fdfb76093bfd22d5c49e7830e08761b0d7bc113ed9d9a561c925d2b24d15812",TRUE
+"mv10i_synthesis_rehash_v1",4,"mv10h-primary-selection.csv",2,505,"105a6fce6eb71b79a5b907736d923f66dae51d79e181360c35b078bee658ab06",TRUE
+"mv10i_synthesis_rehash_v1",5,"mv10h-primary-stability.csv",18,4346,"204e464724095098719cf36e281fa3cea1a79ab8f13b10a23fd2364032163cf7",TRUE
+"mv10i_synthesis_rehash_v1",6,"mv10h-primary-quality.csv",90,38960,"e6a15fa618816b0614c77d0923ae0b2a33b19fd8fe5cae14984d3f9729c6bcc1",TRUE

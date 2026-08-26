@@ -1,0 +1,3 @@
+"contract_id","stack_id","homology_dimension","method_id","selected_k","threshold","selection_rule","outcome_label_state","biological_outcomes_computed"
+"mv10_primary_k_selection_v1","allqc_residual_exact500","H0","pam_dissimilarity_v1",2,0.835480197315799,"smallest_k_within_one_SE_of_maximum_five_seed_mean_ARI","closed",FALSE
+"mv10_primary_k_selection_v1","allqc_residual_exact500","H1","pam_dissimilarity_v1",3,0.686786070092683,"smallest_k_within_one_SE_of_maximum_five_seed_mean_ARI","closed",FALSE
