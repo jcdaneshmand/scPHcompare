@@ -1,0 +1,2 @@
+"contract_id","historical_cell_benchmark_closed","common_k_cross_view_prefreeze_eligible_next","labels_authorized","outcomes_authorized","cross_view_comparison_authorized_now","fusion_authorized","biological_claims_authorized","manuscript_claims_authorized","next_action"
+"mv11f_decision_v1",TRUE,TRUE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,"commit this closure; prospectively freeze common K=2 and K=3 historical cell-versus-gene partition agreement without labels or view ranking"

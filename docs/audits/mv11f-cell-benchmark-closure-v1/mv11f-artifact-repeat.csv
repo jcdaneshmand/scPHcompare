@@ -1,0 +1,6 @@
+"contract_id","artifact_id","rows","saved_sha256","repeat_sha256","exact_repeat"
+"mv11f_artifact_repeat_v1","assignments",55800,"ba62457a402143c5ace6191f65fd2e820482421dc0c94f1b3d03d0b74189a02d","ba62457a402143c5ace6191f65fd2e820482421dc0c94f1b3d03d0b74189a02d",TRUE
+"mv11f_artifact_repeat_v1","quality",450,"3f3e81244788355a55756e19b7d0af6fc0144ea37163513a929222ac55237bfc","3f3e81244788355a55756e19b7d0af6fc0144ea37163513a929222ac55237bfc",TRUE
+"mv11f_artifact_repeat_v1","stability",90,"f804fc2ec1f8f7cf595779558e7c28ca5a6e974a53ca44e7b2a1421ebfad95f1","f804fc2ec1f8f7cf595779558e7c28ca5a6e974a53ca44e7b2a1421ebfad95f1",TRUE
+"mv11f_artifact_repeat_v1","primary_k",2,"2413a33716bb5b4cd6431cc7fae97f44fc5b5da9c2cc7f02b3b0a7b78c39e747","2413a33716bb5b4cd6431cc7fae97f44fc5b5da9c2cc7f02b3b0a7b78c39e747",TRUE
+"mv11f_artifact_repeat_v1","agreement",900,"e4b860a818bebbdcdf0ef66bdab9779aaeb7a1afaf128654e643de5b92fbd9f6","e4b860a818bebbdcdf0ef66bdab9779aaeb7a1afaf128654e643de5b92fbd9f6",TRUE

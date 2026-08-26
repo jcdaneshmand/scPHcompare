@@ -1,0 +1,6 @@
+"contract_id","artifact","bytes","sha256"
+"mv11f_artifact_manifest_v1","MV11F_CELL_BENCHMARK_CLOSURE_2026-08-25.md",431,"22fa09a38438801ead8e4cba4fed46a961b8c45a347486f3c93b6db43962912c"
+"mv11f_artifact_manifest_v1","mv11f-artifact-repeat.csv",990,"f8067628bc7bc0e912d13ecc53cfe34d1b81126f55d03f92f37426e4a243b0f7"
+"mv11f_artifact_manifest_v1","mv11f-closure-summary.csv",465,"001b645f903d89858a7ee5b23ad869c94b2a2d37ee79aa37976e0b701221fe0c"
+"mv11f_artifact_manifest_v1","mv11f-decision.csv",480,"91eb677115aabeb4ba2ebd047fd5f074161cab4a1bac81509239028778d19c48"
+"mv11f_artifact_manifest_v1","mv11f-validation.csv",1487,"3addb4b1a2e9ae347f13dbee94549b151a995d342d2363bd7cf69332f3e1e30f"

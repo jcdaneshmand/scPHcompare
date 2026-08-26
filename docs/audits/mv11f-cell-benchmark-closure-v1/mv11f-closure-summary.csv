@@ -1,0 +1,2 @@
+"contract_id","execution_head","matrices","partition_fits","private_assignment_rows","quality_rows","stability_rows","primary_k_rows","agreement_rows","selected_H0_k","selected_H1_k","exact_repeat","labels_used","outcomes_used","cross_view_comparison_performed","result_interpretation_state"
+"mv11f_cell_benchmark_closure_summary_v1","57d8852df0f3744351119218fae96aa63cbd1f16",10,450,55800,450,90,2,900,2,2,TRUE,FALSE,FALSE,FALSE,"label_closed_cell_benchmark_only"
