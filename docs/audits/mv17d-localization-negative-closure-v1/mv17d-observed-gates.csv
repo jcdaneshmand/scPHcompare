@@ -1,0 +1,8 @@
+"contract_id","gate","passed"
+"mv17d_observed_gate_v1","H0_exact",TRUE
+"mv17d_observed_gate_v1","positive_persistence",TRUE
+"mv17d_observed_gate_v1","double_loop_cardinality",TRUE
+"mv17d_observed_gate_v1","negative_persistence",TRUE
+"mv17d_observed_gate_v1","fundamental_positive_localization",TRUE
+"mv17d_observed_gate_v1","edge_shortest_positive_localization",FALSE
+"mv17d_observed_gate_v1","row_order_invariance",FALSE

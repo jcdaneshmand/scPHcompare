@@ -1,0 +1,12 @@
+"contract_id","check_id","passed"
+"mv17d_failure_closure_validation_v1","four_fixtures",TRUE
+"mv17d_failure_closure_validation_v1","six_sources_bound",TRUE
+"mv17d_failure_closure_validation_v1","scientific_repeat_exact",TRUE
+"mv17d_failure_closure_validation_v1","H0_and_persistence_pass",TRUE
+"mv17d_failure_closure_validation_v1","fundamental_pass",TRUE
+"mv17d_failure_closure_validation_v1","edge_shortest_failure_retained",TRUE
+"mv17d_failure_closure_validation_v1","row_invariance_failure_retained",TRUE
+"mv17d_failure_closure_validation_v1","resources_pass",TRUE
+"mv17d_failure_closure_validation_v1","one_worker_zero_retry",TRUE
+"mv17d_failure_closure_validation_v1","real_localization_closed",TRUE
+"mv17d_failure_closure_validation_v1","downstream_firewall",TRUE
