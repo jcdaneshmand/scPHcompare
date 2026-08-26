@@ -1,0 +1,2 @@
+"contract_id","decision","execution_authorized_after_commit","labels_authorized","outcomes_authorized","biological_interpretation_authorized","manuscript_claims_authorized","next_if_closed"
+"mv10m_decision_v1","authorize_label_closed_methodological_disposition_after_commit",TRUE,FALSE,FALSE,FALSE,FALSE,"separate_label_evaluation_prefreeze_if_structurally_nondegenerate"

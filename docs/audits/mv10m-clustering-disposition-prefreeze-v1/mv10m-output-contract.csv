@@ -1,0 +1,6 @@
+"contract_id","output_order","artifact","expected_rows","labels_allowed","outcomes_allowed","inference_allowed","ranking_allowed"
+"mv10m_output_contract_v1",1,"selected_primary_seed_metrics",10,FALSE,FALSE,FALSE,FALSE
+"mv10m_output_contract_v1",2,"primary_summary",2,FALSE,FALSE,FALSE,FALSE
+"mv10m_output_contract_v1",3,"representation_context",6,FALSE,FALSE,FALSE,FALSE
+"mv10m_output_contract_v1",4,"method_sensitivity",24,FALSE,FALSE,FALSE,FALSE
+"mv10m_output_contract_v1",5,"disposition",1,FALSE,FALSE,FALSE,FALSE

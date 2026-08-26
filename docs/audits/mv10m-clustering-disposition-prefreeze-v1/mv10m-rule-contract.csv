@@ -1,0 +1,9 @@
+"contract_id","rule_order","rule_id","rule","result_dependent_threshold"
+"mv10m_disposition_rule_v1",1,"primary_method","Retain prospectively frozen PAM as the primary method",FALSE
+"mv10m_disposition_rule_v1",2,"selected_k","Retain separate prospectively selected H0 and H1 K values",FALSE
+"mv10m_disposition_rule_v1",3,"structural_degeneracy","Stop before labels if any selected seed has minimum cluster size below two or any singleton cluster",FALSE
+"mv10m_disposition_rule_v1",4,"stability","Report adjusted-Rand stability descriptively under the frozen one-SE rule",FALSE
+"mv10m_disposition_rule_v1",5,"silhouette","Report silhouette descriptively without a threshold or selection role",FALSE
+"mv10m_disposition_rule_v1",6,"representation_sensitivity","Show the same selected K across all three representations without ranking representations",FALSE
+"mv10m_disposition_rule_v1",7,"method_sensitivity","Show all four PAM pair agreements without ranking clustering methods",FALSE
+"mv10m_disposition_rule_v1",8,"firewall","Keep labels, outcomes, biology, combined scores, and manuscript claims closed",FALSE
