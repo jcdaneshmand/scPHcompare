@@ -1,0 +1,2 @@
+"contract_id","execution_head","catalog_order","seed","homology_dimension","partition_rows","quality_rows","assignment_sha256","quality_sha256","exact_repeat","labels_used","outcomes_used","cross_view_comparison_performed"
+"mv11d_sentinel_closure_summary_v1","57d8852df0f3744351119218fae96aa63cbd1f16",10,20260809,"H1",5580,45,"2ccab6d60a19a3f852d1551c0945d81572b3b032bff7ef23467c12fa5f93dde1","7dde79b0a15a8419629cab61c5748ede8f519d37c496c08f687329436608c67a",TRUE,FALSE,FALSE,FALSE

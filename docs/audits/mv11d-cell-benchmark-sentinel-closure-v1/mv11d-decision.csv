@@ -1,0 +1,2 @@
+"contract_id","sentinel_independently_closed","full_execution_authorized_after_commit","labels_authorized","outcomes_authorized","cross_view_comparison_authorized","fusion_authorized","biological_claims_authorized","manuscript_claims_authorized","next_action"
+"mv11d_decision_v1",TRUE,TRUE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,"commit this closure; run all ten frozen cell matrices once; independently repeat all public and private aggregate artifacts before interpretation"

@@ -1,0 +1,5 @@
+"contract_id","artifact","bytes","sha256"
+"mv11d_artifact_manifest_v1","MV11D_CELL_BENCHMARK_SENTINEL_CLOSURE_2026-08-25.md",294,"cb4fdae6acc229d538c4425ce7cff18b9f7a8dd6ef5d7da9937f330ef33429ff"
+"mv11d_artifact_manifest_v1","mv11d-decision.csv",474,"2547f8a1dec1ff736f7a597bfef944a086fc8f3baf0b89cfd926b637b956eeb8"
+"mv11d_artifact_manifest_v1","mv11d-sentinel-closure-summary.csv",484,"22c62913551f2abecf2375805b54a771397f2089aaafbfe19ab776efc816b9ed"
+"mv11d_artifact_manifest_v1","mv11d-validation.csv",996,"0b375016e24312082fbf9d5900d2e543b20537ccca9bd403133bb15c5e5d4e53"
