@@ -42,9 +42,24 @@ test_that("MV15 prospectively freezes exactly 36 label-closed comparisons", {
   expect_false(decision$values_inspected_during_prefreeze)
   implementation_paths <- file.path(root, implementation$file)
   expect_true(all(file.exists(implementation_paths)))
-  expect_equal(unname(vapply(implementation_paths, function(path) {
+  current_hashes <- unname(vapply(implementation_paths, function(path) {
     digest::digest(file = path, algo = "sha256", serialize = FALSE)
-  }, character(1L))), implementation$sha256)
+  }, character(1L)))
+  closure_index <- which(implementation$file ==
+                           "scripts/build_mv15_cell_distance_comparison_closure.R")
+  unchanged <- setdiff(seq_len(nrow(implementation)), closure_index)
+  expect_equal(current_hashes[unchanged], implementation$sha256[unchanged])
+  recovery <- read.csv(file.path(
+    root, "docs", "audits",
+    "mv15-cell-distance-comparison-closure-recovery-prefreeze-v1",
+    "mv15-recovery-implementation-binding.csv"
+  ), stringsAsFactors = FALSE, check.names = FALSE)
+  recovery_closure <- recovery[recovery$changed_for_recovery, , drop = FALSE]
+  expect_equal(nrow(recovery_closure), 1L)
+  expect_equal(recovery_closure$original_sha256,
+               implementation$sha256[[closure_index]])
+  expect_equal(current_hashes[[closure_index]],
+               recovery_closure$recovery_sha256)
 
   files <- file.path(audit, manifest$artifact)
   expect_equal(as.numeric(file.info(files)$size), manifest$bytes)

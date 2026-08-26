@@ -1,0 +1,2 @@
+"contract_id","comparisons","aggregate_job_seconds","total_elapsed_seconds","elapsed_cap_seconds","peak_rss_bytes","rss_cap_bytes","GNU_time_exit_status","private_bytes","private_storage_cap_bytes","public_bytes","public_storage_cap_bytes","workers","retries"
+"mv15_resource_closure_v1",36,3.54000000000001,89.647,3600,189370368,4294967296,0,21118550,268435456,48048,16777216,1,0

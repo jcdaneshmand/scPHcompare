@@ -1,0 +1,2 @@
+"contract_id","distance_comparisons_independently_closed","values_not_interpreted_by_closure","descriptive_synthesis_prefreeze_eligible_next","clustering_authorized","fusion_authorized","labels_authorized","outcomes_authorized","biological_claims_authorized","manuscript_claims_authorized","next_action"
+"mv15_closure_decision_v1",TRUE,TRUE,TRUE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,"prospectively_freeze_threshold_free_descriptive_synthesis"
