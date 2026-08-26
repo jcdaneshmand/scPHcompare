@@ -1,0 +1,2 @@
+"contract_id","execution_head","completion_state","output_tables","primary_envelope_rows","method_envelope_rows","context_contrast_rows","approach_contrast_rows","magnitude_threshold_applied","p_values_computed","method_selection_executed","ranking_executed","H0_H1_combined","biological_claims","manuscript_claims"
+"mv10z_terminal_receipt_v1","d0c02295034568eb4d438c19d2d94fcdc53de40a","complete",5,20,60,120,120,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE

@@ -1,0 +1,2 @@
+"contract_id","decision","outcome_role","primary_PAM_rows","complete_method_rows","magnitude_threshold_applied","p_values_computed","method_selection_executed","representation_ranking_executed","H0_H1_combined","approach_causal_interpretation","biological_claims","manuscript_claims","next_stage"
+"mv10z_outcome_disposition_v1","retain_frozen_PAM_without_outcome_tuning","descriptive_external_alignment_only",60,300,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,"cross_view_descriptive_synthesis_prefreeze_or_stop"
