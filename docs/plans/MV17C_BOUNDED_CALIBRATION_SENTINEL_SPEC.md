@@ -1,6 +1,6 @@
 # MV17-C bounded H0/H1 calibration sentinel specification
 
-Date: 2026-08-26  
+Date: 2026-08-26
 Status: prospective implementation specification; no real source selection or null execution authorized
 
 ## Eligible primary axis
