@@ -43,9 +43,9 @@ probability formula, privacy rule, or downstream scientific firewall.
 2. Verify focused and complete tests without touching the live serial process.
 3. Stop the serial controller at an atomic boundary:
    pause only the R parent while its current child finishes, require no active
-   child and a consecutive complete prefix, send the authorized signal-15
-   termination to the paused parent, continue it only to deliver that signal,
-   and require the outer GNU-time receipt plus empty outer streams.
+   child and a consecutive complete prefix, then send signal 9 to that still-
+   paused R parent only. Do not continue the R parent. Require the outer
+   GNU-time receipt plus empty outer streams.
 4. Build a fresh private/public recovery prefreeze at the exact implementation
    head. Privately bind every prefix artifact and all 264 matrix hashes; publish
    only counts, aggregate resources, capacity, implementation hashes, and
@@ -64,6 +64,12 @@ probability formula, privacy rule, or downstream scientific firewall.
 
 - Never run the serial and parallel controllers concurrently.
 - Never stop or signal an active grouped child.
+- Signal 15 followed by `CONT` is forbidden. A disposable R-process test showed
+  that this sequence can execute an additional post-child R expression before
+  termination, so it cannot guarantee that another queue item will not launch.
+- Parent-only signal 9 after the active child exits while the parent remains
+  stopped is required; it permits no further R code to execute and preserves
+  the child's already atomically promoted four-artifact result.
 - Any partial four-artifact child set is a terminal stop; preserve it and do not
   retry without a new committed recovery prefreeze.
 - Any duplicate queue order, nonempty stream, nonzero child exit, hash drift,
@@ -78,7 +84,7 @@ probability formula, privacy rule, or downstream scientific firewall.
 
 - Exact committed implementation head and exact committed recovery-prefreeze head.
 - Consecutive serial prefix with four artifacts per child and no partials.
-- Signal-15 serial controller receipt and empty outer streams.
+- Signal-9 serial controller receipt and empty outer streams.
 - Eight-worker/one-thread/zero-retry status for primary and repeat.
 - Exact primary/repeat queue and scientific-run cardinalities.
 - Exact maximum-burden repeat agreement.

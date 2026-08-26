@@ -132,7 +132,7 @@ serial_outer <- mv17c_parse_gnu_time_v1(serial_time)
 primary_outer <- mv17c_parse_gnu_time_v1(primary_time)
 repeat_outer <- mv17c_parse_gnu_time_v1(repeat_time)
 serial_text <- paste(readLines(serial_time, warn = FALSE), collapse = "\n")
-controlled_serial_stop <- grepl("signal 15", serial_text, ignore.case = TRUE) || serial_outer$exit_status %in% c(15L, 143L)
+controlled_serial_stop <- grepl("signal 9", serial_text, ignore.case = TRUE) || serial_outer$exit_status %in% c(9L, 137L)
 
 prefix_hashes_exact <- all(vapply(seq_len(serial_prefix), function(i) {
   q <- primary_queue[i, , drop = FALSE]

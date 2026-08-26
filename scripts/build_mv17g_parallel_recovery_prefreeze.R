@@ -112,9 +112,9 @@ prefix_inventory <- do.call(rbind, prefix_rows)
 
 serial_outer <- mv17c_parse_gnu_time_v1(serial_time)
 serial_time_text <- paste(readLines(serial_time, warn = FALSE), collapse = "\n")
-controlled_stop <- grepl("signal 15", serial_time_text, ignore.case = TRUE) || serial_outer$exit_status %in% c(15L, 143L)
+controlled_stop <- grepl("signal 9", serial_time_text, ignore.case = TRUE) || serial_outer$exit_status %in% c(9L, 137L)
 if (!controlled_stop || file.info(serial_stdout)$size != 0 || file.info(serial_stderr)$size != 0) {
-  stop("MV17-G serial controller did not close at the authorized signal-15 boundary", call. = FALSE)
+  stop("MV17-G serial controller did not close at the authorized signal-9 boundary", call. = FALSE)
 }
 
 meminfo <- readLines("/proc/meminfo", warn = FALSE)
@@ -142,7 +142,7 @@ prefix_status <- data.frame(
   prefix_consecutive = TRUE,
   partial_children = sum(scan$state == "partial"),
   serial_exit_status = serial_outer$exit_status,
-  controlled_signal_15_stop = controlled_stop,
+  controlled_signal_9_stop = controlled_stop,
   serial_outer_wall_seconds = serial_outer$wall_seconds,
   serial_outer_maximum_RSS_bytes = serial_outer$maximum_RSS_bytes,
   stringsAsFactors = FALSE

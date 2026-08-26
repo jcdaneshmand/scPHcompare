@@ -79,6 +79,11 @@ test_that("MV17-G recovery scripts parse and bind the parallel closure path", {
   ))
   expect_true(all(file.exists(scripts)))
   for (path in scripts) expect_silent(parse(path))
+  text <- paste(vapply(scripts[c(1L, 3L)], function(path) {
+    paste(readLines(path, warn = FALSE), collapse = "\n")
+  }, character(1L)), collapse = "\n")
+  expect_match(text, "signal 9")
+  expect_false(grepl("signal 15", text, fixed = TRUE))
 })
 
 test_that("MV17-G eight-worker recovery prefreeze is exact and aggregate-only", {
