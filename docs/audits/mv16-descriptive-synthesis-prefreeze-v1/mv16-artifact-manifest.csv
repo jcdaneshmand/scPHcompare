@@ -1,0 +1,7 @@
+"contract_id","artifact","bytes","sha256"
+"mv16_artifact_manifest_v1","MV16_DESCRIPTIVE_SYNTHESIS_PREFREEZE_2026-08-26.md",429,"23e8bcd29cd6f634c7aed8533da2bc8dc15594ddce770a64c281cde300e0235f"
+"mv16_artifact_manifest_v1","mv16-contract.csv",785,"3f92c16905aa46d6b66dac23787ef5cdd2e79eaf8a6771859b36be408b04695c"
+"mv16_artifact_manifest_v1","mv16-decision.csv",244,"8d729a401c6fb5521764042062c219ac9cbfcea745d29ab46433333b928b7842"
+"mv16_artifact_manifest_v1","mv16-implementation-binding.csv",675,"3c3cd7fdc9f5014e1a1ac11081d4e283c9c88e96bcfbcc15194b16591b43e4bd"
+"mv16_artifact_manifest_v1","mv16-source-binding.csv",563,"6bad1e2ec0d4638ccb2b590bb0c0202063b27c3694fa1f9c1461b41bdff093cd"
+"mv16_artifact_manifest_v1","mv16-validation.csv",745,"52a51adcb50d055fceec03964bcb6ac02317a9b98001c81656b1617563c259da"

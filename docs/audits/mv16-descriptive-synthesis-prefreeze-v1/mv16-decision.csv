@@ -1,0 +1,2 @@
+"contract_id","decision","execution_authorized_after_commit","values_inspected","next_after_closure"
+"mv16_decision_v1","authorize_complete_threshold_free_synthesis_after_commit",TRUE,FALSE,"owner_scientific_review_before_fusion_or_clustering"

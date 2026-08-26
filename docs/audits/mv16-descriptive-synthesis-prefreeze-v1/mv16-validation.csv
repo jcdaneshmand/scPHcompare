@@ -1,0 +1,16 @@
+"contract_id","check_id","passed"
+"mv16_validation_v1","MV15_closed",TRUE
+"mv16_validation_v1","source_cardinality",TRUE
+"mv16_validation_v1","source_aggregate_only",TRUE
+"mv16_validation_v1","source_rehashed",TRUE
+"mv16_validation_v1","implementation_bound",TRUE
+"mv16_validation_v1","complete_rows_retained",TRUE
+"mv16_validation_v1","fixed_global_groups",TRUE
+"mv16_validation_v1","fixed_neighbor_groups",TRUE
+"mv16_validation_v1","H0_H1_separate",TRUE
+"mv16_validation_v1","neighborhood_policy",TRUE
+"mv16_validation_v1","median_min_max_only",TRUE
+"mv16_validation_v1","no_threshold_inference",TRUE
+"mv16_validation_v1","no_view_ranking",TRUE
+"mv16_validation_v1","downstream_firewall",TRUE
+"mv16_validation_v1","no_synthesis_executed",TRUE

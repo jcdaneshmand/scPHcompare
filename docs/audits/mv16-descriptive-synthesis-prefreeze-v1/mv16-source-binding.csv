@@ -1,0 +1,5 @@
+"contract_id","artifact_order","artifact_role","bytes","sha256"
+"mv16_source_binding_v1",1,"MV15_closure_manifest",815,"fd185a4c2918bb651820eb1e504da551380d12c09a75617c3ebbc0a63288073a"
+"mv16_source_binding_v1",2,"MV15_closure_validation",1232,"410e2f02af2491edd1a0de8925afde6374a5d780dc08367d98f4b5eb0c804a29"
+"mv16_source_binding_v1",3,"complete_global_source",25677,"a1fde35434f23ece73c010c8e237d7b46fc900f96bca0547265f98a64fad0d76"
+"mv16_source_binding_v1",4,"complete_neighbor_source",19786,"1bfeb57a86698bbddffc0ac5834272727190e2ac9d11cc02eb2fb66100cbddc6"
