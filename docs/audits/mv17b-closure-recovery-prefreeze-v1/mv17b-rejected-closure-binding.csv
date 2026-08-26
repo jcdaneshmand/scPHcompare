@@ -1,0 +1,4 @@
+"contract_id","artifact","bytes","sha256"
+"mv17b_rejected_closure_binding_v1","mv17b-artifact-manifest.csv",284,"665b292e5bfe1db51fc324f46aa1bf51a2c541f2b891e6a8f9092ac0d30bf00b"
+"mv17b_rejected_closure_binding_v1","mv17b-decision.csv",135,"6a0dc6e9515a87f5d6911993ef35bfc9f4c16699f0fa2f753da60297e6813579"
+"mv17b_rejected_closure_binding_v1","mv17b-validation.csv",386,"9ed4cf892729a19711c0eed06a99ccb0ee69a31a1019143100050a0705700cc0"

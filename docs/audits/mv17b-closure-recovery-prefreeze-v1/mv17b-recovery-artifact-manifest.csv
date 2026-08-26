@@ -1,0 +1,7 @@
+"contract_id","artifact","bytes","sha256"
+"mv17b_recovery_manifest_v1","MV17B_CLOSURE_RECOVERY_PREFREEZE_2026-08-26.md",195,"16c7dc09dee4c4d7adc1a77d8202e5d6650b3fa1bde27a94e07baaaa3a38ab9b"
+"mv17b_recovery_manifest_v1","mv17b-recovery-contract.csv",473,"09bd82350f6ae04fdc285197e2903e2094847c7e877081efe89f6cc677bb1c49"
+"mv17b_recovery_manifest_v1","mv17b-recovery-implementation-binding.csv",666,"64cec158ddc97ba60c31ab388b109e009cc7d9b1e5681a0350a2d3fe4537e342"
+"mv17b_recovery_manifest_v1","mv17b-recovery-production-binding.csv",548,"5cb19982a095f157d775456da26e43a782394c942bae527d9534ce476c5a6c30"
+"mv17b_recovery_manifest_v1","mv17b-recovery-validation.csv",590,"e8a41e50c5dda33f912290473148fadc2bb22e73e7c977596c867a329266185f"
+"mv17b_recovery_manifest_v1","mv17b-rejected-closure-binding.csv",437,"d197b0b961cde39828e5946a373c595ad70fd3071019610e4fdfa500f28c97aa"

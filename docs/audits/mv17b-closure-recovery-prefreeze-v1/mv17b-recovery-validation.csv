@@ -1,0 +1,11 @@
+"contract_id","check_id","passed"
+"mv17b_recovery_validation_v1","four_production_artifacts",TRUE
+"mv17b_recovery_validation_v1","primary_repeat_identical",TRUE
+"mv17b_recovery_validation_v1","36_jobs",TRUE
+"mv17b_recovery_validation_v1","all_invariants",TRUE
+"mv17b_recovery_validation_v1","all_deterministic",TRUE
+"mv17b_recovery_validation_v1","rejected_closure_bound",TRUE
+"mv17b_recovery_validation_v1","implementation_bound",TRUE
+"mv17b_recovery_validation_v1","production_frozen",TRUE
+"mv17b_recovery_validation_v1","closure_only",TRUE
+"mv17b_recovery_validation_v1","firewall",TRUE

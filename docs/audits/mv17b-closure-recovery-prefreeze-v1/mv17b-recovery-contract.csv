@@ -1,0 +1,2 @@
+"contract_id","execution_head","primary_repeat_byte_identical","production_rerun_authorized","closure_v2_authorized_after_commit","complete_metrics_required","production_hash_binding_required","real_corpus_authorized","PH_authorized","clustering_authorized","fusion_authorized","biology_authorized","manuscript_claims_authorized"
+"mv17b_closure_recovery_prefreeze_v1","7cfac3a7133fb1e1b1fd09ee6c6f92d4eaef553c",TRUE,FALSE,TRUE,TRUE,TRUE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE

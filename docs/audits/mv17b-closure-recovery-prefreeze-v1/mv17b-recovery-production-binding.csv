@@ -1,0 +1,5 @@
+"contract_id","role","bytes","sha256"
+"mv17b_recovery_production_binding_v1","primary_metrics",4068,"de176f069bb7efd1a8ccaa3e10ecef4d5bfabcfd7e419197b6d2e49edbe3287f"
+"mv17b_recovery_production_binding_v1","primary_status",178,"bdcbb7e2a82798f69e43bb0d12ce7bfd2da401321993261927d82eeefab6aa26"
+"mv17b_recovery_production_binding_v1","repeat_metrics",4068,"de176f069bb7efd1a8ccaa3e10ecef4d5bfabcfd7e419197b6d2e49edbe3287f"
+"mv17b_recovery_production_binding_v1","repeat_status",178,"bdcbb7e2a82798f69e43bb0d12ce7bfd2da401321993261927d82eeefab6aa26"
