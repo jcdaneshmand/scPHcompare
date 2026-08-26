@@ -5,7 +5,7 @@
 | Field | Value |
 |---|---|
 | Status | Draft for owner and author-team review |
-| Version | 0.5.21 |
+| Version | 0.5.22 |
 | Created | 2026-08-03 |
 | Canonical repository | `jcdaneshmand/scPHcompare` |
 | Historical source repository | `jcdaneshmand/PH_ClusteringApp` |
@@ -867,6 +867,7 @@ Publish a durable, citable research artifact.
 | D-263 | 2026-08-26 | Preserve MV17-E's substantive negative fixture result and prepare a failure-only closure | Both seven-fixture runs exit cleanly at about 5.5 seconds and 126 MiB peak RSS; all seven RDS payloads repeat byte-for-byte and Ripserr/TDA-GUDHI interval error is zero. Sphere and torus positive controls pass, but the circle has 13 H2 intervals with maximum persistence 0.06989 and shuffled circle has two with maximum 0.06504, both violating the frozen `1e-8` H2-negative maximum. Timing-bearing summaries differ only in elapsed fields | Commit/push the failure record plus failure-prefreeze/closure implementation. Do not rerun or alter thresholds. Build an exact-head failure prefreeze binding all 20 artifacts, then close MV17-E negative, forbid real-data H2 and MV17-F, and continue H0/H1 calibration/localization lanes |
 | D-264 | 2026-08-26 | Prospectively freeze the MV17-E negative closure at exact head `c17cf55` | Ten of ten gates bind 20 primary/repeat/time artifacts, seven byte-identical scientific payloads, byte-identical status, the original fixed thresholds, and the failure-closure implementation. Production rerun and threshold changes remain forbidden; only a negative closure may be built. Real H2 and MV17-F are explicitly closed while H0/H1 work remains eligible | Commit/push the failure prefreeze. Then build the negative closure once, independently reconstruct all seven summaries and dual-engine agreements, retain the two failed circle controls, and close the H2 lane without real-data execution |
 | D-265 | 2026-08-26 | Close MV17-E negative and reject real-data H2 under the current complete-VR estimand | Eleven of eleven failure-closure gates independently reconstruct all seven fixture summaries, confirm exact Ripserr/TDA-GUDHI agreement, bind all 20 source artifacts, retain passing sphere/torus and attenuation controls, and retain failed circle/shuffled-circle H2-negative controls. The failure is reproducible and scientific; it is not repaired or reinterpreted | Commit/push the immutable negative closure. Do not execute MV17-F or any real-data H2. Continue only the independent MV17-C H0/H1 calibration and MV17-D H0/H1 localization lanes; any future sparse/subsampled H2 would be a new estimand requiring explicit owner authorization |
+| D-266 | 2026-08-26 | Implement MV17-D H0/H1 localization qualification without running its fixtures | H0 uses deterministic Kruskal merger edges with distance/canonical-token tie handling. H1 compares a non-boundary fundamental-cycle method with an edge-exclusion shortest-hop method over field 2 at the midpoint of the longest finite interval. Four fixed fixtures, persistence boundaries, two-loop cardinality, radial/angular localization checks, row-order invariance, exact repeat, one-worker/1,800-second/4-GiB caps, six-artifact resource/provenance closure, and every real/downstream firewall are implemented | Commit/push implementation and static tests. Then build a distinct exact-head MV17-D prefreeze before executing any synthetic localization fixture. Real localization and all labels, outcomes, clustering, fusion, biology, and manuscript claims remain closed |
 
 ## 9. Status dashboard
 
@@ -887,6 +888,7 @@ Publish a durable, citable research artifact.
 
 | Version | Date | Summary |
 |---|---|---|
+| 0.5.22 | 2026-08-26 | Implemented the prospective MV17-D synthetic H0/H1 localization qualification, including two field-2 representative-cycle algorithms, canonical tie handling, known-geometry checks, row-order/repeat/resource gates, and complete real/downstream firewalls without executing localization fixtures. |
 | 0.5.21 | 2026-08-26 | Closed MV17-E negative at 11/11 gates: complete-VR H2 is reproducible and dual-engine exact but fails finite circle and shuffled-circle negative controls, so real-data H2 and MV17-F are rejected while H0/H1 calibration/localization continue. |
 | 0.5.20 | 2026-08-26 | Prospectively froze MV17-E's negative closure at 10/10 gates and exact head `c17cf55`, binding all 20 artifacts and unchanged thresholds while forbidding rerun and authorizing only closure of real H2/MV17-F. |
 | 0.5.19 | 2026-08-26 | Preserved MV17-E's reproducible substantive negative result: dual engines agree and payloads repeat exactly, but finite circle and shuffled-circle fixtures violate the prospectively frozen H2-negative controls; implemented a no-rerun failure closure that blocks real H2/MV17-F while retaining H0/H1 work. |
