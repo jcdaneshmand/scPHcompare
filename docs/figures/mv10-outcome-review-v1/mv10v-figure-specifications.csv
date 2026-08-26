@@ -1,0 +1,7 @@
+"contract_id","figure_order","figure_id","filename","width_inches","height_inches","dpi","representations","homology_dimensions","metrics","biological_claim","manuscript_claim"
+"mv10v_figure_specification_v1",1,"primary_tissue","mv10v-primary_tissue.png",14,9,180,3,2,2,FALSE,FALSE
+"mv10v_figure_specification_v1",2,"primary_study","mv10v-primary_study.png",14,9,180,3,2,2,FALSE,FALSE
+"mv10v_figure_specification_v1",3,"primary_approach","mv10v-primary_approach.png",14,9,180,3,2,2,FALSE,FALSE
+"mv10v_figure_specification_v1",4,"primary_context_restriction","mv10v-primary_context_restriction.png",16,10,180,3,2,2,FALSE,FALSE
+"mv10v_figure_specification_v1",5,"all_methods_full124","mv10v-all_methods_full124.png",18,15,180,3,2,2,FALSE,FALSE
+"mv10v_figure_specification_v1",6,"all_methods_primary90","mv10v-all_methods_primary90.png",18,12,180,3,2,2,FALSE,FALSE
