@@ -1,0 +1,2 @@
+"contract_id","decision","execution_authorized_after_commit","values_inspected_during_prefreeze","next_after_closure","clustering_state","fusion_state","labels_outcomes_state","manuscript_claims_state"
+"mv15_decision_v1","authorize_36_label_closed_comparisons_after_commit",TRUE,FALSE,"prospective_threshold_free_descriptive_synthesis","closed","closed","closed","closed"

@@ -1,0 +1,9 @@
+"contract_id","artifact","cardinality","identity_policy","labels_allowed","outcomes_allowed"
+"mv15_output_schema_v1","private_pair_axes","36 x pair_count","private unit identities",FALSE,FALSE
+"mv15_output_schema_v1","private_neighbor_rows","3816 rows","private unit identities",FALSE,FALSE
+"mv15_output_schema_v1","private_status","36 job directories","private unit identities",FALSE,FALSE
+"mv15_output_schema_v1","public_global_summary","36 rows","aggregate only",FALSE,FALSE
+"mv15_output_schema_v1","public_neighbor_summary","42 rows","aggregate only",FALSE,FALSE
+"mv15_output_schema_v1","public_resource_ledger","36 rows","aggregate only",FALSE,FALSE
+"mv15_output_schema_v1","public_terminal_receipt","1 row","aggregate only",FALSE,FALSE
+"mv15_output_schema_v1","immutable_independent_closure","one audit directory","aggregate only",FALSE,FALSE
