@@ -1,0 +1,5 @@
+"contract_id","role","bytes","sha256"
+"mv14_input_binding_v1","mv13e_manifest",542,"b7674e02e90fcb669200960b61f8adf2aca325dcc6c4ebc8e9b26e4d2f5c2d40"
+"mv14_input_binding_v1","engine_v2_admission_manifest",642,"dd650a256b95095e05833670b72a0d50e64432f795282405a4fbfe9dedb9e5ec"
+"mv14_input_binding_v1","private_axis_bindings",610756,"f6fca38fb07bf82fd0f5cead541c6311277e8857e81b7d26f4fcc6b368f86450"
+"mv14_input_binding_v1","engine_v2_library",441512,"dd21610230f800aa8a1c2f69667c85af56a51dbadf1392862a5603f95f7d2476"

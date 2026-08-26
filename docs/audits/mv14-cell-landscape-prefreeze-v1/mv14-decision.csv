@@ -1,0 +1,2 @@
+"contract_id","decision","production_authorized_after_commit","groups_authorized","chunks_authorized","pairs_authorized","workers","automatic_retries","comparisons_authorized","clustering_authorized","fusion_authorized","labels_authorized","outcomes_authorized","manuscript_claims_authorized","next_gate"
+"mv14_prefreeze_decision_v1","authorize_label_closed_full_cell_landscapes_after_commit",TRUE,14,314,76372,1,0,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,"MV14_independent_full_cell_landscape_closure"
