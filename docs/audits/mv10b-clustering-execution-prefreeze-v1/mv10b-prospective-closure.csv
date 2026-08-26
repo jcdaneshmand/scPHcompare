@@ -1,0 +1,3 @@
+"contract_id","stage","requires_source_reload","requires_private_partition_recomputation","requires_public_aggregate_recomputation","partition_tolerance","aggregate_numeric_tolerance","requires_resource_caps","requires_privacy_firewall","requires_label_outcome_firewall"
+"mv10b_prospective_closure_v1","sentinel_mv10d",TRUE,TRUE,FALSE,0,1e-14,TRUE,TRUE,TRUE
+"mv10b_prospective_closure_v1","full_mv10f",TRUE,TRUE,TRUE,0,1e-14,TRUE,TRUE,TRUE

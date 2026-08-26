@@ -1,0 +1,2 @@
+"contract_id","decision","sentinel_execution_authorized_after_commit","full_execution_authorized","full_execution_requires","labels_authorized","outcomes_authorized","biological_interpretation_authorized","manuscript_claims_authorized"
+"mv10b_decision_v1","authorize_one_sentinel_after_prefreeze_commit",TRUE,FALSE,"committed_mv10d_26_of_26_sentinel_closure",FALSE,FALSE,FALSE,FALSE

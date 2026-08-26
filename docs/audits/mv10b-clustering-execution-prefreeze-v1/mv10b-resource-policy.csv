@@ -1,0 +1,2 @@
+"contract_id","workers","automatic_retries","child_elapsed_cap_seconds","process_tree_rss_cap_bytes","aggregate_elapsed_cap_seconds","private_storage_cap_bytes","poll_interval_seconds","partial_evidence_policy"
+"mv10b_resource_policy_v1",1,0,1800,4294967296,14400,536870912,0.1,"preserve_stop_no_retry"

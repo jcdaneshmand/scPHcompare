@@ -1,0 +1,8 @@
+"contract_id","source_order","artifact","bytes","sha256"
+"mv10b_source_freeze_v1",1,"docs/audits/mv10a-clustering-benchmark-prefreeze-v1/mv10a-artifact-manifest.csv",2254,"6792102bcc8f0dbb07e1cc4dda64a345429910837ad780cbc8c075b6bc1e94da"
+"mv10b_source_freeze_v1",2,"docs/audits/mv10a-clustering-benchmark-prefreeze-v1/mv10a-contract.csv",595,"bba5cdac64cd651fe7782483eb14ca59d1dd6cd58a66cb010fee875179a6f829"
+"mv10b_source_freeze_v1",3,"docs/audits/mv10a-clustering-benchmark-prefreeze-v1/mv10a-resource-contract.csv",413,"7d4d5bb76a8521873fe7eea8ab30674f6434d0766e889df49b9ec1690328ee14"
+"mv10b_source_freeze_v1",4,"docs/audits/mv10a-clustering-benchmark-prefreeze-v1/mv10a-output-contract.csv",593,"811daa4bbbca08c60dbfc4e57ab3ec66434736698887b1f5ced946e16639c047"
+"mv10b_source_freeze_v1",5,"docs/audits/mv10a-clustering-benchmark-prefreeze-v1/mv10a-method-registry.csv",1763,"cdc8f7c9ecaa1b5dc4531a9e3ca0836b9828227ffb84be2f998f398ea701e10c"
+"mv10b_source_freeze_v1",6,"docs/audits/mv10a-clustering-benchmark-prefreeze-v1/mv10a-distance-registry.csv",1097,"2f0dc218b8808127d71659ee02bb1bec9bc4eaed36c57b0854467204257a221c"
+"mv10b_source_freeze_v1",7,"docs/audits/mv10a-clustering-benchmark-prefreeze-v1/mv10a-k-contract.csv",1694,"af90814defd78c569bd50f95cd62252dff9764555fecfd49c2adb95a443e6675"
