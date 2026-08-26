@@ -1,0 +1,2 @@
+"contract_id","disposition","primary_K_passes","sensitivity_signal","option2_new_allqc_cell_topology_required","labels_used","outcomes_used","method_or_weight_selected","biological_claims","manuscript_claims","historical_fusion_independently_closed","next_action"
+"mv12_fusion_disposition_v1","weight_sensitive_ambiguous_historical_signal",0,TRUE,TRUE,FALSE,FALSE,FALSE,FALSE,FALSE,TRUE,"commit closure; begin prospectively governed newer all-QC cell topology"

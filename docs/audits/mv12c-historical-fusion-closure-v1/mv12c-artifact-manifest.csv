@@ -1,0 +1,6 @@
+"contract_id","artifact","bytes","sha256"
+"mv12c_artifact_manifest_v1","MV12C_HISTORICAL_FUSION_CLOSURE_2026-08-26.md",306,"223c2fc5fad3baf072626337d00bd3110ebd1282ddc9832e9143beddb3dd57cb"
+"mv12c_artifact_manifest_v1","mv12c-artifact-repeat.csv",1527,"e5fed52533645d2008085a114bc26b60e6d17601411709499b4baf0f75f3cdd0"
+"mv12c_artifact_manifest_v1","mv12c-decision.csv",461,"cb658ce30b7ea0f082f62be268f1a31b371613fa0e48bbced54abc09eba48eb4"
+"mv12c_artifact_manifest_v1","mv12c-primary-decision-detail.csv",470,"98309d1861b18880e0952689a67fc87fcc88c303b3494cd914cd8e3b51133ab2"
+"mv12c_artifact_manifest_v1","mv12c-validation.csv",1081,"b155aca8038de91baf71bb32b1933500074db1362288c6d7b53c4ff2b93ff02b"
