@@ -1,0 +1,2 @@
+"contract_id","primary_exit","repeat_exit","dual_engine_agreement","scientific_payload_repeat","failed_controls","circle_H2_intervals","circle_max_H2_persistence","shuffled_circle_H2_intervals","shuffled_circle_max_H2_persistence","production_rerun_authorized","threshold_change_authorized","real_H2_authorized","MV17F_authorized"
+"mv17e_h2_failure_v1",0,0,TRUE,TRUE,"circle_H2_negative;shuffled_circle_H2_negative",13,0.0698869282359611,2,0.0650376493790075,FALSE,FALSE,FALSE,FALSE
