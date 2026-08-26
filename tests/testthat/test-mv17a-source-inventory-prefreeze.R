@@ -1,7 +1,7 @@
 test_that("MV17-A committed audit is aggregate-only and fully gated", {
   root <- testthat::test_path("..", "..")
   audit <- file.path(root, "docs", "audits",
-                     "mv17a-source-inventory-estimand-prefreeze-v1")
+                     "mv17a-source-inventory-estimand-prefreeze-v2")
   skip_if_not(dir.exists(audit), "MV17-A audit has not been built yet")
   read_at <- function(name) read.csv(file.path(audit, name),
     stringsAsFactors = FALSE, check.names = FALSE)

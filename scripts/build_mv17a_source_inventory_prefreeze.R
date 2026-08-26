@@ -44,9 +44,10 @@ verify_manifest <- function(root, manifest_name) {
   if (!all(required %in% names(manifest))) stop("MV17-A manifest schema drift")
   paths <- file.path(root, manifest$artifact)
   if (any(!file.exists(paths)) ||
-      !identical(as.numeric(file.info(paths)$size), as.numeric(manifest$bytes)) ||
-      !identical(tolower(vapply(paths, sha, character(1L))),
-                 tolower(manifest$sha256))) {
+      !identical(unname(as.numeric(file.info(paths)$size)),
+                 unname(as.numeric(manifest$bytes))) ||
+      !identical(unname(tolower(vapply(paths, sha, character(1L)))),
+                 unname(tolower(manifest$sha256)))) {
     stop("MV17-A accepted closure manifest drift: ", root, call. = FALSE)
   }
   data.frame(
@@ -88,8 +89,8 @@ gene_expected <- readc(file.path(
   "docs/audits/mv08zu-engine-v2-full-landscape-closure-v1",
   "mv08zu-private-chunk-rehash.csv"
 ))
-if (!identical(tolower(gene_completion$distances_sha256),
-               tolower(gene_expected$distances_sha256)) ||
+if (!identical(unname(tolower(gene_completion$distances_sha256)),
+               unname(tolower(gene_expected$distances_sha256))) ||
     gene_distance$artifacts != 628L || gene_distance$records != 152744L) {
   stop("MV17-A gene distance closure binding drift", call. = FALSE)
 }
@@ -102,9 +103,10 @@ if (!all(locator_required %in% names(cell_locator)) || nrow(cell_locator) != 132
   stop("MV17-A cell source locator drift", call. = FALSE)
 }
 cell_cache_hash <- vapply(cell_locator$private_cache_path, sha, character(1L))
-if (!identical(tolower(cell_cache_hash), tolower(cell_locator$cache_sha256)) ||
-    !identical(as.numeric(file.info(cell_locator$private_cache_path)$size),
-               as.numeric(cell_locator$cache_bytes))) {
+if (!identical(unname(tolower(cell_cache_hash)),
+               unname(tolower(cell_locator$cache_sha256))) ||
+    !identical(unname(as.numeric(file.info(cell_locator$private_cache_path)$size)),
+               unname(as.numeric(cell_locator$cache_bytes)))) {
   stop("MV17-A cell source cache rehash drift", call. = FALSE)
 }
 cell_group_paths <- sort(list.files(
@@ -121,8 +123,8 @@ if (!all(axis_required %in% names(cell_axis)) || nrow(cell_axis) != 1272L ||
 }
 group_hash_map <- setNames(cell_groups$artifact_sha256,
                            basename(cell_group_paths))
-if (!identical(tolower(unname(group_hash_map[cell_axis$artifact_file])),
-               tolower(cell_axis$artifact_sha256))) {
+if (!identical(unname(tolower(group_hash_map[cell_axis$artifact_file])),
+               unname(tolower(cell_axis$artifact_sha256)))) {
   stop("MV17-A cell PH group binding drift", call. = FALSE)
 }
 cell_completion <- readc(file.path(cell_public_root,

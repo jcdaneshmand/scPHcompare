@@ -268,9 +268,11 @@ mv17a_inventory_gene_ph_v1 <- function(bindings, source_roots) {
       names(record$topology_result$provenance)
     )), collapse = "|"), algo = "sha256", serialize = FALSE)
   }
-  if (!identical(bytes, as.numeric(artifacts$output_bytes)) ||
-      !identical(tolower(hashes), tolower(artifacts$output_sha256)) ||
-      !identical(tolower(diagram_hash), tolower(artifacts$diagram_sha256)) ||
+  if (!identical(unname(bytes), unname(as.numeric(artifacts$output_bytes))) ||
+      !identical(unname(tolower(hashes)),
+                 unname(tolower(artifacts$output_sha256))) ||
+      !identical(unname(tolower(diagram_hash)),
+                 unname(tolower(artifacts$diagram_sha256))) ||
       any(!grepl("^[0-9a-f]{64}$", selected_axis)) ||
       any(!grepl("^[0-9a-f]{64}$", panel_axis)) ||
       !setequal(point_count, c(475L, 500L)) ||
@@ -311,9 +313,11 @@ mv17a_inventory_delimited_chunks_v1 <- function(root, completion,
                     character(1L))
   completion <- completion[order(as.integer(completion$production_order)),
                            , drop = FALSE]
-  if (!identical(as.integer(rows), as.integer(completion$pair_count)) ||
-      !identical(bytes, as.numeric(completion$distances_bytes)) ||
-      !identical(tolower(hashes), tolower(completion$distances_sha256)) ||
+  if (!identical(unname(as.integer(rows)),
+                 unname(as.integer(completion$pair_count))) ||
+      !identical(unname(bytes), unname(as.numeric(completion$distances_bytes))) ||
+      !identical(unname(tolower(hashes)),
+                 unname(tolower(completion$distances_sha256))) ||
       length(unique(headers)) != 1L) {
     stop("MV17-A distance artifact rehash drift", call. = FALSE)
   }

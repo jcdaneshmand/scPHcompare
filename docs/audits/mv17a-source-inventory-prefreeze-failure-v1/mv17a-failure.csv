@@ -1,0 +1,2 @@
+"contract_id","attempt","execution_head","failure_gate","source_artifacts_changed","scientific_values_opened","null_jobs","localization_jobs","H2_jobs","labels_opened","outcomes_opened","recovery_scope"
+"mv17a_prefreeze_failure_v1",1,"206ad0b164d69d6bc2bce153d2c13f072b60ea0e","accepted_closure_manifest_vector_name_attribute",FALSE,FALSE,0,0,0,FALSE,FALSE,"unname_observed_and_expected_vectors_before_identical_only"
