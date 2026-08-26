@@ -1,0 +1,3 @@
+"contract_id","mode","jobs","aggregate_child_seconds","maximum_child_RSS_bytes","outer_wall_seconds","outer_maximum_RSS_bytes","private_bytes","public_bytes"
+"mv17c_resource_summary_v1","primary",195,761.7,125620224,36.83,156450816,5251136,41553
+"mv17c_resource_summary_v1","repeat",65,271.46,117956608,56.4,156307456,4895357,6223

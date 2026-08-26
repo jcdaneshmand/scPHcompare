@@ -24,7 +24,13 @@ mv17c_select_burden_v1 <- function(units) {
 }
 
 mv17c_parse_gnu_time_v1 <- function(path) {
-  z<-readLines(path,warn=FALSE);field<-function(pattern){hit<-grep(pattern,z,value=TRUE);if(length(hit)!=1L)stop("invalid GNU time receipt",call.=FALSE);sub(".*: *","",hit)};elapsed<-field("Elapsed \\(wall clock\\) time");parts<-as.numeric(strsplit(elapsed,":",fixed=TRUE)[[1]]);data.frame(wall_seconds=sum(rev(parts)*60^(seq_along(parts)-1)),maximum_RSS_bytes=as.numeric(field("Maximum resident set size"))*1024,exit_status=as.integer(field("Exit status")))
+  z<-readLines(path,warn=FALSE)
+  one<-function(pattern){hit<-grep(pattern,z,value=TRUE);if(length(hit)!=1L)stop("invalid GNU time receipt",call.=FALSE);hit}
+  field<-function(pattern)sub(".*: *","",one(pattern))
+  elapsed<-sub("^.*\\):[[:space:]]*","",one("Elapsed \\(wall clock\\) time"))
+  parts<-as.numeric(strsplit(elapsed,":",fixed=TRUE)[[1]])
+  if(!length(parts)%in%c(2L,3L)||any(!is.finite(parts)))stop("invalid GNU elapsed time",call.=FALSE)
+  data.frame(wall_seconds=sum(rev(parts)*60^(seq_along(parts)-1)),maximum_RSS_bytes=as.numeric(field("Maximum resident set size"))*1024,exit_status=as.integer(field("Exit status")))
 }
 
 mv17c_null_seed_registry_v1 <- function(replicates=9L) {
