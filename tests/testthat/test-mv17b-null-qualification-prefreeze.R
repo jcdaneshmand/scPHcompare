@@ -1,0 +1,12 @@
+test_that("MV17-B prefreeze remains synthetic-only", {
+  root <- testthat::test_path("..", "..")
+  audit <- file.path(root, "docs", "audits", "mv17b-null-qualification-prefreeze-v1")
+  skip_if_not(dir.exists(audit), "MV17-B prefreeze not built")
+  r <- function(n) read.csv(file.path(audit,n),stringsAsFactors=FALSE,check.names=FALSE)
+  c <- r("mv17b-contract.csv"); v <- r("mv17b-validation.csv"); d <- r("mv17b-decision.csv"); m <- r("mv17b-artifact-manifest.csv")
+  expect_equal(nrow(v),12L); expect_true(all(v$passed)); expect_equal(c$null_families,4L)
+  expect_false(c$real_corpus_authorized); expect_false(c$PH_authorized)
+  expect_false(any(c[c("labels_authorized","outcomes_authorized","clustering_authorized","fusion_authorized","biology_authorized","manuscript_claims_authorized")]))
+  expect_true(d$synthetic_execution_authorized_after_commit)
+  files<-file.path(audit,m$artifact); expect_equal(as.numeric(file.info(files)$size),m$bytes)
+})
