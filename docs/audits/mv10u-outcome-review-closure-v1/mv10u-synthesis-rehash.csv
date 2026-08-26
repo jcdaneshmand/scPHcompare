@@ -1,0 +1,4 @@
+"contract_id","artifact_order","artifact","rows","bytes","sha256","exact_columns","independent_numeric_repeat"
+"mv10u_synthesis_rehash_v1",1,"mv10t-complete-summary.csv",300,146337,"a7d47f73ec4986ec60f1548609209d705060627b0c9dfbab4d6036653295c05e",TRUE,TRUE
+"mv10u_synthesis_rehash_v1",2,"mv10t-primary-pam-summary.csv",60,29296,"c6640c5484384aae03f1367a452d6982a6941700cca13b6a0d7342fb231007fe",TRUE,TRUE
+"mv10u_synthesis_rehash_v1",3,"mv10t-endpoint-coverage.csv",6,824,"af313aacbecacbe3175d3219e99d8b5a5f1d44f6d676acef107d37a787a01f31",TRUE,TRUE

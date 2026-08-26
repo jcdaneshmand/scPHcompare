@@ -1,0 +1,7 @@
+"endpoint_id","population_id","label_axis","endpoint_label","execution_status"
+"full124_descriptive__tissue","full124_descriptive","tissue","Full 124: tissue","completed"
+"full124_descriptive__study","full124_descriptive","study","Full 124: study","completed"
+"full124_descriptive__canonical_approach","full124_descriptive","canonical_approach","Full 124: approach (confounded diagnostic)","completed"
+"primary90_context_restriction__tissue","primary90_context_restriction","tissue","Primary 90: tissue","completed"
+"primary90_context_restriction__study","primary90_context_restriction","study","Primary 90: study","completed"
+"primary90_context_restriction__canonical_approach","primary90_context_restriction","canonical_approach","Primary 90: approach (one class; not estimable)","structurally_not_estimable_single_class"

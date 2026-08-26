@@ -1,0 +1,5 @@
+"contract_id","artifact","bytes","sha256"
+"mv10t_artifact_manifest_v1","mv10t-complete-summary.csv",146337,"a7d47f73ec4986ec60f1548609209d705060627b0c9dfbab4d6036653295c05e"
+"mv10t_artifact_manifest_v1","mv10t-endpoint-coverage.csv",824,"af313aacbecacbe3175d3219e99d8b5a5f1d44f6d676acef107d37a787a01f31"
+"mv10t_artifact_manifest_v1","mv10t-primary-pam-summary.csv",29296,"c6640c5484384aae03f1367a452d6982a6941700cca13b6a0d7342fb231007fe"
+"mv10t_artifact_manifest_v1","mv10t-terminal-receipt.csv",474,"623f7dd0b92bd202dd87dd1d8e3945e27d93274fb1fb20b6c0fddf965e573310"
