@@ -1,0 +1,14 @@
+"contract_id","check_id","passed"
+"mv17b_closure_validation_v2","prefreeze_manifest",TRUE
+"mv17b_closure_validation_v2","recovery_manifest",TRUE
+"mv17b_closure_validation_v2","production_binding",TRUE
+"mv17b_closure_validation_v2","36_exact_jobs",TRUE
+"mv17b_closure_validation_v2","complete_grid",TRUE
+"mv17b_closure_validation_v2","numeric_metrics",TRUE
+"mv17b_closure_validation_v2","all_invariants",TRUE
+"mv17b_closure_validation_v2","all_deterministic",TRUE
+"mv17b_closure_validation_v2","byte_exact_independent_repeat",TRUE
+"mv17b_closure_validation_v2","circle_separation",TRUE
+"mv17b_closure_validation_v2","real_corpus_PH_closed",TRUE
+"mv17b_closure_validation_v2","labels_outcomes_closed",TRUE
+"mv17b_closure_validation_v2","downstream_firewall",TRUE

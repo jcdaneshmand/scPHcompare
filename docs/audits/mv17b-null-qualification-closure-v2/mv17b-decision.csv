@@ -1,0 +1,2 @@
+"contract_id","MV17B_closed","admitted_null_families","MV17C_implementation_eligible","real_calibration_authorized","real_localization_authorized","real_H2_authorized","labels_outcomes_clustering_fusion_claims"
+"mv17b_closure_decision_v2",TRUE,"coordinate_permutation;covariance_gaussian;radial_density_cloud;within_row_axis_shuffle",TRUE,FALSE,FALSE,FALSE,"closed"
