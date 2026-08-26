@@ -1,0 +1,8 @@
+"contract_id","artifact","bytes","sha256"
+"mv11b_artifact_manifest_v1","MV11B_CELL_BENCHMARK_PREFREEZE_2026-08-25.md",436,"e5d8d76c36186aae3103e3cacf6056052f222000402fe6624c307f7f98e7da95"
+"mv11b_artifact_manifest_v1","mv11b-contract.csv",788,"cd36269b5da4f1513e1c57b08cc0debf4a9578479b6b3cbaeff499a9a85d9512"
+"mv11b_artifact_manifest_v1","mv11b-decision.csv",471,"7128a6390ba93fe5ae79bc8ca18d7a4ad3117ef6d073742fc5f4c038294f620a"
+"mv11b_artifact_manifest_v1","mv11b-implementation-bindings.csv",1487,"29b3c462b33c3ac822f42ac545dcd7225fd4ce76eade5b6d84ea47a990a072bc"
+"mv11b_artifact_manifest_v1","mv11b-source-binding.csv",461,"f191320a3ef5a63830af28c9b55a6e9df12d8eb87e619def68df63d90d5897ae"
+"mv11b_artifact_manifest_v1","mv11b-validation.csv",1238,"b2f341a54dcd5446e0e492d242b281d6effeb8aba88b6fbb7f55eb3f41ad2bc2"
+"mv11b_artifact_manifest_v1","mv11b-workload-queue.csv",3315,"17a2ebec1b8b3c8188c221e55ccc8b9c7dce82e1419f94afe816d9a8ad779ef4"
