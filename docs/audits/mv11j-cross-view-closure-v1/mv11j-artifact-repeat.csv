@@ -1,0 +1,3 @@
+"contract_id","artifact_id","rows","saved_sha256","repeat_sha256","exact_repeat"
+"mv11j_artifact_repeat_v1","seed_agreement",100,"293d6309981d03d661b77018fc172b822d425f41ff1b08f1ac23c7262c2b4865","293d6309981d03d661b77018fc172b822d425f41ff1b08f1ac23c7262c2b4865",TRUE
+"mv11j_artifact_repeat_v1","summary",20,"e46f1a5d1d4f410dc5adb3b8e0b76d0072f8e0cc3318fb1ad26df75c4942162a","e46f1a5d1d4f410dc5adb3b8e0b76d0072f8e0cc3318fb1ad26df75c4942162a",TRUE
