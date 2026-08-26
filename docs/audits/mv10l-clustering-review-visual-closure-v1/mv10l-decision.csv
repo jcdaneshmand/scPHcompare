@@ -1,0 +1,2 @@
+"contract_id","decision","figures","visual_review_passed","owner_comprehensiveness_condition_satisfied","next_stage","labels_state","outcomes_state","biological_interpretation_state","manuscript_claims_state"
+"mv10l_decision_v1","close_visual_review",7,TRUE,TRUE,"prospective_label_closed_methodological_disposition_prefreeze","closed","closed","closed","closed"

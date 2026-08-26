@@ -1,0 +1,8 @@
+"contract_id","figure_order","figure_id","filename","width_inches","height_inches","dpi","format"
+"mv10g_figure_specification_v1",1,"stability_grid","mv10j-01-stability_grid.png",16,10,180,"png"
+"mv10g_figure_specification_v1",2,"silhouette_grid","mv10j-02-silhouette_grid.png",16,10,180,"png"
+"mv10g_figure_specification_v1",3,"negative_silhouette_heatmap","mv10j-03-negative_silhouette_heatmap.png",15,10,180,"png"
+"mv10g_figure_specification_v1",4,"singleton_heatmap","mv10j-04-singleton_heatmap.png",15,10,180,"png"
+"mv10g_figure_specification_v1",5,"minimum_cluster_size_heatmap","mv10j-05-minimum_cluster_size_heatmap.png",15,10,180,"png"
+"mv10g_figure_specification_v1",6,"method_agreement_heatmap","mv10j-06-method_agreement_heatmap.png",17,12,180,"png"
+"mv10g_figure_specification_v1",7,"primary_pam_selection_dossier","mv10j-07-primary_pam_selection_dossier.png",13,10,180,"png"
