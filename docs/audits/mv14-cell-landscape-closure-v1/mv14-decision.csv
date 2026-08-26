@@ -1,0 +1,2 @@
+"contract_id","full_cell_landscapes_independently_closed","comparison_prefreeze_eligible_next","comparisons_authorized_by_this_closure","clustering_authorized","fusion_authorized","labels_authorized","outcomes_authorized","manuscript_claims_authorized","next_action"
+"mv14_closure_decision_v1",TRUE,TRUE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,"prospectively_freeze_cell_distance_comparison_only"

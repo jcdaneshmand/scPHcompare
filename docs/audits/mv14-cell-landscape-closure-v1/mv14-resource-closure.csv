@@ -1,0 +1,2 @@
+"contract_id","aggregate_child_seconds","aggregate_elapsed_cap_seconds","peak_child_tree_rss_bytes","child_rss_cap_bytes","runner_peak_rss_bytes","private_bytes","private_cap_bytes","public_bytes","public_cap_bytes","GNU_time_exit_status","runner_stdout_bytes","runner_stderr_bytes","workers","retries"
+"mv14_resource_closure_v1",1644.57737231255,72000,113426432,4294967296,137039872,52216141,536870912,210535,67108864,0,250,0,1,0

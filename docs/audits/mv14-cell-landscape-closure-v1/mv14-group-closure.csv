@@ -1,0 +1,15 @@
+"contract_id","group_order","group_id","dataset_scope","panel_id","seed","homology_dimension","units","chunks","pairs","artifact_rehashed","all_chunk_hashes","all_pair_identities","all_active_depths","all_exact","exact_R_oracle","labels_used","outcomes_used","downstream_jobs"
+"mv14_group_closure_v1",1,"external8__common475__20260805__H0","external8","common475",20260805,"H0",8,1,28,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,FALSE,FALSE,0
+"mv14_group_closure_v1",2,"external8__common475__20260805__H1","external8","common475",20260805,"H1",8,1,28,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,FALSE,FALSE,0
+"mv14_group_closure_v1",3,"external8__exact500__20260805__H0","external8","exact500",20260805,"H0",8,1,28,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,FALSE,FALSE,0
+"mv14_group_closure_v1",4,"external8__exact500__20260805__H1","external8","exact500",20260805,"H1",8,1,28,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,FALSE,FALSE,0
+"mv14_group_closure_v1",5,"internal124__exact500__20260805__H0","internal124","exact500",20260805,"H0",124,31,7626,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,FALSE,FALSE,0
+"mv14_group_closure_v1",6,"internal124__exact500__20260805__H1","internal124","exact500",20260805,"H1",124,31,7626,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,FALSE,FALSE,0
+"mv14_group_closure_v1",7,"internal124__exact500__20260806__H0","internal124","exact500",20260806,"H0",124,31,7626,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,FALSE,FALSE,0
+"mv14_group_closure_v1",8,"internal124__exact500__20260806__H1","internal124","exact500",20260806,"H1",124,31,7626,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,FALSE,FALSE,0
+"mv14_group_closure_v1",9,"internal124__exact500__20260807__H0","internal124","exact500",20260807,"H0",124,31,7626,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,FALSE,FALSE,0
+"mv14_group_closure_v1",10,"internal124__exact500__20260807__H1","internal124","exact500",20260807,"H1",124,31,7626,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,FALSE,FALSE,0
+"mv14_group_closure_v1",11,"internal124__exact500__20260808__H0","internal124","exact500",20260808,"H0",124,31,7626,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,FALSE,FALSE,0
+"mv14_group_closure_v1",12,"internal124__exact500__20260808__H1","internal124","exact500",20260808,"H1",124,31,7626,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,FALSE,FALSE,0
+"mv14_group_closure_v1",13,"internal124__exact500__20260809__H0","internal124","exact500",20260809,"H0",124,31,7626,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,FALSE,FALSE,0
+"mv14_group_closure_v1",14,"internal124__exact500__20260809__H1","internal124","exact500",20260809,"H1",124,31,7626,TRUE,TRUE,TRUE,TRUE,TRUE,TRUE,FALSE,FALSE,0

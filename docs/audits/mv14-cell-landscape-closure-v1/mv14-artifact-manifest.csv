@@ -1,0 +1,6 @@
+"contract_id","artifact","bytes","sha256"
+"mv14_closure_artifact_manifest_v1","mv14-decision.csv",393,"bdf58223e1968e3afedd45094025ae2199610196f94a92b2eb8eefd8c2adc544"
+"mv14_closure_artifact_manifest_v1","mv14-exact-R-oracles.csv",2188,"afa7541bb182370f704ee19ed3d2b4c5fdae81502cb13f506ffdcc4759d0b612"
+"mv14_closure_artifact_manifest_v1","mv14-group-closure.csv",2476,"a2c837899a29b91b57b635e4640f4c935fe960e4ed93dbe0473cd242d0e4b506"
+"mv14_closure_artifact_manifest_v1","mv14-resource-closure.csv",431,"787ad36a13ae8f982ca7837dcaa7e4f466b3e82ca657fee35ff62b094d8f6826"
+"mv14_closure_artifact_manifest_v1","mv14-validation.csv",1700,"b5275be6cdf819392ea1c1b4f08843ca9c720aba1c650a59c7165e099eca3b93"
