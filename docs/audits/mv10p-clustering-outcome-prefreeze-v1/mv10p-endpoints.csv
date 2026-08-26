@@ -1,0 +1,7 @@
+"contract_id","endpoint_order","population_id","label_axis","endpoint_id","execution_status","scientific_role","causal_interpretation_allowed","cross_study_generalization_allowed","association_computed"
+"mv10p_endpoint_registry_v1",1,"full124_descriptive","tissue","full124_descriptive__tissue","scheduled","descriptive_biological_alignment",FALSE,FALSE,FALSE
+"mv10p_endpoint_registry_v1",2,"full124_descriptive","study","full124_descriptive__study","scheduled","descriptive_technical_cohort_alignment",FALSE,FALSE,FALSE
+"mv10p_endpoint_registry_v1",3,"full124_descriptive","canonical_approach","full124_descriptive__canonical_approach","scheduled","descriptive_confounded_technology_proxy",FALSE,FALSE,FALSE
+"mv10p_endpoint_registry_v1",4,"primary90_context_restriction","tissue","primary90_context_restriction__tissue","scheduled","descriptive_biological_alignment",FALSE,FALSE,FALSE
+"mv10p_endpoint_registry_v1",5,"primary90_context_restriction","study","primary90_context_restriction__study","scheduled","descriptive_technical_cohort_alignment",FALSE,FALSE,FALSE
+"mv10p_endpoint_registry_v1",6,"primary90_context_restriction","canonical_approach","primary90_context_restriction__canonical_approach","structurally_not_estimable_single_class","descriptive_confounded_technology_proxy",FALSE,FALSE,FALSE

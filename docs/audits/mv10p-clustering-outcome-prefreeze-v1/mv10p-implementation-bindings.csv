@@ -1,0 +1,5 @@
+"contract_id","implementation_order","file","bytes","sha256"
+"mv10p_implementation_binding_v1",1,"R/mv10p_clustering_outcomes.R",9944,"3a62898b68c01fc4c26a18798b8f0bd405529eb2cd70fc31f551e84b5f90d75a"
+"mv10p_implementation_binding_v1",2,"scripts/build_mv10p_clustering_outcome_prefreeze.R",14385,"e5fd241bd661de7452c7e960ae5dcd56e28e7bc9d7955dd85cb0eb7f9a226f0b"
+"mv10p_implementation_binding_v1",3,"scripts/run_mv10q_clustering_outcomes.R",6511,"389ef67ec880d52eb8e49f9bdaedd9e24ca39a41120dbca2300ec448a32da396"
+"mv10p_implementation_binding_v1",4,"scripts/build_mv10r_clustering_outcome_closure.R",8750,"cfba8542d96208d101970636ad227c2d946691382ac76a2955d442641493898a"

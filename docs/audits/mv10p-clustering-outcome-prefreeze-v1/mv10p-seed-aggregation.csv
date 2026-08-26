@@ -1,0 +1,2 @@
+"contract_id","values_reported","summaries","seed_interpretation","favorable_seed_selection","method_pooling","representation_pooling","homology_pooling","p_value_computed"
+"mv10p_seed_aggregation_v1","all_five_seed_estimates","mean;median;minimum;maximum;delete_one_seed_jackknife_SE","technical_realizations_not_biological_replicates",FALSE,FALSE,FALSE,FALSE,FALSE

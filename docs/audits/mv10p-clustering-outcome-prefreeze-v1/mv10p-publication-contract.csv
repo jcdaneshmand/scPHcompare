@@ -1,0 +1,7 @@
+"contract_id","artifact","publication_state","may_contain_label_values","may_contain_sample_ids","complete_reporting_required"
+"mv10p_publication_contract_v1","seed_metrics","public_after_validation",FALSE,FALSE,TRUE
+"mv10p_publication_contract_v1","unit_summaries","public_after_validation",FALSE,FALSE,TRUE
+"mv10p_publication_contract_v1","structural_status","public_after_validation",FALSE,FALSE,TRUE
+"mv10p_publication_contract_v1","provenance","public_after_validation",FALSE,FALSE,TRUE
+"mv10p_publication_contract_v1","metadata_join","private",TRUE,TRUE,TRUE
+"mv10p_publication_contract_v1","contingency_long","private",TRUE,FALSE,TRUE

@@ -1,0 +1,3 @@
+"contract_id","metric_order","metric_id","definition","p_value_authorized","multiplicity_family","association_computed"
+"mv10p_metric_registry_v1",1,"adjusted_rand_index","Hubert_Arabie_complete_contingency_table",FALSE,"none_complete_reporting",FALSE
+"mv10p_metric_registry_v1",2,"normalized_mutual_information_max","mutual_information_divided_by_maximum_partition_entropy",FALSE,"none_complete_reporting",FALSE

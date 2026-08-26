@@ -1,0 +1,2 @@
+"contract_id","maximum_workers","automatic_retries","elapsed_cap_seconds","process_tree_rss_cap_bytes","evaluation_units","expected_seed_metric_rows","public_storage_cap_bytes","private_storage_cap_bytes","independent_recomputation_required"
+"mv10p_resource_contract_v1",1,0,900,2147483648,300,1500,16777216,16777216,TRUE

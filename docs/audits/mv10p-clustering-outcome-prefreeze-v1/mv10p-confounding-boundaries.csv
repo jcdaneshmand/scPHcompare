@@ -1,0 +1,8 @@
+"contract_id","boundary_id","required_statement","causal_claim_allowed","association_computed"
+"mv10p_confounding_boundary_v1","full124_tissue","three_added_tissues_are_single_study_no_cross_study_generalization",FALSE,FALSE
+"mv10p_confounding_boundary_v1","full124_study","study_alignment_is_technical_or_cohort_association_not_batch_mechanism",FALSE,FALSE
+"mv10p_confounding_boundary_v1","full124_approach","six_snRNA_samples_are_nested_in_substantia_nigra_and_SRA850958",FALSE,FALSE
+"mv10p_confounding_boundary_v1","primary90_tissue","full124_fit_restricted_to_90_context_not_a_90_sample_refit",FALSE,FALSE
+"mv10p_confounding_boundary_v1","primary90_study","tissue_homogeneous_studies_preclude_independent_tissue_study_attribution",FALSE,FALSE
+"mv10p_confounding_boundary_v1","primary90_approach","all_90_are_scRNA_seq_endpoint_not_estimable",FALSE,FALSE
+"mv10p_confounding_boundary_v1","H1_interpretation","H1_alignment_is_not_a_biological_cycle_or_mechanism",FALSE,FALSE

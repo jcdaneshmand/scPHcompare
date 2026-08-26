@@ -1,0 +1,2 @@
+"contract_id","execution_head","source_assignment_rows","selected_assignment_rows","partition_families","evaluation_units","expected_seed_metric_rows","selected_H0_k","selected_H1_k","labels_joined_to_clusters_now","associations_computed_now","p_values_authorized","method_selection_authorized","biological_claims_authorized","manuscript_claims_authorized"
+"mv10p_clustering_outcome_prefreeze_v1","ad21ca04fb323666c7467c6b64981b5aa836cc1d",167400,18600,30,300,1500,2,3,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE

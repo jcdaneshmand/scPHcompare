@@ -1,0 +1,2 @@
+"contract_id","decision","execution_authorized_after_commit","evaluation_units","expected_seed_rows","p_values_authorized","method_selection_authorized","biological_claims_authorized","manuscript_claims_authorized","next_if_closed"
+"mv10p_decision_v1","authorize_fixed_descriptive_outcome_execution_after_commit",TRUE,300,1500,FALSE,FALSE,FALSE,FALSE,"separate_complete_outcome_review_prefreeze"
