@@ -1,0 +1,23 @@
+test_that("MV17-B recovery prefreeze binds immutable production", {
+  root <- testthat::test_path("..", "..")
+  audit <- file.path(root,"docs","audits","mv17b-closure-recovery-prefreeze-v1")
+  skip_if_not(dir.exists(audit),"MV17-B recovery prefreeze not built")
+  r<-function(n) read.csv(file.path(audit,n),stringsAsFactors=FALSE,check.names=FALSE)
+  c<-r("mv17b-recovery-contract.csv"); b<-r("mv17b-recovery-production-binding.csv")
+  v<-r("mv17b-recovery-validation.csv"); m<-r("mv17b-recovery-artifact-manifest.csv")
+  expect_equal(nrow(b),4L); expect_true(c$primary_repeat_byte_identical)
+  expect_false(c$production_rerun_authorized); expect_true(c$closure_v2_authorized_after_commit)
+  expect_equal(nrow(v),10L); expect_true(all(v$passed))
+  files<-file.path(audit,m$artifact); expect_equal(as.numeric(file.info(files)$size),m$bytes)
+})
+
+test_that("MV17-B v2 closure is provenance complete", {
+  root<-testthat::test_path("..",".."); audit<-file.path(root,"docs","audits","mv17b-null-qualification-closure-v2")
+  skip_if_not(dir.exists(audit),"MV17-B v2 closure not built")
+  r<-function(n) read.csv(file.path(audit,n),stringsAsFactors=FALSE,check.names=FALSE)
+  x<-r("mv17b-complete-qualification.csv"); s<-r("mv17b-family-summary.csv")
+  b<-r("mv17b-production-binding.csv"); v<-r("mv17b-validation.csv"); d<-r("mv17b-decision.csv")
+  expect_equal(nrow(x),36L); expect_equal(nrow(s),4L); expect_equal(nrow(b),4L)
+  expect_equal(nrow(v),13L); expect_true(all(v$passed)); expect_true(d$MV17B_closed)
+  expect_false(d$real_calibration_authorized)
+})
