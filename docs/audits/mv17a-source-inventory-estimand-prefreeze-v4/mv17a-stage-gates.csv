@@ -1,0 +1,9 @@
+"contract_id","stage","lane","prerequisite","implementation_eligible_after_MV17A","scientific_execution_authorized","exact_head_prefreeze_required"
+"mv17a_stage_gate_v1","MV17-B","null","MV17_A_closed",TRUE,FALSE,TRUE
+"mv17a_stage_gate_v1","MV17-C","null","MV17_B_closed",FALSE,FALSE,TRUE
+"mv17a_stage_gate_v1","MV17-D","localization","MV17_A_closed",TRUE,FALSE,TRUE
+"mv17a_stage_gate_v1","MV17-E","H2_fixture","MV17_A_closed",TRUE,FALSE,TRUE
+"mv17a_stage_gate_v1","MV17-F","H2_resource","MV17_E_closed",FALSE,FALSE,TRUE
+"mv17a_stage_gate_v1","MV17-G","calibration_localization","MV17_C_and_MV17_D_closed",FALSE,FALSE,TRUE
+"mv17a_stage_gate_v1","MV17-H","H2_real","MV17_F_closed",FALSE,FALSE,TRUE
+"mv17a_stage_gate_v1","MV17-I","incremental_evaluation","MV17_G_and_MV17_H_closed_plus_explicit_owner_authorization",FALSE,FALSE,TRUE

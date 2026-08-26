@@ -1,0 +1,5 @@
+"contract_id","source_closure","artifacts","manifest_bytes","manifest_sha256","artifact_set_sha256","independently_rehashed"
+"mv17a_source_closure_binding_v1","mv08w-full-ph-production-closure-v1",7,742,"13c5ac9a095966eb1f01aac2e6c82e25437fa89f4bc304e061f41d7c28a03bd0","07108195e22203cf1950aed8035934c25082453017077a4348195805e3c9efe0",TRUE
+"mv17a_source_closure_binding_v1","mv08zu-engine-v2-full-landscape-closure-v1",7,748,"308dfcc9f59f204a13e62c37cda58718fd59143078f509ba5667e12811c2c67c","310aa80e5b0d066a47837bedb43ca712e604245e5c1670cde6aaf84b86572d0d",TRUE
+"mv17a_source_closure_binding_v1","mv13e-allqc-cell-full-closure-v1",4,542,"b7674e02e90fcb669200960b61f8adf2aca325dcc6c4ebc8e9b26e4d2f5c2d40","d7ecdb7f8b41895be1b70ac4144470f18684d7bc944ca11efea88ae0399cb9f5",TRUE
+"mv17a_source_closure_binding_v1","mv14-cell-landscape-closure-v1",5,702,"0a34980b9398f017e3df021dc808ae28e1def3c3c9ec5da0a01b494f8c0d9dcf","d1be3ea9dac788ce4eb71e9f8d0782df0730158ba3db9a374b262209f0f36593",TRUE

@@ -1,0 +1,13 @@
+"contract_id","surface","state","authorized"
+"mv17a_firewall_v1","labels","closed",FALSE
+"mv17a_firewall_v1","outcomes","closed",FALSE
+"mv17a_firewall_v1","tissues","closed",FALSE
+"mv17a_firewall_v1","biology","closed",FALSE
+"mv17a_firewall_v1","clustering","closed",FALSE
+"mv17a_firewall_v1","view_ranking","closed",FALSE
+"mv17a_firewall_v1","fusion","closed",FALSE
+"mv17a_firewall_v1","fusion_weight_tuning","closed",FALSE
+"mv17a_firewall_v1","manuscript_claims","closed",FALSE
+"mv17a_firewall_v1","existing_PH_mutation","closed",FALSE
+"mv17a_firewall_v1","existing_landscape_mutation","closed",FALSE
+"mv17a_firewall_v1","existing_comparison_mutation","closed",FALSE

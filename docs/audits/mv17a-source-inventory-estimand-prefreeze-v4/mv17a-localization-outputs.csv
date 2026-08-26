@@ -1,0 +1,5 @@
+"contract_id","view","homology_dimension","target","private_atomic_output","public_output","coefficient_field","tie_policy","method_selected","real_localization_authorized"
+"mv17a_localization_output_v1","cell","H0","mst_component_merger_edges_between_cells","canonical_endpoint_tokens_and_death_scale","aggregate_merger_influence_only","not_applicable","freeze_in_MV17_D_before_fixture_execution",FALSE,FALSE
+"mv17a_localization_output_v1","cell","H1","representative_cycle_support_over_cells","canonical_support_tokens_scale_and_nonuniqueness","aggregate_cycle_stability_only","freeze_in_MV17_D","freeze_in_MV17_D_before_fixture_execution",FALSE,FALSE
+"mv17a_localization_output_v1","gene","H0","mst_component_merger_edges_between_genes","canonical_endpoint_tokens_and_death_scale","aggregate_merger_influence_only","not_applicable","freeze_in_MV17_D_before_fixture_execution",FALSE,FALSE
+"mv17a_localization_output_v1","gene","H1","representative_cycle_support_over_genes","canonical_support_tokens_scale_and_nonuniqueness","aggregate_cycle_stability_only","freeze_in_MV17_D","freeze_in_MV17_D_before_fixture_execution",FALSE,FALSE

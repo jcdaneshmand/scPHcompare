@@ -1,0 +1,6 @@
+"contract_id","source_family","artifact_kind","artifacts","records","axes","bytes","artifact_set_sha256","schema_sha256","labels_opened","outcomes_opened","scientific_values_published"
+"mv17a_source_inventory_v1","gene_PH","PH_RDS",1264,2528,1264,76110107,"3fb3ee882341fdc3e5579b34216d1b1c47ceb62b6ad91181c1fe157e119ff8e7","cc3410b749a7b51abb283e80be66ad7e4fa7064eef1ad7facef0dfb48b3a2718",FALSE,FALSE,FALSE
+"mv17a_source_inventory_v1","gene_landscape","exact_distance_CSV",626,152688,26,149685491,"b1079697b55b1741ff96130595bd9c00de7d888c7234b4344975197b61f36154","5db5870c7eff9d8edb4cde2b20f4fec27e956b91a40044de831526e980a119ab",FALSE,FALSE,FALSE
+"mv17a_source_inventory_v1","cell_source","selected384_source_cache_RDS",132,132,132,1964611814,"f67826619ab0ac8a07fa35051ed0c7d61c129b4f1ab37cf87e9fd595db1d46bb","726a602588129ab3302f53e0911859b6d73229ccc68c446baa0d67a42f9bfc8c",FALSE,FALSE,FALSE
+"mv17a_source_inventory_v1","cell_PH","PCA_view_PH_group_RDS",7,1272,636,68315814,"20d4f99b1b947106e3e5e20f5bb80769c9b37bc7a230b7ad525cd591c2db1365","ddb5714bb7ebc9bf42869f86e5bdf273c98989264a512550e6b297bc24acdf4e",FALSE,FALSE,FALSE
+"mv17a_source_inventory_v1","cell_landscape","exact_distance_CSV",314,76372,14,51907595,"46449c377d685ab8df8e1bc5f479769d13cc6fa103a53ee756b7adbd8188ffa2","78d391c7debf92ed3a2ee8a9d70d98b52473bbee844849c2f44ad3d9aeca5e23",FALSE,FALSE,FALSE

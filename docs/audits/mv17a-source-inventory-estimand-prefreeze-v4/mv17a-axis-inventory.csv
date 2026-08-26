@@ -1,0 +1,3 @@
+"contract_id","source_family","diagram_artifacts","dimension_records","landscape_distance_pairs","selected_observations_per_view","feature_axis_min","feature_axis_max","PCA_models","PCA_components","H0_H1_separate","essential_H0_excluded","private_identifiers_published"
+"mv17a_axis_inventory_v1","gene",1264,2528,152688,384,475,500,0,0,TRUE,TRUE,FALSE
+"mv17a_axis_inventory_v1","cell",636,1272,76372,384,475,500,7,30,TRUE,TRUE,FALSE
