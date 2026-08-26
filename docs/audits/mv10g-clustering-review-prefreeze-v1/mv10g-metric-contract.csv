@@ -1,0 +1,9 @@
+"contract_id","metric_order","metric_id","role","selection_metric","labels_allowed","outcomes_allowed"
+"mv10g_metric_contract_v1",1,"mean_adjusted_rand","five_seed_stability_primary",TRUE,FALSE,FALSE
+"mv10g_metric_contract_v1",2,"mean_silhouette","descriptive_internal_quality",FALSE,FALSE,FALSE
+"mv10g_metric_contract_v1",3,"negative_silhouette_fraction","discordant_assignment_diagnostic",FALSE,FALSE,FALSE
+"mv10g_metric_contract_v1",4,"singleton_clusters","fragmentation_diagnostic",FALSE,FALSE,FALSE
+"mv10g_metric_contract_v1",5,"minimum_cluster_size","small_cluster_diagnostic",FALSE,FALSE,FALSE
+"mv10g_metric_contract_v1",6,"method_pair_adjusted_rand","method_concordance_diagnostic",FALSE,FALSE,FALSE
+"mv10g_metric_contract_v1",7,"primary_one_se_threshold","frozen_PAM_selection_threshold",TRUE,FALSE,FALSE
+"mv10g_metric_contract_v1",8,"primary_selected_k","frozen_PAM_selection_result",TRUE,FALSE,FALSE

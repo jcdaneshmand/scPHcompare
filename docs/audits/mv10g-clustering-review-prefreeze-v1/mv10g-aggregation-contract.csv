@@ -1,0 +1,7 @@
+"contract_id","output_id","expected_rows","seed_aggregation","result_dependent_filter","H0_H1_combined","cell_gene_combined"
+"mv10g_aggregation_contract_v1","stability_grid",270,"already_all_10_seed_pairs",FALSE,FALSE,FALSE
+"mv10g_aggregation_contract_v1","quality_summary",270,"median_and_range_across_5_seeds",FALSE,FALSE,FALSE
+"mv10g_aggregation_contract_v1","agreement_summary",540,"median_and_range_across_5_seeds",FALSE,FALSE,FALSE
+"mv10g_aggregation_contract_v1","primary_selection",2,"none",FALSE,FALSE,FALSE
+"mv10g_aggregation_contract_v1","primary_stability",18,"already_all_10_seed_pairs",FALSE,FALSE,FALSE
+"mv10g_aggregation_contract_v1","primary_quality",90,"none_show_all_5_seed_trajectories",FALSE,FALSE,FALSE

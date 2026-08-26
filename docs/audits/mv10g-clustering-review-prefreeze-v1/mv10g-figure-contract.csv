@@ -1,0 +1,8 @@
+"contract_id","figure_order","figure_id","width_inches","height_inches","dpi","format","all_three_representations","H0_H1_simultaneous","complete_k2_k10","biological_interpretation","manuscript_claim"
+"mv10g_figure_contract_v1",1,"stability_grid",16,10,180,"png",TRUE,TRUE,TRUE,FALSE,FALSE
+"mv10g_figure_contract_v1",2,"silhouette_grid",16,10,180,"png",TRUE,TRUE,TRUE,FALSE,FALSE
+"mv10g_figure_contract_v1",3,"negative_silhouette_heatmap",15,10,180,"png",TRUE,TRUE,TRUE,FALSE,FALSE
+"mv10g_figure_contract_v1",4,"singleton_heatmap",15,10,180,"png",TRUE,TRUE,TRUE,FALSE,FALSE
+"mv10g_figure_contract_v1",5,"minimum_cluster_size_heatmap",15,10,180,"png",TRUE,TRUE,TRUE,FALSE,FALSE
+"mv10g_figure_contract_v1",6,"method_agreement_heatmap",17,12,180,"png",TRUE,TRUE,TRUE,FALSE,FALSE
+"mv10g_figure_contract_v1",7,"primary_pam_selection_dossier",13,10,180,"png",FALSE,TRUE,TRUE,FALSE,FALSE
