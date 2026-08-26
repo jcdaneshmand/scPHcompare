@@ -69,6 +69,24 @@ test_that("MV10 executes a deterministic complete label-closed partition grid", 
   expect_true(all(first$partitions$outcome_label_state == "closed"))
 })
 
+test_that("MV10 constructs a complete canonical matrix from unordered pairs", {
+  pairs <- data.frame(
+    first_unit_id = c("c", "a", "b"),
+    second_unit_id = c("a", "b", "c"),
+    distance = c(3, 1, 2), stringsAsFactors = FALSE
+  )
+  matrix <- mv10_distance_matrix_v1(pairs)
+  expect_identical(rownames(matrix), c("a", "b", "c"))
+  expect_identical(matrix, t(matrix))
+  expect_equal(unname(diag(matrix)), rep(0, 3L))
+  expect_equal(matrix["a", "b"], 1)
+  expect_equal(matrix["a", "c"], 3)
+  expect_equal(matrix["b", "c"], 2)
+  expect_error(mv10_distance_matrix_v1(rbind(pairs, pairs[1L, ])),
+               "duplicate unordered pairs")
+  expect_error(mv10_distance_matrix_v1(pairs[-1L, ]), "complete matrix")
+})
+
 test_that("MV10 computes seed stability, method agreement, and primary K", {
   ids <- sprintf("unit_%02d", 1:12)
   base <- expand.grid(

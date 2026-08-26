@@ -174,6 +174,39 @@ mv10_analysis_registry_v1 <- function(catalog) {
   rows
 }
 
+mv10_distance_matrix_v1 <- function(pairs) {
+  required <- c("first_unit_id", "second_unit_id", "distance")
+  if (!is.data.frame(pairs) || !all(required %in% names(pairs)) ||
+      !nrow(pairs)) {
+    stop("MV10 distance pairs are incomplete", call. = FALSE)
+  }
+  first <- as.character(pairs$first_unit_id)
+  second <- as.character(pairs$second_unit_id)
+  distance <- as.numeric(pairs$distance)
+  if (anyNA(first) || anyNA(second) || any(!nzchar(first)) ||
+      any(!nzchar(second)) || any(first == second) || anyNA(distance) ||
+      any(!is.finite(distance)) || any(distance < 0)) {
+    stop("MV10 distance pairs contain invalid values", call. = FALSE)
+  }
+  left <- ifelse(first < second, first, second)
+  right <- ifelse(first < second, second, first)
+  if (anyDuplicated(paste(left, right, sep = "\r"))) {
+    stop("MV10 distance pairs contain duplicate unordered pairs",
+         call. = FALSE)
+  }
+  units <- sort(unique(c(left, right)), method = "radix")
+  if (nrow(pairs) != choose(length(units), 2L)) {
+    stop("MV10 distance pairs do not form a complete matrix", call. = FALSE)
+  }
+  index <- setNames(seq_along(units), units)
+  result <- matrix(0, nrow = length(units), ncol = length(units),
+                   dimnames = list(units, units))
+  row_index <- unname(index[left]); column_index <- unname(index[right])
+  result[cbind(row_index, column_index)] <- distance
+  result[cbind(column_index, row_index)] <- distance
+  .mv05n_validate_distance_matrix(result)
+}
+
 mv10_fit_partition_v1 <- function(distance_matrix, k, method_id) {
   matrix <- .mv05n_validate_distance_matrix(distance_matrix)
   k <- as.integer(k)
