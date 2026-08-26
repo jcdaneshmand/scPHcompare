@@ -1,0 +1,2 @@
+"contract_id","fixed_execution_authorized_after_commit","labels_authorized","outcomes_authorized","view_ranking_authorized","fusion_authorized","biological_claims_authorized","manuscript_claims_authorized","next_action"
+"mv11h_decision_v1",TRUE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,"commit this prefreeze; execute fixed symmetric K=2/K=3 agreement once; independently repeat both outputs before descriptive review"
