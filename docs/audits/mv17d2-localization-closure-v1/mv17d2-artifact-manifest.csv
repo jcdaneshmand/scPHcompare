@@ -1,0 +1,7 @@
+"contract_id","artifact","bytes","sha256"
+"mv17d2_manifest_v1","MV17D2_LOCALIZATION_CLOSURE_2026-08-26.md",196,"331c98c569ea078d8d35f9889578b44d65ca5272e54bf3dab57abc1ee0e3cd8a"
+"mv17d2_manifest_v1","mv17d2-complete-summary.csv",1409,"d6f05bb49b6ee743eebebccc39c8fc9b66ef77c569b1ae93ac850668a1ccfc9c"
+"mv17d2_manifest_v1","mv17d2-decision.csv",137,"ced2e39d83418e405a628b36ac999137d00b85b69700642e6cb34629cab59ac2"
+"mv17d2_manifest_v1","mv17d2-resource-summary.csv",336,"73c1819f13c4689560088c8e509fbf4642cd0d0c8f2cdcda7b730f001e190689"
+"mv17d2_manifest_v1","mv17d2-source-binding.csv",733,"f07a918a23cd817688be1d8d4a864f95450dc2012fb71290a68b0152e0ad9349"
+"mv17d2_manifest_v1","mv17d2-validation.csv",867,"5f083beada23018ac6c15dc2c32f17ae845ab5a4d0d9f79d66c40df1ec377ee5"

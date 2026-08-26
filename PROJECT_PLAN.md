@@ -5,7 +5,7 @@
 | Field | Value |
 |---|---|
 | Status | Draft for owner and author-team review |
-| Version | 0.5.28 |
+| Version | 0.5.29 |
 | Created | 2026-08-03 |
 | Canonical repository | `jcdaneshmand/scPHcompare` |
 | Historical source repository | `jcdaneshmand/PH_ClusteringApp` |
@@ -874,6 +874,7 @@ Publish a durable, citable research artifact.
 | D-270 | 2026-08-26 | Close MV17-D negative while retaining all passed and failed localization gates | Eleven of eleven closure validations bind six immutable sources, exact repeat, passing H0/persistence/fundamental/resource controls, and the failed edge-shortest plus complete row-order controls. The bounded run is not rerun or repaired, and real localization remains ineligible | Commit/push the immutable negative closure. A revised synthetic qualification may now replace only the failed second method with a deterministic Horton-style shortest homology-basis method while retaining the original fixtures, first method, thresholds, resources, and firewalls; it requires new implementation and exact-head prefreeze commits before execution |
 | D-271 | 2026-08-26 | Implement MV17-D2 revised localization qualification without executing a fixture | A deterministic Horton candidate construction now generates rooted shortest-path cycles, reduces them over field 2 modulo the Rips triangle-boundary span, and selects the canonical minimum-perimeter non-boundary support. The prior fundamental method, four fixtures, scale, persistence/cardinality/geometry thresholds, row-order and exact-repeat rules, resource caps, and all firewalls are unchanged; the failed single-shortest-path method is forbidden | Commit/push the revised implementation and algebra/static tests. Then build a distinct exact-head MV17-D2 prefreeze binding the immutable negative closure before any revised fixture execution. Real localization remains closed |
 | D-272 | 2026-08-26 | Prospectively freeze MV17-D2 revised synthetic localization at exact head `55931c3` | Fourteen of fourteen gates rehash the immutable MV17-D negative closure, retain the same four fixtures and all original scientific/resource boundaries, bind the fundamental plus Horton field-2 methods and every implementation hash, explicitly forbid the failed method's rerun, and preserve all real/downstream firewalls. No revised fixture was executed | Commit/push the exact-head prefreeze. Then run one primary and one independent repeat under the frozen receipts and build an immutable closure. Passing qualification still does not authorize real localization without its own production prefreeze |
+| D-273 | 2026-08-26 | Close MV17-D2 revised synthetic localization and make a separate real-localization prefreeze eligible | Fifteen of fifteen closure gates pass across four unchanged fixtures. H0 deaths match deterministic MST mergers exactly; circle/noisy-circle/double-loop maximum H1 persistence is 1.568/1.438/1.469, the Gaussian control is 0.195, and both the fundamental and Horton representatives localize all positives with row-order-invariant support hashes. Primary/repeat summaries and statuses are byte-identical; runs finish in 29.24/29.56 seconds at 170/170 MiB peak RSS, one worker, zero retries. The failed prior shortcut is not rerun | Commit/push the closure after complete-suite/privacy review. MV17-D qualification is now satisfied only by the fundamental-plus-Horton pair. Real localization remains closed until a separate label-blind sentinel/production prefreeze; MV17-C bounded calibration remains the other prerequisite lane before MV17-G |
 
 ## 9. Status dashboard
 
@@ -894,6 +895,7 @@ Publish a durable, citable research artifact.
 
 | Version | Date | Summary |
 |---|---|---|
+| 0.5.29 | 2026-08-26 | Closed MV17-D2 at 15/15 gates: exact H0 mergers and both fundamental/Horton H1 representatives pass unchanged positive/negative geometry, row-order, exact-repeat, and resource controls; real localization remains separately gated. |
 | 0.5.28 | 2026-08-26 | Prospectively froze MV17-D2 at 14/14 gates and exact head `55931c3`, binding the prior negative closure and unchanged fixtures/thresholds/resources while authorizing only synthetic fundamental-versus-Horton qualification. |
 | 0.5.27 | 2026-08-26 | Implemented MV17-D2's deterministic Horton shortest-homology-basis method over field 2 while retaining the original fundamental method, fixtures, thresholds, resources, and firewalls; no revised fixture was executed. |
 | 0.5.26 | 2026-08-26 | Closed MV17-D negative at 11/11 truthful-failure validations, retaining exact H0/persistence/fundamental/resource success and the failed edge-shortest/row-order controls; real localization remains closed while revised synthetic algorithm qualification is eligible. |

@@ -1,0 +1,5 @@
+test_that("MV17-D2 closure is complete, hash-bound, and real-data closed", {
+  root<-testthat::test_path("..","..");a<-file.path(root,"docs","audits","mv17d2-localization-closure-v1");skip_if_not(dir.exists(a),"MV17-D2 closure absent");r<-function(n)read.csv(file.path(a,n),stringsAsFactors=FALSE,check.names=FALSE);v<-r("mv17d2-validation.csv");x<-r("mv17d2-complete-summary.csv");s<-r("mv17d2-source-binding.csv");d<-r("mv17d2-decision.csv");m<-r("mv17d2-artifact-manifest.csv")
+  expect_equal(nrow(v),15L);expect_true(all(v$passed));expect_equal(nrow(x),4L);expect_equal(nrow(s),6L);positive<-x$fixture!="gaussian_negative";expect_true(all(x$fundamental_localized[positive]&x$horton_localized[positive]));expect_true(all(x$row_order_invariant));expect_true(d$MV17D2_closed);expect_false(d$real_localization_authorized)
+  files<-file.path(a,m$artifact);expect_equal(as.numeric(file.info(files)$size),m$bytes);hashes<-vapply(files,digest::digest,character(1L),algo="sha256",file=TRUE,serialize=FALSE);expect_equal(unname(hashes),unname(m$sha256))
+})

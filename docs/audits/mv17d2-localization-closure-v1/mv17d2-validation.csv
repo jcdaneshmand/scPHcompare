@@ -1,0 +1,16 @@
+"contract_id","check_id","passed"
+"mv17d2_closure_validation_v1","four_fixtures",TRUE
+"mv17d2_closure_validation_v1","H0_exact",TRUE
+"mv17d2_closure_validation_v1","positive_H1",TRUE
+"mv17d2_closure_validation_v1","double_loop_two_H1",TRUE
+"mv17d2_closure_validation_v1","negative_H1",TRUE
+"mv17d2_closure_validation_v1","two_algorithms",TRUE
+"mv17d2_closure_validation_v1","known_geometry_localized",TRUE
+"mv17d2_closure_validation_v1","row_order_invariance",TRUE
+"mv17d2_closure_validation_v1","byte_repeat",TRUE
+"mv17d2_closure_validation_v1","resources_within_caps",TRUE
+"mv17d2_closure_validation_v1","one_worker_zero_retry",TRUE
+"mv17d2_closure_validation_v1","six_sources_bound",TRUE
+"mv17d2_closure_validation_v1","prior_failed_method_not_rerun",TRUE
+"mv17d2_closure_validation_v1","real_closed",TRUE
+"mv17d2_closure_validation_v1","downstream_firewall",TRUE
