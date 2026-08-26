@@ -1,0 +1,4 @@
+"contract_id","artifact","bytes","sha256","attempt","disposition"
+"mv11b_prior_failure_binding_v2","MV11C_SENTINEL_ATTEMPT1_FAILURE_2026-08-25.md",1011,"7685a91603612e5e9b72d6c79b995eb1ecf297a809d14df54d0d7d8993218979",1,"fail_closed_before_clustering_output"
+"mv11b_prior_failure_binding_v2","mv11c-failure-evidence.csv",486,"88bb1307a5295b933696cad84b77802fa1cead1ed7088469036e3d275699e9b6",1,"fail_closed_before_clustering_output"
+"mv11b_prior_failure_binding_v2","mv11c-failure-validation.csv",868,"92012e6726602d796409ce47af342c202af7c5aeb74a482557ca38c1450f591a",1,"fail_closed_before_clustering_output"

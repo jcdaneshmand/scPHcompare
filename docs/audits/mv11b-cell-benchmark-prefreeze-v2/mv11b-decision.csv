@@ -1,0 +1,2 @@
+"contract_id","sentinel_execution_authorized_after_commit","full_execution_authorized","labels_authorized","outcomes_authorized","cross_view_comparison_authorized","fusion_authorized","biological_claims_authorized","manuscript_claims_authorized","next_action"
+"mv11b_decision_v1",TRUE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,"commit this prefreeze; run exactly one H1 seed sentinel; independently repeat it; authorize the ten-matrix execution only after exact closure"
