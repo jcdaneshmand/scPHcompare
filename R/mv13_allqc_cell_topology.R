@@ -261,7 +261,8 @@ mv13_validate_cell_group_v1 <- function(artifact) {
   .validate_cell_pca_model(artifact$model)
   units <- vapply(artifact$records, `[[`, character(1L), "unit_id")
   if (anyDuplicated(units) ||
-      !identical(sort(units), sort(artifact$model$fit_sample_ids))) {
+      !identical(sort(unname(units), method = "radix"),
+                 sort(unname(artifact$model$fit_sample_ids), method = "radix"))) {
     stop("MV13 cell group unit/model axis drift.", call. = FALSE)
   }
   for (record in artifact$records) {

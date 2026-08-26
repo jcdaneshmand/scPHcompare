@@ -2,15 +2,19 @@
 
 options(warn = 2)
 args <- commandArgs(trailingOnly = TRUE)
-if (length(args) != 6L) stop(paste(
+if (!(length(args) %in% c(6L, 7L))) stop(paste(
   "usage: build_mv13d_allqc_cell_full_prefreeze.R <mv13a> <mv13c>",
-  "<private-locator> <sentinel-private> <output> <execution-head>"
+  "<private-locator> <sentinel-private> <output> <execution-head>",
+  "[<attempt-1-failure-audit>]"
 ), call. = FALSE)
 mv13a <- normalizePath(args[[1L]], mustWork = TRUE)
 mv13c <- normalizePath(args[[2L]], mustWork = TRUE)
 locator <- normalizePath(args[[3L]], mustWork = TRUE)
 sentinel <- normalizePath(args[[4L]], mustWork = TRUE)
 output <- args[[5L]]; head <- tolower(trimws(args[[6L]]))
+failure_audit <- if (length(args) == 7L) {
+  normalizePath(args[[7L]], mustWork = TRUE)
+} else NULL
 if (dir.exists(output) || !grepl("^[0-9a-f]{40}$", head)) {
   stop("invalid MV13-D output or execution head")
 }
@@ -82,6 +86,9 @@ implementation <- data.frame(
 contract <- data.frame(
   contract_id = "mv13d_full_cell_topology_prefreeze_v1",
   execution_head = head, source_caches = 132L, pca_models = 7L,
+  execution_attempt = if (is.null(failure_audit)) 1L else 2L,
+  recovery_change = if (is.null(failure_audit)) "none" else
+    "unit_model_axis_exact_values_ignore_vector_names_only",
   adopted_models = 1L, new_models = 6L, cell_views = 636L,
   adopted_views = 1L, new_views = 635L, dimension_records = 1272L,
   representation_id = .mv13_residual_id,
@@ -98,6 +105,16 @@ contract <- data.frame(
   biological_claims_authorized = FALSE, manuscript_claims_authorized = FALSE,
   stringsAsFactors = FALSE
 )
+failure_binding <- if (is.null(failure_audit)) data.frame() else {
+  failure_manifest <- file.path(failure_audit, "mv13d-failure-artifact-manifest.csv")
+  .mv08z_verify_manifest(failure_audit, "mv13d-failure-artifact-manifest.csv")
+  data.frame(
+    contract_id = "mv13d_failure_binding_v1", artifact_id = "attempt_1_failure",
+    file = gsub("\\\\", "/", failure_manifest),
+    bytes = as.numeric(file.info(failure_manifest)$size),
+    sha256 = sha(failure_manifest), stringsAsFactors = FALSE
+  )
+}
 validation <- data.frame(
   contract_id = "mv13d_validation_v1",
   check_id = c(
@@ -109,7 +126,8 @@ validation <- data.frame(
     "pearson_residual_only", "Ripserr_only", "one_worker_zero_retry",
     "positive_caps", "implementation_bound", "independent_closure_required",
     "landscapes_closed", "comparison_clustering_fusion_closed",
-    "labels_outcomes_closed", "claims_closed"
+    "labels_outcomes_closed", "claims_closed", "attempt_state",
+    "failure_bound_when_recovery", "recovery_change_narrow"
   ),
   passed = c(
     nrow(a_contract) == 1L, nrow(c_decision) == 1L,
@@ -134,7 +152,13 @@ validation <- data.frame(
            contract$fusion_authorized)),
     !contract$labels_authorized && !contract$outcomes_authorized,
     !contract$biological_claims_authorized &&
-      !contract$manuscript_claims_authorized
+      !contract$manuscript_claims_authorized,
+    contract$execution_attempt %in% c(1L, 2L),
+    (is.null(failure_audit) && nrow(failure_binding) == 0L) ||
+      (!is.null(failure_audit) && nrow(failure_binding) == 1L),
+    (is.null(failure_audit) && contract$recovery_change == "none") ||
+      contract$recovery_change ==
+        "unit_model_axis_exact_values_ignore_vector_names_only"
   ), stringsAsFactors = FALSE
 )
 if (!all(validation$passed)) stop("MV13-D validation failed")
@@ -143,6 +167,7 @@ tables <- list(
   "mv13d-contract.csv" = contract, "mv13d-group-queue.csv" = groups,
   "mv13d-private-bindings.csv" = private_binding,
   "mv13d-prior-bindings.csv" = prior_binding,
+  "mv13d-failure-binding.csv" = failure_binding,
   "mv13d-implementation-bindings.csv" = implementation,
   "mv13d-validation.csv" = validation,
   "mv13d-decision.csv" = data.frame(

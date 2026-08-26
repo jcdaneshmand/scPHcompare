@@ -36,3 +36,11 @@ test_that("MV13 group loading fails closed on a malformed locator", {
     locator[, -4], "internal124", 20260805, "exact500"
   ), "schema drift")
 })
+
+test_that("MV13 group unit axes compare exact values without name attributes", {
+  named <- structure(c("u1", "u2"), names = c("u1", "u2"))
+  plain <- c("u2", "u1")
+  expect_false(identical(sort(named), sort(plain)))
+  expect_true(identical(sort(unname(named), method = "radix"),
+                        sort(unname(plain), method = "radix")))
+})
