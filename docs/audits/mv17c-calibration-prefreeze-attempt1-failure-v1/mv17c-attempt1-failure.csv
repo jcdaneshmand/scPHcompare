@@ -1,0 +1,2 @@
+"contract_id","execution_head","stage","private_artifacts_written","public_artifacts_written","nulls_generated","failure_class","observed_new_sources","required_composed_sources","recovery"
+"mv17c_prefreeze_attempt1_failure_v1","5725915","source_binding_classification",0,0,0,"mv08q_new_only_not_mv08r_composed_axis",129,132,"exact_mv08r_binding_plus_fifth_prior_root"
