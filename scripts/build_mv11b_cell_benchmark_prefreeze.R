@@ -2,11 +2,13 @@
 
 options(warn = 2)
 args <- commandArgs(trailingOnly = TRUE)
-if (length(args) != 2L) stop(paste(
-  "usage: build_mv11b_cell_benchmark_prefreeze.R <matrix-bundle> <output>"
+if (length(args) != 3L) stop(paste(
+  "usage: build_mv11b_cell_benchmark_prefreeze.R <matrix-bundle> <output>",
+  "<execution-head>"
 ), call. = FALSE)
 bundle_path <- normalizePath(args[[1L]], mustWork = TRUE)
 output <- args[[2L]]
+head <- tolower(trimws(args[[3L]]))
 if (dir.exists(output)) stop("MV11-B output already exists", call. = FALSE)
 
 source("R/mv05_benchmark_contract.R")
@@ -15,7 +17,6 @@ source("R/mv08z_landscape_production.R")
 source("R/mv10_clustering_benchmark.R")
 source("R/mv11_cell_benchmark.R")
 sha <- .mv08z_sha256_file; atomic <- .mv08z_atomic_csv
-head <- tolower(trimws(system2("git", c("rev-parse", "HEAD"), stdout = TRUE)))
 if (length(head) != 1L || !grepl("^[0-9a-f]{40}$", head)) {
   stop("cannot bind MV11-B execution head", call. = FALSE)
 }

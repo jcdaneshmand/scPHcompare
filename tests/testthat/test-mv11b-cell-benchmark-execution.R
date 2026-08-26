@@ -22,6 +22,8 @@ test_that("MV11-B through MV11-F scripts parse and preserve prospective gates", 
                fixed = TRUE)
   expect_match(prefreeze, "full_execution_authorized = FALSE", fixed = TRUE)
   expect_match(prefreeze, "automatic_retries = 0L", fixed = TRUE)
+  expect_match(prefreeze, "head <- tolower(trimws(args[[3L]]))", fixed = TRUE)
+  expect_false(grepl("system2(\"git\"", prefreeze, fixed = TRUE))
   expect_match(prefreeze, "cross_view_comparison_allowed <- FALSE",
                fixed = TRUE)
   validation_position <- regexpr("if (!all(validation$passed))", prefreeze,
