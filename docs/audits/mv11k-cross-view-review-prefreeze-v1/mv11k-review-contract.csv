@@ -1,0 +1,2 @@
+"contract_id","source_values_inspected_before_freeze","complete_summary_rows","k_contrast_rows","primary_pam_rows","dimensions","methods","k_values","metric","threshold_allowed","method_selection_allowed","k_selection_allowed","view_ranking_allowed","fusion_allowed","labels_allowed","outcomes_allowed","inference_allowed","biological_claims_allowed","manuscript_claims_allowed"
+"mv11k_cross_view_review_prefreeze_v1",FALSE,20,10,4,"H0;H1_separate",5,"2;3","adjusted_rand_index",FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE

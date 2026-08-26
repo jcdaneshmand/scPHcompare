@@ -1,0 +1,5 @@
+"contract_id","output_id","rows","rule"
+"mv11k_allowed_output_v1","complete_summary",20,"retain_every_method_dimension_K_row_with_five_seed_mean_median_minimum_maximum"
+"mv11k_allowed_output_v1","K3_minus_K2_contrast",10,"within_identical_method_and_dimension_subtract_mean_ARI_K2_from_K3"
+"mv11k_allowed_output_v1","primary_PAM_dossier",4,"extract_PAM_rows_only_because_PAM_was_prospectively_primary_not_because_of_values"
+"mv11k_allowed_output_v1","disposition",1,"describe_patterns_without_threshold_selection_ranking_fusion_biology_or_claims"

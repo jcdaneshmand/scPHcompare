@@ -1,0 +1,2 @@
+"contract_id","fixed_review_authorized_after_commit","labels_authorized","outcomes_authorized","view_ranking_authorized","fusion_authorized","biological_claims_authorized","manuscript_claims_authorized","next_action"
+"mv11k_decision_v1",TRUE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,"commit this value-uninspected prefreeze; review every closed summary row; publish exact complete/K-contrast/PAM/disposition tables and independently validate source arithmetic"

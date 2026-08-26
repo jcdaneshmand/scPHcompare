@@ -1,0 +1,4 @@
+"contract_id","source_id","private_or_public_path","rows","bytes","sha256","independent_closure"
+"mv11k_source_binding_v1","seed_agreement","tmp/mv11i-cross-view-agreement-public-v1/mv11i-seed-agreement.csv",100,17971,"293d6309981d03d661b77018fc172b822d425f41ff1b08f1ac23c7262c2b4865","MV11-J"
+"mv11k_source_binding_v1","agreement_summary","tmp/mv11i-cross-view-agreement-public-v1/mv11i-agreement-summary.csv",20,4623,"e46f1a5d1d4f410dc5adb3b8e0b76d0072f8e0cc3318fb1ad26df75c4942162a","MV11-J"
+"mv11k_source_binding_v1","production_manifest","tmp/mv11i-cross-view-agreement-public-v1/mv11i-artifact-manifest.csv",3,431,"af9a410c32f95a9f02254167e6095ccd89d57da19e0dfcfffee0b937df75cd0e","MV11-J"
