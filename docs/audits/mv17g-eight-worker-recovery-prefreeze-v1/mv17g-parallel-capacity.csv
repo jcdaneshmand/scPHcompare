@@ -1,0 +1,2 @@
+"contract_id","logical_cpus","memory_total_bytes","load_1_minute_at_prefreeze","workers","threads_per_child","concurrent_child_RSS_cap_bytes","sufficient"
+"mv17g_parallel_capacity_v1",40,1584914452480,4.2,8,1,68719476736,TRUE

@@ -1,7 +1,7 @@
 # MV17-G eight-worker recovery sprint plan
 
 Date: 2026-08-26
-Status: owner-authorized design; parallel execution remains closed until the exact-head recovery prefreeze commits
+Status: 24/24 recovery-prefreeze gates passed at implementation head `7b95335`; parallel execution remains closed until that audit commits and pushes
 
 ## Purpose
 
