@@ -1,0 +1,8 @@
+"contract_id","artifact","bytes","sha256"
+"mv15_recovery_artifact_manifest_v1","MV15_CLOSURE_RECOVERY_PREFREEZE_2026-08-26.md",499,"87592236c8b906d5168d28240de11af86bcfe2daf1f234cdb2cf0ca6fe5b8220"
+"mv15_recovery_artifact_manifest_v1","mv15-recovery-contract.csv",649,"74c2d3e4887927d406316325a99a929c515acac9933bcc5d5cea080f2cf80145"
+"mv15_recovery_artifact_manifest_v1","mv15-recovery-decision.csv",316,"0bb675f46f26de6bdfe54aaad8e82e99648e14019c8ff1dc0dd76135ebfb0839"
+"mv15_recovery_artifact_manifest_v1","mv15-recovery-failure-binding.csv",318,"4ef67d74274d617949698a2fea5f9e8c41585ffbdaf203f0e66f284507725721"
+"mv15_recovery_artifact_manifest_v1","mv15-recovery-implementation-binding.csv",1192,"315d8cbbc2c40afe2216a82124b1ec2bc8449350417eb46b23876dd35d5c84de"
+"mv15_recovery_artifact_manifest_v1","mv15-recovery-production-binding.csv",755,"73e22d89221b966db7755acd9426f1023482b846cc6a8b3393b50434fc7098d8"
+"mv15_recovery_artifact_manifest_v1","mv15-recovery-validation.csv",912,"68ef30853b4d074f821a09bbf541df2a06589215db9f4cfd58f4b439508aeacb"

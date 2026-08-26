@@ -1,0 +1,15 @@
+"contract_id","check_id","passed"
+"mv15_recovery_validation_v1","original_prefreeze_manifest",TRUE
+"mv15_recovery_validation_v1","failure_record_present",TRUE
+"mv15_recovery_validation_v1","failure_is_closure_only",TRUE
+"mv15_recovery_validation_v1","failure_before_audit_publication",TRUE
+"mv15_recovery_validation_v1","production_terminal_complete",TRUE
+"mv15_recovery_validation_v1","production_cardinality",TRUE
+"mv15_recovery_validation_v1","production_time_exit_zero",TRUE
+"mv15_recovery_validation_v1","production_artifacts_rehashed",TRUE
+"mv15_recovery_validation_v1","only_closure_file_changed",TRUE
+"mv15_recovery_validation_v1","closure_hash_changed",TRUE
+"mv15_recovery_validation_v1","scientific_implementation_unchanged",TRUE
+"mv15_recovery_validation_v1","runner_unchanged",TRUE
+"mv15_recovery_validation_v1","production_rerun_closed",TRUE
+"mv15_recovery_validation_v1","downstream_firewall",TRUE

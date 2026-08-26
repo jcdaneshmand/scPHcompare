@@ -1,0 +1,6 @@
+"contract_id","artifact_order","artifact_role","bytes","sha256","immutable"
+"mv15_recovery_production_binding_v1",1,"global_summary",25677,"a1fde35434f23ece73c010c8e237d7b46fc900f96bca0547265f98a64fad0d76",TRUE
+"mv15_recovery_production_binding_v1",2,"neighbor_summary",19786,"1bfeb57a86698bbddffc0ac5834272727190e2ac9d11cc02eb2fb66100cbddc6",TRUE
+"mv15_recovery_production_binding_v1",3,"resource_ledger",2111,"c431fe2bc8f6235b55b612271b262ee1a028f63a5095d25cad3e806e3e3328ee",TRUE
+"mv15_recovery_production_binding_v1",4,"terminal_receipt",474,"5179eaaa50d4c2cdd15198e4b09dace079329b40561e2b15e60f520fda3b2631",TRUE
+"mv15_recovery_production_binding_v1",5,"GNU_time_evidence",1052,"ee4368ce76fefffb2721f15c5e022b978a2a5ac171ad30b84bf870b94c37ce0d",TRUE

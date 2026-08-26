@@ -1,0 +1,2 @@
+"contract_id","decision","immutable_production_reused","production_rerun_authorized","corrected_closure_authorized_after_commit","result_interpretation_authorized","next_gate"
+"mv15_recovery_decision_v1","authorize_corrected_independent_closure_only_after_commit",TRUE,FALSE,TRUE,FALSE,"MV15_v2_independent_closure"
