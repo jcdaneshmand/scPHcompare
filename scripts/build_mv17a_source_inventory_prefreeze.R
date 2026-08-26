@@ -163,7 +163,7 @@ inventory <- rbind(
     contract_id = "mv17a_source_inventory_v1",
     source_family = "gene_landscape", artifact_kind = "exact_distance_CSV",
     artifacts = gene_distance$artifacts, records = gene_distance$records,
-    axes = 28L, bytes = gene_distance$bytes,
+    axes = length(gene_group_orders), bytes = gene_distance$bytes,
     artifact_set_sha256 = gene_distance$artifact_set_sha256,
     schema_sha256 = gene_distance$schema_sha256, labels_opened = FALSE,
     outcomes_opened = FALSE, scientific_values_published = FALSE
@@ -281,7 +281,8 @@ validation <- data.frame(
     gene_ph$artifacts == 1264L && gene_ph$dimension_records == 2528L,
     gene_ph$selected_axis_identities == 1264L &&
       gene_ph$point_count_min == 475L && gene_ph$point_count_max == 500L,
-    gene_distance$artifacts == 626L && gene_distance$records == 152688L,
+    length(gene_group_orders) == 26L && gene_distance$artifacts == 626L &&
+      gene_distance$records == 152688L,
     nrow(cell_locator) == 132L,
     nrow(cell_groups) == 7L && sum(cell_groups$units) == 636L,
     nrow(cell_axis) == 1272L &&

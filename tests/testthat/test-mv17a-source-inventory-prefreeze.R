@@ -1,7 +1,7 @@
 test_that("MV17-A committed audit is aggregate-only and fully gated", {
   root <- testthat::test_path("..", "..")
   audit <- file.path(root, "docs", "audits",
-                     "mv17a-source-inventory-estimand-prefreeze-v3")
+                     "mv17a-source-inventory-estimand-prefreeze-v4")
   skip_if_not(dir.exists(audit), "MV17-A audit has not been built yet")
   read_at <- function(name) read.csv(file.path(audit, name),
     stringsAsFactors = FALSE, check.names = FALSE)
@@ -16,6 +16,8 @@ test_that("MV17-A committed audit is aggregate-only and fully gated", {
   expect_equal(inventory$records[inventory$source_family == "gene_PH"], 2528L)
   expect_equal(inventory$records[inventory$source_family == "gene_landscape"],
                152688L)
+  expect_equal(inventory$axes[inventory$source_family == "gene_landscape"],
+               26L)
   expect_equal(inventory$records[inventory$source_family == "cell_PH"], 1272L)
   expect_equal(inventory$records[inventory$source_family == "cell_landscape"],
                76372L)
