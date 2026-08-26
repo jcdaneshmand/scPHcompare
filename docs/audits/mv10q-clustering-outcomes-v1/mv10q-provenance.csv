@@ -1,0 +1,2 @@
+"contract_id","execution_head","selected_partition_source_sha256","metadata_samples","evaluation_units","seed_metric_rows","contingency_rows","structural_nonestimable_endpoints","elapsed_seconds","workers","retries","p_values_computed","method_selection_executed","biological_claims","manuscript_claims"
+"mv10q_outcome_provenance_v1","ad21ca04fb323666c7467c6b64981b5aa836cc1d","4a3e3719065cdec4e8b78b5ff40c686b5d3d27d77f1918487aaa0ffd0b84c710",124,300,1500,17840,1,5.357,1,0,FALSE,FALSE,FALSE,FALSE

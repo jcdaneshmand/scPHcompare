@@ -1,0 +1,2 @@
+"contract_id","decision","evaluation_units","seed_metric_rows","next_stage","method_selection_state","biological_claims_state","manuscript_claims_state"
+"mv10r_decision_v1","close_complete_descriptive_clustering_outcomes",300,1500,"separate_complete_outcome_review_prefreeze","closed","closed","closed"

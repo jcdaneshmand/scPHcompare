@@ -1,0 +1,2 @@
+"contract_id","execution_head","completion_state","evaluation_units","seed_metric_rows","private_contingency_rows","public_bytes","private_bytes","elapsed_seconds","workers","retries","labels_opened_after_commit","p_values_computed","method_selection_executed","biological_claims","manuscript_claims"
+"mv10q_terminal_receipt_v1","ad21ca04fb323666c7467c6b64981b5aa836cc1d","complete",300,1500,17840,654387,3580760,5.357,1,0,TRUE,FALSE,FALSE,FALSE,FALSE

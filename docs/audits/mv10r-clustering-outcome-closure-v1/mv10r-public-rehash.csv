@@ -1,0 +1,4 @@
+"contract_id","output_order","artifact_id","rows","expected_rows","exact_columns","numeric_repeat"
+"mv10r_public_rehash_v1",1,"seed_metrics",1500,1500,TRUE,TRUE
+"mv10r_public_rehash_v1",2,"unit_summaries",300,300,TRUE,TRUE
+"mv10r_public_rehash_v1",3,"structural",1,1,TRUE,TRUE

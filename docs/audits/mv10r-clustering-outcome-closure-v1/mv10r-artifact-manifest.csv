@@ -1,0 +1,6 @@
+"contract_id","artifact","bytes","sha256"
+"mv10r_artifact_manifest_v1","MV10R_CLUSTERING_OUTCOME_CLOSURE_2026-08-25.md",254,"18faa22ce079f81faa42ca834f8d023a78e874c24b992ed877a0674da0ff4ba7"
+"mv10r_artifact_manifest_v1","mv10r-decision.csv",303,"acdfee6dcd12a89de1c23a134a35a3a758af2ee9cef789224c6c8918e5f50f46"
+"mv10r_artifact_manifest_v1","mv10r-private-rehash.csv",474,"1d3cef5502c0e10790e9d1a0b225e52e9f0c68d3290c8ef685f196240530a8ce"
+"mv10r_artifact_manifest_v1","mv10r-public-rehash.csv",277,"58f4f0f7ae5bbdf298c2abab39451873bd822995f9e1c791820e7ef7e291de59"
+"mv10r_artifact_manifest_v1","mv10r-validation.csv",1398,"17865eb23a841c8a231860f314d4962ad9a0bb7682a32bfcb57054bcf465a2a2"
