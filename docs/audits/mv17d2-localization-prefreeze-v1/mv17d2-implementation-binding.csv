@@ -1,0 +1,8 @@
+"contract_id","file","bytes","sha256"
+"mv17d2_implementation_binding_v1","R/mv17_localization.R",4609,"d8e2a24903531b64267a3a187d12869956010cec35ed09fef9113dbd964d99fa"
+"mv17d2_implementation_binding_v1","R/mv17_localization_horton.R",3567,"801e87bd337bb23dfb4d4ff885d44b84bb602efe18e1f9a5a541ac31408a63f3"
+"mv17d2_implementation_binding_v1","scripts/build_mv17d2_localization_prefreeze.R",4561,"519c68402e363fcb91a61ff34da29970419b3601f77134160f5ee6d17d36e21a"
+"mv17d2_implementation_binding_v1","scripts/run_mv17d2_localization_qualification.R",3835,"42b1830a3a19c54f7748acbbebcadad2eebab7e3ac7b04178c630bc6e6f7d19d"
+"mv17d2_implementation_binding_v1","scripts/build_mv17d2_localization_closure.R",3876,"de7ba8696ef2dd39fab7e853679964a4dfd3b11042b2d4362af43a97a11a9ed4"
+"mv17d2_implementation_binding_v1","tests/testthat/test-mv17d2-localization.R",583,"2f054abf92cb73f3e867cbc39d1e1a580b75ebfe39f621cdbb47268b2fdabc64"
+"mv17d2_implementation_binding_v1","tests/testthat/test-mv17d2-localization-prefreeze.R",648,"e1526b58111c49359de42e47e8fe4d750659098f59c9abc0f3d42364e40ac090"

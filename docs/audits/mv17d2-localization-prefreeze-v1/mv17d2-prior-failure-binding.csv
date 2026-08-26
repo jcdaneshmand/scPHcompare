@@ -1,0 +1,8 @@
+"contract_id","artifact","bytes","sha256"
+"mv17d2_prior_failure_binding_v1","MV17D_LOCALIZATION_NEGATIVE_CLOSURE_2026-08-26.md",297,"6cedd64505a11aea57e38dfb93227992262a84217bd7f2e226455998a980962f"
+"mv17d2_prior_failure_binding_v1","mv17d-complete-summary.csv",1210,"940fccdcbc293d33a7d0d97f3aefa5adb60e83867cf1641589513a0a91b9ec07"
+"mv17d2_prior_failure_binding_v1","mv17d-decision.csv",210,"2b5037ae0f01cc8f66874c8c7ae41e64591339b7e739c52390bd0bb7f7e68c9c"
+"mv17d2_prior_failure_binding_v1","mv17d-observed-gates.csv",422,"2077c5b983697fdfd260fcb91df13abc5334b3b92c9d692f39ede5be4c30ee6a"
+"mv17d2_prior_failure_binding_v1","mv17d-resource-summary.csv",175,"d586eeac8ce0e159626e4a0b80f5e37d1f3abad59f89a00bdb2ac3eb9a48e40e"
+"mv17d2_prior_failure_binding_v1","mv17d-source-binding.csv",775,"405fbc962bbc1bc4006cc20cf6b3d5b77f428d68df2b6265822c1e4d6c3a0071"
+"mv17d2_prior_failure_binding_v1","mv17d-validation.csv",771,"fbd3f69d9c5ef29d10a8742fa19e97d87f812a9202104e5741491ddd5e905513"

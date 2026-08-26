@@ -1,0 +1,5 @@
+"contract_id","fixture","points","seed","expected_H1"
+"mv17d_fixture_v1","circle",32,,"positive"
+"mv17d_fixture_v1","noisy_circle",32,17201,"positive"
+"mv17d_fixture_v1","double_loop",40,,"at_least_two"
+"mv17d_fixture_v1","gaussian_negative",32,17202,"negative"

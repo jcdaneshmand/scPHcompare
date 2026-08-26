@@ -1,0 +1,8 @@
+"contract_id","artifact","bytes","sha256"
+"mv17d2_manifest_v1","MV17D2_LOCALIZATION_PREFREEZE_2026-08-26.md",248,"58223ddf6b1d660429a6f20debe1cfa0604b37c66cae9733fb6dc5d3fe8aa12d"
+"mv17d2_manifest_v1","mv17d2-contract.csv",1007,"a11b80b31335f35407bda3e04342efa27dec8ccea08f24b1436f1067cf69b8fa"
+"mv17d2_manifest_v1","mv17d2-decision.csv",183,"7b806188c831cf797c7ea5d78c8955aeb8c9474ad4138564707f5b8519dc5d37"
+"mv17d2_manifest_v1","mv17d2-fixtures.csv",262,"5b126afd1cffd42a2aa1964687e3045163ca7a1431c784f144a91882823c6540"
+"mv17d2_manifest_v1","mv17d2-implementation-binding.csv",1082,"ae1935349d112a82067bbc7bfe9b908e18d61b63a2f9317b55b4b9b4bdf95248"
+"mv17d2_manifest_v1","mv17d2-prior-failure-binding.csv",986,"646a67429dc36559fd039001862ba967d9a0bce698dafd7dbeff5838edccd2b1"
+"mv17d2_manifest_v1","mv17d2-validation.csv",756,"b96e2c28938a06c806018fea1ce5548a0ac1cb29043fea803136d7131535a5eb"
