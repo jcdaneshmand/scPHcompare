@@ -23,6 +23,10 @@ test_that("MV11-B through MV11-F scripts parse and preserve prospective gates", 
   expect_match(prefreeze, "full_execution_authorized = FALSE", fixed = TRUE)
   expect_match(prefreeze, "automatic_retries = 0L", fixed = TRUE)
   expect_match(prefreeze, "head <- tolower(trimws(args[[3L]]))", fixed = TRUE)
+  expect_match(prefreeze, "failure_audit <- normalizePath(args[[4L]]",
+               fixed = TRUE)
+  expect_match(prefreeze, "execution_attempt = 2L", fixed = TRUE)
+  expect_match(prefreeze, "mv11b-prior-failure-binding.csv", fixed = TRUE)
   expect_false(grepl("system2(\"git\"", prefreeze, fixed = TRUE))
   expect_match(prefreeze, "cross_view_comparison_allowed <- FALSE",
                fixed = TRUE)

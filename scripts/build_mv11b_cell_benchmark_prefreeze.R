@@ -2,13 +2,14 @@
 
 options(warn = 2)
 args <- commandArgs(trailingOnly = TRUE)
-if (length(args) != 3L) stop(paste(
+if (length(args) != 4L) stop(paste(
   "usage: build_mv11b_cell_benchmark_prefreeze.R <matrix-bundle> <output>",
-  "<execution-head>"
+  "<execution-head> <prior-failure-audit>"
 ), call. = FALSE)
 bundle_path <- normalizePath(args[[1L]], mustWork = TRUE)
 output <- args[[2L]]
 head <- tolower(trimws(args[[3L]]))
+failure_audit <- normalizePath(args[[4L]], mustWork = TRUE)
 if (dir.exists(output)) stop("MV11-B output already exists", call. = FALSE)
 
 source("R/mv05_benchmark_contract.R")
@@ -29,6 +30,24 @@ if (sha(bundle_path) != expected_bundle_sha ||
 }
 bundle <- readRDS(bundle_path)
 catalog <- mv11_cell_catalog_v1(bundle)
+failure_files <- c(
+  "MV11C_SENTINEL_ATTEMPT1_FAILURE_2026-08-25.md",
+  "mv11c-failure-evidence.csv", "mv11c-failure-validation.csv"
+)
+failure_paths <- file.path(failure_audit, failure_files)
+expected_failure_bytes <- c(1011, 486, 868)
+expected_failure_sha <- c(
+  "7685a91603612e5e9b72d6c79b995eb1ecf297a809d14df54d0d7d8993218979",
+  "88bb1307a5295b933696cad84b77802fa1cead1ed7088469036e3d275699e9b6",
+  "92012e6726602d796409ce47af342c202af7c5aeb74a482557ca38c1450f591a"
+)
+if (!all(file.exists(failure_paths)) ||
+    !identical(as.numeric(file.info(failure_paths)$size),
+               expected_failure_bytes) ||
+    !identical(unname(vapply(failure_paths, sha, character(1L))),
+               expected_failure_sha)) {
+  stop("MV11-B prior failure evidence drift", call. = FALSE)
+}
 implementation_files <- c(
   "R/mv05_benchmark_contract.R", "R/mv05n_clustering_gate.R",
   "R/mv08z_landscape_production.R", "R/mv10_clustering_benchmark.R",
@@ -58,6 +77,13 @@ source_binding <- data.frame(
   outcome_label_state = "closed", biological_outcomes_computed = FALSE,
   stringsAsFactors = FALSE
 )
+failure_binding <- data.frame(
+  contract_id = "mv11b_prior_failure_binding_v2",
+  artifact = failure_files, bytes = expected_failure_bytes,
+  sha256 = expected_failure_sha, attempt = 1L,
+  disposition = "fail_closed_before_clustering_output",
+  stringsAsFactors = FALSE
+)
 queue <- catalog
 queue$elapsed_cap_seconds <- 600
 queue$rss_cap_bytes <- 4 * 1024^3
@@ -73,7 +99,10 @@ sentinel_order <- queue$catalog_order[
 ]
 contract <- data.frame(
   contract_id = "mv11b_cell_benchmark_prefreeze_v1",
-  execution_head = head, matrices = 10L, samples_per_matrix = 124L,
+  execution_head = head, execution_attempt = 2L,
+  prior_attempt_disposition = "catalog_type_mismatch_before_output",
+  recovery_change = "canonical_character_catalog_equality_only",
+  matrices = 10L, samples_per_matrix = 124L,
   seeds = 5L, homology_dimensions = "H0;H1_separate",
   methods = 5L, k_grid = "2:10", partition_fits = 450L,
   private_assignment_rows = 55800L, public_quality_rows = 450L,
@@ -107,6 +136,10 @@ checks <- c(
     expected_bundle_bytes,
   bundle_outer_contract = identical(bundle$contract_id,
                                       "mv07i_matrix_bundle_v1"),
+  prior_failure_three_files_bound = nrow(failure_binding) == 3L,
+  prior_failure_hashes_exact = all(vapply(failure_paths, sha, character(1L)) ==
+                                     failure_binding$sha256),
+  execution_attempt_two = contract$execution_attempt == 2L,
   ten_matrices = nrow(queue) == 10L,
   five_seeds = identical(sort(unique(queue$seed)), .mv11_required_seeds),
   H0_H1_separate = setequal(queue$homology_dimension, c("H0", "H1")),
@@ -147,6 +180,7 @@ if (!all(validation$passed)) {
 dir.create(output, recursive = TRUE)
 atomic(contract, file.path(output, "mv11b-contract.csv"))
 atomic(source_binding, file.path(output, "mv11b-source-binding.csv"))
+atomic(failure_binding, file.path(output, "mv11b-prior-failure-binding.csv"))
 atomic(queue, file.path(output, "mv11b-workload-queue.csv"))
 atomic(implementation, file.path(output, "mv11b-implementation-bindings.csv"))
 atomic(decision, file.path(output, "mv11b-decision.csv"))
@@ -154,7 +188,8 @@ atomic(validation, file.path(output, "mv11b-validation.csv"))
 readme <- c(
   "# MV11-B matched historical cell benchmark prefreeze", "",
   paste0("Execution head: `", head, "`."), "",
-  "This prospective contract admits exactly ten immutable historical cell",
+  "This attempt-2 prospective contract binds the preserved fail-closed first",
+  "attempt and admits exactly ten immutable historical cell",
   "H0/H1 matrices (124 samples, five seeds), the unchanged MV10 five-method",
   "K=2:10 grid, and one H1 sentinel after commit. It does not admit labels,",
   "outcomes, cross-view comparison, fusion, inference, biology, or claims.", "",

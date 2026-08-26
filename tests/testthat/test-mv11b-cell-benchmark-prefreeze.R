@@ -32,10 +32,17 @@ test_that("MV11-B prospectively freezes the matched cell sentinel", {
     "beb58777197545ec7113898e6e1082cafb61f84b446de973fbdd5431c791774e")
   paths <- file.path(root, implementation$file)
   expect_true(all(file.exists(paths)))
-  expect_equal(as.numeric(file.info(paths)$size), implementation$bytes)
-  expect_equal(unname(vapply(paths, function(path) digest::digest(
+  current_hashes <- unname(vapply(paths, function(path) digest::digest(
     file = path, algo = "sha256", serialize = FALSE
-  ), character(1L))), implementation$sha256)
+  ), character(1L)))
+  changed_after_fail_closed_attempt <- implementation$file %in% c(
+    "scripts/run_mv11_cell_matrix_worker.R",
+    "scripts/build_mv11d_cell_benchmark_sentinel_closure.R"
+  )
+  expect_true(all(current_hashes[!changed_after_fail_closed_attempt] ==
+                    implementation$sha256[!changed_after_fail_closed_attempt]))
+  expect_true(all(current_hashes[changed_after_fail_closed_attempt] !=
+                    implementation$sha256[changed_after_fail_closed_attempt]))
   expect_equal(nrow(validation), 25L)
   expect_true(all(validation$passed))
   expect_true(decision$sentinel_execution_authorized_after_commit)
