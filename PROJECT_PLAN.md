@@ -5,7 +5,7 @@
 | Field | Value |
 |---|---|
 | Status | Draft for owner and author-team review |
-| Version | 0.5.19 |
+| Version | 0.5.20 |
 | Created | 2026-08-03 |
 | Canonical repository | `jcdaneshmand/scPHcompare` |
 | Historical source repository | `jcdaneshmand/PH_ClusteringApp` |
@@ -865,6 +865,7 @@ Publish a durable, citable research artifact.
 | D-261 | 2026-08-26 | Implement MV17-E bounded H2 meaning/engine qualification without running its fixtures | Seven fixed classes cover sphere and torus H2 positives, circle H2 negative/H1 positive, a Gaussian null, and shuffled sphere/torus/circle controls at 42–48 points. Complete VR through H2 uses field 2 with Ripserr primary and TDA/GUDHI independent execution; engine tolerance `1e-5`, qualitative persistence boundaries, strict shuffled-parent attenuation, two exact repeats, simplex upper bounds, elapsed/resource fields, one-worker/1,800-second/4-GiB caps, and all real/downstream firewalls are implemented | Commit/push implementation and static tests. Then build a distinct exact-head MV17-E prefreeze before any fixture H2 execution. Real-data H2 remains closed even if all synthetic controls pass |
 | D-262 | 2026-08-26 | Prospectively freeze MV17-E synthetic H2 qualification at exact head `71ada50` | Twelve of twelve gates bind seven 42–48-point fixtures, complete VR through H2 over field 2, Ripserr/TDA-GUDHI dual engines, `1e-5` interval tolerance, sphere/torus positive thresholds, circle H1-positive/H2-negative thresholds, strict shuffled-parent attenuation, two exact repeats, simplex/resource evidence, one worker, 1,800 seconds, 4 GiB, and all real/downstream firewalls. No fixture H2 was executed | Commit/push the prefreeze. Then run one primary and one exact repeat synthetic qualification under the caps, require both engines and every qualitative control, and independently close before any MV17-F resource-grid work; real-data H2 remains unauthorized |
 | D-263 | 2026-08-26 | Preserve MV17-E's substantive negative fixture result and prepare a failure-only closure | Both seven-fixture runs exit cleanly at about 5.5 seconds and 126 MiB peak RSS; all seven RDS payloads repeat byte-for-byte and Ripserr/TDA-GUDHI interval error is zero. Sphere and torus positive controls pass, but the circle has 13 H2 intervals with maximum persistence 0.06989 and shuffled circle has two with maximum 0.06504, both violating the frozen `1e-8` H2-negative maximum. Timing-bearing summaries differ only in elapsed fields | Commit/push the failure record plus failure-prefreeze/closure implementation. Do not rerun or alter thresholds. Build an exact-head failure prefreeze binding all 20 artifacts, then close MV17-E negative, forbid real-data H2 and MV17-F, and continue H0/H1 calibration/localization lanes |
+| D-264 | 2026-08-26 | Prospectively freeze the MV17-E negative closure at exact head `c17cf55` | Ten of ten gates bind 20 primary/repeat/time artifacts, seven byte-identical scientific payloads, byte-identical status, the original fixed thresholds, and the failure-closure implementation. Production rerun and threshold changes remain forbidden; only a negative closure may be built. Real H2 and MV17-F are explicitly closed while H0/H1 work remains eligible | Commit/push the failure prefreeze. Then build the negative closure once, independently reconstruct all seven summaries and dual-engine agreements, retain the two failed circle controls, and close the H2 lane without real-data execution |
 
 ## 9. Status dashboard
 
@@ -885,6 +886,7 @@ Publish a durable, citable research artifact.
 
 | Version | Date | Summary |
 |---|---|---|
+| 0.5.20 | 2026-08-26 | Prospectively froze MV17-E's negative closure at 10/10 gates and exact head `c17cf55`, binding all 20 artifacts and unchanged thresholds while forbidding rerun and authorizing only closure of real H2/MV17-F. |
 | 0.5.19 | 2026-08-26 | Preserved MV17-E's reproducible substantive negative result: dual engines agree and payloads repeat exactly, but finite circle and shuffled-circle fixtures violate the prospectively frozen H2-negative controls; implemented a no-rerun failure closure that blocks real H2/MV17-F while retaining H0/H1 work. |
 | 0.5.18 | 2026-08-26 | Prospectively froze MV17-E at 12/12 gates and exact head `71ada50`, binding seven bounded H2 fixtures, Ripserr/TDA-GUDHI agreement, fixed qualitative/numerical/resource gates, exact repeats, and zero real-data H2 authorization. |
 | 0.5.17 | 2026-08-26 | Implemented prospective MV17-E H2 qualification with seven positive/negative/shuffled fixtures, Ripserr-versus-TDA/GUDHI comparison, fixed qualitative/numerical/resource gates, exact repeats, and zero real-data H2 authorization. |

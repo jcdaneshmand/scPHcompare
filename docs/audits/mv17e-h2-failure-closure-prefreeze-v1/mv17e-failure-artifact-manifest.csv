@@ -1,0 +1,6 @@
+"contract_id","artifact","bytes","sha256"
+"mv17e_failure_prefreeze_manifest_v1","MV17E_FAILURE_CLOSURE_PREFREEZE_2026-08-26.md",210,"922c508b4d8d929661e58a301f8732cd24c27b485c3570c3cfacb22ee5cb1814"
+"mv17e_failure_prefreeze_manifest_v1","mv17e-failure-contract.csv",503,"a34c1af2adbf8007d30d86fc5736ab732f1f1f1a6572fd6f34471883632fc66e"
+"mv17e_failure_prefreeze_manifest_v1","mv17e-failure-implementation-binding.csv",482,"8d2f7936ab1bc651a88643accf5ce2e2ac464525aeb438caa7f6d2e035864643"
+"mv17e_failure_prefreeze_manifest_v1","mv17e-failure-source-binding.csv",2648,"38bc781c5a6555e795d92cc9c382c064ea95e557e446b7cb0bc08ba0a27347fa"
+"mv17e_failure_prefreeze_manifest_v1","mv17e-failure-validation.csv",683,"6b2202251efd95f79e7d5869b7637fd9e1483ca460066bf0015b3080b4a279d7"

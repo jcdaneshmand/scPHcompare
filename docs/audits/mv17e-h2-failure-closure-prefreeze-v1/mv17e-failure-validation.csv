@@ -1,0 +1,11 @@
+"contract_id","check_id","passed"
+"mv17e_failure_prefreeze_validation_v1","20_sources_bound",TRUE
+"mv17e_failure_prefreeze_validation_v1","payload_repeat_exact",TRUE
+"mv17e_failure_prefreeze_validation_v1","status_repeat_exact",TRUE
+"mv17e_failure_prefreeze_validation_v1","implementation_bound",TRUE
+"mv17e_failure_prefreeze_validation_v1","production_frozen",TRUE
+"mv17e_failure_prefreeze_validation_v1","thresholds_unchanged",TRUE
+"mv17e_failure_prefreeze_validation_v1","failure_only",TRUE
+"mv17e_failure_prefreeze_validation_v1","real_H2_closed",TRUE
+"mv17e_failure_prefreeze_validation_v1","MV17F_closed",TRUE
+"mv17e_failure_prefreeze_validation_v1","downstream_firewall",TRUE
