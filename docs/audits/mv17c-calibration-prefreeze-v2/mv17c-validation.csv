@@ -1,0 +1,16 @@
+"contract_id","check_id","passed"
+"mv17c_validation_v1","seven_closures_bound",TRUE
+"mv17c_validation_v1","cell_axis_132",TRUE
+"mv17c_validation_v1","gene_axis_132",TRUE
+"mv17c_validation_v1","six_private_sentinels",TRUE
+"mv17c_validation_v1","private_locator_bound",TRUE
+"mv17c_validation_v1","canonical_roles",TRUE
+"mv17c_validation_v1","189_primary_jobs",TRUE
+"mv17c_validation_v1","63_repeat_jobs",TRUE
+"mv17c_validation_v1","four_summaries",TRUE
+"mv17c_validation_v1","plus_one_policy",TRUE
+"mv17c_validation_v1","resources_fixed",TRUE
+"mv17c_validation_v1","implementation_bound",TRUE
+"mv17c_validation_v1","full_calibration_closed",TRUE
+"mv17c_validation_v1","downstream_firewall",TRUE
+"mv17c_validation_v1","zero_null_execution",TRUE

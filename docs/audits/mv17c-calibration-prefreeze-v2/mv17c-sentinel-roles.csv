@@ -1,0 +1,7 @@
+"view","burden_role","sentinel_id","eligible_units","H0_H1_separate","private_identity_published"
+"cell","minimum","cell_minimum",132,TRUE,FALSE
+"gene","minimum","gene_minimum",132,TRUE,FALSE
+"cell","median","cell_median",132,TRUE,FALSE
+"gene","median","gene_median",132,TRUE,FALSE
+"cell","maximum","cell_maximum",132,TRUE,FALSE
+"gene","maximum","gene_maximum",132,TRUE,FALSE
