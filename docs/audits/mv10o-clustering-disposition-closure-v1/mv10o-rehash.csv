@@ -1,0 +1,6 @@
+"contract_id","output_order","artifact_id","rows","expected_rows","exact_column_names","numeric_repeat"
+"mv10o_rehash_v1",1,"selected_primary_seed_metrics",10,10,TRUE,TRUE
+"mv10o_rehash_v1",2,"primary_summary",2,2,TRUE,TRUE
+"mv10o_rehash_v1",3,"representation_context",6,6,TRUE,TRUE
+"mv10o_rehash_v1",4,"method_sensitivity",24,24,TRUE,TRUE
+"mv10o_rehash_v1",5,"disposition",1,1,TRUE,TRUE
