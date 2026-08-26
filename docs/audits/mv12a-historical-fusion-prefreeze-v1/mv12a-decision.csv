@@ -1,0 +1,2 @@
+"contract_id","historical_fusion_execution_authorized_after_commit","option2_authorized_only_if_triggered","labels_authorized","outcomes_authorized","method_or_weight_selection_authorized","biological_claims_authorized","manuscript_claims_authorized","next_action"
+"mv12a_decision_v1",TRUE,TRUE,FALSE,FALSE,FALSE,FALSE,FALSE,"commit prefreeze; execute 500 fixed fits once; independently repeat all scientific artifacts; apply frozen option-2 trigger without tuning"

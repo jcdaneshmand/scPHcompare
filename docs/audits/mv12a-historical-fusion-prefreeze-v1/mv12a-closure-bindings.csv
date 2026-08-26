@@ -1,0 +1,4 @@
+"contract_id","closure_id","file","bytes","sha256"
+"mv12a_closure_binding_v1","cell_benchmark","docs/audits/mv11f-cell-benchmark-closure-v1/mv11f-artifact-manifest.csv",688,"99cd32bf08de82fe76435d21020f66b207e35368c47f0fb84c34658c6d96cb31"
+"mv12a_closure_binding_v1","cross_view_agreement","docs/audits/mv11j-cross-view-closure-v1/mv11j-artifact-manifest.csv",555,"39f1122024e72ee716983997b751380a1d1d721259d2df7b9e3db46a36c91aae"
+"mv12a_closure_binding_v1","review","docs/audits/mv11l-cross-view-review-v1/mv11l-validation.csv",1167,"ebba34f065fbdb64841ab6f92040c81bcee543414533a145b2ac4f164154845d"

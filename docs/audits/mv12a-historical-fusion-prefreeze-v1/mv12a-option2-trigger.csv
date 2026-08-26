@@ -1,0 +1,3 @@
+"contract_id","primary_axis","k","stability_rule","consensus_rule","primary_pass_requires_both_rules","sensitivity_weights","option2_required_unless","labels_used","outcomes_used"
+"mv12a_option2_trigger_v1","H1_PAM_K2",2,"equal_weight_mean_seed_ARI_strictly_exceeds_both_components","equal_weight_min_component_ARI_minus_cell_gene_ARI_positive_in_at_least_3_of_5_seeds",TRUE,"0.25;0.75_diagnostic_only","both_primary_K_fail_and_no_sensitivity_weight_meets_both_rules",FALSE,FALSE
+"mv12a_option2_trigger_v1","H1_PAM_K3",3,"equal_weight_mean_seed_ARI_strictly_exceeds_both_components","equal_weight_min_component_ARI_minus_cell_gene_ARI_positive_in_at_least_3_of_5_seeds",TRUE,"0.25;0.75_diagnostic_only","both_primary_K_fail_and_no_sensitivity_weight_meets_both_rules",FALSE,FALSE

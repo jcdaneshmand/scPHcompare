@@ -1,0 +1,8 @@
+"contract_id","file","bytes","sha256"
+"mv12a_implementation_binding_v1","R/mv05_benchmark_contract.R",16628,"b060803a4070c1dea69d845527c449a94a7bd319bb2df6e1c0c323fbaaf0357d"
+"mv12a_implementation_binding_v1","R/mv05n_clustering_gate.R",25044,"9f92a6d8354ee3e4aedadd233c057bc266baa4a3410cf602327135e2cd4f1c03"
+"mv12a_implementation_binding_v1","R/mv10_clustering_benchmark.R",18182,"ab4a8e997b6dff9ace58912f7c9a22e36a0912488e09449186a86ee556d1720b"
+"mv12a_implementation_binding_v1","R/mv11_cell_benchmark.R",6699,"cb81473d079e1dfeab0d4716746e4c12e7620ab1494fc89a86ba6a01fd7b7dd7"
+"mv12a_implementation_binding_v1","R/mv12_historical_fusion.R",11969,"56803d27792a7670aa4dc688b9b9e729b1a48125f2fdf698f344abc1b3d75afb"
+"mv12a_implementation_binding_v1","scripts/run_mv12b_historical_fusion.R",5012,"94d37af06ad290c01dae313a3122223ec556a4990c6c97fd853aec07862b5829"
+"mv12a_implementation_binding_v1","scripts/build_mv12c_historical_fusion_closure.R",6351,"bd9665fb49653faf3c58e2ae65d87a8ef3fa024f84c9a68b9c228a821642a8a2"

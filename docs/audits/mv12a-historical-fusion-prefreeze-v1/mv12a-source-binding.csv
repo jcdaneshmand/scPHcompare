@@ -1,0 +1,2 @@
+"contract_id","source_id","private_path_not_published","bytes","sha256","samples","seeds","admitted_components","excluded_components","labels_used","outcomes_used"
+"mv12a_source_binding_v1","mv07i_historical_dual_view_matrix_bundle","tmp/mv07i-label-closed-v1/artifacts/matrix-bundle.rds",3599074,"beb58777197545ec7113898e6e1082cafb61f84b446de973fbdd5431c791774e",124,5,"cell_H0;cell_H1;gene_H0;gene_H1","H0_H1_composites;medians",FALSE,FALSE
