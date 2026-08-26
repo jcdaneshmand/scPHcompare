@@ -1,0 +1,2 @@
+"contract_id","sentinel_independently_closed","full_PCA_PH_prefreeze_eligible_next","full_execution_authorized_by_this_closure","landscapes_authorized","comparisons_authorized","clustering_authorized","fusion_authorized","labels_authorized","outcomes_authorized","next_action"
+"mv13c_decision_v1",TRUE,TRUE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,"commit closure; prospectively freeze remaining six PCA models and 635 cell views before execution"

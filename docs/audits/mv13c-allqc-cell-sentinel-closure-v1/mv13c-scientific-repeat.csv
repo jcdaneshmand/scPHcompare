@@ -1,0 +1,4 @@
+"contract_id","artifact_id","saved_sha256","repeat_sha256","exact_repeat"
+"mv13c_scientific_repeat_v1","pca_rotation","5829c8b09cc5343ad691a460e11da38a1ff495e345ba4d304855bf47d011acc9","5829c8b09cc5343ad691a460e11da38a1ff495e345ba4d304855bf47d011acc9",TRUE
+"mv13c_scientific_repeat_v1","cell_view_payload","d06c78d6ddd7a49336379d754cd582f52bf694a029848bcfe9e7ff9563f3db54","d06c78d6ddd7a49336379d754cd582f52bf694a029848bcfe9e7ff9563f3db54",TRUE
+"mv13c_scientific_repeat_v1","PH_diagram","bc34d370902e3153456f7804bb06658d9cbedb6980d8c1067c1290a90d7cac33","bc34d370902e3153456f7804bb06658d9cbedb6980d8c1067c1290a90d7cac33",TRUE
