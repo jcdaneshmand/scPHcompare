@@ -1,0 +1,2 @@
+"contract_id","attempt","execution_head","failure_gate","all_bound_files_rehashed","file_hashes_passed","diagram_hashes_passed","scientific_values_published","null_jobs","localization_jobs","H2_jobs","labels_opened","outcomes_opened","recovery_scope"
+"mv17a_prefreeze_failure_v2",2,"5d741ad289b521778cf48a07ea8ca1d7b0a07e79","gene_PH_point_axis_mixed_closure_classification",TRUE,TRUE,TRUE,FALSE,0,0,0,FALSE,FALSE,"retain_full_rehash_then_subset_gene_topology_artifacts_and_gene_distance_groups"

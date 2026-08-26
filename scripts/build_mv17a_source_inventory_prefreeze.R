@@ -82,16 +82,30 @@ gene_bindings <- readc(gene_bindings_path)
 gene_ph <- mv17a_inventory_gene_ph_v1(gene_bindings, gene_roots)
 gene_completion <- readc(file.path(gene_public_root,
                                    "mv08zt-chunk-completions.csv"))
+gene_groups <- readc(file.path(
+  "docs/audits/mv08zu-engine-v2-full-landscape-closure-v1",
+  "mv08zu-group-summary.csv"
+))
+gene_group_orders <- gene_groups$group_order[
+  gene_groups$view_kind == "gene_topology_v1"
+]
 gene_distance <- mv17a_inventory_delimited_chunks_v1(
-  gene_distance_root, gene_completion, "gene_landscape_distance"
+  gene_distance_root, gene_completion, "gene_landscape_distance",
+  group_orders = gene_group_orders
 )
 gene_expected <- readc(file.path(
   "docs/audits/mv08zu-engine-v2-full-landscape-closure-v1",
   "mv08zu-private-chunk-rehash.csv"
 ))
-if (!identical(unname(tolower(gene_completion$distances_sha256)),
-               unname(tolower(gene_expected$distances_sha256))) ||
-    gene_distance$artifacts != 628L || gene_distance$records != 152744L) {
+gene_completion_subset <- gene_completion[
+  gene_completion$group_order %in% gene_group_orders, , drop = FALSE
+]
+gene_expected_subset <- gene_expected[
+  gene_expected$group_order %in% gene_group_orders, , drop = FALSE
+]
+if (!identical(unname(tolower(gene_completion_subset$distances_sha256)),
+               unname(tolower(gene_expected_subset$distances_sha256))) ||
+    gene_distance$artifacts != 626L || gene_distance$records != 152688L) {
   stop("MV17-A gene distance closure binding drift", call. = FALSE)
 }
 
@@ -264,10 +278,10 @@ validation <- data.frame(
   passed = c(
     contract$starting_head == "d9a74c012a5da992993c54dfaee4a852215b2ae0",
     nrow(closure_binding) == 4L && all(closure_binding$independently_rehashed),
-    gene_ph$artifacts == 1272L && gene_ph$dimension_records == 2544L,
-    gene_ph$selected_axis_identities == 1272L &&
+    gene_ph$artifacts == 1264L && gene_ph$dimension_records == 2528L,
+    gene_ph$selected_axis_identities == 1264L &&
       gene_ph$point_count_min == 475L && gene_ph$point_count_max == 500L,
-    gene_distance$artifacts == 628L && gene_distance$records == 152744L,
+    gene_distance$artifacts == 626L && gene_distance$records == 152688L,
     nrow(cell_locator) == 132L,
     nrow(cell_groups) == 7L && sum(cell_groups$units) == 636L,
     nrow(cell_axis) == 1272L &&

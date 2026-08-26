@@ -251,6 +251,7 @@ mv17a_inventory_gene_ph_v1 <- function(bindings, source_roots) {
   panel_axis <- character(length(paths))
   diagram_hash <- character(length(paths))
   point_count <- integer(length(paths))
+  view_id <- character(length(paths))
   schema_hash <- character(length(paths))
   for (index in seq_along(paths)) {
     record <- readRDS(paths[[index]])
@@ -263,6 +264,7 @@ mv17a_inventory_gene_ph_v1 <- function(bindings, source_roots) {
     panel_axis[[index]] <- record$identity$panel_sha256
     diagram_hash[[index]] <- record$topology_result$provenance$diagram_sha256
     point_count[[index]] <- as.integer(record$identity$point_count)
+    view_id[[index]] <- as.character(record$identity$view_id)
     schema_hash[[index]] <- digest::digest(paste(sort(c(
       names(record), names(record$identity), names(record$topology_result),
       names(record$topology_result$provenance)
@@ -275,31 +277,48 @@ mv17a_inventory_gene_ph_v1 <- function(bindings, source_roots) {
                  unname(tolower(artifacts$diagram_sha256))) ||
       any(!grepl("^[0-9a-f]{64}$", selected_axis)) ||
       any(!grepl("^[0-9a-f]{64}$", panel_axis)) ||
-      !setequal(point_count, c(475L, 500L)) ||
+      !setequal(point_count, c(384L, 475L, 500L)) ||
+      !setequal(view_id, c("cell_topology_v1", "gene_topology_v1")) ||
       length(unique(schema_hash)) != 1L ||
       any(bindings$outcome_label_state != "closed") ||
       any(as.logical(bindings$biological_outcomes_computed))) {
     stop("MV17-A gene PH identities or hashes drift", call. = FALSE)
   }
+  gene <- view_id == "gene_topology_v1"
+  gene_keys <- keys[first][gene]
+  gene_dimension_records <- sum(keys %in% gene_keys)
+  if (sum(gene) != 1264L || gene_dimension_records != 2528L ||
+      !setequal(point_count[gene], c(475L, 500L))) {
+    stop("MV17-A gene-only PH subset drift", call. = FALSE)
+  }
   data.frame(
     source_family = "gene_PH",
-    artifacts = length(paths), dimension_records = nrow(bindings),
-    selected_axis_identities = length(selected_axis),
-    panel_axis_identities = length(panel_axis),
-    point_count_min = min(point_count), point_count_max = max(point_count),
-    bytes = sum(bytes), artifact_set_sha256 = .mv17a_set_sha256(hashes),
-    diagram_set_sha256 = .mv17a_set_sha256(diagram_hash),
-    selected_axis_set_sha256 = .mv17a_set_sha256(selected_axis),
-    panel_axis_set_sha256 = .mv17a_set_sha256(panel_axis),
-    schema_sha256 = unique(schema_hash), stringsAsFactors = FALSE
+    artifacts = sum(gene), dimension_records = gene_dimension_records,
+    selected_axis_identities = sum(gene),
+    panel_axis_identities = sum(gene),
+    point_count_min = min(point_count[gene]),
+    point_count_max = max(point_count[gene]),
+    bytes = sum(bytes[gene]),
+    artifact_set_sha256 = .mv17a_set_sha256(hashes[gene]),
+    diagram_set_sha256 = .mv17a_set_sha256(diagram_hash[gene]),
+    selected_axis_set_sha256 = .mv17a_set_sha256(selected_axis[gene]),
+    panel_axis_set_sha256 = .mv17a_set_sha256(panel_axis[gene]),
+    schema_sha256 = unique(schema_hash[gene]), stringsAsFactors = FALSE
   )
 }
 
 mv17a_inventory_delimited_chunks_v1 <- function(root, completion,
-                                                prefix) {
+                                                prefix, group_orders = NULL) {
   paths <- sort(list.files(root, pattern = "^distances[.]csv$",
                            recursive = TRUE, full.names = TRUE),
                 method = "radix")
+  if (!is.null(group_orders)) {
+    group_dir <- basename(dirname(dirname(paths)))
+    path_group <- as.integer(sub("^group_", "", group_dir))
+    paths <- paths[path_group %in% as.integer(group_orders)]
+    completion <- completion[completion$group_order %in%
+                               as.integer(group_orders), , drop = FALSE]
+  }
   if (!length(paths) || nrow(completion) != length(paths) ||
       !all(c("pair_count", "distances_bytes", "distances_sha256") %in%
            names(completion))) {
