@@ -17,6 +17,16 @@ mv17c_selection_positions_v1 <- function(n) {
   n<-as.integer(n);if(length(n)!=1L||is.na(n)||n<3L)stop("at least three eligible units required",call.=FALSE);c(minimum=1L,median=as.integer(ceiling(n/2)),maximum=n)
 }
 
+mv17c_select_burden_v1 <- function(units) {
+  required<-c("unit_id","finite_h1_intervals","identity_token")
+  if(!all(required%in%names(units))||nrow(units)<3L||anyDuplicated(units$unit_id)||any(!is.finite(units$finite_h1_intervals))||any(!grepl("^[0-9a-f]{64}$",units$identity_token)))stop("invalid MV17-C burden inventory",call.=FALSE)
+  units<-units[order(units$finite_h1_intervals,units$identity_token,method="radix"),,drop=FALSE];positions<-mv17c_selection_positions_v1(nrow(units));out<-units[unname(positions),,drop=FALSE];out$burden_role<-names(positions);out$burden_order<-unname(positions);rownames(out)<-NULL;out
+}
+
+mv17c_parse_gnu_time_v1 <- function(path) {
+  z<-readLines(path,warn=FALSE);field<-function(pattern){hit<-grep(pattern,z,value=TRUE);if(length(hit)!=1L)stop("invalid GNU time receipt",call.=FALSE);sub(".*: *","",hit)};elapsed<-field("Elapsed \\(wall clock\\) time");parts<-as.numeric(strsplit(elapsed,":",fixed=TRUE)[[1]]);data.frame(wall_seconds=sum(rev(parts)*60^(seq_along(parts)-1)),maximum_RSS_bytes=as.numeric(field("Maximum resident set size"))*1024,exit_status=as.integer(field("Exit status")))
+}
+
 mv17c_null_seed_registry_v1 <- function(replicates=9L) {
   families<-mv17b_null_registry_v1();grid<-expand.grid(view=c("cell","gene"),burden_role=c("minimum","median","maximum"),null_family=families$null_family,replicate=seq_len(as.integer(replicates)),stringsAsFactors=FALSE);grid<-grid[grid$view=="gene"|grid$null_family!="within_row_axis_shuffle",,drop=FALSE];grid<-grid[order(grid$view,grid$burden_role,grid$null_family,grid$replicate,method="radix"),];grid$seed<-173000L+seq_len(nrow(grid));grid$contract_id<-"mv17c_null_seed_v1";grid[c("contract_id","view","burden_role","null_family","replicate","seed")]
 }

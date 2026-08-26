@@ -5,3 +5,7 @@ test_that("MV17-C summary formulas are exact and dimension separated", {
 test_that("MV17-C plus-one tails and fixed sentinel grid are prospective", {
   z<-mv17c_empirical_tail_v1(3,c(1,2,3,4));expect_equal(z$exceedances,2L);expect_equal(z$plus_one_tail_probability,3/5);expect_equal(mv17c_selection_positions_v1(132L),c(minimum=1L,median=66L,maximum=132L));seeds<-mv17c_null_seed_registry_v1();expect_equal(nrow(seeds),189L);expect_equal(length(unique(seeds$seed)),189L);expect_false(any(seeds$view=="cell"&seeds$null_family=="within_row_axis_shuffle"))
 })
+
+test_that("MV17-C burden selection is canonical and private-token based", {
+  x<-data.frame(unit_id=paste0("u",1:5),finite_h1_intervals=c(4,1,4,3,2),identity_token=vapply(1:5,function(i)digest::digest(paste0("u",i),algo="sha256",serialize=FALSE),character(1L)));z<-mv17c_select_burden_v1(x);expect_equal(z$burden_role,c("minimum","median","maximum"));expect_equal(z$finite_h1_intervals,c(1,3,4));expect_equal(z$burden_order,c(1,3,5))
+})
