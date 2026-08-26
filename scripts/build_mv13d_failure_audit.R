@@ -38,7 +38,7 @@ validation <- data.frame(
   passed = c(
     all(file.exists(paths)), any(grepl("Exit status: 1", time, fixed = TRUE)),
     any(grepl("MV13 cell group unit/model axis drift", stderr, fixed = TRUE)),
-    any(grepl("Elapsed (wall clock) time.*4:00", time)),
+    any(grepl("4:00.47", time, fixed = TRUE)),
     any(grepl("Maximum resident set size.*203664", time)),
     dir.exists(private), length(result_files) == 0L, partial_count == 0L,
     length(result_files) == 0L, TRUE, TRUE, TRUE
