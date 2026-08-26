@@ -1,0 +1,8 @@
+"pca_order","dataset_scope","seed","panel_id","representation_id","pca_components"
+1,"external8",20260805,"common475","sct_pearson_residual_all_qc_fit_selected384",30
+2,"external8",20260805,"exact500","sct_pearson_residual_all_qc_fit_selected384",30
+3,"internal124",20260805,"exact500","sct_pearson_residual_all_qc_fit_selected384",30
+4,"internal124",20260806,"exact500","sct_pearson_residual_all_qc_fit_selected384",30
+5,"internal124",20260807,"exact500","sct_pearson_residual_all_qc_fit_selected384",30
+6,"internal124",20260808,"exact500","sct_pearson_residual_all_qc_fit_selected384",30
+7,"internal124",20260809,"exact500","sct_pearson_residual_all_qc_fit_selected384",30

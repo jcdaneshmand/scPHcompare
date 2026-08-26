@@ -1,0 +1,5 @@
+"contract_id","file","bytes","sha256"
+"mv13a_closure_binding_v1","docs/audits/mv08q-full-source-production-closure-v1/mv08q-artifact-manifest.csv",777,"33e968f80fe9ea96ded5b6a55715a9d63d44832e04d0c029962f997e180c8d20"
+"mv13a_closure_binding_v1","docs/audits/mv08w-full-ph-production-closure-v1/mv08w-artifact-manifest.csv",742,"13c5ac9a095966eb1f01aac2e6c82e25437fa89f4bc304e061f41d7c28a03bd0"
+"mv13a_closure_binding_v1","docs/audits/mv08zu-engine-v2-full-landscape-closure-v1/mv08zu-artifact-manifest.csv",748,"308dfcc9f59f204a13e62c37cda58718fd59143078f509ba5667e12811c2c67c"
+"mv13a_closure_binding_v1","docs/audits/mv12c-historical-fusion-closure-v1/mv12c-artifact-manifest.csv",700,"66e13c27c0ea03f6f48db9e2e27969658fbfb68ca9dd26fa82c8e5c8877abad7"

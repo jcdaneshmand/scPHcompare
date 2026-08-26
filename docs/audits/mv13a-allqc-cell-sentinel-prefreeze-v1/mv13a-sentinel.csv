@@ -1,0 +1,2 @@
+"contract_id","dataset_scope","unit_id","seed","panel_id","representation_id","role","pca_fit_units","pca_fit_cells","pca_components","ph_views","ph_max_dim","elapsed_cap_seconds","rss_cap_bytes","workers","retries"
+"mv13a_sentinel_v1","internal124","SRA742961_SRS3565197",20260809,"exact500","sct_pearson_residual_all_qc_fit_selected384","maximum_frozen_QC_cell_count_after_shared_PCA",124,47616,30,1,1,1800,8589934592,1,0
