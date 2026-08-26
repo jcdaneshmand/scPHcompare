@@ -78,14 +78,14 @@ for (i in 1:36) {
   saved_axis <- readc(paths[[4L]])
   status <- readc(paths[[5L]])
   global_delta <- numeric_delta(saved, fresh$summary)
-  neighbor_summary_delta <- max(abs(
+  neighbor_summary_delta <- max(abs(c(
     saved_neighbor_summary$mean_neighbor_jaccard -
       fresh$neighbor_summary$mean_neighbor_jaccard,
     saved_neighbor_summary$median_neighbor_jaccard -
       fresh$neighbor_summary$median_neighbor_jaccard,
     saved_neighbor_summary$p10_neighbor_jaccard -
       fresh$neighbor_summary$p10_neighbor_jaccard
-  ))
+  )))
   neighbor_delta <- max(abs(saved_neighbor$neighbor_jaccard -
                               fresh$neighbor$neighbor_jaccard))
   axis_identical <- identical(saved_axis$first_unit_id,

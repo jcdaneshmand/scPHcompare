@@ -1,0 +1,2 @@
+"contract_id","failure_stage","production_complete","production_comparisons","published_closure_artifacts","failure_class","error_signature","scientific_values_changed","production_retry_authorized","recovery_requirement"
+"mv15_closure_failure_v1","independent_closure_only",TRUE,36,0,"validator_argument_shape","three arguments passed to abs which requires one",FALSE,FALSE,"commit closure-only correction and prospective recovery prefreeze"
