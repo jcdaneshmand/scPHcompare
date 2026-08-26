@@ -1,0 +1,13 @@
+"contract_id","check_id","passed"
+"mv13d_failure_validation_v1","three_logs_preserved",TRUE
+"mv13d_failure_validation_v1","exit_nonzero",TRUE
+"mv13d_failure_validation_v1","expected_guard_message",TRUE
+"mv13d_failure_validation_v1","elapsed_below_cap",TRUE
+"mv13d_failure_validation_v1","RSS_below_cap",TRUE
+"mv13d_failure_validation_v1","private_root_preserved",TRUE
+"mv13d_failure_validation_v1","zero_group_artifacts",TRUE
+"mv13d_failure_validation_v1","zero_partial_artifacts",TRUE
+"mv13d_failure_validation_v1","zero_public_results",TRUE
+"mv13d_failure_validation_v1","scientific_contract_unchanged",TRUE
+"mv13d_failure_validation_v1","one_worker_zero_retry",TRUE
+"mv13d_failure_validation_v1","new_prefreeze_required",TRUE

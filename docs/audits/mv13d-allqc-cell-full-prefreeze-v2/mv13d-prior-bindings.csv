@@ -1,0 +1,3 @@
+"contract_id","artifact_id","file","bytes","sha256"
+"mv13d_prior_binding_v1","MV13_A","/mnt/e/Repositories/Jonah/PH_ClusteringApp/_worktrees/scphcompare-mv06/docs/audits/mv13a-allqc-cell-sentinel-prefreeze-v1/mv13a-artifact-manifest.csv",1441,"f54dca7ee242ff30009b442404df13cd139d1a1b38b9b68bd82733ab1537dee4"
+"mv13d_prior_binding_v1","MV13_C","/mnt/e/Repositories/Jonah/PH_ClusteringApp/_worktrees/scphcompare-mv06/docs/audits/mv13c-allqc-cell-sentinel-closure-v1/mv13c-artifact-manifest.csv",546,"207fbb738dd498530a0978ed67deeae3d4d22cd8e35421684a9e46daa661652b"

@@ -1,0 +1,4 @@
+"contract_id","artifact","bytes","sha256"
+"mv13d_failure_artifact_manifest_v1","mv13d-failure-decision.csv",339,"26238076943b6bb5cabf0701525b73365f86f144b915321e30c040d1d1754581"
+"mv13d_failure_artifact_manifest_v1","mv13d-failure-evidence.csv",496,"3a0ee3f55cfcdd81930ce00d1e43216059bbbf52f7bf74398616049607aa6ee6"
+"mv13d_failure_artifact_manifest_v1","mv13d-failure-validation.csv",729,"ea2a73ea646a994998d16631209adc6c059fed20d0735591aa7a4ae9bd52236e"

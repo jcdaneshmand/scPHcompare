@@ -1,0 +1,4 @@
+"contract_id","artifact_id","bytes","sha256","publication_state"
+"mv13d_failure_evidence_v1","stdout",159,"ed9622595b89a85b4fc80986f01512ff58eccb05af1a4b996a7697bf40711f49","hash_only_private_logs_preserved"
+"mv13d_failure_evidence_v1","stderr",63,"17eea165e1319246922c54554b4c20983ce9843f042ebe7ec979f45ec7153a54","hash_only_private_logs_preserved"
+"mv13d_failure_evidence_v1","GNU_time",1111,"e9ddfc578dc0632c426c29cced65a0f27d2fee842f1578276afa35dd1219415a","hash_only_private_logs_preserved"

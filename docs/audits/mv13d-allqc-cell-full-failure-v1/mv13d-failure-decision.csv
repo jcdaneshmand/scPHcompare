@@ -1,0 +1,2 @@
+"contract_id","classification","scientific_failure","resource_failure","completed_group_artifacts","retries","permitted_change","fresh_root_required","new_prefreeze_required"
+"mv13d_failure_decision_v1","prewrite_vector_name_attribute_guard_failure",FALSE,FALSE,0,0,"ignore_vector_names_while_requiring_exact_sorted_unit_values",TRUE,TRUE

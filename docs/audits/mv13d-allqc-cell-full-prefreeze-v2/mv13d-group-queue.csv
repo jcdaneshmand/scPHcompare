@@ -1,0 +1,8 @@
+"group_order","group_id","dataset_scope","panel_id","seed","representation_id","pca_components","unit_count","adopt_closed_model","adopt_closed_view_count","new_model_count","new_view_count"
+1,"external8__common475__20260805","external8","common475",20260805,"sct_pearson_residual_all_qc_fit_selected384",30,8,FALSE,0,1,8
+2,"external8__exact500__20260805","external8","exact500",20260805,"sct_pearson_residual_all_qc_fit_selected384",30,8,FALSE,0,1,8
+3,"internal124__exact500__20260805","internal124","exact500",20260805,"sct_pearson_residual_all_qc_fit_selected384",30,124,FALSE,0,1,124
+4,"internal124__exact500__20260806","internal124","exact500",20260806,"sct_pearson_residual_all_qc_fit_selected384",30,124,FALSE,0,1,124
+5,"internal124__exact500__20260807","internal124","exact500",20260807,"sct_pearson_residual_all_qc_fit_selected384",30,124,FALSE,0,1,124
+6,"internal124__exact500__20260808","internal124","exact500",20260808,"sct_pearson_residual_all_qc_fit_selected384",30,124,FALSE,0,1,124
+7,"internal124__exact500__20260809","internal124","exact500",20260809,"sct_pearson_residual_all_qc_fit_selected384",30,124,TRUE,1,0,123
