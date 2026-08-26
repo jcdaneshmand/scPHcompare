@@ -1,0 +1,62 @@
+test_that("MV10-Y transparently freezes descriptive disposition", {
+  root <- testthat::test_path("..", "..")
+  audit <- file.path(root, "docs", "audits",
+                     "mv10y-outcome-disposition-prefreeze-v1")
+  read_audit <- function(name) read.csv(
+    file.path(audit, name), stringsAsFactors = FALSE, check.names = FALSE
+  )
+  manifest <- read_audit("mv10y-artifact-manifest.csv")
+  files <- file.path(audit, manifest$artifact)
+  expect_true(all(file.exists(files)))
+  expect_equal(as.numeric(file.info(files)$size), as.numeric(manifest$bytes))
+  expect_equal(unname(vapply(files, function(file) digest::digest(
+    file = file, algo = "sha256", serialize = FALSE
+  ), character(1L))), manifest$sha256)
+  contract <- read_audit("mv10y-contract.csv")
+  rules <- read_audit("mv10y-rule-contract.csv")
+  outputs <- read_audit("mv10y-output-contract.csv")
+  implementation <- read_audit("mv10y-implementation-bindings.csv")
+  sources <- read_audit("mv10y-source-freeze.csv")
+  validation <- read_audit("mv10y-validation.csv")
+  decision <- read_audit("mv10y-decision.csv")
+  expect_equal(contract$execution_head,
+               "d0c02295034568eb4d438c19d2d94fcdc53de40a")
+  expect_true(contract$value_aware_prefreeze)
+  expect_true(contract$figures_already_reviewed)
+  expect_equal(contract$source_summary_rows, 300L)
+  expect_equal(contract$primary_rows, 60L)
+  expect_equal(contract$output_tables, 5L)
+  expect_equal(contract$magnitude_threshold, "none")
+  expect_false(contract$p_values)
+  expect_false(contract$method_selection)
+  expect_false(contract$representation_ranking)
+  expect_false(contract$H0_H1_combined)
+  expect_false(contract$approach_causal_interpretation)
+  expect_false(contract$biological_claims)
+  expect_false(contract$manuscript_claims)
+  expect_equal(nrow(rules), 10L)
+  expect_true(all(!rules$result_dependent_threshold))
+  expect_true(all(!rules$p_value))
+  expect_true(all(!rules$method_selection))
+  expect_true(all(!rules$ranking))
+  expect_identical(outputs$expected_rows, c(20L, 60L, 120L, 120L, 1L))
+  expect_true(all(!outputs$inference))
+  expect_true(all(!outputs$ranking))
+  expect_equal(nrow(implementation), 5L)
+  expect_true(all(file.exists(file.path(root, implementation$file))))
+  expect_true(all(grepl("^[0-9a-f]{64}$", implementation$sha256)))
+  source_files <- ifelse(
+    grepl("^(/|[A-Za-z]:[/\\\\])", sources$artifact),
+    sources$artifact, file.path(root, sources$artifact)
+  )
+  expect_true(all(file.exists(source_files)))
+  expect_equal(unname(vapply(source_files, function(file) digest::digest(
+    file = file, algo = "sha256", serialize = FALSE
+  ), character(1L))), sources$sha256)
+  expect_equal(nrow(validation), 25L)
+  expect_true(all(validation$passed))
+  expect_true(decision$execution_authorized_after_commit)
+  expect_false(decision$method_selection_authorized)
+  expect_false(decision$biological_claims_authorized)
+  expect_false(decision$manuscript_claims_authorized)
+})

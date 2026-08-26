@@ -1,0 +1,6 @@
+"contract_id","source_order","artifact","bytes","sha256"
+"mv10y_source_freeze_v1",1,"/mnt/e/Repositories/Jonah/PH_ClusteringApp/_worktrees/scphcompare-mv06/docs/audits/mv10t-outcome-review-synthesis-v1/mv10t-artifact-manifest.csv",567,"1cc9c9453095d697ac76e35377d6e5e185b80db53acb16206b9083a6770dcb46"
+"mv10y_source_freeze_v1",2,"/mnt/e/Repositories/Jonah/PH_ClusteringApp/_worktrees/scphcompare-mv06/docs/audits/mv10t-outcome-review-synthesis-v1/mv10t-complete-summary.csv",146337,"a7d47f73ec4986ec60f1548609209d705060627b0c9dfbab4d6036653295c05e"
+"mv10y_source_freeze_v1",3,"/mnt/e/Repositories/Jonah/PH_ClusteringApp/_worktrees/scphcompare-mv06/docs/audits/mv10t-outcome-review-synthesis-v1/mv10t-endpoint-coverage.csv",824,"af313aacbecacbe3175d3219e99d8b5a5f1d44f6d676acef107d37a787a01f31"
+"mv10y_source_freeze_v1",4,"/mnt/e/Repositories/Jonah/PH_ClusteringApp/_worktrees/scphcompare-mv06/docs/audits/mv10u-outcome-review-closure-v1/mv10u-artifact-manifest.csv",561,"3fb94bf1ecf42f4fe15cfca7479ddef4ed5f50db373e95c21cb149742ea18e7a"
+"mv10y_source_freeze_v1",5,"/mnt/e/Repositories/Jonah/PH_ClusteringApp/_worktrees/scphcompare-mv06/docs/audits/mv10w-outcome-review-figure-closure-v1/mv10w-artifact-manifest.csv",569,"482d66917f05177c130cdd18213d43491465447e5b0f0557427c28fe05a83099"

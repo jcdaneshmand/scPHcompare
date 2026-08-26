@@ -1,0 +1,2 @@
+"contract_id","decision","execution_authorized_after_commit","method_selection_authorized","biological_claims_authorized","manuscript_claims_authorized"
+"mv10y_decision_v1","authorize_transparent_descriptive_disposition_after_commit",TRUE,FALSE,FALSE,FALSE

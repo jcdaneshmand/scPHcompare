@@ -1,0 +1,6 @@
+"contract_id","output_id","expected_rows","inference","ranking"
+"mv10y_output_contract_v1","primary_representation_envelope",20,FALSE,FALSE
+"mv10y_output_contract_v1","method_envelope",60,FALSE,FALSE
+"mv10y_output_contract_v1","context_contrast",120,FALSE,FALSE
+"mv10y_output_contract_v1","approach_contrast",120,FALSE,FALSE
+"mv10y_output_contract_v1","disposition",1,FALSE,FALSE

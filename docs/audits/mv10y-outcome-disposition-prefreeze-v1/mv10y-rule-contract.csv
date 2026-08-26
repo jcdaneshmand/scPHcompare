@@ -1,0 +1,11 @@
+"contract_id","rule_order","rule_id","result_dependent_threshold","p_value","method_selection","ranking","biological_claim"
+"mv10y_rule_contract_v1",1,"primary_PAM_only_for_primary_envelope",FALSE,FALSE,FALSE,FALSE,FALSE
+"mv10y_rule_contract_v1",2,"all_methods_complete_sensitivity",FALSE,FALSE,FALSE,FALSE,FALSE
+"mv10y_rule_contract_v1",3,"representations_not_ranked",FALSE,FALSE,FALSE,FALSE,FALSE
+"mv10y_rule_contract_v1",4,"H0_H1_separate",FALSE,FALSE,FALSE,FALSE,FALSE
+"mv10y_rule_contract_v1",5,"two_metrics_separate",FALSE,FALSE,FALSE,FALSE,FALSE
+"mv10y_rule_contract_v1",6,"primary90_minus_full124_context",FALSE,FALSE,FALSE,FALSE,FALSE
+"mv10y_rule_contract_v1",7,"approach_minus_tissue_study_diagnostic",FALSE,FALSE,FALSE,FALSE,FALSE
+"mv10y_rule_contract_v1",8,"no_magnitude_threshold",FALSE,FALSE,FALSE,FALSE,FALSE
+"mv10y_rule_contract_v1",9,"no_inference_or_selection",FALSE,FALSE,FALSE,FALSE,FALSE
+"mv10y_rule_contract_v1",10,"no_claims",FALSE,FALSE,FALSE,FALSE,FALSE

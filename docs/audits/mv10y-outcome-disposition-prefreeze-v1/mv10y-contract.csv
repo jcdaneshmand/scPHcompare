@@ -1,0 +1,2 @@
+"contract_id","execution_head","value_aware_prefreeze","figures_already_reviewed","source_summary_rows","primary_rows","output_tables","magnitude_threshold","p_values","method_selection","representation_ranking","H0_H1_combined","approach_causal_interpretation","biological_claims","manuscript_claims"
+"mv10y_outcome_disposition_prefreeze_v1","d0c02295034568eb4d438c19d2d94fcdc53de40a",TRUE,TRUE,300,60,5,"none",FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE
