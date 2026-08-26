@@ -5,7 +5,7 @@
 | Field | Value |
 |---|---|
 | Status | Draft for owner and author-team review |
-| Version | 0.5.17 |
+| Version | 0.5.18 |
 | Created | 2026-08-03 |
 | Canonical repository | `jcdaneshmand/scPHcompare` |
 | Historical source repository | `jcdaneshmand/PH_ClusteringApp` |
@@ -863,6 +863,7 @@ Publish a durable, citable research artifact.
 | D-259 | 2026-08-26 | Prospectively authorize MV17-B closure v2 at exact head `7cfac3a` while freezing production | Ten of ten recovery gates bind the byte-identical primary/repeat metric and status files, all 36 invariant-clean deterministic jobs, the three rejected v1 closure files, and the corrected closure implementation. Production rerun is forbidden; complete metrics, four family summaries, four production hashes, the exact 36-row grid, fixed circle threshold, and all firewalls are mandatory | Commit/push the recovery prefreeze. Then build closure v2 once from the frozen artifacts, independently test all 13 closure gates and manifest hashes, and only after closure may MV17-C implementation become eligible; real calibration remains closed |
 | D-260 | 2026-08-26 | Close MV17-B v2 and admit all four null families only for their declared compatible views | Thirteen of thirteen closure gates bind all four production artifacts, the exact 36-row fixture/family/seed grid, complete synthetic metrics, four family summaries, all invariants, exact deterministic repeat, and every firewall. Maximum invariant error is `1.55e-15`; maximum circle-neighborhood Jaccard is 0.0480 for coordinate permutation, 0.0536 for covariance Gaussian, 0.0348 for radial-density clouds, and 0.1692 for gene-only within-row shuffling, all below the frozen 0.80 boundary | Commit/push the immutable closure. MV17-C bounded H0/H1 calibration-sentinel implementation is eligible, but its exact real-unit selection, replicate counts, persistence summaries, empirical-tail policy, Monte Carlo precision, resources, and abort rules require a new exact-head prefreeze. No real calibration is authorized by MV17-B |
 | D-261 | 2026-08-26 | Implement MV17-E bounded H2 meaning/engine qualification without running its fixtures | Seven fixed classes cover sphere and torus H2 positives, circle H2 negative/H1 positive, a Gaussian null, and shuffled sphere/torus/circle controls at 42–48 points. Complete VR through H2 uses field 2 with Ripserr primary and TDA/GUDHI independent execution; engine tolerance `1e-5`, qualitative persistence boundaries, strict shuffled-parent attenuation, two exact repeats, simplex upper bounds, elapsed/resource fields, one-worker/1,800-second/4-GiB caps, and all real/downstream firewalls are implemented | Commit/push implementation and static tests. Then build a distinct exact-head MV17-E prefreeze before any fixture H2 execution. Real-data H2 remains closed even if all synthetic controls pass |
+| D-262 | 2026-08-26 | Prospectively freeze MV17-E synthetic H2 qualification at exact head `71ada50` | Twelve of twelve gates bind seven 42–48-point fixtures, complete VR through H2 over field 2, Ripserr/TDA-GUDHI dual engines, `1e-5` interval tolerance, sphere/torus positive thresholds, circle H1-positive/H2-negative thresholds, strict shuffled-parent attenuation, two exact repeats, simplex/resource evidence, one worker, 1,800 seconds, 4 GiB, and all real/downstream firewalls. No fixture H2 was executed | Commit/push the prefreeze. Then run one primary and one exact repeat synthetic qualification under the caps, require both engines and every qualitative control, and independently close before any MV17-F resource-grid work; real-data H2 remains unauthorized |
 
 ## 9. Status dashboard
 
@@ -883,6 +884,7 @@ Publish a durable, citable research artifact.
 
 | Version | Date | Summary |
 |---|---|---|
+| 0.5.18 | 2026-08-26 | Prospectively froze MV17-E at 12/12 gates and exact head `71ada50`, binding seven bounded H2 fixtures, Ripserr/TDA-GUDHI agreement, fixed qualitative/numerical/resource gates, exact repeats, and zero real-data H2 authorization. |
 | 0.5.17 | 2026-08-26 | Implemented prospective MV17-E H2 qualification with seven positive/negative/shuffled fixtures, Ripserr-versus-TDA/GUDHI comparison, fixed qualitative/numerical/resource gates, exact repeats, and zero real-data H2 authorization. |
 | 0.5.16 | 2026-08-26 | Closed MV17-B v2 at 13/13 gates with complete metrics and immutable production hashes: all four structure-explicit null families pass invariant, determinism, independent-repeat, and circle-separation controls for their declared compatible views; real calibration remains separately gated. |
 | 0.5.15 | 2026-08-26 | Prospectively froze MV17-B closure recovery at 10/10 gates and exact head `7cfac3a`, binding all primary/repeat hashes, rejected closure evidence, and corrected closure implementation while explicitly forbidding production rerun. |

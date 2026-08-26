@@ -1,0 +1,13 @@
+"contract_id","check_id","passed"
+"mv17e_validation_v1","seven_fixtures",TRUE
+"mv17e_validation_v1","positive_negative_shuffle_classes",TRUE
+"mv17e_validation_v1","bounded_points",TRUE
+"mv17e_validation_v1","dual_engine",TRUE
+"mv17e_validation_v1","field_and_dimension",TRUE
+"mv17e_validation_v1","fixed_tolerances",TRUE
+"mv17e_validation_v1","resource_caps",TRUE
+"mv17e_validation_v1","implementation_bound",TRUE
+"mv17e_validation_v1","repeat_required",TRUE
+"mv17e_validation_v1","real_H2_closed",TRUE
+"mv17e_validation_v1","downstream_firewall",TRUE
+"mv17e_validation_v1","zero_H2_execution",TRUE

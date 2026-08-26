@@ -1,0 +1,8 @@
+"contract_id","fixture","points","seed","expected_H1","expected_H2","real_data_authorized"
+"mv17e_fixture_v1","sphere",42,,"not_primary","positive",FALSE
+"mv17e_fixture_v1","torus",48,,"at_least_two","positive",FALSE
+"mv17e_fixture_v1","circle",42,,"at_least_one","negative",FALSE
+"mv17e_fixture_v1","gaussian_cloud",42,17101,"null_control","null_control",FALSE
+"mv17e_fixture_v1","shuffled_sphere",42,17102,"attenuated","attenuated",FALSE
+"mv17e_fixture_v1","shuffled_torus",48,17103,"attenuated","attenuated",FALSE
+"mv17e_fixture_v1","shuffled_circle",42,17104,"attenuated","negative",FALSE
