@@ -25,3 +25,14 @@ test_that("MV13 queue fails closed on a changed population", {
     sprintf("I%03d", 1:124), sprintf("E%02d", 1:8), 1:4
   ), "five seeds")
 })
+
+test_that("MV13 group loading fails closed on a malformed locator", {
+  locator <- data.frame(dataset_scope = "internal124", unit_id = "u",
+                        private_cache_path = "missing", cache_sha256 = "x")
+  expect_error(mv13_load_group_sources_v1(
+    locator, "internal124", 20260805, "exact500"
+  ), "population drift")
+  expect_error(mv13_load_group_sources_v1(
+    locator[, -4], "internal124", 20260805, "exact500"
+  ), "schema drift")
+})

@@ -140,3 +140,137 @@ mv13_fit_shared_cell_pca_v1 <- function(caches, seed, panel,
   fit_cell_topology_pca(sources, n_components = 30L,
                         pca_seed = as.integer(seed))
 }
+
+mv13_load_group_sources_v1 <- function(locator, dataset_scope, seed, panel,
+                                        common475_features = NULL,
+                                        verify_hash = NULL) {
+  required <- c("dataset_scope", "unit_id", "private_cache_path",
+                "cache_sha256")
+  if (!is.data.frame(locator) || !all(required %in% names(locator))) {
+    stop("MV13 private locator schema drift.", call. = FALSE)
+  }
+  dataset_scope <- match.arg(dataset_scope, c("internal124", "external8"))
+  panel <- match.arg(panel, c("exact500", "common475"))
+  rows <- locator[locator$dataset_scope == dataset_scope, , drop = FALSE]
+  rows <- rows[order(rows$unit_id, method = "radix"), , drop = FALSE]
+  expected <- if (dataset_scope == "internal124") 124L else 8L
+  if (nrow(rows) != expected || anyDuplicated(rows$unit_id)) {
+    stop("MV13 group locator population drift.", call. = FALSE)
+  }
+  lapply(seq_len(nrow(rows)), function(i) {
+    path <- rows$private_cache_path[[i]]
+    if (!is.null(verify_hash) &&
+        !identical(tolower(verify_hash(path)),
+                   tolower(rows$cache_sha256[[i]]))) {
+      stop("MV13 group cache hash drift at unit order ", i, ".",
+           call. = FALSE)
+    }
+    cache <- readRDS(path)
+    mv13_validate_residual_cache_v1(cache, rows$unit_id[[i]], dataset_scope)
+    mv13_source_from_cache_v1(
+      cache, seed = seed, panel = panel,
+      common475_features = common475_features
+    )
+  })
+}
+
+mv13_compute_cell_group_v1 <- function(
+    sources, dataset_scope, seed, panel, model = NULL,
+    adopted_unit = NULL, adopted_view = NULL, adopted_result = NULL) {
+  dataset_scope <- match.arg(dataset_scope, c("internal124", "external8"))
+  panel <- match.arg(panel, c("exact500", "common475"))
+  expected <- if (dataset_scope == "internal124") 124L else 8L
+  if (!is.list(sources) || length(sources) != expected) {
+    stop("MV13 group source population drift.", call. = FALSE)
+  }
+  sample_ids <- vapply(sources, `[[`, character(1L), "sample_id")
+  if (anyDuplicated(sample_ids)) stop("MV13 group sample IDs are duplicated.")
+  if (is.null(model)) {
+    model <- fit_cell_topology_pca(
+      sources, n_components = 30L, pca_seed = as.integer(seed)
+    )
+    model_origin <- "new_fit"
+  } else {
+    .validate_cell_pca_model(model)
+    if (!identical(sort(model$fit_sample_ids), sort(sample_ids)) ||
+        model$pca_seed != as.integer(seed) || model$n_components != 30L) {
+      stop("MV13 adopted PCA model axis drift.", call. = FALSE)
+    }
+    model_origin <- "independently_closed_adoption"
+  }
+  adopting <- !is.null(adopted_unit)
+  if (adopting && (is.null(adopted_view) || is.null(adopted_result) ||
+                   !(adopted_unit %in% sample_ids))) {
+    stop("MV13 adopted sentinel evidence is incomplete.", call. = FALSE)
+  }
+  records <- vector("list", length(sources)); names(records) <- sample_ids
+  for (i in seq_along(sources)) {
+    unit <- sample_ids[[i]]
+    if (adopting && identical(unit, adopted_unit)) {
+      validate_topology_view(adopted_view)
+      if (adopted_view$sample_id != unit ||
+          adopted_view$transformations$pca_model_cache_key != model$cache_key ||
+          adopted_result$provenance$view_cache_key != adopted_view$cache_key) {
+        stop("MV13 adopted sentinel identity drift.", call. = FALSE)
+      }
+      view <- adopted_view; result <- adopted_result
+      record_origin <- "independently_closed_adoption"
+    } else {
+      view <- construct_cell_topology_view(
+        sources[[i]], model, n_components = 30L
+      )
+      result <- run_topology_view_ph(
+        view, max_dim = 1L, threshold = -1, field = 2L
+      )
+      record_origin <- "new_computation"
+    }
+    oracle <- mv07g_validate_ph_against_view_v1(result, view)
+    if (!isTRUE(oracle$passed)) stop("MV13 H0 MST oracle failed.")
+    records[[i]] <- list(
+      unit_id = unit, origin = record_origin, view = view,
+      result = result, oracle = oracle
+    )
+  }
+  group_id <- paste(dataset_scope, panel, as.integer(seed), sep = "__")
+  artifact <- list(
+    contract_id = "mv13d_allqc_cell_group_v1", group_id = group_id,
+    dataset_scope = dataset_scope, panel_id = panel,
+    seed = as.integer(seed), representation_id = .mv13_residual_id,
+    model_origin = model_origin, model = model, records = records,
+    labels_used = FALSE, outcomes_used = FALSE, downstream_jobs = 0L
+  )
+  class(artifact) <- c("scph_mv13d_cell_group_v1", "list")
+  mv13_validate_cell_group_v1(artifact)
+  artifact
+}
+
+mv13_validate_cell_group_v1 <- function(artifact) {
+  required <- c("contract_id", "group_id", "dataset_scope", "panel_id",
+                "seed", "representation_id", "model_origin", "model",
+                "records", "labels_used", "outcomes_used", "downstream_jobs")
+  expected <- if (identical(artifact$dataset_scope, "internal124")) 124L else 8L
+  if (!is.list(artifact) || !all(required %in% names(artifact)) ||
+      !identical(artifact$contract_id, "mv13d_allqc_cell_group_v1") ||
+      !(artifact$dataset_scope %in% c("internal124", "external8")) ||
+      !(artifact$panel_id %in% c("exact500", "common475")) ||
+      artifact$representation_id != .mv13_residual_id ||
+      length(artifact$records) != expected || artifact$labels_used ||
+      artifact$outcomes_used || artifact$downstream_jobs != 0L) {
+    stop("MV13 cell group violates its closed contract.", call. = FALSE)
+  }
+  .validate_cell_pca_model(artifact$model)
+  units <- vapply(artifact$records, `[[`, character(1L), "unit_id")
+  if (anyDuplicated(units) ||
+      !identical(sort(units), sort(artifact$model$fit_sample_ids))) {
+    stop("MV13 cell group unit/model axis drift.", call. = FALSE)
+  }
+  for (record in artifact$records) {
+    validate_topology_view(record$view)
+    if (!isTRUE(record$oracle$passed) ||
+        record$result$provenance$view_cache_key != record$view$cache_key ||
+        record$view$sample_id != record$unit_id) {
+      stop("MV13 cell group record drift.", call. = FALSE)
+    }
+  }
+  invisible(TRUE)
+}
