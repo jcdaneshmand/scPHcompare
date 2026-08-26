@@ -1,0 +1,4 @@
+"contract_id","output_id","expected_rows","seed_aggregation","result_dependent_filter","ranking","H0_H1_combined"
+"mv10s_aggregation_contract_v1","complete_summary",300,"mean_median_range_jackknife_se_across_5",FALSE,FALSE,FALSE
+"mv10s_aggregation_contract_v1","primary_pam_summary",60,"mean_median_range_jackknife_se_across_5",FALSE,FALSE,FALSE
+"mv10s_aggregation_contract_v1","endpoint_coverage",6,"structural_status_only",FALSE,FALSE,FALSE

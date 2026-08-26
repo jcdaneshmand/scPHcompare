@@ -1,0 +1,6 @@
+"contract_id","source_order","artifact","bytes","sha256"
+"mv10s_source_freeze_v1",1,"/mnt/e/Repositories/Jonah/PH_ClusteringApp/_worktrees/scphcompare-mv06/docs/audits/mv10q-clustering-outcomes-v1/mv10q-artifact-manifest.csv",682,"73453dae28528e4838f077ecab1044ef987e5f608ca79ac3389a1d61dc268fd7"
+"mv10s_source_freeze_v1",2,"/mnt/e/Repositories/Jonah/PH_ClusteringApp/_worktrees/scphcompare-mv06/docs/audits/mv10q-clustering-outcomes-v1/mv10q-terminal-receipt.csv",452,"335598276b66287f533021eaa913358ced411ace8166ccf14b48453c75f9108e"
+"mv10s_source_freeze_v1",3,"/mnt/e/Repositories/Jonah/PH_ClusteringApp/_worktrees/scphcompare-mv06/docs/audits/mv10r-clustering-outcome-closure-v1/mv10r-artifact-manifest.csv",689,"a86938e1c4fd86745b35bca3579f3375ec651dd1003593e00866f7c609d4ed56"
+"mv10s_source_freeze_v1",4,"/mnt/e/Repositories/Jonah/PH_ClusteringApp/_worktrees/scphcompare-mv06/docs/audits/mv10r-clustering-outcome-closure-v1/mv10r-validation.csv",1398,"17865eb23a841c8a231860f314d4962ad9a0bb7682a32bfcb57054bcf465a2a2"
+"mv10s_source_freeze_v1",5,"/mnt/e/Repositories/Jonah/PH_ClusteringApp/_worktrees/scphcompare-mv06/docs/audits/mv10r-clustering-outcome-closure-v1/mv10r-decision.csv",303,"acdfee6dcd12a89de1c23a134a35a3a758af2ee9cef789224c6c8918e5f50f46"

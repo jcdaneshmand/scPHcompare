@@ -1,0 +1,8 @@
+"contract_id","implementation_order","file","bytes","sha256"
+"mv10s_implementation_binding_v1",1,"R/mv08z_landscape_production.R",3990,"93a9ac4b40f7158bbe058fe3195e96abcd528fef6b0388a073b86eb8bf7c157f"
+"mv10s_implementation_binding_v1",2,"R/mv10s_outcome_review.R",10946,"7f7fa3dd6a2a872b31ed8ff60dff5b7967ed8627a4a66791b03084f1f455e6ed"
+"mv10s_implementation_binding_v1",3,"scripts/build_mv10s_outcome_review_prefreeze.R",10227,"1cd7200170df2643b06c0e28307940b3f79c50bd21a0b7d9bda6dd197183a30c"
+"mv10s_implementation_binding_v1",4,"scripts/run_mv10t_outcome_review_synthesis.R",3056,"7e96cd1585f0f94edbf949e4f75235ff705d4a8f0b0329d8c0bb7ea7872c4561"
+"mv10s_implementation_binding_v1",5,"scripts/build_mv10u_outcome_review_closure.R",5561,"1e8c29316fe5903edf24f814267aac50cd01471394de623fa70c16fcb56ab92e"
+"mv10s_implementation_binding_v1",6,"scripts/render_mv10v_outcome_review_figures.R",4168,"5519e4727af7b6ba692ffdd5bc8bd34b55050c7ec74ba1db5b18e7689b3d1829"
+"mv10s_implementation_binding_v1",7,"scripts/build_mv10w_outcome_review_figure_closure.R",7161,"9d7f48b61cc42971d33beb97a5abcab588321533b823f873b127a17367123b78"

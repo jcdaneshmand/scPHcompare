@@ -1,0 +1,7 @@
+"contract_id","figure_order","figure_id","width_inches","height_inches","dpi","format","all_three_representations","H0_H1_separate","both_metrics","seed_range","ranking","biological_claim","manuscript_claim"
+"mv10s_figure_contract_v1",1,"primary_tissue",14,9,180,"png",TRUE,TRUE,TRUE,TRUE,FALSE,FALSE,FALSE
+"mv10s_figure_contract_v1",2,"primary_study",14,9,180,"png",TRUE,TRUE,TRUE,TRUE,FALSE,FALSE,FALSE
+"mv10s_figure_contract_v1",3,"primary_approach",14,9,180,"png",TRUE,TRUE,TRUE,TRUE,FALSE,FALSE,FALSE
+"mv10s_figure_contract_v1",4,"primary_context_restriction",16,10,180,"png",TRUE,TRUE,TRUE,TRUE,FALSE,FALSE,FALSE
+"mv10s_figure_contract_v1",5,"all_methods_full124",18,15,180,"png",TRUE,TRUE,TRUE,TRUE,FALSE,FALSE,FALSE
+"mv10s_figure_contract_v1",6,"all_methods_primary90",18,12,180,"png",TRUE,TRUE,TRUE,TRUE,FALSE,FALSE,FALSE

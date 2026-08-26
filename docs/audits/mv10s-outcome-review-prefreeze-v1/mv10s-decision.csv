@@ -1,0 +1,2 @@
+"contract_id","decision","synthesis_authorized_after_commit","figure_render_authorized","figure_render_requires","scientific_interpretation_authorized","method_selection_authorized","biological_claims_authorized","manuscript_claims_authorized"
+"mv10s_decision_v1","authorize_complete_outcome_synthesis_after_prefreeze_commit",TRUE,FALSE,"committed_mv10u_25_of_25_closure",FALSE,FALSE,FALSE,FALSE
