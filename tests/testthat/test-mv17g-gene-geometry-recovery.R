@@ -201,4 +201,28 @@ test_that("MV17-G recovery prefreeze binds salvage and rejection partitions", {
   expect_match(text, "worker_processes != 0L", fixed = TRUE)
   expect_match(text, "execution_only_after_prefreeze_commit = TRUE", fixed = TRUE)
   expect_match(text, "localization_authorized = FALSE", fixed = TRUE)
+  expect_match(text, "interrupted_wave_quarantine", fixed = TRUE)
+  expect_match(text, "artifact_prefix != 1018L", fixed = TRUE)
+  expect_match(text, "1019:1026", fixed = TRUE)
+})
+
+test_that("MV17-G interrupted-wave quarantine is exact and rollback-safe", {
+  root <- testthat::test_path("..", "..")
+  mover <- file.path(
+    root, "scripts", "quarantine_mv17g_gene_geometry_interrupted_wave.R"
+  )
+  expect_true(file.exists(mover))
+  expect_silent(parse(mover))
+  text <- paste(readLines(mover, warn = FALSE), collapse = "\n")
+  expect_match(
+    text,
+    "mv17g_gene_geometry_interrupted_wave_quarantine_authorized_v1",
+    fixed = TRUE
+  )
+  expect_match(text, "admitted_prefix != 1018L", fixed = TRUE)
+  expect_match(text, "artifact_prefix != 1026L", fixed = TRUE)
+  expect_match(text, "identical(wave_orders, 1019:1026)", fixed = TRUE)
+  expect_match(text, "rollback <- TRUE", fixed = TRUE)
+  expect_match(text, "if (rollback && any(moved))", fixed = TRUE)
+  expect_match(text, "production root did not return", fixed = TRUE)
 })

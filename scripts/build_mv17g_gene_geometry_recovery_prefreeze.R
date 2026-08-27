@@ -1,13 +1,14 @@
 #!/usr/bin/env Rscript
 options(warn = 2)
 args <- commandArgs(trailingOnly = TRUE)
-if (length(args) != 11L) {
+if (length(args) != 12L) {
   stop(
     paste(
       "usage: build_mv17g_gene_geometry_recovery_prefreeze.R",
       "<original-public-prefreeze> <original-private-prefreeze>",
       "<parallel-public-prefreeze> <parallel-private-prefreeze>",
       "<stopped-primary-private> <outer-time> <outer-stdout> <outer-stderr>",
+      "<interrupted-wave-quarantine>",
       "<private-output> <public-output> <implementation-head>"
     ),
     call. = FALSE
@@ -22,9 +23,10 @@ stopped_primary <- normalizePath(args[[5L]], mustWork = TRUE)
 outer_time <- normalizePath(args[[6L]], mustWork = TRUE)
 outer_stdout <- normalizePath(args[[7L]], mustWork = TRUE)
 outer_stderr <- normalizePath(args[[8L]], mustWork = TRUE)
-private <- args[[9L]]
-public <- args[[10L]]
-implementation_head <- tolower(args[[11L]])
+quarantine <- normalizePath(args[[9L]], mustWork = TRUE)
+private <- args[[10L]]
+public <- args[[11L]]
+implementation_head <- tolower(args[[12L]])
 if (dir.exists(private) || dir.exists(public) ||
     !grepl("^[0-9a-f]{40}$", implementation_head)) {
   stop("invalid MV17-G geometry-recovery target/head", call. = FALSE)
@@ -90,7 +92,11 @@ parallel_private_binding <- verify_private(
 )
 
 plan_text <- paste(readLines("PROJECT_PLAN.md", warn = FALSE), collapse = "\n")
-if (!grepl("mv17g_gene_geometry_recovery_authorized_v1", plan_text, fixed = TRUE)) {
+if (!grepl("mv17g_gene_geometry_recovery_authorized_v1", plan_text, fixed = TRUE) ||
+    !grepl(
+      "mv17g_gene_geometry_interrupted_wave_quarantine_authorized_v1",
+      plan_text, fixed = TRUE
+    )) {
   stop("MV17-G gene-geometry recovery lacks owner authorization", call. = FALSE)
 }
 processes <- system2("ps", c("-eo", "args="), stdout = TRUE)
@@ -102,6 +108,37 @@ worker_processes <- sum(grepl(
 ))
 if (controller_processes != 0L || worker_processes != 0L) {
   stop("MV17-G controller/workers must be absent before recovery audit", call. = FALSE)
+}
+
+quarantine_path <- file.path(
+  quarantine, "mv17g-gene-geometry-interrupted-wave-quarantine.csv"
+)
+quarantine_inventory <- read_csv(quarantine_path)
+quarantine_roles <- c("result", "time", "stdout", "stderr")
+if (nrow(quarantine_inventory) != 32L ||
+    !identical(
+      sort(unique(as.integer(quarantine_inventory$job_order))), 1019:1026
+    ) ||
+    !identical(sort(unique(quarantine_inventory$role)), sort(quarantine_roles)) ||
+    any(quarantine_inventory$view != "gene") ||
+    any(file.exists(quarantine_inventory$original_artifact)) ||
+    !all(file.exists(quarantine_inventory$quarantine_artifact)) ||
+    !identical(
+      unname(as.numeric(file.info(
+        quarantine_inventory$quarantine_artifact
+      )$size)),
+      unname(as.numeric(quarantine_inventory$bytes))
+    ) ||
+    !identical(
+      unname(vapply(
+        quarantine_inventory$quarantine_artifact, sha256, character(1L)
+      )),
+      unname(tolower(quarantine_inventory$sha256))
+    ) ||
+    any(!quarantine_inventory$time_receipt_valid) ||
+    any(quarantine_inventory$disposition !=
+      "preserved_unadmitted_rejected_raw_euclidean_gene_evidence_v1")) {
+  stop("MV17-G interrupted-wave quarantine drift", call. = FALSE)
 }
 
 queue <- read_csv(file.path(
@@ -149,7 +186,10 @@ progress <- read_csv(file.path(stopped_primary, "mv17g-private-progress.csv"))
 if (artifact_prefix < 528L || artifact_prefix > 1188L ||
     nrow(progress) != artifact_prefix ||
     !identical(as.integer(progress$job_order), seq_len(artifact_prefix)) ||
-    (artifact_prefix < 1188L && (artifact_prefix - 786L) %% 8L != 0L)) {
+    artifact_prefix != 1018L ||
+    (artifact_prefix - 786L) %% 8L != 0L ||
+    any(quarantine_inventory$admitted_prefix != artifact_prefix) ||
+    any(quarantine_inventory$artifact_prefix != artifact_prefix + 8L)) {
   stop("MV17-G stopped boundary is not a clean durable wave", call. = FALSE)
 }
 
@@ -245,6 +285,7 @@ implementation_files <- c(
   "R/mv17g_gene_geometry_recovery.R",
   "scripts/run_mv17g_calibration_group_worker_v2.R",
   "scripts/run_mv17g_gene_geometry_recovery.R",
+  "scripts/quarantine_mv17g_gene_geometry_interrupted_wave.R",
   "scripts/build_mv17g_gene_geometry_recovery_prefreeze.R",
   "tests/testthat/test-mv17g-gene-geometry-recovery.R"
 )
@@ -264,6 +305,7 @@ dir.create(public, recursive = TRUE)
 private_items <- list(
   "mv17g-valid-cell-prefix-artifacts.csv" = cell_inventory,
   "mv17g-rejected-gene-artifacts.csv" = rejected_gene_inventory,
+  "mv17g-unadmitted-interrupted-wave-artifacts.csv" = quarantine_inventory,
   "mv17g-corrected-gene-primary-queue.csv" = gene_queue,
   "mv17g-corrected-repeat-queue.csv" = repeat_queue,
   "mv17g-geometry-recovery-matrix-catalog.csv" = matrix_catalog
@@ -277,6 +319,7 @@ private_binding <- data.frame(
   contract_id = "mv17g_geometry_recovery_private_binding_v1",
   role = c(
     "valid_cell_prefix_artifacts", "rejected_gene_artifacts",
+    "unadmitted_interrupted_wave_artifacts",
     "corrected_gene_primary_queue", "corrected_repeat_queue",
     "matrix_catalog"
   ),
@@ -292,14 +335,15 @@ source_paths <- c(
   file.path(original_public, "mv17g-artifact-manifest.csv"),
   file.path(parallel_public, "mv17g-parallel-artifact-manifest.csv"),
   file.path(stopped_primary, "mv17g-private-progress.csv"),
-  outer_time, outer_stdout, outer_stderr, "PROJECT_PLAN.md"
+  quarantine_path, outer_time, outer_stdout, outer_stderr, "PROJECT_PLAN.md"
 )
 source_binding <- data.frame(
   contract_id = "mv17g_geometry_recovery_source_binding_v1",
   role = c(
     "original_prefreeze_manifest", "parallel_prefreeze_manifest",
-    "stopped_durable_progress", "stopped_outer_time", "stopped_outer_stdout",
-    "stopped_outer_stderr", "owner_authorization_plan"
+    "stopped_durable_progress", "interrupted_wave_quarantine",
+    "stopped_outer_time", "stopped_outer_stdout", "stopped_outer_stderr",
+    "owner_authorization_plan"
   ),
   bytes = as.numeric(file.info(source_paths)$size),
   sha256 = vapply(source_paths, sha256, character(1L)),
@@ -311,8 +355,9 @@ contract <- data.frame(
   implementation_head = implementation_head,
   execution_authorized_after_commit = TRUE,
   stopped_prefix_children = artifact_prefix,
+  unadmitted_interrupted_wave_children = 8L,
   cell_prefix_children = 528L,
-  rejected_gene_children = artifact_prefix - 528L,
+  rejected_gene_children = artifact_prefix - 528L + 8L,
   gene_primary_children = 660L,
   gene_primary_scientific_runs = 52404L,
   repeat_children = 27L,
@@ -337,9 +382,11 @@ contract <- data.frame(
 state <- data.frame(
   contract_id = "mv17g_gene_geometry_recovery_state_v1",
   stopped_prefix_children = artifact_prefix,
+  unadmitted_interrupted_wave_children = 8L,
   valid_cell_children = 528L,
-  rejected_gene_children = artifact_prefix - 528L,
-  pending_old_controller_children = 1188L - artifact_prefix,
+  admitted_rejected_gene_children = artifact_prefix - 528L,
+  total_rejected_gene_evidence_children = artifact_prefix - 528L + 8L,
+  never_executed_old_controller_children = 1188L - artifact_prefix - 8L,
   corrected_gene_children = nrow(gene_queue),
   corrected_gene_scientific_runs = sum(gene_queue$scientific_runs),
   controlled_stop = controlled_stop,
@@ -359,6 +406,8 @@ validation <- data.frame(
     "queue_1188_children", "queue_91740_runs", "repeat_27_children",
     "repeat_2085_runs", "stopped_prefix_consecutive",
     "progress_equals_artifact_prefix", "clean_wave_or_terminal",
+    "quarantine_32_artifacts", "quarantine_orders_1019_1026",
+    "quarantine_hashes_bound", "quarantine_originals_absent",
     "no_partial_artifacts", "all_completed_artifacts_bound",
     "all_completed_payloads_valid", "all_completed_resources_valid",
     "all_completed_streams_empty", "valid_cell_prefix_528",
@@ -381,7 +430,11 @@ validation <- data.frame(
     nrow(repeat_queue) == 27L, sum(repeat_queue$scientific_runs) == 2085L,
     artifact_prefix == mv17g_complete_prefix_v1(scan, require_incomplete = FALSE),
     nrow(progress) == artifact_prefix,
-    artifact_prefix == 1188L || (artifact_prefix - 786L) %% 8L == 0L,
+    artifact_prefix == 1018L && (artifact_prefix - 786L) %% 8L == 0L,
+    nrow(quarantine_inventory) == 32L,
+    identical(sort(unique(as.integer(quarantine_inventory$job_order))), 1019:1026),
+    all(file.exists(quarantine_inventory$quarantine_artifact)),
+    !any(file.exists(quarantine_inventory$original_artifact)),
     length(partials) == 0L, nrow(inventory) == artifact_prefix * 4L,
     TRUE, TRUE,
     all(file.info(inventory$artifact[inventory$role %in% c("stdout", "stderr")])$size == 0L),
@@ -442,6 +495,9 @@ writeLines(
            " Euclidean-PCA calculation. Every completed gene child is preserved",
            " but rejected from scientific closure because it used raw residual-space",
            " Euclidean geometry."),
+    "Orders 1019--1026 completed atomically after the parent was stopped but before",
+    "termination; because the parent never admitted them into its progress ledger,",
+    "their 32 files are preserved in a separately hash-bound private quarantine.",
     "",
     "The fresh recovery reruns all 660 gene children after each admitted raw-space",
     " null generator and before PH applies row centering plus L2 unit normalization.",
@@ -470,5 +526,5 @@ write_csv(
 message(
   "Built MV17-G gene-geometry recovery prefreeze; checks=",
   nrow(validation), "; cell=528; rejected_gene=",
-  artifact_prefix - 528L, "; corrected_gene=660"
+  artifact_prefix - 528L + 8L, "; corrected_gene=660"
 )
