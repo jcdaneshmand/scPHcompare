@@ -1,0 +1,7 @@
+"contract_id","role","artifact","rows","bytes","sha256","tracking_state"
+"mv17g_geometry_recovery_private_binding_v1","valid_cell_prefix_artifacts","mv17g-valid-cell-prefix-artifacts.csv",2112,605648,"b374d936a9605567233b25cd7156dac2891cdace0c69e7882c75b487a1995204","private_not_tracked"
+"mv17g_geometry_recovery_private_binding_v1","rejected_gene_artifacts","mv17g-rejected-gene-artifacts.csv",1960,590300,"f2c1385ce21bfad0310f6ef6dc6df1eb9727e4479c06ca0c09c82ba3000f1ec5","private_not_tracked"
+"mv17g_geometry_recovery_private_binding_v1","unadmitted_interrupted_wave_artifacts","mv17g-unadmitted-interrupted-wave-artifacts.csv",32,19131,"e75246c4052659cc287a2804f38a89c64a3aee7d0e00f3fb9f485222af2cd65e","private_not_tracked"
+"mv17g_geometry_recovery_private_binding_v1","corrected_gene_primary_queue","mv17g-corrected-gene-primary-queue.csv",660,58517,"61efa6730b1e247dd9a49b669c1f23179a33ce6813ff669156f9074d59a880f1","private_not_tracked"
+"mv17g_geometry_recovery_private_binding_v1","corrected_repeat_queue","mv17g-corrected-repeat-queue.csv",27,2435,"8b7723a8dba0bb8f47294ddddf47c9e832d28a0ad518c1bd40020673854a3857","private_not_tracked"
+"mv17g_geometry_recovery_private_binding_v1","matrix_catalog","mv17g-geometry-recovery-matrix-catalog.csv",264,24258,"eb02bbcf83b9289c8cb1cca0188fe2192c7b82efe31499ce1097368e77c51a1b","private_not_tracked"

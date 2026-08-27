@@ -1,0 +1,2 @@
+"contract_id","stopped_prefix_children","unadmitted_interrupted_wave_children","valid_cell_children","admitted_rejected_gene_children","total_rejected_gene_evidence_children","never_executed_old_controller_children","corrected_gene_children","corrected_gene_scientific_runs","controlled_stop","terminal_completion","controller_processes","worker_processes","partial_artifacts"
+"mv17g_gene_geometry_recovery_state_v1",1018,8,528,490,498,162,660,52404,TRUE,FALSE,0,0,0

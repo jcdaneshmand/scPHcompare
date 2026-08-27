@@ -1,0 +1,2 @@
+"contract_id","decision_token","disposition","scientific_estimand_changed","gene_geometry_corrected_to_frozen_estimand","owner_authorization_recorded","execution_only_after_prefreeze_commit","localization_authorized","downstream_surfaces"
+"mv17g_gene_geometry_recovery_decision_v1","mv17g_gene_geometry_recovery_authorized_v1","retain_and_revalidate_cell_orders_1_528;preserve_and_reject_old_gene;orders_529_1188;rerun_all_gene_orders_in_fresh_root",FALSE,TRUE,TRUE,TRUE,FALSE,"closed"

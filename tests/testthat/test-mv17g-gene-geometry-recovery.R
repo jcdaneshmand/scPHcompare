@@ -226,3 +226,54 @@ test_that("MV17-G interrupted-wave quarantine is exact and rollback-safe", {
   expect_match(text, "if (rollback && any(moved))", fixed = TRUE)
   expect_match(text, "production root did not return", fixed = TRUE)
 })
+
+test_that("MV17-G gene-geometry recovery prefreeze is complete and private-safe", {
+  root <- normalizePath(testthat::test_path("..", ".."))
+  audit <- file.path(
+    root, "docs", "audits", "mv17g-gene-geometry-recovery-prefreeze-v1"
+  )
+  expect_true(dir.exists(audit))
+  validation <- read.csv(
+    file.path(audit, "mv17g-geometry-recovery-validation.csv"),
+    stringsAsFactors = FALSE
+  )
+  contract <- read.csv(
+    file.path(audit, "mv17g-geometry-recovery-contract.csv"),
+    stringsAsFactors = FALSE
+  )
+  state <- read.csv(
+    file.path(audit, "mv17g-geometry-recovery-state.csv"),
+    stringsAsFactors = FALSE
+  )
+  manifest <- read.csv(
+    file.path(audit, "mv17g-geometry-recovery-manifest.csv"),
+    stringsAsFactors = FALSE
+  )
+  manifest_paths <- file.path(audit, manifest$artifact)
+  expect_equal(nrow(validation), 43L)
+  expect_true(all(validation$passed))
+  expect_equal(contract$stopped_prefix_children, 1018L)
+  expect_equal(contract$cell_prefix_children, 528L)
+  expect_equal(contract$rejected_gene_children, 498L)
+  expect_equal(contract$gene_primary_children, 660L)
+  expect_equal(contract$gene_primary_scientific_runs, 52404L)
+  expect_equal(contract$repeat_children, 27L)
+  expect_equal(contract$workers, 8L)
+  expect_equal(contract$threads_per_child, 1L)
+  expect_equal(contract$retries, 0L)
+  expect_identical(contract$gene_geometry, "euclidean_correlation_chord_v1")
+  expect_false(contract$labels_opened)
+  expect_false(contract$outcomes_opened)
+  expect_equal(state$unadmitted_interrupted_wave_children, 8L)
+  expect_equal(state$never_executed_old_controller_children, 162L)
+  expect_true(all(file.exists(manifest_paths)))
+  expect_identical(
+    unname(vapply(manifest_paths, .mv08z_sha256_file, character(1L))),
+    unname(tolower(manifest$sha256))
+  )
+  public_text <- paste(
+    unlist(lapply(list.files(audit, full.names = TRUE), readLines, warn = FALSE)),
+    collapse = "\n"
+  )
+  expect_false(grepl("unit_id|source_path|donor|barcode", public_text, ignore.case = TRUE))
+})
