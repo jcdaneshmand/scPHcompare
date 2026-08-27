@@ -1,13 +1,14 @@
 #!/usr/bin/env Rscript
 options(warn = 2)
 args <- commandArgs(trailingOnly = TRUE)
-if (length(args) != 16L) {
+if (length(args) != 17L) {
   stop(
     paste(
       "usage: build_mv17g_parallel_calibration_closure.R",
       "<original-public-prefreeze> <original-private-prefreeze>",
       "<parallel-public-prefreeze> <parallel-private-prefreeze>",
       "<controller-recovery-public-prefreeze> <controller-recovery-private-prefreeze>",
+      "<interrupted-wave-quarantine>",
       "<primary-private> <primary-public> <repeat-private> <repeat-public>",
       "<serial-primary-time> <parallel-primary-attempt1-time>",
       "<parallel-primary-recovery-time> <parallel-repeat-time>",
@@ -22,16 +23,17 @@ parallel_public <- normalizePath(args[[3]], mustWork = TRUE)
 parallel_private <- normalizePath(args[[4]], mustWork = TRUE)
 recovery_public <- normalizePath(args[[5]], mustWork = TRUE)
 recovery_private <- normalizePath(args[[6]], mustWork = TRUE)
-primary_private <- normalizePath(args[[7]], mustWork = TRUE)
-primary_public <- normalizePath(args[[8]], mustWork = TRUE)
-repeat_private <- normalizePath(args[[9]], mustWork = TRUE)
-repeat_public <- normalizePath(args[[10]], mustWork = TRUE)
-serial_time <- normalizePath(args[[11]], mustWork = TRUE)
-primary_attempt1_time <- normalizePath(args[[12]], mustWork = TRUE)
-primary_recovery_time <- normalizePath(args[[13]], mustWork = TRUE)
-repeat_time <- normalizePath(args[[14]], mustWork = TRUE)
-output <- args[[15]]
-execution_head <- tolower(args[[16]])
+quarantine <- normalizePath(args[[7]], mustWork = TRUE)
+primary_private <- normalizePath(args[[8]], mustWork = TRUE)
+primary_public <- normalizePath(args[[9]], mustWork = TRUE)
+repeat_private <- normalizePath(args[[10]], mustWork = TRUE)
+repeat_public <- normalizePath(args[[11]], mustWork = TRUE)
+serial_time <- normalizePath(args[[12]], mustWork = TRUE)
+primary_attempt1_time <- normalizePath(args[[13]], mustWork = TRUE)
+primary_recovery_time <- normalizePath(args[[14]], mustWork = TRUE)
+repeat_time <- normalizePath(args[[15]], mustWork = TRUE)
+output <- args[[16]]
+execution_head <- tolower(args[[17]])
 if (dir.exists(output) || !grepl("^[0-9a-f]{40}$", execution_head)) {
   stop("invalid MV17-G parallel closure target/head", call. = FALSE)
 }
@@ -84,6 +86,14 @@ contract <- r(file.path(parallel_public, "mv17g-parallel-contract.csv"))
 recovery_contract <- r(file.path(recovery_public, "mv17g-controller-recovery-contract.csv"))
 recovery_state <- r(file.path(recovery_public, "mv17g-controller-recovery-state-summary.csv"))
 recovery_decision <- r(file.path(recovery_public, "mv17g-controller-recovery-decision.csv"))
+recovery_wave <- r(file.path(recovery_private, "mv17g-controller-interrupted-wave-artifacts.csv"))
+quarantine_manifest <- r(file.path(quarantine, "mv17g-interrupted-wave-quarantine.csv"))
+quarantine_paths <- quarantine_manifest$quarantine_artifact
+if (nrow(quarantine_manifest) != 32L || !all(file.exists(quarantine_paths)) ||
+    !identical(unname(as.numeric(file.info(quarantine_paths)$size)), unname(as.numeric(quarantine_manifest$bytes))) ||
+    !identical(unname(vapply(quarantine_paths, h, character(1L))), unname(tolower(quarantine_manifest$sha256)))) {
+  stop("MV17-G interrupted-wave quarantine drift", call. = FALSE)
+}
 primary_queue <- r(file.path(original_private, "mv17g-primary-grouped-queue.csv"))
 repeat_queue <- r(file.path(original_private, "mv17g-repeat-grouped-queue.csv"))
 prefix_status <- r(file.path(parallel_private, "mv17g-parallel-prefix-status.csv"))
@@ -163,6 +173,15 @@ prefix_origin_exact <-
   !any(primary_ledger$adopted[-seq_len(serial_prefix)]) &&
   all(primary_ledger$execution_origin[-seq_len(serial_prefix)] == "parallel_recovery_v1") &&
   !any(repeat_ledger$adopted) && all(repeat_ledger$execution_origin == "parallel_recovery_v1")
+replay_result_rows <- recovery_wave[recovery_wave$role == "result", , drop = FALSE]
+replay_result_rows <- replay_result_rows[order(replay_result_rows$job_order), , drop = FALSE]
+replayed_result_paths <- vapply(replay_result_rows$job_order, function(i) {
+  mv17g_job_artifacts_v1(primary_queue[i, , drop = FALSE], primary_private)[["result"]]
+}, character(1L))
+replay_payloads_exact <-
+  identical(as.integer(replay_result_rows$job_order), 787:794) &&
+  all(file.exists(replayed_result_paths)) &&
+  identical(unname(vapply(replayed_result_paths, h, character(1L))), unname(tolower(replay_result_rows$sha256)))
 
 primary_logs <- list.files(file.path(primary_private, "logs"), pattern = "[.](stdout|stderr)[.]txt$", full.names = TRUE)
 repeat_logs <- list.files(file.path(repeat_private, "logs"), pattern = "[.](stdout|stderr)[.]txt$", full.names = TRUE)
@@ -177,6 +196,7 @@ source_paths <- c(
   file.path(original_public, "mv17g-artifact-manifest.csv"),
   file.path(parallel_public, "mv17g-parallel-artifact-manifest.csv"),
   file.path(recovery_public, "mv17g-controller-recovery-artifact-manifest.csv"),
+  file.path(quarantine, "mv17g-interrupted-wave-quarantine.csv"),
   original_private_paths,
   parallel_private_paths,
   recovery_private_paths,
@@ -191,7 +211,7 @@ source_binding <- data.frame(
   contract_id = "mv17g_parallel_closure_source_binding_v1",
   role = c(
     "original_public_prefreeze_manifest", "parallel_public_prefreeze_manifest",
-    "controller_recovery_public_prefreeze_manifest",
+    "controller_recovery_public_prefreeze_manifest", "interrupted_wave_quarantine_manifest",
     paste0("original_private_", original_private_binding$role),
     paste0("parallel_private_", parallel_private_binding$role),
     paste0("controller_recovery_private_", recovery_private_binding$role),
@@ -209,7 +229,8 @@ validation <- data.frame(
   check_id = c(
     "original_prefreeze_bound", "parallel_prefreeze_bound", "controller_recovery_prefreeze_bound",
     "private_prefreezes_bound", "controller_recovery_private_bound",
-    "controller_recovery_prefix_794", "controller_recovery_resume_795",
+    "controller_recovery_artifact_prefix_794", "controller_recovery_admitted_prefix_786",
+    "controller_recovery_replay_8", "interrupted_wave_quarantine_bound", "replayed_payloads_exact",
     "controller_recovery_attempt1_telemetry_explicit",
     "execution_head_recorded", "primary_1188_children", "repeat_27_children",
     "primary_91740_runs", "repeat_2085_runs", "primary_733920_metrics", "repeat_16680_metrics",
@@ -226,9 +247,14 @@ validation <- data.frame(
     nrow(original_manifest) >= 1L, nrow(parallel_manifest) >= 1L,
     nrow(recovery_manifest) >= 1L,
     nrow(original_private_binding) == 4L && nrow(parallel_private_binding) == 3L,
-    nrow(recovery_private_binding) == 2L,
-    recovery_contract$completed_prefix_children == 794L && recovery_state$completed_prefix_children == 794L,
-    recovery_contract$resume_at_job_order == 795L && recovery_state$resume_at_job_order == 795L,
+    nrow(recovery_private_binding) == 3L,
+    recovery_contract$artifact_present_prefix_children == 794L &&
+      recovery_state$artifact_present_prefix_children == 794L,
+    recovery_contract$resource_admitted_prefix_children == 786L &&
+      recovery_state$resource_admitted_prefix_children == 786L,
+    recovery_contract$manual_replay_exception_children == 8L &&
+      recovery_state$manual_replay_exception_children == 8L,
+    nrow(quarantine_manifest) == 32L && all(file.exists(quarantine_paths)), replay_payloads_exact,
     file.info(primary_attempt1_time)$size == 0 &&
       !recovery_decision$attempt1_outer_telemetry_complete &&
       recovery_state$attempt1_outer_RSS_conservative_upper_bound_bytes == contract$concurrent_child_RSS_cap_bytes,
@@ -299,7 +325,10 @@ items <- list(
     contract_id = "mv17g_decision_v1",
     full_H0_H1_calibration_closed = TRUE,
     eight_worker_recovery_closed = TRUE,
-    interrupted_controller_prefix_children = recovery_state$completed_prefix_children,
+    interrupted_controller_artifact_prefix_children = recovery_state$artifact_present_prefix_children,
+    interrupted_controller_admitted_prefix_children = recovery_state$resource_admitted_prefix_children,
+    interrupted_wave_replay_children = recovery_state$manual_replay_exception_children,
+    interrupted_wave_replay_payloads_exact = replay_payloads_exact,
     interrupted_controller_telemetry_complete = FALSE,
     serial_prefix_children = serial_prefix,
     real_localization_prefreeze_eligible = TRUE,
@@ -316,7 +345,8 @@ writeLines(
     "",
     "All 132 cell and 132 gene units are calibrated separately with 99 fixed replicates per compatible null family.",
     paste0("An immutable serial prefix of ", serial_prefix, " children was adopted exactly; all remaining children and the repeat used eight single-threaded workers."),
-    "The parallel primary required two controller segments. The first ended after a validated 794-child prefix without a GNU-time footer; its timestamp-observed duration and conservative 64-GiB RSS upper bound remain explicit.",
+    "The parallel primary required two controller segments. The first ended with 786 resource-admitted children and an eight-child interrupted wave; all 32 wave artifacts were preserved, the wave was replayed, and all eight replayed payloads matched exactly.",
+    "The missing first-controller GNU-time footer, timestamp-observed duration, and conservative 64-GiB RSS upper bound remain explicit.",
     "Public evidence is aggregate-only. Real localization and every downstream scientific surface remain closed."
   ),
   file.path(output, "MV17G_FULL_CALIBRATION_CLOSURE_2026-08-26.md")
