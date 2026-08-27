@@ -1,14 +1,16 @@
 #!/usr/bin/env Rscript
 options(warn = 2)
 args <- commandArgs(trailingOnly = TRUE)
-if (length(args) != 13L) {
+if (length(args) != 16L) {
   stop(
     paste(
       "usage: build_mv17g_parallel_calibration_closure.R",
       "<original-public-prefreeze> <original-private-prefreeze>",
       "<parallel-public-prefreeze> <parallel-private-prefreeze>",
+      "<controller-recovery-public-prefreeze> <controller-recovery-private-prefreeze>",
       "<primary-private> <primary-public> <repeat-private> <repeat-public>",
-      "<serial-primary-time> <parallel-primary-time> <parallel-repeat-time>",
+      "<serial-primary-time> <parallel-primary-attempt1-time>",
+      "<parallel-primary-recovery-time> <parallel-repeat-time>",
       "<output> <execution-head>"
     ),
     call. = FALSE
@@ -18,15 +20,18 @@ original_public <- normalizePath(args[[1]], mustWork = TRUE)
 original_private <- normalizePath(args[[2]], mustWork = TRUE)
 parallel_public <- normalizePath(args[[3]], mustWork = TRUE)
 parallel_private <- normalizePath(args[[4]], mustWork = TRUE)
-primary_private <- normalizePath(args[[5]], mustWork = TRUE)
-primary_public <- normalizePath(args[[6]], mustWork = TRUE)
-repeat_private <- normalizePath(args[[7]], mustWork = TRUE)
-repeat_public <- normalizePath(args[[8]], mustWork = TRUE)
-serial_time <- normalizePath(args[[9]], mustWork = TRUE)
-primary_time <- normalizePath(args[[10]], mustWork = TRUE)
-repeat_time <- normalizePath(args[[11]], mustWork = TRUE)
-output <- args[[12]]
-execution_head <- tolower(args[[13]])
+recovery_public <- normalizePath(args[[5]], mustWork = TRUE)
+recovery_private <- normalizePath(args[[6]], mustWork = TRUE)
+primary_private <- normalizePath(args[[7]], mustWork = TRUE)
+primary_public <- normalizePath(args[[8]], mustWork = TRUE)
+repeat_private <- normalizePath(args[[9]], mustWork = TRUE)
+repeat_public <- normalizePath(args[[10]], mustWork = TRUE)
+serial_time <- normalizePath(args[[11]], mustWork = TRUE)
+primary_attempt1_time <- normalizePath(args[[12]], mustWork = TRUE)
+primary_recovery_time <- normalizePath(args[[13]], mustWork = TRUE)
+repeat_time <- normalizePath(args[[14]], mustWork = TRUE)
+output <- args[[15]]
+execution_head <- tolower(args[[16]])
 if (dir.exists(output) || !grepl("^[0-9a-f]{40}$", execution_head)) {
   stop("invalid MV17-G parallel closure target/head", call. = FALSE)
 }
@@ -53,6 +58,7 @@ verify_manifest <- function(root, name) {
 }
 original_manifest <- verify_manifest(original_public, "mv17g-artifact-manifest.csv")
 parallel_manifest <- verify_manifest(parallel_public, "mv17g-parallel-artifact-manifest.csv")
+recovery_manifest <- verify_manifest(recovery_public, "mv17g-controller-recovery-artifact-manifest.csv")
 primary_manifest <- verify_manifest(primary_public, "mv17g-artifact-manifest.csv")
 repeat_manifest <- verify_manifest(repeat_public, "mv17g-artifact-manifest.csv")
 
@@ -60,9 +66,12 @@ original_private_binding <- r(file.path(original_public, "mv17g-private-binding.
 original_private_paths <- file.path(original_private, original_private_binding$artifact)
 parallel_private_binding <- r(file.path(parallel_public, "mv17g-parallel-private-binding.csv"))
 parallel_private_paths <- file.path(parallel_private, parallel_private_binding$artifact)
+recovery_private_binding <- r(file.path(recovery_public, "mv17g-controller-recovery-private-binding.csv"))
+recovery_private_paths <- file.path(recovery_private, recovery_private_binding$artifact)
 for (pair in list(
   list(paths = original_private_paths, binding = original_private_binding),
-  list(paths = parallel_private_paths, binding = parallel_private_binding)
+  list(paths = parallel_private_paths, binding = parallel_private_binding),
+  list(paths = recovery_private_paths, binding = recovery_private_binding)
 )) {
   if (!all(file.exists(pair$paths)) ||
       !identical(unname(as.numeric(file.info(pair$paths)$size)), unname(as.numeric(pair$binding$bytes))) ||
@@ -72,6 +81,9 @@ for (pair in list(
 }
 
 contract <- r(file.path(parallel_public, "mv17g-parallel-contract.csv"))
+recovery_contract <- r(file.path(recovery_public, "mv17g-controller-recovery-contract.csv"))
+recovery_state <- r(file.path(recovery_public, "mv17g-controller-recovery-state-summary.csv"))
+recovery_decision <- r(file.path(recovery_public, "mv17g-controller-recovery-decision.csv"))
 primary_queue <- r(file.path(original_private, "mv17g-primary-grouped-queue.csv"))
 repeat_queue <- r(file.path(original_private, "mv17g-repeat-grouped-queue.csv"))
 prefix_status <- r(file.path(parallel_private, "mv17g-parallel-prefix-status.csv"))
@@ -129,7 +141,10 @@ resource_exact <-
   isTRUE(all.equal(repeat_resource, resource_rebuild(repeat_ledger), tolerance = 1e-12, check.attributes = FALSE))
 
 serial_outer <- mv17c_parse_gnu_time_v1(serial_time)
-primary_outer <- mv17c_parse_gnu_time_v1(primary_time)
+if (file.info(primary_attempt1_time)$size != 0) {
+  stop("MV17-G interrupted attempt unexpectedly has a GNU-time footer", call. = FALSE)
+}
+primary_recovery_outer <- mv17c_parse_gnu_time_v1(primary_recovery_time)
 repeat_outer <- mv17c_parse_gnu_time_v1(repeat_time)
 serial_text <- paste(readLines(serial_time, warn = FALSE), collapse = "\n")
 controlled_serial_stop <- grepl("signal 9", serial_text, ignore.case = TRUE) || serial_outer$exit_status %in% c(9L, 137L)
@@ -155,27 +170,34 @@ all_logs <- c(primary_logs, repeat_logs)
 serial_child_seconds <- sum(primary_ledger$wall_seconds[primary_ledger$adopted])
 parallel_primary_child_seconds <- sum(primary_ledger$wall_seconds[!primary_ledger$adopted])
 parallel_repeat_child_seconds <- sum(repeat_ledger$wall_seconds)
+primary_observed_outer_seconds <- serial_outer$wall_seconds +
+  recovery_state$attempt1_timestamp_observed_seconds + primary_recovery_outer$wall_seconds
 
 source_paths <- c(
   file.path(original_public, "mv17g-artifact-manifest.csv"),
   file.path(parallel_public, "mv17g-parallel-artifact-manifest.csv"),
+  file.path(recovery_public, "mv17g-controller-recovery-artifact-manifest.csv"),
   original_private_paths,
   parallel_private_paths,
+  recovery_private_paths,
   file.path(primary_public, "mv17g-artifact-manifest.csv"),
   file.path(repeat_public, "mv17g-artifact-manifest.csv"),
   file.path(primary_private, "mv17g-private-scientific-metrics.csv"),
   file.path(repeat_private, "mv17g-private-scientific-metrics.csv"),
   file.path(primary_private, "mv17g-private-empirical-calibration.csv"),
-  serial_time, primary_time, repeat_time
+  serial_time, primary_attempt1_time, primary_recovery_time, repeat_time
 )
 source_binding <- data.frame(
   contract_id = "mv17g_parallel_closure_source_binding_v1",
   role = c(
     "original_public_prefreeze_manifest", "parallel_public_prefreeze_manifest",
+    "controller_recovery_public_prefreeze_manifest",
     paste0("original_private_", original_private_binding$role),
     paste0("parallel_private_", parallel_private_binding$role),
+    paste0("controller_recovery_private_", recovery_private_binding$role),
     "primary_public_manifest", "repeat_public_manifest", "primary_metrics", "repeat_metrics",
-    "primary_empirical", "serial_primary_GNU_time", "parallel_primary_GNU_time", "parallel_repeat_GNU_time"
+    "primary_empirical", "serial_primary_GNU_time", "parallel_primary_attempt1_GNU_time_incomplete",
+    "parallel_primary_recovery_GNU_time", "parallel_repeat_GNU_time"
   ),
   bytes = as.numeric(file.info(source_paths)$size),
   sha256 = vapply(source_paths, h, character(1L)),
@@ -185,20 +207,31 @@ source_binding <- data.frame(
 validation <- data.frame(
   contract_id = "mv17g_parallel_closure_validation_v1",
   check_id = c(
-    "original_prefreeze_bound", "parallel_prefreeze_bound", "private_prefreezes_bound",
+    "original_prefreeze_bound", "parallel_prefreeze_bound", "controller_recovery_prefreeze_bound",
+    "private_prefreezes_bound", "controller_recovery_private_bound",
+    "controller_recovery_prefix_794", "controller_recovery_resume_795",
+    "controller_recovery_attempt1_telemetry_explicit",
     "execution_head_recorded", "primary_1188_children", "repeat_27_children",
     "primary_91740_runs", "repeat_2085_runs", "primary_733920_metrics", "repeat_16680_metrics",
     "four_H0_H1_summaries", "primary_empirical_7392", "empirical_independent",
     "aggregate_56_rows", "aggregate_independent", "repeat_exact", "resource_aggregate_independent",
     "serial_prefix_hashes_exact", "serial_prefix_origin_exact", "controlled_serial_stop",
-    "child_resources_pass", "parallel_outer_resources_pass", "serial_outer_covers_prefix",
+    "child_resources_pass", "parallel_outer_resources_pass", "primary_observed_aggregate_pass",
+    "serial_outer_covers_prefix",
     "parallel_capacity_covers_primary", "parallel_capacity_covers_repeat", "parallel_outer_bounds_max_child",
     "empty_child_streams", "eight_workers_one_thread_zero_retry", "storage_caps",
     "source_receipts_bound", "real_localization_closed", "downstream_firewall", "aggregate_only_public"
   ),
   passed = c(
     nrow(original_manifest) >= 1L, nrow(parallel_manifest) >= 1L,
+    nrow(recovery_manifest) >= 1L,
     nrow(original_private_binding) == 4L && nrow(parallel_private_binding) == 3L,
+    nrow(recovery_private_binding) == 2L,
+    recovery_contract$completed_prefix_children == 794L && recovery_state$completed_prefix_children == 794L,
+    recovery_contract$resume_at_job_order == 795L && recovery_state$resume_at_job_order == 795L,
+    file.info(primary_attempt1_time)$size == 0 &&
+      !recovery_decision$attempt1_outer_telemetry_complete &&
+      recovery_state$attempt1_outer_RSS_conservative_upper_bound_bytes == contract$concurrent_child_RSS_cap_bytes,
     grepl("^[0-9a-f]{40}$", execution_head), nrow(primary_queue) == 1188L, nrow(repeat_queue) == 27L,
     sum(primary_queue$scientific_runs) == 91740L, sum(repeat_queue$scientific_runs) == 2085L,
     nrow(primary_metrics) == 733920L, nrow(repeat_metrics) == 16680L,
@@ -207,13 +240,15 @@ validation <- data.frame(
     repeat_exact, resource_exact, prefix_hashes_exact, prefix_origin_exact, controlled_serial_stop,
     max(c(primary_ledger$maximum_RSS_bytes, repeat_ledger$maximum_RSS_bytes)) <= contract$child_RSS_cap_bytes &&
       max(c(primary_ledger$wall_seconds, repeat_ledger$wall_seconds)) <= contract$child_timeout_seconds,
-    primary_outer$exit_status == 0L && repeat_outer$exit_status == 0L &&
-      serial_outer$wall_seconds + primary_outer$wall_seconds <= contract$aggregate_timeout_seconds &&
+    primary_recovery_outer$exit_status == 0L && repeat_outer$exit_status == 0L &&
       repeat_outer$wall_seconds <= contract$aggregate_timeout_seconds,
+    primary_observed_outer_seconds <= contract$aggregate_timeout_seconds,
     serial_outer$wall_seconds >= serial_child_seconds,
-    primary_outer$wall_seconds * contract$workers >= parallel_primary_child_seconds,
+    (recovery_state$attempt1_timestamp_observed_seconds + primary_recovery_outer$wall_seconds) *
+      contract$workers >= parallel_primary_child_seconds,
     repeat_outer$wall_seconds * contract$workers >= parallel_repeat_child_seconds,
-    primary_outer$wall_seconds >= max(primary_ledger$wall_seconds[!primary_ledger$adopted]) &&
+    max(recovery_state$attempt1_timestamp_observed_seconds, primary_recovery_outer$wall_seconds) >=
+      max(primary_ledger$wall_seconds[!primary_ledger$adopted]) &&
       repeat_outer$wall_seconds >= max(repeat_ledger$wall_seconds),
     length(all_logs) == 2L * (1188L + 27L) && all(file.info(all_logs)$size == 0),
     primary_status$workers == 8L && repeat_status$workers == 8L &&
@@ -240,9 +275,14 @@ resource_summary <- data.frame(
   serial_prefix_children = c(serial_prefix, 0L),
   workers = 8L,
   aggregate_child_seconds = c(sum(primary_ledger$wall_seconds), sum(repeat_ledger$wall_seconds)),
-  outer_wall_seconds = c(serial_outer$wall_seconds + primary_outer$wall_seconds, repeat_outer$wall_seconds),
+  outer_wall_seconds = c(primary_observed_outer_seconds, repeat_outer$wall_seconds),
+  interrupted_attempt_timestamp_observed_seconds = c(recovery_state$attempt1_timestamp_observed_seconds, 0),
+  interrupted_attempt_GNU_time_complete = c(FALSE, TRUE),
   maximum_child_RSS_bytes = c(max(primary_ledger$maximum_RSS_bytes), max(repeat_ledger$maximum_RSS_bytes)),
-  parallel_outer_maximum_RSS_bytes = c(primary_outer$maximum_RSS_bytes, repeat_outer$maximum_RSS_bytes),
+  parallel_outer_maximum_RSS_bytes = c(
+    max(recovery_state$attempt1_outer_RSS_conservative_upper_bound_bytes, primary_recovery_outer$maximum_RSS_bytes),
+    repeat_outer$maximum_RSS_bytes
+  ),
   private_bytes = c(primary_status$private_bytes, repeat_status$private_bytes),
   public_bytes = c(
     sum(as.numeric(file.info(list.files(primary_public, full.names = TRUE))$size)),
@@ -259,6 +299,8 @@ items <- list(
     contract_id = "mv17g_decision_v1",
     full_H0_H1_calibration_closed = TRUE,
     eight_worker_recovery_closed = TRUE,
+    interrupted_controller_prefix_children = recovery_state$completed_prefix_children,
+    interrupted_controller_telemetry_complete = FALSE,
     serial_prefix_children = serial_prefix,
     real_localization_prefreeze_eligible = TRUE,
     real_localization_authorized = FALSE,
@@ -274,6 +316,7 @@ writeLines(
     "",
     "All 132 cell and 132 gene units are calibrated separately with 99 fixed replicates per compatible null family.",
     paste0("An immutable serial prefix of ", serial_prefix, " children was adopted exactly; all remaining children and the repeat used eight single-threaded workers."),
+    "The parallel primary required two controller segments. The first ended after a validated 794-child prefix without a GNU-time footer; its timestamp-observed duration and conservative 64-GiB RSS upper bound remain explicit.",
     "Public evidence is aggregate-only. Real localization and every downstream scientific surface remain closed."
   ),
   file.path(output, "MV17G_FULL_CALIBRATION_CLOSURE_2026-08-26.md")
