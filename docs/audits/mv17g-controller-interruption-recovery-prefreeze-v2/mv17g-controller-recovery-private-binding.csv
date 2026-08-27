@@ -1,0 +1,4 @@
+"contract_id","role","artifact","rows","bytes","sha256","tracking_state"
+"mv17g_controller_recovery_private_binding_v2","resource_admitted_prefix_artifacts","mv17g-controller-admitted-prefix-artifacts.csv",3144,805478,"4bad915938f674baae8d1062963e0369afcad73d5b042c9dd60f5be1a7fbe685","private_not_tracked"
+"mv17g_controller_recovery_private_binding_v2","interrupted_wave_artifacts","mv17g-controller-interrupted-wave-artifacts.csv",32,8283,"df346c181cae8e57f1bca3e7287853d52de116184aa724423c2ce976c0794fe6","private_not_tracked"
+"mv17g_controller_recovery_private_binding_v2","interruption_state","mv17g-controller-recovery-state.csv",1,818,"88abd7ea8f24c05cfcd66f87841b8f6d6570001b353bd2f458bc805c9e0b2fc9","private_not_tracked"

@@ -1,0 +1,2 @@
+"contract_id","disposition","resource_admitted_prefix_children","manual_replay_exception_children","automatic_retries","owner_authorization_recorded","scientific_estimand_changed","attempt1_outer_telemetry_complete","real_localization_authorized","downstream_surfaces"
+"mv17g_controller_interruption_recovery_decision_v2","preserve_and_replay_interrupted_wave_787_794_then_continue",786,8,0,TRUE,FALSE,FALSE,FALSE,"closed"
