@@ -1,0 +1,2 @@
+"contract_id","decision_token","preserve_failed_evidence","production_retry_authorized","exact_profile_authorized_after_commit","result_dependent_method_selection","localization_authorized","downstream_surfaces"
+"mv17gr_prefreeze_decision_v1","mv17gr_resource_profile_authorized_v1",TRUE,FALSE,TRUE,FALSE,FALSE,"closed"

@@ -1,0 +1,6 @@
+"contract_id","role","bytes","sha256"
+"mv17gr_source_binding_v1","recovery_prefreeze_manifest",1313,"843f8726955b1b17ee1a6b30b897297c97f0a7a64c0fe896a7e70154fe85be64"
+"mv17gr_source_binding_v1","failed_outer_time",1088,"e0a9ff4727c7955e56b89dd077686dcb5d968d2d580fab1516fae9a8ae0a65fc"
+"mv17gr_source_binding_v1","failed_outer_stdout",66,"14b87d63918b3f2822ade2c60a0031970c4b0280b4b790e5e72295e0c93575a6"
+"mv17gr_source_binding_v1","failed_outer_stderr",103,"268c3440535b6d97f8877c11a680bcdfcebc9e947a67d9eb2cee493b7e63d4bc"
+"mv17gr_source_binding_v1","owner_authorization_plan",372095,"6cff8cb9341e0d73239a1bd9a9e70b495a8d19864a6e60d620f99455a405a12b"
