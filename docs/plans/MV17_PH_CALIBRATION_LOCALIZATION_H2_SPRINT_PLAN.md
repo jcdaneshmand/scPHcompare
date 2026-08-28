@@ -1,7 +1,7 @@
 # MV17 PH calibration, localization, and H2 extension sprint plan
 
-Date: 2026-08-26
-Status: proposed execution branch; no scientific execution authorized by this document alone
+Date: 2026-08-26; amended 2026-08-28
+Status: active auditable branch plan; no scientific execution is authorized by this document alone
 
 ## Goal
 
@@ -22,6 +22,16 @@ useful representation. A negative result at any gate is a complete result.
   the Pearson-residual gene topology.
 - The historical fusion result is weight-sensitive and does not authorize a
   selected fusion weight.
+- MV17-E closed its original H2 qualification negative because finite circle
+  and shuffled-circle fixtures violated prospectively frozen exact-zero H2
+  expectations. That closure remains immutable evidence for the original
+  contract; it is not silently reinterpreted or overwritten.
+- MV17-GR subsequently verified that the minimum enclosing radius
+  `min_x max_y d(x,y)` is an exact terminal threshold: at that scale the Rips
+  complex is a simplicial cone, so all positive-dimensional homology is
+  trivial thereafter. Full-versus-cone and Ripserr-versus-GUDHI H1 controls
+  agreed exactly. This theorem applies to H2 as well as H1, although H2 may
+  still be computationally prohibitive before the cone threshold.
 
 ## Non-negotiable boundaries
 
@@ -38,6 +48,11 @@ useful representation. A negative result at any gate is a complete result.
   tuning, and manuscript claims remain closed through MV17-A to MV17-F.
 - H2 is not a rescue analysis. It advances only by passing meaning, resource,
   stability, redundancy, and incremental-value gates.
+- Any H1 or H2 cone cutoff must equal the minimum enclosing radius under the
+  backend's closed-edge (`<=`) filtration convention. It is an exact terminal
+  threshold, not an approximation, grid, persistence filter, or level cap.
+  All finite intervals and all active persistence-landscape levels at or below
+  that threshold remain part of the estimand.
 - Execution is isolated from the main line by distinct scripts, private/public
   roots, manifests, receipts, and tests. Heavy jobs use one worker unless a
   later prospective resource amendment explicitly authorizes otherwise.
@@ -161,6 +176,69 @@ Purpose: establish the real-data domain in which complete-VR H2 is credible.
 Acceptance: primary/repeat agreement, independent bounded-engine agreement,
 and a conservative full-corpus projection. Full H2 remains closed.
 
+## 2026-08-28 H2 exact-cone recovery amendment
+
+The original MV17-E/F path is historically closed under its frozen fixture
+contract. The following replacement path is a new prospective qualification,
+not a rerun or post hoc relaxation of MV17-E. It may begin only after the
+MV17-GR H1 resource profile receives an immutable receipt-recovery closure and
+each H2 stage receives its own committed exact-head prefreeze.
+
+### MV17-E2 — dimension-general cone theorem and fixture-contract repair
+
+Purpose: establish an implementation-independent H2 contract before computing
+new fixture values.
+
+1. Generalize the exact terminal threshold to arbitrary positive homology
+   dimension using `min_x max_y d(x,y)` and prove in tests that the minimizing
+   vertex is a cone apex under the exact backend edge convention.
+2. Preserve finite circles and shuffled circles as stress/specificity fixtures,
+   not as analytically guaranteed exact-zero H2 complexes.
+3. Replace strict negative controls with independently justified fixtures whose
+   finite Rips H2 behavior is known or exhaustively enumerable, including
+   collinear point sets, bounded tree metrics, and minimal-cardinality cases.
+4. Retain sphere and torus families as positive/structured fixtures, but freeze
+   sampling, scale conventions, expected interval behavior, and tolerances
+   before execution.
+5. Require full-threshold versus cone-threshold equality and Ripserr versus
+   GUDHI equality on bounded fixtures. Equality is diagram-level; landscape
+   summaries alone are insufficient.
+6. Record that H2 persistence requires processing death simplices one dimension
+   higher, so successful H1 resource behavior does not admit H2 production.
+
+Acceptance: theorem, tie semantics, fixture expectations, exactness oracles,
+and resource stops are independently testable before fixture execution. No
+real H2, H2 landscape, label, outcome, clustering, fusion, biological, or
+manuscript computation is authorized.
+
+### MV17-F2 — bounded exact H2 qualification and resource sentinel
+
+Purpose: determine whether cone-truncated exact H2 is correct and feasible on
+synthetic and label-blind real sentinels.
+
+1. Execute the frozen E2 fixtures with full and cone thresholds where bounded,
+   using Ripserr and GUDHI as independent exact engines.
+2. Profile a deterministic point-count/dimension grid and record edges,
+   triangles, tetrahedra or equivalent engine work, interval counts, elapsed
+   time, peak RSS, storage, stderr, and terminal state.
+3. Only after synthetic closure, select immutable minimum-, median-, and
+   maximum-burden cell and gene sentinels without labels or outcomes.
+4. Use one worker and one thread initially, zero automatic retries, fresh roots,
+   enforced time/address-space/storage caps, and complete preservation of
+   failures. Any engine fallback must be fixed prospectively and must reproduce
+   the same H2 diagram within the frozen tolerance.
+5. Preserve H0, H1, and H2 separately. If diagrams close, construct H2
+   landscapes using all consecutive active levels and exact/error-controlled
+   integration, with no universal level cap or uniform grid requirement.
+6. If exact H2 remains infeasible before the cone threshold, close the exact-H2
+   branch negative. Sparse, witness, or subsampled alternatives are different
+   estimands and require a new plan rather than silent substitution.
+
+Acceptance: all fixture gates pass independently; full/cone and cross-engine
+controls agree; real sentinels close within prospectively frozen resources; and
+a conservative corpus projection supports a separate production decision.
+Full H2 and MV17-H remain closed until then.
+
 ## MV17-G — full H0/H1 calibration and localization
 
 Eligibility: MV17-C and MV17-D independently close and a separate production
@@ -199,9 +277,15 @@ After MV17-A, the following may proceed concurrently in separate roots:
 
 - lane 1: MV17-B then MV17-C;
 - lane 2: MV17-D;
-- lane 3: MV17-E then synthetic profiling in MV17-F.
+- historical lane 3: MV17-E then MV17-F, now closed negative under its original
+  fixture contract; and
+- replacement lane 3: MV17-E2 then synthetic and real-sentinel profiling in
+  MV17-F2, each behind a new exact-head prefreeze.
 
-Real-data H2 sentinels in MV17-F must use immutable D-250-era source closures.
+The original MV17-E/F lane is closed negative under its historical contract.
+The replacement MV17-E2/F2 lane may proceed only after the MV17-GR receipt
+closure and its own prospective gates. Real-data H2 sentinels in MV17-F2 must
+use immutable D-250-era source closures.
 MV17-G waits for lanes 1 and 2. MV17-H waits for lane 3. MV17-I waits for both
 MV17-G and MV17-H plus an explicit owner decision. CPU-light implementation and
 fixture work may overlap; memory-heavy real-data children must be serialized.
@@ -224,6 +308,19 @@ MV17 is complete only when the project can state, with auditable evidence:
 4. where real-data H2 is computationally and statistically stable; and
 5. whether H2 adds information beyond H0/H1 and conventional baselines.
 
+For H2, completion must also state whether exact cone truncation preserves the
+full bounded diagrams, which backend/resource policy is admissible, and whether
+failure occurs before topology is guaranteed trivial. The cone theorem is a
+known Ripser optimization and must be cited rather than claimed as novel.
+
 Publication value does not require a positive H2 result. A rigorously calibrated
 negative result, coupled with interpretable H0/H1 localization and explicit
 computational boundaries, is an acceptable and potentially useful contribution.
+
+## Method reference for the exact terminal threshold
+
+Bauer U. *Ripser: efficient computation of Vietoris-Rips persistence
+barcodes.* Journal of Applied and Computational Topology. 2021;5:391-423.
+doi:10.1007/s41468-021-00071-5. Ripser uses the minimum enclosing radius as
+the default terminal threshold because the Rips complex is a simplicial cone
+above it and homology remains trivial thereafter.
